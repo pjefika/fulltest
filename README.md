@@ -1,10 +1,10 @@
-FullTest 2
+FullTest API
 ===================
 ### Desenvolvedores
 \#| Nome
 -------- | ---
 1| Henrique Antonio Merlin Junior
-2| Fabio Henrique Clem 
+2| Matheus Henrique Agibert
 
 ===================
 
@@ -20,6 +20,4 @@ UML| JDeveloper 12c
 Item     | Ferramenta
 -------- | ---
 Framework Server-Side| Vraptor 4
-Framework Client-Side| Vue.js 2.0
-Templates| Sitemesh
 ORM| JPA (Hibernate)
