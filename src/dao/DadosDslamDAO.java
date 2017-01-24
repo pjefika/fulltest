@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dao;
+package dao;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
