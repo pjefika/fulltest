@@ -3,43 +3,60 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dslam;
+
+import model.dslam.credencial.Credencial;
 
 /**
  *
  * @author G0041775
  */
 public abstract class AbstractDslam {
+
     private String tecnologia;
     private String vendor;
     private String modelo;
     private String ipDslam;
-    
-    
-    public void setTecnologia(String tecnologia){
+    private Credencial credencial;
+
+    public void setTecnologia(String tecnologia) {
         this.tecnologia = tecnologia;
     }
-    public void setVendor(String vendor){
+
+    public void setVendor(String vendor) {
         this.vendor = vendor;
     }
-    public void setModelo(String modelo){
+
+    public void setModelo(String modelo) {
         this.modelo = modelo;
     }
-    public void setIpDslam(String ipDslam){
+
+    public void setIpDslam(String ipDslam) {
         this.ipDslam = ipDslam;
     }
-    
-    public String getTecnologia(){
+
+    public String getTecnologia() {
         return this.tecnologia;
     }
-    public String getVendor(){
+
+    public String getVendor() {
         return this.vendor;
     }
-    public String getModelo(){
+
+    public String getModelo() {
         return this.modelo;
     }
-    public String getIpDslam(){
+
+    public String getIpDslam() {
         return this.ipDslam;
     }
-    
+
+    public Credencial getCredencial() {
+        return credencial;
+    }
+
+    public void setCredencial(Credencial credencial) {
+        this.credencial = credencial;
+    }
+
 }

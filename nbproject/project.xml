@@ -181,7 +181,7 @@
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>
-                <root id="test.test.dir" name="Pacotes de Teste"/>
+                <root id="test.test.dir" name="Pacotes de Testes"/>
             </test-roots>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">

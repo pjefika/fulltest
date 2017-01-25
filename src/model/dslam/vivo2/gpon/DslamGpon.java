@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.dslam.vivo2.gpon;
 
 import java.math.BigInteger;
+import model.dslam.AbstractDslam;
 
 /**
  *
