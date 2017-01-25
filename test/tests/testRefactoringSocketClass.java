@@ -23,7 +23,13 @@ public class testRefactoringSocketClass {
 
         FullTestFacade f = new FullTestFacade(dao.montaDslamGpon("1630105408"));
 
-        f.dev();
+        f.estadoPorta();
+        f.serialOnt();
+        f.consultaParametros();
+        f.consultaVlanBanda();
+        f.consultaVlanVoip();
+        f.consultaVlanVod();
+        f.consultaVlanMulticast();
 
         f.close();
 
