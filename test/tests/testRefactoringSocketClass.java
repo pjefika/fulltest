@@ -25,6 +25,8 @@ public class testRefactoringSocketClass {
 
         f.dev();
 
+        f.close();
+
     }
 
 }

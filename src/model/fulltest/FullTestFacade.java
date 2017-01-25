@@ -7,6 +7,7 @@ package model.fulltest;
 
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
+import java.io.IOException;
 import model.dslam.AbstractDslam;
 import model.dslam.vivo2.gpon.DslamGpon;
 
@@ -29,11 +30,15 @@ public class FullTestFacade {
         DslamGpon meuDslam = (DslamGpon) dslam;
         String pegaSerial = "info configure equipment ont interface 1/1/" + meuDslam.getSlot() + "/" + meuDslam.getPorta() + "/" + meuDslam.getLogica() + " detail xml";
         ComandoDslam cmd = new ComandoDslam(pegaSerial);
-        this.cd.consulta(cmd);
 
+        this.cd.consulta(cmd);
         System.out.println("model.fulltest.FullTestFacade.dev()");
         System.out.println(cmd.getRetorno());
 
+    }
+
+    public void close() throws IOException {
+        this.cd.close();
     }
 
 }

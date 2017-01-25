@@ -12,36 +12,42 @@ import model.dslam.AbstractDslam;
  *
  * @author G0041775
  */
-public class DslamGpon extends AbstractDslam{
-    
+public abstract class DslamGpon extends AbstractDslam {
+
     private BigInteger slot;
     private BigInteger porta;
     private BigInteger logica;
     private BigInteger sequencial;
-    
-    public void setSlot(BigInteger slot){
+
+    public void setSlot(BigInteger slot) {
         this.slot = slot;
     }
-    public void setPorta(BigInteger porta){
+
+    public void setPorta(BigInteger porta) {
         this.porta = porta;
     }
-    public void setLogica(BigInteger logica){
+
+    public void setLogica(BigInteger logica) {
         this.logica = logica;
     }
-    public void setSequencial(BigInteger sequencial){
+
+    public void setSequencial(BigInteger sequencial) {
         this.sequencial = sequencial;
     }
-    
-    public BigInteger getSlot(){
+
+    public BigInteger getSlot() {
         return this.slot;
     }
-    public BigInteger getPorta(){
+
+    public BigInteger getPorta() {
         return this.porta;
     }
-    public BigInteger getLogica(){
+
+    public BigInteger getLogica() {
         return this.logica;
     }
-    public BigInteger getSequencial(){
+
+    public BigInteger getSequencial() {
         return this.sequencial;
     }
 }

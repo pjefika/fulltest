@@ -49,6 +49,12 @@ public class ConsultaDslam {
         return resp.toString();
     }
 
+    public void close() throws IOException {
+        out.close();
+        in.close();
+        pingSocket.close();
+    }
+
     public ComandoDslam consulta(ComandoDslam comando) throws Exception {
 
         try {
@@ -65,10 +71,6 @@ public class ConsultaDslam {
 
         } catch (IOException e) {
             System.out.println("erro");
-        } finally {
-            out.close();
-            in.close();
-            pingSocket.close();
         }
         return null;
     }

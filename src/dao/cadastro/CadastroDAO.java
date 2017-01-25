@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.vivo2.gpon.DslamGpon;
+import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
 
 /**
  *
@@ -36,9 +37,7 @@ public class CadastroDAO {
             String accessDesignator = ws.getAccessDesignator(designator);
             GetInfoOut leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "25600", "12800");
 
-            DslamGpon leDslam = new DslamGpon();
-
-            leDslam.setCredencial(Credencial.ALCATEL);
+            AlcatelGponDslam leDslam = new AlcatelGponDslam();
 
             leDslam.setTecnologia(leInfo.getTechnology());
             leDslam.setPorta(leInfo.getInfoTBS().getPortNumber());
@@ -54,7 +53,7 @@ public class CadastroDAO {
         } catch (RemoteException ex) {
 //            Logger.getLogger(CadastroDAO.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.detail);
-            return new DslamGpon();
+            return null;
         }
     }
 
