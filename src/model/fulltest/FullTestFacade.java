@@ -9,7 +9,7 @@ import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
 import java.io.IOException;
 import model.dslam.AbstractDslam;
-import model.dslam.vivo2.gpon.DslamGpon;
+import model.dslam.consulta.ConsultaTabelaParametrosGpon;
 
 /**
  *
@@ -27,13 +27,13 @@ public class FullTestFacade {
     }
 
     public void dev() throws Exception {
-        DslamGpon meuDslam = (DslamGpon) dslam;
-        String pegaSerial = "info configure equipment ont interface 1/1/" + meuDslam.getSlot() + "/" + meuDslam.getPorta() + "/" + meuDslam.getLogica() + " detail xml";
-        ComandoDslam cmd = new ComandoDslam(pegaSerial);
+        ConsultaTabelaParametrosGpon meuDslam = (ConsultaTabelaParametrosGpon) dslam;
+        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoTabelaParametros());
+        meuDslam.getTabelaParametros(ds);
 
-        this.cd.consulta(cmd);
-        System.out.println("model.fulltest.FullTestFacade.dev()");
-        System.out.println(cmd.getRetorno());
+    }
+
+    public void consultaParametros() {
 
     }
 

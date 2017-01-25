@@ -12,6 +12,8 @@ import model.dslam.AbstractDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.vivo2.gpon.DslamGpon;
 import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
+import model.dslam.vivo2.gpon.keymile.KeymileGponDslam;
+import model.dslam.vivo2.gpon.zhone.ZhoneGponDslam;
 
 /**
  *

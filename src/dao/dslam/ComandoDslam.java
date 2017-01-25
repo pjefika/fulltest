@@ -5,6 +5,8 @@
  */
 package dao.dslam;
 
+import java.util.List;
+
 /**
  *
  * @author G0042204
@@ -13,7 +15,7 @@ public class ComandoDslam {
 
     private String sintax;
 
-    private String retorno;
+    private List<String> retorno;
 
     public ComandoDslam(String sintax) {
         this.sintax = sintax;
@@ -27,11 +29,19 @@ public class ComandoDslam {
         this.sintax = sintax;
     }
 
-    public String getRetorno() {
+    public List<String> getRetorno() {
         return retorno;
     }
 
-    public void setRetorno(String retorno) {
+    public String getBlob() {
+        StringBuilder resp = new StringBuilder();
+        for (String string : retorno) {
+            resp.append(string);
+        }
+        return resp.toString();
+    }
+
+    public void setRetorno(List<String> retorno) {
         this.retorno = retorno;
     }
 

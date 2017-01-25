@@ -74,7 +74,6 @@ public class testSoapAlcatel {
         String leResp = resp.toString();
 
         Integer xmlBegins = leResp.indexOf(pegaSerial) + pegaSerial.length();
-
         Document xml = convertStringToDocument(leResp.substring(xmlBegins));
         String leXpathDesired = "//parameter[@name='sernum']";
 
@@ -88,7 +87,6 @@ public class testSoapAlcatel {
 
         } catch (XPathExpressionException ex) {
             Logger.getLogger(testSoapAlcatel.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
 

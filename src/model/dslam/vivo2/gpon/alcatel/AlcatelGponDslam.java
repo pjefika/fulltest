@@ -6,8 +6,11 @@
 package model.dslam.vivo2.gpon.alcatel;
 
 import dao.dslam.ComandoDslam;
+import model.dslam.consulta.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.tratativa.TratativaRetornoUtil;
 import model.dslam.vivo2.gpon.DslamGpon;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -21,6 +24,22 @@ public class AlcatelGponDslam extends DslamGpon {
 
     public ComandoDslam getSerialOntSintax() {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
+    }
+
+    @Override
+    public ComandoDslam getComandoTabelaParametros() {
+        return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
+    }
+
+    @Override
+    public TabelaParametrosGpon getTabelaParametros(ComandoDslam cmd) {
+
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
+        String oi = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
+        String oi1 = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
+        System.out.println(oi + " | " + oi1);
+
+        return null;
     }
 
 }
