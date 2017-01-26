@@ -5,17 +5,10 @@
  */
 package model.fulltest;
 
-import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
 import java.io.IOException;
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.ConsultaEstadoDaPorta;
-import model.dslam.consulta.ConsultaSerialOntGpon;
-import model.dslam.consulta.ConsultaTabelaParametrosGpon;
-import model.dslam.consulta.ConsultaVlanBanda;
-import model.dslam.consulta.ConsultaVlanMulticast;
-import model.dslam.consulta.ConsultaVlanVod;
-import model.dslam.consulta.ConsultaVlanVoip;
+import model.dslam.consulta.ConsultaGponDefault;
 
 /**
  *
@@ -33,44 +26,43 @@ public class FullTestFacade {
     }
 
     public void consultaParametros() throws Exception {
-        ConsultaTabelaParametrosGpon dslam1 = (ConsultaTabelaParametrosGpon) dslam;
-
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getTabelaParametros();
     }
 
     public void serialOnt() throws Exception {
-        ConsultaSerialOntGpon meuDslam = (ConsultaSerialOntGpon) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoSerialOnt());
-        meuDslam.getSerialOnt(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getSerialOnt();
     }
 
     public void estadoPorta() throws Exception {
-        ConsultaEstadoDaPorta meuDslam = (ConsultaEstadoDaPorta) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoConsultaEstadoDaPorta());
-        meuDslam.getEstadoDaPorta(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getEstadoDaPorta();
     }
 
     public void consultaVlanBanda() throws Exception {
-        ConsultaVlanBanda meuDslam = (ConsultaVlanBanda) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoConsultaVlanBanda());
-        meuDslam.getVlanBanda(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getVlanBanda();
     }
 
     public void consultaVlanVoip() throws Exception {
-        ConsultaVlanVoip meuDslam = (ConsultaVlanVoip) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoConsultaVlanVoip());
-        meuDslam.getVlanVoip(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getVlanVoip();
     }
 
     public void consultaVlanVod() throws Exception {
-        ConsultaVlanVod meuDslam = (ConsultaVlanVod) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoConsultaVlanVod());
-        meuDslam.getVlanVod(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getVlanVod();
     }
 
     public void consultaVlanMulticast() throws Exception {
-        ConsultaVlanMulticast meuDslam = (ConsultaVlanMulticast) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoConsultaVlanMulticast());
-        meuDslam.getVlanMulticast(ds);
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getVlanMulticast();
+    }
+
+    public void consultaAlarmes() throws Exception {
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getAlarmes();
     }
 
     public void close() throws IOException {

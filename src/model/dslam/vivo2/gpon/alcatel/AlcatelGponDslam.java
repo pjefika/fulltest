@@ -8,6 +8,8 @@ package model.dslam.vivo2.gpon.alcatel;
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
 import java.math.BigInteger;
+import java.util.List;
+import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
@@ -18,6 +20,8 @@ import model.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.gpon.DslamGpon;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -41,11 +45,14 @@ public class AlcatelGponDslam extends DslamGpon {
 
         Document xml;
         xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros()));
-        String oi = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
-        String oi1 = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
-        System.out.println(oi + " | " + oi1);
+        String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
+        String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
+        TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        tabParam.setPotOlt(new Double(potOlt));
+        tabParam.setPotOnt(new Double(potOnt));
+        System.out.println(potOnt + " | " + potOlt);
 
-        return null;
+        return tabParam;
     }
 
     @Override
@@ -57,8 +64,12 @@ public class AlcatelGponDslam extends DslamGpon {
     public SerialOntGpon getSerialOnt() throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt()));
         String sernum = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']").replace(":", "");
+        
+        SerialOntGpon ont = new SerialOntGpon();
+        ont.setSerial(sernum);
         System.out.println(sernum);
-        return null;
+        
+        return ont;
     }
 
     @Override
@@ -71,9 +82,16 @@ public class AlcatelGponDslam extends DslamGpon {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPorta()));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
+        
+        EstadoDaPorta state = new EstadoDaPorta();
+        
+        state.setAdminState(adminState);
+        state.setOperState(operState);
+        
         System.out.println(adminState);
         System.out.println(operState);
-        return null;
+        
+        return state;
     }
 
     @Override
@@ -89,10 +107,14 @@ public class AlcatelGponDslam extends DslamGpon {
         BigInteger cvlan = new BigInteger(pegaVlan[1]);
         BigInteger p100 = new BigInteger(pegaVlan[2]);
 
+        Vlan vlanBanda = new Vlan();
+        vlanBanda.setCvlan(cvlan);
+        vlanBanda.setP100(p100);
+        
         System.out.println(cvlan);
         System.out.println(p100);
 
-        return null;
+        return vlanBanda;
     }
 
     @Override
@@ -108,10 +130,14 @@ public class AlcatelGponDslam extends DslamGpon {
         BigInteger cvlan = new BigInteger(pegaVlan[1]);
         BigInteger p100 = new BigInteger(pegaVlan[2]);
 
+        Vlan vlanVoip = new Vlan();
+        vlanVoip.setCvlan(cvlan);
+        vlanVoip.setP100(p100);
+        
         System.out.println(cvlan);
         System.out.println(p100);
 
-        return null;
+        return vlanVoip;
     }
 
     @Override
@@ -126,11 +152,15 @@ public class AlcatelGponDslam extends DslamGpon {
         String[] pegaVlan = leVlan.split(":");
         BigInteger cvlan = new BigInteger(pegaVlan[1]);
         BigInteger p100 = new BigInteger(pegaVlan[2]);
-
+        
+        Vlan vlanVod = new Vlan();
+        vlanVod.setCvlan(cvlan);
+        vlanVod.setP100(p100);
+        
         System.out.println(cvlan);
         System.out.println(p100);
 
-        return null;
+        return vlanVod;
     }
 
     @Override
@@ -148,10 +178,40 @@ public class AlcatelGponDslam extends DslamGpon {
         } else {
             cvlan = new BigInteger("0");
         }
-
+        
+        VlanMulticast multz = new VlanMulticast();
+        multz.setCvlan(cvlan);
+        
         System.out.println(cvlan);
+        
+        return multz;
+    }
 
-        return null;
+    @Override
+    public ComandoDslam getComandoConsultaAlarmes() {
+        return new ComandoDslam("show equipment ont operational-data 1/1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+" detail xml", 5000);
+    }
+
+    @Override
+    public AlarmesGpon getAlarmes() throws Exception {
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaAlarmes()));
+        NodeList nodeList = xml.getElementsByTagName("info");
+        AlarmesGpon alarmes = new AlarmesGpon();
+        
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node node = nodeList.item(i);
+
+            String nomeAlarme = node.getAttributes().getNamedItem("name").getTextContent().trim(); 
+            String estadoAlarme = node.getTextContent().trim();
+            
+            if(estadoAlarme.equalsIgnoreCase("yes")){
+                alarmes.getListAlarmes().add(nomeAlarme);
+            }
+           
+        }
+        System.out.println(alarmes.getListAlarmes());
+        
+        return alarmes;
     }
 
 }

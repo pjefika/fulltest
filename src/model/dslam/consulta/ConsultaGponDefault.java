@@ -24,5 +24,7 @@ public interface ConsultaGponDefault {
     public Vlan getVlanVoip() throws Exception;
 
     public Vlan getVlanVod() throws Exception;
+    
+    public AlarmesGpon getAlarmes() throws Exception;
 
 }

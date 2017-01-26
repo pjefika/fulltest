@@ -8,6 +8,7 @@ package model.dslam.vivo2.gpon;
 import dao.dslam.ComandoDslam;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
+import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
@@ -63,6 +64,11 @@ public abstract class DslamGpon extends AbstractDslam
     @Override
     public abstract VlanMulticast getVlanMulticast() throws Exception;
 
+    public abstract ComandoDslam getComandoConsultaAlarmes();
+    
+    @Override
+    public abstract AlarmesGpon getAlarmes() throws Exception;
+    
     public void setSlot(BigInteger slot) {
         this.slot = slot;
     }

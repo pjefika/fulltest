@@ -7,6 +7,7 @@ package model.dslam.vivo2.gpon.keymile;
 
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
+import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
@@ -95,6 +96,16 @@ public class KeymileGponDslam extends DslamGpon {
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ComandoDslam getComandoConsultaAlarmes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AlarmesGpon getAlarmes() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

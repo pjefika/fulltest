@@ -36,6 +36,7 @@ public class testRefactoringSocketClass {
             f.consultaVlanVoip();
             f.consultaVlanVod();
             f.consultaVlanMulticast();
+            f.consultaAlarmes();
 
             f.close();
 

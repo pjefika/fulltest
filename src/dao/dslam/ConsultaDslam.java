@@ -68,7 +68,7 @@ public class ConsultaDslam {
             }
 
             out.println(comando.getSintax());
-            Thread.sleep(1000);
+            Thread.sleep(comando.getSleep());
             out.println("||");
             comando.setRetorno(this.getRetorno());
             return comando;

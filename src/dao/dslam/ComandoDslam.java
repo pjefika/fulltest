@@ -14,11 +14,18 @@ import java.util.List;
 public class ComandoDslam {
 
     private String sintax;
+    
+    private Integer sleep = 1000;
 
     private List<String> retorno;
 
     public ComandoDslam(String sintax) {
         this.sintax = sintax;
+    }
+
+    public ComandoDslam(String sintax, Integer sleep) {
+        this.sintax = sintax;
+        this.sleep = sleep;
     }
 
     public String getSintax() {
@@ -43,6 +50,14 @@ public class ComandoDslam {
 
     public void setRetorno(List<String> retorno) {
         this.retorno = retorno;
+    }
+    
+    public Integer getSleep() {
+        return sleep;
+    }
+
+    public void setSleep(Integer sleep) {
+        this.sleep = sleep;
     }
 
 }
