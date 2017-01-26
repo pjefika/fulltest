@@ -28,6 +28,7 @@ public class LoginRapido implements LoginDslamStrategy {
             cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
             cs.out.println(cs.dslam.getCredencial().getLogin());
             cs.out.println(cs.dslam.getCredencial().getPass());
+            System.out.println("Connect!");
         } catch (IOException ex) {
             Logger.getLogger(LoginRapido.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -12,7 +12,7 @@ package model.dslam.consulta;
 public class EstadoDaPorta {
 
     private String adminState;
-    
+
     private String operState;
 
     public String getAdminState() {
@@ -30,7 +30,9 @@ public class EstadoDaPorta {
     public void setOperState(String operState) {
         this.operState = operState;
     }
-    
-    
-    
+
+    public Boolean isOk() {
+        return this.adminState.equalsIgnoreCase("UP") && this.operState.equalsIgnoreCase("UP");
+    }
+
 }

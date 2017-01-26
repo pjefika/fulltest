@@ -8,72 +8,60 @@ package model.dslam.vivo2.gpon;
 import dao.dslam.ComandoDslam;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.ConsultaEstadoDaPorta;
-import model.dslam.consulta.ConsultaSerialOntGpon;
-import model.dslam.consulta.ConsultaTabelaParametrosGpon;
+import model.dslam.consulta.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
 import model.dslam.consulta.Vlan;
-import model.dslam.consulta.ConsultaVlanBanda;
-import model.dslam.consulta.ConsultaVlanMulticast;
-import model.dslam.consulta.ConsultaVlanVod;
-import model.dslam.consulta.ConsultaVlanVoip;
+import model.dslam.consulta.VlanMulticast;
 
 /**
  *
  * @author G0041775
  */
-public abstract class DslamGpon extends AbstractDslam implements ConsultaTabelaParametrosGpon, 
-        ConsultaSerialOntGpon, ConsultaEstadoDaPorta, ConsultaVlanBanda, ConsultaVlanVoip,
-        ConsultaVlanVod, ConsultaVlanMulticast {
+public abstract class DslamGpon extends AbstractDslam
+        implements
+        ConsultaGponDefault {
 
     private BigInteger slot;
     private BigInteger porta;
     private BigInteger logica;
     private BigInteger sequencial;
 
-    @Override
     public abstract ComandoDslam getComandoTabelaParametros();
 
     @Override
-    public abstract TabelaParametrosGpon getTabelaParametros(ComandoDslam cmd);
-    
-    @Override
+    public abstract TabelaParametrosGpon getTabelaParametros() throws Exception;
+
     public abstract ComandoDslam getComandoSerialOnt();
 
     @Override
-    public abstract SerialOntGpon getSerialOnt(ComandoDslam cmd);
-    
-    @Override
+    public abstract SerialOntGpon getSerialOnt() throws Exception;
+
     public abstract ComandoDslam getComandoConsultaEstadoDaPorta();
 
     @Override
-    public abstract EstadoDaPorta getEstadoDaPorta(ComandoDslam cmd);
-    
-    @Override
+    public abstract EstadoDaPorta getEstadoDaPorta() throws Exception;
+
     public abstract ComandoDslam getComandoConsultaVlanBanda();
 
     @Override
-    public abstract Vlan getVlanBanda(ComandoDslam cmd);
-    
-    @Override
+    public abstract Vlan getVlanBanda() throws Exception;
+
     public abstract ComandoDslam getComandoConsultaVlanVoip();
 
     @Override
-    public abstract Vlan getVlanVoip(ComandoDslam cmd);
-    
-    @Override
+    public abstract Vlan getVlanVoip() throws Exception;
+
     public abstract ComandoDslam getComandoConsultaVlanVod();
 
     @Override
-    public abstract Vlan getVlanVod(ComandoDslam cmd);
-    
-    @Override
+    public abstract Vlan getVlanVod() throws Exception;
+
     public abstract ComandoDslam getComandoConsultaVlanMulticast();
 
     @Override
-    public abstract Vlan getVlanMulticast(ComandoDslam cmd);
+    public abstract VlanMulticast getVlanMulticast() throws Exception;
 
     public void setSlot(BigInteger slot) {
         this.slot = slot;

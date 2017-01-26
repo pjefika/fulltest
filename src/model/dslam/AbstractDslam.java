@@ -5,7 +5,9 @@
  */
 package model.dslam;
 
+import dao.dslam.ConsultaDslam;
 import model.dslam.credencial.Credencial;
+import model.dslam.login.LoginDslamStrategy;
 
 /**
  *
@@ -17,7 +19,11 @@ public abstract class AbstractDslam {
     private String vendor;
     private String modelo;
     private String ipDslam;
+
     private Credencial credencial;
+    public LoginDslamStrategy loginStrategy;
+
+    private ConsultaDslam cd;
 
     public void setTecnologia(String tecnologia) {
         this.tecnologia = tecnologia;
@@ -57,6 +63,22 @@ public abstract class AbstractDslam {
 
     public void setCredencial(Credencial credencial) {
         this.credencial = credencial;
+    }
+
+    public LoginDslamStrategy getLoginStrategy() {
+        return loginStrategy;
+    }
+
+    public void setLoginStrategy(LoginDslamStrategy loginStrategy) {
+        this.loginStrategy = loginStrategy;
+    }
+
+    public ConsultaDslam getCd() {
+        return cd;
+    }
+
+    public void setCd(ConsultaDslam cd) {
+        this.cd = cd;
     }
 
 }

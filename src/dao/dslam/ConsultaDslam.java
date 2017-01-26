@@ -13,9 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.dslam.AbstractDslam;
 import model.dslam.login.LoginDslamStrategy;
-import model.dslam.login.LoginLento;
-import model.dslam.login.LoginRapido;
-import model.dslam.vivo2.gpon.zhone.ZhoneGponDslam;
 
 /**
  *
@@ -34,16 +31,10 @@ public class ConsultaDslam {
     public ConsultaDslam(AbstractDslam dslam) {
         this.dslam = dslam;
 
-        if (this.dslam instanceof ZhoneGponDslam) {
-            this.styLogin = new LoginLento();
-        } else {
-            this.styLogin = new LoginRapido();
-        }
-
     }
 
     public void conectar() throws IOException {
-        this.styLogin.conectar(this);
+        this.dslam.getLoginStrategy().conectar(this);
     }
 
     public List<String> getRetorno() throws IOException {

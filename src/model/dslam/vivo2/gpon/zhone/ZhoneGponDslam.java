@@ -6,11 +6,14 @@
 package model.dslam.vivo2.gpon.zhone;
 
 import dao.dslam.ComandoDslam;
+import dao.dslam.ConsultaDslam;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
 import model.dslam.consulta.Vlan;
+import model.dslam.consulta.VlanMulticast;
 import model.dslam.credencial.Credencial;
+import model.dslam.login.LoginLento;
 import model.dslam.vivo2.gpon.DslamGpon;
 
 /**
@@ -21,6 +24,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     public ZhoneGponDslam() {
         this.setCredencial(Credencial.ZHONE);
+        this.setLoginStrategy(new LoginLento());
+        this.setCd(new ConsultaDslam(this));
     }
 
     @Override
@@ -29,7 +34,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros(ComandoDslam cmd) {
+    public TabelaParametrosGpon getTabelaParametros() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -39,7 +44,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public SerialOntGpon getSerialOnt(ComandoDslam cmd) {
+    public SerialOntGpon getSerialOnt() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -49,7 +54,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta(ComandoDslam cmd) {
+    public EstadoDaPorta getEstadoDaPorta() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -59,7 +64,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanBanda(ComandoDslam cmd) {
+    public Vlan getVlanBanda() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -69,7 +74,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanVoip(ComandoDslam cmd) {
+    public Vlan getVlanVoip() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -79,7 +84,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanVod(ComandoDslam cmd) {
+    public Vlan getVlanVod() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -89,7 +94,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanMulticast(ComandoDslam cmd) {
+    public VlanMulticast getVlanMulticast() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

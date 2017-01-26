@@ -33,9 +33,8 @@ public class FullTestFacade {
     }
 
     public void consultaParametros() throws Exception {
-        ConsultaTabelaParametrosGpon meuDslam = (ConsultaTabelaParametrosGpon) dslam;
-        ComandoDslam ds = this.cd.consulta(meuDslam.getComandoTabelaParametros());
-        meuDslam.getTabelaParametros(ds);
+        ConsultaTabelaParametrosGpon dslam1 = (ConsultaTabelaParametrosGpon) dslam;
+
     }
 
     public void serialOnt() throws Exception {
