@@ -8,7 +8,6 @@ package model.dslam.vivo2.gpon.alcatel;
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
 import java.math.BigInteger;
-import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
@@ -35,7 +34,7 @@ public class AlcatelGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
-    @Override
+    
     public ComandoDslam getComandoTabelaParametros() {
         return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
     }
@@ -55,7 +54,6 @@ public class AlcatelGponDslam extends DslamGpon {
         return tabParam;
     }
 
-    @Override
     public ComandoDslam getComandoSerialOnt() {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
     }
@@ -72,7 +70,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return ont;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaEstadoDaPorta() {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
     }
@@ -94,7 +92,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return state;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanBanda() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 600 detail xml");
     }
@@ -117,7 +115,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanBanda;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanVoip() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 601 detail xml");
     }
@@ -140,7 +138,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanVoip;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanVod() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 602 detail xml");
     }
@@ -163,7 +161,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanVod;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanMulticast() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 4000 detail xml");
     }
@@ -187,7 +185,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return multz;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaAlarmes() {
         return new ComandoDslam("show equipment ont operational-data 1/1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+" detail xml", 5000);
     }

@@ -16,7 +16,7 @@ import model.fulltest.FullTestFacade;
 public class testRefactoringSocketClass {
 
     /**
-     * Alcatel: 1630105408 | Zhone: 1633226955
+     * Alcatel: 1630105408 | Zhone: 1633226955 | Keymile: 7930272843
      *
      * @param args the command line arguments
      */
@@ -26,17 +26,17 @@ public class testRefactoringSocketClass {
 
         try {
 
-            AbstractDslam ds = dao.montaDslamGpon("1630105408");
+            AbstractDslam ds = dao.montaDslamGpon("1633226955");
             FullTestFacade f = new FullTestFacade(ds);
 
-            f.estadoPorta();
-            f.serialOnt();
+//            f.estadoPorta();
+//            f.serialOnt();
             f.consultaParametros();
-            f.consultaVlanBanda();
-            f.consultaVlanVoip();
-            f.consultaVlanVod();
-            f.consultaVlanMulticast();
-            f.consultaAlarmes();
+//            f.consultaVlanBanda();
+//            f.consultaVlanVoip();
+//            f.consultaVlanVod();
+//            f.consultaVlanMulticast();
+//            f.consultaAlarmes();
 
             f.close();
 

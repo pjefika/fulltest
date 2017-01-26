@@ -7,6 +7,8 @@ package model.dslam.vivo2.gpon.keymile;
 
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
+import java.math.BigInteger;
+import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
@@ -23,90 +25,247 @@ import model.dslam.vivo2.gpon.DslamGpon;
  */
 public class KeymileGponDslam extends DslamGpon {
 
+    private String srvc;
+
+    public String getSrvc() {
+        return srvc;
+    }
+
+    public void setSrvc(String srvc) {
+        this.srvc = srvc;
+    }
+    
     public KeymileGponDslam() {
         this.setCredencial(Credencial.KEYMILE);
         this.setLoginStrategy(new LoginRapido());
         this.setCd(new ConsultaDslam(this));
     }
 
-    @Override
-    public ComandoDslam getComandoTabelaParametros() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private static String tratKeymile(List<String> list, String qqqro, Integer o){
+        Integer i = 1;
+        for (String leLine : list) {
+            if(leLine.contains(qqqro)){
+                if(i.equals(o)){
+                    return leLine.substring(0, leLine.indexOf("\\ #")).trim();    
+                }
+                i++;
+            }
+            
+        }
+        
+        return "Parâmetro não encontrado "+qqqro;
+    }
+
+    private static String tratKeymile(List<String> list, String qqqro){
+        return tratKeymile(list, qqqro, 1);
+    }
+    
+    
+    public ComandoDslam getComandoPotOlt() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/status/olt");
+    }
+    
+    public ComandoDslam getComandoPotOnt() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/status/ont");
     }
 
     @Override
     public TabelaParametrosGpon getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retOlt = this.getCd().consulta(this.getComandoPotOlt()).getRetorno();
+        List<String> retOnt = this.getCd().consulta(this.getComandoPotOnt()).getRetorno();
+        
+        TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        tabParam.setPotOlt(new Double(tratKeymile(retOlt, "rxInputPower")));
+        tabParam.setPotOnt(new Double(tratKeymile(retOnt, "rxInputPower")));
+        
+        System.out.println(tabParam.getPotOlt());
+        System.out.println(tabParam.getPotOnt());
+        
+        return tabParam;
     }
+    
+    
 
-    @Override
+    
     public ComandoDslam getComandoSerialOnt() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/cfgm/onuCfgTable");
     }
 
     @Override
     public SerialOntGpon getSerialOnt() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt()).getRetorno();
+        String sernum = tratKeymile(serOnt, "SerialNumber").replace("\"", "");
+        
+        SerialOntGpon ont = new SerialOntGpon();
+        ont.setSerial(sernum);
+        
+        System.out.println(ont.getSerial());
+        return ont;
     }
 
-    @Override
-    public ComandoDslam getComandoConsultaEstadoDaPorta() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/main/AdministrativeStatus");
     }
+    
+    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/main/OperationalStatus");
+    }
+    
 
     @Override
     public EstadoDaPorta getEstadoDaPorta() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
+        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
+        
+        String adminState = tratKeymile(admin, "State");
+        String operState = tratKeymile(oper, "State");
+        
+        EstadoDaPorta portState = new EstadoDaPorta();
+        portState.setAdminState(adminState);
+        portState.setOperState(operState);
+        
+        System.out.println(portState.getAdminState());
+        System.out.println(portState.getOperState());
+        return portState;
     }
 
-    @Override
-    public ComandoDslam getComandoConsultaVlanBanda() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ComandoDslam getComandoConsultaVlanBanda1() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/status/ServiceStatus");
+    }
+    
+    public ComandoDslam getComandoConsultaVlan2() {
+        return new ComandoDslam("get /services/packet/"+this.getSrvc()+"/cfgm/Service");
     }
 
     @Override
     public Vlan getVlanBanda() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanBanda1()).getRetorno();
+        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        this.setSrvc(leSrvc);
+        if(leSrvc.contentEquals("no service connected")){
+            System.out.println("Sem VlanBanda Configurada");
+            return new Vlan();
+        }
+        List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        
+        Vlan vlanBanda = new Vlan();
+        vlanBanda.setCvlan(cvlan);
+        vlanBanda.setP100(p100);
+        
+        System.out.println(vlanBanda.getCvlan());
+        System.out.println(vlanBanda.getP100());
+        
+        return vlanBanda;
     }
 
-    @Override
-    public ComandoDslam getComandoConsultaVlanVoip() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ComandoDslam getComandoConsultaVlanVoip1() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-2/status/ServiceStatus");
     }
 
     @Override
     public Vlan getVlanVoip() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1()).getRetorno();
+        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        this.setSrvc(leSrvc);
+        if(leSrvc.contentEquals("no service connected")){
+            System.out.println("Sem VlanVoip Configurada");
+            return new Vlan();
+        }
+        List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        
+        Vlan vlanVoip = new Vlan();
+        vlanVoip.setCvlan(cvlan);
+        vlanVoip.setP100(p100);
+        
+        System.out.println(vlanVoip.getCvlan());
+        System.out.println(vlanVoip.getP100());
+        
+        return vlanVoip;
     }
 
-    @Override
-    public ComandoDslam getComandoConsultaVlanVod() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ComandoDslam getComandoConsultaVlanVod1() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-3/status/ServiceStatus");
     }
 
     @Override
     public Vlan getVlanVod() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1()).getRetorno();
+        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        this.setSrvc(leSrvc);
+        if(leSrvc.contentEquals("no service connected")){
+            System.out.println("Sem VlanVod Configurada");
+            return new Vlan();
+        }
+        List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        
+        Vlan vlanVod = new Vlan();
+        vlanVod.setCvlan(cvlan);
+        vlanVod.setP100(p100);
+        
+        System.out.println(vlanVod.getCvlan());
+        System.out.println(vlanVod.getP100());
+        
+        return vlanVod;
     }
 
-    @Override
-    public ComandoDslam getComandoConsultaVlanMulticast() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public ComandoDslam getComandoConsultaVlanMulticast1() {
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-4/status/ServiceStatus");
     }
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1()).getRetorno();
+        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        this.setSrvc(leSrvc);
+        if(leSrvc.contentEquals("no service connected")){
+            System.out.println("Sem VlanMulticast Configurada");
+            return new VlanMulticast();
+        }
+        List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+        
+        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "McastVID"));
+                
+        VlanMulticast vlanMult = new VlanMulticast();
+        vlanMult.setCvlan(cvlan);
+                
+        System.out.println(vlanMult.getCvlan());
+        
+        
+        return vlanMult;
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaAlarmes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/fm/alarmstatus");
     }
 
     @Override
     public AlarmesGpon getAlarmes() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> alarmesResp = this.getCd().consulta(this.getComandoConsultaAlarmes()).getRetorno();
+        AlarmesGpon alarmes = new AlarmesGpon();
+        Integer i;
+        for(i=0; i<alarmesResp.size(); i++){
+            String leLine = alarmesResp.get(i);
+            if(leLine.contains(" FaultCauseState") && leLine.contains("On")){
+                String pegaNomeAlarme = alarmesResp.get(i-1);
+                String nomeAlarme = pegaNomeAlarme.substring(0, pegaNomeAlarme.indexOf("\\ #")).replace("\"", "").trim();
+                alarmes.getListAlarmes().add(nomeAlarme);
+            }
+        }
+        System.out.println(alarmes.getListAlarmes());
+        
+        return alarmes;
     }
 
 }

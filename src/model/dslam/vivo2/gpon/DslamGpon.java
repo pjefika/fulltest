@@ -29,43 +29,28 @@ public abstract class DslamGpon extends AbstractDslam
     private BigInteger logica;
     private BigInteger sequencial;
 
-    public abstract ComandoDslam getComandoTabelaParametros();
 
     @Override
     public abstract TabelaParametrosGpon getTabelaParametros() throws Exception;
 
-    public abstract ComandoDslam getComandoSerialOnt();
-
     @Override
     public abstract SerialOntGpon getSerialOnt() throws Exception;
-
-    public abstract ComandoDslam getComandoConsultaEstadoDaPorta();
 
     @Override
     public abstract EstadoDaPorta getEstadoDaPorta() throws Exception;
 
-    public abstract ComandoDslam getComandoConsultaVlanBanda();
-
     @Override
     public abstract Vlan getVlanBanda() throws Exception;
-
-    public abstract ComandoDslam getComandoConsultaVlanVoip();
 
     @Override
     public abstract Vlan getVlanVoip() throws Exception;
 
-    public abstract ComandoDslam getComandoConsultaVlanVod();
-
     @Override
     public abstract Vlan getVlanVod() throws Exception;
-
-    public abstract ComandoDslam getComandoConsultaVlanMulticast();
 
     @Override
     public abstract VlanMulticast getVlanMulticast() throws Exception;
 
-    public abstract ComandoDslam getComandoConsultaAlarmes();
-    
     @Override
     public abstract AlarmesGpon getAlarmes() throws Exception;
     

@@ -7,6 +7,7 @@ package model.dslam.vivo2.gpon.zhone;
 
 import dao.dslam.ComandoDslam;
 import dao.dslam.ConsultaDslam;
+import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.SerialOntGpon;
@@ -29,17 +30,36 @@ public class ZhoneGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
-    @Override
+    private static String[] tratZhone(List<String> list, String qqqro, Integer o){
+        Integer i = 1;
+        for (String leLine : list) {
+            if(leLine.contains(qqqro)){
+                if(i.equals(o)){
+                   String[] lineBroken = leLine.split("\\s\\s+");
+                   return lineBroken;
+                }
+                i++;
+            }
+        }
+        
+        return null;
+    }
+    
     public ComandoDslam getComandoTabelaParametros() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ComandoDslam("onu status "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica());
     }
 
     @Override
     public TabelaParametrosGpon getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros()).getRetorno();
+        String[] pegaParams = tratZhone(leParams, "1-1-"+this.getSlot()+"-"+this.getPorta(), 1);
+        System.out.println(pegaParams);
+        
+        
+        return null;
     }
 
-    @Override
+    
     public ComandoDslam getComandoSerialOnt() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -49,7 +69,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaEstadoDaPorta() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -59,7 +79,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanBanda() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -69,7 +89,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanVoip() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -79,7 +99,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanVod() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -89,7 +109,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaVlanMulticast() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -99,7 +119,7 @@ public class ZhoneGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    
     public ComandoDslam getComandoConsultaAlarmes() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
