@@ -26,7 +26,7 @@ public class testRefactoringSocketClass {
 
         try {
 
-            AbstractDslam ds = dao.montaDslamGpon("1633226955");
+            AbstractDslam ds = dao.getDslam("1633226955");
             FullTestFacade f = new FullTestFacade(ds);
 
 //            f.estadoPorta();
