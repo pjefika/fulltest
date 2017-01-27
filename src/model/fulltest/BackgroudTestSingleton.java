@@ -5,6 +5,7 @@
  */
 package model.fulltest;
 
+import model.entity.TesteCliente;
 import dao.cadastro.CadastroDAO;
 import java.util.List;
 import model.dslam.AbstractDslam;

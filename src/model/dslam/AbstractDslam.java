@@ -5,7 +5,7 @@
  */
 package model.dslam;
 
-import dao.dslam.ConsultaDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
 

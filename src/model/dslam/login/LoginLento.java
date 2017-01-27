@@ -5,7 +5,7 @@
  */
 package model.dslam.login;
 
-import dao.dslam.ConsultaDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

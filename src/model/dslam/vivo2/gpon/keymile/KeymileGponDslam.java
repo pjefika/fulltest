@@ -5,8 +5,8 @@
  */
 package model.dslam.vivo2.gpon.keymile;
 
-import dao.dslam.ComandoDslam;
-import dao.dslam.ConsultaDslam;
+import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.AlarmesGpon;

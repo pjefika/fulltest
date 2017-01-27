@@ -5,7 +5,7 @@
  */
 package model.dslam.retorno;
 
-import dao.dslam.ComandoDslam;
+import dao.dslam.telnet.ComandoDslam;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;

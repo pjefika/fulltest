@@ -5,8 +5,8 @@
  */
 package model.dslam.vivo2.gpon.zhone;
 
-import dao.dslam.ComandoDslam;
-import dao.dslam.ConsultaDslam;
+import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;

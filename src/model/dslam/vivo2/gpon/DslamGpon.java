@@ -5,7 +5,7 @@
  */
 package model.dslam.vivo2.gpon;
 
-import dao.dslam.ComandoDslam;
+import dao.dslam.telnet.ComandoDslam;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
 import model.dslam.consulta.AlarmesGpon;
