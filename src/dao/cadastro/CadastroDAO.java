@@ -30,7 +30,7 @@ public class CadastroDAO {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
-    public AbstractDslam montaDslamGpon(String instancia) throws DslamNaoImplException {
+    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException {
 
         try {
 
