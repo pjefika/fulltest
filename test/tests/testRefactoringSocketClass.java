@@ -29,14 +29,14 @@ public class testRefactoringSocketClass {
             AbstractDslam ds = dao.getDslam("1633226955");
             FullTestFacade f = new FullTestFacade(ds);
 
-//            f.estadoPorta();
-//            f.serialOnt();
+            f.estadoPorta();
+            f.serialOnt();
             f.consultaParametros();
-//            f.consultaVlanBanda();
-//            f.consultaVlanVoip();
-//            f.consultaVlanVod();
-//            f.consultaVlanMulticast();
-//            f.consultaAlarmes();
+            f.consultaVlanBanda();
+            f.consultaVlanVoip();
+            f.consultaVlanVod();
+            f.consultaVlanMulticast();
+            f.consultaAlarmes();
 
             f.close();
 
