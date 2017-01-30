@@ -74,15 +74,22 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoSerialOnt() {
-        return new ComandoDslam("onu inventory 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getLogica());
+        return new ComandoDslam("onu inventory 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getLogica(), 3000);
     }
 
     @Override
     public SerialOntGpon getSerialOnt() throws Exception {
         List<String> leSerial = this.getCd().consulta(this.getComandoSerialOnt()).getRetorno();
-        List<String> pegaSerial = TratativaRetornoUtil.tratZhone(leSerial, "1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getLogica(), "\\b\\w+\\b", 2);
+        List<String> pegaSerial = TratativaRetornoUtil.tratZhone(leSerial, this.getLogica().toString(), "\\b\\w+\\b", 2);
+
+        String sernum = "";
         
-        String sernum = pegaSerial.get(6)+pegaSerial.get(5);
+        if(pegaSerial.size()>3){
+            sernum = pegaSerial.get(6)+pegaSerial.get(5);    
+        }else{
+            sernum = pegaSerial.get(pegaSerial.size()-1)+pegaSerial.get(pegaSerial.size()-2);    
+        }
+        
         SerialOntGpon serOnt = new SerialOntGpon();
         serOnt.setSerial(sernum);
         
@@ -123,12 +130,19 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public Vlan getVlanBanda() throws Exception {
-//        BigInteger L500 = this.getLogica().add(new BigInteger("500"));
         List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL500()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Vlan vlanBanda = new Vlan();
-        vlanBanda.setP100(new BigInteger(leVlanBanda.get(0)));
-        vlanBanda.setCvlan(new BigInteger(leVlanBanda.get(1)));
+        BigInteger cvlan = null;
+        BigInteger p100 = null;
+        
+        if(leVlanBanda != null){
+            cvlan = new BigInteger(leVlanBanda.get(0));
+            p100 = new BigInteger(leVlanBanda.get(1));
+        }
+        
+        vlanBanda.setP100(p100);
+        vlanBanda.setCvlan(cvlan);
         
         System.out.println(vlanBanda.getP100());
         System.out.println(vlanBanda.getCvlan());
@@ -142,8 +156,17 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
         List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL700()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Vlan vlanVoip = new Vlan();
-        vlanVoip.setP100(new BigInteger(leVlanVoip.get(0)));
-        vlanVoip.setCvlan(new BigInteger(leVlanVoip.get(1)));
+        BigInteger cvlan = null;
+        BigInteger p100 = null;
+        
+        if(leVlanVoip != null){
+            cvlan = new BigInteger(leVlanVoip.get(0));
+            p100 = new BigInteger(leVlanVoip.get(1));
+        }
+        
+        vlanVoip.setP100(p100);
+        vlanVoip.setCvlan(cvlan);
+        
         
         System.out.println(vlanVoip.getP100());
         System.out.println(vlanVoip.getCvlan());
@@ -157,8 +180,16 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
         List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL900()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Vlan vlanVod = new Vlan();
-        vlanVod.setP100(new BigInteger(leVlanVod.get(0)));
-        vlanVod.setCvlan(new BigInteger(leVlanVod.get(1)));
+        BigInteger cvlan = null;
+        BigInteger p100 = null;
+        
+        if(leVlanVod != null){
+            cvlan = new BigInteger(leVlanVod.get(0));
+            p100 = new BigInteger(leVlanVod.get(1));
+        }
+        
+        vlanVod.setP100(p100);
+        vlanVod.setCvlan(cvlan);
         
         System.out.println(vlanVod.getP100());
         System.out.println(vlanVod.getCvlan());
@@ -174,10 +205,15 @@ public class ZhoneGponDslam extends DslamGpon {
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {        
         List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
-        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         VlanMulticast vlanMult = new VlanMulticast();
+        BigInteger cvlan = null;
         
-        vlanMult.setCvlan(new BigInteger(leVlanVod.get(0)));
+        if(leVlanMult != null){
+            cvlan = new BigInteger(leVlanMult.get(0));
+        }
+        
+        vlanMult.setCvlan(cvlan);
         
         System.out.println(vlanMult.getCvlan());
         
