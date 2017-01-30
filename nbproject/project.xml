@@ -8,10 +8,6 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-                    <file>${file.reference.lib-CopyLibs}</file>
-                    <path-in-war>WEB-INF/classes</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.HdrHistogram-2.1.8.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
