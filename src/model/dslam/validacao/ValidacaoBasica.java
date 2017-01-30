@@ -13,6 +13,6 @@ import model.dslam.consulta.TabelaParametrosGpon;
  */
 public interface ValidacaoBasica {
 
-    public Boolean validar(TabelaParametrosGpon tb);
+    public Boolean validarParametros(TabelaParametrosGpon tb);
 
 }
