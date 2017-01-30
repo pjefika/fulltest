@@ -29,15 +29,8 @@ public class DslamDAO {
         this.collection = db.getCollection("testes");
     }
 
-    public void salvar(TesteCliente t) {
-        BasicDBObject basicDBObject = new BasicDBObject();
-        Gson gson = new Gson();
-        String result = gson.toJson(t);
-
-        basicDBObject.put("name", "teste");
-        basicDBObject.put("teste", result);
-
-        collection.insert(basicDBObject);
+    public void salvar(BasicDBObject b) {
+        collection.insert(b);
     }
 
     public void listar() {
