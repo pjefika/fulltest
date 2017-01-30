@@ -11,12 +11,14 @@ import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.ProfileGpon;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
 import model.dslam.consulta.Vlan;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
+import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.gpon.DslamGpon;
 
 /**
@@ -41,26 +43,7 @@ public class KeymileGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
-    private static String tratKeymile(List<String> list, String qqqro, Integer o){
-        Integer i = 1;
-        for (String leLine : list) {
-            if(leLine.contains(qqqro)){
-                if(i.equals(o)){
-                    return leLine.substring(0, leLine.indexOf("\\ #")).trim();    
-                }
-                i++;
-            }
-            
-        }
-        
-        return "Parâmetro não encontrado "+qqqro;
-    }
 
-    private static String tratKeymile(List<String> list, String qqqro){
-        return tratKeymile(list, qqqro, 1);
-    }
-    
-    
     public ComandoDslam getComandoPotOlt() {
         return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/status/olt");
     }
@@ -75,8 +58,8 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> retOnt = this.getCd().consulta(this.getComandoPotOnt()).getRetorno();
         
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
-        tabParam.setPotOlt(new Double(tratKeymile(retOlt, "rxInputPower")));
-        tabParam.setPotOnt(new Double(tratKeymile(retOnt, "rxInputPower")));
+        tabParam.setPotOlt(new Double(TratativaRetornoUtil.tratKeymile(retOlt, "rxInputPower")));
+        tabParam.setPotOnt(new Double(TratativaRetornoUtil.tratKeymile(retOnt, "rxInputPower")));
         
         System.out.println(tabParam.getPotOlt());
         System.out.println(tabParam.getPotOnt());
@@ -94,7 +77,7 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public SerialOntGpon getSerialOnt() throws Exception {
         List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt()).getRetorno();
-        String sernum = tratKeymile(serOnt, "SerialNumber").replace("\"", "");
+        String sernum = TratativaRetornoUtil.tratKeymile(serOnt, "SerialNumber").replace("\"", "");
         
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
@@ -118,8 +101,8 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
         List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
         
-        String adminState = tratKeymile(admin, "State");
-        String operState = tratKeymile(oper, "State");
+        String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
+        String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
         
         EstadoDaPorta portState = new EstadoDaPorta();
         portState.setAdminState(adminState);
@@ -142,15 +125,15 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public Vlan getVlanBanda() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanBanda1()).getRetorno();
-        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         this.setSrvc(leSrvc);
         if(leSrvc.contentEquals("no service connected")){
             System.out.println("Sem VlanBanda Configurada");
             return new Vlan();
         }
         List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
-        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
-        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        BigInteger cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         
         Vlan vlanBanda = new Vlan();
         vlanBanda.setCvlan(cvlan);
@@ -170,15 +153,15 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public Vlan getVlanVoip() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1()).getRetorno();
-        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         this.setSrvc(leSrvc);
         if(leSrvc.contentEquals("no service connected")){
             System.out.println("Sem VlanVoip Configurada");
             return new Vlan();
         }
         List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
-        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
-        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        BigInteger cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         
         Vlan vlanVoip = new Vlan();
         vlanVoip.setCvlan(cvlan);
@@ -198,15 +181,15 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public Vlan getVlanVod() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1()).getRetorno();
-        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         this.setSrvc(leSrvc);
         if(leSrvc.contentEquals("no service connected")){
             System.out.println("Sem VlanVod Configurada");
             return new Vlan();
         }
         List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
-        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "Svid"));
-        BigInteger p100 = new BigInteger(tratKeymile(pegaVlan, "CVID"));
+        BigInteger cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+        BigInteger p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         
         Vlan vlanVod = new Vlan();
         vlanVod.setCvlan(cvlan);
@@ -226,7 +209,7 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1()).getRetorno();
-        String leSrvc = tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         this.setSrvc(leSrvc);
         if(leSrvc.contentEquals("no service connected")){
             System.out.println("Sem VlanMulticast Configurada");
@@ -234,7 +217,7 @@ public class KeymileGponDslam extends DslamGpon {
         }
         List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
         
-        BigInteger cvlan = new BigInteger(tratKeymile(pegaVlan, "McastVID"));
+        BigInteger cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
                 
         VlanMulticast vlanMult = new VlanMulticast();
         vlanMult.setCvlan(cvlan);
@@ -266,6 +249,32 @@ public class KeymileGponDslam extends DslamGpon {
         System.out.println(alarmes.getListAlarmes());
         
         return alarmes;
+    }
+
+    public ComandoDslam getComandoConsultaProfileUp(){
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/cfgm/onuCfgTable");
+    }
+    
+    public ComandoDslam getComandoConsultaProfileDown(){
+        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/cfgm/IfRateLimiting");
+    }
+    
+    @Override
+    public ProfileGpon getProfile() throws Exception {
+        List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp()).getRetorno();
+        String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
+        String profileUp = TratativaRetornoUtil.upProfileNameKeymile(new Integer(profUpIndex));
+        
+        List<String> profileDownResp = this.getCd().consulta(this.getComandoConsultaProfileDown()).getRetorno();
+        String profileDown = TratativaRetornoUtil.tratKeymile(profileDownResp, "Name", 2);
+        
+        ProfileGpon prof = new ProfileGpon();
+        prof.setProfileUp(profileUp);
+        prof.setProfileDown(profileDown);
+        System.out.println(prof.getProfileUp());
+        System.out.println(prof.getProfileDown());
+        
+        return prof;
     }
 
 }

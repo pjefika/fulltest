@@ -10,6 +10,7 @@ import dao.dslam.telnet.ConsultaDslam;
 import java.math.BigInteger;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.ProfileGpon;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
 import model.dslam.consulta.Vlan;
@@ -36,7 +37,7 @@ public class AlcatelGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoTabelaParametros() {
-        return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
+        return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 2000);
     }
 
     @Override
@@ -210,6 +211,28 @@ public class AlcatelGponDslam extends DslamGpon {
         System.out.println(alarmes.getListAlarmes());
         
         return alarmes;
+    }
+    
+    public ComandoDslam getComandoConsultaProfile() {
+        return new ComandoDslam("info configure qos interface 1/1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/4/1 xml", 2000);
+    }
+
+    @Override
+    public ProfileGpon getProfile() throws Exception {
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaProfile()));
+        String leProfileDown = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='shaper-profile']");
+        String profileDown = leProfileDown.substring(5, leProfileDown.length());
+        String leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='bandwidth-profile']");
+        String profileUp = leProfileUp.substring(5, leProfileUp.length());
+        
+        ProfileGpon prof = new ProfileGpon();
+        prof.setProfileDown(profileDown);
+        prof.setProfileUp(profileUp);
+        
+        System.out.println(prof.getProfileDown());
+        System.out.println(prof.getProfileUp());
+        
+         return prof;
     }
 
 }

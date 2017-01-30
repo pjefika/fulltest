@@ -27,15 +27,17 @@ public class LoginLento implements LoginDslamStrategy {
             cs.pingSocket = new Socket(cs.dslam.getIpDslam(), 23);
             cs.out = new PrintWriter(cs.pingSocket.getOutputStream(), true);
             cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
-            Thread.sleep(5000);
+            Thread.sleep(10000);
             cs.out.println(cs.dslam.getCredencial().getLogin());
             Thread.sleep(3000);
             cs.out.println(cs.dslam.getCredencial().getPass());
             Thread.sleep(3000);
         } catch (IOException ex) {
             Logger.getLogger(LoginRapido.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         } catch (InterruptedException ex) {
             Logger.getLogger(LoginLento.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }
 

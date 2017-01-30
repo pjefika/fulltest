@@ -23,12 +23,15 @@ public class DslamDAOFactory implements ContratoFactoryDslam {
         System.out.println(info.getInfoTBS().getDslamModel());
         System.out.println(info.getInfoTBS().getDslamVendor());
 
-        if (info.getTechnology().equalsIgnoreCase("GPON")) {
+        try{
+            if (info.getTechnology().trim().equalsIgnoreCase("GPON")) {
             ContratoFactoryDslam fac = new DslamGponDAOFactory();
             return fac.getInstance(info);
-        } else {
+            }
+        }catch (Exception e){
             throw new DslamNaoImplException();
         }
+        return null;
     }
 
 }

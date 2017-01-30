@@ -19,6 +19,8 @@ public abstract class AbstractDslam {
     private String vendor;
     private String modelo;
     private String ipDslam;
+    private String rin;
+    private String p100;
 
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
@@ -80,5 +82,20 @@ public abstract class AbstractDslam {
     public void setCd(ConsultaDslam cd) {
         this.cd = cd;
     }
+    
+    public String getRin() {
+        return rin;
+    }
 
+    public void setRin(String rin) {
+        this.rin = rin;
+    }
+    
+    public String getP100() {
+        return p100;
+    }
+
+    public void setP100(String p100) {
+        this.p100 = p100;
+    }
 }

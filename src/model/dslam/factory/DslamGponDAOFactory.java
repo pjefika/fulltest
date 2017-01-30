@@ -22,16 +22,18 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
     @Override
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
 
+        
         DslamGpon leDslam;
 
         // Cuidado confusão do IT -
         String vendor = info.getInfoTBS().getDslamModel();
 
-        if (vendor.equalsIgnoreCase("ALCATEL")) {
+        
+        if (vendor.trim().equalsIgnoreCase("ALCATEL")) {
             leDslam = new AlcatelGponDslam();
-        } else if (vendor.equalsIgnoreCase("ZHONE")) {
+        } else if (vendor.trim().equalsIgnoreCase("ZHONE")) {
             leDslam = new ZhoneGponDslam();
-        } else if (vendor.equalsIgnoreCase("KEYMILE")) {
+        } else if (vendor.trim().equalsIgnoreCase("KEYMILE")) {
             leDslam = new KeymileGponDslam();
         } else {
             throw new DslamNaoImplException();
@@ -45,7 +47,10 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
         leDslam.setSlot(info.getInfoTBS().getSlot());
         leDslam.setLogica(info.getInfoTBS().getPortAddrSequence());
         leDslam.setSequencial(info.getInfoTBS().getPortAddrSeq());
-
+        leDslam.setRin(new Integer(info.getInfoTBS().getRin()).toString());
+        leDslam.setP100(info.getInfoTBS().getCvlan().toString());
+ 
+        
         return leDslam;
     }
 

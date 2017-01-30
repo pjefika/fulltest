@@ -65,6 +65,11 @@ public class FullTestFacade {
         meuDslam.getAlarmes();
     }
 
+    public void consultaProfile() throws Exception {
+        ConsultaGponDefault meuDslam = (ConsultaGponDefault) dslam;
+        meuDslam.getProfile();
+    }
+
     public void close() throws IOException {
         this.cd.close();
     }
