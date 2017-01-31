@@ -7,12 +7,14 @@ package model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author G0042204
  */
 @Entity
+@Table(name = "fulltestAPI_TesteCliente")
 public class TesteCliente extends ComponenteGenerico {
 
     @ManyToOne

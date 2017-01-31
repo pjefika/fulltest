@@ -10,12 +10,14 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author G0042204
  */
 @Entity
+@Table(name = "fulltestAPI_Lote")
 public class Lote extends ComponenteGenerico {
 
     @OneToMany(mappedBy = "lote", fetch = FetchType.LAZY)

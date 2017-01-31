@@ -17,60 +17,32 @@
         <!-- import JavaScript -->
         <script src="${pageContext.request.contextPath}/resources/jquery-3.1.1/jquery-3.1.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/node_modules/vue/dist/vue.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/jqueryMask/jquery.mask.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/moment/moment.js"></script>
         <script src="${pageContext.request.contextPath}/resources/lodash/lodash.js"></script>
         <script src="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/custom/custom.js"></script>
-
-        <style>
-
-            .navbar-telefonica{
-
-                width: 100% !important;
-                height: 100% !important;
-                background-image:url('${pageContext.request.contextPath}/resources/images/header.jpg');
-
-            }
-
-        </style>
 
         <decorator:head/>
     </head>
     <body>
-
-        <nav class="navbar-telefonica">
-            <img class="telefonicaLogo" src="${pageContext.request.contextPath}/resources/images/logo.png"/>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">Fulltest API</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="${linkTo[HomeController].index()}">Inicio</a></li>
+                        <li><a href="${linkTo[TestsController].create()}">Subir Lote</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
         </nav>
-
-        <c:if test="${sessionUsuarioEfika.logado}">
-
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav">
-                            <li><a href="${linkTo[SimuladorController].index()}">Simulador PIV<span class="sr-only">(current)</span></a></li>
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="${linkTo[UsuarioController].logout()}">Sair</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </nav>
-
-        </c:if>
-
+        
         <div>
             <decorator:body/>
         </div>
