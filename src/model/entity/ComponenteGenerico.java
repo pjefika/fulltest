@@ -13,7 +13,7 @@ import model.Status;
  * @author G0042204
  */
 @MappedSuperclass
-public class ComponenteGenerico extends AbstractEntity {
+public abstract class ComponenteGenerico extends AbstractEntity {
 
     private Status status;
 

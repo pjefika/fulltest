@@ -5,9 +5,14 @@
  */
 package model.entity;
 
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import model.dslam.AbstractDslam;
 
+/**
+ *
+ * @author G0042204
+ */
+@Entity
 public class TesteCliente extends ComponenteGenerico {
 
     @ManyToOne
@@ -15,9 +20,8 @@ public class TesteCliente extends ComponenteGenerico {
 
     public String instancia;
 
-    public AbstractDslam dadosDslam;
-
     public TesteCliente() {
+
     }
 
     public TesteCliente(String instancia) {
