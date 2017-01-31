@@ -49,7 +49,9 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
         leDslam.setSequencial(info.getInfoTBS().getPortAddrSeq());
         leDslam.setRin(new Integer(info.getInfoTBS().getRin()).toString());
         leDslam.setP100(info.getInfoTBS().getCvlan().toString());
- 
+        leDslam.setVlanVoipe(info.getInfoTBS().getVlanVoIP().toString());
+        leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
+        leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
         
         return leDslam;
     }

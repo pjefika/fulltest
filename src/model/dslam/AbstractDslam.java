@@ -21,6 +21,33 @@ public abstract class AbstractDslam {
     private String ipDslam;
     private String rin;
     private String p100;
+    private String vlanVoipe;
+    private String vlanVode;
+    private String vlanMulticaste;
+
+    public String getVlanVoipe() {
+        return vlanVoipe;
+    }
+
+    public void setVlanVoipe(String vlanVoip) {
+        this.vlanVoipe = vlanVoip;
+    }
+
+    public String getVlanVode() {
+        return vlanVode;
+    }
+
+    public void setVlanVode(String vlanVod) {
+        this.vlanVode = vlanVod;
+    }
+
+    public String getVlanMulticaste() {
+        return vlanMulticaste;
+    }
+
+    public void setVlanMulticaste(String vlanMulticast) {
+        this.vlanMulticaste = vlanMulticast;
+    }
 
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
