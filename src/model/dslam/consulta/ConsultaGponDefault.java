@@ -17,13 +17,13 @@ public interface ConsultaGponDefault {
 
     public TabelaParametrosGpon getTabelaParametros() throws Exception;
 
-    public Vlan getVlanBanda() throws Exception;
+    public VlanBanda getVlanBanda() throws Exception;
 
     public VlanMulticast getVlanMulticast() throws Exception;
 
-    public Vlan getVlanVoip() throws Exception;
+    public VlanVoip getVlanVoip() throws Exception;
 
-    public Vlan getVlanVod() throws Exception;
+    public VlanVod getVlanVod() throws Exception;
     
     public AlarmesGpon getAlarmes() throws Exception;
     

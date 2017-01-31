@@ -5,11 +5,14 @@
  */
 package model.dslam.consulta;
 
+import model.dslam.AbstractDslam;
+import model.fulltest.validacao.Validador;
+
 /**
  *
  * @author G0041775
  */
-public class EstadoDaPorta {
+public class EstadoDaPorta implements Validador{
 
     private String adminState;
 
@@ -31,7 +34,8 @@ public class EstadoDaPorta {
         this.operState = operState;
     }
 
-    public Boolean isOk() {
+    @Override
+    public Boolean validar(AbstractDslam ds) {
         return this.adminState.equalsIgnoreCase("UP") && this.operState.equalsIgnoreCase("UP");
     }
 

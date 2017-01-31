@@ -7,12 +7,14 @@ package model.dslam.consulta;
 
 import java.util.ArrayList;
 import java.util.List;
+import model.dslam.AbstractDslam;
+import model.fulltest.validacao.Validador;
 
 /**
  *
  * @author G0041775
  */
-public class AlarmesGpon {
+public class AlarmesGpon implements Validador{
 
     private List<String> listAlarmes;
 
@@ -27,6 +29,11 @@ public class AlarmesGpon {
 
     public void setListAlarmes(List<String> listAlarmes) {
         this.listAlarmes = listAlarmes;
+    }
+
+    @Override
+    public Boolean validar(AbstractDslam ds) {
+        return this.listAlarmes.isEmpty();
     }
     
     

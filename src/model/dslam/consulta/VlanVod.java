@@ -7,27 +7,21 @@ package model.dslam.consulta;
 
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
-import model.fulltest.validacao.Validador;
+
 
 /**
  *
  * @author G0041775
  */
-public class VlanMulticast implements Validador{
-    private BigInteger cvlan;
+public class VlanVod extends VlanAbstract{
 
-    public BigInteger getCvlan() {
-        return cvlan;
+    public VlanVod(BigInteger cvlan, BigInteger p100) {
+        this.setCvlan(cvlan);
+        this.setP100(p100);
     }
-
-    public void setCvlan(BigInteger cvlan) {
-        this.cvlan = cvlan;
-    }
-
+    
     @Override
     public Boolean validar(AbstractDslam ds) {
-        return this.cvlan.equals(ds.getVlanMulticaste());
+        return (this.getCvlan().equals(new BigInteger(ds.getVlanVode())) && this.getP100().equals(new BigInteger(ds.getP100())));
     }
-    
-    
 }

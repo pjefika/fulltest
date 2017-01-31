@@ -14,8 +14,10 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.ProfileGpon;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
-import model.dslam.consulta.Vlan;
+import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
+import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVoip;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
@@ -123,21 +125,18 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanBanda() throws Exception {
+    public VlanBanda getVlanBanda() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanBanda1()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        Vlan vlanBanda = new Vlan();
-        BigInteger cvlan = null;
-        BigInteger p100 = null;
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
         if(!leSrvc.contentEquals("no service connected")){
             this.setSrvc(leSrvc);
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        
-        vlanBanda.setCvlan(cvlan);
-        vlanBanda.setP100(p100);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
         
         System.out.println(vlanBanda.getCvlan());
         System.out.println(vlanBanda.getP100());
@@ -151,21 +150,19 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanVoip() throws Exception {
+    public VlanVoip getVlanVoip() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        Vlan vlanVoip = new Vlan();
-        BigInteger cvlan = null;
-        BigInteger p100 = null;
+       
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
         if(!leSrvc.contentEquals("no service connected")){
             this.setSrvc(leSrvc);
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-       
-        vlanVoip.setCvlan(cvlan);
-        vlanVoip.setP100(p100);
+        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
         
         System.out.println(vlanVoip.getCvlan());
         System.out.println(vlanVoip.getP100());
@@ -179,12 +176,12 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public Vlan getVlanVod() throws Exception {
+    public VlanVod getVlanVod() throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        Vlan vlanVod = new Vlan();
-        BigInteger cvlan = null;
-        BigInteger p100 = null;
+        
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
         if(!leSrvc.contentEquals("no service connected")){
             this.setSrvc(leSrvc);
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
@@ -192,8 +189,7 @@ public class KeymileGponDslam extends DslamGpon {
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         
-        vlanVod.setCvlan(cvlan);
-        vlanVod.setP100(p100);
+        VlanVod vlanVod = new VlanVod(cvlan, p100);
         
         System.out.println(vlanVod.getCvlan());
         System.out.println(vlanVod.getP100());
@@ -211,7 +207,7 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         VlanMulticast vlanMult = new VlanMulticast();
-        BigInteger cvlan = null;
+        BigInteger cvlan = new BigInteger("0");
         if(!leSrvc.contentEquals("no service connected")){
             this.setSrvc(leSrvc);
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();

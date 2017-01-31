@@ -5,11 +5,14 @@
  */
 package model.dslam.consulta;
 
+import model.dslam.AbstractDslam;
+import model.fulltest.validacao.Validador;
+
 /**
  *
  * @author G0041775
  */
-public class ProfileGpon {
+public class ProfileGpon implements Validador {
     
     private String profileUp;
     
@@ -29,6 +32,11 @@ public class ProfileGpon {
 
     public void setProfileDown(String profileDown) {
         this.profileDown = profileDown;
+    }
+
+    @Override
+    public Boolean validar(AbstractDslam ds) {
+        return (!this.profileDown.isEmpty() && !this.profileUp.isEmpty());
     }
     
 }

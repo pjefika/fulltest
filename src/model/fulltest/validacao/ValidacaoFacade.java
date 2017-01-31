@@ -6,8 +6,8 @@
 package model.fulltest.validacao;
 
 import java.math.BigInteger;
+import model.dslam.AbstractDslam;
 import model.dslam.consulta.ConsultaGponDefault;
-import model.dslam.vivo2.gpon.DslamGpon;
 import model.fulltest.validacao.tipo.ValidacaoGpon;
 
 /**
@@ -20,39 +20,43 @@ public class ValidacaoFacade {
     
     private ValidacaoGpon valid;
     
-    private DslamGpon dslam;
+    private AbstractDslam dslam;
 
-    public ValidacaoFacade(ConsultaGponDefault gpon, DslamGpon dslam) {
+    public ValidacaoFacade(ConsultaGponDefault gpon) {
         this.gpon = gpon;
-        this.dslam = dslam;
+        this.dslam = (AbstractDslam) gpon;
         this.valid = new ValidacaoGpon();
     }
     
     public ValidacaoGpon validar() throws Exception{
       
-        this.valid.setAdmState(gpon.getEstadoDaPorta().getAdminState().equalsIgnoreCase("up"));
+        this.valid.setAdmState(gpon.getAlarmes().validar(dslam));
+        System.out.println("Admin: "+this.valid.getAdmState());
         
-        this.valid.setLink(gpon.getEstadoDaPorta().getOperState().equalsIgnoreCase("up"));
+        this.valid.setLink(gpon.getEstadoDaPorta().validar(dslam));
+        System.out.println("Link(Oper): "+this.valid.getLink());
         
-        this.valid.setProfile(!gpon.getProfile().getProfileDown().isEmpty() && !gpon.getProfile().getProfileUp().isEmpty());
+        this.valid.setProfile(gpon.getProfile().validar(dslam));
+        System.out.println("Profile: "+this.valid.getProfile());
         
-        this.valid.setParametros(gpon.getTabelaParametros().getPotOlt() < -8 && 
-                gpon.getTabelaParametros().getPotOlt() > -25  &&
-                gpon.getTabelaParametros().getPotOnt() < -8 &&
-                gpon.getTabelaParametros().getPotOnt() > -25 );
+        this.valid.setParametros(gpon.getTabelaParametros().validar(dslam) );
+        System.out.println("Parametros: "+this.valid.getParametros());
         
-        this.valid.setVlanBanda(gpon.getVlanBanda().getP100().equals(new BigInteger(dslam.getP100())) && 
-                gpon.getVlanBanda().getCvlan().equals(new BigInteger(dslam.getRin())));
+        this.valid.setVlanBanda(gpon.getVlanBanda().validar(dslam));
+        System.out.println("VlanBanda: "+this.valid.getVlanBanda());
+         
+        this.valid.setVlanVoip(gpon.getVlanVoip().validar(dslam));
+        System.out.println("VlanVoip: "+this.valid.getVlanVoip());
         
-        this.valid.setVlanVoip(gpon.getVlanVoip().getP100().equals(new BigInteger(dslam.getP100())) &&
-                gpon.getVlanVoip().getCvlan().equals(new BigInteger(dslam.getVlanVoipe())));
+        this.valid.setVlanVod(gpon.getVlanVod().validar(dslam));
+        System.out.println("VlanVod: "+this.valid.getVlanVod());
         
-        this.valid.setVlanVod(gpon.getVlanVod().getP100().equals(new BigInteger(dslam.getP100())) &&
-                gpon.getVlanVod().getCvlan().equals(new BigInteger(dslam.getVlanVode())));
+        this.valid.setVlanMulticast(gpon.getVlanMulticast().validar(dslam));
+        System.out.println("VlanMulticast: "+this.valid.getVlanMulticast());
         
-        this.valid.setVlanMulticast(gpon.getVlanMulticast().getCvlan().equals(new BigInteger(dslam.getVlanMulticaste())));
+        this.valid.setSemAlarme(gpon.getAlarmes().validar(dslam));         
+        System.out.println("SemAlarme: "+this.valid.getSemAlarme());
         
-        this.valid.setSemAlarme(gpon.getAlarmes().getListAlarmes().isEmpty());         
         
      return null;   
     }

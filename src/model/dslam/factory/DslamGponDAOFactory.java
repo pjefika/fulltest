@@ -53,6 +53,7 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
         
+        
         return leDslam;
     }
 

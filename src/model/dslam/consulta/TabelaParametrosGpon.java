@@ -5,11 +5,14 @@
  */
 package model.dslam.consulta;
 
+import model.dslam.AbstractDslam;
+import model.fulltest.validacao.Validador;
+
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosGpon {
+public class TabelaParametrosGpon implements Validador{
 
     private Double potOnt;
 
@@ -32,6 +35,12 @@ public class TabelaParametrosGpon {
 
     public void setPotOlt(Double potOlt) {
         this.potOlt = potOlt;
+    }
+
+    @Override
+    public Boolean validar(AbstractDslam ds) {
+        return (this.potOlt < -8 && this.potOlt > -25 &&
+                this.potOnt < -8 && this.potOnt > -25);
     }
 
 }

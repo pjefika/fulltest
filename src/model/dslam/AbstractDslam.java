@@ -24,6 +24,24 @@ public abstract class AbstractDslam {
     private String vlanVoipe;
     private String vlanVode;
     private String vlanMulticaste;
+    private String profDown;
+    private String profUp;
+
+    public String getProfDown() {
+        return profDown;
+    }
+
+    public void setProfDown(String profDown) {
+        this.profDown = profDown;
+    }
+
+    public String getProfUp() {
+        return profUp;
+    }
+
+    public void setProfUp(String profUp) {
+        this.profUp = profUp;
+    }
 
     public String getVlanVoipe() {
         return vlanVoipe;

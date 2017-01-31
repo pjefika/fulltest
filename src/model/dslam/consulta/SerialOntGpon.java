@@ -5,11 +5,14 @@
  */
 package model.dslam.consulta;
 
+import model.dslam.AbstractDslam;
+import model.fulltest.validacao.Validador;
+
 /**
  *
  * @author G0041775
  */
-public class SerialOntGpon {
+public class SerialOntGpon implements Validador{
     private String serial;
 
     public String getSerial() {
@@ -18,6 +21,11 @@ public class SerialOntGpon {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    @Override
+    public Boolean validar(AbstractDslam ds) {
+        return !this.serial.isEmpty();
     }
     
 }

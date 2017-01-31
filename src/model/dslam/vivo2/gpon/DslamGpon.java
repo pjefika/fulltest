@@ -13,8 +13,10 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.ProfileGpon;
 import model.dslam.consulta.SerialOntGpon;
 import model.dslam.consulta.TabelaParametrosGpon;
-import model.dslam.consulta.Vlan;
+import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
+import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVoip;
 
 /**
  *
@@ -40,13 +42,13 @@ public abstract class DslamGpon extends AbstractDslam
     public abstract EstadoDaPorta getEstadoDaPorta() throws Exception;
 
     @Override
-    public abstract Vlan getVlanBanda() throws Exception;
+    public abstract VlanBanda getVlanBanda() throws Exception;
 
     @Override
-    public abstract Vlan getVlanVoip() throws Exception;
+    public abstract VlanVoip getVlanVoip() throws Exception;
 
     @Override
-    public abstract Vlan getVlanVod() throws Exception;
+    public abstract VlanVod getVlanVod() throws Exception;
 
     @Override
     public abstract VlanMulticast getVlanMulticast() throws Exception;
