@@ -18,6 +18,7 @@
         <script src="${pageContext.request.contextPath}/resources/jquery-3.1.1/jquery-3.1.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/resources/node_modules/vue/dist/vue.js"></script>
         <script src="${pageContext.request.contextPath}/resources/lodash/lodash.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/moment/moment.js"></script>
         <script src="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
 
         <decorator:head/>
