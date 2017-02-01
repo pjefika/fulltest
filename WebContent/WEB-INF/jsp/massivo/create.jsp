@@ -32,7 +32,7 @@
                     <td>{{lote.matricula}}</td>
                     <td>{{lote.observacao}}</td>
                     <td>
-                        <button type="button" class="btn btn-info glyphicon glyphicon-edit btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static"></button>
+                        <button type="button" class="btn btn-info glyphicon glyphicon-edit btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static" @click="fetchLoteEdit(lote)"></button>
                         <button type="button" class="btn btn-danger glyphicon glyphicon-trash btn-sm" data-toggle="modal" data-target="#delLote" data-backdrop="static" @click="fetchLoteDel(lote)"></button>
                     </td>
                 </tr>                
@@ -75,6 +75,61 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
                         <button type="button" class="btn btn-primary" @click="createLote()">Cadastrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="editLote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Informações do Lote</h4>
+                    </div>
+                    <div class="modal-body">                        
+                        <div class="form-group">                            
+                            <label>ID:</label>
+                            {{viewLote.id}}
+                            <br/>
+                            <label>Data de Criação:</label>
+                            {{dateFormat(viewLote.dataCriacao)}}
+                            <br/>
+                            <label>Matricula:</label>
+                            {{viewLote.matricula}}
+                            <br/>
+                            <label>Observação:</label>
+                            {{viewLote.observacao}}
+                            <br/>
+                            <label>Status:</label>
+                            {{viewLote.status}}
+                        </div>
+                        <hr>  
+                        <label>Info</label>
+                        <div class="form-group">        
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Quantidade Ativo</th>
+                                        <th>Quantidade em Execução</th>
+                                        <th>Quantidade Concluido</th>
+                                        <th>Quantidade Excluido</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{countInfo.ativo}}</td>
+                                        <td>{{countInfo.execucao}}</td>
+                                        <td>{{countInfo.concluido}}</td>
+                                        <td>{{countInfo.excluido}}</td>
+                                    </tr>
+                                </tbody>                                
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" @click="reset()">Fechar</button>
+                        <button type="button" class="btn btn-primary">Tirar?</button>
                     </div>
                 </div>
             </div>

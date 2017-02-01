@@ -22,6 +22,20 @@ new Vue({
             observacao: null,
             matricula: null
         },
+        viewLote: {
+            id: null,
+            dataCriacao: null,
+            matricula: null,
+            observacao: null,
+            status: null,
+            tests: []
+        },
+        countInfo: {
+            ativo: 0,
+            execucao: 0,
+            concluido: 0,
+            excluido: 0
+        },
         instancias: "123;213;231;312;321",
         delimiter: ";"
     },
@@ -64,7 +78,7 @@ new Vue({
             var lt = h;
             lt.tests = [];
             for (var i = 0; i < listI.length; i++) {
-                lt.tests.push({id: null, status: null, instancia: listI[i], lote: {id: h.id}});
+                lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});
             }
             $.ajax({
                 type: "POST",
@@ -109,7 +123,29 @@ new Vue({
             var self = this;
             self.delLote = h;
         },
-        //Reset Objects
+        fetchLoteEdit: function (h) {
+            var self = this;
+            self.viewLote = h;
+
+            self.infoLoteCount();
+        },
+        //Reset Objects        
+        infoLoteCount: function () {
+            var self = this;
+            var ins = self.viewLote.tests;
+            for (var i = 0; i < ins.length; i++) {
+                if (ins[i]["status"] === "ATIVO") {
+                    self.countInfo.ativo++;
+                } else if (ins[i]["status"] === "EM_EXECUCAO") {
+                    self.countInfo.execucao++;
+                } else if (ins[i]["status"] === "CONCLUIDO") {
+                    self.countInfo.concluido++;
+                } else if (ins[i]["status"] === "EXCLUIDO") {
+                    self.countInfo.excluido++;
+                }
+            }
+            //console.log(JSON.stringify(self.countInfo));
+        },
         reset: function () {
             var self = this;
             self.adcLote = {
@@ -118,16 +154,28 @@ new Vue({
                 observacao: null,
                 matricula: null
             };
-            delLote = {
+            self.delLote = {
                 id: null,
                 status: null,
                 observacao: null,
                 matricula: null
             };
-            instancias: null;
-            delimiter: null;
+            self.countInfo = {
+                ativo: 0,
+                execucao: 0,
+                concluido: 0,
+                excluido: 0
+            };
+            self.viewLote = {
+                id: null,
+                dataCriacao: null,
+                matricula: null,
+                observacao: null,
+                status: null,
+                tests: []
+            };
+            self.instancias = null;
+            self.delimiter = null;
         }
-
     }
-
 });

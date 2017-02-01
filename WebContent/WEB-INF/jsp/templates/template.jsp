@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
     <head>
-        <title><decorator:title default="Simulador PIV"/></title>
+        <title><decorator:title default="FulltestAPI"/></title>
         <meta charset="utf-8">
 
         <!-- import CSS -->
