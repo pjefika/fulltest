@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">
+   <S:Body>
+      <ns0:getAccountItemsResponse xmlns:ns1="http://www.gvt.com/ws/eai/oss/inventory/api" xmlns:ns0="http://impl.service.inventory.oss.gvt.com.br/">
+         <return>
+            <ns1:returnCode>0</ns1:returnCode>
+            <ns1:accounts>
+               <ns1:externalId>8-1010997321</ns1:externalId>
+               <ns1:accountType>1</ns1:accountType>
+               <ns1:address>
+                  <ns1:externalId>8-49272058614</ns1:externalId>
+                  <ns1:items>
+                     <ns1:designator>
+                        <ns1:designatorType>1</ns1:designatorType>
+                        <ns1:value>CTA-07368751-069</ns1:value>
+                        <ns1:status>2</ns1:status>
+                        <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                     </ns1:designator>
+                     <ns1:id>25224542</ns1:id>
+                     <ns1:specId>6</ns1:specId>
+                     <ns1:specIdName>Wired Access</ns1:specIdName>
+                     <ns1:status>2</ns1:status>
+                     <ns1:statusName>ACTIVE</ns1:statusName>
+                     <ns1:createdDate>2016-08-10T13:02:54.0-03:00</ns1:createdDate>
+                     <ns1:modifiedDate>2016-08-12T11:58:32.0-03:00</ns1:modifiedDate>
+                     <ns1:items>
+                        <ns1:designator>
+                           <ns1:designatorType>2</ns1:designatorType>
+                           <ns1:value>4130886762</ns1:value>
+                           <ns1:status>2</ns1:status>
+                           <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        </ns1:designator>
+                        <ns1:id>25224520</ns1:id>
+                        <ns1:specId>3</ns1:specId>
+                        <ns1:specIdName>Linha Telefônica</ns1:specIdName>
+                        <ns1:status>2</ns1:status>
+                        <ns1:statusName>ACTIVE</ns1:statusName>
+                        <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-11-10T14:54:25.0-02:00</ns1:modifiedDate>
+                        <ns1:items>
+                           <ns1:designator>
+                              <ns1:designatorType>5</ns1:designatorType>
+                              <ns1:value>8-MMXBLRN</ns1:value>
+                              <ns1:status>2</ns1:status>
+                              <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                           </ns1:designator>
+                           <ns1:id>25224521</ns1:id>
+                           <ns1:specId>30</ns1:specId>
+                           <ns1:specIdName>Ligue Simples</ns1:specIdName>
+                           <ns1:status>2</ns1:status>
+                           <ns1:statusName>ACTIVE</ns1:statusName>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-12T11:56:19.0-03:00</ns1:modifiedDate>
+                           <ns1:param>
+                              <ns1:name>StatusServico</ns1:name>
+                              <ns1:value>ACTIVE</ns1:value>
+                              <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                              <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                           </ns1:param>
+                        </ns1:items>
+                        <ns1:param>
+                           <ns1:name>RPON</ns1:name>
+                           <ns1:value>C000585E7C</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>StatusBloqueio</ns1:name>
+                           <ns1:value>UNBLOCKED</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-11-10T14:54:25.0-02:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>TecnologiaVoz</ns1:name>
+                           <ns1:value>TDM/H248</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                     </ns1:items>
+                     <ns1:items>
+                        <ns1:designator>
+                           <ns1:designatorType>3</ns1:designatorType>
+                           <ns1:value>CTA-81MMWYSLO-013</ns1:value>
+                           <ns1:status>2</ns1:status>
+                           <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        </ns1:designator>
+                        <ns1:id>25224543</ns1:id>
+                        <ns1:specId>4</ns1:specId>
+                        <ns1:specIdName>Banda Larga</ns1:specIdName>
+                        <ns1:status>2</ns1:status>
+                        <ns1:statusName>ACTIVE</ns1:statusName>
+                        <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-11-10T14:47:23.0-02:00</ns1:modifiedDate>
+                        <ns1:param>
+                           <ns1:name>CorrelationId</ns1:name>
+                           <ns1:value>4130886762</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>Downstream</ns1:name>
+                           <ns1:value>15360</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>RPON</ns1:name>
+                           <ns1:value>C000585E7E</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>StatusBloqueio</ns1:name>
+                           <ns1:value>UNBLOCKED</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-11-10T14:47:23.0-02:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>Upstream</ns1:name>
+                           <ns1:value>1024</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:55.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:55.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                     </ns1:items>
+                     <ns1:param>
+                        <ns1:name>NetworkOwner</ns1:name>
+                        <ns1:value>VIVO2</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:54.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:54.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                     <ns1:param>
+                        <ns1:name>TipoAcesso</ns1:name>
+                        <ns1:value>METALICO</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:54.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:54.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                  </ns1:items>
+                  <ns1:items>
+                     <ns1:designator>
+                        <ns1:designatorType>1</ns1:designatorType>
+                        <ns1:value>CTA-07368752-069</ns1:value>
+                        <ns1:status>2</ns1:status>
+                        <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                     </ns1:designator>
+                     <ns1:id>25224522</ns1:id>
+                     <ns1:specId>17</ns1:specId>
+                     <ns1:specIdName>Satellite Access</ns1:specIdName>
+                     <ns1:status>2</ns1:status>
+                     <ns1:statusName>ACTIVE</ns1:statusName>
+                     <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                     <ns1:modifiedDate>2016-08-12T11:58:32.0-03:00</ns1:modifiedDate>
+                     <ns1:items>
+                        <ns1:designator>
+                           <ns1:designatorType>4</ns1:designatorType>
+                           <ns1:value>TV-CTA-81MMWYSLQ-050</ns1:value>
+                           <ns1:status>2</ns1:status>
+                           <ns1:statusName xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+                        </ns1:designator>
+                        <ns1:id>25224544</ns1:id>
+                        <ns1:specId>5</ns1:specId>
+                        <ns1:specIdName>TV</ns1:specIdName>
+                        <ns1:status>2</ns1:status>
+                        <ns1:statusName>ACTIVE</ns1:statusName>
+                        <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-11-10T14:46:05.0-02:00</ns1:modifiedDate>
+                        <ns1:param>
+                           <ns1:name>CorrelationId</ns1:name>
+                           <ns1:value>CTA-81MMWYSLO-013</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>RPON</ns1:name>
+                           <ns1:value>C000585E7F</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>StatusBloqueio</ns1:name>
+                           <ns1:value>UNBLOCKED</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-11-10T14:46:05.0-02:00</ns1:modifiedDate>
+                        </ns1:param>
+                        <ns1:param>
+                           <ns1:name>TecnologiaTV</ns1:name>
+                           <ns1:value>DTH</ns1:value>
+                           <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                           <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                        </ns1:param>
+                     </ns1:items>
+                     <ns1:param>
+                        <ns1:name>CEP</ns1:name>
+                        <ns1:value>81630040</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                     <ns1:param>
+                        <ns1:name>NetworkOwner</ns1:name>
+                        <ns1:value>VIVO2</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                     <ns1:param>
+                        <ns1:name>Satelite</ns1:name>
+                        <ns1:value>INTELSAT</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                     <ns1:param>
+                        <ns1:name>TipoAcesso</ns1:name>
+                        <ns1:value>SATELITE</ns1:value>
+                        <ns1:createdDate>2016-08-10T13:02:57.0-03:00</ns1:createdDate>
+                        <ns1:modifiedDate>2016-08-10T13:02:57.0-03:00</ns1:modifiedDate>
+                     </ns1:param>
+                  </ns1:items>
+               </ns1:address>
+            </ns1:accounts>
+         </return>
+      </ns0:getAccountItemsResponse>
+   </S:Body>
+</S:Envelope>
+
+<root>
+    
+</root>

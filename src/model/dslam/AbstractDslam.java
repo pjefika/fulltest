@@ -8,7 +8,7 @@ package model.dslam;
 import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
-import model.dslam.produtos.ProdutosCliente;
+import model.produtos.ProdutoCliente;
 
 /**
  *
@@ -25,25 +25,17 @@ public abstract class AbstractDslam {
     private String vlanVoipe;
     private String vlanVode;
     private String vlanMulticaste;
-    private String profDown;
-    private String profUp;
+    private ProdutoCliente prod;
 
-//    private ProdutosCliente prods;
-    public String getProfDown() {
-        return profDown;
+    public ProdutoCliente getProd() {
+        return prod;
     }
 
-    public void setProfDown(String profDown) {
-        this.profDown = profDown;
+    public void setProd(ProdutoCliente prod) {
+        this.prod = prod;
     }
+    
 
-    public String getProfUp() {
-        return profUp;
-    }
-
-    public void setProfUp(String profUp) {
-        this.profUp = profUp;
-    }
 
     public String getVlanVoipe() {
         return vlanVoipe;

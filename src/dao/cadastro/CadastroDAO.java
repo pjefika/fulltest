@@ -22,6 +22,9 @@ public class CadastroDAO {
 
     private DslamDAOFactory factory = new DslamDAOFactory();
 
+   
+    
+    
     public CadastroDAO() {
 
     }
@@ -36,7 +39,10 @@ public class CadastroDAO {
 
             String designator = this.getDesignador(instancia);
             String accessDesignator = ws.getAccessDesignator(designator);
-            GetInfoOut leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "25600", "12800");
+            
+            GetInfoOut leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
+            
+            
             return factory.getInstance(leInfo);
 
         } catch (RemoteException ex) {

@@ -24,29 +24,26 @@ public class testGetAccountItens {
         try {
             java.lang.String accountId = null;
             java.lang.String addressId = null;
-            java.lang.String designator = "CTA-81MMWYSLO-013";
+            java.lang.String designator = "FSA-811ICTYTZY-013";
             java.lang.String networkOwnerId = null;
             boolean inactiveCancelled = false;
             br.com.gvt.oss.inventory.service.impl.InventoryService service = new br.com.gvt.oss.inventory.service.impl.InventoryService();
             br.com.gvt.oss.inventory.service.impl.InventoryImpl port = service.getInventoryImplPort();
             // TODO process result here
             com.gvt.ws.eai.oss.inventory.api.InventoryAccountResponse result = port.getAccountItems(accountId, addressId, designator, networkOwnerId, inactiveCancelled);
-
+            
             for (Account acc : result.getAccounts()) {
                 System.out.println(acc.getAccountType());
 
                 for (Address adr : acc.getAddress()) {
 
                     for (Item item : adr.getItems()) {
-                        System.out.println("- " + item.getSpecIdName());
 
                         for (Item itn : item.getItems()) {
-                            System.out.println("  - " + itn.getSpecIdName());
-                            System.out.println("    - " + itn.getDesignator().getValue());
 
                             for (Param param : itn.getParam()) {
-                                System.out.println("     - " + param.getName());
-                                System.out.println("     - " + param.getValue());
+                                System.out.println("-" + param.getName());
+                                System.out.println("- " + param.getValue());
                             }
 
                         }

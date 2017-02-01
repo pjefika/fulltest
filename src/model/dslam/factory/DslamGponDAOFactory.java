@@ -6,6 +6,7 @@
 package model.dslam.factory;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import dao.produtos.ProdutosDAO;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.dslam.vivo2.gpon.DslamGpon;
@@ -24,6 +25,7 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
 
         
         DslamGpon leDslam;
+        
 
         // Cuidado confusão do IT -
         String vendor = info.getInfoTBS().getDslamModel();
@@ -53,6 +55,8 @@ public class DslamGponDAOFactory implements ContratoFactoryDslam {
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
         
+        ProdutosDAO proDao = new ProdutosDAO(info.getDesignator());
+        leDslam.setProd(proDao.getProdCliente());
         
         return leDslam;
     }

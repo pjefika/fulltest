@@ -57,6 +57,9 @@ public class ValidacaoFacade {
         this.valid.setSemAlarme(gpon.getAlarmes().validar(dslam));         
         System.out.println("SemAlarme: "+this.valid.getSemAlarme());
         
+        System.out.println("----------");
+        System.out.println("DownCrm: "+dslam.getProd().getBanda().getDownCrm());
+        System.out.println("UpCrm: "+dslam.getProd().getBanda().getUpCrm());
         
      return null;   
     }
