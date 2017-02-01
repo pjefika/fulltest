@@ -28,7 +28,7 @@ public class testRefactoringSocketClass {
 
         try {
 
-            AbstractDslam ds = dao.getDslam("7530301249");
+            AbstractDslam ds = dao.getDslam("7130520294");
             FullTestFacade f = new FullTestFacade(ds);
 //
 //            f.estadoPorta();

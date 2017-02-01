@@ -30,11 +30,8 @@ public class ValidacaoFacade {
     
     public ValidacaoGpon validar() throws Exception{
       
-        this.valid.setAdmState(gpon.getAlarmes().validar(dslam));
-        System.out.println("Admin: "+this.valid.getAdmState());
-        
-        this.valid.setLink(gpon.getEstadoDaPorta().validar(dslam));
-        System.out.println("Link(Oper): "+this.valid.getLink());
+        this.valid.setAdmState(gpon.getEstadoDaPorta().validar(dslam));
+        System.out.println("Estado da Porta: "+this.valid.getAdmState());
         
         this.valid.setProfile(gpon.getProfile().validar(dslam));
         System.out.println("Profile: "+this.valid.getProfile());
@@ -44,22 +41,24 @@ public class ValidacaoFacade {
         
         this.valid.setVlanBanda(gpon.getVlanBanda().validar(dslam));
         System.out.println("VlanBanda: "+this.valid.getVlanBanda());
-         
-        this.valid.setVlanVoip(gpon.getVlanVoip().validar(dslam));
-        System.out.println("VlanVoip: "+this.valid.getVlanVoip());
         
-        this.valid.setVlanVod(gpon.getVlanVod().validar(dslam));
-        System.out.println("VlanVod: "+this.valid.getVlanVod());
+        if(dslam.getProd().getLinha().getTipo().equals("TDM/H248")){
+            this.valid.setVlanVoip(gpon.getVlanVoip().validar(dslam));
+            System.out.println("VlanVoip: "+this.valid.getVlanVoip());    
+        } 
         
-        this.valid.setVlanMulticast(gpon.getVlanMulticast().validar(dslam));
-        System.out.println("VlanMulticast: "+this.valid.getVlanMulticast());
+        if(dslam.getProd().getTv().getTipo().equals("HIBRIDA")){
+            this.valid.setVlanVod(gpon.getVlanVod().validar(dslam));
+            System.out.println("VlanVod: "+this.valid.getVlanVod());
+            
+            this.valid.setVlanMulticast(gpon.getVlanMulticast().validar(dslam));
+            System.out.println("VlanMulticast: "+this.valid.getVlanMulticast());
+        }
         
         this.valid.setSemAlarme(gpon.getAlarmes().validar(dslam));         
         System.out.println("SemAlarme: "+this.valid.getSemAlarme());
         
-        System.out.println("----------");
-        System.out.println("DownCrm: "+dslam.getProd().getBanda().getDownCrm());
-        System.out.println("UpCrm: "+dslam.getProd().getBanda().getUpCrm());
+        
         
      return null;   
     }
