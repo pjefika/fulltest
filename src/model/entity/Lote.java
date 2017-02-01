@@ -6,7 +6,9 @@
 package model.entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
@@ -20,10 +22,14 @@ import javax.persistence.Table;
 @Table(name = "fulltestAPI_Lote")
 public class Lote extends ComponenteGenerico {
 
-    @OneToMany(mappedBy = "lote", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "lote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<TesteCliente> tests;
 
     private String observacao;
+    
+    private Date dataCriacao;
+    
+    private String matricula;
 
     public Lote() {
         this.tests = new ArrayList<>();
@@ -44,4 +50,20 @@ public class Lote extends ComponenteGenerico {
     public void setObservacao(String observacao) {
         this.observacao = observacao;
     }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }       
 }

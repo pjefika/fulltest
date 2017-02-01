@@ -37,7 +37,7 @@
                 <div id="navbar" class="collapse navbar-collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="${linkTo[HomeController].index()}">Inicio</a></li>
-                        <li><a href="${linkTo[TestsController].create()}">Subir Lote</a></li>
+                        <li><a href="${linkTo[MassivoController].create()}">Subir Lote</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

@@ -18,12 +18,11 @@ import javax.persistence.Table;
 public class TesteCliente extends ComponenteGenerico {
 
     @ManyToOne
-    public Lote lote;
+    private Lote lote;
 
-    public String instancia;
+    private String instancia;
 
     public TesteCliente() {
-
     }
 
     public TesteCliente(String instancia) {

@@ -3,17 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.massivo;
+package model.controller;
 
-import java.util.List;
+import br.com.caelum.vraptor.Controller;
 
 /**
  *
  * @author G0034481
  */
-public class TestsDAO extends ComponenteTestsDAO {
+@Controller
+public class MassivoController extends AbstractController {
 
-    public TestsDAO() {
+    public MassivoController() {
     }
+    
+    public void create() {
         
+        
+    }
+    
+    
 }
