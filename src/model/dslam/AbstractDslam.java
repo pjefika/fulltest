@@ -8,6 +8,7 @@ package model.dslam;
 import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
+import model.dslam.produtos.ProdutosCliente;
 
 /**
  *
@@ -27,6 +28,7 @@ public abstract class AbstractDslam {
     private String profDown;
     private String profUp;
 
+//    private ProdutosCliente prods;
     public String getProfDown() {
         return profDown;
     }
@@ -127,7 +129,7 @@ public abstract class AbstractDslam {
     public void setCd(ConsultaDslam cd) {
         this.cd = cd;
     }
-    
+
     public String getRin() {
         return rin;
     }
@@ -135,7 +137,7 @@ public abstract class AbstractDslam {
     public void setRin(String rin) {
         this.rin = rin;
     }
-    
+
     public String getP100() {
         return p100;
     }

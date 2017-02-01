@@ -18,38 +18,38 @@ import model.entity.AbstractEntity;
  */
 @Stateless
 public class ComponenteTestsDAO {
-    
+
     @PersistenceContext
     protected EntityManager entityManager;
-    
+
     public ComponenteTestsDAO() {
     }
-    
+
     @Transactional
-    public void cadastrar(AbstractEntity a) throws PersistenceException {        
+    public void cadastrar(AbstractEntity a) throws PersistenceException {
         try {
             this.entityManager.persist(a);
         } catch (Exception e) {
             throw new PersistenceException(e.getMessage());
-        }        
+        }
     }
-    
+
     @Transactional
-    public void editar(AbstractEntity a) throws PersistenceException {        
+    public void editar(AbstractEntity a) throws PersistenceException {
         try {
             this.entityManager.merge(a);
         } catch (Exception e) {
             throw new PersistenceException(e.getMessage());
-        }        
+        }
     }
-    
+
     @Transactional
-    public void excluir(AbstractEntity a) throws PersistenceException {        
+    public void excluir(AbstractEntity a) throws PersistenceException {
         try {
             this.entityManager.remove(this.entityManager.merge(a));
         } catch (Exception e) {
             throw new PersistenceException(e.getMessage());
-        }        
+        }
     }
-    
+
 }
