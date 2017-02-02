@@ -47,6 +47,12 @@ new Vue({
         dateFormat: function (h) {
             return moment(h).format('DD/MM/YYYY');
         },
+        //Export
+        export: function () {
+            
+            window.lo
+            
+        },
         //LIST
         getLotes: function () {
             var self = this;

@@ -17,6 +17,7 @@ import java.util.List;
 import javax.inject.Inject;
 import model.fulltest.Status;
 import controller.AbstractController;
+import controller.autenticacao.SessionUsuarioEfika;
 import model.entity.Lote;
 
 /**
@@ -27,15 +28,18 @@ import model.entity.Lote;
 public class LoteController extends AbstractController {
 
     @Inject
+    private SessionUsuarioEfika session;
+
+    @Inject
     private LoteDAO loteDAO;
-    
+
     public LoteController() {
     }
-    
+
     @Path("/lote/massivo/ativos")
     @Get
     public void listarLotesAtivos() {
-        List<Lote> l = this.loteDAO.listarLotesAtivo();
+        List<Lote> l = this.loteDAO.listarLotesAtivo(this.session.getUsuario().getLogin());
         if (l != null) {
             this.includeSerializer(l);
         }
@@ -47,7 +51,7 @@ public class LoteController extends AbstractController {
     public void cadastrar(Lote lote) {
         try {
             lote.setStatus(Status.ATIVO);
-            lote.setMatricula("G0034481");
+            lote.setMatricula(this.session.getUsuario().getLogin());
             lote.setDataCriacao(new Date());
             this.loteDAO.cadastrar(lote);
             result.use(Results.json()).from(lote).serialize();
@@ -79,7 +83,17 @@ public class LoteController extends AbstractController {
             this.result.use(Results.json()).from(e).serialize();
         }
     }
-
+    
+    @Path("/lote/export/{lote.id}")
+    public void exportar(Lote lote) {
+        
+        List<Lote> l = this.loteDAO.listarLoteExport(lote);
+        if (l != null) {
+            this.result.include("lotes", l);
+        }
+        
+    }
+    
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).include("tests").serialize();
     }

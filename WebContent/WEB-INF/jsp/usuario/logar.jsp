@@ -8,7 +8,6 @@
     <div class="page-header">
         <h1>Login</h1>
     </div>
-
     <div id="login" class="boxlogin">
         <form action="${linkTo[UsuarioController].login}" method="post">
             <div class="form-group">

@@ -31,14 +31,24 @@ public class LoteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<Lote> listarLotesAtivo() {
+    public List<Lote> listarLotesAtivo(String usuario) {
         try {
             Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status =:param1 AND l.matricula =:param2");
             query.setParameter("param1", Status.ATIVO);
-            query.setParameter("param2", "G0034481");
+            query.setParameter("param2", usuario);
             return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+    
+    public List<Lote> listarLoteExport(Lote lote) {        
+        try {            
+            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.id =:param1");
+            query.setParameter("param1", lote.getId());
+            return query.getResultList();            
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }        
     }
 }
