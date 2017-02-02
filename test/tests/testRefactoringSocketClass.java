@@ -18,7 +18,7 @@ import model.fulltest.validacao.ValidacaoFacade;
 public class testRefactoringSocketClass {
 
     /**
-     * Alcatel: 7530301249 | Zhone: 7130520294 - 1630143618 | Keymile: 7930272843 - 3125714804
+     * Alcatel: 7530301249 | Zhone: 7130520294 - 1630143618 - 8531030639(hib) | Keymile: 7930272843 - 3125714804
      *
      * @param args the command line arguments
      */
@@ -28,7 +28,7 @@ public class testRefactoringSocketClass {
 
         try {
 
-            AbstractDslam ds = dao.getDslam("3125714804");
+            AbstractDslam ds = dao.getDslam("8531030639");
             FullTestFacade f = new FullTestFacade(ds);
 
 //            f.estadoPorta();

@@ -9,6 +9,7 @@ import java.math.BigInteger;
 
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.util.ArrayList;
 
 import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
@@ -139,8 +140,8 @@ public class ZhoneGponDslam extends DslamGpon {
         BigInteger p100 = new BigInteger("0");
         
         if(leVlanBanda != null){
-            cvlan = new BigInteger(leVlanBanda.get(0));
-            p100 = new BigInteger(leVlanBanda.get(1));
+            cvlan = new BigInteger(leVlanBanda.get(1));
+            p100 = new BigInteger(leVlanBanda.get(0));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
         
@@ -160,8 +161,8 @@ public class ZhoneGponDslam extends DslamGpon {
         BigInteger p100 = new BigInteger("0");
         
         if(leVlanVoip != null){
-            cvlan = new BigInteger(leVlanVoip.get(0));
-            p100 = new BigInteger(leVlanVoip.get(1));
+            cvlan = new BigInteger(leVlanVoip.get(1));
+            p100 = new BigInteger(leVlanVoip.get(0));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
         
@@ -183,8 +184,8 @@ public class ZhoneGponDslam extends DslamGpon {
         BigInteger p100 = new BigInteger("0");
         
         if(leVlanVod != null){
-            cvlan = new BigInteger(leVlanVod.get(0));
-            p100 = new BigInteger(leVlanVod.get(1));
+            cvlan = new BigInteger(leVlanVod.get(1));
+            p100 = new BigInteger(leVlanVod.get(0));
         }
         
         VlanVod vlanVod = new VlanVod(cvlan, p100);
@@ -220,17 +221,22 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoConsultaAlarmes() {
-        return new ComandoDslam("onu alarms "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica());
+        return new ComandoDslam("onu alarms "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
     }
 
     @Override
     public AlarmesGpon getAlarmes() throws Exception {
         List<String> leAlarmes= this.getCd().consulta(this.getComandoConsultaAlarmes()).getRetorno();
         AlarmesGpon alarm = new AlarmesGpon();
-        if(!leAlarmes.contains("No active alarms found")){
-            alarm.setListAlarmes(leAlarmes);
+        alarm.setListAlarmes(leAlarmes);
+        for (String leAlarme : leAlarmes) {
+            if(leAlarme.trim().equals("No active alarms found")){
+                alarm.setListAlarmes(new ArrayList<>());
+                break;
+            }
         }
         
+        System.out.println(alarm.getListAlarmes());
          return alarm;
     }
     
