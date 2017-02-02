@@ -9,7 +9,7 @@ import br.com.caelum.vraptor.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import model.Status;
+import model.fulltest.Status;
 import model.entity.Lote;
 
 /**

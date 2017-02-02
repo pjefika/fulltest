@@ -6,7 +6,7 @@
 package model.entity;
 
 import javax.persistence.MappedSuperclass;
-import model.Status;
+import model.fulltest.Status;
 
 /**
  *

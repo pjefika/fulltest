@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.entity.Lote;
 import javax.persistence.Query;
-import model.Status;
+import model.fulltest.Status;
 import model.entity.TesteCliente;
 
 /**

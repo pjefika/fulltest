@@ -3,32 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.controller;
+package controller.massivo;
 
 import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Path;
+import controller.AbstractController;
 
 /**
  *
  * @author G0034481
  */
 @Controller
-public class HomeController extends AbstractController {
+public class MassivoController extends AbstractController {
 
-    public HomeController() {
+    public MassivoController() {
     }
     
-    @Path("/")
-    public void index() {
-        
+    public void create() {
         
         
     }
     
-    public void restrito() {
-        
-        
-        
-    }
     
 }

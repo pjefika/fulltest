@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.controller;
+package controller.massivo;
 
 import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
@@ -15,7 +15,8 @@ import dao.massivo.LoteDAO;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
-import model.Status;
+import model.fulltest.Status;
+import controller.AbstractController;
 import model.entity.Lote;
 
 /**
