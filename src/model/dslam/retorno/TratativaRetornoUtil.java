@@ -79,6 +79,17 @@ public class TratativaRetornoUtil {
         
         return null;
     }
+//    /-?\\.?(\\d+((\\.|,| )\\d+)?)
+    
+    public static List<String> numberFromString(String str){
+        List<String> allMatches = new ArrayList<String>();
+        Matcher m = Pattern.compile("-?\\.?(\\d+((\\.|,| )\\d+)?)").matcher(str);
+        while (m.find()) {
+            allMatches.add(m.group());
+        }
+        
+        return allMatches;
+    }
     
     public static List<String> tratZhone(List<String> list, String qqqro,String regex){
         return tratZhone(list, qqqro, regex, 1);

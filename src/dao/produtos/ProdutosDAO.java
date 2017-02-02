@@ -32,12 +32,14 @@ public class ProdutosDAO {
             for (com.gvt.ws.eai.oss.inventory.api.Address adr : acc.getAddress()) {
                 for (com.gvt.ws.eai.oss.inventory.api.Item item : adr.getItems()) {
                     for (com.gvt.ws.eai.oss.inventory.api.Item itn : item.getItems()) {
-                        for (com.gvt.ws.eai.oss.inventory.api.Param param : itn.getParam()) {
-                            if(param.getName().equals("Downstream")){
-                                leBanda.setDownCrm(param.getValue());
-                            }
-                            if(param.getName().equals("Upstream")){
-                                leBanda.setUpCrm(param.getValue());
+                        if(itn.getStatusName().equals("ACTIVE")){
+                            for (com.gvt.ws.eai.oss.inventory.api.Param param : itn.getParam()) {
+                                if(param.getName().equals("Downstream")){
+                                    leBanda.setDownCrm(param.getValue());
+                                }
+                                if(param.getName().equals("Upstream")){
+                                    leBanda.setUpCrm(param.getValue());
+                                }
                             }
                         }
                     }
