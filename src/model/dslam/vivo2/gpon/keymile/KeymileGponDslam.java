@@ -264,9 +264,9 @@ public class KeymileGponDslam extends DslamGpon {
         ProfileGpon prof = new ProfileGpon();
         prof.setProfileUp(profileUp);
         prof.setProfileDown(profileDown);
-        System.out.println(prof.getProfileUp());
+       
         System.out.println(prof.getProfileDown());
-        
+        System.out.println(prof.getProfileUp());
         return prof;
     }
 

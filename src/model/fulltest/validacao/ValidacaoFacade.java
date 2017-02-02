@@ -42,7 +42,7 @@ public class ValidacaoFacade {
         this.valid.setVlanBanda(gpon.getVlanBanda().validar(dslam));
         System.out.println("VlanBanda: "+this.valid.getVlanBanda());
         
-        if(dslam.getProd().getLinha().getTipo().equals("TDM/H248")){
+        if(!dslam.getProd().getLinha().getTipo().equals("TDM/H248")){
             this.valid.setVlanVoip(gpon.getVlanVoip().validar(dslam));
             System.out.println("VlanVoip: "+this.valid.getVlanVoip());    
         } 
