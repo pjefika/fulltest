@@ -7,6 +7,7 @@ package controller.massivo;
 
 import br.com.caelum.vraptor.Controller;
 import controller.AbstractController;
+import model.annotation.Logado;
 
 /**
  *
@@ -18,6 +19,7 @@ public class MassivoController extends AbstractController {
     public MassivoController() {
     }
     
+    @Logado
     public void create() {
         
         

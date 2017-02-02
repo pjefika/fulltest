@@ -31,6 +31,10 @@ public class UsuarioController {
     public void create() {
 
     }
+    
+    public void logar() {
+        
+    }
 
     public void login(Usuario u) {
 
@@ -63,7 +67,7 @@ public class UsuarioController {
 
     public void logout() {
         session.setUsuario(new Usuario());
-        result.forwardTo(UsuarioController.class).create();
+        result.forwardTo(UsuarioController.class).logar();
     }
 
     @Get

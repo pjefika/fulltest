@@ -42,10 +42,10 @@ public class LogadoInterceper {
             if (!session.getUsuario().getLogin().isEmpty()) {
                 stack.next();
             } else {
-                result.forwardTo(UsuarioController.class).create();
+                result.forwardTo(UsuarioController.class).logar();
             }
         } catch (Exception e) {
-            result.forwardTo(UsuarioController.class).create();
+            result.forwardTo(UsuarioController.class).logar();
         }
     }
 
