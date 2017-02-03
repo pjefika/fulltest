@@ -5,11 +5,11 @@
  */
 package tests;
 
-import dao.cadastro.CadastroDAO;
 import model.dslam.AbstractDslam;
 import model.dslam.consulta.ConsultaGponDefault;
 import model.fulltest.FullTestFacade;
 import model.fulltest.validacao.ValidacaoFacade;
+import dao.cadastro.CadastroDAO;
 
 /**
  *
@@ -18,7 +18,8 @@ import model.fulltest.validacao.ValidacaoFacade;
 public class testRefactoringSocketClass {
 
     /**
-     * Alcatel: 7530301249 | Zhone: 7130520294 - 1630143618 - 8531030639(hib) | Keymile: 7930272843 - 3125714804
+     * Alcatel: 7530301249 | Zhone: 7130520294 - 1630143618 - 8531030639(hib) |
+     * Keymile: 7930272843 - 3125714804
      *
      * @param args the command line arguments
      */
@@ -40,14 +41,11 @@ public class testRefactoringSocketClass {
 //            f.consultaVlanMulticast();
 //            f.consultaAlarmes();
 //            f.consultaProfile();
-
             ValidacaoFacade v = new ValidacaoFacade((ConsultaGponDefault) ds);
-            
+
             v.validar();
-            
+
             f.close();
-            
-            
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
