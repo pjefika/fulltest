@@ -48,17 +48,16 @@ new Vue({
             return moment(h).format('DD/MM/YYYY');
         },
         //Export
-        export: function () {
-            
-            window.lo
-            
+        exporty: function () {            
+            var self = this;            
+            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/" + self.viewLote.id;
         },
         //LIST
         getLotes: function () {
             var self = this;
             $.get(loteURL + "ativos", function (data) {
                 self.lotes = data.list;
-                self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc'])
+                self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
             });
         },
         //ADC

@@ -128,6 +128,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <button class="btn btn-info" type="button" @click="exporty()">Exportar</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="reset()">Fechar</button>
                         <button type="button" class="btn btn-primary">Tirar?</button>
                     </div>

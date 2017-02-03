@@ -84,16 +84,6 @@ public class LoteController extends AbstractController {
         }
     }
     
-    @Path("/lote/export/{lote.id}")
-    public void exportar(Lote lote) {
-        
-        List<Lote> l = this.loteDAO.listarLoteExport(lote);
-        if (l != null) {
-            this.result.include("lotes", l);
-        }
-        
-    }
-    
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).include("tests").serialize();
     }

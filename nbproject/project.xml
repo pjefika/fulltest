@@ -352,10 +352,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.mongodb-driver-core-3.0.4.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.netty-buffer-4.0.26.Final.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

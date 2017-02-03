@@ -6,7 +6,6 @@
     response.setContentType("application/vnd.ms-excel");
     response.setHeader("Content-Disposition", "inline; filename=" + "excel.xls");
 %>
-
 <table>
     <thead>
         <tr>
@@ -17,12 +16,12 @@
         </tr>
     </thead>
     <tbody>        
-        <c:forEach items="${lotes}" var="lote">            
+        <c:forEach items="${instancias}" var="instancia">            
             <tr>
-                <td>${lote.id}</td>
-                <td>${lote.status}</td>
-                <td>${lote.instancia}</td>
-                <td>${lote.lote.id}</td>
+                <td>${instancia.id}</td>
+                <td>${instancia.status}</td>
+                <td>${instancia.instancia}</td>
+                <td>${instancia.lote.id}</td>
             </tr>            
         </c:forEach>
     </tbody>
