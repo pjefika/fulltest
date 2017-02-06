@@ -29,7 +29,6 @@ public class BackgroundTestThread {
      *
      * @param cls
      */
-    @Inject
     public BackgroundTestThread(List<TesteCliente> cls) {
         this.cls = cls;
         this.dao = new CadastroDAO();
@@ -50,6 +49,7 @@ public class BackgroundTestThread {
             vs.add(vg);
 
             cl.setValid(vs);
+    
 
         }
     }
