@@ -12,6 +12,8 @@ import controller.AbstractController;
 import dao.massivo.TesteClienteDAO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.fulltest.massivo.BackgroundTestThread;
@@ -35,9 +37,15 @@ public class BackgroundTestController extends AbstractController {
         List<TesteCliente> l = dao.listarInstancias();
 
         if (l != null) {
-            this.includeSerializer(l);
+
             BackgroundTestThread b = new BackgroundTestThread(l);
-            b.run();
+            try {
+                b.run();
+                result.use(Results.json()).from(b.getCls()).include("valid").serialize();
+            } catch (Exception ex) {
+                result.use(Results.json()).from(ex.getStackTrace()).serialize();
+            }
+
         } else {
             this.includeSerializer(new ArrayList<TesteCliente>());
         }

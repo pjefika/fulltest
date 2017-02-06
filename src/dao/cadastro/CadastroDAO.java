@@ -31,7 +31,7 @@ public class CadastroDAO extends ComponenteTestsDAO {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
-    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException {
+    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, Exception {
 
         try {
 
@@ -42,10 +42,8 @@ public class CadastroDAO extends ComponenteTestsDAO {
 
             return factory.getInstance(leInfo);
 
-        } catch (RemoteException ex) {
-//            Logger.getLogger(CadastroDAO.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println(ex.detail);
-            return null;
+        } catch (RemoteException | DslamNaoImplException ex) {
+            throw ex;
         }
     }
 

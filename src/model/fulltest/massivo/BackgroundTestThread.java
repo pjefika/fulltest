@@ -6,9 +6,11 @@
 package model.fulltest.massivo;
 
 import dao.cadastro.CadastroDAO;
+import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.inject.Inject;
+import model.dslam.AbstractDslam;
+import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.TesteCliente;
 import model.fulltest.validacao.ValidacaoFacade;
 import model.entity.ValidacaoGpon;
@@ -17,7 +19,7 @@ import model.entity.ValidacaoGpon;
  *
  * @author G0042204
  */
-public class BackgroundTestThread implements Runnable {
+public class BackgroundTestThread {
 
     private CadastroDAO dao;
 
@@ -27,25 +29,33 @@ public class BackgroundTestThread implements Runnable {
      *
      * @param cls
      */
+    @Inject
     public BackgroundTestThread(List<TesteCliente> cls) {
         this.cls = cls;
         this.dao = new CadastroDAO();
     }
 
-    @Override
-    public void run() {
+    public void run() throws DslamNaoImplException, Exception {
 
         for (TesteCliente cl : cls) {
-            try {
-                ValidacaoFacade v = new ValidacaoFacade(dao.getDslam(cl.getInstancia()));
-                ValidacaoGpon vg = v.validar();
-                vg.setTeste(cl);
-                dao.cadastrar(vg);
-                System.out.println("Persistencia!");
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+
+            AbstractDslam oi = dao.getDslam(cl.getInstancia());
+
+            ValidacaoFacade v = new ValidacaoFacade(oi);
+
+            ValidacaoGpon vg = v.validar();
+
+            List<ValidacaoGpon> vs = new ArrayList<>();
+
+            vs.add(vg);
+
+            cl.setValid(vs);
+
         }
+    }
+
+    public List<TesteCliente> getCls() {
+        return cls;
     }
 
 }

@@ -8,7 +8,6 @@ package model.dslam.factory;
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
 
 /**
  *
@@ -23,15 +22,13 @@ public class DslamDAOFactory implements ContratoFactoryDslam {
         System.out.println(info.getInfoTBS().getDslamModel());
         System.out.println(info.getInfoTBS().getDslamVendor());
 
-        try{
-            if (info.getTechnology().trim().equalsIgnoreCase("GPON")) {
+        if (info.getTechnology().trim().equalsIgnoreCase("GPON")) {
             ContratoFactoryDslam fac = new DslamGponDAOFactory();
             return fac.getInstance(info);
-            }
-        }catch (Exception e){
+        } else {
             throw new DslamNaoImplException();
         }
-        return null;
+
     }
 
 }

@@ -25,30 +25,26 @@ public class ComponenteTestsDAO {
     }
 
     @Transactional
-    public void cadastrar(AbstractEntity a) throws Exception {        
-        try {
-            this.entityManager.persist(a);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }        
+    public void cadastrar(AbstractEntity a) throws Exception {
+        this.entityManager.persist(a);
     }
 
     @Transactional
-    public void editar(AbstractEntity a) throws Exception {        
+    public void editar(AbstractEntity a) throws Exception {
         try {
             this.entityManager.merge(a);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }        
+            throw e;
+        }
     }
 
     @Transactional
-    public void excluir(AbstractEntity a) throws Exception {        
+    public void excluir(AbstractEntity a) throws Exception {
         try {
             this.entityManager.remove(this.entityManager.merge(a));
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }        
+            throw e;
+        }
     }
 
 }

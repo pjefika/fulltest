@@ -48,19 +48,19 @@ public class ValidacaoFacade {
             this.valid.setVlanVoip(gpon.getVlanVoip().validar(dslam));
             System.out.println("VlanVoip: " + this.valid.getVlanVoip());
         }
+//
+//        if (dslam.getProd().getTv().getTipo().equals("HIBRIDA")) {
+//            this.valid.setVlanVod(gpon.getVlanVod().validar(dslam));
+//            System.out.println("VlanVod: " + this.valid.getVlanVod());
+//
+//            this.valid.setVlanMulticast(gpon.getVlanMulticast().validar(dslam));
+//            System.out.println("VlanMulticast: " + this.valid.getVlanMulticast());
+//        }
+//
+//        this.valid.setSemAlarme(gpon.getAlarmes().validar(dslam));
+//        System.out.println("SemAlarme: " + this.valid.getSemAlarme());
 
-        if (dslam.getProd().getTv().getTipo().equals("HIBRIDA")) {
-            this.valid.setVlanVod(gpon.getVlanVod().validar(dslam));
-            System.out.println("VlanVod: " + this.valid.getVlanVod());
-
-            this.valid.setVlanMulticast(gpon.getVlanMulticast().validar(dslam));
-            System.out.println("VlanMulticast: " + this.valid.getVlanMulticast());
-        }
-
-        this.valid.setSemAlarme(gpon.getAlarmes().validar(dslam));
-        System.out.println("SemAlarme: " + this.valid.getSemAlarme());
-
-        return null;
+        return valid;
     }
 
 }

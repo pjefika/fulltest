@@ -6,8 +6,6 @@
 package tests;
 
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.ConsultaGponDefault;
-import model.fulltest.FullTestFacade;
 import model.fulltest.validacao.ValidacaoFacade;
 import dao.cadastro.CadastroDAO;
 
@@ -15,7 +13,7 @@ import dao.cadastro.CadastroDAO;
  *
  * @author G0042204
  */
-public class testRefactoringSocketClass {
+public class testValidacaoFacadeClass {
 
     /**
      * Alcatel: 7530301249 | Zhone: 7130520294 - 1630143618 - 8531030639(hib) |
@@ -25,30 +23,17 @@ public class testRefactoringSocketClass {
      */
     public static void main(String[] args) throws Exception {
 
-        CadastroDAO dao = new CadastroDAO();
-
         try {
 
-            AbstractDslam ds = dao.getDslam("8531030639");
-            FullTestFacade f = new FullTestFacade(ds);
+            CadastroDAO dao = new CadastroDAO();
+            AbstractDslam ds = dao.getDslam("7530301249");
 
-//            f.estadoPorta();
-//            f.serialOnt();
-//            f.consultaParametros();
-//            f.consultaVlanBanda();
-//            f.consultaVlanVoip();
-//            f.consultaVlanVod();
-//            f.consultaVlanMulticast();
-//            f.consultaAlarmes();
-//            f.consultaProfile();
             ValidacaoFacade v = new ValidacaoFacade((AbstractDslam) ds);
 
             v.validar();
 
-            f.close();
-
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Exception:" + e.getCause());
         }
 
     }

@@ -7,6 +7,8 @@ package tests;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.entity.TesteCliente;
 import model.fulltest.massivo.BackgroundTestThread;
 
@@ -21,13 +23,15 @@ public class testThread {
      */
     public static void main(String[] args) {
 
-        List<TesteCliente> cls = new ArrayList<TesteCliente>();
+        List<TesteCliente> cls = new ArrayList<>();
+        cls.add(new TesteCliente("7930272843"));
+        BackgroundTestThread ba = new BackgroundTestThread(cls);
 
-        cls.add(new TesteCliente("4130222839"));
-
-        Runnable ba = new BackgroundTestThread(cls);
-
-        ba.run();
+        try {
+            ba.run();
+        } catch (Exception ex) {
+            Logger.getLogger(testThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
