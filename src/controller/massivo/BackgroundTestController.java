@@ -5,18 +5,48 @@
  */
 package controller.massivo;
 
-import model.fulltest.BackgroudTestSingleton;
+import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Get;
+import br.com.caelum.vraptor.view.Results;
+import controller.AbstractController;
+import dao.massivo.TesteClienteDAO;
+import java.util.ArrayList;
+import java.util.List;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+import model.entity.TesteCliente;
+import model.fulltest.massivo.BackgroundTestThread;
 
 /**
  *
  * @author G0042204
  */
-public class BackgroundTestController {
+@Controller
+@RequestScoped
+public class BackgroundTestController extends AbstractController {
 
-    private BackgroudTestSingleton sing;
+    @Inject
+    private TesteClienteDAO dao;
 
     public BackgroundTestController() {
-        this.sing = BackgroudTestSingleton.getInstance();
     }
 
+    @Get
+    public void load() {
+
+        List<TesteCliente> l = dao.listarInstancias();
+
+        if (l != null) {
+            BackgroundTestThread b = new BackgroundTestThread(l);
+            b.run();
+            this.includeSerializer(l);
+        } else {
+            this.includeSerializer(new ArrayList<TesteCliente>());
+        }
+    }
+
+    @Override
+    public void includeSerializer(Object a) {
+        result.use(Results.json()).from(a).serialize();
+    }
 }

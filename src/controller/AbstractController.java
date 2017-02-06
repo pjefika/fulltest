@@ -7,6 +7,7 @@ package controller;
 
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.Validator;
+import br.com.caelum.vraptor.view.Results;
 import javax.inject.Inject;
 
 /**
@@ -14,14 +15,18 @@ import javax.inject.Inject;
  * @author G0034481
  */
 public abstract class AbstractController {
-    
+
     @Inject
     protected Result result;
-    
+
     @Inject
     protected Validator validator;
 
     public AbstractController() {
     }
-            
+
+    public void includeSerializer(Object a) {
+        result.use(Results.json()).from(a).serialize();
+    }
+
 }

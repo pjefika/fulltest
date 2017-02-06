@@ -13,27 +13,31 @@ import model.entity.AbstractEntity;
  * @author G0041775
  */
 @Entity
-public class ValidacaoGpon extends AbstractEntity{
-    
+public class ValidacaoGpon extends AbstractEntity {
+
     private Boolean semAlarme;
-    
+
     private Boolean aprovisionado;
-    
+
     private Boolean parametros;
-    
+
     private Boolean link;
-    
+
     private Boolean admState;
-    
+
     private Boolean vlanBanda;
-    
+
     private Boolean vlanVoip;
-    
+
     private Boolean vlanVod;
-    
+
     private Boolean vlanMulticast;
-    
+
     private Boolean profile;
+
+    private Double potOnt;
+
+    private Double potOlt;
 
     public Boolean getAprovisionado() {
         return aprovisionado;
@@ -114,8 +118,21 @@ public class ValidacaoGpon extends AbstractEntity{
     public void setSemAlarme(Boolean semAlarme) {
         this.semAlarme = semAlarme;
     }
-    
-    
 
-    
+    public Double getPotOlt() {
+        return potOlt;
+    }
+
+    public void setPotOlt(Double potOlt) {
+        this.potOlt = potOlt;
+    }
+
+    public Double getPotOnt() {
+        return potOnt;
+    }
+
+    public void setPotOnt(Double potOnt) {
+        this.potOnt = potOnt;
+    }
+
 }

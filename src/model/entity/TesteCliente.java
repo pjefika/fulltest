@@ -7,7 +7,9 @@ package model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import model.fulltest.validacao.tipo.ValidacaoGpon;
 
 /**
  *
@@ -19,6 +21,9 @@ public class TesteCliente extends ComponenteGenerico {
 
     @ManyToOne
     private Lote lote;
+
+    @OneToMany
+    private ValidacaoGpon valid;
 
     private String instancia;
 
@@ -43,6 +48,14 @@ public class TesteCliente extends ComponenteGenerico {
 
     public void setInstancia(String instancia) {
         this.instancia = instancia;
+    }
+
+    public ValidacaoGpon getValid() {
+        return valid;
+    }
+
+    public void setValid(ValidacaoGpon valid) {
+        this.valid = valid;
     }
 
 }

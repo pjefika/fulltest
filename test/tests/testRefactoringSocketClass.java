@@ -41,7 +41,7 @@ public class testRefactoringSocketClass {
 //            f.consultaVlanMulticast();
 //            f.consultaAlarmes();
 //            f.consultaProfile();
-            ValidacaoFacade v = new ValidacaoFacade((ConsultaGponDefault) ds);
+            ValidacaoFacade v = new ValidacaoFacade((AbstractDslam) ds);
 
             v.validar();
 

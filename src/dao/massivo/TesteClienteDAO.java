@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.entity.Lote;
 import javax.persistence.Query;
-import model.fulltest.Status;
 import model.entity.TesteCliente;
 
 /**
@@ -20,23 +19,23 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public TesteClienteDAO() {
     }
-    
-    public List<TesteCliente> listarInstancias() {        
+
+    public List<TesteCliente> listarInstancias() {
         try {
-             Query query = this.entityManager.createQuery("FROM TesteCliente l");
-             return query.getResultList();            
+            Query query = this.entityManager.createQuery("FROM TesteCliente");
+            return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
-        }        
+        }
     }
-    
-    public List<TesteCliente> listarInstanciasPorLote(Lote lote) {        
+
+    public List<TesteCliente> listarInstanciasPorLote(Lote lote) {
         try {
             Query query = this.entityManager.createQuery("FROM TesteCliente l WHERE l.lote =:param1");
             query.setParameter("param1", lote);
             return query.getResultList();
-        } catch (Exception e) {            
-            return new ArrayList<>();            
-        }        
-    }        
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }
