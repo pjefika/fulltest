@@ -5,7 +5,6 @@
  */
 package dao.massivo;
 
-import br.com.caelum.vraptor.Controller;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
@@ -16,7 +15,6 @@ import model.entity.Lote;
  *
  * @author G0034481
  */
-@Controller
 public class LoteDAO extends ComponenteTestsDAO {
 
     public LoteDAO() {
@@ -41,14 +39,14 @@ public class LoteDAO extends ComponenteTestsDAO {
             return new ArrayList<>();
         }
     }
-    
-    public List<Lote> listarLoteExport(Lote lote) {        
-        try {            
+
+    public List<Lote> listarLoteExport(Lote lote) {
+        try {
             Query query = this.entityManager.createQuery("FROM Lote l WHERE l.id =:param1");
             query.setParameter("param1", lote.getId());
-            return query.getResultList();            
+            return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
-        }        
+        }
     }
 }

@@ -12,7 +12,6 @@ import controller.AbstractController;
 import dao.massivo.TesteClienteDAO;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.fulltest.massivo.BackgroundTestThread;
@@ -22,7 +21,6 @@ import model.fulltest.massivo.BackgroundTestThread;
  * @author G0042204
  */
 @Controller
-@RequestScoped
 public class BackgroundTestController extends AbstractController {
 
     @Inject
@@ -37,9 +35,9 @@ public class BackgroundTestController extends AbstractController {
         List<TesteCliente> l = dao.listarInstancias();
 
         if (l != null) {
+            this.includeSerializer(l);
             BackgroundTestThread b = new BackgroundTestThread(l);
             b.run();
-            this.includeSerializer(l);
         } else {
             this.includeSerializer(new ArrayList<TesteCliente>());
         }

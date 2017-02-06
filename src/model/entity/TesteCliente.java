@@ -5,10 +5,11 @@
  */
 package model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import model.fulltest.validacao.tipo.ValidacaoGpon;
 
@@ -23,13 +24,13 @@ public class TesteCliente extends ComponenteGenerico {
     @ManyToOne
     private Lote lote;
 
-    @OneToOne
-    @MapsId
-    private ValidacaoGpon valid;
+    @OneToMany
+    private List<ValidacaoGpon> valid;
 
     private String instancia;
 
     public TesteCliente() {
+        this.valid = new ArrayList<>();
     }
 
     public TesteCliente(String instancia) {
@@ -52,11 +53,11 @@ public class TesteCliente extends ComponenteGenerico {
         this.instancia = instancia;
     }
 
-    public ValidacaoGpon getValid() {
+    public List<ValidacaoGpon> getValid() {
         return valid;
     }
 
-    public void setValid(ValidacaoGpon valid) {
+    public void setValid(List<ValidacaoGpon> valid) {
         this.valid = valid;
     }
 

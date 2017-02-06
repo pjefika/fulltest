@@ -9,7 +9,6 @@ import dao.cadastro.CadastroDAO;
 import java.util.List;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
-import model.fulltest.validacao.ValidacaoFacade;
 
 /**
  *
@@ -28,6 +27,7 @@ public class BackgroundTestThread implements Runnable {
      */
     public BackgroundTestThread(List<TesteCliente> cls) {
         this.cls = cls;
+        this.dao = new CadastroDAO();
     }
 
     @Override
@@ -35,8 +35,10 @@ public class BackgroundTestThread implements Runnable {
         for (TesteCliente cl : cls) {
 
             try {
-                ValidacaoFacade v = new ValidacaoFacade(dao.getDslam(cl.getInstancia()));
-                cl.setValid(v.validar());
+                //ValidacaoFacade v = new ValidacaoFacade(dao.getDslam(cl.getInstancia()));
+                //cl.setValid(v.validar());
+
+                System.out.println(cl.getInstancia());
 
             } catch (Exception e) {
 

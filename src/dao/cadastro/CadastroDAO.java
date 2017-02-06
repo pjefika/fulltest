@@ -7,6 +7,7 @@ package dao.cadastro;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
+import dao.massivo.ComponenteTestsDAO;
 import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
@@ -16,15 +17,12 @@ import model.dslam.factory.exception.DslamNaoImplException;
  *
  * @author G0041775
  */
-public class CadastroDAO {
+public class CadastroDAO extends ComponenteTestsDAO {
 
     private OSSTurbonetProxy ws = new OSSTurbonetProxy();
 
     private DslamDAOFactory factory = new DslamDAOFactory();
 
-   
-    
-    
     public CadastroDAO() {
 
     }
@@ -39,10 +37,9 @@ public class CadastroDAO {
 
             String designator = this.getDesignador(instancia);
             String accessDesignator = ws.getAccessDesignator(designator);
-            
+
             GetInfoOut leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
-            
-            
+
             return factory.getInstance(leInfo);
 
         } catch (RemoteException ex) {

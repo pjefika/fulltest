@@ -6,7 +6,8 @@
 package model.fulltest.validacao.tipo;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import model.entity.AbstractEntity;
 import model.entity.TesteCliente;
 
@@ -15,9 +16,10 @@ import model.entity.TesteCliente;
  * @author G0041775
  */
 @Entity
+@Table(name = "fulltestAPI_ValidacaoGpon")
 public class ValidacaoGpon extends AbstractEntity {
 
-    @OneToOne
+    @ManyToOne
     private TesteCliente teste;
 
     private Boolean semAlarme;
@@ -43,6 +45,9 @@ public class ValidacaoGpon extends AbstractEntity {
     private Double potOnt;
 
     private Double potOlt;
+
+    public ValidacaoGpon() {
+    }
 
     public Boolean getAprovisionado() {
         return aprovisionado;
