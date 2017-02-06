@@ -8,10 +8,10 @@ package model.entity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import model.fulltest.validacao.tipo.ValidacaoGpon;
 
 /**
  *
@@ -24,7 +24,7 @@ public class TesteCliente extends ComponenteGenerico {
     @ManyToOne
     private Lote lote;
 
-    @OneToMany
+    @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER)
     private List<ValidacaoGpon> valid;
 
     private String instancia;

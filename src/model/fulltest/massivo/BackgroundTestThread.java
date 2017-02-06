@@ -7,8 +7,11 @@ package model.fulltest.massivo;
 
 import dao.cadastro.CadastroDAO;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
+import model.fulltest.validacao.ValidacaoFacade;
+import model.entity.ValidacaoGpon;
 
 /**
  *
@@ -16,7 +19,6 @@ import model.entity.TesteCliente;
  */
 public class BackgroundTestThread implements Runnable {
 
-    @Inject
     private CadastroDAO dao;
 
     private List<TesteCliente> cls;
@@ -32,19 +34,17 @@ public class BackgroundTestThread implements Runnable {
 
     @Override
     public void run() {
+
         for (TesteCliente cl : cls) {
-
             try {
-                //ValidacaoFacade v = new ValidacaoFacade(dao.getDslam(cl.getInstancia()));
-                //cl.setValid(v.validar());
-
-                System.out.println(cl.getInstancia());
-
+                ValidacaoFacade v = new ValidacaoFacade(dao.getDslam(cl.getInstancia()));
+                ValidacaoGpon vg = v.validar();
+                vg.setTeste(cl);
+                dao.cadastrar(vg);
+                System.out.println("Persistencia!");
             } catch (Exception e) {
-
                 System.out.println(e.getMessage());
             }
-
         }
     }
 

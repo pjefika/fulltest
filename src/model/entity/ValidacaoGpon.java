@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.fulltest.validacao.tipo;
+package model.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import model.entity.AbstractEntity;
-import model.entity.TesteCliente;
 
 /**
  *
@@ -21,6 +19,10 @@ public class ValidacaoGpon extends AbstractEntity {
 
     @ManyToOne
     private TesteCliente teste;
+
+    private Boolean implementacao;
+
+    private Boolean cadastro;
 
     private Boolean semAlarme;
 
@@ -152,4 +154,21 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setTeste(TesteCliente teste) {
         this.teste = teste;
     }
+
+    public Boolean getImplementacao() {
+        return implementacao;
+    }
+
+    public void setImplementacao(Boolean implementacao) {
+        this.implementacao = implementacao;
+    }
+
+    public Boolean getCadastro() {
+        return cadastro;
+    }
+
+    public void setCadastro(Boolean cadastro) {
+        this.cadastro = cadastro;
+    }
+
 }

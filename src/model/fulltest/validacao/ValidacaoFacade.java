@@ -7,7 +7,7 @@ package model.fulltest.validacao;
 
 import model.dslam.AbstractDslam;
 import model.dslam.consulta.ConsultaGponDefault;
-import model.fulltest.validacao.tipo.ValidacaoGpon;
+import model.entity.ValidacaoGpon;
 
 /**
  *
