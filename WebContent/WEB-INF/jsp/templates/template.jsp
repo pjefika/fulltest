@@ -49,7 +49,7 @@
                                             <div class="row">
                                                 <div class="col-lg-4">
                                                     <p class="text-center">
-                                                        <span class="glyphicon glyphicon-user icon-size"></span>
+                                                        <img src="http://portalcolaboradores/idc/portalcolaboradores/userimages/${sessionUsuarioEfika.usuario.login}.jpg" alt="User" class="img-rounded" style="width: 100px; height: 100px;">
                                                     </p>
                                                 </div>
                                                 <div class="col-lg-7">
