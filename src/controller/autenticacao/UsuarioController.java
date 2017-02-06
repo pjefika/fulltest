@@ -49,9 +49,9 @@ public class UsuarioController {
                 result.redirectTo(HomeController.class).index();
 
             } else {
-
+                
                 result.include("mensagemFalha", "Credênciais incorretas.");
-                result.forwardTo(this).create();
+                result.forwardTo(this).logar();
             }
 
         } catch (Exception e) {

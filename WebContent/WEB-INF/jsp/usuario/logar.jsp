@@ -19,6 +19,14 @@
                 <input type="password" class="form-control" placeholder="Insira sua Senha" name="u.senha">
             </div>            
             <button type="submit" class="btn btn-default" id="enterButton">Entrar</button>
+            
+            <br/>
+            <br/>
+            
+            <c:if test="${not empty mensagemFalha}">                
+                <div class="alert alert-danger">${mensagemFalha}</div>
+            </c:if>           
+
         </form>
     </div>
 </div>
