@@ -5,6 +5,7 @@
  */
 package model.dslam.consulta;
 
+
 import model.dslam.AbstractDslam;
 import model.fulltest.validacao.Validador;
 
@@ -17,6 +18,7 @@ public class TabelaParametrosGpon implements Validador{
     private Double potOnt;
 
     private Double potOlt;
+
 
     public TabelaParametrosGpon() {
     }
