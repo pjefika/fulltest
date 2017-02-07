@@ -20,55 +20,53 @@ import model.fulltest.validacao.ValidacaoFacade;
  *
  * @author G0042204
  */
-public class BackgroundTestThread {
+public class BackgroundTestThread implements Runnable{
 
     private CadastroDAO dao;
 
-    private List<TesteCliente> cls;
+    private TesteCliente cls;
 
     /**
      *
      * @param cls
      */
-    public BackgroundTestThread(List<TesteCliente> cls) {
+    public BackgroundTestThread(TesteCliente cls) {
         this.cls = cls;
         this.dao = new CadastroDAO();
     }
 
-    public void run() throws DslamNaoImplException, Exception {
+    @Override
+    public void run() {
 
-        for (TesteCliente cl : cls) {
+        ValidacaoGponDecorator d = new ValidacaoGponDecorator();
+        ValidacaoGpon vg = null;
 
-            ValidacaoGponDecorator d = new ValidacaoGponDecorator();
-            ValidacaoGpon vg = null;
+        try {
+
+            AbstractDslam oi = dao.getDslam(cls.getInstancia());
+            ValidacaoFacade v = new ValidacaoFacade(oi);
 
             try {
-
-                AbstractDslam oi = dao.getDslam(cl.getInstancia());
-                ValidacaoFacade v = new ValidacaoFacade(oi);
-
-                try {
-                    vg = v.validar();
-                } catch (Exception e) {
-                    vg = d.falhaConsulta();
-                }
-
-            } catch (RemoteException e) {
-                vg = d.falhaCadastro();
-
-            } catch (DslamNaoImplException e) {
-                vg = d.falhaImplementacao();
-
-            } finally {
-                List<ValidacaoGpon> vs = new ArrayList<>();
-                vs.add(vg);
-                cl.setValid(vs);
+                vg = v.validar();
+            } catch (Exception e) {
+                vg = d.falhaConsulta();
             }
 
+        } catch (RemoteException e) {
+            vg = d.falhaCadastro();
+
+        } catch (DslamNaoImplException e) {
+            vg = d.falhaImplementacao();
+
+        } finally {
+            List<ValidacaoGpon> vs = new ArrayList<>();
+            vs.add(vg);
+            cls.setValid(vs);
         }
+
     }
 
-    public List<TesteCliente> getCls() {
+    public TesteCliente getCls() {
         return cls;
     }
 

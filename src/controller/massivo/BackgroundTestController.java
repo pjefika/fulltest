@@ -12,6 +12,8 @@ import controller.AbstractController;
 import dao.massivo.TesteClienteDAO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
@@ -37,22 +39,29 @@ public class BackgroundTestController extends AbstractController {
         List<TesteCliente> l = dao.listarInstancias();
 
         if (l != null) {
-
-            BackgroundTestThread b = new BackgroundTestThread(l);
-            try {
-                b.run();
-                for ( TesteCliente tcl : b.getCls()) {
-                    tcl.setStatus(Status.CONCLUIDO);
-                    dao.editar(tcl);
-                    for (ValidacaoGpon validacaoGpon : tcl.getValid()) {
-                        validacaoGpon.setTeste(tcl);
+            ExecutorService exec = Executors.newFixedThreadPool(4);
+            
+            for (TesteCliente testeCliente : l) {
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente);
+                exec.execute(b);
+                try {
+                    b.getCls().setStatus(Status.CONCLUIDO);
+                    dao.editar(b.getCls());
+                    for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
+                        validacaoGpon.setTeste(b.getCls());
                         dao.cadastrar(validacaoGpon);
                     }
+                    result.use(Results.json()).from(b.getCls()).include("valid").serialize();
+                } catch (Exception ex) {
+                    result.use(Results.json()).from(ex.getStackTrace()).serialize();
                 }
-                result.use(Results.json()).from(b.getCls()).include("valid").serialize();
-            } catch (Exception ex) {
-                result.use(Results.json()).from(ex.getStackTrace()).serialize();
             }
+            exec.shutdown();
+            
+            while(!exec.isTerminated()){
+                
+            }
+            System.out.println("acabô!");
 
         } else {
             this.includeSerializer(new ArrayList<TesteCliente>());

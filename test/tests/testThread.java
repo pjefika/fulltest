@@ -5,8 +5,6 @@
  */
 package tests;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.TesteCliente;
@@ -23,8 +21,7 @@ public class testThread {
      */
     public static void main(String[] args) {
 
-        List<TesteCliente> cls = new ArrayList<>();
-        cls.add(new TesteCliente("7930272843"));
+        TesteCliente cls = new TesteCliente("7930272843");
         BackgroundTestThread ba = new BackgroundTestThread(cls);
 
         try {
