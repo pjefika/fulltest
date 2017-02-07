@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
+import model.entity.ValidacaoGpon;
 import model.fulltest.massivo.BackgroundTestThread;
 
 /**
@@ -40,7 +41,13 @@ public class BackgroundTestController extends AbstractController {
             try {
                 b.run();
                 result.use(Results.json()).from(b.getCls()).include("valid").serialize();
-                dao.cadastrar(b.getCls().get(0).getValid().get(0));
+                for ( TesteCliente tcl : b.getCls()) {
+                    dao.editar(tcl);
+                    for (ValidacaoGpon validacaoGpon : tcl.getValid()) {
+                        dao.cadastrar(validacaoGpon);
+                    }
+                }
+                
             } catch (Exception ex) {
                 result.use(Results.json()).from(ex.getStackTrace()).serialize();
             }
