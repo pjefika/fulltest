@@ -31,7 +31,7 @@ public class CadastroDAO extends ComponenteTestsDAO {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
-    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, Exception {
+    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {
 
         try {
 

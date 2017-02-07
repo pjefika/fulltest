@@ -84,7 +84,9 @@ new Vue({
             var lt = h;
             lt.tests = [];
             for (var i = 0; i < listI.length; i++) {
-                lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});
+                if(listI[i].length > 4){
+                    lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});    
+                }
             }
             $.ajax({
                 type: "POST",

@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
+import model.fulltest.Status;
 import model.fulltest.massivo.BackgroundTestThread;
 
 /**
@@ -40,14 +41,15 @@ public class BackgroundTestController extends AbstractController {
             BackgroundTestThread b = new BackgroundTestThread(l);
             try {
                 b.run();
-                result.use(Results.json()).from(b.getCls()).include("valid").serialize();
                 for ( TesteCliente tcl : b.getCls()) {
+                    tcl.setStatus(Status.CONCLUIDO);
                     dao.editar(tcl);
                     for (ValidacaoGpon validacaoGpon : tcl.getValid()) {
+                        validacaoGpon.setTeste(tcl);
                         dao.cadastrar(validacaoGpon);
                     }
                 }
-                
+                result.use(Results.json()).from(b.getCls()).include("valid").serialize();
             } catch (Exception ex) {
                 result.use(Results.json()).from(ex.getStackTrace()).serialize();
             }

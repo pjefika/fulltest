@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -27,6 +29,8 @@ public class TesteCliente extends ComponenteGenerico {
     @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER)
     private List<ValidacaoGpon> valid;
 
+    @NotNull
+    @Size(min=5)
     private String instancia;
 
     public TesteCliente() {

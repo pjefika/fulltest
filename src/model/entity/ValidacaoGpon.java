@@ -20,31 +20,33 @@ public class ValidacaoGpon extends AbstractEntity {
     @ManyToOne
     private TesteCliente teste;
 
-    private Boolean implementacao = false;
+    private Boolean implementacao;
+    
+    private Boolean consulta;
 
-    private Boolean cadastro = false;
+    private Boolean cadastro;
 
-    private Boolean semAlarme = false;
+    private Boolean semAlarme;
 
-    private Boolean parametros = false;
+    private Boolean parametros;
 
-    private Boolean link = false;
+    private Boolean link;
 
-    private Boolean admState = false;
+    private Boolean admState;
 
-    private Boolean vlanBanda = false;
+    private Boolean vlanBanda;
 
-    private Boolean vlanVoip = false;
+    private Boolean vlanVoip;
 
-    private Boolean vlanVod = false;
+    private Boolean vlanVod;
 
-    private Boolean vlanMulticast = false;
+    private Boolean vlanMulticast;
 
-    private Boolean profile = false;
+    private Boolean profile;
 
-    private Double potOnt = 0d;
-
-    private Double potOlt = 0d;
+    private Double potOnt;
+    
+    private Double potOlt;
 
     public ValidacaoGpon() {
     }
@@ -159,6 +161,14 @@ public class ValidacaoGpon extends AbstractEntity {
 
     public void setCadastro(Boolean cadastro) {
         this.cadastro = cadastro;
+    }
+
+    public Boolean getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(Boolean consulta) {
+        this.consulta = consulta;
     }
 
 }

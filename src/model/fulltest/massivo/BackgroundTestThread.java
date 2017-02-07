@@ -6,14 +6,15 @@
 package model.fulltest.massivo;
 
 import dao.cadastro.CadastroDAO;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.inject.Inject;
+import model.decorator.ValidacaoGponDecorator;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.TesteCliente;
-import model.fulltest.validacao.ValidacaoFacade;
 import model.entity.ValidacaoGpon;
+import model.fulltest.validacao.ValidacaoFacade;
 
 /**
  *
@@ -38,18 +39,31 @@ public class BackgroundTestThread {
 
         for (TesteCliente cl : cls) {
 
-            AbstractDslam oi = dao.getDslam(cl.getInstancia());
+            ValidacaoGponDecorator d = new ValidacaoGponDecorator();
+            ValidacaoGpon vg = null;
 
-            ValidacaoFacade v = new ValidacaoFacade(oi);
+            try {
 
-            ValidacaoGpon vg = v.validar();
+                AbstractDslam oi = dao.getDslam(cl.getInstancia());
+                ValidacaoFacade v = new ValidacaoFacade(oi);
 
-            List<ValidacaoGpon> vs = new ArrayList<>();
+                try {
+                    vg = v.validar();
+                } catch (Exception e) {
+                    vg = d.falhaConsulta();
+                }
 
-            vs.add(vg);
+            } catch (RemoteException e) {
+                vg = d.falhaCadastro();
 
-            cl.setValid(vs);
-    
+            } catch (DslamNaoImplException e) {
+                vg = d.falhaImplementacao();
+
+            } finally {
+                List<ValidacaoGpon> vs = new ArrayList<>();
+                vs.add(vg);
+                cl.setValid(vs);
+            }
 
         }
     }
