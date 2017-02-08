@@ -7,9 +7,10 @@ package dao.massivo;
 
 import java.util.ArrayList;
 import java.util.List;
-import model.entity.Lote;
 import javax.persistence.Query;
+import model.entity.Lote;
 import model.entity.TesteCliente;
+import model.fulltest.Status;
 
 /**
  *
@@ -23,6 +24,16 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public List<TesteCliente> listarInstancias() {
         try {
             Query query = this.entityManager.createQuery("FROM TesteCliente");
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
+    public List<TesteCliente> listarInstanciasPendentes() {
+        try {
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1");
+            query.setParameter("param1", Status.ATIVO);
             return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();

@@ -49,6 +49,8 @@ public class BackgroundTestThread implements Runnable{
             try {
                 vg = v.validar();
             } catch (Exception e) {
+                System.out.println("erro");
+                e.printStackTrace();
                 vg = d.falhaConsulta();
             }
 

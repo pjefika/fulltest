@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import model.fulltest.Status;
 
 /**
  *
@@ -33,6 +34,15 @@ public class Lote extends ComponenteGenerico {
 
     public Lote() {
         this.tests = new ArrayList<>();
+    }
+    
+    public Boolean isTestesConc(){
+        for (TesteCliente test : tests) {
+            if(!test.getStatus().equals(Status.CONCLUIDO)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<TesteCliente> getTests() {

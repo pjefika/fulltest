@@ -30,7 +30,7 @@ public class ValidacaoGpon extends AbstractEntity {
 
     private Boolean parametros;
 
-    private Boolean link;
+//    private Boolean link;
 
     private Boolean admState;
 
@@ -47,6 +47,8 @@ public class ValidacaoGpon extends AbstractEntity {
     private Double potOnt;
     
     private Double potOlt;
+    
+    private String listaAlarmes;
 
     public ValidacaoGpon() {
     }
@@ -58,14 +60,14 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setParametros(Boolean parametros) {
         this.parametros = parametros;
     }
-
-    public Boolean getLink() {
-        return link;
-    }
-
-    public void setLink(Boolean link) {
-        this.link = link;
-    }
+//
+//    public Boolean getLink() {
+//        return link;
+//    }
+//
+//    public void setLink(Boolean link) {
+//        this.link = link;
+//    }
 
     public Boolean getAdmState() {
         return admState;
@@ -170,5 +172,15 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setConsulta(Boolean consulta) {
         this.consulta = consulta;
     }
+
+    public String getListaAlarmes() {
+        return listaAlarmes;
+    }
+
+    public void setListaAlarmes(String listaAlarmes) {
+        this.listaAlarmes = listaAlarmes;
+    }
+    
+    
 
 }

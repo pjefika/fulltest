@@ -36,21 +36,19 @@ public class BackgroundTestController extends AbstractController {
     @Get
     public void load() {
 
-        List<TesteCliente> l = dao.listarInstancias();
+        List<TesteCliente> l = dao.listarInstanciasPendentes();
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(4);
-            
+            ExecutorService exec = Executors.newFixedThreadPool(10);
+            List<BackgroundTestThread> bs = new ArrayList<>();
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente);
                 exec.execute(b);
                 try {
                     b.getCls().setStatus(Status.CONCLUIDO);
                     dao.editar(b.getCls());
-                    for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
-                        validacaoGpon.setTeste(b.getCls());
-                        dao.cadastrar(validacaoGpon);
-                    }
+                    bs.add(b);
+                    
                     result.use(Results.json()).from(b.getCls()).include("valid").serialize();
                 } catch (Exception ex) {
                     result.use(Results.json()).from(ex.getStackTrace()).serialize();
@@ -62,6 +60,37 @@ public class BackgroundTestController extends AbstractController {
                 
             }
             System.out.println("acabô!");
+            for (BackgroundTestThread b : bs) {
+                for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
+                    try {
+                        validacaoGpon.setTeste(b.getCls());
+                        dao.cadastrar(validacaoGpon);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                Integer o = 0;
+                for(TesteCliente t : b.getCls().getLote().getTests()){
+                    if(!t.getStatus().equals(Status.CONCLUIDO)){
+                        o=1;
+                    } 
+                }
+                if(o.equals(0)){
+                    try {
+                        b.getCls().getLote().setStatus(Status.CONCLUIDO);
+                        dao.editar(b.getCls().getLote());
+                    } catch (Exception ex) {
+                        System.out.println("leErro");
+                        ex.printStackTrace();
+                    }
+                }
+                
+            }
+            
+            
+            
+            System.out.println("acabô de vdd!");
+            
 
         } else {
             this.includeSerializer(new ArrayList<TesteCliente>());
