@@ -19,4 +19,7 @@ public enum Status {
         this.nome = nome;
     }
 
+    public String getNome() {
+        return nome;
+    }
 }
