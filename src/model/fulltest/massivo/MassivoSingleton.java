@@ -61,7 +61,7 @@ public class MassivoSingleton {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente);
                 exec.execute(b);
                 try {
-                    b.getCls().setStatus(Status.CONCLUIDO);
+                    b.getCls().setStatus(Status.EM_EXECUCAO);
                     dao.editar(b.getCls());
                     bs.add(b);
 
@@ -85,6 +85,13 @@ public class MassivoSingleton {
                         ex.printStackTrace();
                     }
                 }
+                b.getCls().setStatus(Status.CONCLUIDO);
+                try {
+                   dao.editar(b.getCls());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                
                 Integer o = 0;
                 for (TesteCliente t : b.getCls().getLote().getTests()) {
                     if (!t.getStatus().equals(Status.CONCLUIDO)) {
