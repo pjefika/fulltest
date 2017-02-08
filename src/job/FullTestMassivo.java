@@ -3,48 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controller.massivo;
+package job;
 
-import br.com.caelum.vraptor.Controller;
-import br.com.caelum.vraptor.Get;
-import br.com.caelum.vraptor.view.Results;
-import controller.AbstractController;
 import dao.massivo.TesteClienteDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.inject.Inject;
-import job.FullTestMassivo;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 import model.fulltest.massivo.BackgroundTestThread;
-import static org.quartz.JobBuilder.newJob;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import org.quartz.SimpleTrigger;
-import static org.quartz.TriggerBuilder.newTrigger;
-import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-@Controller
-public class BackgroundTestController extends AbstractController {
-
+public class FullTestMassivo implements org.quartz.Job{
     @Inject
     private TesteClienteDAO dao;
-
-    public BackgroundTestController() {
-    }
-
-    @Get
-    public void load() {
-
+    @Override
+    public void execute(JobExecutionContext jec) throws JobExecutionException {
+        dao = new TesteClienteDAO();
         List<TesteCliente> l = dao.listarInstanciasPendentes();
 
         if (l != null) {
@@ -58,9 +41,10 @@ public class BackgroundTestController extends AbstractController {
                     dao.editar(b.getCls());
                     bs.add(b);
                     
-                    result.use(Results.json()).from(b.getCls()).include("valid").serialize();
+//                    result.use(Results.json()).from(b.getCls()).include("valid").serialize();
                 } catch (Exception ex) {
-                    result.use(Results.json()).from(ex.getStackTrace()).serialize();
+//                    result.use(Results.json()).from(ex.getStackTrace()).serialize();
+                    ex.printStackTrace();
                 }
             }
             exec.shutdown();
@@ -102,39 +86,9 @@ public class BackgroundTestController extends AbstractController {
             
 
         } else {
-            this.includeSerializer(new ArrayList<TesteCliente>());
+//            this.includeSerializer(new ArrayList<TesteCliente>());
+            System.out.println("tavavazio");
         }
     }
     
-    public void ronaldo(){
-        try {
-            // define the job and tie it to our MyJob class
-            JobDetail job = newJob(FullTestMassivo.class)
-                    .withIdentity("job1", "group1")
-                    .build();
-            
-            // Trigger the job to run now, and then repeat every 40 seconds
-            SimpleTrigger trigger = newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .startNow()
-                    .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(120)
-                            .repeatForever())
-                    .build();
-            
-            // Tell quartz to schedule the job using our trigger
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            scheduler.scheduleJob(job, trigger);
-            
-            scheduler.start();
-            
-        } catch (SchedulerException ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @Override
-    public void includeSerializer(Object a) {
-        result.use(Results.json()).from(a).serialize();
-    }
 }
