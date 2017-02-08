@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
            prefix="decorator"%>
 
-<div class="container">
+<div class="container" v-cloak>
 
     <div class="page-header">
         <h1>Teste Massivo</h1>
@@ -33,7 +33,7 @@
                     <td>{{lote.observacao}}</td>
                     <td>
                         <button type="button" class="btn btn-info glyphicon glyphicon-edit btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static" @click="fetchLoteEdit(lote)"></button>
-                        <button type="button" class="btn btn-danger glyphicon glyphicon-trash btn-sm" data-toggle="modal" data-target="#delLote" data-backdrop="static" @click="fetchLoteDel(lote)"></button>
+                        <button type="button" class="btn btn-danger glyphicon glyphicon-trash btn-sm" data-toggle="modal" data-target="#delLote" data-backdrop="static" @click="fetchLoteMod(lote)"></button>
                     </td>
                 </tr>                
             </tbody>
@@ -64,6 +64,9 @@
                                 </label>
                                 <label>
                                     <input type="radio" value="," name="delimit" v-model="delimiter" />Virgula (,)
+                                </label>
+                                <label>
+                                    <input type="radio" value="breakline" name="delimit" v-model="delimiter" />Quebra de linha (↵)
                                 </label>
                             </div>
                         </div>
@@ -143,11 +146,11 @@
                         <h4 class="modal-title" id="myModalLabel">Excluir Lote</h4>
                     </div>
                     <div class="modal-body">
-                        Deseja realmete excluir o Lote {{delLote.id}}
+                        Deseja realmete excluir o Lote {{modifyLote.id}}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="reset()">Não</button>
-                        <button type="button" class="btn btn-primary" @click="deleLote()">Sim</button>
+                        <button type="button" class="btn btn-primary" @click="modLote()">Sim</button>
                     </div>
                 </div>
             </div>

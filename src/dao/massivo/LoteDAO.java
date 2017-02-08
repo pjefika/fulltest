@@ -31,8 +31,8 @@ public class LoteDAO extends ComponenteTestsDAO {
 
     public List<Lote> listarLotesAtivo(String usuario) {
         try {
-            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status =:param1 AND l.matricula =:param2");
-            query.setParameter("param1", Status.ATIVO);
+            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status !=:param1 AND l.matricula =:param2");
+            query.setParameter("param1", Status.EXCLUIDO);
             query.setParameter("param2", usuario);
             return query.getResultList();
         } catch (Exception e) {
