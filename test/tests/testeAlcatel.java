@@ -5,7 +5,6 @@
  */
 package tests;
 
-import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
 
 /**

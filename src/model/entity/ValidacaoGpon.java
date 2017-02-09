@@ -60,6 +60,7 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setParametros(Boolean parametros) {
         this.parametros = parametros;
     }
+
 //
 //    public Boolean getLink() {
 //        return link;
@@ -68,7 +69,6 @@ public class ValidacaoGpon extends AbstractEntity {
 //    public void setLink(Boolean link) {
 //        this.link = link;
 //    }
-
     public Boolean getAdmState() {
         return admState;
     }
@@ -150,7 +150,7 @@ public class ValidacaoGpon extends AbstractEntity {
     }
 
     public Boolean getImplementacao() {
-        return implementacao;
+        return implementacao.booleanValue();
     }
 
     public void setImplementacao(Boolean implementacao) {
