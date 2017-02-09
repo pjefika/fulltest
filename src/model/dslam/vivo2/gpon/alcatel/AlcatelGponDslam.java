@@ -38,7 +38,22 @@ public class AlcatelGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
-    
+    public ComandoDslam getComandoDumpRafael() {
+        return new ComandoDslam("show equipment ont optics xml", 2000);
+    }
+
+    /**
+     * Função utilizada para demonstração (
+     *
+     * @return
+     * @throws Exception
+     */
+    public String getDumpRafael() throws Exception {
+        //Document xml;
+        //xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoDumpRafael()));
+        return this.getCd().consulta(this.getComandoDumpRafael()).getBlob();
+    }
+
     public ComandoDslam getComandoTabelaParametros() {
         return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 2000);
     }
@@ -66,15 +81,14 @@ public class AlcatelGponDslam extends DslamGpon {
     public SerialOntGpon getSerialOnt() throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt()));
         String sernum = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']").replace(":", "");
-        
+
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
         System.out.println(sernum);
-        
+
         return ont;
     }
 
-    
     public ComandoDslam getComandoConsultaEstadoDaPorta() {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
     }
@@ -84,19 +98,18 @@ public class AlcatelGponDslam extends DslamGpon {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPorta()));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
-        
+
         EstadoDaPorta state = new EstadoDaPorta();
-        
+
         state.setAdminState(adminState);
         state.setOperState(operState);
-        
+
         System.out.println(adminState);
         System.out.println(operState);
-        
+
         return state;
     }
 
-    
     public ComandoDslam getComandoConsultaVlanBanda() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 600 detail xml");
     }
@@ -106,25 +119,22 @@ public class AlcatelGponDslam extends DslamGpon {
         List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanBanda()).getRetorno();
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
-        if(!leResp.contains("Error : instance does not exist")){
+        if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanBanda()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             String[] pegaVlan = leVlan.split(":");
             cvlan = new BigInteger(pegaVlan[1]);
             p100 = new BigInteger(pegaVlan[2]);
         }
-        
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
-   
-        
+
         System.out.println(cvlan);
         System.out.println(p100);
 
         return vlanBanda;
     }
 
-    
     public ComandoDslam getComandoConsultaVlanVoip() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 601 detail xml");
     }
@@ -134,7 +144,7 @@ public class AlcatelGponDslam extends DslamGpon {
         List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanVoip()).getRetorno();
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
-        if(!leResp.contains("Error : instance does not exist")){
+        if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVoip()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             String[] pegaVlan = leVlan.split(":");
@@ -142,15 +152,13 @@ public class AlcatelGponDslam extends DslamGpon {
             p100 = new BigInteger(pegaVlan[2]);
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
-        
-        
+
         System.out.println(cvlan);
         System.out.println(p100);
 
         return vlanVoip;
     }
 
-    
     public ComandoDslam getComandoConsultaVlanVod() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 602 detail xml");
     }
@@ -160,23 +168,22 @@ public class AlcatelGponDslam extends DslamGpon {
         List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanVod()).getRetorno();
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
-        if(!leResp.contains("Error : instance does not exist")){
+        if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVod()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             String[] pegaVlan = leVlan.split(":");
             cvlan = new BigInteger(pegaVlan[1]);
             p100 = new BigInteger(pegaVlan[2]);
         }
-        
+
         VlanVod vlanVod = new VlanVod(cvlan, p100);
-        
+
         System.out.println(cvlan);
         System.out.println(p100);
 
         return vlanVod;
     }
 
-    
     public ComandoDslam getComandoConsultaVlanMulticast() {
         return new ComandoDslam("info configure bridge port 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 vlan-id 4000 detail xml");
     }
@@ -184,27 +191,26 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
         List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
-        String leVlan="";
+        String leVlan = "";
         BigInteger cvlan = new BigInteger("0");
-        if(!leResp.contains("Error : instance does not exist")){
+        if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanMulticast()));
             leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
         }
         if (!leVlan.isEmpty()) {
             cvlan = new BigInteger("4000");
-        } 
-        
+        }
+
         VlanMulticast multz = new VlanMulticast();
         multz.setCvlan(cvlan);
-        
+
         System.out.println(cvlan);
-        
+
         return multz;
     }
 
-    
     public ComandoDslam getComandoConsultaAlarmes() {
-        return new ComandoDslam("show equipment ont operational-data 1/1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+" detail xml", 7000);
+        return new ComandoDslam("show equipment ont operational-data 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 7000);
     }
 
     @Override
@@ -212,25 +218,25 @@ public class AlcatelGponDslam extends DslamGpon {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaAlarmes()));
         NodeList nodeList = xml.getElementsByTagName("info");
         AlarmesGpon alarmes = new AlarmesGpon();
-        
+
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
 
-            String nomeAlarme = node.getAttributes().getNamedItem("name").getTextContent().trim(); 
+            String nomeAlarme = node.getAttributes().getNamedItem("name").getTextContent().trim();
             String estadoAlarme = node.getTextContent().trim();
-            
-            if(estadoAlarme.equalsIgnoreCase("yes")){
+
+            if (estadoAlarme.equalsIgnoreCase("yes")) {
                 alarmes.getListAlarmes().add(nomeAlarme);
             }
-           
+
         }
         System.out.println(alarmes.getListAlarmes());
-        
+
         return alarmes;
     }
-    
+
     public ComandoDslam getComandoConsultaProfile() {
-        return new ComandoDslam("info configure qos interface 1/1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/4/1 xml", 2000);
+        return new ComandoDslam("info configure qos interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 xml", 2000);
     }
 
     @Override
@@ -240,15 +246,15 @@ public class AlcatelGponDslam extends DslamGpon {
         String profileDown = leProfileDown.substring(5, leProfileDown.length());
         String leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='bandwidth-profile']");
         String profileUp = leProfileUp.substring(5, leProfileUp.length());
-        
+
         ProfileGpon prof = new ProfileGpon();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
-        
+
         System.out.println(prof.getProfileDown());
         System.out.println(prof.getProfileUp());
-        
-         return prof;
+
+        return prof;
     }
 
 }

@@ -22,7 +22,7 @@ public class ValidacaoGpon extends AbstractEntity {
     private TesteCliente teste;
 
     private Boolean implementacao;
-    
+
     private Boolean consulta;
 
     private Boolean cadastro;
@@ -32,7 +32,6 @@ public class ValidacaoGpon extends AbstractEntity {
     private Boolean parametros;
 
 //    private Boolean link;
-
     private Boolean admState;
 
     private Boolean vlanBanda;
@@ -46,9 +45,9 @@ public class ValidacaoGpon extends AbstractEntity {
     private Boolean profile;
 
     private Double potOnt;
-    
+
     private Double potOlt;
-    
+
     private String listaAlarmes;
 
     public ValidacaoGpon() {
@@ -181,7 +180,5 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setListaAlarmes(String listaAlarmes) {
         this.listaAlarmes = listaAlarmes;
     }
-    
-    
 
 }
