@@ -10,13 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-import javax.ejb.ScheduleExpression;
+import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerService;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
@@ -32,23 +28,26 @@ public class MassivoSingleton {
 
     @Inject
     private TesteClienteDAO dao;
+//
+//    @Resource
+//    private TimerService timerService;
 
-    @Resource
-    private TimerService timerService;
-
-    @Timeout
-    public void timeOut() {
-        abreThread();
-    }
-
-    @PostConstruct
-    public void initTimer() {
-        System.out.println("INIT-CALLED");
-        ScheduleExpression exp = new ScheduleExpression();
-        exp.minute("*/2");
-        timerService.createCalendarTimer(exp);
-    }
-
+//    @Timeout
+//    public void timeOut() {
+//        abreThread();
+//    }
+//
+//    @PostConstruct
+//    public void initTimer() {
+//        System.out.println("INIT-CALLED");
+//        ScheduleExpression exp = new ScheduleExpression();
+//        exp.hour("*");
+//        exp.minute("*/3");
+//        exp.second("0");
+//        timerService.createCalendarTimer(exp);
+//    }
+    
+    @Schedule(second= "1", minute = "*/2", hour = "*")
     public void abreThread() {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");

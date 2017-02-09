@@ -55,7 +55,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoTabelaParametros() {
-        return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 2000);
+        return new ComandoDslam("show equipment ont optics 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 5000);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaEstadoDaPorta() {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml");
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + " detail xml", 5000);
     }
 
     @Override

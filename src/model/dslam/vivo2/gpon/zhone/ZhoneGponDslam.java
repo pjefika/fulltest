@@ -5,12 +5,10 @@
  */
 package model.dslam.vivo2.gpon.zhone;
 
-import java.math.BigInteger;
-
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.math.BigInteger;
 import java.util.ArrayList;
-
 import java.util.List;
 import model.dslam.consulta.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
@@ -54,7 +52,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoTabelaParametros() {
-        return new ComandoDslam("onu status "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica());
+        return new ComandoDslam("onu status "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
     }
 
     @Override
@@ -103,7 +101,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoConsultaEstadoDaPorta() {
-        return new ComandoDslam("port show 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu"); //To change body of generated methods, choose Tools | Templates.
+        return new ComandoDslam("port show 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 5000); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
