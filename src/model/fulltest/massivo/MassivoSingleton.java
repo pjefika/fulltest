@@ -45,7 +45,7 @@ public class MassivoSingleton {
     public void initTimer() {
         System.out.println("INIT-CALLED");
         ScheduleExpression exp = new ScheduleExpression();
-        exp.hour("*/2").minute("*");
+        exp.minute("*/2");
         timerService.createCalendarTimer(exp);
     }
 
@@ -60,23 +60,25 @@ public class MassivoSingleton {
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente);
                 exec.execute(b);
+
                 try {
                     b.getCls().setStatus(Status.EM_EXECUCAO);
                     dao.editar(b.getCls());
                     bs.add(b);
-
-//                    result.use(Results.json()).from(b.getCls()).include("valid").serialize();
                 } catch (Exception ex) {
-//                    result.use(Results.json()).from(ex.getStackTrace()).serialize();
+                    ex.printStackTrace();
                 }
+
             }
+
             exec.shutdown();
 
             while (!exec.isTerminated()) {
 
             }
-            System.out.println("acabô!");
+
             for (BackgroundTestThread b : bs) {
+
                 for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
                     try {
                         validacaoGpon.setTeste(b.getCls());
@@ -85,20 +87,16 @@ public class MassivoSingleton {
                         ex.printStackTrace();
                     }
                 }
+
                 b.getCls().setStatus(Status.CONCLUIDO);
+
                 try {
-                   dao.editar(b.getCls());
+                    dao.editar(b.getCls());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                
-                Integer o = 0;
-                for (TesteCliente t : b.getCls().getLote().getTests()) {
-                    if (!t.getStatus().equals(Status.CONCLUIDO)) {
-                        o = 1;
-                    }
-                }
-                if (o.equals(0)) {
+
+                if (b.getCls().getLote().isTestesConc()) {
                     try {
                         b.getCls().getLote().setStatus(Status.CONCLUIDO);
                         dao.editar(b.getCls().getLote());
@@ -109,11 +107,6 @@ public class MassivoSingleton {
                 }
 
             }
-
-            System.out.println("acabô de vdd!");
-
-        } else {
-//            this.includeSerializer(new ArrayList<TesteCliente>());
         }
 
     }
