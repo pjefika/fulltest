@@ -40,9 +40,7 @@ public class TesteClienteController extends AbstractController {
     
     @Path("/testecliente/{lote.id}")
     public void export(Lote lote) {        
-        System.out.println(lote.getId());
         List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
-        //System.out.println(l.size());
         if (l != null) {
             //this.includeSerializer(l);
             this.result.include("instancias", l);
@@ -95,7 +93,8 @@ public class TesteClienteController extends AbstractController {
         }
     }
 
+    @Override
     public void includeSerializer(Object a) {
-        result.use(Results.json()).from(a).serialize();
+        result.use(Results.json()).from(a).include("lote").include("valid").serialize();
     }
 }

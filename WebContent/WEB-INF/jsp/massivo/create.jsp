@@ -3,15 +3,16 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
            prefix="decorator"%>
 
-<div class="container" v-cloak>
+<div class="container">
 
     <div class="page-header">
         <h1>Teste Massivo</h1>
     </div>
 
-    <div id="massivo">
+    <div id="massivo" v-cloak>
 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adcLote" data-backdrop="static">Cadastrar Lote</button>
+        <br/>
         <br/>
         <table class="table table-bordered">
             <thead>

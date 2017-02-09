@@ -6,6 +6,7 @@
 package model.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "fulltestAPI_ValidacaoGpon")
 public class ValidacaoGpon extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private TesteCliente teste;
 
     private Boolean implementacao;
