@@ -19,6 +19,10 @@ body {
     margin: auto;
     width: 50%;
 }
-#enterButton {    
-    width: 100%;    
+#enterButton {
+    width: 100%;
+}
+
+[v-cloak] {
+    display: none;
 }
