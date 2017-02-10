@@ -16,6 +16,7 @@ import java.util.List;
 import javax.inject.Inject;
 import model.fulltest.Status;
 import controller.AbstractController;
+import java.util.Arrays;
 import javax.faces.bean.RequestScoped;
 import model.entity.Lote;
 import model.entity.TesteCliente;
@@ -44,6 +45,16 @@ public class TesteClienteController extends AbstractController {
         if (l != null) {
             //this.includeSerializer(l);
             this.result.include("instancias", l);
+        }
+    }
+    
+    @Path("/testecliente/exportSelect/{idLotes}")
+    public void exportLotesSelect(String idLotes) {
+        List<String> listIdLotes = Arrays.asList(idLotes.split(";"));
+        List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
+        if (l != null) {
+            this.includeSerializer(l);
+            //this.result.include("instancias", l);
         }
     }
 
@@ -95,6 +106,6 @@ public class TesteClienteController extends AbstractController {
 
     @Override
     public void includeSerializer(Object a) {
-        result.use(Results.json()).from(a).include("lote").include("valid").serialize();
+        result.use(Results.json()).from(a).include("valid").include("lote").serialize();
     }
 }

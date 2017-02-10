@@ -49,4 +49,25 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             return new ArrayList<>();
         }
     }
+    
+    public List<TesteCliente> listarLotesSelect(List<String> idLotes) {
+        try {
+            StringBuilder concat = new StringBuilder();
+            Integer cont = 0;
+            for (String idLote : idLotes) {
+                if (cont == 0) {
+                    concat.append("t.lote.id = " + idLote + " ");
+                } else {
+                    concat.append("OR t.lote.id = " + idLote + " ");
+                }
+                cont++;
+            }            
+            String lotes = concat.toString();            
+            //System.out.println("Cod: 1: FROM TesteCliente t WHERE " + lotes);            
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE " + lotes);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 }

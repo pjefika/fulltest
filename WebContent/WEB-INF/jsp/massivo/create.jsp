@@ -12,11 +12,13 @@
     <div id="massivo" v-cloak>
 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adcLote" data-backdrop="static">Cadastrar Lote</button>
+        <button type="button" class="btn btn-default" @click="exportSelect()">Export Select</button>
         <br/>
         <br/>
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <td>Selecionar</td>
                     <th>ID</th>
                     <th>Status</th>
                     <th>Data Criação</th>
@@ -27,6 +29,7 @@
             </thead>            
             <tbody>
                 <tr v-for="lote in lotes" :key="lote.id">
+                    <td><input type="checkbox" v-bind:value="lote.id" v-model="check"/></td>
                     <td>{{lote.id}}</td>
                     <td>{{lote.status}}</td>
                     <td>{{dateFormat(lote.dataCriacao)}}</td>
