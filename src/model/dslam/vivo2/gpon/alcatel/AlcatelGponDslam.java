@@ -236,15 +236,20 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaProfile() {
-        return new ComandoDslam("info configure qos interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 xml", 2000);
+        return new ComandoDslam("info configure qos interface 1/1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/4/1 xml", 3000);
     }
 
     @Override
     public ProfileGpon getProfile() throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaProfile()));
+        
         String leProfileDown = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='shaper-profile']");
         String profileDown = leProfileDown.substring(5, leProfileDown.length());
-        String leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='bandwidth-profile']");
+        String leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[1]");
+        if(leProfileUp.length()<5){
+            leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[2]");    
+        }
+        System.out.println("Profs "+leProfileUp);
         String profileUp = leProfileUp.substring(5, leProfileUp.length());
 
         ProfileGpon prof = new ProfileGpon();

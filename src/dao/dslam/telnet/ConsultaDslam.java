@@ -41,7 +41,7 @@ public class ConsultaDslam {
 
         List<String> list = new ArrayList<>();
 
-        for (int i = 0; i < 999; i++) {
+        for (int i = 0; i < 9999; i++) {
 
             String line = in.readLine();
             if (line.contains("||")) {
@@ -74,7 +74,7 @@ public class ConsultaDslam {
             return comando;
 
         } catch (IOException e) {
-            System.out.println("erro");
+            System.out.println("erro executando comando ->"+comando.getSintax());
         }
         return null;
     }

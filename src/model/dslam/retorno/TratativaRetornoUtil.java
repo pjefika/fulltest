@@ -100,7 +100,7 @@ public class TratativaRetornoUtil {
         for (String leLine : list) {
             if(leLine.contains(qqqro)){
                 if(i.equals(o)){
-                    return leLine.substring(0, leLine.indexOf("\\ #")).trim().replace("\"", "").replace(";", "");    
+                    return leLine.substring(0, leLine.indexOf("\\ #")).replace("\"", "").replace(";", "").trim();    
                 }
                 i++;
             }

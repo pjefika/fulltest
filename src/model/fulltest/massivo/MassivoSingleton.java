@@ -37,7 +37,7 @@ public class MassivoSingleton {
     
     @Timeout
     public void timeOut() {
-        abreThread();
+//        abreThread();
     }
     
     @Schedule(second= "1", minute = "*/2", hour = "*")
@@ -47,15 +47,19 @@ public class MassivoSingleton {
         List<TesteCliente> l = dao.listarInstanciasPendentes();
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(10);
+            ExecutorService exec = Executors.newFixedThreadPool(5);
             List<BackgroundTestThread> bs = new ArrayList<>();
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente);
                 exec.execute(b);
 
                 try {
+                    if(!b.getCls().getLote().getStatus().equals(Status.EM_EXECUCAO)){
+                        b.getCls().getLote().setStatus(Status.EM_EXECUCAO);
+                    }
                     b.getCls().setStatus(Status.EM_EXECUCAO);
                     dao.editar(b.getCls());
+                    dao.editar(b.getCls().getLote());
                     bs.add(b);
                 } catch (Exception ex) {
                     ex.printStackTrace();

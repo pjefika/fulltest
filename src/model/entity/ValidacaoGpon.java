@@ -49,8 +49,18 @@ public class ValidacaoGpon extends AbstractEntity {
     private Double potOlt;
 
     private String listaAlarmes;
+    
+    private String ontAssociado;
 
     public ValidacaoGpon() {
+    }
+
+    public String getOntAssociado() {
+        return ontAssociado;
+    }
+
+    public void setOntAssociado(String ontAssociado) {
+        this.ontAssociado = ontAssociado;
     }
 
     public Boolean getParametros() {

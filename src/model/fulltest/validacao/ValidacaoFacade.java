@@ -31,6 +31,8 @@ public class ValidacaoFacade {
 
         this.valid.setAdmState(gpon.getEstadoDaPorta().validar(dslam));
         System.out.println("Estado da Porta: " + this.valid.getAdmState());
+        
+        this.valid.setOntAssociado(gpon.getSerialOnt().getSerial());
 
         this.valid.setProfile(gpon.getProfile().validar(dslam));
         System.out.println("Profile: " + this.valid.getProfile());
