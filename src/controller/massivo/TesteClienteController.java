@@ -43,8 +43,8 @@ public class TesteClienteController extends AbstractController {
     public void export(Lote lote) {        
         List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
         if (l != null) {
-            //this.includeSerializer(l);
-            this.result.include("instancias", l);
+            this.includeSerializer(l);
+            //this.result.include("instancias", l);
         }
     }
     
