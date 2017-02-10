@@ -56,9 +56,9 @@ new Vue({
             return moment(h).format('DD/MM/YYYY');
         },
         //Export
-        exporty: function () {
+        exporty: function (h) {
             var self = this;
-            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/" + self.viewLote.id;
+            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/" + h.id;
         },
         //LIST
         getLotes: function () {
@@ -87,11 +87,12 @@ new Vue({
         },
         createListaLinhas: function (h) {
             var self = this;            
-            if (self.delimiter === "breakline") {
+            /*if (self.delimiter === "breakline") {
                 var listI = self.instancias.split("\n");                
             } else {
                 var listI = self.instancias.split(self.delimiter);
-            }
+            }*/            
+            var listI = self.instancias.split(/[\r\n]+|[,;]/g);            
             var lt = h;
             lt.tests = [];
             for (var i = 0; i < listI.length; i++) {

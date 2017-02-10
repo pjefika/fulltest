@@ -33,6 +33,7 @@
                     <td>{{lote.matricula}}</td>
                     <td>{{lote.observacao}}</td>
                     <td>
+                        <button class="btn btn-primary glyphicon glyphicon-download-alt btn-sm" type="button" @click="exporty(lote)"></button>
                         <button type="button" class="btn btn-info glyphicon glyphicon-edit btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static" @click="fetchLoteEdit(lote)"></button>
                         <button type="button" class="btn btn-danger glyphicon glyphicon-trash btn-sm" data-toggle="modal" data-target="#delLote" data-backdrop="static" @click="fetchLoteMod(lote)"></button>
                     </td>
@@ -54,23 +55,10 @@
                             <label>Observação:</label>
                             <textarea class="form-control" rows="3" style="resize: none;" v-model="adcLote.observacao"></textarea>
                         </div>
-
                         <hr>
-
-                        <div class="form-group">
-                            <label>Delimitadores:</label>
-                            <div class="radio">
-                                <label>
-                                    <input type="radio" value=";" name="delimit" v-model="delimiter" />Ponto e Virgula (;)
-                                </label>
-                                <label>
-                                    <input type="radio" value="," name="delimit" v-model="delimiter" />Virgula (,)
-                                </label>
-                                <label>
-                                    <input type="radio" value="breakline" name="delimit" v-model="delimiter" />Quebra de linha (↵)
-                                </label>
-                            </div>
-                        </div>
+                        <div>                            
+                            Delimitadores: Virgula, Ponto e Virgula, Quebra de linha                            
+                        </div>                        
                         <div class="form-group">            
                             <label>Instâncias:</label>
                             <textarea class="form-control" rows="3" style="resize: none;" v-model="instancias"></textarea>
@@ -131,8 +119,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-info" type="button" @click="exporty()">Exportar</button>
+                    <div class="modal-footer">                        
                         <button type="button" class="btn btn-default" data-dismiss="modal" @click="reset()">Fechar</button>
                     </div>
                 </div>
