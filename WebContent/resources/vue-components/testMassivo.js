@@ -43,6 +43,7 @@ new Vue({
             concluido: 0,
             excluido: 0
         },
+        check: [],
         // instancias: "7530301249;7130520294;1630143618;8531030639;7930272843;3125714804",
         instancias: "7530301249;7130520294",
         delimiter: ";"
@@ -57,8 +58,21 @@ new Vue({
         },
         //Export
         exporty: function (h) {
-            var self = this;
+            //var self = this;
             window.location.href = "http://localhost:8080/fulltestAPI/testecliente/" + h.id;
+        },
+        exportSelect: function () {
+            var self = this;
+            var concat = "";
+            for (var i = 0; i < self.check.length; i++) {
+                if (i+1 === self.check.length) {                    
+                    concat += self.check[i];
+                } else {                    
+                    concat += self.check[i] + ";";
+                }
+            }
+            //console.log(concat);
+            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/exportSelect/" + concat;
         },
         //LIST
         getLotes: function () {
@@ -86,17 +100,19 @@ new Vue({
             });
         },
         createListaLinhas: function (h) {
-            var self = this;            
+            var self = this;
             /*if (self.delimiter === "breakline") {
-                var listI = self.instancias.split("\n");                
-            } else {
-                var listI = self.instancias.split(self.delimiter);
-            }*/            
-            var listI = self.instancias.split(/[\r\n]+|[,;]/g);            
+             var listI = self.instancias.split("\n");                
+             } else {
+             var listI = self.instancias.split(self.delimiter);
+             }*/
+            var listI = self.instancias.split(/[\r\n]+|[,;]/g);
             var lt = h;
             lt.tests = [];
             for (var i = 0; i < listI.length; i++) {
-                lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});
+                if (listI[i].length > 4) {
+                    lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});
+                }                
             }
             $.ajax({
                 type: "POST",
@@ -166,12 +182,12 @@ new Vue({
             self.infoLoteCount();
         },
         fetchLoteMod: function (h) {
-            var self = this;            
+            var self = this;
             self.modifyLote.id = h.id;
             self.modifyLote.status = h.status;
             self.modifyLote.dataCriacao = h.dataCriacao;
             self.modifyLote.matricula = h.matricula;
-            self.modifyLote.observacao = h.observacao;            
+            self.modifyLote.observacao = h.observacao;
         },
         //Reset Objects
         infoLoteCount: function () {
