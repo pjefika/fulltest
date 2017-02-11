@@ -22,7 +22,7 @@ public class testGetAccountItens {
         try {
             
             OSSTurbonetProxy ws = new OSSTurbonetProxy();
-            String designator = ws.getDesignatorByAccessDesignator("8531030639");
+            String designator = ws.getDesignatorByAccessDesignator("7536255062");
             
             java.lang.String accountId = null;
             java.lang.String addressId = null;
@@ -38,7 +38,7 @@ public class testGetAccountItens {
             for (com.gvt.ws.eai.oss.inventory.api.Address adr : acc.getAddress()) {
                 for (com.gvt.ws.eai.oss.inventory.api.Item item : adr.getItems()) {
                     for (com.gvt.ws.eai.oss.inventory.api.Item itn : item.getItems()) {
-                        if(itn.getStatusName().equals("ACTIVE")){
+                        if(itn.getStatusName().equals("PENDING")){
                             for (com.gvt.ws.eai.oss.inventory.api.Param param : itn.getParam()) {
                             if(param.getName().equals("Downstream")){
                                 System.out.println("Down "+param.getValue());

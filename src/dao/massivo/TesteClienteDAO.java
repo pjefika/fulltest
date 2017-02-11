@@ -40,6 +40,17 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
+    public List<TesteCliente> listarInstanciasPendentes(Integer limit) {
+        try {
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1 LIMIT :param2");
+            query.setParameter("param1", Status.ATIVO);
+            query.setParameter("param2", limit);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
+
     public List<TesteCliente> listarInstanciasPorLote(Lote lote) {
         try {
             Query query = this.entityManager.createQuery("FROM TesteCliente l WHERE l.lote =:param1");

@@ -26,7 +26,7 @@ public class testValidacaoFacadeClass {
         try {
 
             CadastroDAO dao = new CadastroDAO();
-            AbstractDslam ds = dao.getDslam("5135301916");
+            AbstractDslam ds = dao.getDslam("1630141456");
 
             ValidacaoFacade v = new ValidacaoFacade((AbstractDslam) ds);
 

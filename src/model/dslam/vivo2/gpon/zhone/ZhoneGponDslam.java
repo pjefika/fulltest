@@ -126,7 +126,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoConsultaVlan() {
-        return new ComandoDslam("bridge show vlan "+this.getP100());
+        return new ComandoDslam("bridge show vlan "+this.getP100(), 5000);
     }
 
     @Override
@@ -239,11 +239,11 @@ public class ZhoneGponDslam extends DslamGpon {
     }
     
     public ComandoDslam getComandoConsultaProfileDown(){
-        return new ComandoDslam("get bridge-interface-record 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getL500()+"-gponport-"+this.getP100()+"-"+this.getRin()+"/bridge");
+        return new ComandoDslam("get bridge-interface-record 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getL500()+"-gponport-"+this.getP100()+"-"+this.getRin()+"/bridge", 3000);
     }
     
     public ComandoDslam getComandoConsultaProfileUp(){
-        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica());
+        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 3000);
     }
 
     @Override

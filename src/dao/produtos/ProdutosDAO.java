@@ -32,7 +32,7 @@ public class ProdutosDAO {
             for (com.gvt.ws.eai.oss.inventory.api.Address adr : acc.getAddress()) {
                 for (com.gvt.ws.eai.oss.inventory.api.Item item : adr.getItems()) {
                     for (com.gvt.ws.eai.oss.inventory.api.Item itn : item.getItems()) {
-                        if(itn.getStatusName().equals("ACTIVE")){
+                        if(itn.getStatusName().equals("ACTIVE") || itn.getStatusName().equals("PENDING")){
                             for (com.gvt.ws.eai.oss.inventory.api.Param param : itn.getParam()) {
                                 if(param.getName().equals("Downstream")){
                                     leBanda.setDownCrm(param.getValue());
@@ -64,6 +64,9 @@ public class ProdutosDAO {
                     }
                 }
             }
+        }
+        if(linha.getTipo() == null){
+            linha.setTipo("SIP ACESSO");
         }
 
         return linha;
