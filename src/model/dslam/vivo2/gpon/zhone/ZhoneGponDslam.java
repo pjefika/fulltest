@@ -196,23 +196,23 @@ public class ZhoneGponDslam extends DslamGpon {
 
     
     public ComandoDslam getComandoConsultaVlanMulticast() {
-        return new ComandoDslam("bridge show port 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 40000);
+        return new ComandoDslam("bridge show port 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 45000);
     }
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {        
-        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
-        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+//        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
+//        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         VlanMulticast vlanMult = new VlanMulticast();
-        BigInteger cvlan = new BigInteger("0");
+//        BigInteger cvlan = new BigInteger("0");
+//        
+//        if(leVlanMult != null){
+//            cvlan = new BigInteger(leVlanMult.get(0));
+//        }
+//        
+        vlanMult.setCvlan(null);
         
-        if(leVlanMult != null){
-            cvlan = new BigInteger(leVlanMult.get(0));
-        }
-        
-        vlanMult.setCvlan(cvlan);
-        
-        System.out.println(vlanMult.getCvlan());
+//        System.out.println(vlanMult.getCvlan());
         
         return vlanMult;
     }

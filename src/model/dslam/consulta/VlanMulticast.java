@@ -27,7 +27,13 @@ public class VlanMulticast implements Validador{
     @Override
     public Boolean validar(AbstractDslam ds) {
         System.out.println(ds.getVlanMulticaste());
-        return this.cvlan.equals(new BigInteger(ds.getVlanMulticaste()));
+        Boolean v = null;
+        try {
+            v = this.cvlan.equals(new BigInteger(ds.getVlanMulticaste()));
+        } catch (Exception e) {
+            
+        }
+        return v;
     }
     
     

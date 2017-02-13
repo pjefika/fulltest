@@ -44,7 +44,7 @@ public class MassivoSingleton {
     public void abreThread() {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-        List<TesteCliente> l = dao.listarInstanciasPendentes();
+        List<TesteCliente> l = dao.listarInstanciasPendentes(5);
 
         if (l != null) {
             ExecutorService exec = Executors.newFixedThreadPool(5);
@@ -52,14 +52,7 @@ public class MassivoSingleton {
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente);
                 exec.execute(b);
-                try {
-                    b.getCls().setStatus(Status.EM_EXECUCAO);
-                    dao.editar(b.getCls());
-                    bs.add(b);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
+                bs.add(b);
             }
 
             exec.shutdown();
@@ -67,7 +60,7 @@ public class MassivoSingleton {
             while (!exec.isTerminated()) {
 
             }
-
+            System.out.println(bs);
             for (BackgroundTestThread b : bs) {
 
                 for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
