@@ -12,10 +12,10 @@
     <div id="massivo" v-cloak>
 
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#adcLote" data-backdrop="static">Cadastrar Lote</button>
-        <button type="button" class="btn btn-default" @click="exportSelect()">Export Select</button>
+        <button type="button" id="exportaMassivo" class="btn btn-default glyphicon glyphicon-download-alt" @click="exportSelect()" data-toggle="tooltip" data-placement="right" title="Exportar Selecionado." disabled></button>
         <br/>
         <br/>
-        <table class="table table-bordered">
+        <table class="table table-bordered" style="text-align: center;">
             <thead>
                 <tr>
                     <td>Selecionar</td>
@@ -29,7 +29,7 @@
             </thead>            
             <tbody>
                 <tr v-for="lote in lotes" :key="lote.id">
-                    <td><input type="checkbox" v-bind:value="lote.id" v-model="check"/></td>
+                    <td><input type="checkbox" v-bind:value="lote.id" v-model="check" @change="exportMassivoChange()"/></td>
                     <td>{{lote.id}}</td>
                     <td>{{lote.status}}</td>
                     <td>{{dateFormat(lote.dataCriacao)}}</td>

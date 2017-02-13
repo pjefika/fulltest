@@ -38,20 +38,22 @@ public class TesteClienteController extends AbstractController {
     public void create() {
 
     }
-    
+
     @Path("/testecliente/{lote.id}")
-    public void export(Lote lote) {        
+    public void export(Lote lote) {
         List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
         if (l != null) {
             this.includeSerializer(l);
             //this.result.include("instancias", l);
         }
     }
-    
+
+    @Get
     @Path("/testecliente/exportSelect/{idLotes}")
     public void exportLotesSelect(String idLotes) {
         List<String> listIdLotes = Arrays.asList(idLotes.split(";"));
         List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
+
         if (l != null) {
             this.includeSerializer(l);
             //this.result.include("instancias", l);

@@ -43,6 +43,36 @@ new Vue({
             concluido: 0,
             excluido: 0
         },
+        listaMassivo: [
+            {
+                id: null,
+                status: null,
+                instancia: null,
+                lote: {
+                    id: null,
+                    status: null,
+                    observacao: null,
+                    dataCriacao: null,
+                    matricula: null
+                },
+                valid: {
+                    implementacao: null,
+                    consulta: null,
+                    cadastro: null,
+                    semAlarme: null,
+                    parametros: null,
+                    admState: null,
+                    vlanBanda: null,
+                    vlanVoip: null,
+                    vlanVod: null,
+                    vlanMulticast: null,
+                    profile: null,
+                    potOnt: null,
+                    potOlt: null,
+                    listaAlarmes: null
+                }
+            }
+        ],
         check: [],
         // instancias: "7530301249;7130520294;1630143618;8531030639;7930272843;3125714804",
         instancias: "7530301249;7130520294",
@@ -65,15 +95,23 @@ new Vue({
             var self = this;
             var concat = "";
             for (var i = 0; i < self.check.length; i++) {
-                if (i+1 === self.check.length) {                    
+                if (i + 1 === self.check.length) {
                     concat += self.check[i];
-                } else {                    
+                } else {
                     concat += self.check[i] + ";";
                 }
             }
-            //console.log(concat);
+            //console.log(concat);            
             window.location.href = "http://localhost:8080/fulltestAPI/testecliente/exportSelect/" + concat;
         },
+        exportMassivoChange: function () {
+            var self = this;
+            if (self.check.length > 0) {
+                $("#exportaMassivo").removeAttr("disabled");
+            } else {
+                $("#exportaMassivo").attr("disabled", "disabled");
+            }
+        },        
         //LIST
         getLotes: function () {
             var self = this;
@@ -112,7 +150,7 @@ new Vue({
             for (var i = 0; i < listI.length; i++) {
                 if (listI[i].length > 4) {
                     lt.tests.push({id: null, status: "ATIVO", instancia: listI[i], lote: {id: h.id}});
-                }                
+                }
             }
             $.ajax({
                 type: "POST",
@@ -245,3 +283,5 @@ new Vue({
         }
     }
 });
+
+
