@@ -38,11 +38,11 @@ public class MassivoSingleton {
     public void abreThread() throws InterruptedException {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-        Integer quantTest = 40;
+        Integer quantTest = 50;
         List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(30);
+            ExecutorService exec = Executors.newFixedThreadPool(35);
             
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);

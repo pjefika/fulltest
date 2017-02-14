@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -51,10 +52,23 @@ public class ValidacaoGpon extends AbstractEntity {
     private String listaAlarmes;
     
     private String ontAssociado;
+    
+    @Transient
+    private Boolean reteste = false;
 
     public ValidacaoGpon() {
     }
 
+    public Boolean getReteste() {
+        return reteste;
+    }
+
+    public void setReteste(Boolean reteste) {
+        this.reteste = reteste;
+    }
+
+    
+    
     public String getOntAssociado() {
         return ontAssociado;
     }

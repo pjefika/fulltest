@@ -200,6 +200,16 @@ public class ValidacaoFacade {
             }
         }
         
+        if(valid.getParametros() == null && valid.getPortState() == null &&
+           valid.getProfile() == null && valid.getSemAlarme() == null &&
+           valid.getVlanBanda() == null && valid.getVlanVoip() == null  &&
+           valid.getListaAlarmes() == null && valid.getOntAssociado() == null &&
+           valid.getPotOlt() == null && valid.getPotOnt() == null){
+            
+            valid.setReteste(Boolean.TRUE);
+            
+        }
+        
         valid.setCadastro(Boolean.TRUE);
         
         valid.setConsulta(Boolean.TRUE);

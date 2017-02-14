@@ -20,17 +20,17 @@ public class ValidacaoGponDecorator {
     }
      
     public ValidacaoGpon falhaCadastro(){
-        v.setCadastro(Boolean.TRUE);
+        v.setCadastro(Boolean.FALSE);
         return v;
     }
      
     public ValidacaoGpon falhaImplementacao(){
-        v.setImplementacao(Boolean.TRUE);
+        v.setImplementacao(Boolean.FALSE);
         return v;
     }
      
     public ValidacaoGpon falhaConsulta(){
-        v.setConsulta(Boolean.TRUE);
+        v.setConsulta(Boolean.FALSE);
         return v;
     }
     

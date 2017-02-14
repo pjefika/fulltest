@@ -81,21 +81,27 @@ public class BackgroundTestThread implements Runnable{
         } finally {
             List<ValidacaoGpon> vs = new ArrayList<>();
             vs.add(vg);
-            cls.setValid(vs);
             
             try {
                 
-                vg.setTeste(cls);
-                cls.setDataFim(Calendar.getInstance());
-                cls.setStatus(Status.CONCLUIDO);
-                
-                if(cls.getLote().isTestesConc()){
-                    cls.getLote().setStatus(Status.CONCLUIDO);
+                if(vg.getReteste()){
+                    cls.setStatus(Status.ATIVO);
+                    tcDao.editar(cls);
+                }else{
+                    cls.setValid(vs);
+                    vg.setTeste(cls);
+                    cls.setDataFim(Calendar.getInstance());
+                    cls.setStatus(Status.CONCLUIDO);
+
+                    if(cls.getLote().isTestesConc()){
+                        cls.getLote().setStatus(Status.CONCLUIDO);
+                    }
+                    
+                    tcDao.cadastrar(vg);
+                    tcDao.editar(cls);
+                    tcDao.editar(cls.getLote());
                 }
                 
-                tcDao.cadastrar(vg);
-                tcDao.editar(cls);
-                tcDao.editar(cls.getLote());
             } catch (Exception e) {
                 System.out.println("deunao");
                 e.printStackTrace();
