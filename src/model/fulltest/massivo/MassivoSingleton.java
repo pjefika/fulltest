@@ -6,20 +6,14 @@
 package model.fulltest.massivo;
 
 import dao.massivo.TesteClienteDAO;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import javax.annotation.Resource;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Timeout;
-import javax.ejb.TimerService;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
-import model.entity.ValidacaoGpon;
-import model.fulltest.Status;
 
 /**
  *
@@ -31,74 +25,37 @@ public class MassivoSingleton {
 
     @Inject
     private TesteClienteDAO dao;
-    
-    @Resource
-    private TimerService timerService;
-    
-    @Timeout
-    public void timeOut() {
+//    
+//    @Resource
+//    private TimerService timerService;
+//    
+//    @Timeout
+//    public void timeOut() {
 //        abreThread();
-    }
+//    }
     
-    @Schedule(second= "1", minute = "*/2", hour = "*")
-    public void abreThread() {
+    @Schedule(second= "1", minute = "*/1", hour = "*")
+    public void abreThread() throws InterruptedException {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-        List<TesteCliente> l = dao.listarInstanciasPendentes(5);
+        Integer quantTest = 40;
+        List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(5);
-            List<BackgroundTestThread> bs = new ArrayList<>();
+            ExecutorService exec = Executors.newFixedThreadPool(30);
+            
             for (TesteCliente testeCliente : l) {
-                BackgroundTestThread b = new BackgroundTestThread(testeCliente);
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
                 exec.execute(b);
-                bs.add(b);
             }
 
             exec.shutdown();
 
             while (!exec.isTerminated()) {
-
+                
             }
-            System.out.println(bs);
-            for (BackgroundTestThread b : bs) {
-
-                for (ValidacaoGpon validacaoGpon : b.getCls().getValid()) {
-                    try {
-                        validacaoGpon.setTeste(b.getCls());
-                        dao.cadastrar(validacaoGpon);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
-                b.getCls().setStatus(Status.CONCLUIDO);
-
-                try {
-                    dao.editar(b.getCls());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                if (b.getCls().getLote().isTestesConc()) {
-                    try {
-                        b.getCls().getLote().setStatus(Status.CONCLUIDO);
-                        dao.editar(b.getCls().getLote());
-                    } catch (Exception ex) {
-                        System.out.println("leErro");
-                        ex.printStackTrace();
-                    }
-                }else{
-                    try {
-                        b.getCls().getLote().setStatus(Status.EM_EXECUCAO);
-                        dao.editar(b.getCls().getLote());
-                    } catch (Exception ex) {
-                        System.out.println("leErro");
-                        ex.printStackTrace();
-                    }
-                }
-
-            }
+            
+            System.out.println("Cabo as thread!");
         }
 
     }

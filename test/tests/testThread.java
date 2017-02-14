@@ -8,7 +8,6 @@ package tests;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.TesteCliente;
-import model.fulltest.massivo.BackgroundTestThread;
 
 /**
  *
@@ -22,10 +21,10 @@ public class testThread {
     public static void main(String[] args) {
 
         TesteCliente cls = new TesteCliente("7930272843");
-        BackgroundTestThread ba = new BackgroundTestThread(cls);
+//        BackgroundTestThread ba = new BackgroundTestThread(cls);
 
         try {
-            ba.run();
+//            ba.run();
         } catch (Exception ex) {
             Logger.getLogger(testThread.class.getName()).log(Level.SEVERE, null, ex);
         }

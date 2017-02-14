@@ -32,7 +32,7 @@ public class ValidacaoGpon extends AbstractEntity {
     private Boolean parametros;
 
 //    private Boolean link;
-    private Boolean admState;
+    private Boolean portState;
 
     private Boolean vlanBanda;
 
@@ -79,12 +79,12 @@ public class ValidacaoGpon extends AbstractEntity {
 //    public void setLink(Boolean link) {
 //        this.link = link;
 //    }
-    public Boolean getAdmState() {
-        return admState;
+    public Boolean getPortState() {
+        return portState;
     }
 
-    public void setAdmState(Boolean admState) {
-        this.admState = admState;
+    public void setPortState(Boolean portState) {
+        this.portState = portState;
     }
 
     public Boolean getVlanBanda() {
