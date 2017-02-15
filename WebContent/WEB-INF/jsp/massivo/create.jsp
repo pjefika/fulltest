@@ -145,8 +145,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
+        </div>        
     </div>
     <script src="${pageContext.request.contextPath}/resources/vue-components/testMassivo.js"></script>
 </div>

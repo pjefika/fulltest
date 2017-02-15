@@ -43,36 +43,7 @@ new Vue({
             concluido: 0,
             excluido: 0
         },
-        listaMassivo: [
-            {
-                id: null,
-                status: null,
-                instancia: null,
-                lote: {
-                    id: null,
-                    status: null,
-                    observacao: null,
-                    dataCriacao: null,
-                    matricula: null
-                },
-                valid: {
-                    implementacao: null,
-                    consulta: null,
-                    cadastro: null,
-                    semAlarme: null,
-                    parametros: null,
-                    admState: null,
-                    vlanBanda: null,
-                    vlanVoip: null,
-                    vlanVod: null,
-                    vlanMulticast: null,
-                    profile: null,
-                    potOnt: null,
-                    potOlt: null,
-                    listaAlarmes: null
-                }
-            }
-        ],
+        listaMassivo: [],
         check: [],
         // instancias: "7530301249;7130520294;1630143618;8531030639;7930272843;3125714804",
         instancias: "7530301249;7130520294",
@@ -111,7 +82,7 @@ new Vue({
             } else {
                 $("#exportaMassivo").attr("disabled", "disabled");
             }
-        },        
+        },
         //LIST
         getLotes: function () {
             var self = this;

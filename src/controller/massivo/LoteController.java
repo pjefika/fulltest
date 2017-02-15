@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import model.fulltest.Status;
 import controller.AbstractController;
 import controller.autenticacao.SessionUsuarioEfika;
+import javax.faces.bean.RequestScoped;
 import model.entity.Lote;
 
 /**
@@ -25,6 +26,7 @@ import model.entity.Lote;
  * @author G0034481
  */
 @Controller
+@RequestScoped
 public class LoteController extends AbstractController {
 
     @Inject
@@ -34,7 +36,7 @@ public class LoteController extends AbstractController {
     private LoteDAO loteDAO;
 
     public LoteController() {
-    }
+    }    
 
     @Path("/lote/massivo/ativos")
     @Get
@@ -83,7 +85,7 @@ public class LoteController extends AbstractController {
             this.result.use(Results.json()).from(e).serialize();
         }
     }
-    
+
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).include("tests").serialize();
     }

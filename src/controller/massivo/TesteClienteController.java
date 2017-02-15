@@ -20,6 +20,8 @@ import java.util.Arrays;
 import javax.faces.bean.RequestScoped;
 import model.entity.Lote;
 import model.entity.TesteCliente;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -48,16 +50,22 @@ public class TesteClienteController extends AbstractController {
         }
     }
 
-    @Get
     @Path("/testecliente/exportSelect/{idLotes}")
     public void exportLotesSelect(String idLotes) {
         List<String> listIdLotes = Arrays.asList(idLotes.split(";"));
         List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
 
-        if (l != null) {
+        //Blank workbook
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        //Create a blank sheet
+        XSSFSheet sheet = workbook.createSheet("excel data");
+        
+        
+
+        /*if (l != null) {
             this.includeSerializer(l);
             //this.result.include("instancias", l);
-        }
+        }*/
     }
 
     @Get
