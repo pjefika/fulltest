@@ -3,9 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+Vue.config.devtools = true;
+Vue.config.silent = true;
+
+var Lote = function(json) {
+    if (json.id) {
+        this.id = json.id;
+    }
+}
+
 
 var loteURL = "/fulltestAPI/lote/massivo/";
 var instanciaURL = "/fulltestAPI/instancia/massivo/";
+var exportURL = "/fulltestAPI/testecliente/exportSelect/"
+
+
 new Vue({
     el: "#massivo",
     data: {
@@ -49,20 +61,20 @@ new Vue({
         instancias: "7530301249;7130520294",
         delimiter: ";"
     },
-    created: function () {
+    created: function() {
         var self = this;
         self.getLotes();
     },
     methods: {
-        dateFormat: function (h) {
+        dateFormat: function(h) {
             return moment(h).format('DD/MM/YYYY');
         },
         //Export
-        exporty: function (h) {
+        exporty: function(h) {
             //var self = this;
-            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/" + h.id;
+            window.location.href = exportURL + h.id;
         },
-        exportSelect: function () {
+        exportSelect: function() {
             var self = this;
             var concat = "";
             for (var i = 0; i < self.check.length; i++) {
@@ -72,10 +84,9 @@ new Vue({
                     concat += self.check[i] + ";";
                 }
             }
-            //console.log(concat);            
-            window.location.href = "http://localhost:8080/fulltestAPI/testecliente/exportSelect/" + concat;
+            window.location.href = exportURL + concat;
         },
-        exportMassivoChange: function () {
+        exportMassivoChange: function() {
             var self = this;
             if (self.check.length > 0) {
                 $("#exportaMassivo").removeAttr("disabled");
@@ -84,34 +95,34 @@ new Vue({
             }
         },
         //LIST
-        getLotes: function () {
+        getLotes: function() {
             var self = this;
-            $.get(loteURL + "ativos", function (data) {
+            $.get(loteURL + "ativos", function(data) {
                 self.lotes = data.list;
                 self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
             });
         },
         //ADC
-        createLote: function () {
+        createLote: function() {
             var self = this;
             $.ajax({
                 type: "POST",
                 url: loteURL + "cadastrar",
                 data: JSON.stringify(self.adcLote),
                 dataType: "json",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
-                success: function (data) {
+                success: function(data) {
                     self.fetchLotes();
                     self.createListaLinhas(data.lote);
                 }
             });
         },
-        createListaLinhas: function (h) {
+        createListaLinhas: function(h) {
             var self = this;
             /*if (self.delimiter === "breakline") {
-             var listI = self.instancias.split("\n");                
+             var listI = self.instancias.split("\n");
              } else {
              var listI = self.instancias.split(self.delimiter);
              }*/
@@ -128,10 +139,10 @@ new Vue({
                 url: loteURL + "modificar",
                 data: JSON.stringify(lt),
                 dataType: "json",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
-                success: function () {
+                success: function() {
                     self.reset();
                     $("#adcLote").modal("hide");
                 }
@@ -139,7 +150,7 @@ new Vue({
             //console.log(lt);
         },
         //Modifica Lote
-        modLote: function () {
+        modLote: function() {
             var self = this;
             self.modifyLote.status = "EXCLUIDO";
             $.ajax({
@@ -147,10 +158,10 @@ new Vue({
                 url: loteURL + "modificar",
                 data: JSON.stringify(self.modifyLote),
                 dataType: "json",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
-                success: function () {
+                success: function() {
                     self.reset();
                     self.getLotes();
                     $("#delLote").modal("hide");
@@ -158,39 +169,39 @@ new Vue({
             });
         },
         //Exclui
-        deleLote: function () {
+        deleLote: function() {
             var self = this;
             $.ajax({
                 type: "POST",
                 url: loteURL + "excluir",
                 data: JSON.stringify(self.delLote),
                 dataType: "json",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
-                success: function () {
+                success: function() {
                     self.reset();
                     self.getLotes();
                     $("#delLote").modal("hide");
                 }
             });
         },
-        fetchLotes: function () {
+        fetchLotes: function() {
             var self = this;
-            setTimeout(function () {
+            setTimeout(function() {
                 self.getLotes();
             }, 600);
         },
-        fetchLoteDel: function (h) {
+        fetchLoteDel: function(h) {
             var self = this;
             self.delLote = h;
         },
-        fetchLoteEdit: function (h) {
+        fetchLoteEdit: function(h) {
             var self = this;
             self.viewLote = h;
             self.infoLoteCount();
         },
-        fetchLoteMod: function (h) {
+        fetchLoteMod: function(h) {
             var self = this;
             self.modifyLote.id = h.id;
             self.modifyLote.status = h.status;
@@ -199,7 +210,7 @@ new Vue({
             self.modifyLote.observacao = h.observacao;
         },
         //Reset Objects
-        infoLoteCount: function () {
+        infoLoteCount: function() {
             var self = this;
             var ins = self.viewLote.tests;
             for (var i = 0; i < ins.length; i++) {
@@ -215,7 +226,7 @@ new Vue({
             }
             //console.log(JSON.stringify(self.countInfo));
         },
-        reset: function () {
+        reset: function() {
             var self = this;
             self.adcLote = {
                 id: null,

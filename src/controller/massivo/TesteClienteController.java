@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import model.fulltest.Status;
 import controller.AbstractController;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.RequestScoped;
@@ -53,10 +54,10 @@ public class TesteClienteController extends AbstractController {
         }
     }
 
-    @Path("/testecliente/exportSelect/{lote.id}")
-    public Download exportLotesSelect(Lote lote) {
-
-        List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
+    @Get("/testecliente/exportSelect/{stringLotes}")
+    public Download exportLotesSelect(String stringLotes) {
+        List<String> listIdLotes = Arrays.asList(stringLotes.split(";"));
+        List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
 
         try {
             return DownloadBuilder.of(CSVUtils.toCsv(l))

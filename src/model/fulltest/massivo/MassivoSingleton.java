@@ -7,11 +7,15 @@ package model.fulltest.massivo;
 
 import dao.massivo.TesteClienteDAO;
 import java.util.List;
+import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import javax.ejb.AccessTimeout;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.ejb.Timeout;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 
@@ -25,16 +29,16 @@ public class MassivoSingleton {
 
     @Inject
     private TesteClienteDAO dao;
-//    
+//
 //    @Resource
 //    private TimerService timerService;
-//    
-//    @Timeout
-//    public void timeOut() {
-//        abreThread();
-//    }
-    
-    @Schedule(second= "1", minute = "*/1", hour = "*")
+//
+
+    @Timeout
+    public void timeOut() {
+    }
+
+    @Schedule(second = "1", minute = "*/1", hour = "*")
     public void abreThread() throws InterruptedException {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
@@ -43,7 +47,7 @@ public class MassivoSingleton {
 
         if (l != null) {
             ExecutorService exec = Executors.newFixedThreadPool(35);
-            
+
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
                 exec.execute(b);
@@ -52,9 +56,9 @@ public class MassivoSingleton {
             exec.shutdown();
 
             while (!exec.isTerminated()) {
-                
+
             }
-            
+
             System.out.println("Cabo as thread!");
         }
 

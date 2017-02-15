@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,6 +83,7 @@ public class CSVUtils {
 
             head.add("Instancia");
             head.add("Status");
+            head.add("Lote");
 
             for (Diagnostico v : tests.get(0).getValid().get(0).getDiagnosticoList()) {
                 head.add(v.getNome());
@@ -96,6 +96,7 @@ public class CSVUtils {
                 // Campos
                 list.add(test.getInstancia());
                 list.add(test.getStatus().getNome());
+                list.add(test.getLote().getId().toString());
 
                 for (ValidacaoGpon v : test.getValid()) {
                     for (Diagnostico d : v.getDiagnosticoList()) {
