@@ -85,7 +85,10 @@ public class CSVUtils {
             head.add("Status");
             head.add("Lote");
 
-            for (Diagnostico v : tests.get(0).getValid().get(0).getDiagnosticoList()) {
+            /**
+             *
+             */
+            for (Diagnostico v : new ValidacaoGpon().getDiagnosticoList()) {
                 head.add(v.getNome());
             }
 
