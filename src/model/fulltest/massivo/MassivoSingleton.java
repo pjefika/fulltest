@@ -7,11 +7,8 @@ package model.fulltest.massivo;
 
 import dao.massivo.TesteClienteDAO;
 import java.util.List;
-import java.util.Timer;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import javax.ejb.AccessTimeout;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -38,15 +35,16 @@ public class MassivoSingleton {
     public void timeOut() {
     }
 
-    @Schedule(second = "1", minute = "*/1", hour = "*")
+    @Schedule(second = "*/20", minute = "*/1", hour = "*")
     public void abreThread() throws InterruptedException {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-        Integer quantTest = 50;
+        Integer quantTest = 60;
+        Integer quantThread = (quantTest-(quantTest/3));
         List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(35);
+            ExecutorService exec = Executors.newFixedThreadPool(quantThread);
 
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);

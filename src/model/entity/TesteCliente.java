@@ -6,7 +6,6 @@
 package model.entity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,10 +29,6 @@ public class TesteCliente extends ComponenteGenerico {
     @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER)
     private List<ValidacaoGpon> valid;
     
-    private Calendar dataInicio;
-    
-    private Calendar dataFim;
-
     @NotNull
     @Size(min=5)
     private String instancia;
@@ -46,22 +41,6 @@ public class TesteCliente extends ComponenteGenerico {
         this.instancia = instancia;
     }
 
-     public Calendar getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Calendar dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Calendar getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Calendar dataFim) {
-        this.dataFim = dataFim;
-    }
-    
     public Lote getLote() {
         return lote;
     }
