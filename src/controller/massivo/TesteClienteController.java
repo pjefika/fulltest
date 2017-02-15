@@ -10,18 +10,21 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.observer.download.Download;
+import br.com.caelum.vraptor.observer.download.DownloadBuilder;
 import br.com.caelum.vraptor.view.Results;
 import dao.massivo.TesteClienteDAO;
 import java.util.List;
 import javax.inject.Inject;
 import model.fulltest.Status;
 import controller.AbstractController;
-import java.util.Arrays;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.RequestScoped;
 import model.entity.Lote;
 import model.entity.TesteCliente;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import util.CSVUtils;
 
 /**
  *
@@ -50,22 +53,21 @@ public class TesteClienteController extends AbstractController {
         }
     }
 
-    @Path("/testecliente/exportSelect/{idLotes}")
-    public void exportLotesSelect(String idLotes) {
-        List<String> listIdLotes = Arrays.asList(idLotes.split(";"));
-        List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
+    @Path("/testecliente/exportSelect/{lote.id}")
+    public Download exportLotesSelect(Lote lote) {
 
-        //Blank workbook
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        //Create a blank sheet
-        XSSFSheet sheet = workbook.createSheet("excel data");
-        
-        
+        List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
 
-        /*if (l != null) {
-            this.includeSerializer(l);
-            //this.result.include("instancias", l);
-        }*/
+        try {
+            return DownloadBuilder.of(CSVUtils.toCsv(l))
+                    .withFileName("export.csv") // opcional, o padrão é File.getName()
+                    .withContentType("application/vnd.ms-excel") // optional, não será enviado se nulo
+                    .downloadable() // opcional, o padrão é inline content
+                    .build();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TesteClienteController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     @Get

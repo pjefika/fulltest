@@ -5,11 +5,14 @@
  */
 package model.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import model.viewmodel.Diagnostico;
 
 /**
  *
@@ -22,6 +25,20 @@ public class ValidacaoGpon extends AbstractEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private TesteCliente teste;
 
+    /**
+     * Atributos normais
+     */
+    private Double potOnt;
+
+    private Double potOlt;
+
+    private String listaAlarmes;
+
+    private String ontAssociado;
+
+    /**
+     * Atributos normais
+     */
     private Boolean implementacao;
 
     private Boolean consulta;
@@ -32,7 +49,6 @@ public class ValidacaoGpon extends AbstractEntity {
 
     private Boolean parametros;
 
-//    private Boolean link;
     private Boolean portState;
 
     private Boolean vlanBanda;
@@ -45,18 +61,28 @@ public class ValidacaoGpon extends AbstractEntity {
 
     private Boolean profile;
 
-    private Double potOnt;
-
-    private Double potOlt;
-
-    private String listaAlarmes;
-    
-    private String ontAssociado;
-    
     @Transient
     private Boolean reteste = false;
 
     public ValidacaoGpon() {
+    }
+
+    public List<Diagnostico> getDiagnosticoList() {
+        List<Diagnostico> a = new ArrayList<>();
+
+        a.add(new Diagnostico("Implementacao", implementacao));
+        a.add(new Diagnostico("Consulta", consulta));
+        a.add(new Diagnostico("Cadastro", cadastro));
+        a.add(new Diagnostico("Sem Alarme", semAlarme));
+        a.add(new Diagnostico("Parâmetros", parametros));
+        a.add(new Diagnostico("portState", portState));
+        a.add(new Diagnostico("vlanBanda", vlanBanda));
+        a.add(new Diagnostico("vlanVoip", vlanVoip));
+        a.add(new Diagnostico("vlanVod", vlanVod));
+        a.add(new Diagnostico("vlanMulticast", vlanMulticast));
+        a.add(new Diagnostico("profile", profile));
+
+        return a;
     }
 
     public Boolean getReteste() {
@@ -67,8 +93,6 @@ public class ValidacaoGpon extends AbstractEntity {
         this.reteste = reteste;
     }
 
-    
-    
     public String getOntAssociado() {
         return ontAssociado;
     }
@@ -85,14 +109,6 @@ public class ValidacaoGpon extends AbstractEntity {
         this.parametros = parametros;
     }
 
-//
-//    public Boolean getLink() {
-//        return link;
-//    }
-//
-//    public void setLink(Boolean link) {
-//        this.link = link;
-//    }
     public Boolean getPortState() {
         return portState;
     }
