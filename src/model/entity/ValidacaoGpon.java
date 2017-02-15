@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  *
@@ -32,7 +33,7 @@ public class ValidacaoGpon extends AbstractEntity {
     private Boolean parametros;
 
 //    private Boolean link;
-    private Boolean admState;
+    private Boolean portState;
 
     private Boolean vlanBanda;
 
@@ -51,10 +52,23 @@ public class ValidacaoGpon extends AbstractEntity {
     private String listaAlarmes;
     
     private String ontAssociado;
+    
+    @Transient
+    private Boolean reteste = false;
 
     public ValidacaoGpon() {
     }
 
+    public Boolean getReteste() {
+        return reteste;
+    }
+
+    public void setReteste(Boolean reteste) {
+        this.reteste = reteste;
+    }
+
+    
+    
     public String getOntAssociado() {
         return ontAssociado;
     }
@@ -79,12 +93,12 @@ public class ValidacaoGpon extends AbstractEntity {
 //    public void setLink(Boolean link) {
 //        this.link = link;
 //    }
-    public Boolean getAdmState() {
-        return admState;
+    public Boolean getPortState() {
+        return portState;
     }
 
-    public void setAdmState(Boolean admState) {
-        this.admState = admState;
+    public void setPortState(Boolean portState) {
+        this.portState = portState;
     }
 
     public Boolean getVlanBanda() {

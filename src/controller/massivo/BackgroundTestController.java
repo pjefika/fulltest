@@ -15,19 +15,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.inject.Inject;
-import job.FullTestMassivo;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 import model.fulltest.massivo.BackgroundTestThread;
-import static org.quartz.JobBuilder.newJob;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
-import org.quartz.SimpleTrigger;
-import static org.quartz.TriggerBuilder.newTrigger;
-import org.quartz.impl.StdSchedulerFactory;
 
 /**
  *
@@ -51,7 +42,7 @@ public class BackgroundTestController extends AbstractController {
             ExecutorService exec = Executors.newFixedThreadPool(10);
             List<BackgroundTestThread> bs = new ArrayList<>();
             for (TesteCliente testeCliente : l) {
-                BackgroundTestThread b = new BackgroundTestThread(testeCliente);
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
                 exec.execute(b);
                 try {
                     b.getCls().setStatus(Status.CONCLUIDO);
@@ -106,32 +97,7 @@ public class BackgroundTestController extends AbstractController {
         }
     }
     
-    public void ronaldo(){
-        try {
-            // define the job and tie it to our MyJob class
-            JobDetail job = newJob(FullTestMassivo.class)
-                    .withIdentity("job1", "group1")
-                    .build();
-            
-            // Trigger the job to run now, and then repeat every 40 seconds
-            SimpleTrigger trigger = newTrigger()
-                    .withIdentity("trigger1", "group1")
-                    .startNow()
-                    .withSchedule(simpleSchedule()
-                            .withIntervalInSeconds(120)
-                            .repeatForever())
-                    .build();
-            
-            // Tell quartz to schedule the job using our trigger
-            Scheduler scheduler = StdSchedulerFactory.getDefaultScheduler();
-            scheduler.scheduleJob(job, trigger);
-            
-            scheduler.start();
-            
-        } catch (SchedulerException ex) {
-            ex.printStackTrace();
-        }
-    }
+    
 
     @Override
     public void includeSerializer(Object a) {
