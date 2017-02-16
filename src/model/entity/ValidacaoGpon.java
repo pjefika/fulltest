@@ -6,12 +6,12 @@
 package model.entity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import model.viewmodel.Diagnostico;
 
 /**
@@ -60,8 +60,11 @@ public class ValidacaoGpon extends AbstractEntity {
     private Boolean vlanMulticast;
 
     private Boolean profile;
+    
+    private Calendar dataInicio;
+    
+    private Calendar dataFim;
 
-    @Transient
     private Boolean reteste = false;
 
     public ValidacaoGpon() {
@@ -84,6 +87,24 @@ public class ValidacaoGpon extends AbstractEntity {
 
         return a;
     }
+
+    public Calendar getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Calendar dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Calendar getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Calendar dataFim) {
+        this.dataFim = dataFim;
+    }
+    
+    
 
     public Boolean getReteste() {
         return reteste;

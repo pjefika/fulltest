@@ -48,9 +48,13 @@ public class BackgroundTestThread implements Runnable{
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
         ValidacaoGpon vg = null;
         
-        cls.setDataInicio(Calendar.getInstance());
+        Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
-        cls.getLote().setStatus(Status.EM_EXECUCAO);
+        if(cls.getLote().getStatus().equals(Status.ATIVO)){
+            cls.getLote().setStatus(Status.EM_EXECUCAO);
+            cls.getLote().setDataInicio(inicio);
+        }
+        
         try {
             tcDao.editar(cls);
             tcDao.editar(cls.getLote());
@@ -79,29 +83,37 @@ public class BackgroundTestThread implements Runnable{
             vg = d.falhaImplementacao();
 
         } finally {
-            List<ValidacaoGpon> vs = new ArrayList<>();
+            List<ValidacaoGpon> vs = null;
+            if(cls.getValid().isEmpty()){
+                vs = new ArrayList<>();
+                if(!vg.getCadastro()||!vg.getConsulta()||!vg.getImplementacao()){
+                    vg.setReteste(Boolean.TRUE);
+                }
+            }else{
+                vs = cls.getValid();
+            }
             vs.add(vg);
+            cls.setValid(vs);
+            vg.setTeste(cls);
+            vg.setDataInicio(inicio);
+            vg.setDataFim(Calendar.getInstance());
             
             try {
-                
                 if(vg.getReteste()){
                     cls.setStatus(Status.ATIVO);
                     tcDao.editar(cls);
                 }else{
-                    cls.setValid(vs);
-                    vg.setTeste(cls);
-                    cls.setDataFim(Calendar.getInstance());
                     cls.setStatus(Status.CONCLUIDO);
-
-                    if(cls.getLote().isTestesConc()){
-                        cls.getLote().setStatus(Status.CONCLUIDO);
-                    }
-                    
-                    tcDao.cadastrar(vg);
-                    tcDao.editar(cls);
-                    tcDao.editar(cls.getLote());
+                    tcDao.editar(cls);    
                 }
                 
+                if(cls.getLote().isTestesConc()){
+                    cls.getLote().setStatus(Status.CONCLUIDO);
+                    cls.getLote().setDataFim(Calendar.getInstance());
+                }
+                
+                tcDao.cadastrar(vg);
+                tcDao.editar(cls.getLote());
             } catch (Exception e) {
                 System.out.println("deunao");
                 e.printStackTrace();

@@ -6,6 +6,7 @@
 package model.entity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -31,6 +32,10 @@ public class Lote extends ComponenteGenerico {
     private Date dataCriacao;
     
     private String matricula;
+    
+    private Calendar dataInicio;
+    
+    private Calendar dataFim;
 
     public Lote() {
         this.tests = new ArrayList<>();
@@ -43,6 +48,22 @@ public class Lote extends ComponenteGenerico {
             }
         }
         return true;
+    }
+
+    public Calendar getDataInicio() {
+        return dataInicio;
+    }
+
+    public void setDataInicio(Calendar dataInicio) {
+        this.dataInicio = dataInicio;
+    }
+
+    public Calendar getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(Calendar dataFim) {
+        this.dataFim = dataFim;
     }
 
     public List<TesteCliente> getTests() {
