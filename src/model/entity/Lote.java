@@ -43,6 +43,7 @@ public class Lote extends ComponenteGenerico {
     
     public Boolean isTestesConc(){
         for (TesteCliente test : tests) {
+            System.out.println(test.getInstancia());
             if(!test.getStatus().equals(Status.CONCLUIDO)){
                 return false;
             }

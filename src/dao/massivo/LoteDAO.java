@@ -40,7 +40,7 @@ public class LoteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<Lote> listarLoteExport(Lote lote) {
+    public List<Lote> listarLotePorId(Lote lote) {
         try {
             Query query = this.entityManager.createQuery("FROM Lote l WHERE l.id =:param1");
             query.setParameter("param1", lote.getId());

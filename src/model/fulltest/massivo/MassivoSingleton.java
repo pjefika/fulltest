@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.ejb.Timeout;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 
@@ -31,9 +30,9 @@ public class MassivoSingleton {
 //    private TimerService timerService;
 //
 
-    @Timeout
-    public void timeOut() {
-    }
+//    @Timeout
+//    public void timeOut() {
+//    }
 
     @Schedule(second = "*/20", minute = "*/1", hour = "*")
     public void abreThread() throws InterruptedException {
