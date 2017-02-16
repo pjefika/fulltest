@@ -5,6 +5,7 @@
  */
 package model.dslam;
 
+import dao.dslam.telnet.Conector;
 import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
@@ -14,7 +15,7 @@ import model.produtos.ProdutoCliente;
  *
  * @author G0041775
  */
-public abstract class AbstractDslam {
+public abstract class AbstractDslam implements Conector {
 
     private String tecnologia;
     private String vendor;
@@ -27,6 +28,16 @@ public abstract class AbstractDslam {
     private String vlanMulticaste;
     private ProdutoCliente prod;
 
+    private Credencial credencial;
+    public LoginDslamStrategy loginStrategy;
+
+    private ConsultaDslam cd;
+
+    @Override
+    public void conectar() {
+        this.loginStrategy.conectar(this.getCd());
+    }
+
     public ProdutoCliente getProd() {
         return prod;
     }
@@ -34,8 +45,6 @@ public abstract class AbstractDslam {
     public void setProd(ProdutoCliente prod) {
         this.prod = prod;
     }
-    
-
 
     public String getVlanVoipe() {
         return vlanVoipe;
@@ -60,11 +69,6 @@ public abstract class AbstractDslam {
     public void setVlanMulticaste(String vlanMulticast) {
         this.vlanMulticaste = vlanMulticast;
     }
-
-    private Credencial credencial;
-    public LoginDslamStrategy loginStrategy;
-
-    private ConsultaDslam cd;
 
     public void setTecnologia(String tecnologia) {
         this.tecnologia = tecnologia;

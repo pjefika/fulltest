@@ -5,6 +5,7 @@
  */
 package model.dslam.vivo2.gpon;
 
+import dao.dslam.telnet.Conector;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
 import model.dslam.consulta.AlarmesGpon;
@@ -30,7 +31,6 @@ public abstract class DslamGpon extends AbstractDslam
     private BigInteger porta;
     private BigInteger logica;
     private BigInteger sequencial;
-
 
     @Override
     public abstract TabelaParametrosGpon getTabelaParametros() throws Exception;
@@ -58,7 +58,7 @@ public abstract class DslamGpon extends AbstractDslam
 
     @Override
     public abstract ProfileGpon getProfile() throws Exception;
-    
+
     public void setSlot(BigInteger slot) {
         this.slot = slot;
     }

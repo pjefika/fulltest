@@ -5,7 +5,7 @@
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
 
-package exception.ossturbonet.oss.gvt.com;
+package bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com;
 
 public class OSSTurbonetException  extends org.apache.axis.AxisFault  implements java.io.Serializable {
     public OSSTurbonetException() {

@@ -38,8 +38,32 @@ public class AlcatelGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
+    @Override
+    public void conectar() {
+        super.conectar();
+        try {
+            this.getCd().consulta(this.getComandoInhibitAlarms());
+            this.getCd().consulta(this.getComandoModeBatch());
+            this.getCd().consulta(this.getComandoExit());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public ComandoDslam getComandoInhibitAlarms() {
+        return new ComandoDslam("environment inhibit-alarms", 100);
+    }
+
+    public ComandoDslam getComandoModeBatch() {
+        return new ComandoDslam("environment mode batch", 100);
+    }
+
+    public ComandoDslam getComandoExit() {
+        return new ComandoDslam("exit", 100);
+    }
+
     public ComandoDslam getComandoDumpRafael() {
-        return new ComandoDslam("show equipment ont optics xml", 2000);
+        return new ComandoDslam("show equipment ont optics", 100);
     }
 
     /**
@@ -122,10 +146,10 @@ public class AlcatelGponDslam extends DslamGpon {
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanBanda()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if(leVlan.isEmpty()){
+            if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
             }
-            
+
             String[] pegaVlan = leVlan.split(":");
             cvlan = new BigInteger(pegaVlan[1]);
             p100 = new BigInteger(pegaVlan[2]);
@@ -151,7 +175,7 @@ public class AlcatelGponDslam extends DslamGpon {
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVoip()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if(leVlan.isEmpty()){
+            if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
             }
             String[] pegaVlan = leVlan.split(":");
@@ -178,7 +202,7 @@ public class AlcatelGponDslam extends DslamGpon {
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVod()));
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if(leVlan.isEmpty()){
+            if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
             }
             String[] pegaVlan = leVlan.split(":");
@@ -206,7 +230,7 @@ public class AlcatelGponDslam extends DslamGpon {
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanMulticast()));
             leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if(leVlan.isEmpty()){
+            if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
             }
         }
@@ -255,14 +279,14 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public ProfileGpon getProfile() throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaProfile()));
-        
+
         String leProfileDown = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='shaper-profile']");
         String profileDown = leProfileDown.substring(5, leProfileDown.length());
         String leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[1]");
-        if(leProfileUp.length()<5){
-            leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[2]");    
+        if (leProfileUp.length() < 5) {
+            leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[2]");
         }
-        System.out.println("Profs "+leProfileUp);
+        System.out.println("Profs " + leProfileUp);
         String profileUp = leProfileUp.substring(5, leProfileUp.length());
 
         ProfileGpon prof = new ProfileGpon();

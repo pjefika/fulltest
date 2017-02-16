@@ -56,7 +56,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.configurarPVC(configurarPVCIn);
   }
   
-  public java.lang.String getDesignatorByAccessDesignator(java.lang.String accessDesignator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String getDesignatorByAccessDesignator(java.lang.String accessDesignator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getDesignatorByAccessDesignator(accessDesignator);
@@ -98,13 +98,13 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.updateRadius(OSSTurbonetUpdateRadiusIn);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponOut consultInfoGpon(com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponIn consultInfoGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponOut consultInfoGpon(com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponIn consultInfoGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.consultInfoGpon(consultInfoGponIn);
   }
   
-  public bean.ossturbonet.oss.gvt.com.InfoAuthentication getInfoAuthentication(java.lang.String designator, java.lang.String instance, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public bean.ossturbonet.oss.gvt.com.InfoAuthentication getInfoAuthentication(java.lang.String designator, java.lang.String instance, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getInfoAuthentication(designator, instance, login, userName, sistemaOriginario);
@@ -128,7 +128,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.consultarStatusCanaisPVC(consultarStatusCanaisPVCIn);
   }
   
-  public boolean associaSerialOLT(java.lang.String accessDesignator, java.lang.String serialOLT, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public boolean associaSerialOLT(java.lang.String accessDesignator, java.lang.String serialOLT, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.associaSerialOLT(accessDesignator, serialOLT, designator, login, userName, instance, sistemaOriginario);
@@ -152,7 +152,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.getAdslUseReport(OSSTurbonetAdslUseReportIn);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponOut manobrarDslamGpon(com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponIn manobraDslamGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponOut manobrarDslamGpon(com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponIn manobraDslamGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.manobrarDslamGpon(manobraDslamGponIn);
@@ -164,7 +164,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.isClienteAutenticado(OSSTurbonetClienteAutenticadoIn);
   }
   
-  public java.lang.String changeRate(java.lang.String designator, java.lang.String accessDesignator, java.lang.String instance, java.math.BigInteger newDownRate, java.math.BigInteger newUpRate, java.lang.String oldDownUpRate, java.lang.String pon, java.lang.String rpon, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String changeRate(java.lang.String designator, java.lang.String accessDesignator, java.lang.String instance, java.math.BigInteger newDownRate, java.math.BigInteger newUpRate, java.lang.String oldDownUpRate, java.lang.String pon, java.lang.String rpon, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.changeRate(designator, accessDesignator, instance, newDownRate, newUpRate, oldDownUpRate, pon, rpon, login, userName, sistemaOriginario);
@@ -200,13 +200,13 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.certifyTurbonet(designator, instance, login, userName, originalSystem, baNumber, baType, baDispatched, allowedToFix);
   }
   
-  public java.lang.String changeProfile(java.lang.String designator, java.lang.String newModulation, java.lang.String oldModulation, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String changeProfile(java.lang.String designator, java.lang.String newModulation, java.lang.String oldModulation, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.changeProfile(designator, newModulation, oldModulation, login, userName, instance, sistemaOriginario);
   }
   
-  public java.lang.String getAccessDesignator(java.lang.String designator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String getAccessDesignator(java.lang.String designator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getAccessDesignator(designator);
@@ -218,13 +218,13 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.getLogTesteVelocidade(ossTurbonetGetLogTesteVelocidadeIn);
   }
   
-  public java.lang.String reset(java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String reset(java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.reset(designator, login, userName, instance, sistemaOriginario);
   }
   
-  public java.lang.String[] getSeriaisOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String[] getSeriaisOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getSeriaisOLT(accessDesignator, designator, login, userName, instance, sistemaOriginario);
@@ -242,19 +242,19 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     oSSTurbonet.createSNRAttenLog(upStreamSinc, downStreamSinc, upStreamProfile, downStreamProfile, upStreamSNR, downStreamSNR, upStreamSNRRange, downStreamSNRRange, attenuationMin, attenuationMax, designador, instancia, upstreamSincRange, downstreamSincRange, tipoSS, descricaoSS, detalheSS, solucaoSS, sistemaOriginario);
   }
   
-  public boolean desassociaSerialOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public boolean desassociaSerialOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.desassociaSerialOLT(accessDesignator, designator, login, userName, instance, sistemaOriginario);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponOut equipmentSimulationGpon(com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponIn equipmentSimulateGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponOut equipmentSimulationGpon(com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponIn equipmentSimulateGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.equipmentSimulationGpon(equipmentSimulateGponIn);
   }
   
-  public bean.ossturbonet.oss.gvt.com.AccessInfo getAccessInfo(java.lang.String accessDesignator, java.lang.String instancia, java.lang.String activityInd) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public bean.ossturbonet.oss.gvt.com.AccessInfo getAccessInfo(java.lang.String accessDesignator, java.lang.String instancia, java.lang.String activityInd) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getAccessInfo(accessDesignator, instancia, activityInd);
@@ -278,19 +278,19 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.obterPerfilRadius(OSSTurbonetPerfilRadiusIn);
   }
   
-  public bean.ossturbonet.oss.gvt.com.RadiusInfo getRadiusInfo(java.lang.String designator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public bean.ossturbonet.oss.gvt.com.RadiusInfo getRadiusInfo(java.lang.String designator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getRadiusInfo(designator);
   }
   
-  public java.lang.String changeRateForRadius(java.lang.String designator, java.lang.String instance, java.lang.String oldDownUpRate, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String changeRateForRadius(java.lang.String designator, java.lang.String instance, java.lang.String oldDownUpRate, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.changeRateForRadius(designator, instance, oldDownUpRate, login, userName, sistemaOriginario);
   }
   
-  public java.lang.String changeLockAndUnlock(java.lang.String designator, java.lang.String instance, java.lang.String newstatus, java.lang.String oldstatus, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String changeLockAndUnlock(java.lang.String designator, java.lang.String instance, java.lang.String newstatus, java.lang.String oldstatus, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.changeLockAndUnlock(designator, instance, newstatus, oldstatus, login, userName, sistemaOriginario);
@@ -308,7 +308,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.getAuthenticationByIPorMac(ipOrmac);
   }
   
-  public bean.ossturbonet.oss.gvt.com.GetInfoOut getInfo(java.lang.String designator, java.lang.String accessDesignator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario, java.lang.String downstreamCrm, java.lang.String upstreamCrm) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public bean.ossturbonet.oss.gvt.com.GetInfoOut getInfo(java.lang.String designator, java.lang.String accessDesignator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario, java.lang.String downstreamCrm, java.lang.String upstreamCrm) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getInfo(designator, accessDesignator, login, userName, instance, sistemaOriginario, downstreamCrm, upstreamCrm);
@@ -326,7 +326,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.getAccountingRelayInfo(OSSTurbonetAccountingRelayIn);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONOut diagnosticoAcessoGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONIn diagnosticoAcessoGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONOut diagnosticoAcessoGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONIn diagnosticoAcessoGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.diagnosticoAcessoGPON(diagnosticoAcessoGPONIn);
@@ -344,13 +344,13 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.logCertify(ossTurbonetLogCertifyIn);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.UpdateRateGponOut updateRateGpon(com.gvt.www.ws.eai.oss.gpon.UpdateRateGponIn updateRateGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.UpdateRateGponOut updateRateGpon(com.gvt.www.ws.eai.oss.gpon.UpdateRateGponIn updateRateGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.updateRateGpon(updateRateGponIn);
   }
   
-  public com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONOut diagnosticoVozGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONIn diagnosticoVozGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONOut diagnosticoVozGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONIn diagnosticoVozGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.diagnosticoVozGPON(diagnosticoVozGPONIn);
@@ -362,7 +362,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.obterMotivosDesconexao(OSSTurbonetMotivosDesconexaoIn);
   }
   
-  public com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut getInfoShortCircuit(com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn ossTurbonetShortCircuitIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut getInfoShortCircuit(com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn ossTurbonetShortCircuitIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.getInfoShortCircuit(ossTurbonetShortCircuitIn);
@@ -404,7 +404,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.changeRateWithProtocol(OSSTurbonetChangeRateIn);
   }
   
-  public com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONOut resetOnt(com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONIn resetOntGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONOut resetOnt(com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONIn resetOntGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.resetOnt(resetOntGPONIn);
@@ -416,7 +416,7 @@ public class OSSTurbonetProxy implements com.gvt.www.ws.eai.oss.ossturbonet.OSST
     return oSSTurbonet.isInBlackList(OSSTurbonetBlackListIn);
   }
   
-  public java.lang.String changeDNSReverso(java.lang.String designator, java.lang.String instance, java.lang.String strNewDomain, java.lang.String strOldDomain, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
+  public java.lang.String changeDNSReverso(java.lang.String designator, java.lang.String instance, java.lang.String strNewDomain, java.lang.String strOldDomain, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException{
     if (oSSTurbonet == null)
       _initOSSTurbonetProxy();
     return oSSTurbonet.changeDNSReverso(designator, instance, strNewDomain, strOldDomain, login, userName, sistemaOriginario);

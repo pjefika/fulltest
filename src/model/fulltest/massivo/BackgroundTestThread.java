@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.decorator.ValidacaoGponDecorator;
+import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.TesteCliente;

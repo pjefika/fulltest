@@ -18,7 +18,7 @@ import model.dslam.login.LoginDslamStrategy;
  *
  * @author G0042204
  */
-public class ConsultaDslam {
+public class ConsultaDslam implements Conector {
 
     public Socket pingSocket;
     public PrintWriter out;
@@ -33,8 +33,9 @@ public class ConsultaDslam {
 
     }
 
-    public void conectar() throws IOException {
-        this.dslam.getLoginStrategy().conectar(this);
+    @Override
+    public void conectar() {
+        this.dslam.conectar();
     }
 
     public List<String> getRetorno() throws IOException {
@@ -74,7 +75,8 @@ public class ConsultaDslam {
             return comando;
 
         } catch (IOException e) {
-            System.out.println("erro executando comando ->"+comando.getSintax());
+            e.printStackTrace();
+            System.out.println("erro executando comando ->" + comando.getSintax());
         }
         return null;
     }

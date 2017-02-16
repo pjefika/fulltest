@@ -2300,14 +2300,14 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 
             qName = new javax.xml.namespace.QName("java:com.gvt.oss.ossturbonet.exception", "DataNotFoundException");
             cachedSerQNames.add(qName);
-            cls = exception.ossturbonet.oss.gvt.com.DataNotFoundException.class;
+            cls = bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
 
             qName = new javax.xml.namespace.QName("java:com.gvt.oss.ossturbonet.exception", "OSSTurbonetException");
             cachedSerQNames.add(qName);
-            cls = exception.ossturbonet.oss.gvt.com.OSSTurbonetException.class;
+            cls = bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -2449,7 +2449,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public java.lang.String getDesignatorByAccessDesignator(java.lang.String accessDesignator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String getDesignatorByAccessDesignator(java.lang.String accessDesignator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -2481,11 +2481,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -2684,7 +2684,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponOut consultInfoGpon(com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponIn consultInfoGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponOut consultInfoGpon(com.gvt.www.ws.eai.oss.gpon.ConsultInfoGponIn consultInfoGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -2716,18 +2716,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public bean.ossturbonet.oss.gvt.com.InfoAuthentication getInfoAuthentication(java.lang.String designator, java.lang.String instance, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public bean.ossturbonet.oss.gvt.com.InfoAuthentication getInfoAuthentication(java.lang.String designator, java.lang.String instance, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -2759,11 +2759,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -2866,7 +2866,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public boolean associaSerialOLT(java.lang.String accessDesignator, java.lang.String serialOLT, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public boolean associaSerialOLT(java.lang.String accessDesignator, java.lang.String serialOLT, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -2898,11 +2898,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3005,7 +3005,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponOut manobrarDslamGpon(com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponIn manobraDslamGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponOut manobrarDslamGpon(com.gvt.www.ws.eai.oss.gpon.ManobraDslamGponIn manobraDslamGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3037,11 +3037,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3080,7 +3080,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public java.lang.String changeRate(java.lang.String designator, java.lang.String accessDesignator, java.lang.String instance, java.math.BigInteger newDownRate, java.math.BigInteger newUpRate, java.lang.String oldDownUpRate, java.lang.String pon, java.lang.String rpon, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String changeRate(java.lang.String designator, java.lang.String accessDesignator, java.lang.String instance, java.math.BigInteger newDownRate, java.math.BigInteger newUpRate, java.lang.String oldDownUpRate, java.lang.String pon, java.lang.String rpon, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3112,11 +3112,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3283,7 +3283,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public java.lang.String changeProfile(java.lang.String designator, java.lang.String newModulation, java.lang.String oldModulation, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String changeProfile(java.lang.String designator, java.lang.String newModulation, java.lang.String oldModulation, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3315,18 +3315,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public java.lang.String getAccessDesignator(java.lang.String designator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String getAccessDesignator(java.lang.String designator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3358,11 +3358,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3401,7 +3401,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public java.lang.String reset(java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String reset(java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3433,18 +3433,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public java.lang.String[] getSeriaisOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String[] getSeriaisOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3476,11 +3476,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3544,7 +3544,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public boolean desassociaSerialOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public boolean desassociaSerialOLT(java.lang.String accessDesignator, java.lang.String designator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3576,18 +3576,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponOut equipmentSimulationGpon(com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponIn equipmentSimulateGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponOut equipmentSimulationGpon(com.gvt.www.ws.eai.oss.gpon.EquipmentSimulateGponIn equipmentSimulateGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3619,18 +3619,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public bean.ossturbonet.oss.gvt.com.AccessInfo getAccessInfo(java.lang.String accessDesignator, java.lang.String instancia, java.lang.String activityInd) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public bean.ossturbonet.oss.gvt.com.AccessInfo getAccessInfo(java.lang.String accessDesignator, java.lang.String instancia, java.lang.String activityInd) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3662,11 +3662,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3769,7 +3769,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public bean.ossturbonet.oss.gvt.com.RadiusInfo getRadiusInfo(java.lang.String designator) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public bean.ossturbonet.oss.gvt.com.RadiusInfo getRadiusInfo(java.lang.String designator) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3801,18 +3801,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public java.lang.String changeRateForRadius(java.lang.String designator, java.lang.String instance, java.lang.String oldDownUpRate, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String changeRateForRadius(java.lang.String designator, java.lang.String instance, java.lang.String oldDownUpRate, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3844,18 +3844,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public java.lang.String changeLockAndUnlock(java.lang.String designator, java.lang.String instance, java.lang.String newstatus, java.lang.String oldstatus, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String changeLockAndUnlock(java.lang.String designator, java.lang.String instance, java.lang.String newstatus, java.lang.String oldstatus, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -3887,11 +3887,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -3970,7 +3970,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public bean.ossturbonet.oss.gvt.com.GetInfoOut getInfo(java.lang.String designator, java.lang.String accessDesignator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario, java.lang.String downstreamCrm, java.lang.String upstreamCrm) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public bean.ossturbonet.oss.gvt.com.GetInfoOut getInfo(java.lang.String designator, java.lang.String accessDesignator, java.lang.String login, java.lang.String userName, java.lang.String instance, java.lang.String sistemaOriginario, java.lang.String downstreamCrm, java.lang.String upstreamCrm) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4002,11 +4002,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -4077,7 +4077,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONOut diagnosticoAcessoGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONIn diagnosticoAcessoGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONOut diagnosticoAcessoGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoAcessoGPONIn diagnosticoAcessoGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4109,11 +4109,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -4184,7 +4184,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.UpdateRateGponOut updateRateGpon(com.gvt.www.ws.eai.oss.gpon.UpdateRateGponIn updateRateGponIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.UpdateRateGponOut updateRateGpon(com.gvt.www.ws.eai.oss.gpon.UpdateRateGponIn updateRateGponIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4216,18 +4216,18 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
 }
     }
 
-    public com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONOut diagnosticoVozGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONIn diagnosticoVozGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONOut diagnosticoVozGPON(com.gvt.www.ws.eai.oss.gpon.DiagnosticoVozGPONIn diagnosticoVozGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4259,11 +4259,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -4302,7 +4302,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut getInfoShortCircuit(com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn ossTurbonetShortCircuitIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut getInfoShortCircuit(com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn ossTurbonetShortCircuitIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4334,8 +4334,8 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -4534,7 +4534,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONOut resetOnt(com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONIn resetOntGPONIn) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONOut resetOnt(com.gvt.www.ws.eai.oss.ResetOntGPON.ResetOntGPONIn resetOntGPONIn) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4566,11 +4566,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;
@@ -4609,7 +4609,7 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
 }
     }
 
-    public java.lang.String changeDNSReverso(java.lang.String designator, java.lang.String instance, java.lang.String strNewDomain, java.lang.String strOldDomain, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, exception.ossturbonet.oss.gvt.com.DataNotFoundException, exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
+    public java.lang.String changeDNSReverso(java.lang.String designator, java.lang.String instance, java.lang.String strNewDomain, java.lang.String strOldDomain, java.lang.String login, java.lang.String userName, java.lang.String sistemaOriginario) throws java.rmi.RemoteException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException, bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
@@ -4641,11 +4641,11 @@ public class OSSTurbonetServiceSoapBindingStub extends org.apache.axis.client.St
         if (axisFaultException.detail instanceof java.rmi.RemoteException) {
               throw (java.rmi.RemoteException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
-              throw (exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.DataNotFoundException) axisFaultException.detail;
          }
-        if (axisFaultException.detail instanceof exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
-              throw (exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
+        if (axisFaultException.detail instanceof bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) {
+              throw (bean.ossturbonet.oss.gvt.com.exception.ossturbonet.oss.gvt.com.OSSTurbonetException) axisFaultException.detail;
          }
    }
   throw axisFaultException;

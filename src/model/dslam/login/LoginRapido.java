@@ -28,15 +28,26 @@ public class LoginRapido implements LoginDslamStrategy {
             cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
             cs.out.println(cs.dslam.getCredencial().getLogin());
             cs.out.println(cs.dslam.getCredencial().getPass());
-            if(cs.dslam.getVendor().equalsIgnoreCase("ALCATEL")){
-                cs.out.println("environment inhibit-alarms");
-                cs.out.println("environment mode batch");
-                cs.out.println("exit");
-            }
-            
+
+            /**
+             * Anotação para discussão sobre arquitetura.
+             *
+             * Dar preferencia ao polimorfismo.
+             *
+             * Principio da responsabilidade unica: Esses comandos são
+             * especificos do ALCATEL GPON;
+             *
+             * @see Construtor AlcatelGponDslam
+             * @author G0042204
+             */
+//            if(cs.dslam.getVendor().equalsIgnoreCase("ALCATEL")){
+//                cs.out.println("environment inhibit-alarms");
+//                cs.out.println("environment mode batch");
+//                cs.out.println("exit");
+//            }
             System.out.println("Connect!");
-        } catch (IOException ex) {
-            Logger.getLogger(LoginRapido.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }

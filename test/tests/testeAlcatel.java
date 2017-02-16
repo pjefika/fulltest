@@ -17,13 +17,21 @@ public class testeAlcatel {
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
 
-        AlcatelGponDslam dslam = new AlcatelGponDslam();
+        try {
+            AlcatelGponDslam dslam = new AlcatelGponDslam();
+            //AbstractDslam dslam = new ZhoneGponDslam();
 
-        dslam.setIpDslam("10.227.26.12");
+            // ZHONE
+            //dslam.setIpDslam("10.171.21.86");
+            /// ALCATEL
+            dslam.setIpDslam("10.171.33.150");
+            System.out.println(dslam.getDumpRafael());
 
-        System.out.println(dslam.getDumpRafael());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
