@@ -6,18 +6,20 @@
 package model.fulltest.massivo;
 
 import dao.cadastro.CadastroDAO;
+import dao.massivo.LoteDAO;
 import dao.massivo.TesteClienteDAO;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
+import model.entity.Lote;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 import model.fulltest.validacao.ValidacaoFacade;
+import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
 
 /**
  *
@@ -29,17 +31,21 @@ public class BackgroundTestThread implements Runnable{
 
     private TesteCliente cls;
     
+    private LoteDAO lDao;
+    
     private TesteClienteDAO tcDao;
 
     /**
      *
      * @param cls
+     * @param lDao
      * @param tcDao
      */
-    public BackgroundTestThread(TesteCliente cls, TesteClienteDAO tcDao) {
-        this.cls = cls;
+    public BackgroundTestThread(TesteCliente cls, LoteDAO lDao, TesteClienteDAO tcDao) {
         this.dao = new CadastroDAO();
+        this.lDao = lDao;
         this.tcDao = tcDao;
+        this.cls = cls;
     }
 
     @Override
@@ -48,16 +54,20 @@ public class BackgroundTestThread implements Runnable{
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
         ValidacaoGpon vg = null;
         
+        
+        
         Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
+        Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote());
+        
         if(cls.getLote().getStatus().equals(Status.ATIVO)){
             cls.getLote().setStatus(Status.EM_EXECUCAO);
             cls.getLote().setDataInicio(inicio);
         }
-        
+        TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
         try {
-            tcDao.editar(cls);
-            tcDao.editar(cls.getLote());
+            lDao.editar(leTeste);
+            lDao.editar(leTeste.getLote());
         } catch (Exception e) {
             System.out.println("Erro de alteracao de status");
             e.printStackTrace();
@@ -74,22 +84,23 @@ public class BackgroundTestThread implements Runnable{
                 System.out.println("erro");
                 e.printStackTrace();
                 vg = d.falhaConsulta();
+                vg.setReteste(Boolean.TRUE);
             }
 
         } catch (RemoteException e) {
             vg = d.falhaCadastro();
+            vg.setReteste(Boolean.TRUE);
 
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
+            vg.setReteste(Boolean.TRUE);
 
         } finally {
             List<ValidacaoGpon> vs = null;
             if(cls.getValid().isEmpty()){
                 vs = new ArrayList<>();
-                if(!vg.getCadastro()||!vg.getConsulta()||!vg.getImplementacao()){
-                    vg.setReteste(Boolean.TRUE);
-                }
             }else{
+                vg.setReteste(Boolean.FALSE);
                 vs = cls.getValid();
             }
             vs.add(vg);
@@ -97,23 +108,30 @@ public class BackgroundTestThread implements Runnable{
             vg.setTeste(cls);
             vg.setDataInicio(inicio);
             vg.setDataFim(Calendar.getInstance());
+            cls.setStatus(Status.CONCLUIDO);
+            
+            if(vg.getReteste().booleanValue()){
+                cls.setStatus(Status.ATIVO);
+            }
+            
             
             try {
-                if(vg.getReteste()){
-                    cls.setStatus(Status.ATIVO);
-                    tcDao.editar(cls);
-                }else{
-                    cls.setStatus(Status.CONCLUIDO);
-                    tcDao.editar(cls);    
-                }
+                lDao.editar(leTeste);
                 
-                if(cls.getLote().isTestesConc()){
-                    cls.getLote().setStatus(Status.CONCLUIDO);
-                    cls.getLote().setDataFim(Calendar.getInstance());
-                }
+                lDao.cadastrar(vg);
                 
-                tcDao.cadastrar(vg);
-                tcDao.editar(cls.getLote());
+                Integer i = 0;
+                for (TesteCliente test : leLote.getTests()) {
+                    if(!test.getStatus().equals(Status.CONCLUIDO)){
+                        i = 1;
+                    }
+                }
+                if(i == 0){
+                    leLote.setStatus(Status.CONCLUIDO);
+                    leLote.setDataFim(Calendar.getInstance());
+                }
+                lDao.editar(leLote);
+                
             } catch (Exception e) {
                 System.out.println("deunao");
                 e.printStackTrace();

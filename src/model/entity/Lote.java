@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import model.fulltest.Status;
 
 /**
  *
@@ -41,15 +40,6 @@ public class Lote extends ComponenteGenerico {
         this.tests = new ArrayList<>();
     }
     
-    public Boolean isTestesConc(){
-        for (TesteCliente test : tests) {
-            System.out.println(test.getInstancia());
-            if(!test.getStatus().equals(Status.CONCLUIDO)){
-                return false;
-            }
-        }
-        return true;
-    }
 
     public Calendar getDataInicio() {
         return dataInicio;

@@ -8,8 +8,8 @@ package dao.massivo;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
-import model.fulltest.Status;
 import model.entity.Lote;
+import model.fulltest.Status;
 
 /**
  *
@@ -40,13 +40,13 @@ public class LoteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<Lote> listarLotePorId(Lote lote) {
+    public Lote buscarLotePorId(Lote lote) {
         try {
             Query query = this.entityManager.createQuery("FROM Lote l WHERE l.id =:param1");
             query.setParameter("param1", lote.getId());
-            return query.getResultList();
+            return (Lote) query.getSingleResult();
         } catch (Exception e) {
-            return new ArrayList<>();
+            return null;
         }
     }
 }

@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
+import dao.massivo.LoteDAO;
 import dao.massivo.TesteClienteDAO;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,9 @@ public class BackgroundTestController extends AbstractController {
 
     @Inject
     private TesteClienteDAO dao;
+    
+    @Inject
+    private LoteDAO lDao;
 
     public BackgroundTestController() {
     }
@@ -42,7 +46,7 @@ public class BackgroundTestController extends AbstractController {
             ExecutorService exec = Executors.newFixedThreadPool(10);
             List<BackgroundTestThread> bs = new ArrayList<>();
             for (TesteCliente testeCliente : l) {
-                BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente, lDao, dao);
                 exec.execute(b);
                 try {
                     b.getCls().setStatus(Status.CONCLUIDO);

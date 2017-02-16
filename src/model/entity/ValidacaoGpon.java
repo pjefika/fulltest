@@ -103,8 +103,6 @@ public class ValidacaoGpon extends AbstractEntity {
     public void setDataFim(Calendar dataFim) {
         this.dataFim = dataFim;
     }
-    
-    
 
     public Boolean getReteste() {
         return reteste;

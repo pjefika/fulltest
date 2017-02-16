@@ -5,6 +5,7 @@
  */
 package model.fulltest.massivo;
 
+import dao.massivo.LoteDAO;
 import dao.massivo.TesteClienteDAO;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +26,9 @@ public class MassivoSingleton {
 
     @Inject
     private TesteClienteDAO dao;
+    
+    @Inject
+    private LoteDAO lDao;
 //
 //    @Resource
 //    private TimerService timerService;
@@ -46,7 +50,7 @@ public class MassivoSingleton {
             ExecutorService exec = Executors.newFixedThreadPool(quantThread);
 
             for (TesteCliente testeCliente : l) {
-                BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente, lDao, dao);
                 exec.execute(b);
             }
 

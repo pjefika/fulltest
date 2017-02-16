@@ -42,13 +42,25 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public List<TesteCliente> listarInstanciasPendentes(Integer limit) {
         try {
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1");
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1 ORDER BY t.id");
+            
             query.setParameter("param1", Status.ATIVO);            
             query.setMaxResults(limit);
+            
             
             return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
+        }
+    }
+    
+    public TesteCliente buscarInstanciaPorId(TesteCliente tc) {
+        try {
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.instancia=:param1");
+            query.setParameter("param1", tc.getInstancia());
+            return (TesteCliente) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
     }
 
