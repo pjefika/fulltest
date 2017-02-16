@@ -67,7 +67,7 @@ new Vue({
     },
     methods: {
         dateFormat: function(h) {
-            return moment(h).format('DD/MM/YYYY');
+            return moment(h).format('DD/MM/YYYY HH:mm:ss');
         },
         //Export
         exporty: function(h) {

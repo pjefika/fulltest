@@ -36,8 +36,8 @@
                     <td>{{lote.matricula}}</td>
                     <td>{{lote.observacao}}</td>
                     <td>
-                        <button class="btn btn-primary glyphicon glyphicon-download-alt btn-sm" type="button" @click="exporty(lote)"></button>
-                        <button type="button" class="btn btn-info glyphicon glyphicon-edit btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static" @click="fetchLoteEdit(lote)"></button>
+                        <button class="btn btn-primary glyphicon glyphicon-download-alt btn-sm" type="button" @click="exporty(lote)" data-toggle="tooltip" data-placement="right" title="Exportar."></button>
+                        <button type="button" class="btn btn-info glyphicon glyphicon-zoom-in btn-sm" data-toggle="modal" data-target="#editLote" data-backdrop="static" @click="fetchLoteEdit(lote)"></button>
                         <button type="button" class="btn btn-danger glyphicon glyphicon-trash btn-sm" data-toggle="modal" data-target="#delLote" data-backdrop="static" @click="fetchLoteMod(lote)"></button>
                     </td>
                 </tr>                
@@ -83,43 +83,46 @@
                         <h4 class="modal-title" id="myModalLabel">Informações do Lote</h4>
                     </div>
                     <div class="modal-body">                        
-                        <div class="form-group">                            
-                            <label>ID:</label>
-                            {{viewLote.id}}
-                            <br/>
-                            <label>Data de Criação:</label>
-                            {{dateFormat(viewLote.dataCriacao)}}
-                            <br/>
-                            <label>Matricula:</label>
-                            {{viewLote.matricula}}
-                            <br/>
-                            <label>Observação:</label>
-                            {{viewLote.observacao}}
-                            <br/>
-                            <label>Status:</label>
-                            {{viewLote.status}}
+                        <div class="list-group">
+                            <div class="list-group-item">                                
+                                <p class="list-group-item-text">ID: {{viewLote.id}}</p>
+                            </div>
+                            <div class="list-group-item">
+                                <p class="list-group-item-text">Data de Criação: {{dateFormat(viewLote.dataCriacao)}}</p>
+                            </div>   
+                            <div class="list-group-item">
+                                <p class="list-group-item-text">Matricula: {{viewLote.matricula}}</p>
+                            </div>   
+                            <div class="list-group-item">
+                                <p class="list-group-item-text">Observação: {{viewLote.observacao}}</p>
+                            </div>   
+                            <div class="list-group-item">
+                                <p class="list-group-item-text">Status: {{viewLote.status}}</p>
+                            </div>   
                         </div>
                         <hr>  
-                        <label>Info</label>
+                        <label>Informações dos testes</label>
                         <div class="form-group">        
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Quantidade Ativo</th>
-                                        <th>Quantidade em Execução</th>
-                                        <th>Quantidade Concluido</th>
-                                        <th>Quantidade Excluido</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>{{countInfo.ativo}}</td>
-                                        <td>{{countInfo.execucao}}</td>
-                                        <td>{{countInfo.concluido}}</td>
-                                        <td>{{countInfo.excluido}}</td>
-                                    </tr>
-                                </tbody>                                
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Quant/Ativo</th>
+                                            <th>Quant/Execução</th>
+                                            <th>Quant/Concluido</th>
+                                            <th>Quant/Excluido</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{countInfo.ativo}}</td>
+                                            <td>{{countInfo.execucao}}</td>
+                                            <td>{{countInfo.concluido}}</td>
+                                            <td>{{countInfo.excluido}}</td>
+                                        </tr>
+                                    </tbody>                                
+                                </table>                                
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">                        
