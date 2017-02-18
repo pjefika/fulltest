@@ -75,8 +75,19 @@ public class ConsultaDslam implements Conector {
             return comando;
 
         } catch (IOException e) {
-            e.printStackTrace();
-            System.out.println("erro executando comando ->" + comando.getSintax());
+            try {
+                close();
+                Thread.sleep(3000);
+                conectar();
+                out.println(comando.getSintax());
+                Thread.sleep(comando.getSleep());
+                out.println("||");
+                comando.setRetorno(this.getRetorno());
+                return comando;
+            } catch (Exception ex) {
+                System.out.println("Nao foi nem depois de fechar e abrir conexao Dx");
+                ex.printStackTrace();
+            }
         }
         return null;
     }

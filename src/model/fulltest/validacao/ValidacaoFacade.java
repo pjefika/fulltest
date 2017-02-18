@@ -210,13 +210,16 @@ public class ValidacaoFacade {
             
         }
         
+        
+        
         valid.setCadastro(Boolean.TRUE);
         
         valid.setConsulta(Boolean.TRUE);
         
         valid.setImplementacao(Boolean.TRUE);
         
-
+        dslam.getCd().close();
+        
         return valid;
     }
 

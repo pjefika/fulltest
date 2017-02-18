@@ -52,22 +52,22 @@ public class BackgroundTestThread implements Runnable{
     public void run() {
 
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
-        ValidacaoGpon vg = null;
+        ValidacaoGpon vg = new ValidacaoGpon();
         
         
         
         Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
-        Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote());
+        
         
         if(cls.getLote().getStatus().equals(Status.ATIVO)){
             cls.getLote().setStatus(Status.EM_EXECUCAO);
             cls.getLote().setDataInicio(inicio);
         }
-        TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
+        
         try {
-            lDao.editar(leTeste);
-            lDao.editar(leTeste.getLote());
+            lDao.editar(cls);
+            lDao.editar(cls.getLote());
         } catch (Exception e) {
             System.out.println("Erro de alteracao de status");
             e.printStackTrace();
@@ -81,7 +81,7 @@ public class BackgroundTestThread implements Runnable{
             try {
                 vg = v.validar();
             } catch (Exception e) {
-                System.out.println("erro");
+                System.out.println("");
                 e.printStackTrace();
                 vg = d.falhaConsulta();
                 vg.setReteste(Boolean.TRUE);
@@ -96,7 +96,7 @@ public class BackgroundTestThread implements Runnable{
             vg.setReteste(Boolean.TRUE);
 
         } finally {
-            List<ValidacaoGpon> vs = null;
+            List<ValidacaoGpon> vs;
             if(cls.getValid().isEmpty()){
                 vs = new ArrayList<>();
             }else{
@@ -110,26 +110,46 @@ public class BackgroundTestThread implements Runnable{
             vg.setDataFim(Calendar.getInstance());
             cls.setStatus(Status.CONCLUIDO);
             
-            if(vg.getReteste().booleanValue()){
+            if(vg.getReteste()){
                 cls.setStatus(Status.ATIVO);
             }
-            
+                        
+            TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
             
             try {
                 lDao.editar(leTeste);
-                
+            } catch (Exception e) {
+                System.out.println("naoeditoleTeste");
+                try {
+                    lDao.editar(cls);
+                } catch (Exception ex) {
+                    System.out.println("naoeditocls");
+                    ex.printStackTrace();
+                    System.out.println("leTeste:");
+                    e.printStackTrace();
+                }
+            }
+            
+            try {
                 lDao.cadastrar(vg);
-                
+            } catch (Exception e) {
+                System.out.println("naocadastrouvg");
+                e.printStackTrace();
+            }
+               
+            
+            try {
                 Integer i = 0;
-                for (TesteCliente test : leLote.getTests()) {
+                for (TesteCliente test : cls.getLote().getTests()) {
                     if(!test.getStatus().equals(Status.CONCLUIDO)){
                         i = 1;
                     }
                 }
                 if(i == 0){
-                    leLote.setStatus(Status.CONCLUIDO);
-                    leLote.setDataFim(Calendar.getInstance());
+                    cls.getLote().setStatus(Status.CONCLUIDO);
+                    cls.getLote().setDataFim(Calendar.getInstance());
                 }
+                Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote()); 
                 lDao.editar(leLote);
                 
             } catch (Exception e) {

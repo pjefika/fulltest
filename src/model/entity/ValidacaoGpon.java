@@ -65,7 +65,7 @@ public class ValidacaoGpon extends AbstractEntity {
     
     private Calendar dataFim;
 
-    private Boolean reteste = false;
+    private Boolean reteste = Boolean.FALSE;
 
     public ValidacaoGpon() {
     }

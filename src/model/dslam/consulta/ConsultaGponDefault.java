@@ -28,5 +28,6 @@ public interface ConsultaGponDefault {
     public AlarmesGpon getAlarmes() throws Exception;
     
     public ProfileGpon getProfile() throws Exception;
+    
    
 }
