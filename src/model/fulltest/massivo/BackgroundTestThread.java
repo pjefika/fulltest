@@ -89,8 +89,6 @@ public class BackgroundTestThread implements Runnable{
 
         } catch (RemoteException e) {
             vg = d.falhaCadastro();
-            vg.setReteste(Boolean.TRUE);
-
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
             vg.setReteste(Boolean.TRUE);
