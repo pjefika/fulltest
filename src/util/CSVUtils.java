@@ -73,7 +73,11 @@ public class CSVUtils {
 
     public static File toCsv(List<TesteCliente> tests) {
 
-        String csvFile = "C:/tests.csv";
+        /**
+         * For windows only
+         *        String csvFile = "C:/tests.csv";
+         */
+        String csvFile = "/tmp/tests.csv";
         FileWriter writer;
         try {
             writer = new FileWriter(csvFile);
