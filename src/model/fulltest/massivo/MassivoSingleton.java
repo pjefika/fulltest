@@ -45,6 +45,9 @@ public class MassivoSingleton {
         Integer quantTest = 60;
         Integer quantThread = (quantTest-(quantTest/3));
         List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
+        if(l.isEmpty()){
+            l = dao.listarInstanciasPresasExec(quantTest);
+        }
 
         if (l != null) {
             ExecutorService exec = Executors.newFixedThreadPool(quantThread);

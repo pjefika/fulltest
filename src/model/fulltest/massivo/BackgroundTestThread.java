@@ -92,11 +92,10 @@ public class BackgroundTestThread implements Runnable{
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
             vg.setReteste(Boolean.TRUE);
-
         } finally {
             TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
-                try {
-                                List<ValidacaoGpon> vs;
+            try {
+                List<ValidacaoGpon> vs;
                 if(cls.getValid().isEmpty()){
                     vs = new ArrayList<>();
                 }else{
@@ -115,10 +114,10 @@ public class BackgroundTestThread implements Runnable{
                 }
 
                 leTeste.setStatus(cls.getStatus());
-                } catch (Exception e) {
-                    System.out.println("lecrazy");
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                System.out.println("lecrazy");
+                e.printStackTrace();
+            }
             try {
                 lDao.editar(leTeste);
             } catch (Exception e) {
