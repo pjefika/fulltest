@@ -96,26 +96,31 @@ public class BackgroundTestThread implements Runnable{
             vg.setReteste(Boolean.TRUE);
 
         } finally {
-            List<ValidacaoGpon> vs;
-            if(cls.getValid().isEmpty()){
-                vs = new ArrayList<>();
-            }else{
-                vg.setReteste(Boolean.FALSE);
-                vs = cls.getValid();
-            }
-            vs.add(vg);
-            cls.setValid(vs);
-            vg.setTeste(cls);
-            vg.setDataInicio(inicio);
-            vg.setDataFim(Calendar.getInstance());
-            cls.setStatus(Status.CONCLUIDO);
-            
-            if(vg.getReteste()){
-                cls.setStatus(Status.ATIVO);
-            }
-                        
             TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
-            
+                try {
+                                List<ValidacaoGpon> vs;
+                if(cls.getValid().isEmpty()){
+                    vs = new ArrayList<>();
+                }else{
+                    vg.setReteste(Boolean.FALSE);
+                    vs = cls.getValid();
+                }
+                vs.add(vg);
+                cls.setValid(vs);
+                vg.setTeste(cls);
+                vg.setDataInicio(inicio);
+                vg.setDataFim(Calendar.getInstance());
+                cls.setStatus(Status.CONCLUIDO);
+
+                if(vg.getReteste()){
+                    cls.setStatus(Status.ATIVO);
+                }
+
+                leTeste.setStatus(cls.getStatus());
+                } catch (Exception e) {
+                    System.out.println("lecrazy");
+                    e.printStackTrace();
+                }
             try {
                 lDao.editar(leTeste);
             } catch (Exception e) {

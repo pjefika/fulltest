@@ -32,7 +32,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public List<TesteCliente> listarInstanciasPendentes() {
         try {
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE (t.status =:param1 OR t.status=:param2) AND (t.lote.status =:param1 OR t.lote.status=:param2)");
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             return query.getResultList();
@@ -43,7 +43,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public List<TesteCliente> listarInstanciasPendentes(Integer limit) {
         try {
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE (t.status =:param1 OR t.status=:param2) AND (t.lote.status =:param1 OR t.lote.status=:param2)");
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
