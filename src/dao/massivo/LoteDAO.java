@@ -39,6 +39,16 @@ public class LoteDAO extends ComponenteTestsDAO {
             return new ArrayList<>();
         }
     }
+    
+    public List<Lote> listarLotesEmExec(){
+        try {
+            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status =:param1");
+            query.setParameter("param1", Status.EM_EXECUCAO);
+            return query.getResultList();
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
+    }
 
     public Lote buscarLotePorId(Lote lote) {
         try {

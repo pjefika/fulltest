@@ -14,7 +14,9 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+import model.entity.Lote;
 import model.entity.TesteCliente;
+import model.fulltest.Status;
 
 /**
  *
@@ -29,28 +31,21 @@ public class MassivoSingleton {
     
     @Inject
     private LoteDAO lDao;
-//
-//    @Resource
-//    private TimerService timerService;
-//
-
-//    @Timeout
-//    public void timeOut() {
-//    }
 
     @Schedule(second = "*/20", minute = "*/1", hour = "*")
     public void abreThread() throws InterruptedException {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-        Integer quantTest = 60;
-        Integer quantThread = (quantTest-(quantTest/3));
+        
+        Integer quantTest = 40;
+//        Integer quantThread = (quantTest-(quantTest/3));
         List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
         if(l.isEmpty()){
             l = dao.listarInstanciasPresasExec(quantTest);
         }
 
         if (l != null) {
-            ExecutorService exec = Executors.newFixedThreadPool(quantThread);
+            ExecutorService exec = Executors.newCachedThreadPool();
 
             for (TesteCliente testeCliente : l) {
                 BackgroundTestThread b = new BackgroundTestThread(testeCliente, lDao, dao);
@@ -62,10 +57,31 @@ public class MassivoSingleton {
             while (!exec.isTerminated()) {
 
             }
+            
+           
 
             System.out.println("Cabo as thread!");
         }
 
+    }
+    @Schedule(second = "1", minute = "*/1", hour = "*")
+    public void loteStatus(){
+
+        List<Lote> ltExec = lDao.listarLotesEmExec();
+        for (Lote lote : ltExec) {
+            if(lote.isTestesConc()){
+                lote.setStatus(Status.CONCLUIDO);
+                try {
+                    lDao.editar(lote);    
+                } catch (Exception e) {
+                    System.out.println("paunolotepersist");
+                    e.printStackTrace();
+                }
+                
+            }
+        }
+        
+        
     }
 
 }

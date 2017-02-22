@@ -46,5 +46,9 @@ public class ComponenteTestsDAO {
             throw e;
         }
     }
+    
+    public void flush(){
+        this.entityManager.flush();
+    }
 
 }

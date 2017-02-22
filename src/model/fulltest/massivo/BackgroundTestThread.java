@@ -54,20 +54,20 @@ public class BackgroundTestThread implements Runnable{
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
         ValidacaoGpon vg = new ValidacaoGpon();
         
-        
+        Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote());
         
         Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
         
         
-        if(cls.getLote().getStatus().equals(Status.ATIVO)){
-            cls.getLote().setStatus(Status.EM_EXECUCAO);
-            cls.getLote().setDataInicio(inicio);
+        if(leLote.getStatus().equals(Status.ATIVO)){
+            leLote.setStatus(Status.EM_EXECUCAO);
+            leLote.setDataInicio(inicio);
         }
         
         try {
             lDao.editar(cls);
-            lDao.editar(cls.getLote());
+            lDao.editar(leLote);
         } catch (Exception e) {
             System.out.println("Erro de alteracao de status");
             e.printStackTrace();
@@ -118,6 +118,15 @@ public class BackgroundTestThread implements Runnable{
                 System.out.println("lecrazy");
                 e.printStackTrace();
             }
+            
+            try {
+                lDao.cadastrar(vg);
+            } catch (Exception e) {
+                System.out.println("naocadastrouvg");
+                e.printStackTrace();
+            }
+            
+            
             try {
                 lDao.editar(leTeste);
             } catch (Exception e) {
@@ -130,33 +139,6 @@ public class BackgroundTestThread implements Runnable{
                     System.out.println("leTeste:");
                     e.printStackTrace();
                 }
-            }
-            
-            try {
-                lDao.cadastrar(vg);
-            } catch (Exception e) {
-                System.out.println("naocadastrouvg");
-                e.printStackTrace();
-            }
-               
-            
-            try {
-                Integer i = 0;
-                for (TesteCliente test : cls.getLote().getTests()) {
-                    if(!test.getStatus().equals(Status.CONCLUIDO)){
-                        i = 1;
-                    }
-                }
-                if(i == 0){
-                    cls.getLote().setStatus(Status.CONCLUIDO);
-                    cls.getLote().setDataFim(Calendar.getInstance());
-                }
-                Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote()); 
-                lDao.editar(leLote);
-                
-            } catch (Exception e) {
-                System.out.println("deunao");
-                e.printStackTrace();
             }
         }
 

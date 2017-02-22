@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
 @Table(name = "fulltestAPI_TesteCliente")
 public class TesteCliente extends ComponenteGenerico {
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private Lote lote;
 
     @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER)
