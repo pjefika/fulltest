@@ -91,7 +91,6 @@ public class BackgroundTestThread implements Runnable{
             vg = d.falhaCadastro();
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
-            vg.setReteste(Boolean.TRUE);
         } finally {
             TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
             try {

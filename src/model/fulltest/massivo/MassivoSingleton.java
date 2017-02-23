@@ -14,9 +14,7 @@ import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
-import model.entity.Lote;
 import model.entity.TesteCliente;
-import model.fulltest.Status;
 
 /**
  *
@@ -33,7 +31,7 @@ public class MassivoSingleton {
     private LoteDAO lDao;
 
     @Schedule(second = "*/20", minute = "*/1", hour = "*")
-    public void abreThread() throws InterruptedException {
+    public void abreThread() {
 
         System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
         
@@ -63,25 +61,6 @@ public class MassivoSingleton {
             System.out.println("Cabo as thread!");
         }
 
-    }
-    @Schedule(second = "1", minute = "*/1", hour = "*")
-    public void loteStatus(){
-
-        List<Lote> ltExec = lDao.listarLotesEmExec();
-        for (Lote lote : ltExec) {
-            if(lote.isTestesConc()){
-                lote.setStatus(Status.CONCLUIDO);
-                try {
-                    lDao.editar(lote);    
-                } catch (Exception e) {
-                    System.out.println("paunolotepersist");
-                    e.printStackTrace();
-                }
-                
-            }
-        }
-        
-        
     }
 
 }

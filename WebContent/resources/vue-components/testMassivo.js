@@ -97,10 +97,12 @@ new Vue({
         //LIST
         getLotes: function() {
             var self = this;
+            
             $.get(loteURL + "ativos", function(data) {
                 self.lotes = data.list;
                 self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
             });
+            
         },
         //ADC
         createLote: function() {

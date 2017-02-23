@@ -148,6 +148,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="loading" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title text-center" id="myModalLabel">Carregando</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="${pageContext.request.contextPath}/resources/imagens/ring.gif" />
+                    </div>
+                </div>
+            </div>
         </div>        
     </div>
     <script src="${pageContext.request.contextPath}/resources/vue-components/testMassivo.js"></script>
