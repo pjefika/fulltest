@@ -42,7 +42,7 @@ public class ConsultaDslam implements Conector {
 
         List<String> list = new ArrayList<>();
 
-        for (int i = 0; i < 9999; i++) {
+        for (int i = 0; i < 999999; i++) {
 
             String line = in.readLine();
             if (line.contains("||")) {

@@ -88,13 +88,16 @@ public class CSVUtils {
             head.add("Instancia");
             head.add("Status");
             head.add("Lote");
-
+            head.add("Pot OLT");
+            head.add("Pot ONT");
+            head.add("Serial ONT");
             /**
              *
              */
             for (Diagnostico v : new ValidacaoGpon().getDiagnosticoList()) {
                 head.add(v.getNome());
             }
+            
 
             CSVUtils.writeLine(writer, head);
 
@@ -104,7 +107,9 @@ public class CSVUtils {
                 list.add(test.getInstancia());
                 list.add(test.getStatus().getNome());
                 list.add(test.getLote().getId().toString());
-
+                list.add(test.getValid().get(0).getPotOlt().toString());
+                list.add(test.getValid().get(0).getPotOnt().toString());
+                list.add(test.getValid().get(0).getOntAssociado());                
                 for (ValidacaoGpon v : test.getValid()) {
                     for (Diagnostico d : v.getDiagnosticoList()) {
                         Boolean b = d.getResultado();
@@ -114,7 +119,9 @@ public class CSVUtils {
                             list.add("");
                         }
                     }
+                    
                 }
+                
 
                 CSVUtils.writeLine(writer, list);
             }

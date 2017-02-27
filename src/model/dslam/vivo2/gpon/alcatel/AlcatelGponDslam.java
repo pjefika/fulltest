@@ -63,7 +63,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoDumpRafael() {
-        return new ComandoDslam("show equipment ont optics", 100);
+        return new ComandoDslam("show equipment ont operational-data detail xml", 1000);
     }
 
     /**
@@ -72,10 +72,10 @@ public class AlcatelGponDslam extends DslamGpon {
      * @return
      * @throws Exception
      */
-    public String getDumpRafael() throws Exception {
+    public Document getDumpRafael() throws Exception {
         //Document xml;
         //xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoDumpRafael()));
-        return this.getCd().consulta(this.getComandoDumpRafael()).getBlob();
+        return TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoDumpRafael()));
     }
 
     public ComandoDslam getComandoTabelaParametros() {

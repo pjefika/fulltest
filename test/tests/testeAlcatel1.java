@@ -19,7 +19,7 @@ import org.w3c.dom.NodeList;
  *
  * @author G0042204
  */
-public class testeAlcatel {
+public class testeAlcatel1 {
 
     /**
      * @param args the command line arguments
@@ -36,7 +36,7 @@ public class testeAlcatel {
             /// ALCATEL
 //            dslam.setIpDslam("10.131.10.77");
             
-            Scanner s = new Scanner(new File("C:\\Users\\g0041775\\Documents\\logs wildfly\\hosts_new.txt"));
+            Scanner s = new Scanner(new File("C:\\Users\\g0041775\\Documents\\logs wildfly\\hosts_new0.txt"));
             ArrayList<String> list = new ArrayList<String>();
             while (s.hasNextLine()){
                 list.add(s.nextLine());
@@ -98,11 +98,8 @@ public class testeAlcatel {
 
                     }
                     writer.close();
-                    writer = null;
-                    
+                     writer = null;
                     System.out.println("Done "+lDslam.getNomeDslam());
-                    
-                    dslam= null;
                 } catch (Exception e) {
                     System.out.println("Nao fez "+lDslam.getNomeDslam()+" - "+lDslam.getIpDslam());
                     e.printStackTrace();
@@ -114,8 +111,8 @@ public class testeAlcatel {
 
             
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
     }
