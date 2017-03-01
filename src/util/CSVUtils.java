@@ -40,6 +40,7 @@ public class CSVUtils {
         if (result.contains("\"")) {
             result = result.replace("\"", "\"\"");
         }
+        
         return result;
 
     }
@@ -67,7 +68,9 @@ public class CSVUtils {
             first = false;
         }
         sb.append("\n");
-        w.append(sb.toString());
+        String result = sb.toString();
+//        String leResult = Charset.forName("UTF-8").decode(Charset.forName("unicode").encode(result)).toString();
+        w.append(result);
 
     }
 
@@ -107,10 +110,23 @@ public class CSVUtils {
                 list.add(test.getInstancia());
                 list.add(test.getStatus().getNome());
                 list.add(test.getLote().getId().toString());
-                list.add(test.getValid().get(0).getPotOlt().toString());
-                list.add(test.getValid().get(0).getPotOnt().toString());
-                list.add(test.getValid().get(0).getOntAssociado());                
+         
                 for (ValidacaoGpon v : test.getValid()) {
+                    if(v.getPotOlt()!= null){
+                       list.add(v.getPotOlt().toString());
+                    }else{
+                       list.add("");
+                    }
+                    if(v.getPotOnt()!= null){
+                       list.add(v.getPotOnt().toString());
+                    }else{
+                       list.add("");
+                    }
+                    if(v.getOntAssociado()!= null){
+                       list.add(v.getOntAssociado());
+                    }else{
+                       list.add("");
+                    }
                     for (Diagnostico d : v.getDiagnosticoList()) {
                         Boolean b = d.getResultado();
                         if (b != null) {
