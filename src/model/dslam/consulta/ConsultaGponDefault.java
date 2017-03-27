@@ -10,7 +10,7 @@ package model.dslam.consulta;
  * @author G0042204
  */
 public interface ConsultaGponDefault {
-
+    
     public EstadoDaPorta getEstadoDaPorta() throws Exception;
 
     public SerialOntGpon getSerialOnt() throws Exception;

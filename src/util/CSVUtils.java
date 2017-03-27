@@ -78,9 +78,10 @@ public class CSVUtils {
 
         /**
          * For windows only
-         *        String csvFile = "C:/tests.csv";
+         *       String csvFile = "C:/tests.csv";
          */
-        String csvFile = "/tmp/tests.csv";
+//        String csvFile = "/tmp/tests.csv";
+        String csvFile = "C:/tests.csv";
         FileWriter writer;
         try {
             writer = new FileWriter(csvFile);
