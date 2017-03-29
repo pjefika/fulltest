@@ -15,7 +15,7 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:hsql://localhost/co_hsqldb" />
             <property name="javax.persistence.jdbc.user" value="sa" />
             <property name="javax.persistence.jdbc.password" value="" />
-            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
             <property name="hibernate.connection.shutdown" value="true"/>
         </properties>
