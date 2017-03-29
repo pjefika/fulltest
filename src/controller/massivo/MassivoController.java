@@ -26,11 +26,12 @@ public class MassivoController extends AbstractController {
 
     @Inject
     private TesteClienteDAO dao;
-
+    
     @Inject
     private LoteDAO lDao;
-
+    
     public MassivoController() {
+        
     }
 
     @Logado
@@ -56,7 +57,7 @@ public class MassivoController extends AbstractController {
                 ExecutorService exec = Executors.newCachedThreadPool();
 
                 for (TesteCliente testeCliente : l) {
-                    BackgroundTestThread b = new BackgroundTestThread(testeCliente, lDao, dao);
+                    BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao, lDao);
                     exec.execute(b);
                 }
 

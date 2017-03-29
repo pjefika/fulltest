@@ -46,7 +46,7 @@ public class BackgroundTestController extends AbstractController {
             ExecutorService exec = Executors.newFixedThreadPool(10);
             List<BackgroundTestThread> bs = new ArrayList<>();
             for (TesteCliente testeCliente : l) {
-                BackgroundTestThread b = new BackgroundTestThread(testeCliente, lDao, dao);
+                BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao, lDao);
                 exec.execute(b);
                 try {
                     b.getCls().setStatus(Status.CONCLUIDO);

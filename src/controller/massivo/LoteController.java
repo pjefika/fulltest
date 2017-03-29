@@ -11,15 +11,15 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.view.Results;
+import controller.AbstractController;
+import controller.autenticacao.SessionUsuarioEfika;
 import dao.massivo.LoteDAO;
 import java.util.Date;
 import java.util.List;
-import javax.inject.Inject;
-import model.fulltest.Status;
-import controller.AbstractController;
-import controller.autenticacao.SessionUsuarioEfika;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import model.entity.Lote;
+import model.fulltest.Status;
 
 /**
  *
@@ -32,7 +32,7 @@ public class LoteController extends AbstractController {
     @Inject
     private SessionUsuarioEfika session;
 
-    @Inject
+//    @Inject
     private LoteDAO loteDAO;
 
     public LoteController() {
@@ -41,10 +41,12 @@ public class LoteController extends AbstractController {
     @Path("/lote/massivo/ativos")
     @Get
     public void listarLotesAtivos() {
+        loteDAO = new LoteDAO();
         List<Lote> l = this.loteDAO.listarLotesAtivo(this.session.getUsuario().getLogin());
         if (l != null) {
             this.includeSerializer(l);
         }
+        System.out.println(this.session.getUsuario().getLogin());
     }
 
     @Post

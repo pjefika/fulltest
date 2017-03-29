@@ -23,74 +23,96 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public List<TesteCliente> listarInstancias() {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente");
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }
 
     public List<TesteCliente> listarInstanciasPendentes() {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }
 
     public List<TesteCliente> listarInstanciasPendentes(Integer limit) {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
-            
-            
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }
     
     public List<TesteCliente> listarInstanciasPresasExec(Integer limit) {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param2  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
             
-            
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }
     
     public TesteCliente buscarInstanciaPorId(TesteCliente tc) {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.instancia=:param1");
             query.setParameter("param1", tc.getInstancia());
-            return (TesteCliente) query.getSingleResult();
+            TesteCliente result = (TesteCliente) query.getSingleResult();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return null;
         }
     }
 
     public List<TesteCliente> listarInstanciasPorLote(Lote lote) {
         try {
+//            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente l WHERE l.lote =:param1");
             query.setParameter("param1", lote);
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }
     
     public List<TesteCliente> listarLotesSelect(List<String> idLotes) {
         try {
+//            startConnection();
             StringBuilder concat = new StringBuilder();
             Integer cont = 0;
             for (String idLote : idLotes) {
@@ -104,8 +126,11 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             String lotes = concat.toString();            
             //System.out.println("Cod: 1: FROM TesteCliente t WHERE " + lotes);            
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE " + lotes);
-            return query.getResultList();
+            List<TesteCliente> result = query.getResultList();
+//            closeConnection();
+            return result;
         } catch (Exception e) {
+//            closeConnection();
             return new ArrayList<>();
         }
     }

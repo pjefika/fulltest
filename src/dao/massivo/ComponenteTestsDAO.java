@@ -7,8 +7,7 @@ package dao.massivo;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import model.entity.AbstractEntity;
 
@@ -19,35 +18,48 @@ import model.entity.AbstractEntity;
 @Stateless
 public class ComponenteTestsDAO {
 
-//    @PersistenceContext
-//    protected EntityManager entityManager;
-    private EntityManagerFactory emf;
+    @PersistenceContext
     protected EntityManager entityManager;
+//    private EntityManagerFactory emf;
+//    protected EntityManager entityManager;
 
-    public void startConnection() {
-        emf = Persistence.createEntityManagerFactory("localPU");
-        entityManager = emf.createEntityManager();
-        entityManager.getTransaction().begin();
-    }
-
-    public void closeConnection() {
-        entityManager.getTransaction().commit();
-        emf.close();
-    }
+//    public void startConnection() {
+//        emf = Persistence.createEntityManagerFactory("localPU");
+//        entityManager = emf.createEntityManager();
+//    }
+//
+//    public void closeConnection() {
+//        emf.close();
+//    }
+//
+//    public void startTransaction() {
+//        startConnection();
+//        entityManager.getTransaction().begin();
+//    }
+//
+//    public void closeTransaction() {
+//        entityManager.getTransaction().commit();
+//        closeConnection();
+//    }
 
     public ComponenteTestsDAO() {
     }
 
     @Transactional
     public void cadastrar(AbstractEntity a) throws Exception {
+//        startTransaction();
         this.entityManager.persist(a);
+//        closeTransaction();
     }
 
     @Transactional
     public void editar(AbstractEntity a) throws Exception {
         try {
+//            startTransaction();
             this.entityManager.merge(a);
+//            closeTransaction();
         } catch (Exception e) {
+//            closeTransaction();
             throw e;
         }
     }
@@ -55,8 +67,11 @@ public class ComponenteTestsDAO {
     @Transactional
     public void excluir(AbstractEntity a) throws Exception {
         try {
+//            startTransaction();
             this.entityManager.remove(this.entityManager.merge(a));
+//            closeTransaction();
         } catch (Exception e) {
+//            closeTransaction();
             throw e;
         }
     }

@@ -41,7 +41,7 @@ public class BackgroundTestThread implements Runnable{
      * @param lDao
      * @param tcDao
      */
-    public BackgroundTestThread(TesteCliente cls, LoteDAO lDao, TesteClienteDAO tcDao) {
+    public BackgroundTestThread(TesteCliente cls, TesteClienteDAO tcDao, LoteDAO lDao) {
         this.dao = new CadastroDAO();
         this.lDao = lDao;
         this.tcDao = tcDao;
@@ -50,7 +50,9 @@ public class BackgroundTestThread implements Runnable{
 
     @Override
     public void run() {
-
+//        lDao.startConnection();
+//        tcDao.startConnection();
+        
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
         ValidacaoGpon vg = new ValidacaoGpon();
         
@@ -139,6 +141,8 @@ public class BackgroundTestThread implements Runnable{
                     e.printStackTrace();
                 }
             }
+//            lDao.closeConnection();
+//            tcDao.closeConnection();
         }
 
     }
