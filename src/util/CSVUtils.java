@@ -40,7 +40,7 @@ public class CSVUtils {
         if (result.contains("\"")) {
             result = result.replace("\"", "\"\"");
         }
-        
+
         return result;
 
     }
@@ -77,11 +77,17 @@ public class CSVUtils {
     public static File toCsv(List<TesteCliente> tests) {
 
         /**
-         * For windows only
-         *       String csvFile = "C:/tests.csv";
+         * For windows only String csvFile = "C:/tests.csv";
          */
-//        String csvFile = "/tmp/tests.csv";
-        String csvFile = "C:/tests.csv";
+        String OS = System.getProperty("os.name");
+        String csvFile;
+        if (OS.contains("Windows")) {
+            csvFile = "C:/tests.csv";
+        } else {
+            csvFile = "/tmp/tests.csv";
+        }
+
+//        
         FileWriter writer;
         try {
             writer = new FileWriter(csvFile);
@@ -101,7 +107,6 @@ public class CSVUtils {
             for (Diagnostico v : new ValidacaoGpon().getDiagnosticoList()) {
                 head.add(v.getNome());
             }
-            
 
             CSVUtils.writeLine(writer, head);
 
@@ -111,22 +116,22 @@ public class CSVUtils {
                 list.add(test.getInstancia());
                 list.add(test.getStatus().getNome());
                 list.add(test.getLote().getId().toString());
-         
+
                 for (ValidacaoGpon v : test.getValid()) {
-                    if(v.getPotOlt()!= null){
-                       list.add(v.getPotOlt().toString());
-                    }else{
-                       list.add("");
+                    if (v.getPotOlt() != null) {
+                        list.add(v.getPotOlt().toString());
+                    } else {
+                        list.add("");
                     }
-                    if(v.getPotOnt()!= null){
-                       list.add(v.getPotOnt().toString());
-                    }else{
-                       list.add("");
+                    if (v.getPotOnt() != null) {
+                        list.add(v.getPotOnt().toString());
+                    } else {
+                        list.add("");
                     }
-                    if(v.getOntAssociado()!= null){
-                       list.add(v.getOntAssociado());
-                    }else{
-                       list.add("");
+                    if (v.getOntAssociado() != null) {
+                        list.add(v.getOntAssociado());
+                    } else {
+                        list.add("");
                     }
                     for (Diagnostico d : v.getDiagnosticoList()) {
                         Boolean b = d.getResultado();
@@ -136,9 +141,8 @@ public class CSVUtils {
                             list.add("");
                         }
                     }
-                    
+
                 }
-                
 
                 CSVUtils.writeLine(writer, list);
             }

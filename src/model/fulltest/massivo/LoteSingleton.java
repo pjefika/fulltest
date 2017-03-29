@@ -5,36 +5,46 @@
  */
 package model.fulltest.massivo;
 
+import dao.massivo.LoteDAO;
+import java.util.Calendar;
+import java.util.List;
+import javax.ejb.Schedule;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
+import javax.inject.Inject;
+import model.entity.Lote;
+import model.fulltest.Status;
+
 /**
  *
  * @author G0042204
  */
-//@Singleton
-//@Startup
+@Singleton
+@Startup
 public class LoteSingleton {
 
-//    @Inject
-//    private LoteDAO lDao;
+    @Inject
+    private LoteDAO lDao;
 
     
-//    @Schedule(minute = "*/2", hour = "*")
-//    public void loteStatus(){
-//
-//        List<Lote> ltExec = lDao.listarLotesEmExec();
-//        for (Lote lote : ltExec) {
-//            if(lote.isTestesConc()){
-//                lote.setStatus(Status.CONCLUIDO);
-//                lote.setDataFim(Calendar.getInstance());
-//                try {
-//                    lDao.editar(lote);    
-//                } catch (Exception e) {
-//                    System.out.println("paunolotepersist");
-//                    e.printStackTrace();
-//                }
-//                
-//            }
-//        }
-//        
-//    }
+    @Schedule(minute = "*/2", hour = "*")
+    public void loteStatus(){
+
+        List<Lote> ltExec = lDao.listarLotesEmExec();
+        for (Lote lote : ltExec) {
+            if(lote.isTestesConc()){
+                lote.setStatus(Status.CONCLUIDO);
+                lote.setDataFim(Calendar.getInstance());
+                try {
+                    lDao.editar(lote);    
+                } catch (Exception e) {
+                    System.out.println("paunolotepersist");
+                    e.printStackTrace();
+                }
+                
+            }
+        }
+        
+    }
 
 }
