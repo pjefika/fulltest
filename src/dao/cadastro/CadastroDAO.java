@@ -7,7 +7,6 @@ package dao.cadastro;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
-import dao.massivo.ComponenteTestsDAO;
 import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
@@ -17,7 +16,7 @@ import model.dslam.factory.exception.DslamNaoImplException;
  *
  * @author G0041775
  */
-public class CadastroDAO extends ComponenteTestsDAO {
+public class CadastroDAO {
 
     private OSSTurbonetProxy ws = new OSSTurbonetProxy();
 

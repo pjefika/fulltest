@@ -7,7 +7,8 @@ package dao.massivo;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.transaction.Transactional;
 import model.entity.AbstractEntity;
 
@@ -18,8 +19,21 @@ import model.entity.AbstractEntity;
 @Stateless
 public class ComponenteTestsDAO {
 
-    @PersistenceContext
+//    @PersistenceContext
+//    protected EntityManager entityManager;
+    private EntityManagerFactory emf;
     protected EntityManager entityManager;
+
+    public void startConnection() {
+        emf = Persistence.createEntityManagerFactory("localPU");
+        entityManager = emf.createEntityManager();
+        entityManager.getTransaction().begin();
+    }
+
+    public void closeConnection() {
+        entityManager.getTransaction().commit();
+        emf.close();
+    }
 
     public ComponenteTestsDAO() {
     }
@@ -46,8 +60,8 @@ public class ComponenteTestsDAO {
             throw e;
         }
     }
-    
-    public void flush(){
+
+    public void flush() {
         this.entityManager.flush();
     }
 
