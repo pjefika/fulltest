@@ -32,7 +32,7 @@ public class LoteController extends AbstractController {
     @Inject
     private SessionUsuarioEfika session;
 
-//    @Inject
+    @Inject
     private LoteDAO loteDAO;
 
     public LoteController() {
@@ -41,8 +41,8 @@ public class LoteController extends AbstractController {
     @Path("/lote/massivo/ativos")
     @Get
     public void listarLotesAtivos() {
-        loteDAO = new LoteDAO();
-        List<Lote> l = this.loteDAO.listarLotesAtivo(this.session.getUsuario().getLogin());
+//        loteDAO = new LoteDAO();
+        List<Lote> l = loteDAO.listarLotesAtivo(this.session.getUsuario().getLogin());
         if (l != null) {
             this.includeSerializer(l);
         }

@@ -42,6 +42,12 @@ public class TesteCliente extends ComponenteGenerico {
         this.valid = new ArrayList<>();
     }
 
+    public TesteCliente(TesteCliente tc) {
+        this.instancia = tc.getInstancia();
+        this.valid = tc.getValid();
+        this.lote = tc.getLote();
+    }
+
     public Lote getLote() {
         return lote;
     }

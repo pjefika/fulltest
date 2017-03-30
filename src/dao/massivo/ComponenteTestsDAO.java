@@ -80,4 +80,8 @@ public class ComponenteTestsDAO {
         this.entityManager.flush();
     }
 
+    public void clear() {
+        this.entityManager.clear();
+    }
+
 }

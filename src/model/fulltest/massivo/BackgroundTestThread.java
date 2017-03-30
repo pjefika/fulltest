@@ -10,6 +10,8 @@ import dao.massivo.TesteClienteDAO;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
@@ -23,7 +25,7 @@ import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
  *
  * @author G0042204
  */
-public class BackgroundTestThread {
+public class BackgroundTestThread implements Runnable{
 
     private CadastroDAO dao;
 
@@ -31,35 +33,30 @@ public class BackgroundTestThread {
     
     @Inject
     private TesteClienteDAO tcDao;
+    
+    private ValidacaoGpon vg; 
 
     /**
      *
-     * @param cls
+     * @param tc
      * @param tcDao
      */
-    public BackgroundTestThread(TesteCliente cls, TesteClienteDAO tcDao) {
+    public BackgroundTestThread(TesteCliente tc, TesteClienteDAO tcDao) {
         this.dao = new CadastroDAO();
         this.tcDao = tcDao;
-        this.cls = cls;
+        this.cls = new TesteCliente(tc);
+        this.vg = new ValidacaoGpon();
     }
 
+    @Override
     public void run() {
-//        lDao.startConnection();
-//        tcDao.startConnection();
         
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
-        ValidacaoGpon vg = new ValidacaoGpon();
+        
         
         Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
-        
-        try {
-            tcDao.cadastrar(cls);
-        } catch (Exception e) {
-            System.out.println("Erro de alteracao de status");
-            e.printStackTrace();
-        }
-        
+                
         try {
             AbstractDslam oi = dao.getDslam(cls.getInstancia());
             ValidacaoFacade v = new ValidacaoFacade(oi);
@@ -67,7 +64,6 @@ public class BackgroundTestThread {
             try {
                 vg = v.validar();
             } catch (Exception e) {
-                System.out.println("");
                 e.printStackTrace();
                 vg = d.falhaConsulta();
                 vg.setReteste(Boolean.TRUE);
@@ -78,9 +74,7 @@ public class BackgroundTestThread {
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
         } finally {
-            System.out.println(cls.getId());
-            TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
-            
+                        
             try {
                 List<ValidacaoGpon> vs;
                 if(!cls.getValid().isEmpty()){
@@ -95,39 +89,22 @@ public class BackgroundTestThread {
                 vg.setDataFim(Calendar.getInstance());
                 cls.setStatus(Status.CONCLUIDO);
 
+                /**
+                 * Verifica se precisa retestar
+                 * aguarda 15 segundos e retesta
+                 */
                 if(vg.getReteste()){
-                    cls.setStatus(Status.ATIVO);
+                    Thread.sleep(15000);
+                    run();
+                    return;
                 }
-
-                leTeste.setStatus(cls.getStatus());
+                salvaAi();
             } catch (Exception e) {
                 System.out.println("lecrazy");
                 e.printStackTrace();
             }
             
-            try {
-                tcDao.cadastrar(vg);
-            } catch (Exception e) {
-                System.out.println("naocadastrouvg");
-                e.printStackTrace();
-            }
-            
-            
-            try {
-                tcDao.editar(leTeste);
-            } catch (Exception e) {
-                System.out.println("naoeditoleTeste");
-                try {
-                    tcDao.editar(cls);
-                } catch (Exception ex) {
-                    System.out.println("naoeditocls");
-                    ex.printStackTrace();
-                    System.out.println("leTeste:");
-                    e.printStackTrace();
-                }
-            }
-//            lDao.closeConnection();
-//            tcDao.closeConnection();
+
         }
 
     }
@@ -136,4 +113,20 @@ public class BackgroundTestThread {
         return cls;
     }
 
+    public ValidacaoGpon getVg(){
+        return vg;
+    }
+    
+    private void salvaAi(){
+        try {
+            tcDao.editar(cls);
+            tcDao.cadastrar(this.getVg());
+            this.getCls().getLote().setStatus(Status.EM_EXECUCAO);
+            tcDao.editar(cls.getLote());
+            tcDao.clear();
+        } catch (Exception ex) {
+            Logger.getLogger(BackgroundTestThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }
