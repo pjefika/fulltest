@@ -39,6 +39,7 @@ public class TesteCliente extends ComponenteGenerico {
 
     public TesteCliente(String instancia) {
         this.instancia = instancia;
+        this.valid = new ArrayList<>();
     }
 
     public Lote getLote() {

@@ -6,15 +6,13 @@
 package model.fulltest.massivo;
 
 import dao.cadastro.CadastroDAO;
-import dao.massivo.LoteDAO;
 import dao.massivo.TesteClienteDAO;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import javax.inject.Inject;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
-import model.entity.Lote;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
@@ -25,30 +23,26 @@ import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
  *
  * @author G0042204
  */
-public class BackgroundTestThread implements Runnable{
+public class BackgroundTestThread {
 
     private CadastroDAO dao;
 
     private TesteCliente cls;
     
-    private LoteDAO lDao;
-    
+    @Inject
     private TesteClienteDAO tcDao;
 
     /**
      *
      * @param cls
-     * @param lDao
      * @param tcDao
      */
-    public BackgroundTestThread(TesteCliente cls, TesteClienteDAO tcDao, LoteDAO lDao) {
+    public BackgroundTestThread(TesteCliente cls, TesteClienteDAO tcDao) {
         this.dao = new CadastroDAO();
-        this.lDao = lDao;
         this.tcDao = tcDao;
         this.cls = cls;
     }
 
-    @Override
     public void run() {
 //        lDao.startConnection();
 //        tcDao.startConnection();
@@ -56,27 +50,17 @@ public class BackgroundTestThread implements Runnable{
         ValidacaoGponDecorator d = new ValidacaoGponDecorator();
         ValidacaoGpon vg = new ValidacaoGpon();
         
-        Lote leLote = (Lote) lDao.buscarLotePorId(cls.getLote());
-        
         Calendar inicio = Calendar.getInstance();
         cls.setStatus(Status.EM_EXECUCAO);
         
-        
-        if(leLote.getStatus().equals(Status.ATIVO)){
-            leLote.setStatus(Status.EM_EXECUCAO);
-            leLote.setDataInicio(inicio);
-        }
-        
         try {
-            lDao.editar(cls);
-            lDao.editar(leLote);
+            tcDao.cadastrar(cls);
         } catch (Exception e) {
             System.out.println("Erro de alteracao de status");
             e.printStackTrace();
         }
         
         try {
-
             AbstractDslam oi = dao.getDslam(cls.getInstancia());
             ValidacaoFacade v = new ValidacaoFacade(oi);
 
@@ -94,15 +78,16 @@ public class BackgroundTestThread implements Runnable{
         } catch (DslamNaoImplException e) {
             vg = d.falhaImplementacao();
         } finally {
+            System.out.println(cls.getId());
             TesteCliente leTeste = tcDao.buscarInstanciaPorId(cls);
+            
             try {
                 List<ValidacaoGpon> vs;
-                if(cls.getValid().isEmpty()){
-                    vs = new ArrayList<>();
-                }else{
+                if(!cls.getValid().isEmpty()){
                     vg.setReteste(Boolean.FALSE);
-                    vs = cls.getValid();
                 }
+                
+                vs = cls.getValid();
                 vs.add(vg);
                 cls.setValid(vs);
                 vg.setTeste(cls);
@@ -121,7 +106,7 @@ public class BackgroundTestThread implements Runnable{
             }
             
             try {
-                lDao.cadastrar(vg);
+                tcDao.cadastrar(vg);
             } catch (Exception e) {
                 System.out.println("naocadastrouvg");
                 e.printStackTrace();
@@ -129,11 +114,11 @@ public class BackgroundTestThread implements Runnable{
             
             
             try {
-                lDao.editar(leTeste);
+                tcDao.editar(leTeste);
             } catch (Exception e) {
                 System.out.println("naoeditoleTeste");
                 try {
-                    lDao.editar(cls);
+                    tcDao.editar(cls);
                 } catch (Exception ex) {
                     System.out.println("naoeditocls");
                     ex.printStackTrace();

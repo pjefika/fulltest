@@ -85,12 +85,13 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public TesteCliente buscarInstanciaPorId(TesteCliente tc) {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.instancia=:param1");
-            query.setParameter("param1", tc.getInstancia());
-            TesteCliente result = (TesteCliente) query.getSingleResult();
+            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.id=:param1");
+            query.setParameter("param1", tc.getId());
+//            TesteCliente result = (TesteCliente) query.getSingleResult();
 //            closeConnection();
-            return result;
+            return (TesteCliente) query.getSingleResult();
         } catch (Exception e) {
+            e.printStackTrace();
 //            closeConnection();
             return null;
         }

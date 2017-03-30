@@ -57,8 +57,8 @@ public class MassivoController extends AbstractController {
                 ExecutorService exec = Executors.newCachedThreadPool();
 
                 for (TesteCliente testeCliente : l) {
-                    BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao, lDao);
-                    exec.execute(b);
+                    BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
+//                    exec.execute(b);
                 }
 
                 exec.shutdown();
