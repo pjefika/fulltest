@@ -16,22 +16,22 @@ public class ValidacaoGponDecorator {
     private final ValidacaoGpon v;
 
     public ValidacaoGponDecorator() {
-        this.v =  new ValidacaoGpon();
+        this.v = new ValidacaoGpon();
     }
-     
-    public ValidacaoGpon falhaCadastro(){
+
+    public ValidacaoGpon falhaCadastro() {
         v.setCadastro(Boolean.FALSE);
         return v;
     }
-     
-    public ValidacaoGpon falhaImplementacao(){
+
+    public ValidacaoGpon falhaImplementacao() {
         v.setImplementacao(Boolean.FALSE);
         return v;
     }
-     
-    public ValidacaoGpon falhaConsulta(){
+
+    public ValidacaoGpon falhaConsulta() {
         v.setConsulta(Boolean.FALSE);
         return v;
     }
-    
+
 }

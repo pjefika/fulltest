@@ -23,7 +23,6 @@ public class CadastroDAO {
     private DslamDAOFactory factory = new DslamDAOFactory();
 
     public CadastroDAO() {
-
     }
 
     public String getDesignador(String instancia) throws RemoteException {

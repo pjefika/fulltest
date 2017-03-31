@@ -10,20 +10,15 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
-import dao.cadastro.CadastroDAO;
 import dao.massivo.TesteClienteDAO;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import javax.inject.Inject;
-import model.dslam.AbstractDslam;
-import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.massivo.BackgroundTestThread;
 import model.fulltest.validacao.ValidacaoFacade;
-import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
 
 /**
  *
@@ -34,10 +29,6 @@ public class BackgroundTestController extends AbstractController {
 
     @Inject
     private TesteClienteDAO dao;
-    
-    @Inject
-    private CadastroDAO cDao;
-    
 
     public BackgroundTestController() {
     }
@@ -45,44 +36,19 @@ public class BackgroundTestController extends AbstractController {
     @Get
     @Path("/unitario/{inst}")
     public void execUnitario(String inst) throws Exception {
-        AbstractDslam oi = null;
-        ValidacaoGponDecorator d = new ValidacaoGponDecorator();
-        ValidacaoGpon vg = new ValidacaoGpon();
-        try {
-            oi = cDao.getDslam(inst);
-            ValidacaoFacade v = new ValidacaoFacade(oi);
-            try {
-                vg = v.validar();
-            } catch (Exception e) {
-                e.printStackTrace();
-                vg = d.falhaConsulta();
-                vg.setReteste(Boolean.TRUE);
-            }
-        } catch (DslamNaoImplException ex) {
-            vg = d.falhaImplementacao();
-        } catch (RemoteException ex) {
-            try {
-                Thread.sleep(10000);
-                oi = cDao.getDslam(inst);
-            } catch (Exception e) {
-                vg = d.falhaCadastro();
-            }
-        }
-        
-        
-        
         TesteCliente t = new TesteCliente(inst);
-        t.getValid().add(vg);
         dao.cadastrar(t);
-        dao.cadastrar(vg);
-        
-        result.use(Results.json()).from(t).include("valid").serialize();
-        
-        
+
+        ValidacaoFacade v = new ValidacaoFacade(t);
+        ValidacaoGpon oi = v.validar();
+        oi.setTeste(t);
+        dao.cadastrar(oi);
+
+        result.use(Results.json()).from(oi).recursive().serialize();
     }
 
     @Path("/massivo")
-    public void execMassivo() throws InterruptedException{
+    public void execMassivo() throws InterruptedException {
         Integer i = 0;
         Integer o = 0;
         while (true) {
@@ -92,9 +58,9 @@ public class BackgroundTestController extends AbstractController {
                 listTest = dao.listarInstanciasPresasExec(40);
             }
             if (!listTest.isEmpty()) {
-                
+
                 ExecutorService exec = Executors.newCachedThreadPool();
-                
+
                 for (TesteCliente testeCliente : listTest) {
                     BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
                     exec.execute(b);
@@ -107,11 +73,11 @@ public class BackgroundTestController extends AbstractController {
                 }
                 i++;
                 System.out.println("cabo Threads " + i);
-            }else{
+            } else {
                 o++;
                 System.out.println("lista Vazia " + o);
             }
-            
+
             Thread.sleep(10000);
         }
     }
