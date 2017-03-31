@@ -7,6 +7,7 @@ package model.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -26,11 +27,11 @@ public class TesteCliente extends ComponenteGenerico {
     @ManyToOne
     private Lote lote;
 
-    @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teste", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ValidacaoGpon> valid;
-    
+
     @NotNull
-    @Size(min=5)
+    @Size(min = 5)
     private String instancia;
 
     public TesteCliente() {

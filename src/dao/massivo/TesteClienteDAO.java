@@ -60,11 +60,11 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 //            closeConnection();
             return result;
         } catch (Exception e) {
-//            closeConnection();
+            e.printStackTrace();
             return new ArrayList<>();
         }
     }
-    
+
     public List<TesteCliente> listarInstanciasPresasExec(Integer limit) {
         try {
 //            startConnection();
@@ -72,7 +72,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
-            
+
             List<TesteCliente> result = query.getResultList();
 //            closeConnection();
             return result;
@@ -81,7 +81,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             return new ArrayList<>();
         }
     }
-    
+
     public TesteCliente buscarInstanciaPorId(TesteCliente tc) {
         try {
 //            startConnection();
@@ -110,7 +110,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             return new ArrayList<>();
         }
     }
-    
+
     public List<TesteCliente> listarLotesSelect(List<String> idLotes) {
         try {
 //            startConnection();
@@ -123,9 +123,9 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
                     concat.append("OR t.lote.id = " + idLote + " ");
                 }
                 cont++;
-            }            
-            String lotes = concat.toString();            
-            //System.out.println("Cod: 1: FROM TesteCliente t WHERE " + lotes);            
+            }
+            String lotes = concat.toString();
+            //System.out.println("Cod: 1: FROM TesteCliente t WHERE " + lotes);
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE " + lotes);
             List<TesteCliente> result = query.getResultList();
 //            closeConnection();
