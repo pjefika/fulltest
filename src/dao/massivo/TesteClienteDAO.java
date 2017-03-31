@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Query;
 import model.entity.Lote;
 import model.entity.TesteCliente;
+import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 
 /**
@@ -109,6 +110,18 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 //            closeConnection();
             return new ArrayList<>();
         }
+    }
+
+    public ValidacaoGpon getValidacaoPorTeste(TesteCliente t) {
+        try {
+            Query query = this.entityManager.createQuery("FROM ValidacaoGpon v WHERE v.teste_id =:param1");
+            query.setParameter("param1", t.getId());
+            return (ValidacaoGpon) query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ValidacaoGpon();
+        }
+
     }
 
     public List<TesteCliente> listarLotesSelect(List<String> idLotes) {

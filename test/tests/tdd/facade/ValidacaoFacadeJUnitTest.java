@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.facade;
+package tests.tdd.facade;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.entity.TesteCliente;
 import model.fulltest.validacao.ValidacaoFacade;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -44,6 +42,12 @@ public class ValidacaoFacadeJUnitTest {
     @Test
     public void validar() {
         ValidacaoFacade facade = new ValidacaoFacade(new TesteCliente("7930272843"));
-        assertTrue(facade.validar() != null);
+        try {
+            facade.validar();
+            assertTrue(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
     }
 }

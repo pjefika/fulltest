@@ -14,6 +14,7 @@ import dao.massivo.TesteClienteDAO;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
@@ -66,11 +67,8 @@ public class BackgroundTestController extends AbstractController {
                     exec.execute(b);
                 }
 
-                exec.shutdown();
+                exec.awaitTermination(150, TimeUnit.SECONDS);
 
-                while (!exec.isTerminated()) {
-
-                }
                 i++;
                 System.out.println("cabo Threads " + i);
             } else {

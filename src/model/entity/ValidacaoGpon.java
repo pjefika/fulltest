@@ -8,7 +8,6 @@ package model.entity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -23,7 +22,7 @@ import model.viewmodel.Diagnostico;
 @Table(name = "fulltestAPI_ValidacaoGpon")
 public class ValidacaoGpon extends AbstractEntity {
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     private TesteCliente teste;
 
     /**

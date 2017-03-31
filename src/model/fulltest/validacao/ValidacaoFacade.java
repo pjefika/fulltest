@@ -8,6 +8,7 @@ package model.fulltest.validacao;
 import dao.cadastro.CadastroDAO;
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.AbstractDslam;
@@ -58,7 +59,7 @@ public class ValidacaoFacade {
     }
 
     public ValidacaoGpon validar() {
-
+        valid.setDataInicio(Calendar.getInstance());
         AbstractDslam abs;
         try {
             abs = cad.getDslam(teste.getInstancia());
@@ -142,7 +143,7 @@ public class ValidacaoFacade {
         } catch (InterruptedException ex) {
             return d.falhaCadastro();
         }
-
+        valid.setDataFim(Calendar.getInstance());
         return valid;
     }
 
