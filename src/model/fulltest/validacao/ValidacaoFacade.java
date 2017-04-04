@@ -134,12 +134,7 @@ public class ValidacaoFacade {
         } catch (DslamNaoImplException ex) {
             return d.falhaImplementacao();
         } catch (RemoteException ex) {
-            try {
-                Thread.sleep(15000);
-                return this.validar();
-            } catch (InterruptedException ex1) {
-                return d.falhaCadastro();
-            }
+            d.falhaCadastro();
         } catch (InterruptedException ex) {
             return d.falhaCadastro();
         }

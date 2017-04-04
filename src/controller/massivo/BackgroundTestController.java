@@ -67,8 +67,9 @@ public class BackgroundTestController extends AbstractController {
                     exec.execute(b);
                 }
 
+                exec.shutdown();
                 exec.awaitTermination(150, TimeUnit.SECONDS);
-
+                dao.clear();
                 i++;
                 System.out.println("cabo Threads " + i);
             } else {

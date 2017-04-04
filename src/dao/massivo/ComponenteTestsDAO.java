@@ -53,5 +53,9 @@ public class ComponenteTestsDAO {
     public void clear() {
         this.entityManager.clear();
     }
+    
+    public void close() {
+        this.entityManager.close();
+    }
 
 }

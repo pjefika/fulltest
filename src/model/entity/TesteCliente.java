@@ -5,8 +5,12 @@
  */
 package model.entity;
 
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -25,17 +29,23 @@ public class TesteCliente extends ComponenteGenerico {
     @NotNull
     @Size(min = 5)
     private String instancia;
+    
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "teste")
+    private List<ValidacaoGpon> valid;
+
+    public List<ValidacaoGpon> getValid() {
+        return valid;
+    }
+
+    public void setValid(ValidacaoGpon valid) {
+        this.valid = (List<ValidacaoGpon>) valid;
+    }
 
     public TesteCliente() {
     }
 
     public TesteCliente(String instancia) {
         this.instancia = instancia;
-    }
-
-    public TesteCliente(TesteCliente tc) {
-        this.instancia = tc.getInstancia();
-        this.lote = tc.getLote();
     }
 
     public Lote getLote() {

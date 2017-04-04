@@ -35,7 +35,7 @@ public class BackgroundTestThread implements Runnable {
      */
     public BackgroundTestThread(TesteCliente tc, TesteClienteDAO tcDao) {
         this.tcDao = tcDao;
-        this.cls = new TesteCliente(tc);
+        this.cls = tcDao.buscarInstanciaPorId(tc);
         this.vg = new ValidacaoGpon();
     }
 
@@ -47,12 +47,11 @@ public class BackgroundTestThread implements Runnable {
         ValidacaoFacade v = new ValidacaoFacade(cls);
 
         vg = v.validar();
-        vg.setTeste(cls);
         vg.setDataInicio(inicio);
         vg.setDataFim(Calendar.getInstance());
         cls.setStatus(Status.CONCLUIDO);
+        vg.setTeste(cls);
 
-       
         salvaAi();
     }
 
@@ -66,10 +65,8 @@ public class BackgroundTestThread implements Runnable {
 
     private void salvaAi() {
         try {
-            this.getCls().getLote().setStatus(Status.EM_EXECUCAO);
-            tcDao.editar(cls);
-            tcDao.cadastrar(vg);
-            tcDao.clear();
+            tcDao.editar(getCls());
+            tcDao.editar(getVg());
         } catch (Exception ex) {
             Logger.getLogger(BackgroundTestThread.class.getName()).log(Level.SEVERE, null, ex);
         }
