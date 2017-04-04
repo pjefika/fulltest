@@ -6,6 +6,7 @@
 package model.fulltest.massivo;
 
 import dao.massivo.LoteDAO;
+import dao.massivo.TesteClienteDAO;
 import java.util.Calendar;
 import java.util.List;
 import javax.ejb.Schedule;
@@ -25,6 +26,9 @@ public class LoteSingleton {
 
     @Inject
     private LoteDAO lDao;
+    
+    @Inject
+    private TesteClienteDAO tDao;
 
     @Schedule(minute = "*/1", hour = "*")
     public void loteStatus() {
@@ -32,7 +36,7 @@ public class LoteSingleton {
         Integer i = 0;
         List<Lote> ltExec = lDao.listarLotesEmExec();
         for (Lote lote : ltExec) {
-
+            lote.setTests(tDao.listarInstanciasPorLote(lote));
             if (lote.getStatus().equals(Status.ATIVO) && lote.isTestesExec()) {
                 lote.setStatus(Status.EM_EXECUCAO);
                 lote.setDataInicio(Calendar.getInstance());

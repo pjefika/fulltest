@@ -51,7 +51,16 @@ public class BackgroundTestThread implements Runnable {
         vg.setDataFim(Calendar.getInstance());
         cls.setStatus(Status.CONCLUIDO);
         vg.setTeste(cls);
-
+        
+        if(vg.getCadastro() == null){
+            try {
+                Thread.sleep(15000);
+                vg = v.validar();
+            } catch (Exception e) {
+                
+            }
+        }
+        
         salvaAi();
     }
 

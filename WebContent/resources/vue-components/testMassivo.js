@@ -13,8 +13,8 @@ var Lote = function(json) {
 }
 
 
-var loteURL = "/fulltestAPI/lote/massivo/";
-var instanciaURL = "/fulltestAPI/instancia/massivo/";
+var loteURL = "/fulltestAPI/lote/";
+
 var exportURL = "/fulltestAPI/testecliente/exportSelect/"
 
 

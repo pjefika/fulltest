@@ -51,7 +51,7 @@ public class LoteController extends AbstractController {
 
     @Post
     @Consumes("application/json")
-    @Path("/lote/massivo/cadastrar")
+    @Path("/lote/cadastrar")
     public void cadastrar(Lote lote) {
         try {
             lote.setStatus(Status.ATIVO);
@@ -66,7 +66,7 @@ public class LoteController extends AbstractController {
 
     @Post
     @Consumes("application/json")
-    @Path("/lote/massivo/modificar")
+    @Path("/lote/modificar")
     public void modificar(Lote lote) {
         try {
             this.loteDAO.editar(lote);
@@ -78,7 +78,7 @@ public class LoteController extends AbstractController {
 
     @Post
     @Consumes("application/json")
-    @Path("/lote/massivo/excluir")
+    @Path("/lote/excluir")
     public void excluir(Lote lote) {
         try {
             this.loteDAO.excluir(lote);
@@ -88,8 +88,9 @@ public class LoteController extends AbstractController {
         }
     }
 
+    @Override
     public void includeSerializer(Object a) {
-        result.use(Results.json()).from(a).include("tests").serialize();
+        result.use(Results.json()).from(a).serialize();
     }
 
 }
