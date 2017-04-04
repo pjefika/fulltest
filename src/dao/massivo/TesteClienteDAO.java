@@ -114,7 +114,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     public ValidacaoGpon getValidacaoPorTeste(TesteCliente t) {
         try {
-            Query query = this.entityManager.createQuery("FROM ValidacaoGpon v WHERE v.teste_id =:param1");
+            Query query = this.entityManager.createQuery("FROM ValidacaoGpon l WHERE l.teste =:param1");
             query.setParameter("param1", t.getId());
             return (ValidacaoGpon) query.getSingleResult();
         } catch (Exception e) {

@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import model.fulltest.Status;
@@ -24,7 +23,7 @@ import model.fulltest.Status;
 @Table(name = "fulltestAPI_Lote")
 public class Lote extends ComponenteGenerico {
 
-    @OneToMany(mappedBy = "lote", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
     private List<TesteCliente> tests;
 
     private String observacao;
@@ -97,5 +96,14 @@ public class Lote extends ComponenteGenerico {
              }
          }
          return true;
+     }       
+    
+    public Boolean isTestesExec(){
+         for (TesteCliente test : tests) {
+             if(test.getStatus().equals(Status.CONCLUIDO)){
+                 return true;
+             }
+         }
+         return false;
      }
 }

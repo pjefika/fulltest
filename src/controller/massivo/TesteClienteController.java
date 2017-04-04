@@ -5,7 +5,6 @@
  */
 package controller.massivo;
 
-import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -13,16 +12,15 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.observer.download.Download;
 import br.com.caelum.vraptor.observer.download.DownloadBuilder;
 import br.com.caelum.vraptor.view.Results;
-import dao.massivo.TesteClienteDAO;
-import java.util.List;
-import javax.inject.Inject;
-import model.fulltest.Status;
 import controller.AbstractController;
+import dao.massivo.TesteClienteDAO;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import model.entity.Lote;
 import model.entity.TesteCliente;
 import util.CSVUtils;
@@ -71,47 +69,12 @@ public class TesteClienteController extends AbstractController {
         }
     }
 
-    @Get
-    @Path("/instancia/massivo/ativos")
-    public void listarLotesAtivos() {
-        List<TesteCliente> l = this.testsDAO.listarInstancias();
-        if (l != null) {
-            this.includeSerializer(l);
-        }
-    }
-
     @Post
-    @Consumes("application/json")
-    @Path("/instancia/massivo/cadastrar")
-    public void cadastrar(TesteCliente testeCliente) {
+    @Path("/teste/{lote}")
+    public void listarTestePorLote(Lote l) {
         try {
-            testeCliente.setStatus(Status.ATIVO);
-            this.testsDAO.cadastrar(testeCliente);
-            this.includeSerializer(testeCliente);
-        } catch (Exception e) {
-            this.result.use(Results.json()).from(e).serialize();
-        }
-    }
-
-    @Post
-    @Consumes("application/json")
-    @Path("/instancia/massivo/modificar")
-    public void modificar(TesteCliente testeCliente) {
-        try {
-            this.testsDAO.editar(testeCliente);
-            this.includeSerializer(testeCliente);
-        } catch (Exception e) {
-            this.result.use(Results.json()).from(e).serialize();
-        }
-    }
-
-    @Post
-    @Consumes("application/json")
-    @Path("/instancia/massivo/excluir")
-    public void excluir(TesteCliente testeCliente) {
-        try {
-            this.testsDAO.excluir(testeCliente);
-            this.includeSerializer(testeCliente);
+            List<TesteCliente> lTestes = testsDAO.listarInstanciasPorLote(l);
+            this.includeSerializer(lTestes);
         } catch (Exception e) {
             this.result.use(Results.json()).from(e).serialize();
         }

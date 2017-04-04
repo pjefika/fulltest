@@ -26,25 +26,36 @@ public class LoteSingleton {
     @Inject
     private LoteDAO lDao;
 
-    
-    @Schedule(minute = "*/2", hour = "*")
-    public void loteStatus(){
-
+    @Schedule(minute = "*/1", hour = "*")
+    public void loteStatus() {
+        System.out.println("olhando lote");
+        Integer i = 0;
         List<Lote> ltExec = lDao.listarLotesEmExec();
         for (Lote lote : ltExec) {
-            if(lote.isTestesConc()){
+
+            if (lote.getStatus().equals(Status.ATIVO) && lote.isTestesExec()) {
+                lote.setStatus(Status.EM_EXECUCAO);
+                lote.setDataInicio(Calendar.getInstance());
+                i++;
+            }
+
+            if (lote.isTestesConc()) {
                 lote.setStatus(Status.CONCLUIDO);
                 lote.setDataFim(Calendar.getInstance());
+                i++;
+            }
+
+            if (i > 0) {
+
                 try {
-                    lDao.editar(lote);    
+                    lDao.editar(lote);
                 } catch (Exception e) {
                     System.out.println("paunolotepersist");
                     e.printStackTrace();
                 }
-                
             }
         }
-        
+
     }
 
 }

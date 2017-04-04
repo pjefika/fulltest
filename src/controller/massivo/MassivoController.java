@@ -5,9 +5,17 @@
  */
 package controller.massivo;
 
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
+import dao.massivo.LoteDAO;
+import javax.inject.Inject;
 import model.annotation.Logado;
+import model.entity.TesteCliente;
+import model.fulltest.Status;
 
 /**
  *
@@ -16,58 +24,61 @@ import model.annotation.Logado;
 @Controller
 public class MassivoController extends AbstractController {
 
-//    @Inject
-//    private TesteClienteDAO dao;
+    @Inject
+    private LoteDAO dao;
 //    
 //    @Inject
 //    private LoteDAO lDao;
-    
+
     public MassivoController() {
-        
+
     }
 
     @Logado
     public void create() {
-
+        
     }
 
-//    public void abreThread() {
-//        while (1 == 1) {
-//
-//            System.out.println("model.fulltest.massivo.MassivoSingleton.abreThread()");
-//
-//            Integer quantTest = 40;
-////        Integer quantThread = (quantTest-(quantTest/3));
-//            List<TesteCliente> l = dao.listarInstanciasPendentes(quantTest);
-//            System.out.println("leLista : " + l.toString());
-//
-//            if (l.isEmpty()) {
-//                l = dao.listarInstanciasPresasExec(quantTest);
-//            }
-//
-//            if (l != null) {
-//                ExecutorService exec = Executors.newCachedThreadPool();
-//
-//                for (TesteCliente testeCliente : l) {
-//                    BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
-////                    exec.execute(b);
-//                }
-//
-//                exec.shutdown();
-//
-//                while (!exec.isTerminated()) {
-//
-//                }
-//
-//                System.out.println("Cabo as thread!");
-//            }
-//            try {
-//                Thread.sleep(10000);
-//            } catch (Exception ex) {
-//
-//            }
-//        }
-//
-//    }
+    @Post
+    @Consumes("application/json")
+    @Path("/instancia/massivo/cadastrar")
+    public void cadastrar(TesteCliente testeCliente) {
+        try {
+            testeCliente.setStatus(Status.ATIVO);
+            this.dao.cadastrar(testeCliente);
+            this.includeSerializer(testeCliente);
+        } catch (Exception e) {
+            this.result.use(Results.json()).from(e).serialize();
+        }
+    }
+
+    @Post
+    @Consumes("application/json")
+    @Path("/instancia/massivo/modificar")
+    public void modificar(TesteCliente testeCliente) {
+        try {
+            this.dao.editar(testeCliente);
+            this.includeSerializer(testeCliente);
+        } catch (Exception e) {
+            this.result.use(Results.json()).from(e).serialize();
+        }
+    }
+
+    @Post
+    @Consumes("application/json")
+    @Path("/instancia/massivo/excluir")
+    public void excluir(TesteCliente testeCliente) {
+        try {
+            this.dao.excluir(testeCliente);
+            this.includeSerializer(testeCliente);
+        } catch (Exception e) {
+            this.result.use(Results.json()).from(e).serialize();
+        }
+    }
+
+    @Override
+    public void includeSerializer(Object a) {
+        result.use(Results.json()).from(a).include("valid").include("lote").serialize();
+    }
 
 }

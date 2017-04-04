@@ -52,8 +52,9 @@ public class LoteDAO extends ComponenteTestsDAO {
     public List<Lote> listarLotesEmExec(){
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status =:param1");
+            Query query = this.entityManager.createQuery("FROM Lote l WHERE l.status =:param1 OR l.status =:param2");
             query.setParameter("param1", Status.EM_EXECUCAO);
+            query.setParameter("param2", Status.ATIVO);
             List<Lote> result = query.getResultList();
 //            closeConnection();
             return result;

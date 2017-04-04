@@ -38,7 +38,7 @@ public class LoteController extends AbstractController {
     public LoteController() {
     }    
 
-    @Path("/lote/massivo/ativos")
+    @Path("/lote/ativos")
     @Get
     public void listarLotesAtivos() {
 //        loteDAO = new LoteDAO();

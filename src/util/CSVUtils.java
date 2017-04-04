@@ -5,7 +5,6 @@
  */
 package util;
 
-import dao.massivo.TesteClienteDAO;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -110,7 +109,6 @@ public class CSVUtils {
             }
 
             CSVUtils.writeLine(writer, head);
-            TesteClienteDAO dao = new TesteClienteDAO();
             
             for (TesteCliente test : tests) {
                 List<String> list = new ArrayList<>();
@@ -118,9 +116,10 @@ public class CSVUtils {
                 list.add(test.getInstancia());
                 list.add(test.getStatus().getNome());
                 list.add(test.getLote().getId().toString());
+                System.out.println(test.getId());
                 
-                ValidacaoGpon v = dao.getValidacaoPorTeste(test);
-                
+                List<ValidacaoGpon> lValid = test.getValid();
+                for (ValidacaoGpon v : lValid) {
                     if (v.getPotOlt() != null) {
                         list.add(v.getPotOlt().toString());
                     } else {
@@ -144,6 +143,8 @@ public class CSVUtils {
                             list.add("");
                         }
                     }
+                }
+                    
 
                 
 
