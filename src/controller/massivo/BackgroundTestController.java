@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import model.entity.TesteCliente;
 import model.entity.ValidacaoGpon;
 import model.fulltest.massivo.BackgroundTestThread;
+import model.fulltest.massivo.InitSingleton;
 import model.fulltest.validacao.ValidacaoFacade;
 
 /**
@@ -31,6 +32,7 @@ public class BackgroundTestController extends AbstractController {
     @Inject
     private TesteClienteDAO dao;
 
+    
     public BackgroundTestController() {
     }
 
@@ -52,8 +54,9 @@ public class BackgroundTestController extends AbstractController {
     public void execMassivo() throws InterruptedException {
         Integer i = 0;
         Integer o = 0;
-        while (true) {
-
+        System.out.println(InitSingleton.getInstance().getThreadsOn());
+        while (InitSingleton.getInstance().getThreadsOn()) {
+            
             List<TesteCliente> listTest = dao.listarInstanciasPendentes(40);
             if (listTest.isEmpty()) {
                 listTest = dao.listarInstanciasPresasExec(40);
@@ -79,6 +82,16 @@ public class BackgroundTestController extends AbstractController {
 
             Thread.sleep(10000);
         }
+    }
+    
+    @Path("/threadsOff/{state}")
+    public void threadsOff(Boolean state){
+        InitSingleton.getInstance().setThreadsOn(state);
+    }
+    
+    @Path("/threads")
+    public void threads(){
+        includeSerializer(InitSingleton.getInstance());
     }
 
     @Override

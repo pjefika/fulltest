@@ -71,7 +71,6 @@ public class ValidacaoFacade {
                 if (this.tabParam == null) {
                     this.setTabParam(gpon.getTabelaParametros());
                 }
-                Thread.sleep(1000);
                 System.out.println("Parametros: " + this.tabParam.validar(dslam));
             } catch (Exception e) {
                 Thread.sleep(10000);
@@ -132,12 +131,22 @@ public class ValidacaoFacade {
             }
 
         } catch (DslamNaoImplException ex) {
+            valid.setDataFim(Calendar.getInstance());
             return d.falhaImplementacao();
         } catch (RemoteException ex) {
-            d.falhaCadastro();
-        } catch (InterruptedException ex) {
+            
+            try {
+                
+            } catch (Exception e) {
+            }
+            valid.setDataFim(Calendar.getInstance());
             return d.falhaCadastro();
-        }
+        } catch (InterruptedException ex) {
+            valid.setDataFim(Calendar.getInstance());
+            return d.falhaCadastro();
+        } 
+        
+        
         valid.setDataFim(Calendar.getInstance());
         return valid;
     }

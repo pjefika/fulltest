@@ -5,31 +5,44 @@
  */
 package model.fulltest.massivo;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
-import javax.ejb.Startup;
 
 /**
  *
  * @author G0042204
  */
 @Singleton
-@Startup
 public class InitSingleton {
 
-    @PostConstruct
-    public void init() {
-        try {
-            String url = "http://localhost:8080/fulltestAPI/massivo/abreThread";
-            URL obj = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-            System.out.println("Passou por aqui");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private static InitSingleton initSingleton = null;
+    
+    private Boolean threadsOn = true;
 
+    public Boolean getThreadsOn() {
+        return threadsOn;
     }
+
+    public void setThreadsOn(Boolean threadsOn) {
+        this.threadsOn = threadsOn;
+    }
+
+   /* A private Constructor prevents any other
+    * class from instantiating.
+    */
+   protected InitSingleton() {
+   }
+
+   /* Static 'instance' method */
+   public static InitSingleton getInstance( ) {
+       if(initSingleton == null){
+         initSingleton = new InitSingleton( );
+       }
+      return initSingleton;
+   }
+
+   /* Other methods protected by singleton-ness */
+   protected static void demoMethod( ) {
+      System.out.println("");
+   }
 
 }
