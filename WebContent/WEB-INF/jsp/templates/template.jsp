@@ -83,9 +83,12 @@
             </div>
         </nav>
 
-        <div>
+        <div id="instance">
             <decorator:body/>
         </div>
+
+        <script src="${pageContext.request.contextPath}/resources/vue-components/instance.js"></script>
+
         <!-- /container -->
     </body>
 </html>

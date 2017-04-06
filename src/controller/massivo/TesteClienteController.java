@@ -5,6 +5,7 @@
  */
 package controller.massivo;
 
+import br.com.caelum.vraptor.Consumes;
 import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -70,7 +71,8 @@ public class TesteClienteController extends AbstractController {
     }
 
     @Post
-    @Path("/teste/{lote}")
+    @Consumes("application/json")
+    @Path("/teste/listaporlote")
     public void listarTestePorLote(Lote l) {
         try {
             List<TesteCliente> lTestes = testsDAO.listarInstanciasPorLote(l);
