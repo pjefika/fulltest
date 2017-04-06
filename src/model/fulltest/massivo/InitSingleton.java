@@ -16,7 +16,7 @@ public class InitSingleton {
 
     private static InitSingleton initSingleton = null;
     
-    private Boolean threadsOn = true;
+    private Boolean threadsOn = false;
 
     public Boolean getThreadsOn() {
         return threadsOn;

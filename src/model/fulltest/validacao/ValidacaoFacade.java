@@ -134,14 +134,11 @@ public class ValidacaoFacade {
             valid.setDataFim(Calendar.getInstance());
             return d.falhaImplementacao();
         } catch (RemoteException ex) {
-            
-            try {
-                
-            } catch (Exception e) {
-            }
+//            ex.printStackTrace();
             valid.setDataFim(Calendar.getInstance());
             return d.falhaCadastro();
         } catch (InterruptedException ex) {
+//            ex.printStackTrace();
             valid.setDataFim(Calendar.getInstance());
             return d.falhaCadastro();
         } 

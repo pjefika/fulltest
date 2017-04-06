@@ -50,11 +50,11 @@ public class BackgroundTestController extends AbstractController {
         result.use(Results.json()).from(oi).recursive().serialize();
     }
 
-    @Path("/massivo")
+    @Path("/execMassivo")
     public void execMassivo() throws InterruptedException {
         Integer i = 0;
         Integer o = 0;
-        System.out.println(InitSingleton.getInstance().getThreadsOn());
+//        System.out.println(InitSingleton.getInstance().getThreadsOn());
         while (InitSingleton.getInstance().getThreadsOn()) {
             
             List<TesteCliente> listTest = dao.listarInstanciasPendentes(40);
@@ -84,7 +84,7 @@ public class BackgroundTestController extends AbstractController {
         }
     }
     
-    @Path("/threadsOff/{state}")
+    @Path("/threadsOn/{state}")
     public void threadsOff(Boolean state){
         InitSingleton.getInstance().setThreadsOn(state);
     }

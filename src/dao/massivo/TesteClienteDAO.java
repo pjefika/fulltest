@@ -61,7 +61,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 //            closeConnection();
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return new ArrayList<>();
         }
     }

@@ -30,7 +30,7 @@ public class LoteSingleton {
     @Inject
     private TesteClienteDAO tDao;
 
-    @Schedule(minute = "*/1", hour = "*")
+    @Schedule(minute = "*/2", hour = "*")
     public void loteStatus() {
         System.out.println("olhando lote");
         Integer i = 0;

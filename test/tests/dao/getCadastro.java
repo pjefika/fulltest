@@ -50,7 +50,7 @@ public class getCadastro {
         
         System.out.println(Calendar.getInstance().getTime());
         try {
-            d.getDslam("AJU-81KXMFMIR-013").conectar();
+            d.getDslam("BET-81FN3V5UN-013").conectar();
             assertTrue(true);
         } catch (DslamNaoImplException ex) {
             Logger.getLogger(getCadastro.class.getName()).log(Level.SEVERE, null, ex);
