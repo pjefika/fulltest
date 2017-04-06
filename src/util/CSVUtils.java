@@ -109,7 +109,7 @@ public class CSVUtils {
             }
 
             CSVUtils.writeLine(writer, head);
-            
+
             for (TesteCliente test : tests) {
                 List<String> list = new ArrayList<>();
                 // Campos
@@ -117,36 +117,36 @@ public class CSVUtils {
                 list.add(test.getStatus().getNome());
                 list.add(test.getLote().getId().toString());
                 System.out.println(test.getId());
-                
+
                 List<ValidacaoGpon> lValid = test.getValid();
                 for (ValidacaoGpon v : lValid) {
-                    if (v.getPotOlt() != null) {
-                        list.add(v.getPotOlt().toString());
-                    } else {
-                        list.add("");
-                    }
-                    if (v.getPotOnt() != null) {
-                        list.add(v.getPotOnt().toString());
-                    } else {
-                        list.add("");
-                    }
-                    if (v.getOntAssociado() != null) {
-                        list.add(v.getOntAssociado());
-                    } else {
-                        list.add("");
-                    }
-                    for (Diagnostico d : v.getDiagnosticoList()) {
-                        Boolean b = d.getResultado();
-                        if (b != null) {
-                            list.add(b.toString());
+                    if (!v.getReteste()) {
+
+                        if (v.getPotOlt() != null) {
+                            list.add(v.getPotOlt().toString());
                         } else {
                             list.add("");
                         }
+                        if (v.getPotOnt() != null) {
+                            list.add(v.getPotOnt().toString());
+                        } else {
+                            list.add("");
+                        }
+                        if (v.getOntAssociado() != null) {
+                            list.add(v.getOntAssociado());
+                        } else {
+                            list.add("");
+                        }
+                        for (Diagnostico d : v.getDiagnosticoList()) {
+                            Boolean b = d.getResultado();
+                            if (b != null) {
+                                list.add(b.toString());
+                            } else {
+                                list.add("");
+                            }
+                        }
                     }
                 }
-                    
-
-                
 
                 CSVUtils.writeLine(writer, list);
             }
