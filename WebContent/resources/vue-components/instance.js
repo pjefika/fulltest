@@ -17,6 +17,12 @@ var data = {
         observacao: null,
         matricula: null
     },
+    countInfo: {
+        ativo: 0,
+        execucao: 0,
+        concluido: 0,
+        excluido: 0
+    },
     tests: null,
     instancias: null,
     lotes: null,
@@ -37,6 +43,13 @@ var vm = new Vue({
                 observacao: null,
                 matricula: null
             };
+            self.countInfo = {
+                ativo: 0,
+                execucao: 0,
+                concluido: 0,
+                excluido: 0
+            };
+            self.tests = null;
             self.instancias = null;
             self.check = [];
         },
