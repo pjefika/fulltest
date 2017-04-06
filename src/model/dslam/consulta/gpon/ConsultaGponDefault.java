@@ -3,7 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.consulta;
+package model.dslam.consulta.gpon;
+
+import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanMulticast;
+import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVoip;
 
 /**
  *

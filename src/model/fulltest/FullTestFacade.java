@@ -8,7 +8,7 @@ package model.fulltest;
 import dao.dslam.telnet.ConsultaDslam;
 import java.io.IOException;
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.ConsultaGponDefault;
+import model.dslam.consulta.gpon.ConsultaGponDefault;
 
 /**
  *

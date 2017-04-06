@@ -5,15 +5,14 @@
  */
 package model.dslam.vivo2.gpon;
 
-import dao.dslam.telnet.Conector;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.AlarmesGpon;
-import model.dslam.consulta.ConsultaGponDefault;
+import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.ProfileGpon;
-import model.dslam.consulta.SerialOntGpon;
-import model.dslam.consulta.TabelaParametrosGpon;
+import model.dslam.consulta.gpon.ProfileGpon;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
