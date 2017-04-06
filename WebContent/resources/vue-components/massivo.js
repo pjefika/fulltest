@@ -15,7 +15,9 @@ Vue.component("massivo", {
         return data;
     },
     template: "<div style='margin-top: 20px;'>\n\
-                    \n\
+                    <div class='page-header'>\n\
+                        <h1>Teste Massivo</h1>\n\
+                    </div>\n\
                     <modal-button classe='defaultp' titulo='Cadastrar Lote' corpo='cadastro-lote' nomebutton='Cadastrar Lote'></modal-button>\n\
                     <button type='button' id='exportaMassivo' class='btn btn-default glyphicon glyphicon-download-alt' @click='exportSelect()' data-toggle='tooltip' data-placement='right' title='Exportar Selecionado.' disabled></button>\n\
                     <mgeneric></mgeneric>\n\
