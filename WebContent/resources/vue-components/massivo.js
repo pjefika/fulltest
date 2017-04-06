@@ -18,13 +18,20 @@ Vue.component("massivo", {
                     <div class='page-header'>\n\
                         <h1>Teste Massivo</h1>\n\
                     </div>\n\
-                    <modal-button classe='defaultp' titulo='Cadastrar Lote' corpo='cadastro-lote' nomebutton='Cadastrar Lote'></modal-button>\n\
-                    <button type='button' id='exportaMassivo' class='btn btn-default glyphicon glyphicon-download-alt' @click='exportSelect()' data-toggle='tooltip' data-placement='right' title='Exportar Selecionado.' disabled></button>\n\
-                    <mgeneric></mgeneric>\n\
-                    <tabela-lote></tabela-lote>\n\
+                    <div v-if='loadingboli'>\n\
+                        <loading></loading>\n\
+                    </div>\n\
+                    <div v-else>\n\
+                        <modal-button classe='defaultp' titulo='Cadastrar Lote' corpo='cadastro-lote' nomebutton='Cadastrar Lote'></modal-button>\n\
+                        <button type='button' id='exportaMassivo' class='btn btn-default glyphicon glyphicon-download-alt' @click='exportSelect()' data-toggle='tooltip' data-placement='right' title='Exportar Selecionado.' disabled></button>\n\
+                        <mgeneric></mgeneric>\n\
+                        <tabela-lote></tabela-lote>\n\
+                    </div>\n\
                 </div>",
     created: function () {
-
+        Vue.nextTick(function () {
+            vm.getLotes();
+        });
     },
     methods: {
         exportSelect: function () {
@@ -158,9 +165,6 @@ Vue.component("tabelaLote", {
                 </div>",
     created: function () {
         var self = this;
-        Vue.nextTick(function () {
-            vm.getLotes();
-        });
     },
     methods: {
         dateFormat: function (h) {
@@ -234,45 +238,50 @@ Vue.component("infoLote", {
     },
     template: "<div>\n\
                     <div class='modal-body'>\n\
-                        <div class='list-group'>\n\
-                            <div class='list-group-item'>\n\
-                                <p class='list-group-item-text'>ID: {{lote.id}}</p>\n\
-                            </div>\n\
-                            <div class='list-group-item'>\n\
-                                <p class='list-group-item-text'>Data de Criação: {{dateFormat(lote.dataCriacao)}}</p>\n\
-                            </div>\n\
-                            <div class='list-group-item'>\n\
-                                <p class='list-group-item-text'>Matricula: {{lote.matricula}}</p>\n\
-                            </div>\n\
-                            <div class='list-group-item'>\n\
-                                <p class='list-group-item-text'>Observação: {{lote.observacao}}</p>\n\
-                            </div>\n\
-                            <div class='list-group-item'>\n\
-                                <p class='list-group-item-text'>Status: {{lote.status}}</p>\n\
-                            </div>\n\
+                        <div v-if='loadingbolm'>\n\
+                            <loading></loading>\n\
                         </div>\n\
-                        <hr>\n\
-                        <label>Informações dos testes</label>\n\
-                        <div class='form-group'>\n\
-                            <div class='table-responsive'>\n\
-                                <table class='table table-bordered'>\n\
-                                    <thead>\n\
-                                        <tr>\n\
-                                            <th>Quant/Ativo</th>\n\
-                                            <th>Quant/Execução</th>\n\
-                                            <th>Quant/Concluido</th>\n\
-                                            <th>Quant/Excluido</th>\n\
-                                        </tr>\n\
-                                    </thead>\n\
-                                    <tbody>\n\
-                                        <tr>\n\
-                                            <td>{{countInfo.ativo}}</td>\n\
-                                            <td>{{countInfo.execucao}}</td>\n\
-                                            <td>{{countInfo.concluido}}</td>\n\
-                                            <td>{{countInfo.excluido}}</td>\n\
-                                        </tr>\n\
-                                    </tbody>\n\
-                                </table>\n\
+                        <div v-else>\n\
+                            <div class='list-group'>\n\
+                                <div class='list-group-item'>\n\
+                                    <p class='list-group-item-text'>ID: {{lote.id}}</p>\n\
+                                </div>\n\
+                                <div class='list-group-item'>\n\
+                                    <p class='list-group-item-text'>Data de Criação: {{dateFormat(lote.dataCriacao)}}</p>\n\
+                                </div>\n\
+                                <div class='list-group-item'>\n\
+                                    <p class='list-group-item-text'>Matricula: {{lote.matricula}}</p>\n\
+                                </div>\n\
+                                <div class='list-group-item'>\n\
+                                    <p class='list-group-item-text'>Observação: {{lote.observacao}}</p>\n\
+                                </div>\n\
+                                <div class='list-group-item'>\n\
+                                    <p class='list-group-item-text'>Status: {{lote.status}}</p>\n\
+                                </div>\n\
+                            </div>\n\
+                            <hr>\n\
+                            <label>Informações dos testes</label>\n\
+                            <div class='form-group'>\n\
+                                <div class='table-responsive'>\n\
+                                    <table class='table table-bordered'>\n\
+                                        <thead>\n\
+                                            <tr>\n\
+                                                <th>Quant/Ativo</th>\n\
+                                                <th>Quant/Execução</th>\n\
+                                                <th>Quant/Concluido</th>\n\
+                                                <th>Quant/Excluido</th>\n\
+                                            </tr>\n\
+                                        </thead>\n\
+                                        <tbody>\n\
+                                            <tr>\n\
+                                                <td>{{countInfo.ativo}}</td>\n\
+                                                <td>{{countInfo.execucao}}</td>\n\
+                                                <td>{{countInfo.concluido}}</td>\n\
+                                                <td>{{countInfo.excluido}}</td>\n\
+                                            </tr>\n\
+                                        </tbody>\n\
+                                    </table>\n\
+                                </div>\n\
                             </div>\n\
                         </div>\n\
                     </div>\n\
@@ -294,8 +303,9 @@ Vue.component("infoLote", {
                 dataType: "json",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
+                    self.loadingbolm = true;
                 },
-                success: function (data) {
+                success: function (data) {                    
                     self.tests = data.list;
                     self.infoLoteCount();
                     //console.log(data);
@@ -315,6 +325,7 @@ Vue.component("infoLote", {
                     self.countInfo.excluido++;
                 }
             }
+            self.loadingbolm = false;
             //console.log(self.countInfo);
         },
         dateFormat: function (h) {

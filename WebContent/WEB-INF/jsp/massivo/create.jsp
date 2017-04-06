@@ -8,9 +8,9 @@
 
     <massivo></massivo>
 
+    <script src="${pageContext.request.contextPath}/resources/vue-components/loading.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vue-components/modal.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vue-components/modalbutton.js"></script>
     <script src="${pageContext.request.contextPath}/resources/vue-components/massivo.js"></script>
-
 
 </div>

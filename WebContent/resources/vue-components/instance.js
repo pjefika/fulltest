@@ -26,13 +26,18 @@ var data = {
     tests: null,
     instancias: null,
     lotes: null,
-    check: []
+    check: [],
+    loadingboli: null,
+    loadingbolm: null
 };
 
 var vm = new Vue({
     el: "#instance",
     data: function () {
         return data;
+    },
+    created: function () {
+        
     },
     methods: {
         reset: function () {
@@ -55,9 +60,18 @@ var vm = new Vue({
         },
         getLotes: function () {
             var self = this;
-            $.get(url + "lote/ativos", function (data) {
-                self.lotes = data.list;
-                self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
+            $.ajax({
+                type: "GET",
+                url: url + "lote/ativos",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                    self.loadingboli = true;
+                },
+                success: function (data) {
+                    self.loadingboli = false;
+                    self.lotes = data.list;
+                    self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
+                }
             });
         }
     }

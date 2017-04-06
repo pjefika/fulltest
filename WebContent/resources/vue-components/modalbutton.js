@@ -51,7 +51,6 @@ Vue.component("modalButton", {
                 titulo: "",
                 corpo: ""
             };
-
             Vue.nextTick(function () {
                 if (self.lt) {
                     vm.lote = self.lt;
