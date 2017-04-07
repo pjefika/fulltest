@@ -6,6 +6,7 @@
 package tests.tdd.manobra;
 
 import dao.cadastro.CadastroDAO;
+import model.ConsultaClienteFacade;
 import model.entity.Cliente;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -42,11 +43,14 @@ public class ConsultaClienteJUnitTest {
     @Test
     public void consultar() {
         try {
+        
             Cliente c = new Cliente();
-            CadastroDAO dao = new CadastroDAO();
             c.setDesignador("4133335556");
-            c.setDslam(dao.getDslam(c.getDesignador()));
+            CadastroDAO dao = new CadastroDAO();
             
+            ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
+            
+            f.consultar();
             
             assertTrue(true);
         } catch (Exception e) {

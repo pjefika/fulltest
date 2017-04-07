@@ -80,6 +80,8 @@ public class ZhoneMetalicoDslam extends DslamMetalico {
 //        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 3000);
 //    }
 
+
+
     
 
 }

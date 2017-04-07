@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import model.entity.Lote;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import util.CSVUtils;
 
 /**
@@ -46,7 +46,7 @@ public class TesteClienteController extends AbstractController {
 
     @Path("/testecliente/{lote.id}")
     public void export(Lote lote) {
-        List<TesteCliente> l = this.testsDAO.listarInstanciasPorLote(lote);
+        List<TesteClienteGpon> l = this.testsDAO.listarInstanciasPorLote(lote);
         if (l != null) {
             this.includeSerializer(l);
             //this.result.include("instancias", l);
@@ -56,7 +56,7 @@ public class TesteClienteController extends AbstractController {
     @Get("/testecliente/exportSelect/{stringLotes}")
     public Download exportLotesSelect(String stringLotes) {
         List<String> listIdLotes = Arrays.asList(stringLotes.split(";"));
-        List<TesteCliente> l = this.testsDAO.listarLotesSelect(listIdLotes);
+        List<TesteClienteGpon> l = this.testsDAO.listarLotesSelect(listIdLotes);
 
         try {
             return DownloadBuilder.of(CSVUtils.toCsv(l))
@@ -75,7 +75,7 @@ public class TesteClienteController extends AbstractController {
     @Path("/teste/listaporlote")
     public void listarTestePorLote(Lote l) {
         try {
-            List<TesteCliente> lTestes = testsDAO.listarInstanciasPorLote(l);
+            List<TesteClienteGpon> lTestes = testsDAO.listarInstanciasPorLote(l);
             this.includeSerializer(lTestes);
         } catch (Exception e) {
             this.result.use(Results.json()).from(e).serialize();

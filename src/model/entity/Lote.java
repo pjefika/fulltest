@@ -24,7 +24,7 @@ import model.fulltest.Status;
 public class Lote extends ComponenteGenerico {
 
     @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL)
-    private List<TesteCliente> tests;
+    private List<TesteClienteGpon> tests;
 
     private String observacao;
     
@@ -57,11 +57,11 @@ public class Lote extends ComponenteGenerico {
         this.dataFim = dataFim;
     }
 
-    public List<TesteCliente> getTests() {
+    public List<TesteClienteGpon> getTests() {
         return tests;
     }
 
-    public void setTests(List<TesteCliente> tests) {
+    public void setTests(List<TesteClienteGpon> tests) {
         this.tests = tests;
     }
 
@@ -90,7 +90,7 @@ public class Lote extends ComponenteGenerico {
     }       
     
     public Boolean isTestesConc(){
-         for (TesteCliente test : tests) {
+         for (TesteClienteGpon test : tests) {
              if(!test.getStatus().equals(Status.CONCLUIDO)){
                  return false;
              }
@@ -99,7 +99,7 @@ public class Lote extends ComponenteGenerico {
      }       
     
     public Boolean isTestesExec(){
-         for (TesteCliente test : tests) {
+         for (TesteClienteGpon test : tests) {
              if(test.getStatus().equals(Status.CONCLUIDO)){
                  return true;
              }

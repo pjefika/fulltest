@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Query;
 import model.entity.Lote;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 
@@ -22,11 +22,11 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public TesteClienteDAO() {
     }
 
-    public List<TesteCliente> listarInstancias() {
+    public List<TesteClienteGpon> listarInstancias() {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente");
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
@@ -35,13 +35,13 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<TesteCliente> listarInstanciasPendentes() {
+    public List<TesteClienteGpon> listarInstanciasPendentes() {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
@@ -50,14 +50,14 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<TesteCliente> listarInstanciasPendentes(Integer limit) {
+    public List<TesteClienteGpon> listarInstanciasPendentes(Integer limit) {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<TesteCliente> listarInstanciasPresasExec(Integer limit) {
+    public List<TesteClienteGpon> listarInstanciasPresasExec(Integer limit) {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param2  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
@@ -74,7 +74,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
 
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
@@ -83,14 +83,14 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public TesteCliente buscarInstanciaPorId(TesteCliente tc) {
+    public TesteClienteGpon buscarInstanciaPorId(TesteClienteGpon tc) {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.id=:param1");
             query.setParameter("param1", tc.getId());
-//            TesteCliente result = (TesteCliente) query.getSingleResult();
+//            TesteClienteGpon result = (TesteClienteGpon) query.getSingleResult();
 //            closeConnection();
-            return (TesteCliente) query.getSingleResult();
+            return (TesteClienteGpon) query.getSingleResult();
         } catch (Exception e) {
             e.printStackTrace();
 //            closeConnection();
@@ -98,12 +98,12 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public List<TesteCliente> listarInstanciasPorLote(Lote lote) {
+    public List<TesteClienteGpon> listarInstanciasPorLote(Lote lote) {
         try {
 //            startConnection();
             Query query = this.entityManager.createQuery("FROM TesteCliente l WHERE l.lote =:param1");
             query.setParameter("param1", lote);
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
         }
     }
 
-    public ValidacaoGpon getValidacaoPorTeste(TesteCliente t) {
+    public ValidacaoGpon getValidacaoPorTeste(TesteClienteGpon t) {
         try {
             Query query = this.entityManager.createQuery("FROM ValidacaoGpon l WHERE l.teste =:param1");
             query.setParameter("param1", t.getId());
@@ -124,7 +124,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
 
     }
 
-    public List<TesteCliente> listarLotesSelect(List<String> idLotes) {
+    public List<TesteClienteGpon> listarLotesSelect(List<String> idLotes) {
         try {
 //            startConnection();
             StringBuilder concat = new StringBuilder();
@@ -138,9 +138,9 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
                 cont++;
             }
             String lotes = concat.toString();
-            //System.out.println("Cod: 1: FROM TesteCliente t WHERE " + lotes);
+            //System.out.println("Cod: 1: FROM TesteClienteGpon t WHERE " + lotes);
             Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE " + lotes);
-            List<TesteCliente> result = query.getResultList();
+            List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;
         } catch (Exception e) {
