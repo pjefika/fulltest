@@ -7,7 +7,7 @@ package tests;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 
 /**
  *
@@ -20,7 +20,7 @@ public class testThread {
      */
     public static void main(String[] args) {
 
-        TesteCliente cls = new TesteCliente("7930272843");
+        TesteClienteGpon cls = new TesteClienteGpon("7930272843");
 //        BackgroundTestThread ba = new BackgroundTestThread(cls);
 
         try {

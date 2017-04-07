@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.manobra;
+package tests.tdd.manobra;
 
 import dao.cadastro.CadastroDAO;
 import model.ConsultaClienteFacade;

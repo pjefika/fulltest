@@ -26,7 +26,8 @@ public class DslamDAOFactory implements ContratoFactoryDslam {
             ContratoFactoryDslam fac = new DslamGponDAOFactory();
             return fac.getInstance(info);
         } else {
-            throw new DslamNaoImplException();
+            ContratoFactoryDslam fac = new DslamMetalicoDAOFactory();
+            return fac.getInstance(info);
         }
 
     }
