@@ -18,7 +18,11 @@ public class ManobraController extends AbstractController {
     
     @Logado
     public void create(){
-        result.include("oi", "Olá Vraptor");
+         
+    }
+        
+    public void atendimento() {
+        
     }
     
 }

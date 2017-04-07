@@ -39,7 +39,7 @@
                     <c:if test="${sessionUsuarioEfika.logado}">
                         <ul class="nav navbar-nav">
                             <li><a href="${linkTo[MassivoController].create()}">Subir Lote</a></li>
-                            <li><a href="${linkTo[ManobraController].create()}">Manobra</a></li>
+                            <li><a href="${linkTo[ManobraController].atendimento()}">Manobra</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
@@ -84,11 +84,7 @@
             </div>
         </nav>
 
-        <div id="instance">
-            <decorator:body/>
-        </div>
-
-        <script src="${pageContext.request.contextPath}/resources/vue-components/instance.js"></script>
+        <decorator:body/>
 
         <!-- /container -->
     </body>

@@ -4,13 +4,19 @@
 
 <div class="container"> 
 
-    <script src="${pageContext.request.contextPath}/resources/vue-viewmodel/lote.js"></script>
+    <div id="instance">
 
-    <massivo></massivo>
+        <script src="${pageContext.request.contextPath}/resources/vue-viewmodel/lote.js"></script>
 
-    <script src="${pageContext.request.contextPath}/resources/vue-components/loading.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/vue-components/modal.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/vue-components/modalbutton.js"></script>
-    <script src="${pageContext.request.contextPath}/resources/vue-components/massivo.js"></script>
+        <massivo></massivo>
+
+        <script src="${pageContext.request.contextPath}/resources/vue-components/loading.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/vue-components/modal.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/vue-components/modalbutton.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/vue-components/massivo.js"></script>
+
+    </div>
+
+    <script src="${pageContext.request.contextPath}/resources/vue-components/instance.js"></script>  
 
 </div>
