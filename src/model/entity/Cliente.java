@@ -5,6 +5,8 @@
  */
 package model.entity;
 
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+
 /**
  *
  * @author G0041775
@@ -12,6 +14,8 @@ package model.entity;
 public class Cliente extends AbstractEntity{
 
     private String nome, designador;
+    
+    private GetInfoOut cadastro;
     
     public Cliente() {
     }
@@ -32,4 +36,8 @@ public class Cliente extends AbstractEntity{
         this.designador = designador;
     }
 
+    public GetInfoOut getCadastro() {
+        return cadastro;
+    }
+ 
 }

@@ -38,7 +38,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public List<TesteClienteGpon> listarInstanciasPendentes() {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             List<TesteClienteGpon> result = query.getResultList();
@@ -53,7 +53,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public List<TesteClienteGpon> listarInstanciasPendentes(Integer limit) {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE t.status =:param1  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
@@ -69,7 +69,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public List<TesteClienteGpon> listarInstanciasPresasExec(Integer limit) {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.status =:param2  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE t.status =:param2  AND (t.lote.status =:param1 OR t.lote.status=:param2)");
             query.setParameter("param1", Status.ATIVO);
             query.setParameter("param2", Status.EM_EXECUCAO);
             query.setMaxResults(limit);
@@ -86,7 +86,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public TesteClienteGpon buscarInstanciaPorId(TesteClienteGpon tc) {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE t.id=:param1");
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE t.id=:param1");
             query.setParameter("param1", tc.getId());
 //            TesteClienteGpon result = (TesteClienteGpon) query.getSingleResult();
 //            closeConnection();
@@ -101,7 +101,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
     public List<TesteClienteGpon> listarInstanciasPorLote(Lote lote) {
         try {
 //            startConnection();
-            Query query = this.entityManager.createQuery("FROM TesteCliente l WHERE l.lote =:param1");
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE t.lote =:param1");
             query.setParameter("param1", lote);
             List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
@@ -139,7 +139,7 @@ public class TesteClienteDAO extends ComponenteTestsDAO {
             }
             String lotes = concat.toString();
             //System.out.println("Cod: 1: FROM TesteClienteGpon t WHERE " + lotes);
-            Query query = this.entityManager.createQuery("FROM TesteCliente t WHERE " + lotes);
+            Query query = this.entityManager.createQuery("FROM TesteClienteGpon t WHERE " + lotes);
             List<TesteClienteGpon> result = query.getResultList();
 //            closeConnection();
             return result;

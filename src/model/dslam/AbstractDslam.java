@@ -39,8 +39,8 @@ public abstract class AbstractDslam implements Conector, ConsultaClienteInter {
     public void conectar() {
         this.loginStrategy.conectar(this.getCd());
     }
-    
-        @Override
+
+    @Override
     public Cliente consultar(Cliente c) {
         return null;
     }

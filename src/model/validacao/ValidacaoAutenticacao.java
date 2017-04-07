@@ -5,20 +5,20 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.InfoTBS;
+import bean.ossturbonet.oss.gvt.com.InfoRadius;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCadastroTBS extends Validacao implements Validator{
+public class ValidacaoAutenticacao extends Validacao implements Validator{
     
-    private InfoTBS info;
+    private InfoRadius info;
 
-    public ValidacaoCadastroTBS(InfoTBS info) {
+    public ValidacaoAutenticacao(InfoRadius info) {
         this.info = info;
     }
-    
+
     /**
      * Implementar!
      * @return 

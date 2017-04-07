@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.facade;
+package dao;
 
-import model.entity.TesteClienteGpon;
-import model.fulltest.validacao.ValidacaoFacade;
+import com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn;
+import com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut;
+import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,9 +18,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ValidacaoFacadeJUnitTest {
+public class GetCadastroJUnitTest {
 
-    public ValidacaoFacadeJUnitTest() {
+    public GetCadastroJUnitTest() {
     }
 
     @BeforeClass
@@ -40,14 +40,16 @@ public class ValidacaoFacadeJUnitTest {
     }
 
     @Test
-    public void validar() {
-        ValidacaoFacade facade = new ValidacaoFacade(new TesteClienteGpon("7930272843"));
+    public void getCadastro() {
+
         try {
-            facade.validar();
-            assertTrue(true);
+
+            OSSTurbonetProxy ws = new OSSTurbonetProxy();
+            OSSTurbonetShortCircuitOut infoShortCircuit = ws.getInfoShortCircuit(new OSSTurbonetShortCircuitIn("CTA-811C0EFT9-013", "ura", "ura", "ura"));
+            
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue(false);
         }
+
     }
 }

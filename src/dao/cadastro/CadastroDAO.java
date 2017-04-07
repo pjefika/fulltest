@@ -30,16 +30,12 @@ public class CadastroDAO {
     }
 
     public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {
-
         try {
-
             String designator = this.getDesignador(instancia);
             String accessDesignator = ws.getAccessDesignator(designator);
             GetInfoOut leInfo = new GetInfoOut();
             leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
-
             return factory.getInstance(leInfo);
-
         } catch (RemoteException | DslamNaoImplException ex) {
             throw ex;
         }

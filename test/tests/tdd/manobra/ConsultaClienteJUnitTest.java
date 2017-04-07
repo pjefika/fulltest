@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.manobra;
+package tdd.manobra;
 
 import dao.cadastro.CadastroDAO;
 import model.ConsultaClienteFacade;
@@ -43,19 +43,17 @@ public class ConsultaClienteJUnitTest {
     @Test
     public void consultar() {
         try {
-        
+
             Cliente c = new Cliente();
             c.setDesignador("4133335556");
             CadastroDAO dao = new CadastroDAO();
-            
             ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
-            
             f.consultar();
-            
+
             assertTrue(true);
         } catch (Exception e) {
-            assertTrue(false);
             e.printStackTrace();
+            assertTrue(false);
         }
     }
 }
