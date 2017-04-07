@@ -5,8 +5,6 @@
  */
 package model.entity;
 
-import model.dslam.AbstractDslam;
-
 /**
  *
  * @author G0041775
@@ -15,8 +13,6 @@ public class Cliente extends AbstractEntity{
 
     private String nome, designador;
     
-    private AbstractDslam dslam;
-
     public Cliente() {
     }
 
@@ -36,12 +32,4 @@ public class Cliente extends AbstractEntity{
         this.designador = designador;
     }
 
-    public AbstractDslam getDslam() {
-        return dslam;
-    }
-
-    public void setDslam(AbstractDslam dslam) {
-        this.dslam = dslam;
-    }
-    
 }

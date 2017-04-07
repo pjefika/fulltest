@@ -14,7 +14,7 @@ import controller.AbstractController;
 import dao.massivo.LoteDAO;
 import javax.inject.Inject;
 import model.annotation.Logado;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.fulltest.Status;
 
 /**
@@ -42,7 +42,7 @@ public class MassivoController extends AbstractController {
     @Post
     @Consumes("application/json")
     @Path("/instancia/massivo/cadastrar")
-    public void cadastrar(TesteCliente testeCliente) {
+    public void cadastrar(TesteClienteGpon testeCliente) {
         try {
             testeCliente.setStatus(Status.ATIVO);
             this.dao.cadastrar(testeCliente);
@@ -55,7 +55,7 @@ public class MassivoController extends AbstractController {
     @Post
     @Consumes("application/json")
     @Path("/instancia/massivo/modificar")
-    public void modificar(TesteCliente testeCliente) {
+    public void modificar(TesteClienteGpon testeCliente) {
         try {
             this.dao.editar(testeCliente);
             this.includeSerializer(testeCliente);
@@ -67,7 +67,7 @@ public class MassivoController extends AbstractController {
     @Post
     @Consumes("application/json")
     @Path("/instancia/massivo/excluir")
-    public void excluir(TesteCliente testeCliente) {
+    public void excluir(TesteClienteGpon testeCliente) {
         try {
             this.dao.excluir(testeCliente);
             this.includeSerializer(testeCliente);

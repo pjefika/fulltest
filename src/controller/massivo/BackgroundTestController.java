@@ -16,7 +16,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
 import model.fulltest.massivo.BackgroundTestThread;
 import model.fulltest.massivo.InitSingleton;
@@ -39,7 +39,7 @@ public class BackgroundTestController extends AbstractController {
     @Get
     @Path("/unitario/{inst}")
     public void execUnitario(String inst) throws Exception {
-        TesteCliente t = new TesteCliente(inst);
+        TesteClienteGpon t = new TesteClienteGpon(inst);
         dao.cadastrar(t);
 
         ValidacaoFacade v = new ValidacaoFacade(t);
@@ -57,7 +57,7 @@ public class BackgroundTestController extends AbstractController {
 //        System.out.println(InitSingleton.getInstance().getThreadsOn());
         while (InitSingleton.getInstance().getThreadsOn()) {
             
-            List<TesteCliente> listTest = dao.listarInstanciasPendentes(40);
+            List<TesteClienteGpon> listTest = dao.listarInstanciasPendentes(40);
             if (listTest.isEmpty()) {
                 listTest = dao.listarInstanciasPresasExec(40);
             }
@@ -65,7 +65,7 @@ public class BackgroundTestController extends AbstractController {
 
                 ExecutorService exec = Executors.newCachedThreadPool();
 
-                for (TesteCliente testeCliente : listTest) {
+                for (TesteClienteGpon testeCliente : listTest) {
                     BackgroundTestThread b = new BackgroundTestThread(testeCliente, dao);
                     exec.execute(b);
                 }
