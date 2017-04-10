@@ -32,10 +32,6 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
         List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
 
-        for (String string : oper) {
-            System.out.println(string);
-        }
-
         String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
 
@@ -52,6 +48,10 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/OperationalStatus");
+    }
+    
+    public ComandoDslam getComandoConsultaVlan() {
+        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
     }
 
 }

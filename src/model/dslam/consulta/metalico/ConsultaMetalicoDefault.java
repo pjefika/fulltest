@@ -6,6 +6,7 @@
 package model.dslam.consulta.metalico;
 
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.VlanBanda;
 
 /**
  *
@@ -14,14 +15,12 @@ import model.dslam.consulta.EstadoDaPorta;
 public interface ConsultaMetalicoDefault {
 
     public EstadoDaPorta getEstadoDaPorta() throws Exception;
-//
-//    public SerialOntGpon getSerialOnt() throws Exception;
-//
+
     public TabelaParametrosMetalico getTabelaParametros() throws Exception;
-    
+
     public TabelaRedeMetalico getTabelaRede() throws Exception;
-//
-//    public VlanBanda getVlanBanda() throws Exception;
+
+    public VlanBanda getVlanBanda() throws Exception;
 //
 //    public VlanMulticast getVlanMulticast() throws Exception;
 //

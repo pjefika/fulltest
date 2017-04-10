@@ -8,6 +8,7 @@ package model.dslam.vivo2.metalico.zhone;
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
@@ -84,6 +85,11 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanBanda getVlanBanda() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
