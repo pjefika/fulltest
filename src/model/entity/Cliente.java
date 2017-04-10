@@ -6,6 +6,7 @@
 package model.entity;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.TabelaParamAbstract;
@@ -22,6 +23,8 @@ public class Cliente extends AbstractEntity implements Validator {
     private String nome, designador;
 
     private GetInfoOut cadastro;
+
+    private OSSTurbonetInconsistenciaTBSRadiusOut incon;
 
     private TabelaParamAbstract tabela;
 
@@ -68,9 +71,17 @@ public class Cliente extends AbstractEntity implements Validator {
         this.valid = valid;
     }
 
+    public OSSTurbonetInconsistenciaTBSRadiusOut getIncon() {
+        return incon;
+    }
+
+    public void setIncon(OSSTurbonetInconsistenciaTBSRadiusOut incon) {
+        this.incon = incon;
+    }
+
     @Override
     public Boolean validar() {
-        valid.add(new ValidacaoCadastroTBS(cadastro));
+        valid.add(new ValidacaoCadastroTBS(cadastro, incon));
 
         for (Validacao v : valid) {
             if (!v.validar()) {

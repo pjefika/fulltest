@@ -6,6 +6,7 @@
 package model.validacao;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 
 /**
  *
@@ -15,8 +16,11 @@ public class ValidacaoCadastroTBS extends Validacao {
 
     private GetInfoOut info;
 
-    public ValidacaoCadastroTBS(GetInfoOut info) {
+    private OSSTurbonetInconsistenciaTBSRadiusOut i;
+
+    public ValidacaoCadastroTBS(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
         this.info = info;
+        this.i = i;
         this.nome = "Cadastro TBS";
     }
 
@@ -27,6 +31,6 @@ public class ValidacaoCadastroTBS extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return true;
+        return !i.getEhInconsistente();
     }
 }
