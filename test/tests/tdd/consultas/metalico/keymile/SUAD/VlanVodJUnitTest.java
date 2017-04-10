@@ -6,7 +6,7 @@
 package tests.tdd.consultas.metalico.keymile.SUAD;
 
 import java.math.BigInteger;
-import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.VlanVod;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
 import org.junit.After;
@@ -20,9 +20,9 @@ import org.junit.Test;
  *
  * @author G0041775
  */
-public class VlanVoipJUnitTest {
+public class VlanVodJUnitTest {
 
-    public VlanVoipJUnitTest() {
+    public VlanVodJUnitTest() {
     }
 
     @BeforeClass
@@ -42,17 +42,17 @@ public class VlanVoipJUnitTest {
     }
 
     @Test
-    public void consultarVlanVoip() {
+    public void consultarVlanVod() {
         try {
 
             KeymileMetalicoDslam d = new KeymileMetalicoSuadDslam();
             d.setIpDslam("10.141.228.1");
             d.setSlot(new BigInteger("3"));
             d.setPorta(new BigInteger("20"));
-            VlanVoip vVoip = d.getVlanVoip();
+            VlanVod vVod = d.getVlanVod();
 
-            System.out.println("Cvlan " + vVoip.getCvlan());
-            System.out.println("P100 " + vVoip.getP100());
+            System.out.println("Cvlan " + vVod.getCvlan());
+            System.out.println("P100 " + vVod.getP100());
 
             d.desconectar();
 
