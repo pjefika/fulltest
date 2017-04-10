@@ -33,5 +33,7 @@ public interface ConsultaMetalicoDefault {
     public VlanVod getVlanVod() throws Exception;
 
     public Profile getProfile() throws Exception;
+    
+    public Modulacao getModulacao() throws Exception;
 
 }

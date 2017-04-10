@@ -14,6 +14,7 @@ import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
@@ -155,6 +156,17 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return prof;
     }
 
+    @Override
+    public Modulacao getModulacao() throws Exception {
+        List<String> pegaModul = this.getCd().consulta(this.getModul()).getRetorno();
+        String modul = TratativaRetornoUtil.tratKeymile(pegaModul, "Name");
+
+        Modulacao m = new Modulacao();
+        m.setModulacao(modul);
+
+        return m;
+    }
+
     public ComandoDslam getVelSinc() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
     }
@@ -189,5 +201,9 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     public ComandoDslam getProf() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/cfgm/profilename");
+    }
+
+    public ComandoDslam getModul() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/cfgm/portprofile");
     }
 }
