@@ -5,8 +5,6 @@
  */
 package model.validacao;
 
-import java.util.List;
-
 /**
  *
  * @author G0042204
@@ -14,7 +12,5 @@ import java.util.List;
 public interface Validator {
 
     public Boolean validar();
-    
-    public List<FalhaValidacao> getFalhas();
-    
+
 }

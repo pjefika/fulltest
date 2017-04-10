@@ -5,26 +5,31 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.InfoTBS;
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCadastroTBS extends Validacao implements Validator{
-    
-    private InfoTBS info;
+public class ValidacaoCadastroTBS extends Validacao {
 
-    public ValidacaoCadastroTBS(InfoTBS info) {
+    private GetInfoOut info;
+
+    public ValidacaoCadastroTBS(GetInfoOut info) {
         this.info = info;
     }
-    
+
     /**
      * Implementar!
-     * @return 
+     *
+     * @return
      */
     @Override
     public Boolean validar() {
-        return false;
-    }    
+        if (info.getInfoRadius().getRadiusProfile().contains("vala")) {
+            return false;
+        }
+
+        return true;
+    }
 }

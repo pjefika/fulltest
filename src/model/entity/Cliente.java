@@ -6,13 +6,17 @@
 package model.entity;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import java.util.ArrayList;
+import java.util.List;
 import model.dslam.consulta.TabelaParamAbstract;
+import model.validacao.Validacao;
+import model.validacao.Validator;
 
 /**
  *
  * @author G0041775
  */
-public class Cliente extends AbstractEntity {
+public class Cliente extends AbstractEntity implements Validator {
 
     private String nome, designador;
 
@@ -20,7 +24,11 @@ public class Cliente extends AbstractEntity {
 
     private TabelaParamAbstract tabela;
 
-    public Cliente() {
+    private List<Validacao> valid;
+
+    public Cliente(String designador) {
+        this.designador = designador;
+        valid = new ArrayList<>();
     }
 
     public String getNome() {
@@ -49,5 +57,23 @@ public class Cliente extends AbstractEntity {
 
     public void setTabela(TabelaParamAbstract tabela) {
         this.tabela = tabela;
+    }
+
+    public List<Validacao> getValid() {
+        return valid;
+    }
+
+    public void setValid(List<Validacao> valid) {
+        this.valid = valid;
+    }
+
+    @Override
+    public Boolean validar() {
+        for (Validacao v : valid) {
+            if (!v.validar()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

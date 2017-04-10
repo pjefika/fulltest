@@ -5,7 +5,6 @@
  */
 package tests.tdd.manobra;
 
-import dao.cadastro.CadastroDAO;
 import model.ConsultaClienteFacade;
 import model.entity.Cliente;
 import org.junit.After;
@@ -44,10 +43,7 @@ public class ConsultaClienteJUnitTest {
     public void consultar() {
         try {
 
-            Cliente c = new Cliente();
-            c.setDesignador("4133335556");
-//            c.setDesignador("4130886762");
-            CadastroDAO dao = new CadastroDAO();
+            Cliente c = new Cliente("4133335556");
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             f.consultar();
             assertTrue(true);

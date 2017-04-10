@@ -32,8 +32,7 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/{instancia}")
     public void consultaCliente(String instancia) {
         try {
-            Cliente c = new Cliente();
-            c.setDesignador(instancia);
+            Cliente c = new Cliente(instancia);
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             c = f.consultar();
             includeSerializer(c);
