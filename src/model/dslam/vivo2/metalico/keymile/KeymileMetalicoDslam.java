@@ -5,8 +5,6 @@
  */
 package model.dslam.vivo2.metalico.keymile;
 
-import dao.dslam.telnet.ComandoDslam;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.vivo2.metalico.DslamMetalico;
 
 /**
@@ -37,9 +35,9 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 //    public ComandoDslam getComandoConsultaVlanBanda1() {
 //        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/status/ServiceStatus");
 //    }
-    public ComandoDslam getComandoConsultaVlan2() {
-        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
-    }
+//    public ComandoDslam getComandoConsultaVlan2() {
+//        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
+//    }
 
 //    public ComandoDslam getComandoConsultaVlanVoip1() {
 //        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-2/status/ServiceStatus");
@@ -59,8 +57,5 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 //    public ComandoDslam getComandoConsultaProfileDown(){
 //        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/cfgm/IfRateLimiting");
 //    }
-    @Override
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 }

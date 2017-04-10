@@ -16,6 +16,8 @@ public interface ConsultaMetalicoDefault {
 //    public SerialOntGpon getSerialOnt() throws Exception;
 //
     public TabelaParametrosMetalico getTabelaParametros() throws Exception;
+    
+    public TabelaRedeMetalico getTabelaRede() throws Exception;
 //
 //    public VlanBanda getVlanBanda() throws Exception;
 //

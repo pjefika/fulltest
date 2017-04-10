@@ -17,11 +17,12 @@ import org.junit.Test;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public class TabelaParametrosJUnitTest {
-
-    public TabelaParametrosJUnitTest() {
+public class TabelaParametros {
+    
+    public TabelaParametros(){
+        
     }
 
     @BeforeClass
@@ -49,16 +50,16 @@ public class TabelaParametrosJUnitTest {
             d.setSlot(new BigInteger("3"));
             d.setPorta(new BigInteger("20"));
             TabelaParametrosMetalico tab = d.getTabelaParametros();
-           
-            System.out.println("Vel Down "+ tab.getVelSincDown());
-            System.out.println("Vel Up "+ tab.getVelSincUp());
-            System.out.println("Snr Down "+ tab.getSnrDown());
-            System.out.println("Snr Up "+ tab.getSnrUp());
-            System.out.println("Atn Down "+ tab.getAtnDown());
-            System.out.println("Atn Up "+ tab.getAtnUp());
-            
+
+            System.out.println("Vel Down " + tab.getVelSincDown());
+            System.out.println("Vel Up " + tab.getVelSincUp());
+            System.out.println("Snr Down " + tab.getSnrDown());
+            System.out.println("Snr Up " + tab.getSnrUp());
+            System.out.println("Atn Down " + tab.getAtnDown());
+            System.out.println("Atn Up " + tab.getAtnUp());
+
             d.desconectar();
-            
+
             assertTrue(true);
         } catch (Exception e) {
             assertTrue(false);
