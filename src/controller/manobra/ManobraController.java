@@ -25,4 +25,8 @@ public class ManobraController extends AbstractController {
         
     }
     
+    public void motivo() {
+        
+    }
+    
 }

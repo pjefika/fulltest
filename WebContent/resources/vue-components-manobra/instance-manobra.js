@@ -5,7 +5,16 @@
  */
 
 var data = {
-    loading: null
+    loading: null,
+    motivos: null,
+    modal: {
+        titulo: "",
+        corpo: ""
+    },
+    motivo: {
+        nome: null,
+        ativo: null
+    }
 };
 
 var vmi = new Vue({
@@ -16,7 +25,13 @@ var vmi = new Vue({
     created: function () {
 
     },
-    methods: {
-
+    methods: {        
+        reset: function () {
+            var self = this;
+            self.motivo = {
+                nome: null,
+                ativo: null
+            };
+        }
     }
 });

@@ -40,6 +40,7 @@
                         <ul class="nav navbar-nav">
                             <li><a href="${linkTo[MassivoController].create()}">Subir Lote</a></li>
                             <li><a href="${linkTo[ManobraController].atendimento()}">Manobra</a></li>
+                            <li><a href="${linkTo[ManobraController].motivo()}">Motivo</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
