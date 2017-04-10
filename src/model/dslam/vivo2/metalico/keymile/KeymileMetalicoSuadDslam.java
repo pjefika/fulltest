@@ -10,6 +10,7 @@ import dao.dslam.telnet.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
@@ -32,22 +33,6 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     @Override
     public Cliente consultar(Cliente c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-//    public ComandoDslam getComandoSerialOnt() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/cfgm/onuCfgTable");
-//    }
-//    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/main/AdministrativeStatus");
-//    }
-//    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/main/OperationalStatus");
-//    }
-//    public ComandoDslam getComandoConsultaVlanBanda1() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/status/ServiceStatus");
-//    }
-    public ComandoDslam getComandoConsultaVlan2() {
-        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
     }
 
 //    public ComandoDslam getComandoConsultaVlanVoip1() {
@@ -116,10 +101,26 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
-        
+
         return vlanBanda;
     }
-    
+
+    @Override
+    public VlanVoip getVlanVoip() throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip()).getRetorno();
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+        if (!leSrvc.contentEquals("no service connected")) {
+            this.setSrvc(leSrvc);
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+        }
+        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+
+        return vlanVoip;
+    }
 
     public ComandoDslam getVelSinc() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
@@ -136,8 +137,12 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public ComandoDslam getTabRede() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000);
     }
-    
+
     public ComandoDslam getSrvcBanda() {
-        return new ComandoDslam("get /unit-"+this.getSlot()+"/port-"+this.getPorta()+"/chan-1/vcc-1/status/servicestatus");
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/vcc-1/status/servicestatus");
+    }
+
+    public ComandoDslam getSrvcVoip() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/vcc-2/status/servicestatus");
     }
 }
