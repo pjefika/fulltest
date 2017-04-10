@@ -10,7 +10,6 @@ import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
-import model.entity.Cliente;
 import model.produtos.ProdutoCliente;
 
 /**
@@ -38,11 +37,6 @@ public abstract class AbstractDslam implements Conector, ConsultaClienteInter {
     @Override
     public void conectar() {
         this.loginStrategy.conectar(this.getCd());
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        return null;
     }
 
     public ProdutoCliente getProd() {

@@ -9,19 +9,20 @@ import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
-import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.gpon.ProfileGpon;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.ProfileGpon;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.gpon.DslamGpon;
+import model.entity.Cliente;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -297,6 +298,11 @@ public class AlcatelGponDslam extends DslamGpon {
         System.out.println(prof.getProfileUp());
 
         return prof;
+    }
+
+    @Override
+    public Cliente consultar(Cliente c) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

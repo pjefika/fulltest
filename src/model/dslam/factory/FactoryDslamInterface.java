@@ -13,7 +13,7 @@ import model.dslam.factory.exception.DslamNaoImplException;
  *
  * @author G0042204
  */
-public interface ContratoFactoryDslam {
+public interface FactoryDslamInterface {
 
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException;
 

@@ -6,17 +6,20 @@
 package model.entity;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import model.dslam.consulta.TabelaParamAbstract;
 
 /**
  *
  * @author G0041775
  */
-public class Cliente extends AbstractEntity{
+public class Cliente extends AbstractEntity {
 
     private String nome, designador;
-    
+
     private GetInfoOut cadastro;
-    
+
+    private TabelaParamAbstract tabela;
+
     public Cliente() {
     }
 
@@ -39,5 +42,12 @@ public class Cliente extends AbstractEntity{
     public GetInfoOut getCadastro() {
         return cadastro;
     }
- 
+
+    public TabelaParamAbstract getTabela() {
+        return tabela;
+    }
+
+    public void setTabela(TabelaParamAbstract tabela) {
+        this.tabela = tabela;
+    }
 }

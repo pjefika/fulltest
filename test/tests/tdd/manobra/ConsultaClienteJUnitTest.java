@@ -49,7 +49,6 @@ public class ConsultaClienteJUnitTest {
             CadastroDAO dao = new CadastroDAO();
             ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
             f.consultar();
-
             assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();

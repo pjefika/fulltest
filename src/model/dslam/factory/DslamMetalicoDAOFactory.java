@@ -17,19 +17,16 @@ import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoDslam;
  *
  * @author G0042204
  */
-public class DslamMetalicoDAOFactory implements ContratoFactoryDslam {
+public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
 
     @Override
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
 
-        
         DslamMetalico leDslam;
-        
 
         // Cuidado confusão do IT -
         String vendor = info.getInfoTBS().getDslamModel();
 
-        
         if (vendor.trim().equalsIgnoreCase("ZHONE")) {
             leDslam = new ZhoneMetalicoDslam();
         } else if (vendor.trim().equalsIgnoreCase("KEYMILE")) {
@@ -50,10 +47,10 @@ public class DslamMetalicoDAOFactory implements ContratoFactoryDslam {
         leDslam.setVlanVoipe(info.getInfoTBS().getVlanVoIP().toString());
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
-        
+
         ProdutosDAO proDao = new ProdutosDAO(info.getDesignator());
         leDslam.setProd(proDao.getProdCliente());
-        
+
         return leDslam;
     }
 

@@ -17,7 +17,7 @@ import model.dslam.vivo2.gpon.zhone.ZhoneGponDslam;
  *
  * @author G0042204
  */
-public class DslamGponDAOFactory implements ContratoFactoryDslam {
+public class DslamGponDAOFactory implements FactoryDslamInterface {
 
     @Override
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
