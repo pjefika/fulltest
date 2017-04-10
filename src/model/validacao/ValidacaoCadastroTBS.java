@@ -17,6 +17,7 @@ public class ValidacaoCadastroTBS extends Validacao {
 
     public ValidacaoCadastroTBS(GetInfoOut info) {
         this.info = info;
+        this.nome = "Cadastro TBS";
     }
 
     /**
@@ -26,10 +27,6 @@ public class ValidacaoCadastroTBS extends Validacao {
      */
     @Override
     public Boolean validar() {
-        if (info.getInfoRadius().getRadiusProfile().contains("vala")) {
-            return false;
-        }
-
         return true;
     }
 }

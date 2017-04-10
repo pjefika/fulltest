@@ -11,6 +11,7 @@ import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
 import model.dslam.factory.exception.DslamNaoImplException;
+import model.entity.Cliente;
 
 /**
  *
@@ -27,6 +28,10 @@ public class CadastroDAO {
 
     public String getDesignador(String instancia) throws RemoteException {
         return ws.getDesignatorByAccessDesignator(instancia);
+    }
+
+    public Cliente getCliente(String instancia) throws DslamNaoImplException, RemoteException {
+        return null;
     }
 
     public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {

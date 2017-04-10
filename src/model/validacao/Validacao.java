@@ -11,7 +11,7 @@ package model.validacao;
  */
 public abstract class Validacao implements Validator {
 
-    private String nome;
+    protected String nome;
 
     private String falha;
 

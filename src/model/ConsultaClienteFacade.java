@@ -29,8 +29,7 @@ public class ConsultaClienteFacade {
 
     public Cliente consultar() throws DslamNaoImplException, RemoteException {
         c = dao.getDslam(cl.getDesignador());
-        cl = c.consultar(cl);
-
+//        cl = c.consultar(cl);
         cl.validar();
 
         return cl;
