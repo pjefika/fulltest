@@ -34,8 +34,8 @@ public class ManobraController extends AbstractController {
         try {
             Cliente c = new Cliente(instancia);
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
-            c = f.consultar();
-            includeSerializer(c);
+            f.consultar();
+            includeSerializer(f);
         } catch (DslamNaoImplException ex) {
             includeSerializer(ex);
         } catch (RemoteException ex) {

@@ -31,6 +31,6 @@ public class ValidacaoCadastroTBS extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !i.getEhInconsistente();
+        return !i.getEhInconsistente() && info != null;
     }
 }

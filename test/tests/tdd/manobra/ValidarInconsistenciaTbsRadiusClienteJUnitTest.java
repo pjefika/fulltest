@@ -18,9 +18,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ValidarClienteJUnitTest {
+public class ValidarInconsistenciaTbsRadiusClienteJUnitTest {
 
-    public ValidarClienteJUnitTest() {
+    public ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
     }
 
     @BeforeClass
@@ -40,14 +40,13 @@ public class ValidarClienteJUnitTest {
     }
 
     @Test
-    public void consultar() {
+    public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
         try {
 
             Cliente c = new Cliente("4133335556");
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             f.consultar();
-            f.toString();
-            assertTrue(false);
+            assertTrue(f.validar());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

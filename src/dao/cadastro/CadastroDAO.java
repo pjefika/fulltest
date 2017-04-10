@@ -35,20 +35,30 @@ public class CadastroDAO {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
-    public Cliente getCliente(String instancia) throws DslamNaoImplException, RemoteException {
-        return null;
+    public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
+        c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
+        c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
+        return c;
     }
 
-    public GetInfoOut getInfo(String instancia) throws RemoteException {
-        String designator = this.getDesignador(instancia);
+    public GetInfoOut getInfo(String designador) throws RemoteException {
+        String designator = designador;
         String accessDesignator = ws.getAccessDesignator(designator);
         GetInfoOut leInfo = new GetInfoOut();
-        return ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
+        return ws.getInfo(designator, accessDesignator, "wise", "wise", designador, "wise", "0", "0");
+    }
+
+    public AbstractDslam getDslam(GetInfoOut info) throws DslamNaoImplException, RemoteException {
+        return factory.getInstance(info);
     }
 
     public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {
         try {
-            return factory.getInstance(this.getInfo(instancia));
+            String designator = this.getDesignador(instancia);
+            String accessDesignator = ws.getAccessDesignator(designator);
+            GetInfoOut leInfo = new GetInfoOut();
+            leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
+            return factory.getInstance(leInfo);
         } catch (RemoteException | DslamNaoImplException ex) {
             throw ex;
         }

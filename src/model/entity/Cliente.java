@@ -35,6 +35,10 @@ public class Cliente extends AbstractEntity implements Validator {
         valid = new ArrayList<>();
     }
 
+    public void setCadastro(GetInfoOut cadastro) {
+        this.cadastro = cadastro;
+    }
+
     public String getNome() {
         return nome;
     }
