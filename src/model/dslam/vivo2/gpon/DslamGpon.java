@@ -10,7 +10,7 @@ import model.dslam.AbstractDslam;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.gpon.ProfileGpon;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.consulta.VlanBanda;
@@ -56,7 +56,7 @@ public abstract class DslamGpon extends AbstractDslam
     public abstract AlarmesGpon getAlarmes() throws Exception;
 
     @Override
-    public abstract ProfileGpon getProfile() throws Exception;
+    public abstract Profile getProfile() throws Exception;
 
     public void setSlot(BigInteger slot) {
         this.slot = slot;

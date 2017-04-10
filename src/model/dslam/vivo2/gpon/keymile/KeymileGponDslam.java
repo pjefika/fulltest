@@ -15,7 +15,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.ProfileGpon;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -248,7 +248,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public ProfileGpon getProfile() throws Exception {
+    public Profile getProfile() throws Exception {
         List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp()).getRetorno();
         String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
         String profileUp = TratativaRetornoUtil.upProfileNameKeymile(new Integer(profUpIndex));
@@ -256,7 +256,7 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> profileDownResp = this.getCd().consulta(this.getComandoConsultaProfileDown()).getRetorno();
         String profileDown = TratativaRetornoUtil.tratKeymile(profileDownResp, "Name", 2);
 
-        ProfileGpon prof = new ProfileGpon();
+        Profile prof = new Profile();
         prof.setProfileUp(profileUp);
         prof.setProfileDown(profileDown);
 

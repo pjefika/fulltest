@@ -15,7 +15,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.ProfileGpon;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -278,7 +278,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public ProfileGpon getProfile() throws Exception {
+    public Profile getProfile() throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaProfile()));
 
         String leProfileDown = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='shaper-profile']");
@@ -290,7 +290,7 @@ public class AlcatelGponDslam extends DslamGpon {
         System.out.println("Profs " + leProfileUp);
         String profileUp = leProfileUp.substring(5, leProfileUp.length());
 
-        ProfileGpon prof = new ProfileGpon();
+        Profile prof = new Profile();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
 

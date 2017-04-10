@@ -9,6 +9,7 @@ import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -141,6 +142,19 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return vlanMult;
     }
 
+    @Override
+    public Profile getProfile() throws Exception {
+        List<String> pegaProfile = this.getCd().consulta(this.getProf()).getRetorno();
+        String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
+        List<String> leProf = TratativaRetornoUtil.numberFromString(first);
+
+        Profile prof = new Profile();
+        prof.setProfileDown(leProf.get(0));
+        prof.setProfileUp(leProf.get(1));
+
+        return prof;
+    }
+
     public ComandoDslam getVelSinc() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
     }
@@ -171,5 +185,9 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     public ComandoDslam getSrvcMult() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/vcc-4/status/ServiceStatus");
+    }
+
+    public ComandoDslam getProf() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/cfgm/profilename");
     }
 }

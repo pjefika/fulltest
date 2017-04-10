@@ -6,6 +6,7 @@
 package model.dslam.consulta.metalico;
 
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -30,9 +31,7 @@ public interface ConsultaMetalicoDefault {
     public VlanVoip getVlanVoip() throws Exception;
 
     public VlanVod getVlanVod() throws Exception;
-//
-//    public AlarmesGpon getAlarmes() throws Exception;
-//
-//    public ProfileGpon getProfile() throws Exception;
+
+    public Profile getProfile() throws Exception;
 
 }
