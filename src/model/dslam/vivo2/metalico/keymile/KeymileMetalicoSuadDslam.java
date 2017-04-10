@@ -102,6 +102,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return tab;
     }
 
+    
+
     public ComandoDslam getVelSinc() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
     }

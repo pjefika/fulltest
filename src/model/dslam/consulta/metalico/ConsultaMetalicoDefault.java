@@ -5,13 +5,15 @@
  */
 package model.dslam.consulta.metalico;
 
+import model.dslam.consulta.EstadoDaPorta;
+
 /**
  *
  * @author G0041775
  */
 public interface ConsultaMetalicoDefault {
 
-//    public EstadoDaPorta getEstadoDaPorta() throws Exception;
+    public EstadoDaPorta getEstadoDaPorta() throws Exception;
 //
 //    public SerialOntGpon getSerialOnt() throws Exception;
 //

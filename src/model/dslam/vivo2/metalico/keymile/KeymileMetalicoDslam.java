@@ -5,6 +5,10 @@
  */
 package model.dslam.vivo2.metalico.keymile;
 
+import dao.dslam.telnet.ComandoDslam;
+import java.util.List;
+import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.metalico.DslamMetalico;
 
 /**
@@ -23,39 +27,31 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         this.srvc = srvc;
     }
 
-//    public ComandoDslam getComandoSerialOnt() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/cfgm/onuCfgTable");
-//    }
-//    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/main/AdministrativeStatus");
-//    }
-//    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/main/OperationalStatus");
-//    }
-//    public ComandoDslam getComandoConsultaVlanBanda1() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/status/ServiceStatus");
-//    }
-//    public ComandoDslam getComandoConsultaVlan2() {
-//        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
-//    }
+    @Override
+    public EstadoDaPorta getEstadoDaPorta() throws Exception {
+        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
+        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
 
-//    public ComandoDslam getComandoConsultaVlanVoip1() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-2/status/ServiceStatus");
-//    }
-//    public ComandoDslam getComandoConsultaVlanVod1() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-3/status/ServiceStatus");
-//    }
-//    public ComandoDslam getComandoConsultaVlanMulticast1() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-4/status/ServiceStatus");
-//    }
-//    public ComandoDslam getComandoConsultaAlarmes() {
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/fm/alarmstatus");
-//    }
-//    public ComandoDslam getComandoConsultaProfileUp(){
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/cfgm/onuCfgTable");
-//    }
-//    public ComandoDslam getComandoConsultaProfileDown(){
-//        return new ComandoDslam("get /unit-"+this.getSlot()+"/odn-"+this.getPorta()+"/ont-"+this.getLogica()+"/port-1/interface-1/cfgm/IfRateLimiting");
-//    }
+        for (String string : oper) {
+            System.out.println(string);
+        }
+
+        String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
+        String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
+
+        EstadoDaPorta portState = new EstadoDaPorta();
+        portState.setAdminState(adminState);
+        portState.setOperState(operState);
+
+        return portState;
+    }
+
+    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/AdministrativeStatus");
+    }
+
+    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/OperationalStatus");
+    }
 
 }
