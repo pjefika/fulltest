@@ -6,6 +6,9 @@
 package dao.cadastro;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetAdslUseReport.OSSTurbonetAdslUseReportOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoIn;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
@@ -42,8 +45,8 @@ public class CadastroDAO {
     }
 
     public GetInfoOut getInfo(String designador) throws RemoteException {
-        String designator = designador;
-        String accessDesignator = ws.getAccessDesignator(designator);
+        String designator = this.getDesignador(designador);
+        String accessDesignator = this.getAccessDesignator(designator);
         GetInfoOut leInfo = new GetInfoOut();
         return ws.getInfo(designator, accessDesignator, "wise", "wise", designador, "wise", "0", "0");
     }
@@ -52,16 +55,32 @@ public class CadastroDAO {
         return factory.getInstance(info);
     }
 
+    public String getAccessDesignator(String designador) throws RemoteException {
+        return ws.getAccessDesignator(designador);
+    }
+
     public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {
         try {
             String designator = this.getDesignador(instancia);
-            String accessDesignator = ws.getAccessDesignator(designator);
-            GetInfoOut leInfo = new GetInfoOut();
-            leInfo = ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0");
-            return factory.getInstance(leInfo);
+            String accessDesignator = this.getAccessDesignator(designator);
+            return factory.getInstance(ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0"));
         } catch (RemoteException | DslamNaoImplException ex) {
             throw ex;
         }
+    }
+
+    public OSSTurbonetClienteAutenticadoOut getAutentication(GetInfoOut i) throws RemoteException {
+        return ws.verificaSeClienteAutenticadoNoRelay(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(i)));
+    }
+
+    /**
+     * Histórico de Autenticação WiseTool
+     *
+     * @return
+     * @throws RemoteException
+     */
+    public OSSTurbonetAdslUseReportOut getAdslUseReport() throws RemoteException {
+        return ws.getAdslUseReport(null);
     }
 
 }

@@ -6,6 +6,7 @@
 package model.entity;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class Cliente extends AbstractEntity implements Validator {
     private GetInfoOut cadastro;
 
     private OSSTurbonetInconsistenciaTBSRadiusOut incon;
+
+    private OSSTurbonetClienteAutenticadoOut auth;
 
     private TabelaParamAbstract tabela;
 
@@ -81,6 +84,14 @@ public class Cliente extends AbstractEntity implements Validator {
 
     public void setIncon(OSSTurbonetInconsistenciaTBSRadiusOut incon) {
         this.incon = incon;
+    }
+
+    public OSSTurbonetClienteAutenticadoOut getAuth() {
+        return auth;
+    }
+
+    public void setAuth(OSSTurbonetClienteAutenticadoOut auth) {
+        this.auth = auth;
     }
 
     @Override
