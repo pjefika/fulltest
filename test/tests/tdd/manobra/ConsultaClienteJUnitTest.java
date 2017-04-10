@@ -48,7 +48,7 @@ public class ConsultaClienteJUnitTest {
             c.setDesignador("4133335556");
 //            c.setDesignador("4130886762");
             CadastroDAO dao = new CadastroDAO();
-            ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
+            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             f.consultar();
             assertTrue(true);
         } catch (Exception e) {

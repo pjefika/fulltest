@@ -5,26 +5,31 @@
  */
 package model;
 
+import dao.cadastro.CadastroDAO;
+import java.rmi.RemoteException;
 import model.dslam.consulta.ConsultaClienteInter;
+import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 
 /**
  *
  * @author G0042204
  */
-public class ConsultaClienteFacade{
-    
+public class ConsultaClienteFacade {
+
     private ConsultaClienteInter c;
-        
+
     private Cliente cl;
 
-    public ConsultaClienteFacade(ConsultaClienteInter c, Cliente cl) {
-        this.c = c;
+    private CadastroDAO dao = new CadastroDAO();
+
+    public ConsultaClienteFacade(Cliente cl) {
         this.cl = cl;
     }
 
-    public Cliente consultar() {
+    public Cliente consultar() throws DslamNaoImplException, RemoteException {
+        dao.getDslam(cl.getDesignador());
         return c.consultar(cl);
     }
-      
+
 }

@@ -22,7 +22,7 @@ import model.entity.Cliente;
  */
 @Controller
 public class ManobraController extends AbstractController {
-    
+
     CadastroDAO dao = new CadastroDAO();
 
     @Logado
@@ -34,10 +34,9 @@ public class ManobraController extends AbstractController {
         try {
             Cliente c = new Cliente();
             c.setDesignador(instancia);
-            ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
+            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             c = f.consultar();
             includeSerializer(c);
-            
         } catch (DslamNaoImplException ex) {
             includeSerializer(ex);
         } catch (RemoteException ex) {
