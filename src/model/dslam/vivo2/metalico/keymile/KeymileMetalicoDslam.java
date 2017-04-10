@@ -8,7 +8,6 @@ package model.dslam.vivo2.metalico.keymile;
 import dao.dslam.telnet.ComandoDslam;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.vivo2.metalico.DslamMetalico;
-import model.entity.Cliente;
 
 /**
  *
@@ -24,11 +23,6 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     public void setSrvc(String srvc) {
         this.srvc = srvc;
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 //    public ComandoDslam getComandoSerialOnt() {

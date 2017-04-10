@@ -7,9 +7,11 @@ package model.dslam.vivo2.metalico.keymile;
 
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.util.List;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
+import model.dslam.retorno.TratativaRetornoUtil;
 import model.entity.Cliente;
 
 /**
@@ -17,16 +19,6 @@ import model.entity.Cliente;
  * @author G0042204
  */
 public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
-
-    private String srvc;
-
-    public String getSrvc() {
-        return srvc;
-    }
-
-    public void setSrvc(String srvc) {
-        this.srvc = srvc;
-    }
 
     public KeymileMetalicoSuadDslam() {
         this.setCredencial(Credencial.KEYMILE);
@@ -75,6 +67,31 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 //    }
     @Override
     public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> velSinc = this.getCd().consulta(this.getVelSinc()).getRetorno();
+        List<String> atn = this.getCd().consulta(this.getAtn()).getRetorno();
+        List<String> snr = this.getCd().consulta(this.getSnr()).getRetorno();
+        System.out.println("dei 3 comandos");
+        TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
+
+        tabParam.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
+        tabParam.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+        tabParam.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(snr, "Downstream")));
+        tabParam.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(snr, "Upstream")));
+        tabParam.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atn, "Downstream")));
+        tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atn, "Upstream")));
+        
+        return tabParam;
+    }
+
+    public ComandoDslam getVelSinc() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
+    }
+
+    public ComandoDslam getAtn() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/status/attenuation");
+    }
+
+    public ComandoDslam getSnr() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/status/snrmargin");
     }
 }

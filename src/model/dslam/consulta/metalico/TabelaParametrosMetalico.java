@@ -13,4 +13,37 @@ import model.dslam.consulta.TabelaParamAbstract;
  */
 public class TabelaParametrosMetalico extends TabelaParamAbstract {
 
+    private Double snrDown, snrUp, atnDown, atnUp;
+
+    public Double getSnrDown() {
+        return snrDown;
+    }
+
+    public void setSnrDown(Double snrDown) {
+        this.snrDown = snrDown;
+    }
+
+    public Double getSnrUp() {
+        return snrUp;
+    }
+
+    public void setSnrUp(Double snrUp) {
+        this.snrUp = snrUp;
+    }
+
+    public Double getAtnDown() {
+        return atnDown;
+    }
+
+    public void setAtnDown(Double atnDown) {
+        this.atnDown = atnDown;
+    }
+
+    public Double getAtnUp() {
+        return atnUp;
+    }
+
+    public void setAtnUp(Double atnUp) {
+        this.atnUp = atnUp;
+    }
 }
