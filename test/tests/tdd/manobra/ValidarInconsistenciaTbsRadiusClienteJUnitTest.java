@@ -42,9 +42,7 @@ public class ValidarInconsistenciaTbsRadiusClienteJUnitTest {
     @Test
     public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
         try {
-
-            Cliente c = new Cliente("4133335556");
-            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
+            ConsultaClienteFacade f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
             f.consultar();
             assertTrue(f.validar());
         } catch (Exception e) {

@@ -6,9 +6,8 @@
 package dao.cadastro;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
 import com.gvt.www.ws.eai.oss.OSSTurbonetAdslUseReport.OSSTurbonetAdslUseReportOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoIn;
-import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
@@ -41,6 +40,7 @@ public class CadastroDAO {
     public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
         c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
         c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
+        c.setAuth(this.getAutentication(c.getCadastro()));
         return c;
     }
 
@@ -69,8 +69,8 @@ public class CadastroDAO {
         }
     }
 
-    public OSSTurbonetClienteAutenticadoOut getAutentication(GetInfoOut i) throws RemoteException {
-        return ws.verificaSeClienteAutenticadoNoRelay(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(i)));
+    public InfoAuthentication getAutentication(GetInfoOut i) throws RemoteException {
+        return ws.getInfoAuthentication(i.getDesignator(), i.getDesignator(), "wise", "wise", "wise");
     }
 
     /**
