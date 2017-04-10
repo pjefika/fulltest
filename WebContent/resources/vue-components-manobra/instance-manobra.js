@@ -14,6 +14,10 @@ var data = {
     motivo: {
         nome: null,
         ativo: null
+    },
+    notifica: {
+        menssagem: null,
+        typenotify: null
     }
 };
 
@@ -25,7 +29,7 @@ var vmi = new Vue({
     created: function () {
 
     },
-    methods: {        
+    methods: {
         reset: function () {
             var self = this;
             self.motivo = {
@@ -33,5 +37,27 @@ var vmi = new Vue({
                 ativo: null
             };
         }
+    },
+    watch: {
+        notifica: function () {
+            var self = this;
+            $.notify({
+                message: self.notifica.menssagem
+            }, {
+                type: self.notifica.typenotify,
+                allow_dismiss: true,
+                placement: {
+                    from: "top",
+                    align: "right"
+                }
+            });
+        }
     }
 });
+
+//vmi.$on("notifythismsg", function (o) {
+//    this.notifica = {
+//        menssagem: o.msg,
+//        typenotify: o.type
+//    };
+//});

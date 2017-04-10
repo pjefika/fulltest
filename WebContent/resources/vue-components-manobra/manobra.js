@@ -42,17 +42,17 @@ Vue.component("manobra", {
 
     },
     methods: {
-        
+
     }
 });
 
 Vue.component("buscaCadastro", {
     props: {
-        
+
     },
     data: function () {
         return data;
-    },    
+    },
     template: "<div>\n\
                     <label>Motivo maobra:</label>\n\
                     <select class='form-control'>\n\
@@ -70,7 +70,7 @@ Vue.component("buscaCadastro", {
                     </div>\n\
                 </div>",
     created: function () {
-        
+
     },
     methods: {
         pesquisar: function () {
@@ -78,9 +78,13 @@ Vue.component("buscaCadastro", {
             self.loading = true;
             setTimeout(function () {
                 self.loading = false;
+                self.notifica = {
+                    menssagem: "Busca realizada com sucesso!",
+                    typenotify: "success"
+                };
             }, 1500);
         }
-    }    
+    }
 });
 
 
