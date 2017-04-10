@@ -46,6 +46,7 @@ public class ConsultaClienteJUnitTest {
 
             Cliente c = new Cliente();
             c.setDesignador("4133335556");
+//            c.setDesignador("4130886762");
             CadastroDAO dao = new CadastroDAO();
             ConsultaClienteFacade f = new ConsultaClienteFacade(dao.getDslam(c.getDesignador()), c);
             f.consultar();

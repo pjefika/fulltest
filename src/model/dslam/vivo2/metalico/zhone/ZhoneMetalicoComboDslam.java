@@ -6,15 +6,24 @@
 package model.dslam.vivo2.metalico.zhone;
 
 import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.vivo2.metalico.DslamMetalico;
+import model.dslam.credencial.Credencial;
+import model.dslam.login.LoginLento;
 import model.entity.Cliente;
 
 /**
  *
  * @author G0042204
  */
-public abstract class ZhoneMetalicoDslam extends DslamMetalico {
+public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
+
+    public ZhoneMetalicoComboDslam() {
+        this.setCredencial(Credencial.ZHONE);
+        this.setLoginStrategy(new LoginLento());
+        this.setCd(new ConsultaDslam(this));
+
+    }
 
 //    private BigInteger getL500(){
 //        return this.getLogica().add(new BigInteger("500"));

@@ -6,12 +6,14 @@
 package model.dslam.factory;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import dao.produtos.ProdutosDAO;
+import bean.ossturbonet.oss.gvt.com.InfoTBS;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.dslam.vivo2.metalico.DslamMetalico;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
-import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvdDslam;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
 
 /**
  *
@@ -25,12 +27,24 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
         DslamMetalico leDslam;
 
         // Cuidado confusão do IT -
-        String vendor = info.getInfoTBS().getDslamModel();
+        InfoTBS tbs = info.getInfoTBS();
 
-        if (vendor.trim().equalsIgnoreCase("ZHONE")) {
-            leDslam = new ZhoneMetalicoDslam();
-        } else if (vendor.trim().equalsIgnoreCase("KEYMILE")) {
-            leDslam = new KeymileMetalicoDslam();
+        if (tbs.getDslamModel().equalsIgnoreCase("ZHONE")) {
+            if (tbs.getDslamVendor().equalsIgnoreCase("COMBOZH48")) {
+                leDslam = new ZhoneMetalicoComboDslam();
+            } else if (tbs.getDslamVendor().equalsIgnoreCase("MXK")) {
+                leDslam = new ZhoneMetalicoMxkDslam();
+            } else {
+                throw new DslamNaoImplException();
+            }
+        } else if (tbs.getDslamModel().trim().equalsIgnoreCase("KEYMILE")) {
+            if (tbs.getDslamVendor().equalsIgnoreCase("SUVD3")) {
+                leDslam = new KeymileMetalicoSuvdDslam();
+            } else if (tbs.getDslamVendor().equalsIgnoreCase("SUAD")) {
+                leDslam = new KeymileMetalicoSuadDslam();
+            } else {
+                throw new DslamNaoImplException();
+            }
         } else {
             throw new DslamNaoImplException();
         }
@@ -47,9 +61,6 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
         leDslam.setVlanVoipe(info.getInfoTBS().getVlanVoIP().toString());
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
-
-        ProdutosDAO proDao = new ProdutosDAO(info.getDesignator());
-        leDslam.setProd(proDao.getProdCliente());
 
         return leDslam;
     }

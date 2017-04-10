@@ -6,15 +6,17 @@
 package model.dslam.vivo2.metalico.keymile;
 
 import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.telnet.ConsultaDslam;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.vivo2.metalico.DslamMetalico;
+import model.dslam.credencial.Credencial;
+import model.dslam.login.LoginRapido;
 import model.entity.Cliente;
 
 /**
  *
  * @author G0042204
  */
-public abstract class KeymileMetalicoDslam extends DslamMetalico {
+public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     private String srvc;
 
@@ -24,6 +26,12 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     public void setSrvc(String srvc) {
         this.srvc = srvc;
+    }
+
+    public KeymileMetalicoSuadDslam() {
+        this.setCredencial(Credencial.KEYMILE);
+        this.setLoginStrategy(new LoginRapido());
+        this.setCd(new ConsultaDslam(this));
     }
 
     @Override
