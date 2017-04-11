@@ -3,13 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.manobra;
+package tdd.consultas;
 
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.ConsultaClienteFacade;
+import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -19,6 +22,8 @@ import org.junit.Test;
  * @author G0042204
  */
 public class ConsultaClienteJUnitTest {
+
+    private ConsultaClienteFacade f;
 
     public ConsultaClienteJUnitTest() {
     }
@@ -41,15 +46,18 @@ public class ConsultaClienteJUnitTest {
 
     @Test
     public void consultar() {
-        try {
 
-            Cliente c = new Cliente("4133335556");
-            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
+        try {
+            f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
             f.consultar();
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
+            f.validar();
+        } catch (DslamNaoImplException ex) {
+            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        System.out.println("");
+
     }
 }
