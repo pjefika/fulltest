@@ -11,7 +11,8 @@ import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.dslam.vivo2.metalico.DslamMetalico;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvdDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd3;
 import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
 import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
 
@@ -39,7 +40,9 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
             }
         } else if (tbs.getDslamModel().trim().equalsIgnoreCase("KEYMILE")) {
             if (tbs.getDslamVendor().equalsIgnoreCase("SUVD3")) {
-                leDslam = new KeymileMetalicoSuvdDslam();
+                leDslam = new KeymileMetalicoSuvd3();
+            } else if (tbs.getDslamVendor().equalsIgnoreCase("SUVD11")) {
+                leDslam = new KeymileMetalicoSuvd11();
             } else if (tbs.getDslamVendor().equalsIgnoreCase("SUAD")) {
                 leDslam = new KeymileMetalicoSuadDslam();
             } else {

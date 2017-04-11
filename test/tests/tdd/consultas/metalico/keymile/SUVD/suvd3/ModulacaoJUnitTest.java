@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas.metalico.keymile.SUVD;
+package tests.tdd.consultas.metalico.keymile.SUVD.suvd3;
 
 import com.google.gson.Gson;
 import java.math.BigInteger;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd3;
@@ -22,9 +22,9 @@ import org.junit.Test;
  *
  * @author G0041775
  */
-public class TabelaParametrosJUnitTest {
+public class ModulacaoJUnitTest {
 
-    public TabelaParametrosJUnitTest() {
+    public ModulacaoJUnitTest() {
     }
 
     @BeforeClass
@@ -44,23 +44,47 @@ public class TabelaParametrosJUnitTest {
     }
 
     @Test
-    public void consultarTabelaParametrosSUVD11() {
+    public void consultarModulacaoSUVD3() {
+        try {
+
+            KeymileMetalicoDslam d = new KeymileMetalicoSuvd3();
+            d.setIpDslam("10.185.9.162");
+            d.setSlot(new BigInteger("9"));
+            d.setPorta(new BigInteger("7"));
+
+            Modulacao p = d.getModulacao();
+
+            Gson g = new Gson();
+
+            System.out.println(g.toJson(p));
+
+            d.desconectar();
+
+            assertTrue(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+    
+    @Test
+    public void consultarModulacaoSUVD11() {
         try {
 
             KeymileMetalicoDslam d = new KeymileMetalicoSuvd11();
-
-//            d.setIpDslam("10.221.97.23");
+            //            d.setIpDslam("10.221.97.23");
 //            d.setSlot(new BigInteger("1"));
 //            d.setPorta(new BigInteger("41"));
             d.setIpDslam("10.161.93.238");
             d.setSlot(new BigInteger("9"));
             d.setPorta(new BigInteger("30"));
 
-            TabelaParametrosMetalico tab = d.getTabelaParametros();
+
+            Modulacao p = d.getModulacao();
 
             Gson g = new Gson();
 
-            System.out.println(g.toJson(tab));
+            System.out.println(g.toJson(p));
 
             d.desconectar();
 
@@ -71,28 +95,4 @@ public class TabelaParametrosJUnitTest {
         }
     }
 
-    @Test
-    public void consultarTabelaParametrosSUVD3() {
-        try {
-
-            KeymileMetalicoDslam d = new KeymileMetalicoSuvd3();
-
-            d.setIpDslam("10.185.9.162");
-            d.setSlot(new BigInteger("9"));
-            d.setPorta(new BigInteger("7"));
-
-            TabelaParametrosMetalico tab = d.getTabelaParametros();
-
-            Gson g = new Gson();
-
-            System.out.println(g.toJson(tab));
-            
-            d.desconectar();
-
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-    }
 }

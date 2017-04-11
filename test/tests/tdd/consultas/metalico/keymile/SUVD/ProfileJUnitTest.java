@@ -7,7 +7,7 @@ package tests.tdd.consultas.metalico.keymile.SUVD;
 
 import com.google.gson.Gson;
 import java.math.BigInteger;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.Profile;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd3;
@@ -22,9 +22,9 @@ import org.junit.Test;
  *
  * @author G0041775
  */
-public class TabelaParametrosJUnitTest {
+public class ProfileJUnitTest {
 
-    public TabelaParametrosJUnitTest() {
+    public ProfileJUnitTest() {
     }
 
     @BeforeClass
@@ -44,23 +44,19 @@ public class TabelaParametrosJUnitTest {
     }
 
     @Test
-    public void consultarTabelaParametrosSUVD11() {
+    public void consultarProfileSUVD3() {
         try {
 
-            KeymileMetalicoDslam d = new KeymileMetalicoSuvd11();
-
-//            d.setIpDslam("10.221.97.23");
-//            d.setSlot(new BigInteger("1"));
-//            d.setPorta(new BigInteger("41"));
-            d.setIpDslam("10.161.93.238");
+            KeymileMetalicoDslam d = new KeymileMetalicoSuvd3();
+            d.setIpDslam("10.185.9.162");
             d.setSlot(new BigInteger("9"));
-            d.setPorta(new BigInteger("30"));
-
-            TabelaParametrosMetalico tab = d.getTabelaParametros();
+            d.setPorta(new BigInteger("7"));
+            
+            Profile p = d.getProfile();
 
             Gson g = new Gson();
 
-            System.out.println(g.toJson(tab));
+            System.out.println(g.toJson(p));
 
             d.desconectar();
 
@@ -70,23 +66,25 @@ public class TabelaParametrosJUnitTest {
             assertTrue(false);
         }
     }
-
+    
     @Test
-    public void consultarTabelaParametrosSUVD3() {
+    public void consultarProfileSUVD11() {
         try {
 
-            KeymileMetalicoDslam d = new KeymileMetalicoSuvd3();
-
-            d.setIpDslam("10.185.9.162");
+            KeymileMetalicoDslam d = new KeymileMetalicoSuvd11();
+            //            d.setIpDslam("10.221.97.23");
+//            d.setSlot(new BigInteger("1"));
+//            d.setPorta(new BigInteger("41"));
+            d.setIpDslam("10.161.93.238");
             d.setSlot(new BigInteger("9"));
-            d.setPorta(new BigInteger("7"));
+            d.setPorta(new BigInteger("30"));
 
-            TabelaParametrosMetalico tab = d.getTabelaParametros();
+            Profile p = d.getProfile();
 
             Gson g = new Gson();
 
-            System.out.println(g.toJson(tab));
-            
+            System.out.println(g.toJson(p));
+
             d.desconectar();
 
             assertTrue(true);

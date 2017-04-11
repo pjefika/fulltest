@@ -26,7 +26,7 @@ import model.entity.Cliente;
  *
  * @author G0042204
  */
-public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
+public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     private String srvc;
 
@@ -161,7 +161,7 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
-         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult()).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
@@ -179,12 +179,36 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public Profile getProfile() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaProfile = this.getCd().consulta(this.getProf()).getRetorno();
+        String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
+        List<String> leProf = TratativaRetornoUtil.numberFromString(first);
+
+        Profile prof = new Profile();
+        prof.setProfileDown(leProf.get(0));
+        prof.setProfileUp(leProf.get(1));
+
+        return prof;
     }
 
     @Override
     public Modulacao getModulacao() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaModul = this.getCd().consulta(this.getModul()).getRetorno();
+        String modul = null;
+        Integer i;
+        for (i = 0; i < pegaModul.size(); i++) {
+            if(pegaModul.get(i).contains("true")){
+                modul = pegaModul.get(i+1).replaceAll("\\ # Name", "").replaceAll("\\\\", "").trim();
+            }
+        }
+
+        Modulacao m = new Modulacao();
+        m.setModulacao(modul);
+
+        return m;
+    }
+
+    public ComandoDslam getModul() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/cfgm/portprofiles");
     }
 
     public ComandoDslam getVelSinc() {
@@ -209,5 +233,9 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     public ComandoDslam getSrvcMult() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-4/status/servicestatus");
+    }
+
+    public ComandoDslam getProf() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/cfgm/chanprofile");
     }
 }

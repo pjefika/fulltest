@@ -9,7 +9,8 @@ import com.google.gson.Gson;
 import java.math.BigInteger;
 import model.dslam.consulta.VlanVod;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvdDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd3;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -46,7 +47,7 @@ public class VlanVodJUnitTest {
     public void consultarVlanVodSUVD11() {
         try {
 
-            KeymileMetalicoDslam d = new KeymileMetalicoSuvdDslam();
+            KeymileMetalicoDslam d = new KeymileMetalicoSuvd11();
 
 //            d.setIpDslam("10.221.97.23");
 //            d.setSlot(new BigInteger("1"));
@@ -75,7 +76,7 @@ public class VlanVodJUnitTest {
     public void consultarVlanVodSUVD3() {
         try {
 
-            KeymileMetalicoDslam d = new KeymileMetalicoSuvdDslam();
+            KeymileMetalicoDslam d = new KeymileMetalicoSuvd3();
 
             d.setIpDslam("10.185.9.162");
             d.setSlot(new BigInteger("9"));
