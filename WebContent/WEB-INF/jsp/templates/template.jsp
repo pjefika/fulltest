@@ -20,6 +20,7 @@
         <script src="${pageContext.request.contextPath}/resources/lodash/lodash.js"></script>
         <script src="${pageContext.request.contextPath}/resources/moment/moment.js"></script>
         <script src="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/js/bootstrap-notify.min.js"></script>
 
         <decorator:head/>
     </head>
@@ -39,7 +40,7 @@
                     <c:if test="${sessionUsuarioEfika.logado}">
                         <ul class="nav navbar-nav">
                             <li><a href="${linkTo[MassivoController].create()}">Subir Lote</a></li>
-                            <li><a href="${linkTo[ManobraController].create()}">Manobra</a></li>
+                            <li><a href="${linkTo[ManobraController].atendimento()}">Manobra</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             <li class="dropdown">
@@ -84,11 +85,7 @@
             </div>
         </nav>
 
-        <div id="instance">
-            <decorator:body/>
-        </div>
-
-        <script src="${pageContext.request.contextPath}/resources/vue-components/instance.js"></script>
+        <decorator:body/>
 
         <!-- /container -->
     </body>

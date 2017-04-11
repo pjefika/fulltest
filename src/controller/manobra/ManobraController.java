@@ -24,8 +24,11 @@ import model.entity.Cliente;
 public class ManobraController extends AbstractController {
 
     CadastroDAO dao = new CadastroDAO();
-
-    @Logado
+        
+    public void atendimento() {
+        
+    }
+        
     public void create() {
     }
 

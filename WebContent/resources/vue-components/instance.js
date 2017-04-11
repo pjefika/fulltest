@@ -28,7 +28,11 @@ var data = {
     lotes: null,
     check: [],
     loadingboli: null,
-    loadingbolm: null
+    loadingbolm: null,
+    notifica: {
+        menssagem: null,
+        typenotify: null
+    }
 };
 
 var vm = new Vue({
@@ -37,7 +41,7 @@ var vm = new Vue({
         return data;
     },
     created: function () {
-        
+
     },
     methods: {
         reset: function () {
@@ -71,6 +75,21 @@ var vm = new Vue({
                     self.loadingboli = false;
                     self.lotes = data.list;
                     self.lotes = _.orderBy(self.lotes, ['dataCriacao'], ['asc']);
+                }
+            });
+        }
+    },
+    watch: {
+        notifica: function () {
+            var self = this;
+            $.notify({
+                message: self.notifica.menssagem
+            }, {
+                type: self.notifica.typenotify,
+                allow_dismiss: true,
+                placement: {
+                    from: "top",
+                    align: "right"
                 }
             });
         }
