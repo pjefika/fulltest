@@ -6,6 +6,7 @@
 
 var data = {
     loading: null,
+    searchbuttondisable: false,
     motivos: null,
     ins: {
         instancia: "4131543457"

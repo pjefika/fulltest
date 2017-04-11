@@ -58,7 +58,7 @@ Vue.component("buscaCadastro", {
                     <div class='input-group'>\n\
                         <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia'/>\n\
                         <span class='input-group-btn'>\n\
-                            <button type='button' class='btn btn-primary' @click='pesquisar()'>Pesquisar</button>\n\
+                            <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
                         </span>\n\
                     </div>\n\
                 </div>",
@@ -69,6 +69,8 @@ Vue.component("buscaCadastro", {
         pesquisar: function () {
             var self = this;
             self.loading = true;
+            self.searchbuttondisable = true;
+            
             $.ajax({
                 type: "POST",
                 url: url + "manobra/busca",
@@ -87,6 +89,7 @@ Vue.component("buscaCadastro", {
                 },
                 complete: function () {
                     self.loading = false;
+                    self.searchbuttondisable = false;
                 }
             });
         }
