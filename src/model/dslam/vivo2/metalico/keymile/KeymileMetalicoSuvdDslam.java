@@ -7,6 +7,7 @@ package model.dslam.vivo2.metalico.keymile;
 
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -16,7 +17,6 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
@@ -58,11 +58,9 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc()).getRetorno();
         List<String> atnSnr = this.getCd().consulta(this.getSnrAtn()).getRetorno();
 
-        
-
         try {
             TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
-            
+
             tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
             tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
             tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
@@ -79,11 +77,11 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             tab.setSnrDown2(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 6)));
 
             return tab;
-            
+
         } catch (Exception e) {
-            
+
             TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
-            
+
             try {
                 tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
                 tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
@@ -91,7 +89,7 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
                 tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
                 tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
                 tab.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 2)));
-                
+
                 return tab;
             } catch (Exception ex) {
                 tab.setVelSincDown(new Double("0"));
@@ -100,7 +98,7 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
                 tab.setSnrUp(new Double("0"));
                 tab.setAtnDown(new Double("0"));
                 tab.setSnrDown(new Double("0"));
-                
+
                 return tab;
             }
         }
@@ -108,28 +106,75 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public TabelaRedeMetalico getTabelaRede() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public VlanBanda getVlanBanda() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda()).getRetorno();
+
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+        if (!leSrvc.contentEquals("no service connected")) {
+            this.setSrvc(leSrvc);
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+        }
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
+
+        return vlanBanda;
     }
 
     @Override
     public VlanVoip getVlanVoip() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip()).getRetorno();
+
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+        if (!leSrvc.contentEquals("no service connected")) {
+            this.setSrvc(leSrvc);
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+        }
+        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+
+        return vlanVoip;
     }
 
     @Override
     public VlanVod getVlanVod() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod()).getRetorno();
+
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+        if (!leSrvc.contentEquals("no service connected")) {
+            this.setSrvc(leSrvc);
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+        }
+        VlanVod vlanVod = new VlanVod(cvlan, p100);
+
+        return vlanVod;
     }
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult()).getRetorno();
+        String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
+
+        VlanMulticast vlanMult = new VlanMulticast();
+        BigInteger cvlan = new BigInteger("0");
+        if (!leSrvc.contentEquals("no service connected")) {
+            this.setSrvc(leSrvc);
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
+        }
+
+        vlanMult.setCvlan(cvlan);
+
+        return vlanMult;
     }
 
     @Override
@@ -148,5 +193,21 @@ public class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     public ComandoDslam getSnrAtn() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/status/bandstatus");
+    }
+
+    public ComandoDslam getSrvcBanda() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-1/status/servicestatus");
+    }
+
+    public ComandoDslam getSrvcVoip() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-2/status/servicestatus");
+    }
+
+    public ComandoDslam getSrvcVod() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-3/status/servicestatus");
+    }
+
+    public ComandoDslam getSrvcMult() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-4/status/servicestatus");
     }
 }
