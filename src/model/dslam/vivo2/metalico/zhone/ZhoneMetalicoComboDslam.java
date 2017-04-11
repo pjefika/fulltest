@@ -44,16 +44,16 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     @Override
     public TabelaParametrosMetalico getTabelaParametros() throws Exception {
         List<String> leParams = this.getCd().consulta(this.getParams()).getRetorno();
-        
+
         TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
-        
-        tab.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/100);
-        tab.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/100);
-        tab.setSnrDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
-        tab.setSnrUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
-        tab.setAtnDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
-        tab.setAtnUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
-        
+
+        tab.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 100);
+        tab.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 100);
+        tab.setSnrDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
+        tab.setSnrUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
+        tab.setAtnDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
+        tab.setAtnUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
+
         return tab;
     }
 
@@ -61,20 +61,32 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public TabelaRedeMetalico getTabelaRede() throws Exception {
         List<String> leRedes = this.getCd().consulta(this.getParams()).getRetorno();
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
-        
+
         tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
         tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
         tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        
+
         return tab;
     }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leEst = this.getCd().consulta(this.getParams()).getRetorno();
+        EstadoDaPorta e = new EstadoDaPorta();
+        String admState = TratativaRetornoUtil.tratZhone(leEst, "AdminStatus", "\\b\\w+\\b").get(1);
+        String operState = TratativaRetornoUtil.tratZhone(leEst, "LineStatus", "\\b\\w+\\b").get(1);
+        if (operState.equalsIgnoreCase("DATA")) {
+            operState = "Up";
+        } else {
+            operState = "Down";
+        }
+        e.setAdminState(admState);
+        e.setOperState(operState);
+
+        return e;
     }
 
     @Override
@@ -114,6 +126,5 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public ComandoDslam getParams() {
         return new ComandoDslam("dslstat 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000, "a");
     }
-
 
 }
