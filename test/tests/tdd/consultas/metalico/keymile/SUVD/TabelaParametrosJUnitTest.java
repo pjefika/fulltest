@@ -5,8 +5,9 @@
  */
 package tests.tdd.consultas.metalico.keymile.SUVD;
 
+import com.google.gson.Gson;
 import java.math.BigInteger;
-import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
+import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvdDslam;
 import org.junit.After;
@@ -47,26 +48,18 @@ public class TabelaParametrosJUnitTest {
 
             KeymileMetalicoDslam d = new KeymileMetalicoSuvdDslam();
 
-            d.setIpDslam("10.221.97.23");
-            d.setSlot(new BigInteger("1"));
-            d.setPorta(new BigInteger("41"));
+//            d.setIpDslam("10.221.97.23");
+//            d.setSlot(new BigInteger("1"));
+//            d.setPorta(new BigInteger("41"));
+            d.setIpDslam("10.161.93.238");
+            d.setSlot(new BigInteger("9"));
+            d.setPorta(new BigInteger("30"));
 
-            TabelaParametrosMetalicoVdsl tab = (TabelaParametrosMetalicoVdsl) d.getTabelaParametros();
+            TabelaParametrosMetalico tab = d.getTabelaParametros();
 
-            System.out.println("Vel Down " + tab.getVelSincDown());
-            System.out.println("Vel Up " + tab.getVelSincUp());
-            System.out.println("Snr Down " + tab.getSnrDown());
-            System.out.println("Snr Up " + tab.getSnrUp());
-            System.out.println("Atn Down " + tab.getAtnDown());
-            System.out.println("Atn Up " + tab.getAtnUp());
-            System.out.println("Snr1 Down " + tab.getSnrDown1());
-            System.out.println("Snr1 Up " + tab.getSnrUp1());
-            System.out.println("Atn1 Down " + tab.getAtnDown1());
-            System.out.println("Atn1 Up " + tab.getAtnUp1());
-            System.out.println("Snr2 Down " + tab.getSnrDown2());
-            System.out.println("Snr2 Up " + tab.getSnrUp2());
-            System.out.println("Atn2 Down " + tab.getAtnDown2());
-            System.out.println("Atn2 Up " + tab.getAtnUp2());
+            Gson g = new Gson();
+
+            System.out.println(g.toJson(tab));
 
             d.desconectar();
 
@@ -87,23 +80,12 @@ public class TabelaParametrosJUnitTest {
             d.setSlot(new BigInteger("9"));
             d.setPorta(new BigInteger("7"));
 
-            TabelaParametrosMetalicoVdsl tab = (TabelaParametrosMetalicoVdsl) d.getTabelaParametros();
+            TabelaParametrosMetalico tab = d.getTabelaParametros();
 
-            System.out.println("Vel Down " + tab.getVelSincDown());
-            System.out.println("Vel Up " + tab.getVelSincUp());
-            System.out.println("Snr Down " + tab.getSnrDown());
-            System.out.println("Snr Up " + tab.getSnrUp());
-            System.out.println("Atn Down " + tab.getAtnDown());
-            System.out.println("Atn Up " + tab.getAtnUp());
-            System.out.println("Snr1 Down " + tab.getSnrDown1());
-            System.out.println("Snr1 Up " + tab.getSnrUp1());
-            System.out.println("Atn1 Down " + tab.getAtnDown1());
-            System.out.println("Atn1 Up " + tab.getAtnUp1());
-            System.out.println("Snr2 Down " + tab.getSnrDown2());
-            System.out.println("Snr2 Up " + tab.getSnrUp2());
-            System.out.println("Atn2 Down " + tab.getAtnDown2());
-            System.out.println("Atn2 Up " + tab.getAtnUp2());
+            Gson g = new Gson();
 
+            System.out.println(g.toJson(tab));
+            
             d.desconectar();
 
             assertTrue(true);

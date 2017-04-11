@@ -44,15 +44,23 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc()).getRetorno();
         List<String> atn = this.getCd().consulta(this.getAtn()).getRetorno();
         List<String> snr = this.getCd().consulta(this.getSnr()).getRetorno();
-        System.out.println("dei 3 comandos");
-        TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
 
-        tabParam.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
-        tabParam.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
-        tabParam.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(snr, "Downstream")));
-        tabParam.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(snr, "Upstream")));
-        tabParam.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atn, "Downstream")));
-        tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atn, "Upstream")));
+        TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
+        try {
+            tabParam.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
+            tabParam.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+            tabParam.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(snr, "Downstream")));
+            tabParam.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(snr, "Upstream")));
+            tabParam.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atn, "Downstream")));
+            tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atn, "Upstream")));
+        } catch (Exception e) {
+            tabParam.setVelSincDown(new Double("0"));
+            tabParam.setVelSincUp(new Double("0"));
+            tabParam.setSnrDown(new Double("0"));
+            tabParam.setSnrUp(new Double("0"));
+            tabParam.setAtnDown(new Double("0"));
+            tabParam.setAtnUp(new Double("0"));
+        }
 
         return tabParam;
     }
