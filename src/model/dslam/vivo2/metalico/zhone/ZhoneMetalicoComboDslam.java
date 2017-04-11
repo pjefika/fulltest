@@ -7,6 +7,7 @@ package model.dslam.vivo2.metalico.zhone;
 
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -18,6 +19,7 @@ import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginLento;
+import model.dslam.retorno.TratativaRetornoUtil;
 import model.entity.Cliente;
 
 /**
@@ -33,46 +35,6 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     }
 
-//    private BigInteger getL500(){
-//        return this.getLogica().add(new BigInteger("500"));
-//    }
-//    private BigInteger getL700(){
-//        return this.getLogica().add(new BigInteger("700"));
-//    }
-//    private BigInteger getL900(){
-//        return this.getLogica().add(new BigInteger("900"));
-//    }
-//    private BigInteger getL1100(){
-//        return this.getLogica().add(new BigInteger("1100"));
-//    }
-//    public ComandoDslam getComandoTabelaParametros() {
-//        return new ComandoDslam("onu status "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
-//    }
-//
-//    public ComandoDslam getComandoSerialOnt() {
-//        return new ComandoDslam("onu inventory 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getLogica(), 3000);
-//    }
-//
-//    public ComandoDslam getComandoConsultaEstadoDaPorta() {
-//        return new ComandoDslam("port show 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 5000); //To change body of generated methods, choose Tools | Templates.
-//    }
-    public ComandoDslam getComandoConsultaVlan() {
-        return new ComandoDslam("bridge show vlan " + this.getP100(), 5000);
-    }
-
-//    public ComandoDslam getComandoConsultaVlanMulticast() {
-//        return new ComandoDslam("bridge show port 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 45000);
-//    }
-//    public ComandoDslam getComandoConsultaAlarmes() {
-//        return new ComandoDslam("onu alarms "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
-//    }
-//
-//    public ComandoDslam getComandoConsultaProfileDown(){
-//        return new ComandoDslam("get bridge-interface-record 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getL500()+"-gponport-"+this.getP100()+"-"+this.getRin()+"/bridge", 3000);
-//    }
-//    public ComandoDslam getComandoConsultaProfileUp(){
-//        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 3000);
-//    }
     @Override
     public Cliente consultar(Cliente c) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -80,7 +42,18 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leParams = this.getCd().consulta(this.getParams()).getRetorno();
+        
+        TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
+        
+        tab.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/100);
+        tab.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/100);
+        tab.setSnrDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
+        tab.setSnrUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
+        tab.setAtnDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
+        tab.setAtnUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0))/10);
+        
+        return tab;
     }
 
     @Override
@@ -122,4 +95,14 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public Modulacao getModulacao() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public ComandoDslam getComandoConsultaVlan() {
+        return new ComandoDslam("bridge show vlan " + this.getP100(), 5000);
+    }
+
+    public ComandoDslam getParams() {
+        return new ComandoDslam("dslstat 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000, "a");
+    }
+
+
 }

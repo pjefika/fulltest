@@ -70,17 +70,25 @@ public class ConsultaDslam implements Conector {
 
             out.println(comando.getSintax());
             Thread.sleep(comando.getSleep());
+            if (comando.getSintaxAux() != null) {
+                out.println(comando.getSintaxAux());
+                Thread.sleep(1000);
+            }
             out.println("||");
             comando.setRetorno(this.getRetorno());
             return comando;
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             try {
                 close();
                 Thread.sleep(3000);
                 conectar();
                 out.println(comando.getSintax());
                 Thread.sleep(comando.getSleep());
+                if (comando.getSintaxAux() != null) {
+                    out.println(comando.getSintaxAux());
+                    Thread.sleep(1000);
+                }
                 out.println("||");
                 comando.setRetorno(this.getRetorno());
                 return comando;

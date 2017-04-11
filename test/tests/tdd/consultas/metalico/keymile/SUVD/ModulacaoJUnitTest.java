@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas.metalico.keymile.SUVD.suvd3;
+package tests.tdd.consultas.metalico.keymile.SUVD;
 
 import com.google.gson.Gson;
 import java.math.BigInteger;
