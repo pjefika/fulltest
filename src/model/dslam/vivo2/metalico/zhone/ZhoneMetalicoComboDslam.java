@@ -91,17 +91,55 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanBanda getVlanBanda() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+
+        if (leVlanBanda != null) {
+            cvlan = new BigInteger(leVlanBanda.get(1));
+            p100 = new BigInteger(leVlanBanda.get(0));
+        }
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
+        
+        return vlanBanda;
     }
 
     @Override
     public VlanVoip getVlanVoip() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-36", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+
+        if (leVlanBanda != null) {
+            cvlan = new BigInteger(leVlanBanda.get(1));
+            p100 = new BigInteger(leVlanBanda.get(0));
+        }
+        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+        
+        return vlanVoip;
     }
+
+    
 
     @Override
     public VlanVod getVlanVod() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+
+        BigInteger cvlan = new BigInteger("0");
+        BigInteger p100 = new BigInteger("0");
+
+        if (leVlanBanda != null) {
+            cvlan = new BigInteger(leVlanBanda.get(1));
+            p100 = new BigInteger(leVlanBanda.get(0));
+        }
+        VlanVod vlanVod = new VlanVod(cvlan, p100);
+        
+        return vlanVod;
     }
 
     @Override
