@@ -35,4 +35,12 @@ public class ConsultaClienteFacade {
     public Boolean validar() {
         return cl.validar();
     }
+
+    public Cliente getCl() {
+        return cl;
+    }
+
+    public void setCl(Cliente cl) {
+        this.cl = cl;
+    }
 }

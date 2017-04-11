@@ -6,7 +6,8 @@
     <div id="instance">        
         <manobra></manobra>
         <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/loading.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/manobra.js"></script>
+        <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/manobra.js"></script>     
+        
     </div>
     <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/instance-manobra.js"></script>
 </div>

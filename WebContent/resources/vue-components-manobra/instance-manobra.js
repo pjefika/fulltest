@@ -7,13 +7,13 @@
 var data = {
     loading: null,
     motivos: null,
+    ins: {
+        instancia: "4131543457"
+    },
+    tudo: null,
     modal: {
         titulo: "",
         corpo: ""
-    },
-    motivo: {
-        nome: null,
-        ativo: null
     },
     notifica: {
         menssagem: null,

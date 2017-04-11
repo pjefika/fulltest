@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 
-/* global datamanobra, Vue */
+/* global datamanobra, Vue, Auth */
+
+var url = "/fulltestAPI/";
 
 Vue.component("manobra", {
     props: {
@@ -21,18 +23,13 @@ Vue.component("manobra", {
                         <loading></loading>\n\
                     </div>\n\
                     <div v-else>\n\
-                        <div>\n\
+                        <div v-if='tudo'>\n\
                             <div class='row'>\n\
                                 <div class='col-md-6'>\n\
-                                    <tabela-info-cliente></tabela-info-cliente>\n\
+                                    <tabela-info-tbs></tabela-info-tbs>\n\
                                 </div>\n\
                                 <div class='col-md-6'>\n\
                                     <tabela-info-radius></tabela-info-radius>\n\
-                                </div>\n\
-                            </div>\n\
-                            <div class='row'>\n\
-                                <div class='col-md-12'>\n\
-                                    <tabela-info-tbs></tabela-info-tbs>\n\
                                 </div>\n\
                             </div>\n\
                         </div>\n\
@@ -48,7 +45,6 @@ Vue.component("manobra", {
 
 Vue.component("buscaCadastro", {
     props: {
-
     },
     data: function () {
         return data;
@@ -56,14 +52,11 @@ Vue.component("buscaCadastro", {
     template: "<div>\n\
                     <label>Motivo maobra:</label>\n\
                     <select class='form-control'>\n\
-                        <option>Selecione</option>\n\
-                        <option>op1</option>\n\
-                        <option>op2</option>\n\
-                        <option>op3</option>\n\
+                        <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
                     </select>\n\
                     <label>Instancia?Designador?:</label>\n\
                     <div class='input-group'>\n\
-                        <input class='form-control' placeholder='Informe a Instância? ou Designador?'/>\n\
+                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia'/>\n\
                         <span class='input-group-btn'>\n\
                             <button type='button' class='btn btn-primary' @click='pesquisar()'>Pesquisar</button>\n\
                         </span>\n\
@@ -76,79 +69,30 @@ Vue.component("buscaCadastro", {
         pesquisar: function () {
             var self = this;
             self.loading = true;
-            setTimeout(function () {
-                self.loading = false;
-                self.notifica = {
-                    menssagem: "Busca realizada com sucesso!",
-                    typenotify: "success"
-                };
-            }, 1500);
+            $.ajax({
+                type: "POST",
+                url: url + "manobra/busca",
+                data: JSON.stringify(self.ins),
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    self.tudo = data.cliente;
+                    console.log(data);
+                    self.notifica = {
+                        menssagem: "Busca realizada com sucesso!",
+                        typenotify: "success"
+                    };
+                },
+                complete: function () {
+                    self.loading = false;
+                }
+            });
         }
     }
 });
 
-
-Vue.component("tabelaInfoCliente", {
-    props: {
-
-    },
-    data: function () {
-        return data;
-    },
-    template: "<div>\n\
-                    <table class='table table-bordered small'>\n\
-                        <thead>\n\
-                            <tr>\n\
-                                <th colspan='2' style='text-align: center;'> Informações do Cliente</th>\n\
-                            </tr>\n\
-                        </thead>\n\
-                        <tbody>\n\
-                            <tr>\n\
-                                <td>Nome do Cliente</td>\n\
-                                <td>FABIO HENRIQUE CLEM DA SILVA</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Instância</td>\n\
-                                <td>4131543457</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Designador ADSL</td>\n\
-                                <td>CTA-81E2J3HSS-013</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Velocidade Contratada</td>\n\
-                                <td>51200/ 5120</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Designador TV</td>\n\
-                                <td>TV-CTA-81E2J3HST-050</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Tecnologia de Voz</td>\n\
-                                <td>TDM/H248</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Tecnologia de Acesso</td>\n\
-                                <td>METALICO</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Rede Acesso</td>\n\
-                                <td>VIVO2</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>Tipo Central</td>\n\
-                                <td>TDM</td>\n\
-                            </tr>\n\
-                        </tbody>\n\
-                    </table>\n\
-                </div>",
-    create: function () {
-
-    },
-    methods: {
-
-    }
-});
 
 Vue.component("tabelaInfoTbs", {
     props: {
@@ -161,65 +105,77 @@ Vue.component("tabelaInfoTbs", {
                     <table class='table table-bordered small'>\n\
                         <thead>\n\
                             <tr>\n\
-                                <th colspan='2' style='text-align: center;'>Informações TBS</th>\n\
+                                <th colspan='2' style='text-align: center;'> Informações TBS</th>\n\
                             </tr>\n\
                         </thead>\n\
                         <tbody>\n\
                             <tr>\n\
-                                <td>Modelo DSLAM</td>\n\
-                                <td>KEYMILE - SUVD11</td>\n\
+                                <td>brasName</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.brasName}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Slot</td>\n\
-                                <td>3</td>\n\
+                                <td>cabinet</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.cabinet}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>RIN</td>\n\
-                                <td>074</td>\n\
+                                <td>cvlan</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.cvlan}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Shelf</td>\n\
-                                <td>6</td>\n\
+                                <td>dslamModel</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.dslamModel}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Ender. Seq. da Porta</td>\n\
-                                <td>1085</td>\n\
+                                <td>dslamVendor</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.dslamVendor}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>VLAN VOD</td>\n\
-                                <td>3074</td>\n\
+                                <td>ipBras</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.ipBras}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>VLAN Multicast</td>\n\
-                                <td>4000</td>\n\
+                                <td>ipDslam</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.ipDslam}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Status</td>\n\
-                                <td>ATIVO</td>\n\
+                                <td>portAddrSeq</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.portAddrSeq}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>N° da Porta</td>\n\
-                                <td>37</td>\n\
+                                <td>portAddrSequence</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.portAddrSequence}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>IP BRAs</td>\n\
-                                <td>179.184.126.103-2804:7F4:2000:1::1-179.184.126.104-2804:7F4:2000:1::F5</td>\n\
+                                <td>portNumber</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.portNumber}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Ip do Armário</td>\n\
-                                <td>10.200.30.177</td>\n\
+                                <td>rin</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.rin}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>CVLAN</td>\n\
-                                <td>0</td>\n\
+                                <td>shelf</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.shelf}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>VLAN Internet</td>\n\
-                                <td>074</td>\n\
+                                <td>slot</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.slot}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>VLAN VOIP</td>\n\
-                                <td>1074</td>\n\
+                                <td>status</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.status}}</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td>vlanMcast</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.vlanMcast}}</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td>vlanVoD</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.vlanVoD}}</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td>vlanVoIP</td>\n\
+                                <td>{{tudo.cadastro.infoTBS.vlanVoIP}}</td>\n\
                             </tr>\n\
                         </tbody>\n\
                     </table>\n\
@@ -243,33 +199,41 @@ Vue.component("tabelaInfoRadius", {
                     <table class='table table-bordered small'>\n\
                         <thead>\n\
                             <tr>\n\
-                                <th colspan='2' style='text-align: center;'>Informações Radius</th>\n\
+                                <th colspan='2' style='text-align: center;'> Informações Radius</th>\n\
                             </tr>\n\
                         </thead>\n\
                         <tbody>\n\
                             <tr>\n\
-                                <td>Nome do Armário</td>\n\
-                                <td>PRCTA_O1C50</td>\n\
+                                <td>authService</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.authService}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Turbonet Profissional</td>\n\
-                                <td>NÃO</td>\n\
+                                <td>cabinet</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.cabinet}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Serviço de Autenticação</td>\n\
-                                <td>NAO</td>\n\
+                                <td>downUp</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.downUp}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Indicador de Perfil</td>\n\
-                                <td>r5120b51200</td>\n\
+                                <td>ipProfissional</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.ipProfissional}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Nome do BRAS</td>\n\
-                                <td>CTA4093</td>\n\
+                                <td>profissional</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.profissional}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>Status Radius</td>\n\
-                                <td>ATIVO</td>\n\
+                                <td>radiusPort</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.radiusPort}}</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td>radiusProfile</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.radiusProfile}}</td>\n\
+                            </tr>\n\
+                            <tr>\n\
+                                <td>status</td>\n\
+                                <td>{{tudo.cadastro.infoRadius.status}}</td>\n\
                             </tr>\n\
                         </tbody>\n\
                     </table>\n\
