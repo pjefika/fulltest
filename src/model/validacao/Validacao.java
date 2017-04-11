@@ -5,18 +5,30 @@
  */
 package model.validacao;
 
-import java.util.List;
-
 /**
  *
  * @author G0042204
  */
-public abstract class Validacao {
-    
-    private List<FalhaValidacao> falhas;
+public abstract class Validacao implements Validator {
 
-    public List<FalhaValidacao> getFalhas() {
-        return falhas;
+    protected String nome;
+
+    private String falha;
+
+    public String getNome() {
+        return nome;
     }
-  
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getFalha() {
+        return falha;
+    }
+
+    public void setFalha(String falha) {
+        this.falha = falha;
+    }
+
 }

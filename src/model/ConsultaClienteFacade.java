@@ -27,9 +27,12 @@ public class ConsultaClienteFacade {
         this.cl = cl;
     }
 
-    public Cliente consultar() throws DslamNaoImplException, RemoteException {
-        dao.getDslam(cl.getDesignador());
-        return c.consultar(cl);
+    public void consultar() throws DslamNaoImplException, RemoteException {
+        cl = dao.getCliente(cl);
+        c = dao.getDslam(cl.getCadastro());
     }
 
+    public Boolean validar() {
+        return cl.validar();
+    }
 }
