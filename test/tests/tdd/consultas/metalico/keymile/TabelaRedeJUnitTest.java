@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas.metalico.keymile.SUAD;
+package tests.tdd.consultas.metalico.keymile;
 
 import java.math.BigInteger;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
@@ -48,6 +48,11 @@ public class TabelaRedeJUnitTest {
             d.setIpDslam("10.141.228.1");
             d.setSlot(new BigInteger("3"));
             d.setPorta(new BigInteger("20"));
+            //suvd
+//            d.setIpDslam("10.161.93.238");
+//            d.setSlot(new BigInteger("9"));
+//            d.setPorta(new BigInteger("30"));
+
             TabelaRedeMetalico tab = d.getTabelaRede();
 
             System.out.println("Resync " + tab.getResync());

@@ -6,8 +6,10 @@
 package model.dslam.vivo2.metalico.keymile;
 
 import dao.dslam.telnet.ComandoDslam;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.metalico.DslamMetalico;
 
@@ -42,6 +44,27 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         return portState;
     }
 
+    @Override
+    public TabelaRedeMetalico getTabelaRede() throws Exception {
+        List<String> lTabs = this.getCd().consulta(this.getTabRede()).getRetorno();
+
+        TabelaRedeMetalico tab = new TabelaRedeMetalico();
+
+        tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
+        tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
+        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
+        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
+        tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
+        tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
+        tab.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
+
+        return tab;
+    }
+
+    public ComandoDslam getTabRede() {
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000);
+    }
+
     public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/AdministrativeStatus");
     }
@@ -49,7 +72,7 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/OperationalStatus");
     }
-    
+
     public ComandoDslam getComandoConsultaVlan() {
         return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
     }

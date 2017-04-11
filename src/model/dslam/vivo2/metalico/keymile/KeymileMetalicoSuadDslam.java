@@ -16,7 +16,6 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
@@ -63,23 +62,6 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         }
 
         return tabParam;
-    }
-
-    @Override
-    public TabelaRedeMetalico getTabelaRede() throws Exception {
-        List<String> lTabs = this.getCd().consulta(this.getTabRede()).getRetorno();
-
-        TabelaRedeMetalico tab = new TabelaRedeMetalico();
-
-        tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
-        tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 13)));
-        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
-        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
-        tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
-        tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
-        tab.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
-
-        return tab;
     }
 
     @Override
@@ -185,10 +167,6 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     public ComandoDslam getSnr() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/status/snrmargin");
-    }
-
-    public ComandoDslam getTabRede() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000);
     }
 
     public ComandoDslam getSrvcBanda() {
