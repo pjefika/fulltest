@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.manobra;
+package dao;
 
-import model.ConsultaClienteFacade;
-import model.entity.Cliente;
+import com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitIn;
+import com.gvt.www.ws.eai.oss.OSSTurbonetShortCircuit.OSSTurbonetShortCircuitOut;
+import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,9 +18,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ConsultaClienteJUnitTest {
+public class GetCadastroJUnitTest {
 
-    public ConsultaClienteJUnitTest() {
+    public GetCadastroJUnitTest() {
     }
 
     @BeforeClass
@@ -40,16 +40,16 @@ public class ConsultaClienteJUnitTest {
     }
 
     @Test
-    public void consultar() {
+    public void getCadastro() {
+
         try {
 
-            Cliente c = new Cliente("4133335556");
-            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
-            f.consultar();
-            assertTrue(true);
+            OSSTurbonetProxy ws = new OSSTurbonetProxy();
+            OSSTurbonetShortCircuitOut infoShortCircuit = ws.getInfoShortCircuit(new OSSTurbonetShortCircuitIn("CTA-811C0EFT9-013", "ura", "ura", "ura"));
+            
         } catch (Exception e) {
             e.printStackTrace();
-            assertTrue(false);
         }
+
     }
 }

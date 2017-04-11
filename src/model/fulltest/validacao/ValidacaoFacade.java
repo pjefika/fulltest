@@ -15,7 +15,7 @@ import model.dslam.AbstractDslam;
 import model.dslam.consulta.gpon.ConsultaGponDefault;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.factory.exception.DslamNaoImplException;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
 import model.fulltest.validacao.decorator.ValidacaoGponDecorator;
 
@@ -35,7 +35,7 @@ public class ValidacaoFacade {
 
     private TabelaParametrosGpon tabParam;
 
-    private TesteCliente teste;
+    private TesteClienteGpon teste;
 
     private ValidacaoGponDecorator d = new ValidacaoGponDecorator();
 
@@ -45,7 +45,7 @@ public class ValidacaoFacade {
         this.valid = new ValidacaoGpon();
     }
 
-    public ValidacaoFacade(TesteCliente t) {
+    public ValidacaoFacade(TesteClienteGpon t) {
         this.teste = t;
         this.valid = new ValidacaoGpon();
     }

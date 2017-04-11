@@ -10,7 +10,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
 import model.fulltest.Status;
 import model.fulltest.validacao.ValidacaoFacade;
@@ -21,7 +21,7 @@ import model.fulltest.validacao.ValidacaoFacade;
  */
 public class BackgroundTestThread implements Runnable {
 
-    private TesteCliente cls;
+    private TesteClienteGpon cls;
 
     @Inject
     private TesteClienteDAO tcDao;
@@ -33,7 +33,7 @@ public class BackgroundTestThread implements Runnable {
      * @param tc
      * @param tcDao
      */
-    public BackgroundTestThread(TesteCliente tc, TesteClienteDAO tcDao) {
+    public BackgroundTestThread(TesteClienteGpon tc, TesteClienteDAO tcDao) {
         this.tcDao = tcDao;
         this.cls = tcDao.buscarInstanciaPorId(tc);
         this.vg = new ValidacaoGpon();
@@ -62,7 +62,7 @@ public class BackgroundTestThread implements Runnable {
         salvaAi();
     }
 
-    public TesteCliente getCls() {
+    public TesteClienteGpon getCls() {
         return cls;
     }
 

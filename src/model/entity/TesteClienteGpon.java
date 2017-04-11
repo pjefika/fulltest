@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "fulltestAPI_TesteCliente")
-public class TesteCliente extends ComponenteGenerico {
+public class TesteClienteGpon extends ComponenteGenerico {
 
     @ManyToOne
     private Lote lote;
@@ -41,10 +41,10 @@ public class TesteCliente extends ComponenteGenerico {
         this.valid = (List<ValidacaoGpon>) valid;
     }
 
-    public TesteCliente() {
+    public TesteClienteGpon() {
     }
 
-    public TesteCliente(String instancia) {
+    public TesteClienteGpon(String instancia) {
         this.instancia = instancia;
     }
 

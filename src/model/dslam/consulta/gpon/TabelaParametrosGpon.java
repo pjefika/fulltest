@@ -5,20 +5,19 @@
  */
 package model.dslam.consulta.gpon;
 
-
 import model.dslam.AbstractDslam;
+import model.dslam.consulta.TabelaParamAbstract;
 import model.fulltest.validacao.Validador;
 
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosGpon implements Validador{
+public class TabelaParametrosGpon extends TabelaParamAbstract implements Validador {
 
     private Double potOnt;
 
     private Double potOlt;
-
 
     public TabelaParametrosGpon() {
     }
@@ -41,8 +40,8 @@ public class TabelaParametrosGpon implements Validador{
 
     @Override
     public Boolean validar(AbstractDslam ds) {
-        return (this.potOlt < -8 && this.potOlt > -25 &&
-                this.potOnt < -8 && this.potOnt > -25);
+        return (this.potOlt < -8 && this.potOlt > -25
+                && this.potOnt < -8 && this.potOnt > -25);
     }
 
 }

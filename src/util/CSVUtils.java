@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
 import model.viewmodel.Diagnostico;
 
@@ -74,7 +74,7 @@ public class CSVUtils {
 
     }
 
-    public static File toCsv(List<TesteCliente> tests) {
+    public static File toCsv(List<TesteClienteGpon> tests) {
 
         /**
          * For windows only String csvFile = "C:/tests.csv";
@@ -110,7 +110,7 @@ public class CSVUtils {
 
             CSVUtils.writeLine(writer, head);
 
-            for (TesteCliente test : tests) {
+            for (TesteClienteGpon test : tests) {
                 List<String> list = new ArrayList<>();
                 // Campos
                 list.add(test.getInstancia());

@@ -13,7 +13,7 @@ import model.dslam.factory.exception.DslamNaoImplException;
  *
  * @author G0042204
  */
-public class DslamDAOFactory implements ContratoFactoryDslam {
+public class DslamDAOFactory implements FactoryDslamInterface {
 
     @Override
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
@@ -23,10 +23,11 @@ public class DslamDAOFactory implements ContratoFactoryDslam {
         System.out.println(info.getInfoTBS().getDslamVendor());
 
         if (info.getTechnology().trim().equalsIgnoreCase("GPON")) {
-            ContratoFactoryDslam fac = new DslamGponDAOFactory();
+            FactoryDslamInterface fac = new DslamGponDAOFactory();
             return fac.getInstance(info);
         } else {
-            throw new DslamNaoImplException();
+            FactoryDslamInterface fac = new DslamMetalicoDAOFactory();
+            return fac.getInstance(info);
         }
 
     }

@@ -9,7 +9,7 @@ import dao.massivo.LoteDAO;
 import dao.massivo.TesteClienteDAO;
 import java.util.List;
 import model.entity.Lote;
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.fulltest.Status;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -52,7 +52,7 @@ public class JpaLocalJUnitTest {
         try {
       
             Lote l = new Lote();
-            TesteCliente t = new TesteCliente();
+            TesteClienteGpon t = new TesteClienteGpon();
 
             l.setId(22);
             l = dao.buscarLotePorId(l);
@@ -69,7 +69,7 @@ public class JpaLocalJUnitTest {
 //            t.setLote(l);
 //            dao.cadastrar(l);
 //            List<TesteCliente> lTests = tDao.listarInstanciasPorLote(l);
-//            for (TesteCliente lTest : lTests) {
+//            for (TesteClienteGpon lTest : lTests) {
 //                System.out.println(lTest.getInstancia());
 //            }
 

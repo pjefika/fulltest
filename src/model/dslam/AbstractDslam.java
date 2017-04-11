@@ -7,6 +7,7 @@ package model.dslam;
 
 import dao.dslam.telnet.Conector;
 import dao.dslam.telnet.ConsultaDslam;
+import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
 import model.produtos.ProdutoCliente;
@@ -15,7 +16,7 @@ import model.produtos.ProdutoCliente;
  *
  * @author G0041775
  */
-public abstract class AbstractDslam implements Conector {
+public abstract class AbstractDslam implements Conector, ConsultaClienteInter {
 
     private String tecnologia;
     private String vendor;

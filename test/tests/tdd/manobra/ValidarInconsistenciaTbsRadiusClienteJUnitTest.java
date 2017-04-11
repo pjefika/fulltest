@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.manobra;
+package tdd.manobra;
 
 import model.ConsultaClienteFacade;
 import model.entity.Cliente;
@@ -18,9 +18,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ConsultaClienteJUnitTest {
+public class ValidarInconsistenciaTbsRadiusClienteJUnitTest {
 
-    public ConsultaClienteJUnitTest() {
+    public ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
     }
 
     @BeforeClass
@@ -40,13 +40,11 @@ public class ConsultaClienteJUnitTest {
     }
 
     @Test
-    public void consultar() {
+    public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
         try {
-
-            Cliente c = new Cliente("4133335556");
-            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
+            ConsultaClienteFacade f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
             f.consultar();
-            assertTrue(true);
+            assertTrue(f.validar());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

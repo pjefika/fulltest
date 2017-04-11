@@ -22,7 +22,7 @@ import model.viewmodel.Diagnostico;
 public class ValidacaoGpon extends AbstractEntity {
 
     @ManyToOne
-    private TesteCliente teste;
+    private TesteClienteGpon teste;
 
     /**
      * Atributos normais
@@ -199,11 +199,11 @@ public class ValidacaoGpon extends AbstractEntity {
         this.potOnt = potOnt;
     }
 
-    public TesteCliente getTeste() {
+    public TesteClienteGpon getTeste() {
         return teste;
     }
 
-    public void setTeste(TesteCliente teste) {
+    public void setTeste(TesteClienteGpon teste) {
         this.teste = teste;
     }
 

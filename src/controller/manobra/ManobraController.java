@@ -6,8 +6,15 @@
 package controller.manobra;
 
 import br.com.caelum.vraptor.Controller;
+import br.com.caelum.vraptor.Path;
+import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
+import dao.cadastro.CadastroDAO;
+import java.rmi.RemoteException;
+import model.ConsultaClienteFacade;
 import model.annotation.Logado;
+import model.dslam.factory.exception.DslamNaoImplException;
+import model.entity.Cliente;
 
 /**
  *
@@ -15,18 +22,33 @@ import model.annotation.Logado;
  */
 @Controller
 public class ManobraController extends AbstractController {
-    
-    @Logado
-    public void create(){
-         
-    }
+
+    CadastroDAO dao = new CadastroDAO();
         
     public void atendimento() {
         
     }
-    
-    public void motivo() {
         
+    public void create() {
     }
-    
+
+    @Path("/manobra/{instancia}")
+    public void consultaCliente(String instancia) {
+        try {
+            Cliente c = new Cliente(instancia);
+            ConsultaClienteFacade f = new ConsultaClienteFacade(c);
+            f.consultar();
+            includeSerializer(f);
+        } catch (DslamNaoImplException ex) {
+            includeSerializer(ex);
+        } catch (RemoteException ex) {
+            includeSerializer(ex);
+        }
+    }
+
+    @Override
+    public void includeSerializer(Object a) {
+        result.use(Results.json()).from(a).serialize();
+    }
+
 }

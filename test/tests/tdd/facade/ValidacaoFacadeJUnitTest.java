@@ -5,7 +5,7 @@
  */
 package tests.tdd.facade;
 
-import model.entity.TesteCliente;
+import model.entity.TesteClienteGpon;
 import model.fulltest.validacao.ValidacaoFacade;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,7 +41,7 @@ public class ValidacaoFacadeJUnitTest {
 
     @Test
     public void validar() {
-        ValidacaoFacade facade = new ValidacaoFacade(new TesteCliente("7930272843"));
+        ValidacaoFacade facade = new ValidacaoFacade(new TesteClienteGpon("7930272843"));
         try {
             facade.validar();
             assertTrue(true);

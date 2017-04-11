@@ -5,19 +5,41 @@
  */
 package model.entity;
 
-import model.dslam.AbstractDslam;
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
+import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import java.util.ArrayList;
+import java.util.List;
+import model.dslam.consulta.TabelaParamAbstract;
+import model.validacao.Validacao;
+import model.validacao.ValidacaoCadastroTBS;
+import model.validacao.Validator;
 
 /**
  *
  * @author G0041775
  */
-public class Cliente extends AbstractEntity{
+public class Cliente extends AbstractEntity implements Validator {
 
     private String nome, designador;
-    
-    private AbstractDslam dslam;
 
-    public Cliente() {
+    private GetInfoOut cadastro;
+
+    private OSSTurbonetInconsistenciaTBSRadiusOut incon;
+
+    private InfoAuthentication auth;
+
+    private TabelaParamAbstract tabela;
+
+    private List<Validacao> valid;
+
+    public Cliente(String designador) {
+        this.designador = designador;
+        valid = new ArrayList<>();
+    }
+
+    public void setCadastro(GetInfoOut cadastro) {
+        this.cadastro = cadastro;
     }
 
     public String getNome() {
@@ -36,12 +58,51 @@ public class Cliente extends AbstractEntity{
         this.designador = designador;
     }
 
-    public AbstractDslam getDslam() {
-        return dslam;
+    public GetInfoOut getCadastro() {
+        return cadastro;
     }
 
-    public void setDslam(AbstractDslam dslam) {
-        this.dslam = dslam;
+    public TabelaParamAbstract getTabela() {
+        return tabela;
     }
-    
+
+    public void setTabela(TabelaParamAbstract tabela) {
+        this.tabela = tabela;
+    }
+
+    public List<Validacao> getValid() {
+        return valid;
+    }
+
+    public void setValid(List<Validacao> valid) {
+        this.valid = valid;
+    }
+
+    public OSSTurbonetInconsistenciaTBSRadiusOut getIncon() {
+        return incon;
+    }
+
+    public void setIncon(OSSTurbonetInconsistenciaTBSRadiusOut incon) {
+        this.incon = incon;
+    }
+
+    public InfoAuthentication getAuth() {
+        return auth;
+    }
+
+    public void setAuth(InfoAuthentication auth) {
+        this.auth = auth;
+    }
+
+    @Override
+    public Boolean validar() {
+        valid.add(new ValidacaoCadastroTBS(cadastro, incon));
+
+        for (Validacao v : valid) {
+            if (!v.validar()) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

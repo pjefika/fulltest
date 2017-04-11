@@ -10,12 +10,12 @@ package model.dslam.consulta.metalico;
  * @author G0041775
  */
 public interface ConsultaMetalicoDefault {
-    
+
 //    public EstadoDaPorta getEstadoDaPorta() throws Exception;
 //
 //    public SerialOntGpon getSerialOnt() throws Exception;
 //
-//    public TabelaParametrosGpon getTabelaParametros() throws Exception;
+    public TabelaParametrosMetalico getTabelaParametros() throws Exception;
 //
 //    public VlanBanda getVlanBanda() throws Exception;
 //
@@ -24,10 +24,9 @@ public interface ConsultaMetalicoDefault {
 //    public VlanVoip getVlanVoip() throws Exception;
 //
 //    public VlanVod getVlanVod() throws Exception;
-//    
+//
 //    public AlarmesGpon getAlarmes() throws Exception;
-//    
+//
 //    public ProfileGpon getProfile() throws Exception;
-    
-   
+
 }

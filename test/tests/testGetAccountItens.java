@@ -22,7 +22,7 @@ public class testGetAccountItens {
         try {
             
             OSSTurbonetProxy ws = new OSSTurbonetProxy();
-            String designator = ws.getDesignatorByAccessDesignator("7536255062");
+            String designator = ws.getDesignatorByAccessDesignator("4133335556");
             
             java.lang.String accountId = null;
             java.lang.String addressId = null;
