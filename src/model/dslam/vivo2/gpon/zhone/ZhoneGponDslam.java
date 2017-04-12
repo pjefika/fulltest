@@ -11,12 +11,12 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.ProfileGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -239,7 +239,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public ProfileGpon getProfile() throws Exception {
+    public Profile getProfile() throws Exception {
         List<String> leProfDowns = this.getCd().consulta(this.getComandoConsultaProfileDown()).getRetorno();
         List<String> leProfUps = this.getCd().consulta(this.getComandoConsultaProfileUp()).getRetorno();
 
@@ -249,7 +249,7 @@ public class ZhoneGponDslam extends DslamGpon {
         String profileDown = leProfileDown.get(0);
         String profileUp = leProfileUp.get(leProfileUp.size() - 6);
 
-        ProfileGpon prof = new ProfileGpon();
+        Profile prof = new Profile();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
         System.out.println(prof.getProfileDown());

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.consulta.gpon;
+package model.dslam.consulta;
 
 import model.dslam.AbstractDslam;
 import model.dslam.retorno.TratativaRetornoUtil;
@@ -14,7 +14,7 @@ import model.fulltest.validacao.Validador;
  *
  * @author G0041775
  */
-public class ProfileGpon implements Validador {
+public class Profile implements Validador {
     
     private String profileUp;
     

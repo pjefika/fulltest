@@ -7,6 +7,7 @@ package model.dslam;
 
 import dao.dslam.telnet.Conector;
 import dao.dslam.telnet.ConsultaDslam;
+import java.io.IOException;
 import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.credencial.Credencial;
 import model.dslam.login.LoginDslamStrategy;
@@ -37,6 +38,10 @@ public abstract class AbstractDslam implements Conector, ConsultaClienteInter {
     @Override
     public void conectar() {
         this.loginStrategy.conectar(this.getCd());
+    }
+    
+    public void desconectar() throws IOException{
+        this.cd.close();
     }
 
     public ProdutoCliente getProd() {

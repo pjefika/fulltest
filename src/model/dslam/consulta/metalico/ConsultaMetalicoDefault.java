@@ -5,28 +5,35 @@
  */
 package model.dslam.consulta.metalico;
 
+import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
+import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanMulticast;
+import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVoip;
+
 /**
  *
  * @author G0041775
  */
 public interface ConsultaMetalicoDefault {
 
-//    public EstadoDaPorta getEstadoDaPorta() throws Exception;
-//
-//    public SerialOntGpon getSerialOnt() throws Exception;
-//
+    public EstadoDaPorta getEstadoDaPorta() throws Exception;
+
     public TabelaParametrosMetalico getTabelaParametros() throws Exception;
-//
-//    public VlanBanda getVlanBanda() throws Exception;
-//
-//    public VlanMulticast getVlanMulticast() throws Exception;
-//
-//    public VlanVoip getVlanVoip() throws Exception;
-//
-//    public VlanVod getVlanVod() throws Exception;
-//
-//    public AlarmesGpon getAlarmes() throws Exception;
-//
-//    public ProfileGpon getProfile() throws Exception;
+
+    public TabelaRedeMetalico getTabelaRede() throws Exception;
+
+    public VlanBanda getVlanBanda() throws Exception;
+
+    public VlanMulticast getVlanMulticast() throws Exception;
+
+    public VlanVoip getVlanVoip() throws Exception;
+
+    public VlanVod getVlanVod() throws Exception;
+
+    public Profile getProfile() throws Exception;
+    
+    public Modulacao getModulacao() throws Exception;
 
 }
