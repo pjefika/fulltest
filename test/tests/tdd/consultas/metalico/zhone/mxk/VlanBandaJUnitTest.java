@@ -5,7 +5,6 @@
  */
 package tests.tdd.consultas.metalico.zhone.mxk;
 
-import tests.tdd.consultas.metalico.zhone.combo.*;
 import com.google.gson.Gson;
 import java.math.BigInteger;
 import model.dslam.consulta.VlanBanda;
@@ -52,6 +51,7 @@ public class VlanBandaJUnitTest {
             d.setSlot(new BigInteger("8"));
             d.setPorta(new BigInteger("12"));
             d.setP100("208");
+            d.setP100("1195");
   
             VlanBanda v = d.getVlanBanda();
 

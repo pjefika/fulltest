@@ -5,12 +5,11 @@
  */
 package tests.tdd.consultas.metalico.zhone.mxk;
 
-import tests.tdd.consultas.metalico.zhone.combo.*;
 import com.google.gson.Gson;
 import java.math.BigInteger;
 import model.dslam.consulta.VlanVoip;
-import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
 import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoDslam;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -47,11 +46,12 @@ public class VlanVoipJUnitTest {
     public void consultarVlanVoip() {
         try {
 
-            ZhoneMetalicoDslam d = new ZhoneMetalicoComboDslam();
-            d.setIpDslam("10.151.12.40");
-            d.setSlot(new BigInteger("8"));
-            d.setPorta(new BigInteger("12"));
-            d.setP100("208");
+            ZhoneMetalicoDslam d = new ZhoneMetalicoMxkDslam();
+            //1134525550
+            d.setIpDslam("10.209.97.250");
+            d.setSlot(new BigInteger("2"));
+            d.setPorta(new BigInteger("23"));
+            d.setP100("1195");
   
             VlanVoip v = d.getVlanVoip();
 
