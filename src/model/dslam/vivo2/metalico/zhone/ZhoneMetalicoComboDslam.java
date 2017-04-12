@@ -75,18 +75,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     @Override
     public EstadoDaPorta getEstadoDaPorta() throws Exception {
         List<String> leEst = this.getCd().consulta(this.getParams()).getRetorno();
-        EstadoDaPorta e = new EstadoDaPorta();
-        String admState = TratativaRetornoUtil.tratZhone(leEst, "AdminStatus", "\\b\\w+\\b").get(1);
-        String operState = TratativaRetornoUtil.tratZhone(leEst, "LineStatus", "\\b\\w+\\b").get(1);
-        if (operState.equalsIgnoreCase("DATA")) {
-            operState = "Up";
-        } else {
-            operState = "Down";
-        }
-        e.setAdminState(admState);
-        e.setOperState(operState);
-
-        return e;
+        return super.getEstadoDaPorta(leEst);
     }
 
     @Override

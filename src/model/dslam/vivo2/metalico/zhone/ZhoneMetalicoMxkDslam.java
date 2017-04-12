@@ -64,7 +64,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leEst = this.getCd().consulta(this.getParams()).getRetorno();
+        return super.getEstadoDaPorta(leEst);
     }
 
     @Override

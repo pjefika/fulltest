@@ -6,7 +6,10 @@
 package model.dslam.vivo2.metalico.zhone;
 
 import dao.dslam.telnet.ComandoDslam;
+import java.util.List;
+import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.retorno.TratativaRetornoUtil;
 import model.dslam.vivo2.metalico.DslamMetalico;
 import model.entity.Cliente;
 
@@ -64,5 +67,20 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
     @Override
     public TabelaParametrosMetalico getTabelaParametros() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {
+        EstadoDaPorta e = new EstadoDaPorta();
+        String admState = TratativaRetornoUtil.tratZhone(r, "AdminStatus", "\\b\\w+\\b").get(1);
+        String operState = TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b").get(1);
+        if (operState.equalsIgnoreCase("DATA")) {
+            operState = "Up";
+        } else {
+            operState = "Down";
+        }
+        e.setAdminState(admState);
+        e.setOperState(operState);
+
+        return e;
     }
 }
