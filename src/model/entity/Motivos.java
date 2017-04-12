@@ -5,18 +5,22 @@
  */
 package model.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author G0034481
  */
 public enum Motivos {
-    
+
     SEMSINC("Sem sincronismo"),
     SEMAUTH("Sem autenticação"),
     MUDA("Porta muda");
 
     private String motivos;
-    
+
     private Motivos(String m) {
         this.motivos = m;
     }
@@ -32,5 +36,14 @@ public enum Motivos {
     @Override
     public String toString() {
         return this.name();
+    }
+
+    public static List<String> toListString() {
+        List<Motivos> lm = Arrays.asList(Motivos.values());
+        List<String> l = new ArrayList<>();
+        for (Motivos m : lm) {
+            l.add(m.getMotivos());
+        }
+        return l;
     }
 }

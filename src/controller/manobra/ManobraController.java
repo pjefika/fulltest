@@ -59,13 +59,8 @@ public class ManobraController extends AbstractController {
     @Get
     @Path("/manobra/motivos")
     public void listaMotivos() {
-        try {            
-            List<Motivos> lm = Arrays.asList(Motivos.values());            
-            List<String> l = new ArrayList<>();            
-            for (Motivos motivos : lm) {
-                l.add(motivos.getMotivos());
-            }                    
-            this.includeSerializer(l);
+        try {          
+            this.includeSerializer(Motivos.toListString());
         } catch (Exception e) {
             this.includeSerializer(e);
         }
