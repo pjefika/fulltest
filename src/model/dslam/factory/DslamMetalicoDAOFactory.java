@@ -45,8 +45,6 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
                 leDslam = new KeymileMetalicoSuvd11();
             } else if (tbs.getDslamVendor().equalsIgnoreCase("SUAD")) {
                 leDslam = new KeymileMetalicoSuadDslam();
-            } else if (tbs.getDslamVendor().equalsIgnoreCase("SUVD11")) {
-                leDslam = new KeymileMetalicoSuvdDslam();
             } else {
                 throw new DslamNaoImplException();
             }
