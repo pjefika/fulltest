@@ -63,14 +63,15 @@ Vue.component("buscaCadastro", {
                     </div>\n\
                 </div>",
     created: function () {
-
+        var self = this;
+        self.buscamotivos();
     },
     methods: {
         pesquisar: function () {
             var self = this;
             self.loading = true;
             self.searchbuttondisable = true;
-            
+
             $.ajax({
                 type: "POST",
                 url: url + "manobra/busca",
@@ -91,6 +92,12 @@ Vue.component("buscaCadastro", {
                     self.loading = false;
                     self.searchbuttondisable = false;
                 }
+            });
+        },
+        buscamotivos: function () {
+            var self = this;
+            $.get(url + "manobra/motivos", function (data) {
+                self.motivos = data.list;
             });
         }
     }
@@ -115,10 +122,6 @@ Vue.component("tabelaInfoTbs", {
                             <tr>\n\
                                 <td>brasName</td>\n\
                                 <td>{{tudo.cadastro.infoTBS.brasName}}</td>\n\
-                            </tr>\n\
-                            <tr>\n\
-                                <td>cabinet</td>\n\
-                                <td>{{tudo.cadastro.infoTBS.cabinet}}</td>\n\
                             </tr>\n\
                             <tr>\n\
                                 <td>cvlan</td>\n\

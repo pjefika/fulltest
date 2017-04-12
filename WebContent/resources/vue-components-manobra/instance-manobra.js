@@ -31,13 +31,7 @@ var vmi = new Vue({
 
     },
     methods: {
-        reset: function () {
-            var self = this;
-            self.motivo = {
-                nome: null,
-                ativo: null
-            };
-        }
+        
     },
     watch: {
         notifica: function () {
