@@ -7,6 +7,7 @@ package model.dslam.vivo2.metalico.zhone;
 
 import dao.dslam.telnet.ComandoDslam;
 import dao.dslam.telnet.ConsultaDslam;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -59,7 +60,18 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public TabelaRedeMetalico getTabelaRede() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leRedes = this.getCd().consulta(this.getParams()).getRetorno();
+        TabelaRedeMetalico tab = new TabelaRedeMetalico();
+        
+        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setFecDown(new BigInteger("0"));
+        tab.setFecUp(new BigInteger("0"));
+         tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        
+        return tab;
     }
 
     @Override
