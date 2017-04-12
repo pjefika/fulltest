@@ -5,26 +5,32 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.InfoTBS;
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCadastroTBS extends Validacao implements Validator{
-    
-    private InfoTBS info;
+public class ValidacaoCadastroTBS extends Validacao {
 
-    public ValidacaoCadastroTBS(InfoTBS info) {
+    private GetInfoOut info;
+
+    private OSSTurbonetInconsistenciaTBSRadiusOut i;
+
+    public ValidacaoCadastroTBS(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
         this.info = info;
+        this.i = i;
+        this.nome = "Cadastro TBS";
     }
-    
+
     /**
      * Implementar!
-     * @return 
+     *
+     * @return
      */
     @Override
     public Boolean validar() {
-        return false;
-    }    
+        return !i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
+    }
 }

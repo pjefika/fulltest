@@ -3,14 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.validacao;
+package model.entity;
 
 /**
  *
  * @author G0042204
  */
-public interface Validator {
-
-    public Boolean validar();
+public class InfoCRM {
 
 }

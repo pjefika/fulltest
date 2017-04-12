@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.dao;
+package tdd.consultas;
 
-import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.ConsultaClienteFacade;
 import model.dslam.factory.exception.DslamNaoImplException;
+import model.entity.Cliente;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,9 +21,11 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class getCadastro {
+public class ConsultaClienteJUnitTest {
 
-    public getCadastro() {
+    private ConsultaClienteFacade f;
+
+    public ConsultaClienteJUnitTest() {
     }
 
     @BeforeClass
@@ -44,23 +45,19 @@ public class getCadastro {
     }
 
     @Test
-    public void testCadastro() {
-        
-        CadastroDAO d = new CadastroDAO();
-        
-        System.out.println(Calendar.getInstance().getTime());
+    public void consultar() {
+
         try {
-            d.getDslam("BET-81FN3V5UN-013").conectar();
-            assertTrue(true);
+            f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
+            f.consultar();
+            f.validar();
         } catch (DslamNaoImplException ex) {
-            Logger.getLogger(getCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            assertTrue(true);
+            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         } catch (RemoteException ex) {
-            Logger.getLogger(getCadastro.class.getName()).log(Level.SEVERE, null, ex);
-            assertTrue(false);
-        } finally{
-            System.out.println(Calendar.getInstance().getTime());
+            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        System.out.println("");
 
     }
 }

@@ -11,8 +11,8 @@ import bean.ossturbonet.oss.gvt.com.InfoRadius;
  *
  * @author G0042204
  */
-public class ValidacaoAutenticacao extends Validacao implements Validator{
-    
+public class ValidacaoAutenticacao extends Validacao {
+
     private InfoRadius info;
 
     public ValidacaoAutenticacao(InfoRadius info) {
@@ -21,10 +21,12 @@ public class ValidacaoAutenticacao extends Validacao implements Validator{
 
     /**
      * Implementar!
-     * @return 
+     *
+     * @return
      */
     @Override
     public Boolean validar() {
         return false;
-    }    
+    }
+
 }

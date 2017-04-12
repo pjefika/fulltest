@@ -6,21 +6,42 @@
 package model.entity;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
+import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import java.util.ArrayList;
+import java.util.List;
 import model.dslam.consulta.TabelaParamAbstract;
+import model.validacao.Validacao;
+import model.validacao.ValidacaoCadastroTBS;
+import model.validacao.Validator;
 
 /**
  *
  * @author G0041775
  */
-public class Cliente extends AbstractEntity {
+public class Cliente extends AbstractEntity implements Validator {
 
     private String nome, designador;
 
     private GetInfoOut cadastro;
 
+    private OSSTurbonetInconsistenciaTBSRadiusOut incon;
+
+    private InfoAuthentication auth;
+
     private TabelaParamAbstract tabela;
 
-    public Cliente() {
+    private List<Validacao> valid;
+
+    private InfoCRM crm;
+
+    public Cliente(String designador) {
+        this.designador = designador;
+        valid = new ArrayList<>();
+    }
+
+    public void setCadastro(GetInfoOut cadastro) {
+        this.cadastro = cadastro;
     }
 
     public String getNome() {
@@ -49,5 +70,49 @@ public class Cliente extends AbstractEntity {
 
     public void setTabela(TabelaParamAbstract tabela) {
         this.tabela = tabela;
+    }
+
+    public List<Validacao> getValid() {
+        return valid;
+    }
+
+    public void setValid(List<Validacao> valid) {
+        this.valid = valid;
+    }
+
+    public OSSTurbonetInconsistenciaTBSRadiusOut getIncon() {
+        return incon;
+    }
+
+    public void setIncon(OSSTurbonetInconsistenciaTBSRadiusOut incon) {
+        this.incon = incon;
+    }
+
+    public InfoAuthentication getAuth() {
+        return auth;
+    }
+
+    public void setAuth(InfoAuthentication auth) {
+        this.auth = auth;
+    }
+
+    public InfoCRM getCrm() {
+        return crm;
+    }
+
+    public void setCrm(InfoCRM crm) {
+        this.crm = crm;
+    }
+
+    @Override
+    public Boolean validar() {
+        valid.add(new ValidacaoCadastroTBS(cadastro, incon));
+
+        for (Validacao v : valid) {
+            if (!v.validar()) {
+                return false;
+            }
+        }
+        return true;
     }
 }
