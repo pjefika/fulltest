@@ -47,7 +47,7 @@ public class ConsultaTesteJUnitTest {
         CadastroDAO dao = new CadastroDAO();
 
         try {
-            OSSTurbonetStatusConexaoOut oi = dao.getAuthenticationByIPorMac("84:E0:58:0F:79:08");
+            OSSTurbonetStatusConexaoOut oi = dao.getAuthenticationByIPorMac("6C:2E:85:FA:12:CC");
             System.out.println("");
         } catch (RemoteException ex) {
             Logger.getLogger(ConsultaTesteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
