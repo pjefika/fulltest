@@ -144,7 +144,18 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leVlans = this.getCd().consulta(this.getMult()).getRetorno();
+        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        BigInteger cvlan = new BigInteger("0");
+
+        if (leVlanMult != null) {
+            cvlan = new BigInteger(leVlanMult.get(0));
+        }
+        VlanMulticast vlanMult = new VlanMulticast();
+        vlanMult.setCvlan(cvlan);
+        
+        
+        return vlanMult;
     }
 
     @Override
@@ -157,8 +168,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public ComandoDslam getComandoConsultaVlan() {
-        return new ComandoDslam("bridge show vlan " + this.getP100(), 5000);
+    public ComandoDslam getMult() {
+        return new ComandoDslam("bridge show port 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000);
     }
 
     public ComandoDslam getParams() {
