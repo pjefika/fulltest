@@ -33,6 +33,8 @@ public class Cliente extends AbstractEntity implements Validator {
 
     private List<Validacao> valid;
 
+    private InfoCRM crm;
+
     public Cliente(String designador) {
         this.designador = designador;
         valid = new ArrayList<>();
@@ -92,6 +94,14 @@ public class Cliente extends AbstractEntity implements Validator {
 
     public void setAuth(InfoAuthentication auth) {
         this.auth = auth;
+    }
+
+    public InfoCRM getCrm() {
+        return crm;
+    }
+
+    public void setCrm(InfoCRM crm) {
+        this.crm = crm;
     }
 
     @Override
