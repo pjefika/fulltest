@@ -16,22 +16,14 @@ Vue.component("manobra", {
         return data;
     },
     template: "<div style='margin-top: 20px;'>\n\
-                    <div class='form-group'>\n\
-                        <busca-cadastro></busca-cadastro>\n\
-                    </div>\n\
+                    <busca-cadastro></busca-cadastro>\n\
                     <div v-if='loading'>\n\
                         <loading></loading>\n\
                     </div>\n\
                     <div v-else>\n\
-                        <div v-if='tudo'>\n\
-                            <div class='row'>\n\
-                                <div class='col-md-6'>\n\
-                                    <tabela-info-tbs></tabela-info-tbs>\n\
-                                </div>\n\
-                                <div class='col-md-6'>\n\
-                                    <tabela-info-radius></tabela-info-radius>\n\
-                                </div>\n\
-                            </div>\n\
+                        <div v-if='tudo' style='margin-top: 10px;'>\n\
+                            <panelvalida></panelvalida>\n\
+                            <panelinformacoes></panelinformacoes>\n\
                         </div>\n\
                     </div>\n\
                 </div>",
@@ -39,6 +31,14 @@ Vue.component("manobra", {
 
     },
     methods: {
+        clickinfo: function () {
+            var self = this;
+            self.navvalid = false;
+        },
+        clickvalida: function () {
+            var self = this;
+            self.navvalid = true;
+        }
 
     }
 });
@@ -50,13 +50,9 @@ Vue.component("buscaCadastro", {
         return data;
     },
     template: "<div>\n\
-                    <label>Motivo maobra:</label>\n\
-                    <select class='form-control'>\n\
-                        <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
-                    </select>\n\
                     <label>Instancia?Designador?:</label>\n\
                     <div class='input-group'>\n\
-                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia'/>\n\
+                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()'/>\n\
                         <span class='input-group-btn'>\n\
                             <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
                         </span>\n\
@@ -71,7 +67,7 @@ Vue.component("buscaCadastro", {
             var self = this;
             self.loading = true;
             self.searchbuttondisable = true;
-
+            self.todo = null;
             $.ajax({
                 type: "POST",
                 url: url + "manobra/busca",
@@ -103,6 +99,65 @@ Vue.component("buscaCadastro", {
     }
 });
 
+Vue.component("panelvalida", {
+    props: {
+        
+    },
+    data: function () {
+        return data;
+    },
+    template: "<div>\n\
+                    <div class='panel panel-default'>\n\
+                        <div class='panel-heading' data-toggle='collapse' data-target='#panelvalid'>\n\
+                            Valida manobra\n\
+                        </div>\n\
+                        <div class='panel-body collapse' id='panelvalid'>\n\
+                            <label>Motivos:</label>\n\
+                            <select class='form-control'>\n\
+                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
+                            </select>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>",
+    create: function () {
+
+    },
+    methods: {
+        
+    }
+});
+
+Vue.component("panelinformacoes", {
+    props: {
+
+    },
+    data: function () {
+        return data;
+    },
+    template: "<div>\n\
+                    <div class='panel panel-default'>\n\
+                        <div class='panel-heading' data-toggle='collapse' data-target='#panelinfo'>\n\
+                            Informações\n\
+                        </div>\n\
+                        <div class='panel-body' id='panelinfo'>\n\
+                        <div class='row'>\n\
+                            <div class='col-md-6'>\n\
+                                <tabela-info-tbs></tabela-info-tbs>\n\
+                            </div>\n\
+                            <div class='col-md-6'>\n\
+                                <tabela-info-radius></tabela-info-radius>\n\
+                            </div>\n\
+                        </div>\n\
+                        </div>\n\
+                    </div>\n\
+                </div>",
+    create: function () {
+
+    },
+    methods: {
+
+    }
+});
 
 Vue.component("tabelaInfoTbs", {
     props: {
