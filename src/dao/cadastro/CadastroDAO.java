@@ -8,8 +8,11 @@ package dao.cadastro;
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
 import com.gvt.www.ws.eai.oss.OSSTurbonetAdslUseReport.OSSTurbonetAdslUseReportOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoIn;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
 import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
@@ -48,7 +51,7 @@ public class CadastroDAO {
         String designator = this.getDesignador(designador);
         String accessDesignator = this.getAccessDesignator(designator);
         GetInfoOut leInfo = new GetInfoOut();
-        return ws.getInfo(designator, accessDesignator, "wise", "wise", designador, "wise", "0", "0");
+        return ws.getInfo(designator, accessDesignator, "wise", "wise", designator, "wise", "0", "0");
     }
 
     public AbstractDslam getDslam(GetInfoOut info) throws DslamNaoImplException, RemoteException {
@@ -71,6 +74,14 @@ public class CadastroDAO {
 
     public InfoAuthentication getAutentication(GetInfoOut i) throws RemoteException {
         return ws.getInfoAuthentication(i.getDesignator(), i.getDesignator(), "wise", "wise", "wise");
+    }
+
+    public OSSTurbonetClienteAutenticadoOut getTeste(GetInfoOut i) throws RemoteException {
+        return ws.verificaSeClienteAutenticadoNoRelay(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(i)));
+    }
+
+    public OSSTurbonetStatusConexaoOut getAuthenticationByIPorMac(String ipOrmac) throws RemoteException {
+        return ws.getAuthenticationByIPorMac(ipOrmac);
     }
 
     /**
