@@ -91,7 +91,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             p100 = new BigInteger(leVlanBanda.get(0));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
-        
+
         return vlanBanda;
     }
 
@@ -108,11 +108,9 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             p100 = new BigInteger(leVlanBanda.get(0));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
-        
+
         return vlanVoip;
     }
-
-    
 
     @Override
     public VlanVod getVlanVod() throws Exception {
@@ -127,7 +125,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             p100 = new BigInteger(leVlanBanda.get(0));
         }
         VlanVod vlanVod = new VlanVod(cvlan, p100);
-        
+
         return vlanVod;
     }
 
@@ -142,19 +140,31 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         VlanMulticast vlanMult = new VlanMulticast();
         vlanMult.setCvlan(cvlan);
-        
-        
+
         return vlanMult;
     }
 
     @Override
     public Profile getProfile() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leProfDown = this.getCd().consulta(this.getProfDown()).getRetorno();
+        List<String> leProfUp = this.getCd().consulta(this.getProfUp()).getRetorno();
+
+        Profile p = new Profile();
+        BigInteger leDown = new BigInteger(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
+        BigInteger leUp = new BigInteger(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
+        p.setProfileDown(leDown.toString());
+        p.setProfileUp(leUp.toString());
+
+        return p;
     }
 
     @Override
     public Modulacao getModulacao() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leModul = this.getCd().consulta(this.getModul()).getRetorno();
+        Modulacao m = new Modulacao();
+        String modulacao = TratativaRetornoUtil.tratZhone(leModul, "adslTransmissionMode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
+        m.setModulacao(modulacao);
+        return m;
     }
 
     public ComandoDslam getMult() {
@@ -163,6 +173,18 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     public ComandoDslam getParams() {
         return new ComandoDslam("dslstat 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000, "a");
+    }
+
+    public ComandoDslam getProfDown() {
+        return new ComandoDslam("get adsl-co-profile 1/" + this.getSlot() + "/" + this.getPorta());
+    }
+
+    public ComandoDslam getProfUp() {
+        return new ComandoDslam("get adsl-cpe-profile 1/" + this.getSlot() + "/" + this.getPorta());
+    }
+
+    public ComandoDslam getModul() {
+        return new ComandoDslam("get adsl-profile 1/" + this.getSlot() + "/" + this.getPorta());
     }
 
 }

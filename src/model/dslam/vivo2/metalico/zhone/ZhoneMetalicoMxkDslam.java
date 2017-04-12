@@ -133,7 +133,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     public VlanMulticast getVlanMulticast() throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getMult()).getRetorno();
-        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?(\\d+((\\.|,| )\\d+)?)");
         BigInteger cvlan = new BigInteger("0");
 
         if (leVlanMult != null) {
@@ -147,12 +147,23 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public Profile getProfile() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leProfDown = this.getCd().consulta(this.getProfDown()).getRetorno();
+        List<String> leProfUp = this.getCd().consulta(this.getProfUp()).getRetorno();
+        
+        Profile p = new Profile();
+        p.setProfileDown(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
+        p.setProfileUp(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
+        
+        return p;
     }
 
     @Override
     public Modulacao getModulacao() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leModul = this.getCd().consulta(this.getModul()).getRetorno();
+        Modulacao m = new Modulacao();
+        String modulacao = TratativaRetornoUtil.tratZhone(leModul, "transmit-mode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
+        m.setModulacao(modulacao);
+        return m;
     }
 
     public ComandoDslam getMult() {
@@ -161,5 +172,17 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     public ComandoDslam getParams() {
         return new ComandoDslam("dslstat 1/" + this.getSlot() + "/" + this.getPorta() + "/0/vdsl -v", 5000, "a");
+    }
+
+    public ComandoDslam getProfDown() {
+        return new ComandoDslam("get vdsl-co-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
+    }
+
+    public ComandoDslam getProfUp() {
+        return new ComandoDslam("get vdsl-cpe-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
+    }
+
+    public ComandoDslam getModul() {
+        return new ComandoDslam("get vdsl-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
     }
 }
