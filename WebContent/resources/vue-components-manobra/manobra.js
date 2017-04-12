@@ -52,7 +52,7 @@ Vue.component("buscaCadastro", {
     template: "<div>\n\
                     <label>Instancia?Designador?:</label>\n\
                     <div class='input-group'>\n\
-                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()'/>\n\
+                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
                         <span class='input-group-btn'>\n\
                             <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
                         </span>\n\
@@ -66,8 +66,7 @@ Vue.component("buscaCadastro", {
         pesquisar: function () {
             var self = this;
             self.loading = true;
-            self.searchbuttondisable = true;
-            self.todo = null;
+            self.searchbuttondisable = true;            
             $.ajax({
                 type: "POST",
                 url: url + "manobra/busca",
@@ -75,6 +74,7 @@ Vue.component("buscaCadastro", {
                 dataType: "json",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
+                    self.todo = null;
                 },
                 success: function (data) {
                     self.tudo = data.cliente;
@@ -116,6 +116,8 @@ Vue.component("panelvalida", {
                             <select class='form-control'>\n\
                                     <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
                             </select>\n\
+                            <br/>\n\
+                            <button type='button' class='btn btn-primary pull-right'>Validar</button>\n\
                         </div>\n\
                     </div>\n\
                 </div>",
