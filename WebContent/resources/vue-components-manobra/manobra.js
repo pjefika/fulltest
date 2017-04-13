@@ -31,10 +31,10 @@ Vue.component("manobra", {
                                 </div>\n\
                                 <div class='col-md-9'>\n\
                                     <div class='tab-content'>\n\
-                                        <div class='tab-pane active' id='info'>\n\
+                                        <div class='tab-pane active animated slideInLeft' id='info'>\n\
                                             <panelinformacoes></panelinformacoes>\n\
                                         </div>\n\
-                                        <div class='tab-pane' id='valid'>\n\
+                                        <div class='tab-pane animated slideInLeft' id='valid'>\n\
                                             <panelvalida></panelvalida>\n\
                                         </div>\n\
                                     </div>\n\
@@ -46,15 +46,7 @@ Vue.component("manobra", {
     create: function () {
 
     },
-    methods: {
-        clickinfo: function () {
-            var self = this;
-            self.navvalid = false;
-        },
-        clickvalida: function () {
-            var self = this;
-            self.navvalid = true;
-        }
+    methods: {        
 
     }
 });
