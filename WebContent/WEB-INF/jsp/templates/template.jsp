@@ -41,7 +41,6 @@
                 <div id="navbar" class="collapse navbar-collapse" v-cloak>
                     <c:if test="${sessionUsuarioEfika.logado}">
                         <ul class="nav navbar-nav">
-                            <li><a href="${linkTo[MassivoController].create()}">Subir Lote</a></li>
                             <li><a href="${linkTo[ManobraController].atendimento()}">Manobra</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">

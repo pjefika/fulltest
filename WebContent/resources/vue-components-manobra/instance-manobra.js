@@ -6,12 +6,15 @@
 
 var data = {
     loading: null,
+    loadingvalida: null,
     searchbuttondisable: false,
+    validbuttondisable: false,
     motivos: null,
     ins: {
         instancia: "4131543457"
     },
     tudo: null,
+    infosvalida: null,
     modal: {
         titulo: "",
         corpo: ""
@@ -20,8 +23,8 @@ var data = {
         menssagem: null,
         typenotify: null
     },
-    emconsulta: null
-    
+    emconsulta: null,
+    motivochoose: null
 };
 
 var vmi = new Vue({

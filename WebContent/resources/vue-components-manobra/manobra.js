@@ -31,10 +31,10 @@ Vue.component("manobra", {
                                 </div>\n\
                                 <div class='col-md-9'>\n\
                                     <div class='tab-content'>\n\
-                                        <div class='tab-pane active animated slideInLeft' id='info'>\n\
+                                        <div class='tab-pane active animated slideInRight' id='info'>\n\
                                             <panelinformacoes></panelinformacoes>\n\
                                         </div>\n\
-                                        <div class='tab-pane animated slideInLeft' id='valid'>\n\
+                                        <div class='tab-pane animated slideInRight' id='valid'>\n\
                                             <panelvalida></panelvalida>\n\
                                         </div>\n\
                                     </div>\n\
@@ -46,7 +46,7 @@ Vue.component("manobra", {
     create: function () {
 
     },
-    methods: {        
+    methods: {
 
     }
 });
@@ -59,7 +59,10 @@ Vue.component("buscaCadastro", {
     },
     template: "<div>\n\
                     <div class='row'>\n\
-                        <div class='col-md-9 col-md-offset-3'>\n\
+                        <div class='col-md-3'>\n\
+                            <h1>Efika</h1>\n\
+                        </div>\n\
+                        <div class='col-md-9'>\n\
                             <label>Instancia?Designador?:</label>\n\
                             <div class='input-group'>\n\
                                 <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
@@ -92,8 +95,8 @@ Vue.component("buscaCadastro", {
                         self.todo = null;
                     },
                     success: function (data) {
+                        //console.log(data);
                         self.tudo = data.cliente;
-                        console.log(data);
                         self.notifica = {
                             menssagem: "Busca realizada com sucesso!",
                             typenotify: "success"
@@ -124,18 +127,98 @@ Vue.component("panelvalida", {
         return data;
     },
     template: "<div>\n\
-                    <label>Motivos:</label>\n\
-                    <select class='form-control' style='width: 40%;'>\n\
-                            <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
-                    </select>\n\
-                    <br/>\n\
-                    <button type='button' class='btn btn-primary pull-left'>Validar</button>\n\
+                    <div class='row'>\n\
+                        <div class='col-md-12'>\n\
+                            <div class='form-group'>\n\
+                                <label>Motivos:</label>\n\
+                                <select class='form-control' v-model='motivochoose'>\n\
+                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
+                                </select>\n\
+                            <div>\n\
+                        </div>\n\
+                    </div>\n\
+                    <div class='row' style='margin-top: 20px;'>\n\
+                        <div class='col-md-12'>\n\
+                            <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable'>Validar</button>\n\
+                        </div>\n\
+                    </div>\n\
+                    <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
+                        <div class='col-md-7'>\n\
+                            <ul class='list-group'>\n\
+                                <li class='list-group-item' style='text-align: center;'>\n\
+                                    <label>Validações</label>\n\
+                                </li>\n\
+                                <li class='list-group-item'>\n\
+                                    <label>Lorem ipsum dolor sit amet</label>\n\
+                                    <div class='row'>\n\
+                                        <div class='col-md-9'>\n\
+                                            <p>Lorem ipsum dolor sit amet.</p>\n\
+                                        </div>\n\
+                                        <div class='col-md-3'>\n\
+                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;'></span>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </li>\n\
+                                <li class='list-group-item'>\n\
+                                    <label>Lorem ipsum dolor sit amet</label>\n\
+                                    <div class='row'>\n\
+                                        <div class='col-md-9'>\n\
+                                            <p>Lorem ipsum dolor sit amet.</p>\n\
+                                        </div>\n\
+                                        <div class='col-md-3'>\n\
+                                            <span class='glyphicon glyphicon-remove pull-right' style='color: red;'></span>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </li>\n\
+                                <li class='list-group-item'>\n\
+                                    <label>Lorem ipsum dolor sit amet</label>\n\
+                                    <div class='row'>\n\
+                                        <div class='col-md-9'>\n\
+                                            <p>Lorem ipsum dolor sit amet.</p>\n\
+                                        </div>\n\
+                                        <div class='col-md-3'>\n\
+                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;'></span>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </li>\n\
+                            </ul>\n\
+                        </div>\n\
+                    </div>\n\
+                    <div v-else>\n\
+                        <div v-if='loadingvalida' style='text-align: center;'>\n\
+                            <loading></loading>\n\
+                            Aguarde\n\
+                        </div>\n\
+                        <div v-else>\n\
+                        </div>\n\
+                    </div>\n\
                 </div>",
     create: function () {
 
     },
     methods: {
-
+        valida: function () {
+            var self = this;
+            if (self.motivochoose) {
+                self.infosvalida = null;
+                self.loadingvalida = true;
+                self.validbuttondisable = true;
+                setTimeout(function () {
+                    self.loadingvalida = false;
+                    self.infosvalida = "encheu";
+                    self.validbuttondisable = false;
+                    self.notifica = {
+                        menssagem: "Validação completa, verifique a tabela!",
+                        typenotify: "info"
+                    };
+                }, 1500);
+            } else {
+                self.notifica = {
+                    menssagem: "Selecione o motivo!",
+                    typenotify: "danger"
+                };
+            }
+        }
     }
 });
 
