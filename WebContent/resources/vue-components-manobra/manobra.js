@@ -17,13 +17,29 @@ Vue.component("manobra", {
     },
     template: "<div style='margin-top: 20px;'>\n\
                     <busca-cadastro></busca-cadastro>\n\
-                    <div v-if='loading'>\n\
+                    <div v-if='loading' style='margin-top: 20px;'>\n\
                         <loading></loading>\n\
                     </div>\n\
                     <div v-else>\n\
-                        <div v-if='tudo' style='margin-top: 10px;'>\n\
-                            <panelvalida></panelvalida>\n\
-                            <panelinformacoes></panelinformacoes>\n\
+                        <div v-if='tudo' style='margin-top: 20px;'>\n\
+                            <div class='row'>\n\
+                                <div class='col-md-3'>\n\
+                                    <ul class='nav nav-tabs tabs-left'>\n\
+                                        <li class='active'><a href='#info' data-toggle='tab'>Informações</a></li>\n\
+                                        <li><a href='#valid' data-toggle='tab'>Valida Manobra</a></li>\n\
+                                    </ul>\n\
+                                </div>\n\
+                                <div class='col-md-9'>\n\
+                                    <div class='tab-content'>\n\
+                                        <div class='tab-pane active' id='info'>\n\
+                                            <panelinformacoes></panelinformacoes>\n\
+                                        </div>\n\
+                                        <div class='tab-pane' id='valid'>\n\
+                                            <panelvalida></panelvalida>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </div>\n\
+                            </div>\n\
                         </div>\n\
                     </div>\n\
                 </div>",
@@ -50,12 +66,16 @@ Vue.component("buscaCadastro", {
         return data;
     },
     template: "<div>\n\
-                    <label>Instancia?Designador?:</label>\n\
-                    <div class='input-group'>\n\
-                        <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
-                        <span class='input-group-btn'>\n\
-                            <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
-                        </span>\n\
+                    <div class='row'>\n\
+                        <div class='col-md-9 col-md-offset-3'>\n\
+                            <label>Instancia?Designador?:</label>\n\
+                            <div class='input-group'>\n\
+                                <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
+                                <span class='input-group-btn'>\n\
+                                    <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
+                                </span>\n\
+                            </div>\n\
+                        </div>\n\
                     </div>\n\
                 </div>",
     created: function () {
@@ -66,29 +86,34 @@ Vue.component("buscaCadastro", {
         pesquisar: function () {
             var self = this;
             self.loading = true;
-            self.searchbuttondisable = true;            
-            $.ajax({
-                type: "POST",
-                url: url + "manobra/busca",
-                data: JSON.stringify(self.ins),
-                dataType: "json",
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("Content-Type", "application/json");
-                    self.todo = null;
-                },
-                success: function (data) {
-                    self.tudo = data.cliente;
-                    console.log(data);
-                    self.notifica = {
-                        menssagem: "Busca realizada com sucesso!",
-                        typenotify: "success"
-                    };
-                },
-                complete: function () {
-                    self.loading = false;
-                    self.searchbuttondisable = false;
-                }
-            });
+            self.searchbuttondisable = true;
+
+            if (!self.emconsulta) {
+                self.emconsulta = true;
+                $.ajax({
+                    type: "POST",
+                    url: url + "manobra/busca",
+                    data: JSON.stringify(self.ins),
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        self.todo = null;
+                    },
+                    success: function (data) {
+                        self.tudo = data.cliente;
+                        console.log(data);
+                        self.notifica = {
+                            menssagem: "Busca realizada com sucesso!",
+                            typenotify: "success"
+                        };
+                    },
+                    complete: function () {
+                        self.loading = false;
+                        self.searchbuttondisable = false;
+                        self.emconsulta = false;
+                    }
+                });
+            }
         },
         buscamotivos: function () {
             var self = this;
@@ -101,31 +126,24 @@ Vue.component("buscaCadastro", {
 
 Vue.component("panelvalida", {
     props: {
-        
+
     },
     data: function () {
         return data;
     },
     template: "<div>\n\
-                    <div class='panel panel-default'>\n\
-                        <div class='panel-heading' data-toggle='collapse' data-target='#panelvalid'>\n\
-                            Valida manobra\n\
-                        </div>\n\
-                        <div class='panel-body collapse' id='panelvalid'>\n\
-                            <label>Motivos:</label>\n\
-                            <select class='form-control'>\n\
-                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
-                            </select>\n\
-                            <br/>\n\
-                            <button type='button' class='btn btn-primary pull-right'>Validar</button>\n\
-                        </div>\n\
-                    </div>\n\
+                    <label>Motivos:</label>\n\
+                    <select class='form-control' style='width: 40%;'>\n\
+                            <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
+                    </select>\n\
+                    <br/>\n\
+                    <button type='button' class='btn btn-primary pull-left'>Validar</button>\n\
                 </div>",
     create: function () {
 
     },
     methods: {
-        
+
     }
 });
 
@@ -137,19 +155,12 @@ Vue.component("panelinformacoes", {
         return data;
     },
     template: "<div>\n\
-                    <div class='panel panel-default'>\n\
-                        <div class='panel-heading' data-toggle='collapse' data-target='#panelinfo'>\n\
-                            Informações\n\
+                    <div class='row'>\n\
+                        <div class='col-md-6'>\n\
+                            <tabela-info-tbs></tabela-info-tbs>\n\
                         </div>\n\
-                        <div class='panel-body' id='panelinfo'>\n\
-                        <div class='row'>\n\
-                            <div class='col-md-6'>\n\
-                                <tabela-info-tbs></tabela-info-tbs>\n\
-                            </div>\n\
-                            <div class='col-md-6'>\n\
-                                <tabela-info-radius></tabela-info-radius>\n\
-                            </div>\n\
-                        </div>\n\
+                        <div class='col-md-6'>\n\
+                            <tabela-info-radius></tabela-info-radius>\n\
                         </div>\n\
                     </div>\n\
                 </div>",

@@ -19,7 +19,9 @@ var data = {
     notifica: {
         menssagem: null,
         typenotify: null
-    }
+    },
+    emconsulta: null
+    
 };
 
 var vmi = new Vue({
