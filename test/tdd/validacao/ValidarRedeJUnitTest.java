@@ -5,12 +5,20 @@
  */
 package tdd.validacao;
 
+import com.google.gson.Gson;
 import java.math.BigInteger;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
+import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoDslam;
+import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
 import model.validacao.ValidacaoRede;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -41,10 +49,82 @@ public class ValidarRedeJUnitTest {
     }
 
     @Test
-    public void hello() {
-        TabelaRedeMetalico tb = new TabelaRedeMetalico();
-        tb.setResync(BigInteger.ONE);
-        ValidacaoRede r = new ValidacaoRede(tb);
-        assertTrue(r.validar());
+    public void validRedeKeymileSUVD() {
+        KeymileMetalicoDslam d = new KeymileMetalicoSuvd11();
+        d.setIpDslam("10.161.93.238");
+        d.setSlot(new BigInteger("9"));
+        d.setPorta(new BigInteger("30"));
+
+        try {
+            TabelaRedeMetalico tb = d.getTabelaRede();
+            ValidacaoRede r = new ValidacaoRede(tb);
+            Gson g = new Gson();
+            System.out.println(g.toJson(r));
+            assertTrue(r.getMensagem() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+
+    @Test
+    public void validRedeKeymileSUAD() {
+        KeymileMetalicoDslam d = new KeymileMetalicoSuadDslam();
+        d.setIpDslam("10.141.228.1");
+        d.setSlot(new BigInteger("3"));
+        d.setPorta(new BigInteger("20"));
+
+        try {
+            TabelaRedeMetalico tb = d.getTabelaRede();
+            ValidacaoRede r = new ValidacaoRede(tb);
+            Gson g = new Gson();
+            System.out.println(g.toJson(r));
+            assertTrue(r.getMensagem() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+
+    @Test
+    public void validRedeZhoneCombo() {
+        ZhoneMetalicoDslam d = new ZhoneMetalicoComboDslam();
+        d.setIpDslam("10.151.12.40");
+        d.setSlot(new BigInteger("8"));
+        d.setPorta(new BigInteger("12"));
+
+        try {
+            TabelaRedeMetalico tb = d.getTabelaRede();
+            ValidacaoRede r = new ValidacaoRede(tb);
+            Gson g = new Gson();
+            System.out.println(g.toJson(r));
+            assertTrue(r.getMensagem() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+
+    @Test
+    public void validRedeZhoneMxk() {
+        ZhoneMetalicoDslam d = new ZhoneMetalicoMxkDslam();
+        d.setIpDslam("10.209.97.250");
+        d.setSlot(new BigInteger("2"));
+        d.setPorta(new BigInteger("23"));
+
+        try {
+            TabelaRedeMetalico tb = d.getTabelaRede();
+            ValidacaoRede r = new ValidacaoRede(tb);
+            Gson g = new Gson();
+            System.out.println(g.toJson(r));
+            assertTrue(r.getMensagem() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
     }
 }

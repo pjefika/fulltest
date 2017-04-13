@@ -5,8 +5,7 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import model.dslam.consulta.EstadoDaPorta;
 
 /**
  *
@@ -14,14 +13,22 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInco
  */
 public class ValidacaoEstadoPorta extends Validacao {
 
-    private GetInfoOut info;
+    private EstadoDaPorta estadoPorta;
 
-    private OSSTurbonetInconsistenciaTBSRadiusOut i;
-
-    public ValidacaoEstadoPorta(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
-        this.info = info;
-        this.i = i;
+    public ValidacaoEstadoPorta(EstadoDaPorta e) {
+        this.estadoPorta = e;
         this.nome = "Estado Porta";
+        
+        if(!estadoPorta.getAdminState().equalsIgnoreCase("UP")){
+//            this.setDiagnostico(Boolean.FALSE);
+            this.setMensagem("Porta Desativada (Adm state em Down)");
+        }else if(estadoPorta.getAdminState().equalsIgnoreCase("UP") && estadoPorta.getOperState().equals("UP")){
+//            this.setDiagnostico(Boolean.TRUE);
+            this.setMensagem("Porta ativa e sincronizada");
+        }else{
+//            this.setDiagnostico(Boolean.FALSE);
+            this.setMensagem("Porta Ativada porém sem sincronismo");
+        }
     }
 
     /**
@@ -31,6 +38,6 @@ public class ValidacaoEstadoPorta extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
+        return false;
     }
 }

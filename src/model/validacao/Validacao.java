@@ -15,8 +15,6 @@ public abstract class Validacao implements Validator {
 
     private String mensagem;
 
-    private Boolean diagnostico;
-
     public String getNome() {
         return nome;
     }
@@ -31,14 +29,6 @@ public abstract class Validacao implements Validator {
 
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
-    }
-
-    public Boolean getDiagnostico() {
-        return diagnostico;
-    }
-
-    public void setDiagnostico(Boolean diagnostico) {
-        this.diagnostico = diagnostico;
     }
 
 }

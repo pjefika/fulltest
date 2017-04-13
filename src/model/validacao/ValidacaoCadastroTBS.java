@@ -22,6 +22,13 @@ public class ValidacaoCadastroTBS extends Validacao {
         this.info = info;
         this.i = i;
         this.nome = "Cadastro TBS";
+        if(!i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO")){
+//            this.setDiagnostico(Boolean.TRUE);
+            this.setMensagem("Cadastro TBS x Radius correto");
+        }else{
+//            this.setDiagnostico(Boolean.FALSE);
+            this.setMensagem("Divergência no cadastro TBS x Radius");
+        }
     }
 
     /**
