@@ -5,11 +5,7 @@
  */
 package tdd.consultas;
 
-import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.ConsultaClienteFacade;
-import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -51,10 +47,8 @@ public class ConsultaClienteJUnitTest {
             f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
             f.consultar();
             f.validar();
-        } catch (DslamNaoImplException ex) {
-            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultaClienteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
 
         System.out.println("");
