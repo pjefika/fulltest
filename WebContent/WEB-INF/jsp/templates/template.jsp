@@ -13,6 +13,7 @@
         <link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/css/bootstrap-theme.min.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/resources/custom/custom.css" rel="stylesheet" />
+        <link href="${pageContext.request.contextPath}/resources/bootstrap-3.3.7-dist/css/bootstrap.vertical-tabs.min.css" rel="stylesheet" />
 
         <!-- import JavaScript -->
         <script src="${pageContext.request.contextPath}/resources/jquery-3.1.1/jquery-3.1.1.min.js"></script>
