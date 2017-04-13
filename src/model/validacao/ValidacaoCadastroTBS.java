@@ -5,8 +5,8 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import com.gvt.ws.eai.oss.ossturbonetinconsistenciatbsradius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import java.com_gvt_oss_ossturbonet.GetInfoOut;
 
 /**
  *
@@ -31,6 +31,6 @@ public class ValidacaoCadastroTBS extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
+        return !i.isEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
     }
 }

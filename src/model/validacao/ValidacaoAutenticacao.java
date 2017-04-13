@@ -5,7 +5,7 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.InfoRadius;
+import java.com_gvt_oss_ossturbonet.InfoRadius;
 
 /**
  *

@@ -5,16 +5,15 @@
  */
 package dao.cadastro;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
-import com.gvt.www.ws.eai.oss.OSSTurbonetAdslUseReport.OSSTurbonetAdslUseReportOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoIn;
-import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
-import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
-import java.rmi.RemoteException;
+import com.gvt.ws.eai.oss.ossturbonet.OSSTurbonet;
+import com.gvt.ws.eai.oss.ossturbonetadslusereport.OSSTurbonetAdslUseReportOut;
+import com.gvt.ws.eai.oss.ossturbonetclienteautenticado.OSSTurbonetClienteAutenticadoIn;
+import com.gvt.ws.eai.oss.ossturbonetclienteautenticado.OSSTurbonetClienteAutenticadoOut;
+import com.gvt.ws.eai.oss.ossturbonetinconsistenciatbsradius.OSSTurbonetInconsistenciaTBSRadiusIn;
+import com.gvt.ws.eai.oss.ossturbonetinconsistenciatbsradius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import com.gvt.ws.eai.oss.ossturbonetstatusconexao.OSSTurbonetStatusConexaoOut;
+import java.com_gvt_oss_ossturbonet.GetInfoOut;
+import java.com_gvt_oss_ossturbonet.InfoAuthentication;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
 import model.dslam.factory.exception.DslamNaoImplException;
@@ -26,61 +25,67 @@ import model.entity.Cliente;
  */
 public class CadastroDAO {
 
-    private OSSTurbonetProxy ws = new OSSTurbonetProxy();
+    private OSSTurbonet ws;
     private DslamDAOFactory factory = new DslamDAOFactory();
 
     public CadastroDAO() {
+        com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService service = new com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService();
+        ws = service.getOSSTurbonetSoapPort();
     }
 
-    public OSSTurbonetInconsistenciaTBSRadiusOut verificarInconsistenciaTBSRadius(GetInfoOut info) throws RemoteException {
-        return ws.verificarInconsistenciaTBSRadius(new OSSTurbonetInconsistenciaTBSRadiusIn(new OSSTurbonetInCustom(info)));
+    public OSSTurbonetInconsistenciaTBSRadiusOut verificarInconsistenciaTBSRadius(GetInfoOut info) throws Exception {
+        OSSTurbonetInconsistenciaTBSRadiusIn in = new OSSTurbonetInconsistenciaTBSRadiusIn();
+        in.setOssTurbonetIn(new OSSTurbonetInCustom(info));
+        return ws.verificarInconsistenciaTBSRadius(in);
     }
 
-    public String getDesignador(String instancia) throws RemoteException {
+    public String getDesignador(String instancia) throws Exception {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
-    public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
+    public Cliente getCliente(Cliente c) throws DslamNaoImplException, Exception {
         c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
         c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
         c.setAuth(this.getAutentication(c.getCadastro()));
         return c;
     }
 
-    public GetInfoOut getInfo(String designador) throws RemoteException {
+    public GetInfoOut getInfo(String designador) throws Exception {
         String designator = this.getDesignador(designador);
         String accessDesignator = this.getAccessDesignator(designator);
         GetInfoOut leInfo = new GetInfoOut();
         return ws.getInfo(designator, accessDesignator, "wise", "wise", designator, "wise", "0", "0");
     }
 
-    public AbstractDslam getDslam(GetInfoOut info) throws DslamNaoImplException, RemoteException {
+    public AbstractDslam getDslam(GetInfoOut info) throws DslamNaoImplException, Exception {
         return factory.getInstance(info);
     }
 
-    public String getAccessDesignator(String designador) throws RemoteException {
+    public String getAccessDesignator(String designador) throws Exception {
         return ws.getAccessDesignator(designador);
     }
 
-    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, RemoteException {
+    public AbstractDslam getDslam(String instancia) throws DslamNaoImplException, Exception {
         try {
             String designator = this.getDesignador(instancia);
             String accessDesignator = this.getAccessDesignator(designator);
             return factory.getInstance(ws.getInfo(designator, accessDesignator, "wise", "wise", instancia, "wise", "0", "0"));
-        } catch (RemoteException | DslamNaoImplException ex) {
+        } catch (Exception ex) {
             throw ex;
         }
     }
 
-    public InfoAuthentication getAutentication(GetInfoOut i) throws RemoteException {
+    public InfoAuthentication getAutentication(GetInfoOut i) throws Exception {
         return ws.getInfoAuthentication(i.getDesignator(), i.getDesignator(), "wise", "wise", "wise");
     }
 
-    public OSSTurbonetClienteAutenticadoOut getTeste(GetInfoOut i) throws RemoteException {
-        return ws.verificaSeClienteAutenticadoNoRelay(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(i)));
+    public OSSTurbonetClienteAutenticadoOut getTeste(GetInfoOut i) throws Exception {
+        OSSTurbonetClienteAutenticadoIn in = new OSSTurbonetClienteAutenticadoIn();
+        in.setOssTurbonetIn(new OSSTurbonetInCustom(i));
+        return ws.verificaSeClienteAutenticadoNoRelay(in);
     }
 
-    public OSSTurbonetStatusConexaoOut getAuthenticationByIPorMac(String ipOrmac) throws RemoteException {
+    public OSSTurbonetStatusConexaoOut getAuthenticationByIPorMac(String ipOrmac) throws Exception {
         return ws.getAuthenticationByIPorMac(ipOrmac);
     }
 
@@ -88,9 +93,9 @@ public class CadastroDAO {
      * Histórico de Autenticação WiseTool
      *
      * @return
-     * @throws RemoteException
+     * @throws Exception
      */
-    public OSSTurbonetAdslUseReportOut getAdslUseReport() throws RemoteException {
+    public OSSTurbonetAdslUseReportOut getAdslUseReport() throws Exception {
         return ws.getAdslUseReport(null);
     }
 

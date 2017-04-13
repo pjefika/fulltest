@@ -5,8 +5,10 @@
  */
 package dao.cadastro;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetIn;
+import com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetIn;
+import java.com_gvt_oss_ossturbonet.GetInfoOut;
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
 
 /**
  *
@@ -15,18 +17,27 @@ import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetIn;
 public class OSSTurbonetInCustom extends OSSTurbonetIn {
 
     public OSSTurbonetInCustom(String designador) {
-        this.setInstancia(designador);
-        this.setDesignador(designador);
-        this.setDesignadorAcesso(designador);
+
+        JAXBElement<String> jaxbElement
+                = new JAXBElement(new QName("http://mycompany/services", "instancia"), String.class, designador);
+
+        this.setDesignador(jaxbElement);
+        this.setInstancia(jaxbElement);
+        this.setDesignador(jaxbElement);
+        this.setDesignadorAcesso(jaxbElement);
         this.setLogin("wise");
         this.setSistemaOriginario("wise");
         this.setUsuario("wise");
     }
 
     public OSSTurbonetInCustom(GetInfoOut info) {
-        this.setInstancia(info.getDesignator());
-        this.setDesignador(info.getDesignator());
-        this.setDesignadorAcesso(info.getAccessDesignator());
+        JAXBElement<String> jaxbElement
+                = new JAXBElement(new QName("http://mycompany/services", "instancia"), String.class, info.getDesignator());
+
+        this.setDesignador(jaxbElement);
+        this.setInstancia(jaxbElement);
+        this.setDesignador(jaxbElement);
+        this.setDesignadorAcesso(jaxbElement);
         this.setLogin("wise");
         this.setSistemaOriginario("wise");
         this.setUsuario("wise");
