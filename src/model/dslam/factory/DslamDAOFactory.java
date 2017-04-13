@@ -5,7 +5,6 @@
  */
 package model.dslam.factory;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 
@@ -16,7 +15,7 @@ import model.dslam.factory.exception.DslamNaoImplException;
 public class DslamDAOFactory implements FactoryDslamInterface {
 
     @Override
-    public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
+    public AbstractDslam getInstance(java.com_gvt_oss_ossturbonet.GetInfoOut info) throws DslamNaoImplException {
 
         System.out.println(info.getTechnology());
         System.out.println(info.getInfoTBS().getDslamModel());

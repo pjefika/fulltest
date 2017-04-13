@@ -503,13 +503,17 @@
                     <file>${file.reference.xstream-1.4.7.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
+                <library dirs="200">
+                    <file>${file.reference.OSSTurbonetService.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>
             <test-roots>
-                <root id="test.test.dir"/>
+                <root id="test.tests.dir"/>
             </test-roots>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">

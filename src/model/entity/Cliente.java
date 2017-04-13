@@ -5,9 +5,9 @@
  */
 package model.entity;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import com.gvt.ws.eai.oss.ossturbonetinconsistenciatbsradius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import java.com_gvt_oss_ossturbonet.GetInfoOut;
+import java.com_gvt_oss_ossturbonet.InfoAuthentication;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.TabelaParamAbstract;

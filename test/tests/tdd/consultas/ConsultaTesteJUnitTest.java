@@ -5,11 +5,6 @@
  */
 package tdd.consultas;
 
-import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
-import dao.cadastro.CadastroDAO;
-import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
+ * i
  *
  * @author G0042204
  */
@@ -44,16 +40,16 @@ public class ConsultaTesteJUnitTest {
     @Test
     public void consultar() {
 
-        CadastroDAO dao = new CadastroDAO();
-
         try {
-            OSSTurbonetStatusConexaoOut oi = dao.getAuthenticationByIPorMac("6C:2E:85:FA:12:CC");
-            System.out.println("");
-        } catch (RemoteException ex) {
-            Logger.getLogger(ConsultaTesteJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCIn configurarPVCIn = null;
+            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService service = new com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService();
+            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonet port = service.getOSSTurbonetSoapPort();
+            // TODO process result here
+            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCOut result = port.configurarPVC(configurarPVCIn);
+            System.out.println("Result = " + result);
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
-        System.out.println("");
 
     }
 }

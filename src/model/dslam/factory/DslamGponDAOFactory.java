@@ -5,7 +5,7 @@
  */
 package model.dslam.factory;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import java.com_gvt_oss_ossturbonet.GetInfoOut;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.dslam.vivo2.gpon.DslamGpon;
@@ -22,14 +22,11 @@ public class DslamGponDAOFactory implements FactoryDslamInterface {
     @Override
     public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
 
-        
         DslamGpon leDslam;
-        
 
         // Cuidado confusão do IT -
         String vendor = info.getInfoTBS().getDslamModel();
 
-        
         if (vendor.trim().equalsIgnoreCase("ALCATEL")) {
             leDslam = new AlcatelGponDslam();
         } else if (vendor.trim().equalsIgnoreCase("ZHONE")) {
@@ -53,10 +50,9 @@ public class DslamGponDAOFactory implements FactoryDslamInterface {
         leDslam.setVlanVoipe(info.getInfoTBS().getVlanVoIP().toString());
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
-        
+
 //        ProdutosDAO proDao = new ProdutosDAO(info.getDesignator());
 //        leDslam.setProd(proDao.getProdCliente());
-        
         return leDslam;
     }
 
