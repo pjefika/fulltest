@@ -149,35 +149,16 @@ Vue.component("panelvalida", {
                                     <label>Validações</label>\n\
                                 </li>\n\
                                 <li class='list-group-item'>\n\
-                                    <label>Lorem ipsum dolor sit amet</label>\n\
-                                    <div class='row'>\n\
-                                        <div class='col-md-9'>\n\
-                                            <p>Lorem ipsum dolor sit amet.</p>\n\
-                                        </div>\n\
-                                        <div class='col-md-3'>\n\
-                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;'></span>\n\
-                                        </div>\n\
-                                    </div>\n\
-                                </li>\n\
-                                <li class='list-group-item'>\n\
-                                    <label>Lorem ipsum dolor sit amet</label>\n\
-                                    <div class='row'>\n\
-                                        <div class='col-md-9'>\n\
-                                            <p>Lorem ipsum dolor sit amet.</p>\n\
-                                        </div>\n\
-                                        <div class='col-md-3'>\n\
-                                            <span class='glyphicon glyphicon-remove pull-right' style='color: red;'></span>\n\
-                                        </div>\n\
-                                    </div>\n\
-                                </li>\n\
-                                <li class='list-group-item'>\n\
-                                    <label>Lorem ipsum dolor sit amet</label>\n\
-                                    <div class='row'>\n\
-                                        <div class='col-md-9'>\n\
-                                            <p>Lorem ipsum dolor sit amet.</p>\n\
-                                        </div>\n\
-                                        <div class='col-md-3'>\n\
-                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;'></span>\n\
+                                    <div v-for='info in infosvalida'>\n\
+                                        <label>{{info.nome}}</label>\n\
+                                        <div class='row'>\n\
+                                            <div class='col-md-9'>\n\
+                                                <p>{{info.msg}}</p>\n\
+                                            </div>\n\
+                                            <div class='col-md-3'>\n\
+                                                <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='info.bol'></span>\n\
+                                                <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
+                                            </div>\n\
                                         </div>\n\
                                     </div>\n\
                                 </li>\n\
@@ -200,19 +181,50 @@ Vue.component("panelvalida", {
         valida: function () {
             var self = this;
             if (self.motivochoose) {
+                //reseta informações da variavel
                 self.infosvalida = null;
+                //mostra o loading para a consulta
                 self.loadingvalida = true;
+                //desabilita botão para não realizar mais de uma consulta ao mesmo tempo
                 self.validbuttondisable = true;
+                
+                //Time out para fazer demonstração
                 setTimeout(function () {
+                    
+                    //esconde o loading 
                     self.loadingvalida = false;
-                    self.infosvalida = "encheu";
+
+                    // demonstração de lista de validações
+                    var dv = [
+                        {
+                            nome: "Lorem ipsum dolor sit amet",
+                            msg: "Lorem ipsum dolor sit amet.",
+                            bol: true
+                        }, {
+                            nome: "Lorem ipsum dolor sit amet",
+                            msg: "Lorem ipsum dolor sit amet.",
+                            bol: false
+                        }, {
+                            nome: "Lorem ipsum dolor sit amet",
+                            msg: "Lorem ipsum dolor sit amet.",
+                            bol: true
+                        }
+                    ];
+                    //seta lista em infovalida \/
+                    self.infosvalida = dv;
+                    
+                    //habilita botão para não realizar mais de uma consulta ao mesmo tempo
                     self.validbuttondisable = false;
+                    
+                    //Mostrar notificação conforme resultado da consulta
                     self.notifica = {
                         menssagem: "Validação completa, verifique a tabela!",
                         typenotify: "info"
-                    };
+                    };                    
+                    
                 }, 1500);
             } else {
+                //notifica que está vazio a lista de motivos
                 self.notifica = {
                     menssagem: "Selecione o motivo!",
                     typenotify: "danger"
