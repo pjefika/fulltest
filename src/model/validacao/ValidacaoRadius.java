@@ -17,6 +17,7 @@ public class ValidacaoRadius extends Validacao {
 
     public ValidacaoRadius(InfoRadius info) {
         this.info = info;
+        this.nome = "Radius";
     }
 
     /**

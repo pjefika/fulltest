@@ -5,8 +5,8 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import java.math.BigInteger;
+import model.dslam.consulta.metalico.TabelaRedeMetalico;
 
 /**
  *
@@ -14,14 +14,11 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInco
  */
 public class ValidacaoRede extends Validacao {
 
-    private GetInfoOut info;
+    private TabelaRedeMetalico t;
 
-    private OSSTurbonetInconsistenciaTBSRadiusOut i;
-
-    public ValidacaoRede(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
-        this.info = info;
-        this.i = i;
-        this.nome = "Cadastro TBS";
+    public ValidacaoRede(TabelaRedeMetalico i) {
+        this.t = i;
+        this.nome = "Rede";
     }
 
     /**
@@ -31,6 +28,10 @@ public class ValidacaoRede extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
+
+        if (t.getResync() != null) {
+            return t.getResync().compareTo(new BigInteger("5")) < 0;
+        }
+        return false;
     }
 }

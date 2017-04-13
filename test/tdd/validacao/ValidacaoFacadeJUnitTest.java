@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.facade;
+package tdd.validacao;
 
 import model.entity.TesteClienteGpon;
 import model.fulltest.validacao.ValidacaoFacade;

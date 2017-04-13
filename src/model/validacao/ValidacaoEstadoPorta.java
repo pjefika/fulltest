@@ -21,7 +21,7 @@ public class ValidacaoEstadoPorta extends Validacao {
     public ValidacaoEstadoPorta(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
         this.info = info;
         this.i = i;
-        this.nome = "Cadastro TBS";
+        this.nome = "Estado Porta";
     }
 
     /**
