@@ -5,8 +5,8 @@
  */
 package model.dslam.factory;
 
-import java.com_gvt_oss_ossturbonet.GetInfoOut;
-import java.com_gvt_oss_ossturbonet.InfoTBS;
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import bean.ossturbonet.oss.gvt.com.InfoTBS;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.dslam.vivo2.metalico.DslamMetalico;

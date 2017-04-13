@@ -6,6 +6,7 @@
 package model;
 
 import dao.cadastro.CadastroDAO;
+import java.rmi.RemoteException;
 import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
@@ -26,7 +27,7 @@ public class ConsultaClienteFacade {
         this.cl = cl;
     }
 
-    public void consultar() throws DslamNaoImplException, Exception {
+    public void consultar() throws DslamNaoImplException, RemoteException {
         cl = dao.getCliente(cl);
         c = dao.getDslam(cl.getCadastro());
     }

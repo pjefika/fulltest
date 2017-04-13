@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas;
+package tdd.consultas;
 
 import model.ConsultaClienteFacade;
 import model.entity.Cliente;
@@ -44,7 +44,7 @@ public class ConsultaClienteJUnitTest {
     public void consultar() {
 
         try {
-            f = new ConsultaClienteFacade(new Cliente("4130222839"));
+            f = new ConsultaClienteFacade(new Cliente("4133335556"));
             f.consultar();
             f.validar();
         } catch (Exception ex) {

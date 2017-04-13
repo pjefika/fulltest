@@ -41,12 +41,12 @@ public class ConsultaTesteJUnitTest {
     public void consultar() {
 
         try {
-            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCIn configurarPVCIn = null;
-            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService service = new com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService();
-            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonet port = service.getOSSTurbonetSoapPort();
-            // TODO process result here
-            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCOut result = port.configurarPVC(configurarPVCIn);
-            System.out.println("Result = " + result);
+//            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCIn configurarPVCIn = null;
+//            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService service = new com.gvt.ws.eai.oss.ossturbonet.OSSTurbonetService();
+//            com.gvt.ws.eai.oss.ossturbonet.OSSTurbonet port = service.getOSSTurbonetSoapPort();
+//            // TODO process result here
+//            com.gvt.ws.eai.oss.setpvc.ConfigurarPVCOut result = port.configurarPVC(configurarPVCIn);
+//            System.out.println("Result = " + result);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
