@@ -44,7 +44,7 @@ public class ConsultaClienteJUnitTest {
     public void consultar() {
 
         try {
-            f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
+            f = new ConsultaClienteFacade(new Cliente("4130222839"));
             f.consultar();
             f.validar();
         } catch (Exception ex) {
