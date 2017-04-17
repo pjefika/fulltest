@@ -5,8 +5,8 @@
  */
 package tdd.manobra;
 
-import model.entity.Cliente;
 import model.Motivos;
+import model.entity.Cliente;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteFacade;
 import org.junit.After;
@@ -46,7 +46,7 @@ public class ValidaClienteFacadeJUnitTest {
     @Test
     public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
         try {
-            ConsultaClienteFacade c = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013");
+            ConsultaClienteFacade c = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
             c.consultar();
 
             ValidaClienteFacade f = new ValidaClienteFacade(c.getCl(), Motivos.SEMAUTH);

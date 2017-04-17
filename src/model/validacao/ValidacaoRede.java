@@ -19,23 +19,7 @@ public class ValidacaoRede extends Validacao {
     public ValidacaoRede(TabelaRedeMetalico i) {
         this.tabelaRede = i;
         this.nome = "Tabela de Rede";
-        if (resyncA() && isCrcOk()) {
-            this.setMensagem("Falha de rede.Quedas");
-        } else if (resyncA() && !isCrcOk()) {
-            this.setMensagem("Falha de rede.Taxa de erro e quedas");
-        } else if (pctA()) {
-            this.setMensagem("Possível falha de porta ou modem1");
-        } else if (resyncB() && isCrcOk()) {
-            this.setMensagem("Possível falha de porta ou modem");
-        } else if (resyncB() && !isCrcOk()) {
-            this.setMensagem("Falha de rede.Taxa de erro e quedas");
-        } else if (resyncC() && pctB() && isCrcOk()) {
-            this.setMensagem("Navegação Ok");
-        } else if (resyncC() && !isCrcOk()) {
-            this.setMensagem("Falha de rede. Taxa de erro");
-        } else if (resyncC() && pctC() && isCrcOk()) {
-            this.setMensagem("Faha de rede. Taxa de erro");
-        }
+        
 
     }
 
@@ -53,7 +37,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean resyncA() {
+    protected Boolean resyncA() {
         return tabelaRede.getResync().compareTo(new BigInteger("5")) > 0 && tabelaRede.getResync().compareTo(new BigInteger("60")) < 0;
     }
 
@@ -62,7 +46,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean resyncB() {
+    protected Boolean resyncB() {
         return tabelaRede.getResync().compareTo(new BigInteger("60")) > 0;
     }
 
@@ -71,7 +55,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean resyncC() {
+    protected Boolean resyncC() {
         return tabelaRede.getResync().compareTo(new BigInteger("5")) < 0;
     }
 
@@ -80,7 +64,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean pctA() {
+    protected Boolean pctA() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("50")) < 0 && tabelaRede.getPctUp().compareTo(new BigInteger("50")) < 0;
     }
 
@@ -89,7 +73,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean pctB() {
+    protected Boolean pctB() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("3000")) > 0 && tabelaRede.getPctUp().compareTo(new BigInteger("3000")) > 0;
     }
 
@@ -98,7 +82,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    private Boolean pctC() {
+    protected Boolean pctC() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("1000")) < 0 && tabelaRede.getPctUp().compareTo(new BigInteger("1000")) < 0;
     }
 

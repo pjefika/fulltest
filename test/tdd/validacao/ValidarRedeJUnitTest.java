@@ -15,6 +15,7 @@ import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
 import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoDslam;
 import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
 import model.validacao.ValidacaoRede;
+import model.validacao.manobra.ValidacaoRedeManobra;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -57,7 +58,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRede(tb);
+            ValidacaoRede r = new ValidacaoRedeManobra(tb);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -77,7 +78,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRede(tb);
+            ValidacaoRede r = new ValidacaoRedeManobra(tb);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -97,7 +98,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRede(tb);
+            ValidacaoRede r = new ValidacaoRedeManobra(tb);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -117,7 +118,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRede(tb);
+            ValidacaoRede r = new ValidacaoRedeManobra(tb);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
