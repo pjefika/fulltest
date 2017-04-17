@@ -5,12 +5,12 @@
  */
 package model.entity;
 
-import model.InfoCRM;
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
 import java.util.ArrayList;
 import java.util.List;
+import model.InfoCRM;
 import model.dslam.consulta.TabelaParamAbstract;
 import model.validacao.Validacao;
 import model.validacao.Validator;

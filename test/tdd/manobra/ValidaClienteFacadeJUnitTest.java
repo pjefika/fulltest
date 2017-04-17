@@ -5,10 +5,11 @@
  */
 package tdd.manobra;
 
+import com.google.gson.Gson;
 import model.Motivos;
 import model.entity.Cliente;
-import model.facade.ConsultaClienteFacade;
-import model.facade.ValidaClienteFacade;
+import model.entity.ValidacaoFinal;
+import model.facade.ValidaClienteManobraFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -22,7 +23,7 @@ import org.junit.Test;
  */
 public class ValidaClienteFacadeJUnitTest {
 
-    private ValidaClienteFacade f;
+    private ValidaClienteManobraFacade f;
 
     public ValidaClienteFacadeJUnitTest() {
     }
@@ -44,14 +45,12 @@ public class ValidaClienteFacadeJUnitTest {
     }
 
     @Test
-    public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
+    public void ValidarClienteJUnitTest() {
         try {
-            ConsultaClienteFacade c = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
-            c.consultar();
-
-            ValidaClienteFacade f = new ValidaClienteFacade(c.getCl(), Motivos.SEMAUTH);
-            f.validar();
-            System.out.println("");
+            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("CTA-81AFTMOU6-013"), Motivos.SEMAUTH);
+            ValidacaoFinal vf = f.validar();
+            Gson g = new Gson();
+            System.out.println(g.toJson(vf));
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

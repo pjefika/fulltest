@@ -33,14 +33,6 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
         } else if (resyncC() && pctC() && isCrcOk()) {
             this.setMensagem("Faha de rede. Taxa de erro");
         }
-        System.out.println("ValidacaoRedeManobra:");
-        System.out.println("ResyncA "+resyncA());
-        System.out.println("ResyncB "+resyncB());
-        System.out.println("ResyncC "+resyncC());
-        System.out.println("isCrcOk "+isCrcOk());
-        System.out.println("pctA "+pctA());
-        System.out.println("pctB "+pctB());
-        System.out.println("pctC "+pctC());
         
     }
     

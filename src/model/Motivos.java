@@ -17,7 +17,10 @@ public enum Motivos {
 
     SEMSINC("Sem sincronismo"),
     SEMAUTH("Sem autenticação"),
-    MUDA("Porta muda");
+    MUDA("Linha muda"),
+    QUEDA("Quedas"),
+    SEMNAVEG("Não navega"),
+    SEMVEL("Não atinge velocidade");
 
     private String motivo;
 
