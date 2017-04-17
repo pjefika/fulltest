@@ -199,7 +199,7 @@ Vue.component("panelvalida", {
                         {
                             nome: "Lorem ipsum dolor sit amet",
                             msg: "Lorem ipsum dolor sit amet.",
-                            bol: true
+                            bol: false
                         }, {
                             nome: "Lorem ipsum dolor sit amet",
                             msg: "Lorem ipsum dolor sit amet.",
