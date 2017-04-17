@@ -22,13 +22,7 @@ public class ValidacaoCadastroTBS extends Validacao {
         this.info = info;
         this.i = i;
         this.nome = "Cadastro TBS";
-        if(!i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO")){
-//            this.setDiagnostico(Boolean.TRUE);
-            this.setMensagem("Cadastro TBS x Radius correto");
-        }else{
-//            this.setDiagnostico(Boolean.FALSE);
-            this.setMensagem("Divergência no cadastro TBS x Radius");
-        }
+        this.validar();
     }
 
     /**
@@ -38,6 +32,14 @@ public class ValidacaoCadastroTBS extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO");
+        if (!i.getEhInconsistente() && info != null && info.getInfoTBS().getStatus().equalsIgnoreCase("ATIVO")) {
+//            this.setDiagnostico(Boolean.TRUE);
+            this.setMensagem("Cadastro TBS x Radius correto");
+            return true;
+        } else {
+//            this.setDiagnostico(Boolean.FALSE);
+            this.setMensagem("Divergência no cadastro TBS x Radius");
+            return false;
+        }
     }
 }

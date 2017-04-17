@@ -5,8 +5,10 @@
  */
 package tdd.manobra;
 
-import model.ConsultaClienteFacade;
 import model.entity.Cliente;
+import model.Motivos;
+import model.facade.ConsultaClienteFacade;
+import model.facade.ValidaClienteFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -18,9 +20,11 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ValidarInconsistenciaTbsRadiusClienteJUnitTest {
+public class ValidaClienteFacadeJUnitTest {
 
-    public ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
+    private ValidaClienteFacade f;
+
+    public ValidaClienteFacadeJUnitTest() {
     }
 
     @BeforeClass
@@ -42,9 +46,12 @@ public class ValidarInconsistenciaTbsRadiusClienteJUnitTest {
     @Test
     public void ValidarInconsistenciaTbsRadiusClienteJUnitTest() {
         try {
-            ConsultaClienteFacade f = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013"));
-            f.consultar();
-            assertTrue(f.validar());
+            ConsultaClienteFacade c = new ConsultaClienteFacade(new Cliente("CTA-81AFTMOU6-013");
+            c.consultar();
+
+            ValidaClienteFacade f = new ValidaClienteFacade(c.getCl(), Motivos.SEMAUTH);
+            f.validar();
+            System.out.println("");
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

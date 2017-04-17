@@ -5,6 +5,7 @@
  */
 package model.entity;
 
+import model.InfoCRM;
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.TabelaParamAbstract;
 import model.validacao.Validacao;
-import model.validacao.ValidacaoCadastroTBS;
 import model.validacao.Validator;
 
 /**
@@ -106,8 +106,6 @@ public class Cliente extends AbstractEntity implements Validator {
 
     @Override
     public Boolean validar() {
-        valid.add(new ValidacaoCadastroTBS(cadastro, incon));
-
         for (Validacao v : valid) {
             if (!v.validar()) {
                 return false;

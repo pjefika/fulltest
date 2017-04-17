@@ -5,7 +5,7 @@
  */
 package tdd.consultas;
 
-import model.ConsultaClienteFacade;
+import model.facade.ConsultaClienteFacade;
 import model.entity.Cliente;
 import org.junit.After;
 import org.junit.AfterClass;

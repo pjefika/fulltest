@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.facade;
 
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
+import model.Motivos;
+import model.validacao.ValidacaoFactory;
 
 /**
  *
@@ -33,6 +35,12 @@ public class ConsultaClienteFacade {
     }
 
     public Boolean validar() {
+
+        if (this.cl != null) {
+            ValidacaoFactory fac = new ValidacaoFactory(cl);
+            cl.setValid(fac.getValids(Motivos.MUDA));
+        }
+
         return cl.validar();
     }
 
