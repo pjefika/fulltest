@@ -17,6 +17,13 @@ public class TabelaParamAbstract {
         return velSincDown;
     }
 
+    public Boolean validar(TabelaParamAbstract t) {
+        return this.velMaxDown >= t.getVelMaxDown()
+                && this.velMaxUp >= t.getVelMaxUp()
+                && this.velSincDown >= t.getVelSincDown()
+                && this.velSincUp >= t.getVelSincUp();
+    }
+
     public void setVelSincDown(Double velSincDown) {
         this.velSincDown = velSincDown;
     }
