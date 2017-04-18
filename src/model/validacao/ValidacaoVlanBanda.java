@@ -14,19 +14,19 @@ import model.dslam.consulta.VlanBanda;
  */
 public class ValidacaoVlanBanda extends Validacao {
 
-    private VlanBanda v;
+    private VlanBanda vlanBanda;
 
-    private AbstractDslam ds;
+    private transient AbstractDslam ds;
 
     public ValidacaoVlanBanda(VlanBanda v, AbstractDslam ds) {
-        this.v = v;
+        this.vlanBanda = v;
         this.ds = ds;
         this.nome = "VLAN Banda Larga";
     }
 
     @Override
     public Boolean validar() {
-        Boolean ret = v.validar(ds);
+        Boolean ret = vlanBanda.validar(ds);
         if (ret) {
             this.setMensagem("Validar ok");
         } else {

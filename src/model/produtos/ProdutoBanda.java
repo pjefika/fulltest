@@ -5,14 +5,25 @@
  */
 package model.produtos;
 
+import model.validacao.VelocidadeMinima;
+
 /**
  *
  * @author G0041775
  */
 public class ProdutoBanda {
-    
+
     private String downCrm;
     private String upCrm;
+    private VelocidadeMinima min;
+
+    public VelocidadeMinima getMin() {
+        return min;
+    }
+    
+    public void setMin(){
+        min = new VelocidadeMinima(downCrm, upCrm);
+    }
 
     public String getDownCrm() {
         return downCrm;
@@ -29,5 +40,5 @@ public class ProdutoBanda {
     public void setUpCrm(String upCrm) {
         this.upCrm = upCrm;
     }
-    
+
 }

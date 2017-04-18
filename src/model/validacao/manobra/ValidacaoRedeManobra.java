@@ -15,7 +15,7 @@ import model.validacao.ValidacaoRede;
  */
 public class ValidacaoRedeManobra extends ValidacaoRede {
 
-    private Motivos m;
+    private transient Motivos m;
 
     public ValidacaoRedeManobra(TabelaRedeMetalico i, Motivos mot) {
         super(i);
@@ -50,6 +50,19 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
                 this.setResultado(true);
                 return true;
             }
+        } else if (m.equals(Motivos.QUEDA)) {
+            if (resyncC() && isCrcOk()) {
+                setResultado(true);
+                return true;
+            }
+        } else if (m.equals(Motivos.SEMNAVEG)) {
+            if (pctA() || isCrcOk()) {
+                setResultado(true);
+                return true;
+            }
+        } else if (m.equals(Motivos.SEMVEL)){
+            setResultado(false);
+            return false;
         }
 
         this.setResultado(false);

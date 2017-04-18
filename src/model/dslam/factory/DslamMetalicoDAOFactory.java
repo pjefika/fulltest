@@ -7,6 +7,7 @@ package model.dslam.factory;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoTBS;
+import dao.produtos.ProdutosDAO;
 import java.math.BigInteger;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
@@ -65,6 +66,9 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
         leDslam.setVlanVoipe(info.getInfoTBS().getVlanVoIP().toString());
         leDslam.setVlanVode(info.getInfoTBS().getVlanVoD().toString());
         leDslam.setVlanMulticaste(info.getInfoTBS().getVlanMcast().toString());
+
+        ProdutosDAO proDao = new ProdutosDAO(info.getDesignator());
+        leDslam.setProd(proDao.getProdCliente());
 
         return leDslam;
     }

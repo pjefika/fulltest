@@ -28,16 +28,6 @@ import model.entity.Cliente;
  */
 public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
-    private String srvc;
-
-    public String getSrvc() {
-        return srvc;
-    }
-
-    public void setSrvc(String srvc) {
-        this.srvc = srvc;
-    }
-
     public KeymileMetalicoSuvdDslam() {
         this.setCredencial(Credencial.KEYMILE);
         this.setLoginStrategy(new LoginRapido());
