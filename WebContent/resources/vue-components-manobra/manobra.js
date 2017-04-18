@@ -80,8 +80,6 @@ Vue.component("buscaCadastro", {
     methods: {
         pesquisar: function () {
             var self = this;
-            self.loading = true;
-            self.searchbuttondisable = true;
 
             if (!self.emconsulta) {
                 self.emconsulta = true;
@@ -93,6 +91,10 @@ Vue.component("buscaCadastro", {
                     beforeSend: function (xhr) {
                         xhr.setRequestHeader("Content-Type", "application/json");
                         self.todo = null;
+                        self.infosvalida = null;
+                        self.motivochoose = null;
+                        self.loading = true;
+                        self.searchbuttondisable = true;
                     },
                     success: function (data) {
                         //console.log(data);
@@ -113,7 +115,7 @@ Vue.component("buscaCadastro", {
         buscamotivos: function () {
             var self = this;
             $.get(url + "manobra/motivos", function (data) {
-                self.motivos = data.list;
+                self.motivos = data.motivosList;
             });
         }
     }
@@ -132,7 +134,7 @@ Vue.component("panelvalida", {
                             <div class='form-group'>\n\
                                 <label>Motivos:</label>\n\
                                 <select class='form-control' v-model='motivochoose'>\n\
-                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo}}</option>\n\
+                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
                                 </select>\n\
                             <div>\n\
                         </div>\n\
@@ -143,22 +145,19 @@ Vue.component("panelvalida", {
                         </div>\n\
                     </div>\n\
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
-                        <div class='col-md-7'>\n\
+                        <div class='col-md-12'>\n\
                             <ul class='list-group'>\n\
                                 <li class='list-group-item' style='text-align: center;'>\n\
-                                    <label>Validações</label>\n\
+                                    <label>Validação</label>\n\
                                 </li>\n\
                                 <li class='list-group-item'>\n\
-                                    <div v-for='info in infosvalida'>\n\
-                                        <label>{{info.nome}}</label>\n\
-                                        <div class='row'>\n\
-                                            <div class='col-md-9'>\n\
-                                                <p>{{info.msg}}</p>\n\
-                                            </div>\n\
-                                            <div class='col-md-3'>\n\
-                                                <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='info.bol'></span>\n\
-                                                <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
-                                            </div>\n\
+                                    <div class='row'>\n\
+                                        <div class='col-md-9'>\n\
+                                            <p>{{infosvalida.fraseologia}}</p>\n\
+                                        </div>\n\
+                                        <div class='col-md-3'>\n\
+                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='infosvalida.conclusao'></span>\n\
+                                            <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
                                         </div>\n\
                                     </div>\n\
                                 </li>\n\
@@ -181,50 +180,38 @@ Vue.component("panelvalida", {
         valida: function () {
             var self = this;
             if (self.motivochoose) {
-                //reseta informações da variavel
-                self.infosvalida = null;
-                //mostra o loading para a consulta
-                self.loadingvalida = true;
-                //desabilita botão para não realizar mais de uma consulta ao mesmo tempo
-                self.validbuttondisable = true;
-                
-                //Time out para fazer demonstração
-                setTimeout(function () {
-                    
-                    //esconde o loading 
-                    self.loadingvalida = false;
-
-                    // demonstração de lista de validações
-                    var dv = [
-                        {
-                            nome: "Lorem ipsum dolor sit amet",
-                            msg: "Lorem ipsum dolor sit amet.",
-                            bol: false
-                        }, {
-                            nome: "Lorem ipsum dolor sit amet",
-                            msg: "Lorem ipsum dolor sit amet.",
-                            bol: false
-                        }, {
-                            nome: "Lorem ipsum dolor sit amet",
-                            msg: "Lorem ipsum dolor sit amet.",
-                            bol: true
-                        }
-                    ];
-                    //seta lista em infovalida \/
-                    self.infosvalida = dv;
-                    
-                    //habilita botão para não realizar mais de uma consulta ao mesmo tempo
-                    self.validbuttondisable = false;
-                    
-                    //Mostrar notificação conforme resultado da consulta
-                    self.notifica = {
-                        menssagem: "Validação completa, verifique a tabela!",
-                        typenotify: "info"
-                    };                    
-                    
-                }, 1500);
+                var _data = {};
+                _data.cliente = self.tudo;
+                _data.motivo = self.motivochoose.nome;
+                $.ajax({
+                    type: "POST",
+                    url: url + "manobra/valida",
+                    data: JSON.stringify(_data),
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Content-Type", "application/json");
+                        self.infosvalida = null;
+                        self.loadingvalida = true;
+                        self.validbuttondisable = true;
+                        self.searchbuttondisable = true;
+                        self.emconsulta = true;
+                    },
+                    success: function (data) {
+                        //self.infosvalida = data.validacaoFinal;
+                        console.log(data);
+                    },
+                    complete: function () {
+                        self.loadingvalida = false;
+                        self.validbuttondisable = false;
+                        self.searchbuttondisable = false;
+                        self.notifica = {
+                            menssagem: "Validação completa, verifique a tabela!",
+                            typenotify: "info"
+                        };
+                        self.emconsulta = false;
+                    }
+                });
             } else {
-                //notifica que está vazio a lista de motivos
                 self.notifica = {
                     menssagem: "Selecione o motivo!",
                     typenotify: "danger"
