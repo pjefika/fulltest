@@ -9,12 +9,15 @@ import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import model.Motivos;
 import model.dslam.AbstractDslam;
+import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.entity.ValidacaoFinal;
 import model.validacao.ValidacaoCadastroTBS;
+import model.validacao.ValidacaoEstadoPorta;
 import model.validacao.ValidacaoRede;
+import model.validacao.manobra.ValidacaoEstadoPortaManobra;
 import model.validacao.manobra.ValidacaoRedeManobra;
 
 /**
@@ -42,31 +45,36 @@ public class ValidaClienteManobraFacade {
 
         ValidacaoFinal v = new ValidacaoFinal();
 
-        if (m.equals(Motivos.SEMAUTH)) {
-            if (new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon()).validar()) {
-                dslam = dao.getDslam(cl.getCadastro());
-                met = (ConsultaMetalicoDefault) dslam;
+        if (new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon()).validar()) {
+            dslam = dao.getDslam(cl.getCadastro());
+            met = (ConsultaMetalicoDefault) dslam;
+            if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
                 //cons. auth
-                if (true) {
-                    ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede());
-                    v.setConclusao(Boolean.FALSE);
-                    v.setFraseologia(vR.getMensagem());
-                } else {
+                EstadoDaPorta ep = met.getEstadoDaPorta();
+                ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep);
+                if (ep.getAdminState().equalsIgnoreCase("UP")) {
                     if (met.getVlanBanda().validar(dslam)) {
-                        v.setConclusao(Boolean.TRUE);
-                        v.setFraseologia("");
-                    }else{
+                        ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede(), m);    
+                        v.setConclusao(vR.validar());
+                        v.setFraseologia(vR.getMensagem());
+                    } else {
                         v.setConclusao(Boolean.FALSE);
-                        v.setFraseologia("Bridge configurada incorretamente, necessário reconfigurar e então refazer a validação.");
+                        v.setFraseologia("Configuração da bridge de autenticação incorreta, refaça a validação após a correção.");
                     }
+                } else {
+                    v.setConclusao(Boolean.FALSE);
+                    v.setFraseologia(vEP.getMensagem() + " Altere o Adm State da porta para Up e valide novamente.");
                 }
+
+            } else if (m.equals(Motivos.QUEDA) || m.equals(Motivos.SEMNAVEG)) {
+
             } else {
                 v.setConclusao(Boolean.FALSE);
-                v.setFraseologia("Inconsistência no cadastro entre TBS x Radius");
+                v.setFraseologia("Motivo não implementado.");
             }
-        }else{
+        } else {
             v.setConclusao(Boolean.FALSE);
-            v.setFraseologia("Motivo não implementado.");
+            v.setFraseologia("Inconsistência no cadastro entre TBS x Radius");
         }
 
         return v;

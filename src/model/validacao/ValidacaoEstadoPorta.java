@@ -11,7 +11,7 @@ import model.dslam.consulta.EstadoDaPorta;
  *
  * @author G0042204
  */
-public class ValidacaoEstadoPorta extends Validacao {
+public abstract class ValidacaoEstadoPorta extends Validacao {
 
     private EstadoDaPorta estadoPorta;
 
@@ -20,21 +20,13 @@ public class ValidacaoEstadoPorta extends Validacao {
         this.nome = "Estado Porta";
         
         if(!estadoPorta.getAdminState().equalsIgnoreCase("UP")){
-            this.setMensagem("Porta Desativada (Adm state em Down)");
+            this.setMensagem("Porta Desativada (Adm state em Down).");
         }else if(estadoPorta.getAdminState().equalsIgnoreCase("UP") && estadoPorta.getOperState().equals("UP")){
-            this.setMensagem("Porta ativa e sincronizada");
+            this.setMensagem("Porta ativa e sincronizada.");
         }else{
-            this.setMensagem("Porta Ativada porém sem sincronismo");
+            this.setMensagem("Porta Ativada porém sem sincronismo.");
         }
     }
 
-    /**
-     * Implementar!
-     *
-     * @return
-     */
-    @Override
-    public Boolean validar() {
-        return false;
-    }
+
 }
