@@ -31,6 +31,7 @@ import model.validacao.manobra.ValidacaoRedeManobra;
  */
 public class ValidaClienteManobraFacade {
 
+    @SkipSerialization
     private Cliente cl;
 
     @SkipSerialization
