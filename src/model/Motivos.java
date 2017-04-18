@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.entity;
+package model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,20 +17,23 @@ public enum Motivos {
 
     SEMSINC("Sem sincronismo"),
     SEMAUTH("Sem autenticação"),
-    MUDA("Porta muda");
+    MUDA("Linha muda"),
+    QUEDA("Quedas"),
+    SEMNAVEG("Não navega"),
+    SEMVEL("Não atinge velocidade");
 
-    private String motivos;
+    private String motivo;
 
     private Motivos(String m) {
-        this.motivos = m;
+        this.motivo = m;
     }
 
-    public String getMotivos() {
-        return motivos;
+    public String getMotivo() {
+        return motivo;
     }
 
-    public void setMotivos(String motivos) {
-        this.motivos = motivos;
+    public void setMotivo(String motivo) {
+        this.motivo = motivo;
     }
 
     @Override
@@ -42,7 +45,7 @@ public enum Motivos {
         List<Motivos> lm = Arrays.asList(Motivos.values());
         List<String> l = new ArrayList<>();
         for (Motivos m : lm) {
-            l.add(m.getMotivos());
+            l.add(m.getMotivo());
         }
         return l;
     }

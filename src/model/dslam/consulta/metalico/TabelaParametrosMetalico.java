@@ -15,6 +15,17 @@ public class TabelaParametrosMetalico extends TabelaParamAbstract {
 
     private Double snrDown, snrUp, atnDown, atnUp;
 
+    public TabelaParametrosMetalico() {
+    }
+
+    public Boolean validar(TabelaParametrosMetalico t) {
+        return this.snrDown >= t.getSnrDown()
+                && this.snrUp >= t.getSnrUp()
+                && this.atnDown >= t.getAtnDown()
+                && this.atnUp >= t.getAtnUp()
+                && super.validar(t);
+    }
+
     public Double getSnrDown() {
         return snrDown;
     }

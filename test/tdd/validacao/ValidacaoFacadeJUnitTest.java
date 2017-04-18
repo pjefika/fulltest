@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.consultas;
+package tdd.validacao;
 
-import model.facade.ConsultaClienteFacade;
-import model.entity.Cliente;
+import model.entity.TesteClienteGpon;
+import model.fulltest.validacao.ValidacaoFacade;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,11 +18,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ConsultaClienteJUnitTest {
+public class ValidacaoFacadeJUnitTest {
 
-    private ConsultaClienteFacade f;
-
-    public ConsultaClienteJUnitTest() {
+    public ValidacaoFacadeJUnitTest() {
     }
 
     @BeforeClass
@@ -41,17 +40,14 @@ public class ConsultaClienteJUnitTest {
     }
 
     @Test
-    public void consultar() {
-
+    public void validar() {
+        ValidacaoFacade facade = new ValidacaoFacade(new TesteClienteGpon("7930272843"));
         try {
-            f = new ConsultaClienteFacade(new Cliente("4133335556"));
-            f.consultar();
-            f.validar();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            facade.validar();
+            assertTrue(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
         }
-
-        System.out.println("");
-
     }
 }

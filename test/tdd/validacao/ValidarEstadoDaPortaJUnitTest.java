@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.facade;
+package tdd.validacao;
 
-import model.entity.TesteClienteGpon;
-import model.fulltest.validacao.ValidacaoFacade;
+import com.google.gson.Gson;
+import model.dslam.consulta.EstadoDaPorta;
+import model.validacao.ValidacaoEstadoPorta;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,9 +19,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ValidacaoFacadeJUnitTest {
+public class ValidarEstadoDaPortaJUnitTest {
 
-    public ValidacaoFacadeJUnitTest() {
+    public ValidarEstadoDaPortaJUnitTest() {
     }
 
     @BeforeClass
@@ -40,14 +41,13 @@ public class ValidacaoFacadeJUnitTest {
     }
 
     @Test
-    public void validar() {
-        ValidacaoFacade facade = new ValidacaoFacade(new TesteClienteGpon("7930272843"));
-        try {
-            facade.validar();
-            assertTrue(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
+    public void validEstPorta() {
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState("UP");
+        e.setOperState("DOWN");
+        ValidacaoEstadoPorta r = new ValidacaoEstadoPorta(e);
+        Gson g = new Gson();
+        System.out.println(g.toJson(r));
+        assertTrue(true);
     }
 }

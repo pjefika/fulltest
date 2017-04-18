@@ -17,6 +17,7 @@ public class ValidacaoRadius extends Validacao {
 
     public ValidacaoRadius(InfoRadius info) {
         this.info = info;
+        this.nome = "Radius";
     }
 
     /**
@@ -26,6 +27,11 @@ public class ValidacaoRadius extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return false;
+        if (info.getRadiusProfile().contains("vala")) {
+            this.setMensagem("Erro de Cadastro: Perfil Vala.");
+            return false;
+        }
+
+        return true;
     }
 }

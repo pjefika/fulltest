@@ -13,6 +13,18 @@ public class TabelaParametrosMetalicoVdsl extends TabelaParametrosMetalico {
 
     private Double snrDown1, snrDown2, snrUp1, snrUp2, atnDown1, atnDown2, atnUp1, atnUp2;
 
+    public Boolean validar(TabelaParametrosMetalicoVdsl t) {
+        return this.snrDown1 >= t.getSnrDown1()
+                && this.snrDown2 >= t.getSnrDown2()
+                && this.snrUp1 >= t.getSnrUp1()
+                && this.snrUp2 >= t.getSnrUp2()
+                && this.atnDown1 >= t.getAtnDown1()
+                && this.atnDown2 >= t.getAtnDown2()
+                && this.atnUp1 >= t.getAtnUp1()
+                && this.atnUp2 >= t.getAtnUp2()
+                && super.validar(t);
+    }
+
     public Double getSnrDown1() {
         return snrDown1;
     }
@@ -76,6 +88,5 @@ public class TabelaParametrosMetalicoVdsl extends TabelaParametrosMetalico {
     public void setAtnUp2(Double atnUp2) {
         this.atnUp2 = atnUp2;
     }
-    
-    
+
 }
