@@ -7,6 +7,7 @@ package tdd.validacao;
 
 import com.google.gson.Gson;
 import java.math.BigInteger;
+import model.Motivos;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoDslam;
 import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
@@ -58,7 +59,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRedeManobra(tb);
+            ValidacaoRedeManobra r = new ValidacaoRedeManobra(tb, Motivos.QUEDA);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -78,7 +79,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRedeManobra(tb);
+            ValidacaoRedeManobra r = new ValidacaoRedeManobra(tb, Motivos.QUEDA);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -98,7 +99,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRedeManobra(tb);
+            ValidacaoRedeManobra r = new ValidacaoRedeManobra(tb, Motivos.QUEDA);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);
@@ -118,7 +119,7 @@ public class ValidarRedeJUnitTest {
 
         try {
             TabelaRedeMetalico tb = d.getTabelaRede();
-            ValidacaoRede r = new ValidacaoRedeManobra(tb);
+            ValidacaoRede r = new ValidacaoRedeManobra(tb, Motivos.QUEDA);
             Gson g = new Gson();
             System.out.println(g.toJson(r));
             assertTrue(r.getMensagem() != null);

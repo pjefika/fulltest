@@ -7,7 +7,7 @@ package tdd.validacao;
 
 import com.google.gson.Gson;
 import model.dslam.consulta.EstadoDaPorta;
-import model.validacao.ValidacaoEstadoPorta;
+import model.validacao.manobra.ValidacaoEstadoPortaManobra;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
@@ -45,7 +45,7 @@ public class ValidarEstadoDaPortaJUnitTest {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState("UP");
         e.setOperState("DOWN");
-        ValidacaoEstadoPorta r = new ValidacaoEstadoPorta(e);
+        ValidacaoEstadoPortaManobra r = new ValidacaoEstadoPortaManobra(e);
         Gson g = new Gson();
         System.out.println(g.toJson(r));
         assertTrue(true);

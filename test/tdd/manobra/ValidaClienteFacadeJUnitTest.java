@@ -8,7 +8,6 @@ package tdd.manobra;
 import com.google.gson.Gson;
 import model.Motivos;
 import model.entity.Cliente;
-import model.entity.ValidacaoFinal;
 import model.facade.ValidaClienteManobraFacade;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -48,9 +47,9 @@ public class ValidaClienteFacadeJUnitTest {
     public void ValidarClienteJUnitTest() {
         try {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("CTA-81AFTMOU6-013"), Motivos.SEMAUTH);
-            ValidacaoFinal vf = f.validar();
             Gson g = new Gson();
-            System.out.println(g.toJson(vf));
+            f.validar();
+            System.out.println(g.toJson(f.getValids()));
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

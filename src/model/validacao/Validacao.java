@@ -15,6 +15,16 @@ public abstract class Validacao implements Validator {
 
     private String mensagem;
 
+    private Boolean resultado;
+
+    public void setResultado(Boolean resultado) {
+        this.resultado = resultado;
+    }
+
+    public Boolean getResultado() {
+        return resultado;
+    }
+
     public String getNome() {
         return nome;
     }

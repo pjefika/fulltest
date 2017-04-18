@@ -14,7 +14,6 @@ import model.validacao.ValidacaoEstadoPorta;
  */
 public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
 
-
     public ValidacaoEstadoPortaManobra(EstadoDaPorta e) {
         super(e);
     }
@@ -26,6 +25,8 @@ public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
      */
     @Override
     public Boolean validar() {
-        return false;
+        Boolean b = estadoPorta.getAdminState().equalsIgnoreCase("UP");
+        this.setResultado(b);
+        return b;
     }
 }

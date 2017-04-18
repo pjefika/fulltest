@@ -14,12 +14,17 @@ import model.validacao.ValidacaoRede;
  * @author G0042204
  */
 public class ValidacaoRedeManobra extends ValidacaoRede {
-    
+
     private Motivos m;
-    
+
     public ValidacaoRedeManobra(TabelaRedeMetalico i, Motivos mot) {
         super(i);
         this.m = mot;
+
+    }
+
+    @Override
+    public Boolean validar() {
         if (resyncA() && isCrcOk()) {
             this.setMensagem("Falha de rede.Quedas");
         } else if (resyncA() && !isCrcOk()) {
@@ -37,19 +42,17 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
         } else if (resyncC() && pctC() && isCrcOk()) {
             this.setMensagem("Faha de rede. Taxa de erro");
         }
-        
-    }
-    
-    @Override
-    public Boolean validar() {
         if (m.equals(Motivos.SEMAUTH)) {
+            this.setResultado(true);
             return true;
         } else if (m.equals(Motivos.SEMSINC)) {
-            if(this.getMensagem().equals("Possível falha de porta ou modem")){
+            if (this.getMensagem().equals("Possível falha de porta ou modem")) {
+                this.setResultado(true);
                 return true;
             }
         }
-        
+
+        this.setResultado(false);
         return false;
     }
 }
