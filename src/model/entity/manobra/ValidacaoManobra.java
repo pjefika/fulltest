@@ -5,13 +5,12 @@
  */
 package model.entity.manobra;
 
-import java.util.List;
+import bean.ossturbonet.oss.gvt.com.GetInfoOut;
+import java.math.BigInteger;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import model.entity.AbstractEntity;
-import model.facade.ValidaClienteManobraFacade;
+import model.entity.Cliente;
 
 /**
  *
@@ -21,15 +20,28 @@ import model.facade.ValidaClienteManobraFacade;
 @Table(name = "fulltestAPI_ValidacaoManobra")
 public class ValidacaoManobra extends AbstractEntity {
 
-    private String designador;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<ValidacaoPersist> valids;
+    private String designador, modeloDslam;
+    private BigInteger slot, porta, shelf, endSeqPorta;
+    private String ipDslam, nomeArmario, nomeBras;
+//
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private List<ValidacaoPersist> valids;
 
     public ValidacaoManobra() {
     }
 
-    public ValidacaoManobra(ValidaClienteManobraFacade f) {
-        this.designador = f.getCl().getDesignador();
+    public ValidacaoManobra(Cliente c) {
+        if (c != null) {
+            GetInfoOut cad = c.getCadastro();
+            this.designador = c.getDesignador();
+            this.modeloDslam = cad.getInfoTBS().getDslamModel() + " " + cad.getInfoTBS().getDslamVendor();
+            this.slot = cad.getInfoTBS().getSlot();
+            this.porta = cad.getInfoTBS().getSlot();
+            this.shelf = new BigInteger(cad.getInfoTBS().getShelf());
+            this.endSeqPorta = cad.getInfoTBS().getPortAddrSequence();
+            this.ipDslam = cad.getInfoTBS().getIpDslam();
+            this.nomeArmario = cad.getInfoRadius().getCabinet();
+            this.nomeBras = cad.getInfoCricket().getIpGerenciaBRAS();
+        }
     }
 }
