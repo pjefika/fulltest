@@ -157,9 +157,10 @@ Vue.component("panelvalida", {
                                     <label>Validação</label>\n\
                                 </li>\n\
                                 <li class='list-group-item' v-for='valida in infosvalida.valids'>\n\
+                                    <label>{{valida.nome}}</label>\n\
                                     <div class='row'>\n\
                                         <div class='col-md-9'>\n\
-                                            <p>{{valida.nome}}</p>\n\
+                                            <p>{{valida.mensagem}}</p>\n\
                                         </div>\n\
                                         <div class='col-md-3'>\n\
                                             <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='valida.resultado'></span>\n\
@@ -187,7 +188,6 @@ Vue.component("panelvalida", {
                     <div v-else>\n\
                         <div v-if='loadingvalida' style='text-align: center;'>\n\
                             <loading></loading>\n\
-                            Aguarde\n\
                         </div>\n\
                         <div v-else>\n\
                         </div>\n\
@@ -298,8 +298,8 @@ Vue.component("tabelaInfoTbs", {
                                 <td>{{tudo.cadastro.infoTBS.dslamVendor}}</td>\n\
                             </tr>\n\
                             <tr>\n\
-                                <td>ipBras</td>\n\
-                                <td>{{tudo.cadastro.infoTBS.ipBras}}</td>\n\
+                                <td>ipGerenciaBRAS</td>\n\
+                                <td>{{tudo.cadastro.infoCricket.ipGerenciaBRAS}}</td>\n\
                             </tr>\n\
                             <tr>\n\
                                 <td>ipDslam</td>\n\
