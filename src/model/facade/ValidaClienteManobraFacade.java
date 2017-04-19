@@ -99,4 +99,16 @@ public class ValidaClienteManobraFacade {
         return valids;
     }
 
+    public ValidacaoFinal getConclusao() {
+        return conclusao;
+    }
+
+    public Cliente getCl() {
+        return cl;
+    }
+
+    public Motivos getM() {
+        return m;
+    }
+
 }
