@@ -12,9 +12,10 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
+import dao.ManobraDAO;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
-import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
 import model.Motivos;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
@@ -25,10 +26,12 @@ import model.facade.ConsultaClienteFacade;
  * @author G0041775
  */
 @Controller
-@RequestScoped
 public class ManobraController extends AbstractController {
 
-    CadastroDAO dao = new CadastroDAO();
+    private CadastroDAO dao = new CadastroDAO();
+
+    @Inject
+    private ManobraDAO mDAO;
 
     public void atendimento() {
 
