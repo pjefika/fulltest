@@ -35,6 +35,7 @@ public class ValidacaoParametrosManobra extends ValidacaoParametros {
             setResultado(true);
             return true;
         }
+        setMensagem("Velocidade dentro do padrão.");
         setResultado(false);
         return false;
     }

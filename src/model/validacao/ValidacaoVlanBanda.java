@@ -21,16 +21,16 @@ public class ValidacaoVlanBanda extends Validacao {
     public ValidacaoVlanBanda(VlanBanda v, AbstractDslam ds) {
         this.vlanBanda = v;
         this.ds = ds;
-        this.nome = "VLAN Banda Larga";
+        this.nome = "Vlan Banda Larga";
     }
 
     @Override
     public Boolean validar() {
         Boolean ret = vlanBanda.validar(ds);
         if (ret) {
-            this.setMensagem("Validar ok");
+            this.setMensagem("Vlan Banda configurado corretamente.");
         } else {
-            this.setMensagem("Validar nok");
+            this.setMensagem("Vlan Banda configurado incorretamente.");
         }
 
         this.setResultado(ret);
