@@ -5,7 +5,6 @@
  */
 package model.facade;
 
-import br.com.caelum.vraptor.serialization.SkipSerialization;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -33,19 +32,15 @@ import model.validacao.manobra.ValidacaoRedeManobra;
  */
 public class ValidaClienteManobraFacade {
 
-    @SkipSerialization
-    private Cliente cl;
+    private transient Cliente cl;
 
-    @SkipSerialization
-    private Motivos m;
+    private transient Motivos m;
 
-    @SkipSerialization
-    private CadastroDAO dao = new CadastroDAO();
+    private transient CadastroDAO dao = new CadastroDAO();
 
-    private ConsultaMetalicoDefault met;
+    private transient ConsultaMetalicoDefault met;
 
-    @SkipSerialization
-    private AbstractDslam dslam;
+    private transient AbstractDslam dslam;
 
     private List<Validacao> valids;
 

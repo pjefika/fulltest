@@ -19,7 +19,6 @@ import javax.faces.bean.RequestScoped;
 import model.Motivos;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
-import model.entity.ValidacaoFinal;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteManobraFacade;
 
@@ -64,7 +63,7 @@ public class ManobraController extends AbstractController {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
             f.validar();
             //includeSerializer(f);
-            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
+            includeSerializer(f);
         } catch (Exception e) {
             includeSerializer(e);
         }
