@@ -5,8 +5,9 @@
  */
 package tdd.consultas;
 
-import model.facade.ConsultaClienteFacade;
+import com.google.gson.Gson;
 import model.entity.Cliente;
+import model.facade.ConsultaClienteFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,6 +48,8 @@ public class ConsultaClienteJUnitTest {
             f = new ConsultaClienteFacade(new Cliente("4133335556"));
             f.consultar();
             f.validar();
+            Gson g = new Gson();
+            System.out.println(g.toJson(f));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

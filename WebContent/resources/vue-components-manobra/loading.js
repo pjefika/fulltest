@@ -15,6 +15,8 @@ Vue.component("loading", {
     },
     template: "<div class='text-center'>\n\
                     <img src='/fulltestAPI/resources/imagens/ring.gif'/>\n\
+                    <br/>\n\
+                    Aguarde...\n\
                 </div>",
     created: function () {
 

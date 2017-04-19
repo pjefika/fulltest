@@ -10,6 +10,7 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.serialization.gson.WithRoot;
 import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
 import dao.ManobraDAO;
@@ -20,6 +21,7 @@ import model.Motivos;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.facade.ConsultaClienteFacade;
+import model.facade.ValidaClienteManobraFacade;
 
 /**
  *
@@ -57,12 +59,17 @@ public class ManobraController extends AbstractController {
     }
 
     @Post
-    @Consumes("application/json")
-    @Path("/manobra/busca")
-    public void validarManobra(Cliente c, Motivos e) {
-        ConsultaClienteFacade f = new ConsultaClienteFacade(c);
-        f.validar();
-        includeSerializer(f.getCl());
+    @Consumes(value = "application/json", options = WithRoot.class)
+    @Path("/manobra/valida")
+    public void validarManobra(Cliente cliente, String motivo) {
+        try {
+            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
+            f.validar();
+            //includeSerializer(f);
+            includeSerializer(f);
+        } catch (Exception e) {
+            includeSerializer(e);
+        }
     }
 
     @Get
