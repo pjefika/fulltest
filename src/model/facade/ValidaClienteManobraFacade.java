@@ -54,13 +54,14 @@ public class ValidaClienteManobraFacade {
     }
 
     public void validar() throws DslamNaoImplException, RemoteException, Exception {
-        if (new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon()).validar()) {
+        ValidacaoCadastroTBS vTbs = new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon());
+        if (vTbs.validar()) {
             dslam = dao.getDslam(cl.getCadastro());
             met = (ConsultaMetalicoDefault) dslam;
             if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
                 //cons. auth
                 EstadoDaPorta ep = met.getEstadoDaPorta();
-                ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep);
+                ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep, m);
                 valids.add(vEP);
                 if (vEP.validar()) {
                     ValidacaoVlanBanda vlanValid = new ValidacaoVlanBanda(met.getVlanBanda(), dslam);
@@ -73,12 +74,12 @@ public class ValidaClienteManobraFacade {
                         conclusao.setConclusao(vR.validar());
                         conclusao.setFraseologia(vR.getMensagem());
                     } else {
-                        conclusao.setConclusao(Boolean.FALSE);
-                        conclusao.setFraseologia("Configuração da bridge de autenticação incorreta, refaça a validação após a correção.");
+                        conclusao.setConclusao(vlanValid.getResultado());
+                        conclusao.setFraseologia(vlanValid.getMensagem());
                     }
                 } else {
-                    conclusao.setConclusao(Boolean.FALSE);
-                    conclusao.setFraseologia(vEP.getMensagem() + " Altere o Adm State da porta para Up e valide novamente.");
+                    conclusao.setConclusao(vEP.getResultado());
+                    conclusao.setFraseologia(vEP.getMensagem());
                 }
 
             } else if (m.equals(Motivos.QUEDA) || m.equals(Motivos.SEMNAVEG)) {
@@ -107,8 +108,8 @@ public class ValidaClienteManobraFacade {
                 conclusao.setFraseologia("Motivo não implementado.");
             }
         } else {
-            conclusao.setConclusao(Boolean.FALSE);
-            conclusao.setFraseologia("Inconsistência no cadastro entre TBS x Radius");
+            conclusao.setConclusao(vTbs.getResultado());
+            conclusao.setFraseologia(vTbs.getMensagem());
         }
     }
 

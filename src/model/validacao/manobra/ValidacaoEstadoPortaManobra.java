@@ -5,6 +5,7 @@
  */
 package model.validacao.manobra;
 
+import model.Motivos;
 import model.dslam.consulta.EstadoDaPorta;
 import model.validacao.ValidacaoEstadoPorta;
 
@@ -14,8 +15,11 @@ import model.validacao.ValidacaoEstadoPorta;
  */
 public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
 
-    public ValidacaoEstadoPortaManobra(EstadoDaPorta e) {
+    private transient Motivos m;
+
+    public ValidacaoEstadoPortaManobra(EstadoDaPorta e, Motivos mot) {
         super(e);
+        m = mot;
     }
 
     /**
@@ -32,7 +36,14 @@ public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
         } else {
             this.setMensagem("Porta Ativada porém sem sincronismo.");
         }
-        
+
+        if (m.equals(Motivos.SEMSINC)) {
+            if(estadoPorta.getOperState().equalsIgnoreCase("UP")){
+                setResultado(false);
+                return false;
+            }
+        }
+
         Boolean b = estadoPorta.getAdminState().equalsIgnoreCase("UP");
         this.setResultado(b);
         return b;
