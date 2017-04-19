@@ -26,19 +26,19 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
     @Override
     public Boolean validar() {
         if (resyncA() && isCrcOk()) {
-            this.setMensagem("Falha de rede.Quedas");
+            this.setMensagem("Falha de rede. Quedas.");
         } else if (resyncA() && !isCrcOk()) {
-            this.setMensagem("Falha de rede.Taxa de erro e quedas");
+            this.setMensagem("Falha de rede. Taxa de erro e quedas.");
         } else if (pctA()) {
-            this.setMensagem("Possível falha de porta ou modem");
+            this.setMensagem("Possível falha de porta ou modem.");
         } else if (resyncB() && isCrcOk()) {
-            this.setMensagem("Possível falha de porta ou modem");
+            this.setMensagem("Possível falha de porta ou modem.");
         } else if (resyncB() && !isCrcOk()) {
-            this.setMensagem("Falha de rede.Taxa de erro e quedas");
+            this.setMensagem("Falha de rede.Taxa de erro e quedas.");
         } else if (resyncC() && pctB() && isCrcOk()) {
-            this.setMensagem("Navegação Ok");
+            this.setMensagem("Rede confiável.");
         } else if (resyncC() && !isCrcOk()) {
-            this.setMensagem("Falha de rede. Taxa de erro");
+            this.setMensagem("Falha de rede. Taxa de erro.");
         } else if (resyncC() && pctC() && isCrcOk()) {
             this.setMensagem("Faha de rede. Taxa de erro");
         }
@@ -46,7 +46,7 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
             this.setResultado(true);
             return true;
         } else if (m.equals(Motivos.SEMSINC)) {
-            if (this.getMensagem().equals("Possível falha de porta ou modem")) {
+            if ((pctA()) || (resyncB() && !isCrcOk()) || (resyncC() && pctB() && isCrcOk())) {
                 this.setResultado(true);
                 return true;
             }
