@@ -9,8 +9,10 @@ import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import java.math.BigInteger;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import model.entity.AbstractEntity;
 import model.entity.Cliente;
+import model.facade.ValidaClienteManobraFacade;
 
 /**
  *
@@ -23,6 +25,8 @@ public class ValidacaoManobra extends AbstractEntity {
     private String designador, modeloDslam;
     private BigInteger slot, porta, shelf, endSeqPorta;
     private String ipDslam, nomeArmario, nomeBras;
+    @Transient
+    private Cliente c;
 //
 //    @OneToMany(fetch = FetchType.LAZY)
 //    private List<ValidacaoPersist> valids;
@@ -30,8 +34,9 @@ public class ValidacaoManobra extends AbstractEntity {
     public ValidacaoManobra() {
     }
 
-    public ValidacaoManobra(Cliente c) {
-        if (c != null) {
+    public ValidacaoManobra(ValidaClienteManobraFacade f) {
+        if (f.getCl() != null) {
+            c = f.getCl();
             GetInfoOut cad = c.getCadastro();
             this.designador = c.getDesignador();
             this.modeloDslam = cad.getInfoTBS().getDslamModel() + " " + cad.getInfoTBS().getDslamVendor();
