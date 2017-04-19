@@ -12,14 +12,13 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
  *
  * @author G0042204
  */
-public class ValidacaoRede extends Validacao {
+public abstract class ValidacaoRede extends Validacao {
 
     private TabelaRedeMetalico tabelaRede;
 
     public ValidacaoRede(TabelaRedeMetalico i) {
         this.tabelaRede = i;
         this.nome = "Tabela de Rede";
-        
 
     }
 
@@ -37,7 +36,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean resyncA() {
+    public Boolean resyncA() {
         return tabelaRede.getResync().compareTo(new BigInteger("5")) > 0 && tabelaRede.getResync().compareTo(new BigInteger("60")) < 0;
     }
 
@@ -46,7 +45,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean resyncB() {
+    public Boolean resyncB() {
         return tabelaRede.getResync().compareTo(new BigInteger("60")) > 0;
     }
 
@@ -55,7 +54,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean resyncC() {
+    public Boolean resyncC() {
         return tabelaRede.getResync().compareTo(new BigInteger("5")) < 0;
     }
 
@@ -64,7 +63,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean pctA() {
+    public Boolean pctA() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("50")) < 0 && tabelaRede.getPctUp().compareTo(new BigInteger("50")) < 0;
     }
 
@@ -73,7 +72,7 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean pctB() {
+    public Boolean pctB() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("3000")) > 0 && tabelaRede.getPctUp().compareTo(new BigInteger("3000")) > 0;
     }
 
@@ -82,21 +81,8 @@ public class ValidacaoRede extends Validacao {
      *
      * @return
      */
-    protected Boolean pctC() {
+    public Boolean pctC() {
         return tabelaRede.getPctDown().compareTo(new BigInteger("1000")) < 0 && tabelaRede.getPctUp().compareTo(new BigInteger("1000")) < 0;
     }
 
-    /**
-     * Implementar!
-     *
-     * @return
-     */
-    @Override
-    public Boolean validar() {
-
-//        if (t.getResync() != null) {
-//            return t.getResync().compareTo(new BigInteger("5")) < 0;
-//        }
-        return false;
-    }
 }

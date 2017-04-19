@@ -5,6 +5,7 @@
  */
 package model.validacao.manobra;
 
+import model.Motivos;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.validacao.ValidacaoRede;
 
@@ -14,14 +15,22 @@ import model.validacao.ValidacaoRede;
  */
 public class ValidacaoRedeManobra extends ValidacaoRede {
 
-    public ValidacaoRedeManobra(TabelaRedeMetalico i) {
+    private Motivos m;
+
+    public ValidacaoRedeManobra(TabelaRedeMetalico i, Motivos mot) {
         super(i);
+        this.m = mot;
+
+    }
+
+    @Override
+    public Boolean validar() {
         if (resyncA() && isCrcOk()) {
             this.setMensagem("Falha de rede.Quedas");
         } else if (resyncA() && !isCrcOk()) {
             this.setMensagem("Falha de rede.Taxa de erro e quedas");
         } else if (pctA()) {
-            this.setMensagem("Possível falha de porta ou modem1");
+            this.setMensagem("Possível falha de porta ou modem");
         } else if (resyncB() && isCrcOk()) {
             this.setMensagem("Possível falha de porta ou modem");
         } else if (resyncB() && !isCrcOk()) {
@@ -33,7 +42,17 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
         } else if (resyncC() && pctC() && isCrcOk()) {
             this.setMensagem("Faha de rede. Taxa de erro");
         }
-        
+        if (m.equals(Motivos.SEMAUTH)) {
+            this.setResultado(true);
+            return true;
+        } else if (m.equals(Motivos.SEMSINC)) {
+            if (this.getMensagem().equals("Possível falha de porta ou modem")) {
+                this.setResultado(true);
+                return true;
+            }
+        }
+
+        this.setResultado(false);
+        return false;
     }
-    
 }

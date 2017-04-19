@@ -5,16 +5,24 @@
  */
 package model.facade;
 
+import br.com.caelum.vraptor.serialization.SkipSerialization;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
 import model.Motivos;
 import model.dslam.AbstractDslam;
+import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.entity.ValidacaoFinal;
+import model.validacao.Validacao;
 import model.validacao.ValidacaoCadastroTBS;
+import model.validacao.ValidacaoEstadoPorta;
 import model.validacao.ValidacaoRede;
+import model.validacao.ValidacaoVlanBanda;
+import model.validacao.manobra.ValidacaoEstadoPortaManobra;
 import model.validacao.manobra.ValidacaoRedeManobra;
 
 /**
@@ -25,58 +33,82 @@ public class ValidaClienteManobraFacade {
 
     private Cliente cl;
 
+    @SkipSerialization
     private Motivos m;
 
+    @SkipSerialization
     private CadastroDAO dao = new CadastroDAO();
 
     private ConsultaMetalicoDefault met;
 
+    @SkipSerialization
     private AbstractDslam dslam;
+
+    private List<Validacao> valids;
+
+    private ValidacaoFinal conclusao;
 
     public ValidaClienteManobraFacade(Cliente cl, Motivos m) throws DslamNaoImplException, RemoteException {
         this.cl = dao.getCliente(cl);
         this.m = m;
+        this.valids = new ArrayList<>();
+        this.conclusao = new ValidacaoFinal();
     }
 
-    public ValidacaoFinal validar() throws DslamNaoImplException, RemoteException, Exception {
-
-        ValidacaoFinal v = new ValidacaoFinal();
-
-        if (m.equals(Motivos.SEMAUTH)) {
-            if (new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon()).validar()) {
-                dslam = dao.getDslam(cl.getCadastro());
-                met = (ConsultaMetalicoDefault) dslam;
+    public void validar() throws DslamNaoImplException, RemoteException, Exception {
+        if (new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon()).validar()) {
+            dslam = dao.getDslam(cl.getCadastro());
+            met = (ConsultaMetalicoDefault) dslam;
+            if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
                 //cons. auth
-                if (true) {
-                    ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede());
-                    v.setConclusao(Boolean.FALSE);
-                    v.setFraseologia(vR.getMensagem());
-                } else {
-                    if (met.getVlanBanda().validar(dslam)) {
-                        v.setConclusao(Boolean.TRUE);
-                        v.setFraseologia("");
-                    }else{
-                        v.setConclusao(Boolean.FALSE);
-                        v.setFraseologia("Bridge configurada incorretamente, necessário reconfigurar e então refazer a validação.");
-                    }
-                }
-            } else {
-                v.setConclusao(Boolean.FALSE);
-                v.setFraseologia("Inconsistência no cadastro entre TBS x Radius");
-            }
-        }else{
-            v.setConclusao(Boolean.FALSE);
-            v.setFraseologia("Motivo não implementado.");
-        }
+                EstadoDaPorta ep = met.getEstadoDaPorta();
+                ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep);
+                valids.add(vEP);
+                if (vEP.validar()) {
+                    ValidacaoVlanBanda vlanValid = new ValidacaoVlanBanda(met.getVlanBanda(), dslam);
+                    valids.add(vlanValid);
 
-        return v;
+                    if (vlanValid.validar()) {
+                        ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede(), m);
+                        valids.add(vR);
+
+                        conclusao.setConclusao(vR.validar());
+                        conclusao.setFraseologia(vR.getMensagem());
+                    } else {
+                        conclusao.setConclusao(Boolean.FALSE);
+                        conclusao.setFraseologia("Configuração da bridge de autenticação incorreta, refaça a validação após a correção.");
+                    }
+                } else {
+                    conclusao.setConclusao(Boolean.FALSE);
+                    conclusao.setFraseologia(vEP.getMensagem() + " Altere o Adm State da porta para Up e valide novamente.");
+                }
+
+            } else if (m.equals(Motivos.QUEDA) || m.equals(Motivos.SEMNAVEG)) {
+
+            } else {
+                conclusao.setConclusao(Boolean.FALSE);
+                conclusao.setFraseologia("Motivo não implementado.");
+            }
+        } else {
+            conclusao.setConclusao(Boolean.FALSE);
+            conclusao.setFraseologia("Inconsistência no cadastro entre TBS x Radius");
+        }
+    }
+
+    public List<Validacao> getValids() {
+        return valids;
+    }
+
+    public ValidacaoFinal getConclusao() {
+        return conclusao;
     }
 
     public Cliente getCl() {
         return cl;
     }
 
-    public void setCl(Cliente cl) {
-        this.cl = cl;
+    public Motivos getM() {
+        return m;
     }
+
 }

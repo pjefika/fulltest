@@ -11,30 +11,31 @@ import model.dslam.consulta.EstadoDaPorta;
  *
  * @author G0042204
  */
-public class ValidacaoEstadoPorta extends Validacao {
+public abstract class ValidacaoEstadoPorta extends Validacao {
 
-    private EstadoDaPorta estadoPorta;
+    protected EstadoDaPorta estadoPorta;
 
     public ValidacaoEstadoPorta(EstadoDaPorta e) {
         this.estadoPorta = e;
         this.nome = "Estado Porta";
-        
-        if(!estadoPorta.getAdminState().equalsIgnoreCase("UP")){
-            this.setMensagem("Porta Desativada (Adm state em Down)");
-        }else if(estadoPorta.getAdminState().equalsIgnoreCase("UP") && estadoPorta.getOperState().equals("UP")){
-            this.setMensagem("Porta ativa e sincronizada");
-        }else{
-            this.setMensagem("Porta Ativada porém sem sincronismo");
+
+    }
+
+    @Override
+    public Boolean validar() {
+        if (!estadoPorta.getAdminState().equalsIgnoreCase("UP")) {
+            this.setMensagem("Porta Desativada (Adm state em Down).");
+            this.setResultado(Boolean.FALSE);
+            return false;
+        } else if (estadoPorta.getAdminState().equalsIgnoreCase("UP") && estadoPorta.getOperState().equals("UP")) {
+            this.setMensagem("Porta ativa e sincronizada.");
+            this.setResultado(Boolean.TRUE);
+            return true;
+        } else {
+            this.setResultado(Boolean.TRUE);
+            this.setMensagem("Porta Ativada porém sem sincronismo.");
+            return true;
         }
     }
 
-    /**
-     * Implementar!
-     *
-     * @return
-     */
-    @Override
-    public Boolean validar() {
-        return false;
-    }
 }

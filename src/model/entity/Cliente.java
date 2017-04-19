@@ -19,7 +19,7 @@ import model.validacao.Validator;
  *
  * @author G0041775
  */
-public class Cliente extends AbstractEntity implements Validator {
+public class Cliente implements Validator {
 
     private String nome, designador;
 

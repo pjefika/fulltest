@@ -12,6 +12,7 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAu
 import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
 import java.rmi.RemoteException;
@@ -38,6 +39,21 @@ public class CadastroDAO {
 
     public String getDesignador(String instancia) throws RemoteException {
         return ws.getDesignatorByAccessDesignator(instancia);
+    }
+
+    public OSSTurbonetClienteAutenticadoOut isClienteAutenticado(GetInfoOut info) throws RemoteException {
+        return ws.isClienteAutenticado(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(info)));
+    }
+
+    /**
+     * Consulta de Autenticação via Cache (Radius Relay);
+     *
+     * @param info
+     * @return
+     * @throws RemoteException
+     */
+    public OSSTurbonetStatusConexaoOut getAuthRadiusRelay(GetInfoOut info) throws RemoteException {
+        return ws.getStatusConexao(new OSSTurbonetStatusConexaoIn(new OSSTurbonetInCustom(info)));
     }
 
     public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
@@ -74,10 +90,6 @@ public class CadastroDAO {
 
     public InfoAuthentication getAutentication(GetInfoOut i) throws RemoteException {
         return ws.getInfoAuthentication(i.getDesignator(), i.getDesignator(), "wise", "wise", "wise");
-    }
-
-    public OSSTurbonetClienteAutenticadoOut getTeste(GetInfoOut i) throws RemoteException {
-        return ws.verificaSeClienteAutenticadoNoRelay(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(i)));
     }
 
     public OSSTurbonetStatusConexaoOut getAuthenticationByIPorMac(String ipOrmac) throws RemoteException {
