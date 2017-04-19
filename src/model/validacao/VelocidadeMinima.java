@@ -27,6 +27,24 @@ public class VelocidadeMinima {
             case "51200":
                 minDown = new Double("51200");
                 break;
+            case "35840":
+                minDown = new Double("37000");
+                break;
+            case "25600":
+                minDown = new Double("26680");
+                break;
+            case "15360":
+                minDown = new Double("17503");
+                break;
+            case "10240":
+                minDown = new Double("11742");
+                break;
+            case "5120":
+                minDown = new Double("5120");
+                break;
+            case "3072":
+                minDown = new Double("3072");
+                break;
             default:
                 minDown = new Double("0");
                 break;
@@ -35,6 +53,18 @@ public class VelocidadeMinima {
         switch(velUp){
             case "5120":
                 minUp = new Double("5120");
+                break;
+            case "3072":
+                minUp = new Double("3600");
+                break;
+            case "2048":
+                minUp = new Double("2344");
+                break;
+            case "1024":
+                minUp = new Double("1024");
+                break;
+            case "768":
+                minUp = new Double("750");
                 break;
             default:
                 minUp = new Double("0");
