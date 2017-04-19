@@ -40,6 +40,10 @@ public class CadastroDAO {
         return ws.getDesignatorByAccessDesignator(instancia);
     }
 
+    public OSSTurbonetClienteAutenticadoOut isAutenticado(GetInfoOut info) throws RemoteException {
+        return ws.isClienteAutenticado(new OSSTurbonetClienteAutenticadoIn(new OSSTurbonetInCustom(info)));
+    }
+
     public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
         c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
         c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
