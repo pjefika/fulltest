@@ -20,6 +20,7 @@ import javax.inject.Inject;
 import model.Motivos;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
+import model.entity.manobra.ValidacaoManobra;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteManobraFacade;
 
@@ -66,7 +67,8 @@ public class ManobraController extends AbstractController {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
             f.validar();
             //includeSerializer(f);
-            includeSerializer(f);
+            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
+            mDAO.cadastrar(new ValidacaoManobra(f));
         } catch (Exception e) {
             includeSerializer(e);
         }
