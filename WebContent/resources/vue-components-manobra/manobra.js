@@ -63,9 +63,9 @@ Vue.component("buscaCadastro", {
                             <h1>Efika</h1>\n\
                         </div>\n\
                         <div class='col-md-9'>\n\
-                            <label>Instancia?Designador?:</label>\n\
+                            <label>Instância/Designador:</label>\n\
                             <div class='input-group'>\n\
-                                <input class='form-control' placeholder='Informe a Instância? ou Designador?' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
+                                <input class='form-control' placeholder='Informe a Instância ou Designador' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
                                 <span class='input-group-btn'>\n\
                                     <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
                                 </span>\n\
@@ -81,35 +81,41 @@ Vue.component("buscaCadastro", {
         pesquisar: function () {
             var self = this;
 
-            if (!self.emconsulta) {
-                self.emconsulta = true;
-                $.ajax({
-                    type: "POST",
-                    url: url + "manobra/busca",
-                    data: JSON.stringify(self.ins),
-                    dataType: "json",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("Content-Type", "application/json");
-                        self.todo = null;
-                        self.infosvalida = null;
-                        self.motivochoose = null;
-                        self.loading = true;
-                        self.searchbuttondisable = true;
-                    },
-                    success: function (data) {
-                        //console.log(data);
-                        self.tudo = data.cliente;
-                        self.notifica = {
-                            menssagem: "Busca realizada com sucesso!",
-                            typenotify: "success"
-                        };
-                    },
-                    complete: function () {
-                        self.loading = false;
-                        self.searchbuttondisable = false;
-                        self.emconsulta = false;
-                    }
-                });
+            if (self.ins.instancia) {
+                if (!self.emconsulta) {
+                    self.emconsulta = true;
+                    $.ajax({
+                        type: "POST",
+                        url: url + "manobra/busca",
+                        data: JSON.stringify(self.ins),
+                        dataType: "json",
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Content-Type", "application/json");
+                            self.todo = null;
+                            self.infosvalida = null;
+                            self.motivochoose = null;
+                            self.loading = true;
+                            self.searchbuttondisable = true;
+                        },
+                        success: function (data) {
+                            self.tudo = data.cliente;
+                            self.notifica = {
+                                menssagem: "Busca realizada com sucesso!",
+                                typenotify: "success"
+                            };
+                        },
+                        complete: function () {
+                            self.loading = false;
+                            self.searchbuttondisable = false;
+                            self.emconsulta = false;
+                        }
+                    });
+                }
+            } else {
+                self.notifica = {
+                    menssagem: "Preencha a Instância ou o Designador!",
+                    typenotify: "danger"
+                };
             }
         },
         buscamotivos: function () {
@@ -150,13 +156,27 @@ Vue.component("panelvalida", {
                                 <li class='list-group-item' style='text-align: center;'>\n\
                                     <label>Validação</label>\n\
                                 </li>\n\
+                                <li class='list-group-item' v-for='valida in infosvalida.valids'>\n\
+                                    <div class='row'>\n\
+                                        <div class='col-md-9'>\n\
+                                            <p>{{valida.nome}}</p>\n\
+                                        </div>\n\
+                                        <div class='col-md-3'>\n\
+                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='valida.resultado'></span>\n\
+                                            <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </li>\n\
+                                <li class='list-group-item' style='text-align: center;'>\n\
+                                    <label>Conclusão</label>\n\
+                                </li>\n\
                                 <li class='list-group-item'>\n\
                                     <div class='row'>\n\
                                         <div class='col-md-9'>\n\
-                                            <p>{{infosvalida.fraseologia}}</p>\n\
+                                            <p>{{infosvalida.conclusao.fraseologia}}</p>\n\
                                         </div>\n\
                                         <div class='col-md-3'>\n\
-                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='infosvalida.conclusao'></span>\n\
+                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='infosvalida.conclusao.conclusao'></span>\n\
                                             <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
                                         </div>\n\
                                     </div>\n\
@@ -197,8 +217,8 @@ Vue.component("panelvalida", {
                         self.emconsulta = true;
                     },
                     success: function (data) {
-                        //self.infosvalida = data.validacaoFinal;
-                        console.log(data);
+                        self.infosvalida = data.validaClienteManobraFacade;
+                        //console.log(data);
                     },
                     complete: function () {
                         self.loadingvalida = false;

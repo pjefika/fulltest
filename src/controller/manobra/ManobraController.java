@@ -63,7 +63,8 @@ public class ManobraController extends AbstractController {
         try {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
             f.validar();
-            includeSerializer(f);
+            //includeSerializer(f);
+            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
         } catch (Exception e) {
             includeSerializer(e);
         }
