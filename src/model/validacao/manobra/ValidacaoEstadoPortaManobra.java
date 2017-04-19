@@ -27,7 +27,7 @@ public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
     public Boolean validar() {
         if (!estadoPorta.getAdminState().equalsIgnoreCase("UP")) {
             this.setMensagem("Porta Desativada (Adm state em Down).");
-        } else if (estadoPorta.getAdminState().equalsIgnoreCase("UP") && estadoPorta.getOperState().equals("UP")) {
+        } else if (estadoPorta.getOperState().equalsIgnoreCase("UP")) {
             this.setMensagem("Porta ativa e sincronizada.");
         } else {
             this.setMensagem("Porta Ativada porém sem sincronismo.");
