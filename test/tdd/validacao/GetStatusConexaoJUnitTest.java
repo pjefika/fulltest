@@ -5,7 +5,7 @@
  */
 package tdd.validacao;
 
-import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
+import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -20,11 +20,11 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class IsClienteAutenticadoJUnitTest {
+public class GetStatusConexaoJUnitTest {
 
-    private OSSTurbonetClienteAutenticadoOut out;
+    private OSSTurbonetStatusConexaoOut out;
 
-    public IsClienteAutenticadoJUnitTest() {
+    public GetStatusConexaoJUnitTest() {
     }
 
     @BeforeClass
@@ -44,16 +44,16 @@ public class IsClienteAutenticadoJUnitTest {
     }
 
     @Test
-    public void isClienteAutenticado() {
+    public void getStatusConexao() {
 
         CadastroDAO dao = new CadastroDAO();
 
         try {
-            out = dao.isClienteAutenticado(dao.getInfo("CTA-81AFTMOU6-013"));
-            System.out.println(out.getDataHoraAutenticacao().getTime());
+            out = dao.getAuthRadiusRelay(dao.getInfo("CTA-81AFTMOU6-013"));
+            System.out.println(out.getData().getTime());
             System.out.println("End");
         } catch (RemoteException ex) {
-            Logger.getLogger(IsClienteAutenticadoJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetStatusConexaoJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
