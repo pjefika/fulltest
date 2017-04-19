@@ -7,6 +7,7 @@ package model.entity.manobra;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import java.math.BigInteger;
+import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,8 +24,9 @@ import model.facade.ValidaClienteManobraFacade;
 public class ValidacaoManobra extends AbstractEntity {
 
     private String designador, modeloDslam;
-    private BigInteger slot, porta, shelf, endSeqPorta;
-    private String ipDslam, nomeArmario, nomeBras;
+    private BigInteger slot, porta, endSeqPorta;
+    private String ipDslam, nomeArmario, shelf, nomeBras;
+    private Calendar data = Calendar.getInstance();
     @Transient
     private Cliente c;
 //
@@ -41,8 +43,8 @@ public class ValidacaoManobra extends AbstractEntity {
             this.designador = c.getDesignador();
             this.modeloDslam = cad.getInfoTBS().getDslamModel() + " " + cad.getInfoTBS().getDslamVendor();
             this.slot = cad.getInfoTBS().getSlot();
-            this.porta = cad.getInfoTBS().getSlot();
-            this.shelf = new BigInteger(cad.getInfoTBS().getShelf());
+            this.porta = cad.getInfoTBS().getPortNumber();
+            this.shelf = cad.getInfoTBS().getShelf();
             this.endSeqPorta = cad.getInfoTBS().getPortAddrSequence();
             this.ipDslam = cad.getInfoTBS().getIpDslam();
             this.nomeArmario = cad.getInfoRadius().getCabinet();

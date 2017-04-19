@@ -49,7 +49,7 @@ public class ValidaClienteFacadeJUnitTest {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("CTA-81AFTMOU6-013"), Motivos.SEMAUTH);
             Gson g = new Gson();
             f.validar();
-            System.out.println(g.toJson(f.getValids()));
+            System.out.println(g.toJson(f));
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

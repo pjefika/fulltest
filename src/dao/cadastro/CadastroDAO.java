@@ -66,7 +66,7 @@ public class CadastroDAO {
     public GetInfoOut getInfo(String designador) throws RemoteException {
         String designator = this.getDesignador(designador);
         String accessDesignator = this.getAccessDesignator(designator);
-        GetInfoOut leInfo = new GetInfoOut();
+//        GetInfoOut leInfo = new GetInfoOut();
         return ws.getInfo(designator, accessDesignator, "wise", "wise", designator, "wise", "0", "0");
     }
 
