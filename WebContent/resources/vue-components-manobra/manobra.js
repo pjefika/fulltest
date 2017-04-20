@@ -175,7 +175,7 @@ Vue.component("panelvalida", {
                                 </li>\n\
                                 <li class='list-group-item'>\n\
                                     <label>{{infosvalida.conclusao.fraseologia}}</label>\n\
-                                    <div class='row' v-if='!infosvalida.conclusao.fraseologia === \"Motivo não implementado.\" '>\n\
+                                    <div class='row' v-if='infosvalida.conclusao.fraseologia !== \"Motivo não implementado.\" '>\n\
                                         <div class='col-md-9'>\n\
                                             <p v-if='infosvalida.conclusao.conclusao'>Manobra Permitida</p>\n\
                                             <p v-else>Manobra não permitida</p>\n\
