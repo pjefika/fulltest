@@ -10,6 +10,7 @@ var data = {
     searchbuttondisable: false,
     validbuttondisable: false,
     motivos: null,
+    listavalidacao: null,
     ins: {
         instancia: "4131543457"
     },

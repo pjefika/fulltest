@@ -110,6 +110,7 @@ Vue.component("buscaCadastro", {
                             self.loading = false;
                             self.searchbuttondisable = false;
                             self.emconsulta = false;
+                            self.listavalidlog();
                         }
                     });
                 }
@@ -124,6 +125,21 @@ Vue.component("buscaCadastro", {
             var self = this;
             $.get(url + "manobra/motivos", function (data) {
                 self.motivos = data.motivosList;
+            });
+        },
+        listavalidlog: function () {
+            var self = this;
+            $.ajax({
+                type: "POST",
+                url: url + "manobra/listavalidesp",
+                data: JSON.stringify(self.tudo),
+                dataType: "json",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function (data) {
+                    self.listavalidacao = data.list;
+                }
             });
         }
     }
@@ -151,6 +167,27 @@ Vue.component("panelvalida", {
                                 </div>\n\
                             <div>\n\
                         </div>\n\
+                    </div>\n\
+                    <div v-if='listavalidacao'>\n\
+                        <table class='table table-bordered small'>\n\
+                            <thead>\n\
+                                <tr>\n\
+                                    <th>Motivo</th>\n\
+                                    <th>Mensagem</th>\n\
+                                    <th>Resultado</th>\n\
+                                </tr>\n\
+                            </thead>\n\
+                            <tbody>\n\
+                                <tr v-for='list in listavalidacao'>\n\
+                                    <td>{{list.motivo}}</td>\n\
+                                    <td>{{list.mensagem}}</td>\n\
+                                    <td>\n\
+                                        <span class='glyphicon glyphicon-ok' style='color: green;' v-if='list.resultado'></span>\n\
+                                        <span class='glyphicon glyphicon-remove' style='color: red;' v-else></span>\n\
+                                    </td>\n\
+                                </tr>\n\
+                            </tbody>\n\
+                        </table>\n\
                     </div>\n\
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
                         <div class='col-md-12'>\n\
