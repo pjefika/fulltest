@@ -4,10 +4,9 @@
 
 <div class="container">  
     <div id="instance">        
-        <manobra></manobra>
-        <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/loading.js"></script>
-        <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/manobra.js"></script>     
-        
+        <manobra></manobra>              
     </div>
+    <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/loading.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/manobra.js"></script>  
     <script src="${pageContext.request.contextPath}/resources/vue-components-manobra/instance-manobra.js"></script>
 </div>
