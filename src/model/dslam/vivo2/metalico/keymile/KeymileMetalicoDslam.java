@@ -62,9 +62,9 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     public ComandoDslam getTabRede() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000);
+        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000, "/unit-"+this.getSlot()+"/port-"+this.getPorta()+"/pm/usercounterreset");
     }
-
+    
     public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
         return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/AdministrativeStatus");
     }

@@ -62,9 +62,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leRedes = this.getCd().consulta(this.getParams()).getRetorno();
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
 
-        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tab.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+//        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+//        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+//        tab.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setCrcDown(new BigInteger("0"));
+        tab.setCrcUp(new BigInteger("0"));
+        tab.setResync(new BigInteger("0"));
         tab.setFecDown(new BigInteger("0"));
         tab.setFecUp(new BigInteger("0"));
         tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
@@ -149,11 +152,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public Profile getProfile() throws Exception {
         List<String> leProfDown = this.getCd().consulta(this.getProfDown()).getRetorno();
         List<String> leProfUp = this.getCd().consulta(this.getProfUp()).getRetorno();
-        
+
         Profile p = new Profile();
         p.setProfileDown(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
         p.setProfileUp(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
-        
+
         return p;
     }
 
@@ -175,14 +178,14 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     public ComandoDslam getProfDown() {
-        return new ComandoDslam("get vdsl-co-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
+        return new ComandoDslam("get vdsl-co-config 1/" + this.getSlot() + "/" + this.getPorta() + "/0/vdsl");
     }
 
     public ComandoDslam getProfUp() {
-        return new ComandoDslam("get vdsl-cpe-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
+        return new ComandoDslam("get vdsl-cpe-config 1/" + this.getSlot() + "/" + this.getPorta() + "/0/vdsl");
     }
 
     public ComandoDslam getModul() {
-        return new ComandoDslam("get vdsl-config 1/"+this.getSlot()+"/"+this.getPorta()+"/0/vdsl");
+        return new ComandoDslam("get vdsl-config 1/" + this.getSlot() + "/" + this.getPorta() + "/0/vdsl");
     }
 }

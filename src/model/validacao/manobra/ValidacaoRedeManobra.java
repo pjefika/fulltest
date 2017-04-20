@@ -36,11 +36,11 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
         } else if (resyncB() && !isCrcOk()) {
             this.setMensagem("Falha de rede.Taxa de erro e quedas.");
         } else if (resyncC() && pctB() && isCrcOk()) {
-            this.setMensagem("Rede confiável, CRC dentro do padrão, pouca ou nenhuma queda de sincronismo.");
+            this.setMensagem("Rede confiável, CRC dentro do padrão, pouca ou nenhuma queda.");
+        } else if (resyncC() && !pctB() && isCrcOk()) {
+            this.setMensagem("Quantidade de pacotes insuficiente para validacao");
         } else if (resyncC() && !isCrcOk()) {
             this.setMensagem("Falha de rede. Taxa de erro.");
-        } else if (resyncC() && pctC() && isCrcOk()) {
-            this.setMensagem("Faha de rede. Taxa de erro");
         }
         if (m.equals(Motivos.SEMAUTH)) {
             this.setResultado(true);
@@ -51,7 +51,7 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
                 return true;
             }
         } else if (m.equals(Motivos.QUEDA)) {
-            if (( resyncA() || resyncB() ) && isCrcOk()) {
+            if (!resyncC() && isCrcOk()) {
                 setResultado(true);
                 return true;
             }
