@@ -36,7 +36,7 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
         } else if (resyncB() && !isCrcOk()) {
             this.setMensagem("Falha de rede.Taxa de erro e quedas.");
         } else if (resyncC() && pctB() && isCrcOk()) {
-            this.setMensagem("Rede confiável.");
+            this.setMensagem("Rede confiável, CRC dentro do padrão, pouca ou nenhuma queda de sincronismo.");
         } else if (resyncC() && !isCrcOk()) {
             this.setMensagem("Falha de rede. Taxa de erro.");
         } else if (resyncC() && pctC() && isCrcOk()) {
