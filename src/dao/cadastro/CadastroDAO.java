@@ -15,6 +15,7 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInco
 import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoOut;
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
+import dao.cadastro.util.TratativaDesignadores;
 import java.rmi.RemoteException;
 import model.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
@@ -57,10 +58,21 @@ public class CadastroDAO {
     }
 
     public Cliente getCliente(Cliente c) throws DslamNaoImplException, RemoteException {
+        // GetInfo
         c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
+        // Inconsistência Radius
         c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
-//        c.setAuth(this.getAutentication(c.getCadastro()));
-        return c;
+        // Instancia e Designador
+        return this.getAssociatedDesignators(c);
+    }
+
+    public Cliente getAssociatedDesignators(Cliente c) {
+
+        com.gvt.ws.eai.oss.inventory.api.Filter filter = null;
+        br.com.gvt.oss.inventory.service.impl.InventoryService service = new br.com.gvt.oss.inventory.service.impl.InventoryService();
+        br.com.gvt.oss.inventory.service.impl.InventoryImpl port = service.getInventoryImplPort();
+        com.gvt.ws.eai.oss.inventory.api.InventoryDesignatorsResponse result = port.getAssociatedDesignators(c.getDesignador(), null);
+        return new TratativaDesignadores(result, c).getC();
     }
 
     public GetInfoOut getInfo(String designador) throws RemoteException {

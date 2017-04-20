@@ -21,7 +21,7 @@ import model.validacao.Validator;
  */
 public class Cliente implements Validator {
 
-    private String nome, designador;
+    private String nome, designador, instancia;
 
     private GetInfoOut cadastro;
 
@@ -42,6 +42,10 @@ public class Cliente implements Validator {
 
     public void setCadastro(GetInfoOut cadastro) {
         this.cadastro = cadastro;
+    }
+
+    public String getInstancia() {
+        return instancia;
     }
 
     public String getNome() {
@@ -102,6 +106,10 @@ public class Cliente implements Validator {
 
     public void setCrm(InfoCRM crm) {
         this.crm = crm;
+    }
+
+    public void setInstancia(String instancia) {
+        this.instancia = instancia;
     }
 
     @Override

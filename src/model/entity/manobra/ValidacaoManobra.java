@@ -23,7 +23,7 @@ import model.facade.ValidaClienteManobraFacade;
 @Table(name = "fulltestAPI_ValidacaoManobra")
 public class ValidacaoManobra extends AbstractEntity {
 
-    private String designador, modeloDslam;
+    private String instancia, designador, modeloDslam;
     private BigInteger slot, porta, endSeqPorta;
     private String ipDslam, nomeArmario, shelf, nomeBras;
     private Calendar data = Calendar.getInstance();
@@ -40,6 +40,7 @@ public class ValidacaoManobra extends AbstractEntity {
         if (f.getCl() != null) {
             c = f.getCl();
             GetInfoOut cad = c.getCadastro();
+            this.instancia = c.getInstancia();
             this.designador = c.getDesignador();
             this.modeloDslam = cad.getInfoTBS().getDslamModel() + " " + cad.getInfoTBS().getDslamVendor();
             this.slot = cad.getInfoTBS().getSlot();
