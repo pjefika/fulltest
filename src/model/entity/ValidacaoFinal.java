@@ -5,6 +5,8 @@
  */
 package model.entity;
 
+import model.Motivos;
+
 /**
  *
  * @author G0041775
@@ -14,6 +16,16 @@ public class ValidacaoFinal {
     private Boolean conclusao;
 
     private String fraseologia;
+    
+    private Motivos motivo;
+
+    public Motivos getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(Motivos m) {
+        this.motivo = m;
+    }
 
     public Boolean getConclusao() {
         return conclusao;

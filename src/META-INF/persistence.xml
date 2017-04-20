@@ -6,6 +6,7 @@
     <properties>
       <property name="hibernate.id.new_generator_mappings" value="false"/>
       <!--<property name="hibernate.transaction.auto_close_session" value="true"/>-->
+      <!--<property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
     </properties>
   </persistence-unit>
   <!--    <persistence-unit name="localPU" transaction-type="RESOURCE_LOCAL">

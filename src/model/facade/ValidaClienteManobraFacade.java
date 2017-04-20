@@ -54,6 +54,7 @@ public class ValidaClienteManobraFacade {
     }
 
     public void validar() throws DslamNaoImplException, RemoteException, Exception {
+        conclusao.setMotivo(m);
         ValidacaoCadastroTBS vTbs = new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon());
         if (vTbs.validar()) {
             dslam = dao.getDslam(cl.getCadastro());

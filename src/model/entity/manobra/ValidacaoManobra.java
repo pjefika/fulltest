@@ -25,8 +25,10 @@ public class ValidacaoManobra extends AbstractEntity {
 
     private String instancia, designador, modeloDslam;
     private BigInteger slot, porta, endSeqPorta;
-    private String ipDslam, nomeArmario, shelf, nomeBras;
+    private String ipDslam, nomeArmario, shelf, nomeBras, mensagem, motivo;
     private Calendar data = Calendar.getInstance();
+    private Boolean resultado;
+    
     @Transient
     private Cliente c;
 //
@@ -50,6 +52,9 @@ public class ValidacaoManobra extends AbstractEntity {
             this.ipDslam = cad.getInfoTBS().getIpDslam();
             this.nomeArmario = cad.getInfoRadius().getCabinet();
             this.nomeBras = cad.getInfoCricket().getIpGerenciaBRAS();
+            this.mensagem = f.getConclusao().getFraseologia();
+            this.motivo = f.getConclusao().getMotivo().getMotivo();
+            this.resultado = f.getConclusao().getConclusao();
         }
     }
 }
