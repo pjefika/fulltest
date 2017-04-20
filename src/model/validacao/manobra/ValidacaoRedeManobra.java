@@ -51,7 +51,7 @@ public class ValidacaoRedeManobra extends ValidacaoRede {
                 return true;
             }
         } else if (m.equals(Motivos.QUEDA)) {
-            if (resyncC() && isCrcOk()) {
+            if (( resyncA() || resyncB() ) && isCrcOk()) {
                 setResultado(true);
                 return true;
             }
