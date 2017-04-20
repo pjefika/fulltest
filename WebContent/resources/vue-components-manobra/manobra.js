@@ -67,7 +67,7 @@ Vue.component("buscaCadastro", {
                             <div class='input-group'>\n\
                                 <input class='form-control' placeholder='Informe a Instância ou Designador' v-model='ins.instancia' @keyup.enter='pesquisar()' autofocus/>\n\
                                 <span class='input-group-btn'>\n\
-                                    <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable'>Pesquisar</button>\n\
+                                    <button type='button' class='btn btn-primary' @click='pesquisar()' :disabled='searchbuttondisable' style='width: 100px;'>Pesquisar</button>\n\
                                 </span>\n\
                             </div>\n\
                         </div>\n\
@@ -139,15 +139,15 @@ Vue.component("panelvalida", {
                         <div class='col-md-12'>\n\
                             <div class='form-group'>\n\
                                 <label>Motivos:</label>\n\
-                                <select class='form-control' v-model='motivochoose'>\n\
-                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
-                                </select>\n\
+                                <div class='input-group'>\n\
+                                    <select class='form-control' v-model='motivochoose'>\n\
+                                        <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
+                                    </select>\n\
+                                    <span class='input-group-btn'>\n\
+                                        <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
+                                    </span>\n\
+                                </div>\n\
                             <div>\n\
-                        </div>\n\
-                    </div>\n\
-                    <div class='row' style='margin-top: 20px;'>\n\
-                        <div class='col-md-12'>\n\
-                            <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable'>Validar</button>\n\
                         </div>\n\
                     </div>\n\
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
