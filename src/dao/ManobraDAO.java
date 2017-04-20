@@ -20,7 +20,7 @@ public class ManobraDAO extends ComponenteTestsDAO {
     
     public List<ValidacaoManobra> listarValidEspecifo(Cliente cliente) {
         try {
-            Query query = this.entityManager.createQuery("FROM ValidacaoManobra v WHERE v.instancia =:param OR v.designador =:param AND v.data = TODAY");
+            Query query = this.entityManager.createQuery("FROM ValidacaoManobra v WHERE (v.instancia =:param OR v.designador =:param) AND DATEDIFF('day', v.data, NOW()) = 0");
             query.setParameter("param", cliente.getDesignador());
             return query.getResultList();
         } catch (Exception e) {

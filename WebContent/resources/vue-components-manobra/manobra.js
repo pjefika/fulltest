@@ -138,7 +138,12 @@ Vue.component("buscaCadastro", {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
                 success: function (data) {
-                    self.listavalidacao = data.list;
+                    if(data.list.length > 0){
+                        self.listavalidacao = data.list;    
+                    }else{
+                        self.listavalidacao = null;    
+                    }
+                    
                 }
             });
         }
@@ -155,7 +160,7 @@ Vue.component("panelvalida", {
     template: "<div>\n\
                     <div class='row'>\n\
                         <div class='col-md-12'>\n\
-                            <div class='form-group'>\n\
+                            <div class='form-group' v-if='!listavalidacao'>\n\
                                 <label>Motivos:</label>\n\
                                 <div class='input-group'>\n\
                                     <select class='form-control' v-model='motivochoose'>\n\
@@ -169,6 +174,7 @@ Vue.component("panelvalida", {
                         </div>\n\
                     </div>\n\
                     <div v-if='listavalidacao'>\n\
+                        <label>Já houve validação de porta para este cliente hoje</label>\n\
                         <table class='table table-bordered small'>\n\
                             <thead>\n\
                                 <tr>\n\
