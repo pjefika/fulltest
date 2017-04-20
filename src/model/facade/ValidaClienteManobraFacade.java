@@ -111,6 +111,7 @@ public class ValidaClienteManobraFacade {
             conclusao.setConclusao(vTbs.getResultado());
             conclusao.setFraseologia(vTbs.getMensagem());
         }
+        dslam.desconectar();
     }
 
     public List<Validacao> getValids() {
