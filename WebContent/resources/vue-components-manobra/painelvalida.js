@@ -22,9 +22,12 @@ Vue.component("panelvalida", {
                                     <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
                                 </select>\n\
                                 <label>Ordem de Serviço:</label>\n\
-                                <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
-                                <br/>\n\
-                                <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
+                                <div class='input-group'>\n\
+                                    <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
+                                    <span class='input-group-btn'>\n\
+                                        <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
+                                    </span>\n\
+                                </div>\n\
                             <div>\n\
                         </div>\n\
                     </div>\n\
@@ -127,13 +130,13 @@ Vue.component("panelvalida", {
                                     typenotify: "danger"
                                 };
                             } else if (data.workOrderInexException) {
-                                self.validbuttondisable = true;
+                                self.validbuttondisable = false;
                                 self.notifica = {
                                     menssagem: data.workOrderInexException.detailMessage,
                                     typenotify: "danger"
                                 };
                             } else {
-                                self.validbuttondisable = true;
+                                self.validbuttondisable = false;
                                 self.notifica = {
                                     menssagem: "Erro ao realizar validações.",
                                     typenotify: "danger"

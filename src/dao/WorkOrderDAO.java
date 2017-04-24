@@ -19,7 +19,7 @@ public class WorkOrderDAO {
 
     public WorkOrder getWorkOrder(String workOrderId) {
         try {
-            return service.findWorkOrder(new FindWorkOrderIn(workOrderId, null, null, null))[0];
+            return service.findWorkOrder(new FindWorkOrderIn(workOrderId, "", "", ""))[0];
         } catch (Exception e) {
             return null;
         }
