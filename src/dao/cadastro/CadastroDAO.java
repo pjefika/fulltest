@@ -7,7 +7,6 @@ package dao.cadastro;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoAuthentication;
-import com.gvt.www.ws.eai.oss.OSSTurbonetAdslUseReport.OSSTurbonetAdslUseReportOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoIn;
 import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInconsistenciaTBSRadiusIn;
@@ -114,8 +113,7 @@ public class CadastroDAO {
      * @return
      * @throws RemoteException
      */
-    public OSSTurbonetAdslUseReportOut getAdslUseReport() throws RemoteException {
-        return ws.getAdslUseReport(null);
-    }
-
+//    public OSSTurbonetAdslUseReportOut getAdslUseReport() throws RemoteException {
+//        return ws.getAdslUseReport(null);
+//    }
 }
