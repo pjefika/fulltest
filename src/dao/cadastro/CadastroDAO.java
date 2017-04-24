@@ -61,6 +61,8 @@ public class CadastroDAO {
         c.setCadastro(this.getInfo(this.getDesignador(c.getDesignador())));
         // Inconsistência Radius
         c.setIncon(this.verificarInconsistenciaTBSRadius(c.getCadastro()));
+        //Autenticacao
+        c.setAuth(this.isClienteAutenticado(c.getCadastro()));
         // Instancia e Designador
         return this.getAssociatedDesignators(c);
     }

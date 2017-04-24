@@ -7,6 +7,7 @@ package model.validacao;
 
 import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.workOrderReportingEntities.WorkOrder;
 import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
+import model.Motivos;
 
 /**
  *
@@ -18,9 +19,12 @@ public class ValidacaoAutenticacao extends Validacao {
 
     private WorkOrder order;
 
-    public ValidacaoAutenticacao(OSSTurbonetClienteAutenticadoOut auth, WorkOrder order) {
+    private transient Motivos m;
+
+    public ValidacaoAutenticacao(OSSTurbonetClienteAutenticadoOut auth, WorkOrder order, Motivos ms) {
         this.auth = auth;
         this.order = order;
+        this.m = ms;
     }
 
     /**
@@ -30,7 +34,18 @@ public class ValidacaoAutenticacao extends Validacao {
      */
     @Override
     public Boolean validar() {
-        return !(auth.getDataHoraAutenticacao().after(order.getDateOfSale()) && auth.isClienteAutenticado());
+        Boolean ret = !(auth.getDataHoraAutenticacao().after(order.getDateOfSale()) && auth.isClienteAutenticado());
+        this.setResultado(ret);
+        if (ret) {
+            this.setMensagem("Não existe autenticação após abertura da atividade.");
+        } else {
+            this.setMensagem("Existe autenticação após abertura da atividade.");
+        }
+        if (m.equals(Motivos.SEMSINC)) {
+            return true;
+        }
+        
+        return ret;
     }
 
 }

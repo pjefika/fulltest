@@ -71,7 +71,7 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/valida")
     public void validarManobra(Cliente cliente, String motivo, String atividade) {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
+            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo), atividade);
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
             this.includeSerializer(f);

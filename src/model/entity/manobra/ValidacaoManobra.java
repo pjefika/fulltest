@@ -25,7 +25,7 @@ public class ValidacaoManobra extends AbstractEntity {
 
     private String instancia, designador, modeloDslam;
     private BigInteger slot, porta, endSeqPorta;
-    private String ipDslam, nomeArmario, shelf, nomeBras, mensagem, motivo;
+    private String ipDslam, nomeArmario, shelf, nomeBras, mensagem, motivo, atividade;
     private Calendar data = Calendar.getInstance();
     private Boolean resultado;
     
@@ -55,6 +55,7 @@ public class ValidacaoManobra extends AbstractEntity {
             this.mensagem = f.getConclusao().getFraseologia();
             this.motivo = f.getConclusao().getMotivo().getMotivo();
             this.resultado = f.getConclusao().getConclusao();
+            this.atividade = f.getWorkOrderId();
         }
     }
 }
