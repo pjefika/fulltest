@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.serialization.gson.WithRoot;
 import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
+import controller.autenticacao.SessionUsuarioEfika;
 import dao.ManobraDAO;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
@@ -33,6 +34,9 @@ import model.facade.ValidaClienteManobraFacade;
 public class ManobraController extends AbstractController {
 
     private CadastroDAO dao = new CadastroDAO();
+    
+    @Inject
+    private SessionUsuarioEfika sessionUsuarioEfika;
 
     @Inject
     private ManobraDAO mDAO;
@@ -94,6 +98,16 @@ public class ManobraController extends AbstractController {
     public void listaMotivos() {
         try {
             this.includeSerializer(Motivos.values());
+        } catch (Exception e) {
+            this.includeSerializer(e);
+        }
+    }
+    
+    @Get
+    @Path("/manobra/veatendente")
+    public void atendente() {
+        try {
+            this.includeSerializer(sessionUsuarioEfika.isAtendente());
         } catch (Exception e) {
             this.includeSerializer(e);
         }

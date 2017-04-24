@@ -78,6 +78,7 @@ Vue.component("buscaCadastro", {
     created: function () {
         var self = this;
         self.buscamotivos();
+        self.validaatendente();
     },
     methods: {
         pesquisar: function () {
@@ -146,6 +147,13 @@ Vue.component("buscaCadastro", {
 
                 }
             });
+        },
+        validaatendente: function () {
+            var self = this;
+            $.get(url + "manobra/veatendente", function (data) {
+                //console.log(data);
+                self.veatendente = data.boolean;
+            });
         }
     }
 });
@@ -179,21 +187,23 @@ Vue.component("panelvalida", {
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
                         <div class='col-md-12'>\n\
                             <ul class='list-group'>\n\
-                                <li class='list-group-item' style='text-align: center;'>\n\
-                                    <label>Validação</label>\n\
-                                </li>\n\
-                                <li class='list-group-item' v-for='valida in infosvalida.valids'>\n\
-                                    <label>{{valida.nome}}</label>\n\
-                                    <div class='row'>\n\
-                                        <div class='col-md-9'>\n\
-                                            <p>{{valida.mensagem}}</p>\n\
+                                <div v-if='veatendente'>\n\
+                                    <li class='list-group-item' style='text-align: center;'>\n\
+                                        <label>Validação</label>\n\
+                                    </li>\n\
+                                    <li class='list-group-item' v-for='valida in infosvalida.valids'>\n\
+                                        <label>{{valida.nome}}</label>\n\
+                                        <div class='row'>\n\
+                                            <div class='col-md-9'>\n\
+                                                <p>{{valida.mensagem}}</p>\n\
+                                            </div>\n\
+                                            <div class='col-md-3'>\n\
+                                                <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='valida.resultado'></span>\n\
+                                                <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
+                                            </div>\n\
                                         </div>\n\
-                                        <div class='col-md-3'>\n\
-                                            <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='valida.resultado'></span>\n\
-                                            <span class='glyphicon glyphicon-remove pull-right' style='color: red;' v-else></span>\n\
-                                        </div>\n\
-                                    </div>\n\
-                                </li>\n\
+                                    </li>\n\
+                                </div>\n\
                                 <li class='list-group-item' style='text-align: center;'>\n\
                                     <label>Conclusão</label>\n\
                                 </li>\n\

@@ -11,6 +11,7 @@ var data = {
     validbuttondisable: false,
     motivos: null,
     listavalidacao: null,
+    veatendente: null,
     ins: {
         instancia: "4131543457"
     },

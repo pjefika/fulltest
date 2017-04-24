@@ -32,6 +32,10 @@ public class SessionUsuarioEfika implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+    
+    public boolean isAtendente() {
+        return this.usuario.getNivel() > 3;
+    }
 
     public boolean isAdmin() {
         return this.usuario.getNivel() > 7;
