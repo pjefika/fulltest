@@ -60,9 +60,9 @@ public class ManobraController extends AbstractController {
             f.consultar();
             this.includeSerializer(f.getCl());
         } catch (DslamNaoImplException ex) {
-            includeSerializer(ex);
+            includeSerializerNonRecursive(ex);
         } catch (RemoteException ex) {
-            includeSerializer(ex);
+            includeSerializerNonRecursive(ex);
         }
     }
 
@@ -118,6 +118,9 @@ public class ManobraController extends AbstractController {
     @Override
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).recursive().serialize();
+    }
+    public void includeSerializerNonRecursive(Object a) {
+        result.use(Results.json()).from(a).serialize();
     }
 
 }

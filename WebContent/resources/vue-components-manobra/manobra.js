@@ -8,7 +8,7 @@
 
 Vue.config.productionTip = false;
 
-var url = "/fulltestAPI/";
+var url = "/ftManobra/";
 
 Vue.component("manobra", {
     props: {
