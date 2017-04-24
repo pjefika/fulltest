@@ -16,6 +16,7 @@ import model.dslam.AbstractDslam;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
 import model.dslam.factory.exception.DslamNaoImplException;
+import model.dslam.factory.exception.FuncIndisponivelDslamException;
 import model.dslam.factory.exception.WorkOrderInexException;
 import model.entity.Cliente;
 import model.entity.ValidacaoFinal;
@@ -62,7 +63,7 @@ public class ValidaClienteManobraFacade {
         this.workOrderId = workOrderId;
     }
 
-    public void validar() throws DslamNaoImplException, RemoteException, Exception {
+    public void validar() throws DslamNaoImplException, RemoteException, Exception, FuncIndisponivelDslamException {
         conclusao.setMotivo(m);
         WorkOrder workOrder = woDao.getWorkOrder(workOrderId);
         if (workOrder == null) {
@@ -70,8 +71,12 @@ public class ValidaClienteManobraFacade {
         }
         ValidacaoCadastroTBS vTbs = new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon());
         if (vTbs.validar()) {
-            dslam = dao.getDslam(cl.getCadastro());
-            met = (ConsultaMetalicoDefault) dslam;
+            try {
+                dslam = dao.getDslam(cl.getCadastro());
+                met = (ConsultaMetalicoDefault) dslam;
+            } catch (Exception e) {
+                throw new FuncIndisponivelDslamException();
+            }
             if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
                 ValidacaoAutenticacao vA = new ValidacaoAutenticacao(cl.getAuth(), workOrder, m);
                 if (vA.validar()) {
