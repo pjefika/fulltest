@@ -81,8 +81,8 @@ Vue.component("buscaCadastro", {
     },
     methods: {
         pesquisar: function () {
-            var self = this;
-
+            var self = this;            
+            self.validbuttondisable = false;
             if (self.ins.instancia) {
                 if (!self.emconsulta) {
                     self.emconsulta = true;
@@ -138,12 +138,12 @@ Vue.component("buscaCadastro", {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
                 success: function (data) {
-                    if(data.list.length > 0){
-                        self.listavalidacao = data.list;    
-                    }else{
-                        self.listavalidacao = null;    
+                    if (data.list.length > 0) {
+                        self.listavalidacao = data.list;
+                    } else {
+                        self.listavalidacao = null;
                     }
-                    
+
                 }
             });
         }
@@ -250,13 +250,13 @@ Vue.component("panelvalida", {
                     },
                     complete: function () {
                         self.loadingvalida = false;
-                        self.validbuttondisable = false;
+                        //self.validbuttondisable = false;
                         self.searchbuttondisable = false;
                         self.notifica = {
                             menssagem: "Validação completa, verifique a tabela!",
                             typenotify: "info"
                         };
-                        self.emconsulta = false;
+                        self.emconsulta = false;                        
                     }
                 });
             } else {
@@ -270,40 +270,40 @@ Vue.component("panelvalida", {
 });
 
 Vue.component("listlogvalid", {
-	props: {
+    props: {
 
-	},
-	data: function () {
-		return data;
-	},
-	template: "<div>\n\
-                        <label>Já houve validação de porta para este cliente hoje</label>\n\
-                        <table class='table table-bordered small'>\n\
-                            <thead>\n\
-                                <tr>\n\
-                                    <th>Motivo</th>\n\
-                                    <th>Mensagem</th>\n\
-                                    <th>Resultado</th>\n\
-                                </tr>\n\
-                            </thead>\n\
-                            <tbody>\n\
-                                <tr v-for='list in listavalidacao'>\n\
-                                    <td>{{list.motivo}}</td>\n\
-                                    <td>{{list.mensagem}}</td>\n\
-                                    <td>\n\
-                                        <span class='glyphicon glyphicon-ok' style='color: green;' v-if='list.resultado'></span>\n\
-                                        <span class='glyphicon glyphicon-remove' style='color: red;' v-else></span>\n\
-                                    </td>\n\
-                                </tr>\n\
-                            </tbody>\n\
-                        </table>\n\
-                    </div>",
-	create: function () {
+    },
+    data: function () {
+        return data;
+    },
+    template: "<div>\n\
+                    <label>Já houve validação de porta para este cliente hoje</label>\n\
+                    <table class='table table-bordered small'>\n\
+                        <thead>\n\
+                            <tr>\n\
+                                <th>Motivo</th>\n\
+                                <th>Mensagem</th>\n\
+                                <th>Resultado</th>\n\
+                            </tr>\n\
+                        </thead>\n\
+                        <tbody>\n\
+                            <tr v-for='list in listavalidacao'>\n\
+                                <td>{{list.motivo}}</td>\n\
+                                <td>{{list.mensagem}}</td>\n\
+                                <td>\n\
+                                    <span class='glyphicon glyphicon-ok' style='color: green;' v-if='list.resultado'></span>\n\
+                                    <span class='glyphicon glyphicon-remove' style='color: red;' v-else></span>\n\
+                                </td>\n\
+                            </tr>\n\
+                        </tbody>\n\
+                    </table>\n\
+                </div>",
+    create: function () {
 
-	},
-	methods: {
+    },
+    methods: {
 
-	}
+    }
 });
 
 Vue.component("panelinformacoes", {
