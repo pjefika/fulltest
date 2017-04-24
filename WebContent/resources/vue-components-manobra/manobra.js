@@ -151,7 +151,6 @@ Vue.component("buscaCadastro", {
         validaatendente: function () {
             var self = this;
             $.get(url + "manobra/veatendente", function (data) {
-                //console.log(data);
                 self.veatendente = data.boolean;
             });
         }

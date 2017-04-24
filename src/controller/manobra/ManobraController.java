@@ -20,6 +20,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 import javax.inject.Inject;
 import model.Motivos;
+import model.annotation.Logado;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.entity.manobra.ValidacaoManobra;
@@ -41,6 +42,7 @@ public class ManobraController extends AbstractController {
     @Inject
     private ManobraDAO mDAO;
 
+    @Logado
     public void atendimento() {
 
     }
