@@ -69,7 +69,6 @@ Vue.component("buscaCadastro", {
                             }
                         },
                         complete: function () {
-                            console.log(self.tudo);
                             self.loading = false;
                             self.searchbuttondisable = false;
                             self.emconsulta = false;                            
