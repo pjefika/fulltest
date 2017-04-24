@@ -174,26 +174,7 @@ Vue.component("panelvalida", {
                         </div>\n\
                     </div>\n\
                     <div v-if='listavalidacao'>\n\
-                        <label>Já houve validação de porta para este cliente hoje</label>\n\
-                        <table class='table table-bordered small'>\n\
-                            <thead>\n\
-                                <tr>\n\
-                                    <th>Motivo</th>\n\
-                                    <th>Mensagem</th>\n\
-                                    <th>Resultado</th>\n\
-                                </tr>\n\
-                            </thead>\n\
-                            <tbody>\n\
-                                <tr v-for='list in listavalidacao'>\n\
-                                    <td>{{list.motivo}}</td>\n\
-                                    <td>{{list.mensagem}}</td>\n\
-                                    <td>\n\
-                                        <span class='glyphicon glyphicon-ok' style='color: green;' v-if='list.resultado'></span>\n\
-                                        <span class='glyphicon glyphicon-remove' style='color: red;' v-else></span>\n\
-                                    </td>\n\
-                                </tr>\n\
-                            </tbody>\n\
-                        </table>\n\
+                        <listlogvalid></listlogvalid>\n\
                     </div>\n\
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
                         <div class='col-md-12'>\n\
@@ -286,6 +267,43 @@ Vue.component("panelvalida", {
             }
         }
     }
+});
+
+Vue.component("listlogvalid", {
+	props: {
+
+	},
+	data: function () {
+		return data;
+	},
+	template: "<div>\n\
+                        <label>Já houve validação de porta para este cliente hoje</label>\n\
+                        <table class='table table-bordered small'>\n\
+                            <thead>\n\
+                                <tr>\n\
+                                    <th>Motivo</th>\n\
+                                    <th>Mensagem</th>\n\
+                                    <th>Resultado</th>\n\
+                                </tr>\n\
+                            </thead>\n\
+                            <tbody>\n\
+                                <tr v-for='list in listavalidacao'>\n\
+                                    <td>{{list.motivo}}</td>\n\
+                                    <td>{{list.mensagem}}</td>\n\
+                                    <td>\n\
+                                        <span class='glyphicon glyphicon-ok' style='color: green;' v-if='list.resultado'></span>\n\
+                                        <span class='glyphicon glyphicon-remove' style='color: red;' v-else></span>\n\
+                                    </td>\n\
+                                </tr>\n\
+                            </tbody>\n\
+                        </table>\n\
+                    </div>",
+	create: function () {
+
+	},
+	methods: {
+
+	}
 });
 
 Vue.component("panelinformacoes", {
