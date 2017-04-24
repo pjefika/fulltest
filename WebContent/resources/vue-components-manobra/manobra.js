@@ -82,7 +82,7 @@ Vue.component("buscaCadastro", {
     },
     methods: {
         pesquisar: function () {
-            var self = this;            
+            var self = this;
             self.validbuttondisable = false;
             if (self.ins.instancia) {
                 if (!self.emconsulta) {
@@ -169,19 +169,20 @@ Vue.component("panelvalida", {
                         <div class='col-md-12'>\n\
                             <div class='form-group' v-if='!listavalidacao'>\n\
                                 <label>Motivos:</label>\n\
-                                <div class='input-group'>\n\
-                                    <select class='form-control' v-model='motivochoose'>\n\
-                                        <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
-                                    </select>\n\
-                                    <span class='input-group-btn'>\n\
-                                        <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
-                                    </span>\n\
-                                </div>\n\
+                                <select class='form-control' v-model='motivochoose'>\n\
+                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
+                                </select>\n\
+                                <label>Ordem de Serviço:</label>\n\
+                                <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
+                                <br/>\n\
+                                <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
                             <div>\n\
                         </div>\n\
                     </div>\n\
-                    <div v-if='listavalidacao'>\n\
-                        <listlogvalid></listlogvalid>\n\
+                    <div v-if='listavalidacao' class='row'>\n\
+                        <div class='col-md-12'>\n\
+                            <listlogvalid></listlogvalid>\n\
+                        </div>\n\
                     </div>\n\
                     <div class='row' style='margin-top: 20px;' v-if='infosvalida'>\n\
                         <div class='col-md-12'>\n\
@@ -226,8 +227,6 @@ Vue.component("panelvalida", {
                         <div v-if='loadingvalida' style='text-align: center;'>\n\
                             <loading></loading>\n\
                         </div>\n\
-                        <div v-else>\n\
-                        </div>\n\
                     </div>\n\
                 </div>",
     create: function () {
@@ -236,10 +235,11 @@ Vue.component("panelvalida", {
     methods: {
         valida: function () {
             var self = this;
-            if (self.motivochoose) {
+            if (self.motivochoose && self.ordemdeserivo) {
                 var _data = {};
                 _data.cliente = self.tudo;
                 _data.motivo = self.motivochoose.nome;
+                _data.atividade = self.ordemdeserivo;                
                 $.ajax({
                     type: "POST",
                     url: url + "manobra/valida",
@@ -255,7 +255,6 @@ Vue.component("panelvalida", {
                     },
                     success: function (data) {
                         self.infosvalida = data.validaClienteManobraFacade;
-                        //console.log(data);
                     },
                     complete: function () {
                         self.loadingvalida = false;
@@ -265,12 +264,12 @@ Vue.component("panelvalida", {
                             menssagem: "Validação completa, verifique a tabela!",
                             typenotify: "info"
                         };
-                        self.emconsulta = false;                        
+                        self.emconsulta = false;
                     }
                 });
             } else {
                 self.notifica = {
-                    menssagem: "Selecione o motivo!",
+                    menssagem: "Selecione o motivo e insira a ordem de serviço!",
                     typenotify: "danger"
                 };
             }

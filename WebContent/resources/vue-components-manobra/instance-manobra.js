@@ -10,6 +10,7 @@ var data = {
     searchbuttondisable: false,
     validbuttondisable: false,
     motivos: null,
+    ordemdeserivo: null,
     listavalidacao: null,
     veatendente: null,
     ins: {

@@ -69,17 +69,15 @@ public class ManobraController extends AbstractController {
     @Post
     @Consumes(value = "application/json", options = WithRoot.class)
     @Path("/manobra/valida")
-    public void validarManobra(Cliente cliente, String motivo) {
+    public void validarManobra(Cliente cliente, String motivo, String atividade) {
         try {
             ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo));
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
             this.includeSerializer(f);
-//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
-            
+//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();            
         } catch (Exception e) {
-            e.printStackTrace();
-            includeSerializer(e);
+            includeSerializerNonRecursive(e);
         }
     }
     
@@ -91,7 +89,7 @@ public class ManobraController extends AbstractController {
             List<ValidacaoManobra> l = mDAO.listarValidEspecifo(cliente);
             this.includeSerializer(l);
         } catch (Exception e) {
-            includeSerializer(e);
+            includeSerializerNonRecursive(e);
         }
     }
 
@@ -101,7 +99,7 @@ public class ManobraController extends AbstractController {
         try {
             this.includeSerializer(Motivos.values());
         } catch (Exception e) {
-            this.includeSerializer(e);
+            this.includeSerializerNonRecursive(e);
         }
     }
     
@@ -111,7 +109,7 @@ public class ManobraController extends AbstractController {
         try {
             this.includeSerializer(sessionUsuarioEfika.isAtendente());
         } catch (Exception e) {
-            this.includeSerializer(e);
+            this.includeSerializerNonRecursive(e);
         }
     }
 
