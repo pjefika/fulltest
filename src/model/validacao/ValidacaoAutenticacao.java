@@ -5,7 +5,8 @@
  */
 package model.validacao;
 
-import bean.ossturbonet.oss.gvt.com.InfoRadius;
+import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.workOrderReportingEntities.WorkOrder;
+import com.gvt.www.ws.eai.oss.OSSTurbonetClienteAutenticado.OSSTurbonetClienteAutenticadoOut;
 
 /**
  *
@@ -13,20 +14,23 @@ import bean.ossturbonet.oss.gvt.com.InfoRadius;
  */
 public class ValidacaoAutenticacao extends Validacao {
 
-    private InfoRadius info;
+    private OSSTurbonetClienteAutenticadoOut auth;
 
-    public ValidacaoAutenticacao(InfoRadius info) {
-        this.info = info;
+    private WorkOrder order;
+
+    public ValidacaoAutenticacao(OSSTurbonetClienteAutenticadoOut auth, WorkOrder order) {
+        this.auth = auth;
+        this.order = order;
     }
 
     /**
-     * Implementar!
+     * Houve autenticação após abertura da ordem
      *
      * @return
      */
     @Override
     public Boolean validar() {
-        return false;
+        return !(auth.getDataHoraAutenticacao().after(order.getDateOfSale()) && auth.isClienteAutenticado());
     }
 
 }
