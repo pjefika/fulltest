@@ -127,11 +127,13 @@ Vue.component("panelvalida", {
                                     typenotify: "danger"
                                 };
                             } else if (data.workOrderInexException) {
+                                self.validbuttondisable = true;
                                 self.notifica = {
                                     menssagem: data.workOrderInexException.detailMessage,
                                     typenotify: "danger"
                                 };
                             } else {
+                                self.validbuttondisable = true;
                                 self.notifica = {
                                     menssagem: "Erro ao realizar validações.",
                                     typenotify: "danger"
