@@ -43,7 +43,7 @@ public class WorkOrderDAOJUnitTest {
 
         try {
             WorkOrderDAO dao = new WorkOrderDAO();
-            WorkOrder[] oi = dao.getWorkOrder("8-A2B34E2698A-1");
+            WorkOrder oi = dao.getWorkOrder("8-A2B434E2698A-1");
             System.out.println("fim");
             assertTrue(true);
         } catch (Exception e) {

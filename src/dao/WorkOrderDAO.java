@@ -8,7 +8,6 @@ package dao;
 import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.WorkOrderReporting.WorkOrderReportingProxy;
 import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.workOrderReportingEntities.FindWorkOrderIn;
 import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.workOrderReportingEntities.WorkOrder;
-import java.rmi.RemoteException;
 
 /**
  *
@@ -18,8 +17,12 @@ public class WorkOrderDAO {
 
     private WorkOrderReportingProxy service = new WorkOrderReportingProxy();
 
-    public WorkOrder[] getWorkOrder(String workOrderId) throws RemoteException {
-        return service.findWorkOrder(new FindWorkOrderIn(workOrderId, null, null, null));
+    public WorkOrder getWorkOrder(String workOrderId) {
+        try {
+            return service.findWorkOrder(new FindWorkOrderIn(workOrderId, null, null, null))[0];
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 }
