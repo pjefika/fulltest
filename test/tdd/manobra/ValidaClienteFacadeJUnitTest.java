@@ -46,7 +46,7 @@ public class ValidaClienteFacadeJUnitTest {
     @Test
     public void ValidarClienteJUnitTest() {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("CTA-81AFTMOU6-013"), Motivos.SEMAUTH, "40490318");
+            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("4830939884"), Motivos.SEMAUTH, "8-A2ABCAA0DCB-1");
             Gson g = new Gson();
             f.validar();
             System.out.println(g.toJson(f));

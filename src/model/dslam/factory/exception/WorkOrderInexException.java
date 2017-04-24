@@ -12,7 +12,7 @@ package model.dslam.factory.exception;
 public class WorkOrderInexException extends Exception {
 
     public WorkOrderInexException() {
-        super("Número de atividade inválido.");
+        super("Número de PON (SS) inválido.");
     }
 
 }

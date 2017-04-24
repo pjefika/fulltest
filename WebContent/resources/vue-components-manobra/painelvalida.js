@@ -21,7 +21,7 @@ Vue.component("panelvalida", {
                                 <select class='form-control' v-model='motivochoose'>\n\
                                     <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
                                 </select>\n\
-                                <label>Ordem de Serviço:</label>\n\
+                                <label>Ordem de Serviço (PON/SS):</label>\n\
                                 <div class='input-group'>\n\
                                     <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
                                     <span class='input-group-btn'>\n\
