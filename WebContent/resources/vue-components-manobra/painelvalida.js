@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,10 +7,8 @@
 /* global Vue */
 
 Vue.component("panelvalida", {
-    props: {
-
-    },
-    data: function () {
+    props: ['escolha'],
+    data: function() {
         return data;
     },
     template: "<div>\n\
@@ -19,7 +17,8 @@ Vue.component("panelvalida", {
                             <div class='form-group' v-if='!listavalidacao'>\n\
                                 <label>Motivos:</label>\n\
                                 <select class='form-control' v-model='motivochoose'>\n\
-                                    <option v-for='motivo in motivos' v-bind:value='motivo'>{{motivo.motivo}}</option>\n\
+                                    <option value='' disabled>Selecione</option>\n\
+                                    <option v-for='motivo in motivos' :value='motivo'>{{motivo.motivo}}</option>\n\
                                 </select>\n\
                                 <label>Ordem de Serviço (PON/SS):</label>\n\
                                 <div class='input-group'>\n\
@@ -82,11 +81,11 @@ Vue.component("panelvalida", {
                         </div>\n\
                     </div>\n\
                 </div>",
-    create: function () {
+    create: function() {
 
     },
     methods: {
-        valida: function () {
+        valida: function() {
             var self = this;
             if (self.motivochoose && self.ordemdeserivo) {
                 var _data = {};
@@ -98,7 +97,7 @@ Vue.component("panelvalida", {
                     url: url + "manobra/valida",
                     data: JSON.stringify(_data),
                     dataType: "json",
-                    beforeSend: function (xhr) {
+                    beforeSend: function(xhr) {
                         xhr.setRequestHeader("Content-Type", "application/json");
                         self.infosvalida = null;
                         self.loadingvalida = true;
@@ -106,7 +105,7 @@ Vue.component("panelvalida", {
                         self.searchbuttondisable = true;
                         self.emconsulta = true;
                     },
-                    success: function (data) {
+                    success: function(data) {
                         if (data.validaClienteManobraFacade) {
                             self.infosvalida = data.validaClienteManobraFacade;
                             self.notifica = {
@@ -144,7 +143,7 @@ Vue.component("panelvalida", {
                             }
                         }
                     },
-                    complete: function () {
+                    complete: function() {
                         self.loadingvalida = false;
                         self.searchbuttondisable = false;
                         self.emconsulta = false;

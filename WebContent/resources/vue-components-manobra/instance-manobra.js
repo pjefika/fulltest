@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -27,22 +27,22 @@ var data = {
         typenotify: null
     },
     emconsulta: null,
-    motivochoose: null
+    motivochoose: ''
 };
 
 var vmi = new Vue({
     el: "#instance",
-    data: function () {
+    data: function() {
         return data;
     },
-    created: function () {
+    created: function() {
 
     },
     methods: {
-        
+
     },
     watch: {
-        notifica: function () {
+        notifica: function() {
             var self = this;
             $.notify({
                 message: self.notifica.menssagem
@@ -57,10 +57,3 @@ var vmi = new Vue({
         }
     }
 });
-
-//vmi.$on("notifythismsg", function (o) {
-//    this.notifica = {
-//        menssagem: o.msg,
-//        typenotify: o.type
-//    };
-//});

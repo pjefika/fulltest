@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -8,7 +8,7 @@
 Vue.component("buscaCadastro", {
     props: {
     },
-    data: function () {
+    data: function() {
         return data;
     },
     template: "<div>\n\
@@ -27,13 +27,13 @@ Vue.component("buscaCadastro", {
                         </div>\n\
                     </div>\n\
                 </div>",
-    created: function () {
+    created: function() {
         var self = this;
         self.buscamotivos();
         self.validaatendente();
     },
     methods: {
-        pesquisar: function () {
+        pesquisar: function() {
             var self = this;
             self.validbuttondisable = false;
             if (self.ins.instancia) {
@@ -44,18 +44,18 @@ Vue.component("buscaCadastro", {
                         url: url + "manobra/busca",
                         data: JSON.stringify(self.ins),
                         dataType: "json",
-                        beforeSend: function (xhr) {
+                        beforeSend: function(xhr) {
                             xhr.setRequestHeader("Content-Type", "application/json");
                             self.loading = true;
                             self.infosvalida = null;
-                            self.motivochoose = null;
+                            self.motivochoose = "";
                             self.ordemdeserivo = null;
                             self.searchbuttondisable = true;
                         },
-                        success: function (data) {
+                        success: function(data) {
                             self.tudo = null;
-                            if (data.cliente) {                                                               
-                                self.tudo = data.cliente;                                
+                            if (data.cliente) {
+                                self.tudo = data.cliente;
                                 self.notifica = {
                                     menssagem: "Busca realizada com sucesso!",
                                     typenotify: "success"
@@ -68,10 +68,10 @@ Vue.component("buscaCadastro", {
                                 };
                             }
                         },
-                        complete: function () {
+                        complete: function() {
                             self.loading = false;
                             self.searchbuttondisable = false;
-                            self.emconsulta = false;                            
+                            self.emconsulta = false;
                         }
                     });
                 }
@@ -82,23 +82,23 @@ Vue.component("buscaCadastro", {
                 };
             }
         },
-        buscamotivos: function () {
+        buscamotivos: function() {
             var self = this;
-            $.get(url + "manobra/motivos", function (data) {
+            $.get(url + "manobra/motivos", function(data) {
                 self.motivos = data.motivosList;
             });
         },
-        listavalidlog: function () {
+        listavalidlog: function() {
             var self = this;
             $.ajax({
                 type: "POST",
                 url: url + "manobra/listavalidesp",
                 data: JSON.stringify(self.tudo),
                 dataType: "json",
-                beforeSend: function (xhr) {
+                beforeSend: function(xhr) {
                     xhr.setRequestHeader("Content-Type", "application/json");
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.list.length > 0) {
                         self.listavalidacao = data.list;
                     } else {
@@ -108,9 +108,9 @@ Vue.component("buscaCadastro", {
                 }
             });
         },
-        validaatendente: function () {
+        validaatendente: function() {
             var self = this;
-            $.get(url + "manobra/veatendente", function (data) {
+            $.get(url + "manobra/veatendente", function(data) {
                 self.veatendente = data.boolean;
             });
         }
