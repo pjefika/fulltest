@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.consultas;
+package tdd.validacao;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import model.Motivos;
 import model.entity.Cliente;
-import model.facade.ConsultaClienteFacade;
+import model.facade.ValidaClienteManobraFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,11 +20,9 @@ import org.junit.Test;
  *
  * @author G0042204
  */
-public class ConsultaClienteJUnitTest {
+public class ValidarManobraAutenticacaoJUnitTest {
 
-    private ConsultaClienteFacade f;
-
-    public ConsultaClienteJUnitTest() {
+    public ValidarManobraAutenticacaoJUnitTest() {
     }
 
     @BeforeClass
@@ -41,18 +42,16 @@ public class ConsultaClienteJUnitTest {
     }
 
     @Test
-    public void consultar() {
+    public void autenticacao() {
 
+        ValidaClienteManobraFacade f;
         try {
-            f = new ConsultaClienteFacade(new Cliente("4130222839"));
-            f.consultar();
-            System.out.println("end");
-
+            f = new ValidaClienteManobraFacade(new Cliente("4130222839"), Motivos.SEMAUTH, "");
+            f.validar();
+            System.out.println("Teste");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(ValidarManobraAutenticacaoJUnitTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        System.out.println("");
 
     }
 }
