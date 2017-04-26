@@ -55,9 +55,12 @@ public class ConsultaDslam implements Conector {
     }
 
     public void close() throws IOException {
-        out.close();
-        in.close();
-        pingSocket.close();
+        if (out != null) {
+            out.close();
+            in.close();
+            pingSocket.close();
+        }
+
     }
 
     public ComandoDslam consulta(ComandoDslam comando) throws Exception {
