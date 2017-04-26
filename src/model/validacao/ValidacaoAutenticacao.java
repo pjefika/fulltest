@@ -34,7 +34,7 @@ public class ValidacaoAutenticacao extends Validacao {
      */
     @Override
     public Boolean validar() {
-        Boolean ret = !(auth.getDataHoraAutenticacao().after(order.getDateOfSale()) && auth.isClienteAutenticado());
+        Boolean ret = !(auth.getDataHoraAutenticacao().after(order.getDateOfSale()));
         this.setResultado(ret);
         if (ret) {
             this.setMensagem("Não existe autenticação após abertura da atividade.");
@@ -44,7 +44,7 @@ public class ValidacaoAutenticacao extends Validacao {
         if (m.equals(Motivos.SEMSINC)) {
             return true;
         }
-        
+
         return ret;
     }
 
