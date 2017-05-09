@@ -65,12 +65,12 @@ Vue.component("panelvalida", {
                                 <li class='list-group-item' style='text-align: center;'>\n\
                                     <label>Conclusão</label>\n\
                                 </li>\n\
-                                <li class='list-group-item'>\n\
-                                    <label>{{infosvalida.conclusao.fraseologia}}</label>\n\
+                                <li class='list-group-item' :class='\"list-group-item-danger\": !infosvalida.conclusao.conclusao'>\n\
+                                    <label v-if='infosvalida.conclusao.conclusao'>Manobra Permitida</label>\n\
+                                    <label v-else>Manobra não permitida</label>\n\
                                     <div class='row' v-if='infosvalida.conclusao.fraseologia !== \"Motivo não implementado.\" '>\n\
                                         <div class='col-md-9'>\n\
-                                            <p v-if='infosvalida.conclusao.conclusao'>Manobra Permitida</p>\n\
-                                            <p v-else>Manobra não permitida</p>\n\
+                                            <p>{{infosvalida.conclusao.fraseologia}}</p>\n\
                                         </div>\n\
                                         <div class='col-md-3'>\n\
                                             <span class='glyphicon glyphicon-ok pull-right' style='color: green;' v-if='infosvalida.conclusao.conclusao'></span>\n\
