@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -14,11 +14,12 @@ Vue.component("manobra", {
     props: {
 
     },
-    data: function () {
+    data: function() {
         return data;
     },
     template: "<div style='margin-top: 20px;'>\n\
                     <busca-cadastro></busca-cadastro>\n\
+                    <hr/>\n\
                     <div v-if='loading' style='margin-top: 20px;'>\n\
                         <loading></loading>\n\
                     </div>\n\
@@ -26,9 +27,9 @@ Vue.component("manobra", {
                         <div v-if='tudo' style='margin-top: 20px;'>\n\
                             <div class='row'>\n\
                                 <div class='col-md-3'>\n\
-                                    <ul class='nav nav-tabs tabs-left'>\n\
+                                    <ul class='nav nav-pills nav-stacked'>\n\
                                         <li class='active'><a href='#info' data-toggle='tab'>Informações</a></li>\n\
-                                        <li><a href='#valid' data-toggle='tab'>Valida Manobra</a></li>\n\
+                                        <li><a href='#valid' data-toggle='tab'>Validador Manobra</a></li>\n\
                                     </ul>\n\
                                 </div>\n\
                                 <div class='col-md-9'>\n\
@@ -45,7 +46,7 @@ Vue.component("manobra", {
                         </div>\n\
                     </div>\n\
                 </div>",
-    create: function () {
+    create: function() {
 
     },
     methods: {

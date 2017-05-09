@@ -14,6 +14,12 @@ Vue.component("panelvalida", {
     template: "<div>\n\
                     <div class='row'>\n\
                         <div class='col-md-12'>\n\
+                            <h2>Validador Manobra</h2>\n\
+                            <hr/>\n\
+                        </div>\n\
+                    </div>\n\
+                    <div class='row'>\n\
+                        <div class='col-md-12'>\n\
                             <div class='form-group' v-if='!listavalidacao'>\n\
                                 <label>Motivos:</label>\n\
                                 <select class='form-control' v-model='motivochoose'>\n\
