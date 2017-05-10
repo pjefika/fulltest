@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -9,11 +9,14 @@ Vue.component("listlogvalid", {
     props: {
 
     },
-    data: function () {
+    data: function() {
         return data;
     },
     template: "<div>\n\
-                    <label>Já houve validação de porta para este cliente hoje</label>\n\
+                    \n\
+                    <div class='alert alert-danger' role='alert'>\n\
+                        <strong>Manobra não permitida.</strong> Já houve validação de porta para este cliente hoje.\n\
+                    </div>\n\
                     <table class='table table-bordered small'>\n\
                         <thead>\n\
                             <tr>\n\
@@ -34,7 +37,7 @@ Vue.component("listlogvalid", {
                         </tbody>\n\
                     </table>\n\
                 </div>",
-    create: function () {
+    create: function() {
 
     },
     methods: {

@@ -25,6 +25,7 @@ public class ValidacaoAutenticacao extends Validacao {
         this.auth = auth;
         this.order = order;
         this.m = ms;
+        this.nome = "Autenticação";
     }
 
     /**

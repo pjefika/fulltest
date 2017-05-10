@@ -79,7 +79,10 @@ public class ValidaClienteManobraFacade {
             }
             if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
                 ValidacaoAutenticacao vA = new ValidacaoAutenticacao(cl.getAuth(), workOrder, m);
-                if (vA.validar()) {
+                Boolean result = vA.validar();
+                valids.add(vA);
+
+                if (result) {
                     EstadoDaPorta ep = met.getEstadoDaPorta();
                     ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep, m);
                     valids.add(vEP);
