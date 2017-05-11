@@ -21,6 +21,7 @@ import java.util.List;
 import javax.inject.Inject;
 import model.Motivos;
 import model.annotation.Logado;
+import model.annotation.NoCache;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.entity.manobra.ValidacaoManobra;
@@ -35,7 +36,7 @@ import model.facade.ValidaClienteManobraFacade;
 public class ManobraController extends AbstractController {
 
     private CadastroDAO dao = new CadastroDAO();
-    
+
     @Inject
     private SessionUsuarioEfika sessionUsuarioEfika;
 
@@ -43,6 +44,7 @@ public class ManobraController extends AbstractController {
     private ManobraDAO mDAO;
 
     @Logado
+    @NoCache
     public void atendimento() {
 
     }
@@ -75,12 +77,12 @@ public class ManobraController extends AbstractController {
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
             this.includeSerializer(f);
-//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();            
+//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
         } catch (Exception e) {
             includeSerializerNonRecursive(e);
         }
     }
-    
+
     @Post
     @Consumes("application/json")
     @Path("/manobra/listavalidesp")
@@ -102,7 +104,7 @@ public class ManobraController extends AbstractController {
             this.includeSerializerNonRecursive(e);
         }
     }
-    
+
     @Get
     @Path("/manobra/veatendente")
     public void atendente() {
@@ -117,6 +119,7 @@ public class ManobraController extends AbstractController {
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).recursive().serialize();
     }
+
     public void includeSerializerNonRecursive(Object a) {
         result.use(Results.json()).from(a).serialize();
     }

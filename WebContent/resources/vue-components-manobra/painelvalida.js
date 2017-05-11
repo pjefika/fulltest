@@ -14,24 +14,28 @@ Vue.component("panelvalida", {
     template: "<div>\n\
                     <div class='row'>\n\
                         <div class='col-md-12'>\n\
-                            <h2>Validador Manobra</h2>\n\
+                            <h3>Validador Manobra</h3>\n\
                             <hr/>\n\
                         </div>\n\
                     </div>\n\
                     <div class='row'>\n\
                         <div class='col-md-12'>\n\
-                            <div class='form-group' v-if='!listavalidacao'>\n\
-                                <label>Motivos:</label>\n\
-                                <select class='form-control' v-model='motivochoose'>\n\
-                                    <option value='' disabled>Selecione</option>\n\
-                                    <option v-for='motivo in motivos' :value='motivo'>{{motivo.motivo}}</option>\n\
-                                </select>\n\
-                                <label>Ordem de Serviço (PON/SS):</label>\n\
-                                <div class='input-group'>\n\
-                                    <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
-                                    <span class='input-group-btn'>\n\
-                                        <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
-                                    </span>\n\
+                            <div v-if='!listavalidacao'>\n\
+                                <div class='form-group'>\n\
+                                    <label>Motivos:</label>\n\
+                                    <select class='form-control' v-model='motivochoose'>\n\
+                                        <option value='' disabled>Selecione</option>\n\
+                                        <option v-for='motivo in motivos' :value='motivo'>{{motivo.motivo}}</option>\n\
+                                    </select>\n\
+                                </div>\n\
+                                <div class='form-group'>\n\
+                                    <label>Ordem de Serviço (PON/SS):</label>\n\
+                                    <div class='input-group'>\n\
+                                        <input class='form-control' type='text' placeholder='Insira a ordem de serviço' v-model='ordemdeserivo'/>\n\
+                                        <span class='input-group-btn'>\n\
+                                            <button type='button' class='btn btn-primary pull-right' @click='valida()' :disabled='validbuttondisable' style='width: 100px;'>Validar</button>\n\
+                                        </span>\n\
+                                    </div>\n\
                                 </div>\n\
                             <div>\n\
                         </div>\n\
@@ -65,7 +69,7 @@ Vue.component("panelvalida", {
                                 <li class='list-group-item' style='text-align: center;'>\n\
                                     <label>Conclusão</label>\n\
                                 </li>\n\
-                                <li class='list-group-item' :class='\"list-group-item-danger\": !infosvalida.conclusao.conclusao'>\n\
+                                <li class='list-group-item' :class=\"{'list-group-item-danger': !infosvalida.conclusao.conclusao, 'list-group-item-success': infosvalida.conclusao.conclusao}\">\n\
                                     <label v-if='infosvalida.conclusao.conclusao'>Manobra Permitida</label>\n\
                                     <label v-else>Manobra não permitida</label>\n\
                                     <div class='row' v-if='infosvalida.conclusao.fraseologia !== \"Motivo não implementado.\" '>\n\
