@@ -16,7 +16,7 @@ Vue.component("panelinformacoes", {
     template: " <div>\n\
                     <div class='row'>\n\
                         <div class='col-md-12'>\n\
-                            <h2>Informações</h2>\n\
+                            <h3>Informações</h3>\n\
                             <hr/>\n\
                         </div>\n\
                     </div>\n\
