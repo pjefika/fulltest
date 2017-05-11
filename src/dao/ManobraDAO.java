@@ -17,10 +17,13 @@ import model.entity.manobra.ValidacaoManobra;
  * @author G0042204
  */
 public class ManobraDAO extends ComponenteTestsDAO {
-    
+
     public List<ValidacaoManobra> listarValidEspecifo(Cliente cliente) {
         try {
-            Query query = this.entityManager.createQuery("FROM ValidacaoManobra v WHERE (v.instancia =:param OR v.designador =:param) AND DATEDIFF('day', v.data, NOW()) = 0");
+            Query query = this.entityManager.createQuery("FROM ValidacaoManobra v WHERE 1=1 "
+                    + "AND (v.instancia =:param OR v.designador =:param) "
+                    + "AND DATEDIFF('day', v.data, NOW()) = 0"
+                    + "AND v.resultado = false");
             query.setParameter("param", cliente.getDesignador());
             return query.getResultList();
         } catch (Exception e) {
