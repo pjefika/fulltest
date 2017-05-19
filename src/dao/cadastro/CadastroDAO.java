@@ -27,10 +27,12 @@ import model.entity.Cliente;
  */
 public class CadastroDAO {
 
-    private OSSTurbonetProxy ws = new OSSTurbonetProxy();
-    private DslamDAOFactory factory = new DslamDAOFactory();
+    private final OSSTurbonetProxy ws;
+    private final DslamDAOFactory factory;
 
     public CadastroDAO() {
+        ws = new OSSTurbonetProxy();
+        factory = new DslamDAOFactory();
     }
 
     public OSSTurbonetInconsistenciaTBSRadiusOut verificarInconsistenciaTBSRadius(GetInfoOut info) throws RemoteException {

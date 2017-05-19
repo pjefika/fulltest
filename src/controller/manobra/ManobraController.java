@@ -15,7 +15,6 @@ import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
 import controller.autenticacao.SessionUsuarioEfika;
 import dao.ManobraDAO;
-import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import java.util.List;
 import javax.inject.Inject;
@@ -27,6 +26,7 @@ import model.entity.Cliente;
 import model.entity.manobra.ValidacaoManobra;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteManobraFacade;
+import model.facade.ValidaClienteManobraFactory;
 
 /**
  *
@@ -35,13 +35,14 @@ import model.facade.ValidaClienteManobraFacade;
 @Controller
 public class ManobraController extends AbstractController {
 
-    private CadastroDAO dao = new CadastroDAO();
-
     @Inject
-    private SessionUsuarioEfika sessionUsuarioEfika;
+    private SessionUsuarioEfika session;
 
     @Inject
     private ManobraDAO mDAO;
+    
+    @Inject
+    private ValidaClienteManobraFactory fac;
 
     @Logado
     @NoCache
@@ -73,12 +74,13 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/valida")
     public void validarManobra(Cliente cliente, String motivo, String atividade) {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo), atividade);
+            ValidaClienteManobraFacade f = fac.create(Motivos.valueOf(motivo));
+            f.setLogin(session.getUsuario().getLogin());
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
             this.includeSerializer(f);
-//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
         } catch (Exception e) {
+            e.printStackTrace();
             includeSerializerNonRecursive(e);
         }
     }
@@ -109,7 +111,7 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/veatendente")
     public void atendente() {
         try {
-            this.includeSerializer(sessionUsuarioEfika.isAtendente());
+            this.includeSerializer(session.isAtendente());
         } catch (Exception e) {
             this.includeSerializerNonRecursive(e);
         }

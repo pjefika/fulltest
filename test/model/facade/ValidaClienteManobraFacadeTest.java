@@ -3,28 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.manobra;
+package model.facade;
 
-import model.Motivos;
 import model.entity.Cliente;
-import model.facade.ValidaClienteManobraFacade;
-import model.facade.ValidaClienteManobraSemSincFacade;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author G0042204
  */
-public class ValidaClienteFacadeJUnitTest {
+public class ValidaClienteManobraFacadeTest {
 
-    private ValidaClienteManobraFacade f;
-
-    public ValidaClienteFacadeJUnitTest() {
+    public ValidaClienteManobraFacadeTest() {
     }
 
     @BeforeClass
@@ -43,15 +38,28 @@ public class ValidaClienteFacadeJUnitTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of validar method, of class ValidaClienteManobraFacade.
+     */
     @Test
-    public void ValidarClienteJUnitTest() {
+    public void testValidar() {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraSemSincFacade(new Cliente("1133701155"), "8-2ECU32G8");
-            f.validar();
-            System.out.println("fim");
+            System.out.println("validar");
+
+            Cliente cliente = new Cliente("4130886762");
+            String atividade = "8-2LI6KSEJ";
+            ValidaClienteManobraFacade instance = new ValidaClienteManobraSemSincFacade(cliente, atividade);
+            instance.setLogin("JUnit");
+            instance.validar();
+            // TODO review the generated test code and remove the default call to fail.
+            System.out.println("End");
+            assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
+
         }
+
     }
+
 }

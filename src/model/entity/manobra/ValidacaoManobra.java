@@ -7,9 +7,10 @@ package model.entity.manobra;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import java.math.BigInteger;
-import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import model.entity.AbstractEntity;
 import model.entity.Cliente;
@@ -25,10 +26,13 @@ public class ValidacaoManobra extends AbstractEntity {
 
     private String instancia, designador, modeloDslam;
     private BigInteger slot, porta, endSeqPorta;
-    private String ipDslam, nomeArmario, shelf, nomeBras, mensagem, motivo, atividade;
-    private Calendar data = Calendar.getInstance();
+    private String ipDslam, nomeArmario, shelf, nomeBras, mensagem, motivo, atividade, login;
     private Boolean resultado;
-    
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date inicio;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date fim;
+
     @Transient
     private Cliente c;
 //
@@ -38,6 +42,7 @@ public class ValidacaoManobra extends AbstractEntity {
     public ValidacaoManobra() {
     }
 
+    
     public ValidacaoManobra(ValidaClienteManobraFacade f) {
         if (f.getCl() != null) {
             c = f.getCl();
@@ -56,6 +61,9 @@ public class ValidacaoManobra extends AbstractEntity {
             this.motivo = f.getConclusao().getMotivo().getMotivo();
             this.resultado = f.getConclusao().getConclusao();
             this.atividade = f.getWorkOrderId();
+            this.inicio = f.getInicio();
+            this.fim = f.getFim();
         }
     }
+
 }

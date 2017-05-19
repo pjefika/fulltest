@@ -8,137 +8,87 @@ package model.facade;
 import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagementReporting.workOrderReportingEntities.WorkOrder;
 import dao.WorkOrderDAO;
 import dao.cadastro.CadastroDAO;
-import java.rmi.RemoteException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Motivos;
 import model.dslam.AbstractDslam;
-import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
-import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.factory.exception.FuncIndisponivelDslamException;
+import model.dslam.factory.exception.CadastroITException;
 import model.dslam.factory.exception.WorkOrderInexException;
 import model.entity.Cliente;
 import model.entity.ValidacaoFinal;
 import model.validacao.Validacao;
-import model.validacao.ValidacaoAutenticacao;
 import model.validacao.ValidacaoCadastroTBS;
-import model.validacao.ValidacaoEstadoPorta;
-import model.validacao.ValidacaoParametros;
-import model.validacao.ValidacaoRede;
-import model.validacao.ValidacaoVlanBanda;
-import model.validacao.manobra.ValidacaoEstadoPortaManobra;
-import model.validacao.manobra.ValidacaoParametrosManobra;
-import model.validacao.manobra.ValidacaoRedeManobra;
 
 /**
  *
  * @author G0042204
  */
-public class ValidaClienteManobraFacade {
+public abstract class ValidaClienteManobraFacade {
 
-    private transient Cliente cl;
+    protected Cliente cl;
 
-    private transient Motivos m;
+    protected Motivos m;
 
-    private transient CadastroDAO dao = new CadastroDAO();
+    protected CadastroDAO dao;
 
-    private transient WorkOrderDAO woDao = new WorkOrderDAO();
+    protected WorkOrderDAO woDao;
 
-    private transient ConsultaMetalicoDefault met;
+    protected ConsultaMetalicoDefault met;
 
-    private transient AbstractDslam dslam;
+    protected AbstractDslam dslam;
 
-    private List<Validacao> valids;
+    protected List<Validacao> valids;
 
-    private ValidacaoFinal conclusao;
+    protected ValidacaoFinal conclusao;
 
-    private String workOrderId;
+    protected String workOrderId;
 
-    public ValidaClienteManobraFacade(Cliente cl, Motivos m, String workOrderId) throws DslamNaoImplException, RemoteException {
-        this.cl = dao.getCliente(cl);
+    protected String login;
+
+    protected Date inicio, fim;
+
+    protected WorkOrder workOrder;
+
+    public ValidaClienteManobraFacade(Cliente cl, Motivos m, String workOrderId) {
         this.m = m;
         this.valids = new ArrayList<>();
         this.conclusao = new ValidacaoFinal();
         this.workOrderId = workOrderId;
+        this.inicio = Calendar.getInstance().getTime();
+        this.cl = cl;
+        dao = new CadastroDAO();
+        woDao = new WorkOrderDAO();
+        woDao = new WorkOrderDAO();
     }
 
-    public void validar() throws DslamNaoImplException, RemoteException, Exception, FuncIndisponivelDslamException {
+    public void validar() throws Exception {
+        this.cl = dao.getCliente(cl);
         conclusao.setMotivo(m);
-        WorkOrder workOrder = woDao.getWorkOrder(workOrderId);
+        this.workOrder = woDao.getWorkOrder(workOrderId);
         if (workOrder == null) {
             throw new WorkOrderInexException();
         }
         ValidacaoCadastroTBS vTbs = new ValidacaoCadastroTBS(cl.getCadastro(), cl.getIncon());
-        if (vTbs.validar()) {
-            try {
-                dslam = dao.getDslam(cl.getCadastro());
-                met = (ConsultaMetalicoDefault) dslam;
-            } catch (Exception e) {
-                throw new FuncIndisponivelDslamException();
-            }
-            if (m.equals(Motivos.SEMAUTH) || m.equals(Motivos.SEMSINC)) {
-                ValidacaoAutenticacao vA = new ValidacaoAutenticacao(cl.getAuth(), workOrder, m);
-                Boolean result = vA.validar();
-                valids.add(vA);
-
-                if (result) {
-                    EstadoDaPorta ep = met.getEstadoDaPorta();
-                    ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep, m);
-                    valids.add(vEP);
-                    if (vEP.validar()) {
-                        ValidacaoVlanBanda vlanValid = new ValidacaoVlanBanda(met.getVlanBanda(), dslam);
-                        valids.add(vlanValid);
-
-                        if (vlanValid.validar()) {
-                            ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede(), m);
-                            valids.add(vR);
-
-                            conclusao.setConclusao(vR.validar());
-                            conclusao.setFraseologia(vR.getMensagem());
-                        } else {
-                            conclusao.setConclusao(vlanValid.getResultado());
-                            conclusao.setFraseologia(vlanValid.getMensagem());
-                        }
-                    } else {
-                        conclusao.setConclusao(vEP.getResultado());
-                        conclusao.setFraseologia(vEP.getMensagem());
-                    }
-                } else {
-                    conclusao.setConclusao(vA.getResultado());
-                    conclusao.setFraseologia(vA.getMensagem());
-                }
-
-            } else if (m.equals(Motivos.QUEDA) || m.equals(Motivos.SEMNAVEG)) {
-                ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede(), m);
-                valids.add(vR);
-
-                conclusao.setConclusao(vR.validar());
-                conclusao.setFraseologia(vR.getMensagem());
-            } else if (m.equals(Motivos.SEMVEL)) {
-                ValidacaoParametros vP = new ValidacaoParametrosManobra(met.getTabelaParametros(), dslam);
-                valids.add(vP);
-
-                if (!vP.validar()) {
-                    ValidacaoRede vR = new ValidacaoRedeManobra(met.getTabelaRede(), m);
-                    valids.add(vR);
-
-                    conclusao.setConclusao(vR.validar());
-                    conclusao.setFraseologia(vR.getMensagem());
-                } else {
-                    conclusao.setConclusao(vP.validar());
-                    conclusao.setFraseologia(vP.getMensagem());
-                }
-
-            } else {
-                conclusao.setConclusao(Boolean.FALSE);
-                conclusao.setFraseologia("Motivo não implementado.");
-            }
-        } else {
-            conclusao.setConclusao(vTbs.getResultado());
-            conclusao.setFraseologia(vTbs.getMensagem());
+        if (!vTbs.validar()) {
+            throw new CadastroITException();
         }
-        dslam.desconectar();
+        dslam = dao.getDslam(cl.getCadastro());
+        met = (ConsultaMetalicoDefault) dslam;
+    }
+
+    public void finalizar() {
+        try {
+            dslam.desconectar();
+        } catch (IOException ex) {
+            Logger.getLogger(ValidaClienteManobraFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.fim = Calendar.getInstance().getTime();
     }
 
     public List<Validacao> getValids() {
@@ -159,6 +109,30 @@ public class ValidaClienteManobraFacade {
 
     public String getWorkOrderId() {
         return workOrderId;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public Date getInicio() {
+        return inicio;
+    }
+
+    public Date getFim() {
+        return fim;
+    }
+
+    public void setInicio(Date inicio) {
+        this.inicio = inicio;
+    }
+
+    public void setFim(Date fim) {
+        this.fim = fim;
     }
 
 }
