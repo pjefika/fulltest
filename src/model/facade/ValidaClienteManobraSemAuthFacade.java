@@ -34,6 +34,7 @@ public class ValidaClienteManobraSemAuthFacade extends ValidaClienteManobraFacad
 
     @Override
     public void validar() throws DslamNaoImplException, RemoteException, Exception, FuncIndisponivelDslamException {
+        super.validar();
         ValidacaoAutenticacao vA = new ValidacaoAutenticacao(cl.getAuth(), workOrder, m);
         Boolean result = vA.validar();
         valids.add(vA);

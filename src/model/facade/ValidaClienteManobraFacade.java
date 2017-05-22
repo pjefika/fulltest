@@ -35,13 +35,13 @@ public abstract class ValidaClienteManobraFacade {
 
     protected Motivos m;
 
-    protected CadastroDAO dao;
+    protected transient CadastroDAO dao;
 
-    protected WorkOrderDAO woDao;
+    protected transient WorkOrderDAO woDao;
+    
+    protected transient ConsultaMetalicoDefault met;
 
-    protected ConsultaMetalicoDefault met;
-
-    protected AbstractDslam dslam;
+    protected transient AbstractDslam dslam;
 
     protected List<Validacao> valids;
 
@@ -53,21 +53,16 @@ public abstract class ValidaClienteManobraFacade {
 
     protected Date inicio, fim;
 
-    protected WorkOrder workOrder;
+    protected transient WorkOrder workOrder;
 
     public ValidaClienteManobraFacade(Cliente cl, Motivos m, String workOrderId) {
         this.m = m;
-        this.valids = new ArrayList<>();
-        this.conclusao = new ValidacaoFinal();
         this.workOrderId = workOrderId;
-        this.inicio = Calendar.getInstance().getTime();
         this.cl = cl;
-        dao = new CadastroDAO();
-        woDao = new WorkOrderDAO();
-        woDao = new WorkOrderDAO();
     }
 
     public void validar() throws Exception {
+        this.iniciar();
         this.cl = dao.getCliente(cl);
         conclusao.setMotivo(m);
         this.workOrder = woDao.getWorkOrder(workOrderId);
@@ -80,6 +75,14 @@ public abstract class ValidaClienteManobraFacade {
         }
         dslam = dao.getDslam(cl.getCadastro());
         met = (ConsultaMetalicoDefault) dslam;
+    }
+
+    public void iniciar() {
+        dao = new CadastroDAO();
+        woDao = new WorkOrderDAO();
+        valids = new ArrayList<>();
+        conclusao = new ValidacaoFinal();
+        inicio = Calendar.getInstance().getTime();
     }
 
     public void finalizar() {
@@ -133,6 +136,66 @@ public abstract class ValidaClienteManobraFacade {
 
     public void setFim(Date fim) {
         this.fim = fim;
+    }
+
+    public CadastroDAO getDao() {
+        return dao;
+    }
+
+    public void setDao(CadastroDAO dao) {
+        this.dao = dao;
+    }
+
+    public WorkOrderDAO getWoDao() {
+        return woDao;
+    }
+
+    public void setWoDao(WorkOrderDAO woDao) {
+        this.woDao = woDao;
+    }
+
+    public ConsultaMetalicoDefault getMet() {
+        return met;
+    }
+
+    public void setMet(ConsultaMetalicoDefault met) {
+        this.met = met;
+    }
+
+    public AbstractDslam getDslam() {
+        return dslam;
+    }
+
+    public void setDslam(AbstractDslam dslam) {
+        this.dslam = dslam;
+    }
+
+    public WorkOrder getWorkOrder() {
+        return workOrder;
+    }
+
+    public void setWorkOrder(WorkOrder workOrder) {
+        this.workOrder = workOrder;
+    }
+
+    public void setCl(Cliente cl) {
+        this.cl = cl;
+    }
+
+    public void setM(Motivos m) {
+        this.m = m;
+    }
+
+    public void setValids(List<Validacao> valids) {
+        this.valids = valids;
+    }
+
+    public void setConclusao(ValidacaoFinal conclusao) {
+        this.conclusao = conclusao;
+    }
+
+    public void setWorkOrderId(String workOrderId) {
+        this.workOrderId = workOrderId;
     }
 
 }

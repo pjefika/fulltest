@@ -17,12 +17,15 @@ import controller.autenticacao.SessionUsuarioEfika;
 import dao.ManobraDAO;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import model.Motivos;
 import model.annotation.Logado;
 import model.annotation.NoCache;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
+import model.entity.manobra.ConsultaClienteManobra;
 import model.entity.manobra.ValidacaoManobra;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteManobraFacade;
@@ -40,9 +43,6 @@ public class ManobraController extends AbstractController {
 
     @Inject
     private ManobraDAO mDAO;
-    
-    @Inject
-    private ValidaClienteManobraFactory fac;
 
     @Logado
     @NoCache
@@ -61,11 +61,14 @@ public class ManobraController extends AbstractController {
             Cliente c = new Cliente(instancia);
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             f.consultar();
+            ConsultaClienteManobra clt = new ConsultaClienteManobra(f);
+            clt.setLogin(session.getUsuario().getLogin());
+            mDAO.cadastrar(clt);
             this.includeSerializer(f.getCl());
-        } catch (DslamNaoImplException ex) {
+        } catch (DslamNaoImplException | RemoteException ex) {
             includeSerializerNonRecursive(ex);
-        } catch (RemoteException ex) {
-            includeSerializerNonRecursive(ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -74,13 +77,15 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/valida")
     public void validarManobra(Cliente cliente, String motivo, String atividade) {
         try {
-            ValidaClienteManobraFacade f = fac.create(Motivos.valueOf(motivo));
+            ValidaClienteManobraFacade f = ValidaClienteManobraFactory.create(Motivos.valueOf(motivo));
             f.setLogin(session.getUsuario().getLogin());
+            f.setCl(cliente);
+            f.setWorkOrderId(atividade);
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
             this.includeSerializer(f);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, e);
             includeSerializerNonRecursive(e);
         }
     }

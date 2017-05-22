@@ -21,11 +21,11 @@ import model.validacao.manobra.ValidacaoRedeManobra;
  */
 public class ValidaClienteManobraSemVelFacade extends ValidaClienteManobraFacade {
 
-    public ValidaClienteManobraSemVelFacade(Cliente cl, Motivos m, String workOrderId) throws DslamNaoImplException, RemoteException {
+    public ValidaClienteManobraSemVelFacade(Cliente cl, Motivos m, String workOrderId){
         super(cl, Motivos.SEMVEL, workOrderId);
     }
 
-    public ValidaClienteManobraSemVelFacade() throws DslamNaoImplException, RemoteException {
+    public ValidaClienteManobraSemVelFacade(){
         super(null, null, null);
     }
 

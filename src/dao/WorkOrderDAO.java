@@ -15,7 +15,7 @@ import br.com.gvt.www.ResourceManagement.WorkforceManagement.WorkforceManagement
  */
 public class WorkOrderDAO {
 
-    private WorkOrderReportingProxy service = new WorkOrderReportingProxy();
+    private static final WorkOrderReportingProxy service = new WorkOrderReportingProxy();
 
     public WorkOrder getWorkOrder(String workOrderId) {
         try {

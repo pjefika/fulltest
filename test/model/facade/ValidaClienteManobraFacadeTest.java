@@ -53,7 +53,7 @@ public class ValidaClienteManobraFacadeTest {
             instance.validar();
             // TODO review the generated test code and remove the default call to fail.
             System.out.println("End");
-            assertTrue(true);
+            assertTrue(instance.getConclusao() != null);
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

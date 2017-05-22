@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.entity.manobra;
+package model.dslam.factory.exception.manobra;
 
-import model.entity.AbstractEntity;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoPersist extends AbstractEntity {
+public class MotivoManobraNaoImplException extends Exception {
+
+    public MotivoManobraNaoImplException() {
+        super("Motivo de Manobra não implementado.");
+    }
 
 }

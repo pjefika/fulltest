@@ -37,14 +37,9 @@ public class LogadoInterceper {
 
     @AroundCall
     public void around(SimpleInterceptorStack stack) {
-
-        try {
-            if (!session.getUsuario().getLogin().isEmpty()) {
-                stack.next();
-            } else {
-                result.forwardTo(UsuarioController.class).logar();
-            }
-        } catch (Exception e) {
+        if (session.getUsuario().getLogin() != null) {
+            stack.next();
+        } else {
             result.forwardTo(UsuarioController.class).logar();
         }
     }

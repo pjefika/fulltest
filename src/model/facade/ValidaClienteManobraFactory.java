@@ -6,6 +6,7 @@
 package model.facade;
 
 import model.Motivos;
+import model.dslam.factory.exception.manobra.MotivoManobraNaoImplException;
 
 /**
  *
@@ -13,7 +14,7 @@ import model.Motivos;
  */
 public class ValidaClienteManobraFactory {
 
-    public static ValidaClienteManobraFacade create(Motivos motivo) {
+    public static ValidaClienteManobraFacade create(Motivos motivo) throws MotivoManobraNaoImplException{
 
         switch (motivo) {
             case SEMSINC:
@@ -22,8 +23,10 @@ public class ValidaClienteManobraFactory {
                 return new ValidaClienteManobraQuedasFacade();
             case SEMAUTH:
                 return new ValidaClienteManobraSemAuthFacade();
+            case SEMVEL:
+                return new ValidaClienteManobraSemVelFacade();
             default:
-                return null;
+                throw new MotivoManobraNaoImplException();
         }
 
     }
