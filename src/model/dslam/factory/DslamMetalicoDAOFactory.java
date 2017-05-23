@@ -35,7 +35,7 @@ public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
         if (tbs.getDslamModel().equalsIgnoreCase("ZHONE")) {
             if (tbs.getDslamVendor().equalsIgnoreCase("COMBOZH48")) {
                 leDslam = new ZhoneMetalicoComboDslam();
-            } else if (tbs.getDslamVendor().equalsIgnoreCase("MXK")) {
+            } else if (tbs.getDslamVendor().contains("MXK")) {
                 leDslam = new ZhoneMetalicoMxkDslam();
             } else {
                 throw new DslamNaoImplException();
