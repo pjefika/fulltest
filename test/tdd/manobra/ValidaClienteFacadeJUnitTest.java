@@ -5,7 +5,6 @@
  */
 package tdd.manobra;
 
-import model.Motivos;
 import model.entity.Cliente;
 import model.facade.ValidaClienteManobraFacade;
 import model.facade.ValidaClienteManobraSemSincFacade;

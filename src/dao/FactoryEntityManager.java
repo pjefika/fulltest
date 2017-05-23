@@ -15,8 +15,8 @@ import javax.persistence.Persistence;
  */
 public class FactoryEntityManager {
 
-//    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("fulltestAPIPU");
-    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("localPU");
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("fulltestAPIPU");
+//    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("localPU");
 
     public static EntityManager getInstance() {
         return emf.createEntityManager();
