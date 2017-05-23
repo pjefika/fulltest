@@ -8,6 +8,7 @@ package tdd.manobra;
 import model.Motivos;
 import model.entity.Cliente;
 import model.facade.ValidaClienteManobraFacade;
+import model.facade.ValidaClienteManobraSemSincFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -45,7 +46,7 @@ public class ValidaClienteFacadeJUnitTest {
     @Test
     public void ValidarClienteJUnitTest() {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(new Cliente("1133701155"), Motivos.SEMAUTH, "8-2ECU32G8");
+            ValidaClienteManobraFacade f = new ValidaClienteManobraSemSincFacade(new Cliente("1133701155"), "8-2ECU32G8");
             f.validar();
             System.out.println("fim");
         } catch (Exception e) {

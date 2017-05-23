@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.entity.manobra;
-
-import model.entity.AbstractEntity;
+package model.dslam.factory.exception;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoPersist extends AbstractEntity {
+public class CadastroITException extends Exception {
+
+    public CadastroITException() {
+        super("Falha ao consultar inventário de TI");
+    }
 
 }

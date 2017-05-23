@@ -19,8 +19,8 @@ public class ValidacaoParametrosManobra extends ValidacaoParametros {
         super(tab, ds);
     }
 
-    private Boolean isAtnUpOk() {
-        return t.getAtnUp().compareTo(new Double("0")) == 0;
+    private Boolean isAtnOk() {
+        return t.getAtnUp().compareTo(new Double("0")) == 0 || t.getAtnDown().compareTo(new Double("0")) == 0;
     }
 
     private Boolean isVelOk() {
@@ -30,7 +30,7 @@ public class ValidacaoParametrosManobra extends ValidacaoParametros {
 
     @Override
     public Boolean validar() {
-        if(isAtnUpOk() && !isVelOk()){
+        if(isAtnOk() && !isVelOk()){
             setMensagem("Velocidade fora do padrão.");
             setResultado(true);
             return true;

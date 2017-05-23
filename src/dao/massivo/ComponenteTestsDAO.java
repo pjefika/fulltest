@@ -5,43 +5,42 @@
  */
 package dao.massivo;
 
+import dao.FactoryEntityManager;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import model.entity.AbstractEntity;
 
 @Stateless
 public class ComponenteTestsDAO {
 
-    @PersistenceContext
-    protected EntityManager entityManager;
+//    @PersistenceContext
+    protected EntityManager entityManager = FactoryEntityManager.getInstance();
 
     public ComponenteTestsDAO() {
     }
 
-    @Transactional
     public void cadastrar(AbstractEntity a) throws Exception {
-        this.entityManager.persist(a);
+        entityManager.getTransaction().begin();
+        entityManager.persist(a);
+        entityManager.getTransaction().commit();
     }
 
-    @Transactional
     public void editar(AbstractEntity a) throws Exception {
         try {
-            this.entityManager.merge(a);
+            entityManager.getTransaction().begin();
+            entityManager.merge(a);
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
             throw e;
         }
     }
 
-    @Transactional
     public void excluir(AbstractEntity a) throws Exception {
         try {
-//            startTransaction();
-            this.entityManager.remove(this.entityManager.merge(a));
-//            closeTransaction();
+            entityManager.getTransaction().begin();
+            entityManager.remove(this.entityManager.merge(a));
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
-//            closeTransaction();
             throw e;
         }
     }
@@ -53,7 +52,7 @@ public class ComponenteTestsDAO {
     public void clear() {
         this.entityManager.clear();
     }
-    
+
     public void close() {
         this.entityManager.close();
     }

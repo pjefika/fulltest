@@ -15,18 +15,21 @@ import br.com.caelum.vraptor.view.Results;
 import controller.AbstractController;
 import controller.autenticacao.SessionUsuarioEfika;
 import dao.ManobraDAO;
-import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import model.Motivos;
 import model.annotation.Logado;
 import model.annotation.NoCache;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
+import model.entity.manobra.ConsultaClienteManobra;
 import model.entity.manobra.ValidacaoManobra;
 import model.facade.ConsultaClienteFacade;
 import model.facade.ValidaClienteManobraFacade;
+import model.facade.ValidaClienteManobraFactory;
 
 /**
  *
@@ -35,10 +38,8 @@ import model.facade.ValidaClienteManobraFacade;
 @Controller
 public class ManobraController extends AbstractController {
 
-    private CadastroDAO dao = new CadastroDAO();
-
     @Inject
-    private SessionUsuarioEfika sessionUsuarioEfika;
+    private SessionUsuarioEfika session;
 
     @Inject
     private ManobraDAO mDAO;
@@ -60,11 +61,14 @@ public class ManobraController extends AbstractController {
             Cliente c = new Cliente(instancia);
             ConsultaClienteFacade f = new ConsultaClienteFacade(c);
             f.consultar();
+            ConsultaClienteManobra clt = new ConsultaClienteManobra(f);
+            clt.setLogin(session.getUsuario().getLogin());
+            mDAO.cadastrar(clt);
             this.includeSerializer(f.getCl());
-        } catch (DslamNaoImplException ex) {
+        } catch (DslamNaoImplException | RemoteException ex) {
             includeSerializerNonRecursive(ex);
-        } catch (RemoteException ex) {
-            includeSerializerNonRecursive(ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -73,21 +77,30 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/valida")
     public void validarManobra(Cliente cliente, String motivo, String atividade) {
         try {
-            ValidaClienteManobraFacade f = new ValidaClienteManobraFacade(cliente, Motivos.valueOf(motivo), atividade);
+            ValidaClienteManobraFacade f = ValidaClienteManobraFactory.create(Motivos.valueOf(motivo));
+            f.setLogin(session.getUsuario().getLogin());
+            f.setCl(cliente);
+            f.setWorkOrderId(atividade);
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
-            this.includeSerializer(f);
-//            this.result.use(Results.json()).from(f).include("valids").include("conclusao").serialize();
+            this.includeSerializerWithoutRoot(f);
         } catch (Exception e) {
+            Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, e);
             includeSerializerNonRecursive(e);
         }
     }
 
+    /**
+     * Método verifica a existencia de 
+     * @param cliente 
+     */
     @Post
     @Consumes("application/json")
     @Path("/manobra/listavalidesp")
     public void listarValidEspecifo(Cliente cliente) {
         try {
+            System.out.println(cliente.getInstancia());
+            System.out.println(cliente.getDesignador());
             List<ValidacaoManobra> l = mDAO.listarValidEspecifo(cliente);
             this.includeSerializer(l);
         } catch (Exception e) {
@@ -109,7 +122,7 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/veatendente")
     public void atendente() {
         try {
-            this.includeSerializer(sessionUsuarioEfika.isAtendente());
+            this.includeSerializer(session.isAtendente());
         } catch (Exception e) {
             this.includeSerializerNonRecursive(e);
         }
@@ -118,6 +131,10 @@ public class ManobraController extends AbstractController {
     @Override
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).recursive().serialize();
+    }
+
+    public void includeSerializerWithoutRoot(Object a) {
+        result.use(Results.json()).withoutRoot().from(a).recursive().serialize();
     }
 
     public void includeSerializerNonRecursive(Object a) {

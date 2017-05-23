@@ -22,9 +22,10 @@ public class ManobraDAO extends ComponenteTestsDAO {
         try {
             Query query = this.entityManager.createQuery("FROM ValidacaoManobra v WHERE 1=1 "
                     + "AND (v.instancia =:param OR v.designador =:param) "
-                    + "AND DATEDIFF('day', v.data, NOW()) = 0"
-                    + "AND v.resultado = false");
+                    + "AND DATEDIFF('day', v.inicio, NOW()) = 0"
+                    + "AND v.resultado =:param1");
             query.setParameter("param", cliente.getDesignador());
+            query.setParameter("param1", false);
             return query.getResultList();
         } catch (Exception e) {
             return new ArrayList<>();
