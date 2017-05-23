@@ -5,7 +5,9 @@
  */
 package model.facade;
 
+import dao.ManobraDAO;
 import model.entity.Cliente;
+import model.entity.manobra.ValidacaoManobra;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +20,8 @@ import static org.junit.Assert.*;
  * @author G0042204
  */
 public class ValidaClienteManobraFacadeTest {
+
+    private ManobraDAO mDAO = new ManobraDAO();
 
     public ValidaClienteManobraFacadeTest() {
     }
@@ -46,14 +50,16 @@ public class ValidaClienteManobraFacadeTest {
         try {
             System.out.println("validar");
 
-            Cliente cliente = new Cliente("4130886762");
-            String atividade = "8-2LI6KSEJ";
+            Cliente cliente = new Cliente("2138445374");
+            String atividade = "8-A2E86532631-1";
             ValidaClienteManobraFacade instance = new ValidaClienteManobraSemSincFacade(cliente, atividade);
             instance.setLogin("JUnit");
             instance.validar();
             // TODO review the generated test code and remove the default call to fail.
             System.out.println("End");
             assertTrue(instance.getConclusao() != null);
+            mDAO.cadastrar(new ValidacaoManobra(instance));
+
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
