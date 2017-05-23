@@ -101,7 +101,8 @@ Vue.component("panelvalida", {
                 var _data = {};
                 _data.cliente = self.tudo;
                 _data.motivo = self.motivochoose.nome;
-                _data.atividade = self.ordemdeserivo;
+                _data.atividade = _.trim(self.ordemdeserivo);
+                
                 $.ajax({
                     type: "POST",
                     url: url + "manobra/valida",
