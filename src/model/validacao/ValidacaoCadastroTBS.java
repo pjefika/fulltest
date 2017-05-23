@@ -14,9 +14,9 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetInconsistenciaTBSRadius.OSSTurbonetInco
  */
 public class ValidacaoCadastroTBS extends Validacao {
 
-    private GetInfoOut info;
+    private transient GetInfoOut info;
 
-    private OSSTurbonetInconsistenciaTBSRadiusOut i;
+    private transient OSSTurbonetInconsistenciaTBSRadiusOut i;
 
     public ValidacaoCadastroTBS(GetInfoOut info, OSSTurbonetInconsistenciaTBSRadiusOut i) {
         this.info = info;

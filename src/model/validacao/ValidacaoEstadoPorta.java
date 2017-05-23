@@ -13,7 +13,7 @@ import model.dslam.consulta.EstadoDaPorta;
  */
 public abstract class ValidacaoEstadoPorta extends Validacao {
 
-    protected EstadoDaPorta estadoPorta;
+    protected transient EstadoDaPorta estadoPorta;
 
     public ValidacaoEstadoPorta(EstadoDaPorta e) {
         this.estadoPorta = e;

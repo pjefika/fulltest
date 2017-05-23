@@ -83,13 +83,17 @@ public class ManobraController extends AbstractController {
             f.setWorkOrderId(atividade);
             f.validar();
             mDAO.cadastrar(new ValidacaoManobra(f));
-            this.includeSerializer(f);
+            this.includeSerializerWithoutRoot(f);
         } catch (Exception e) {
             Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, e);
             includeSerializerNonRecursive(e);
         }
     }
 
+    /**
+     * Método verifica a existencia de 
+     * @param cliente 
+     */
     @Post
     @Consumes("application/json")
     @Path("/manobra/listavalidesp")
@@ -125,6 +129,10 @@ public class ManobraController extends AbstractController {
     @Override
     public void includeSerializer(Object a) {
         result.use(Results.json()).from(a).recursive().serialize();
+    }
+
+    public void includeSerializerWithoutRoot(Object a) {
+        result.use(Results.json()).withoutRoot().from(a).recursive().serialize();
     }
 
     public void includeSerializerNonRecursive(Object a) {

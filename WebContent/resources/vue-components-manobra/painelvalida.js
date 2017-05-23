@@ -116,8 +116,9 @@ Vue.component("panelvalida", {
                         self.emconsulta = true;
                     },
                     success: function(data) {
-                        if (data.validaClienteManobraFacade) {
-                            self.infosvalida = data.validaClienteManobraFacade;
+                        console.log(data);
+                        if (data.conclusao) {
+                            self.infosvalida = data;
                             self.notifica = {
                                 menssagem: "Validação completa, verifique a tabela!",
                                 typenotify: "info"

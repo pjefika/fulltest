@@ -27,6 +27,7 @@ public class ConsultaClienteManobra extends AbstractEntity {
     private Date dataConsulta;
 
     public ConsultaClienteManobra() {
+        this.dataConsulta = Calendar.getInstance().getTime();
     }
 
     public ConsultaClienteManobra(ConsultaClienteFacade c) {

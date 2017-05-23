@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-/* global Vue, url */
+/* global Vue, url, _ */
 
 Vue.component("buscaCadastro", {
     props: {
@@ -37,6 +37,9 @@ Vue.component("buscaCadastro", {
             var self = this;
             self.validbuttondisable = false;
             if (self.ins.instancia) {
+                
+                self.ins.instancia = _.trim(self.ins.instancia);
+                
                 if (!self.emconsulta) {
                     self.emconsulta = true;
                     $.ajax({
