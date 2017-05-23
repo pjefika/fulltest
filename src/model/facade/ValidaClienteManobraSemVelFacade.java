@@ -26,7 +26,7 @@ public class ValidaClienteManobraSemVelFacade extends ValidaClienteManobraFacade
     }
 
     public ValidaClienteManobraSemVelFacade(){
-        super(null, null, null);
+        super(null, Motivos.SEMVEL, null);
     }
 
     @Override

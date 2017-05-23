@@ -99,6 +99,8 @@ public class ManobraController extends AbstractController {
     @Path("/manobra/listavalidesp")
     public void listarValidEspecifo(Cliente cliente) {
         try {
+            System.out.println(cliente.getInstancia());
+            System.out.println(cliente.getDesignador());
             List<ValidacaoManobra> l = mDAO.listarValidEspecifo(cliente);
             this.includeSerializer(l);
         } catch (Exception e) {

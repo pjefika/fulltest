@@ -24,7 +24,7 @@ public class ValidaClienteManobraQuedasFacade extends ValidaClienteManobraFacade
     }
 
     public ValidaClienteManobraQuedasFacade(){
-        super(null, null, null);
+        super(null, Motivos.QUEDA, null);
     }
 
     @Override

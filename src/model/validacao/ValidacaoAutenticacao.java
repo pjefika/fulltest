@@ -15,11 +15,11 @@ import model.Motivos;
  */
 public class ValidacaoAutenticacao extends Validacao {
 
-    private transient OSSTurbonetClienteAutenticadoOut auth;
+    private final transient OSSTurbonetClienteAutenticadoOut auth;
 
-    private transient WorkOrder order;
+    private final transient WorkOrder order;
 
-    private transient Motivos m;
+    private final transient Motivos m;
 
     public ValidacaoAutenticacao(OSSTurbonetClienteAutenticadoOut auth, WorkOrder order, Motivos ms) {
         this.auth = auth;

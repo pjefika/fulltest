@@ -25,11 +25,11 @@ import model.validacao.manobra.ValidacaoRedeManobra;
 public class ValidaClienteManobraSemAuthFacade extends ValidaClienteManobraFacade {
 
     public ValidaClienteManobraSemAuthFacade(Cliente cl, Motivos m, String workOrderId) {
-        super(cl, Motivos.SEMSINC, workOrderId);
+        super(cl, Motivos.SEMAUTH, workOrderId);
     }
 
     public ValidaClienteManobraSemAuthFacade() {
-        super(null, null, null);
+        super(null, Motivos.SEMAUTH, null);
     }
 
     @Override
