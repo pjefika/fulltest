@@ -42,9 +42,9 @@ public class ValidacaoAutenticacao extends Validacao {
         } else {
             this.setMensagem("Existe autenticação após abertura da atividade.");
         }
-        if (m.equals(Motivos.SEMSINC)) {
-            return true;
-        }
+//        if (m.equals(Motivos.SEMSINC)) {
+//            return true;
+//        }
 
         return ret;
     }
