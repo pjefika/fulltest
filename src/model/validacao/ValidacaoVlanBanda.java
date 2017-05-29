@@ -5,7 +5,7 @@
  */
 package model.validacao;
 
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.consulta.VlanBanda;
 
 /**

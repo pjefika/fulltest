@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.consulta.gpon.ConsultaGponDefault;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.factory.exception.DslamNaoImplException;

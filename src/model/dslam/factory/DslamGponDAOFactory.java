@@ -6,12 +6,12 @@
 package model.dslam.factory;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.vivo2.gpon.DslamGpon;
-import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
-import model.dslam.vivo2.gpon.keymile.KeymileGponDslam;
-import model.dslam.vivo2.gpon.zhone.ZhoneGponDslam;
+import dao.dslam.gpon.DslamGpon;
+import dao.dslam.gpon.alcatel.AlcatelGponDslam;
+import dao.dslam.gpon.keymile.KeymileGponDslam;
+import dao.dslam.gpon.zhone.ZhoneGponDslam;
 
 /**
  *

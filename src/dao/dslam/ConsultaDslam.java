@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.dslam.telnet;
+package dao.dslam;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.AbstractDslam;
-import model.dslam.login.LoginDslamStrategy;
+import dao.dslam.login.LoginDslamStrategy;
 
 /**
  *

@@ -6,7 +6,7 @@
 package model.dslam.factory;
 
 import bean.ossturbonet.oss.gvt.com.GetInfoOut;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
 
 /**

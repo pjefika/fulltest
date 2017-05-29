@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.dslam.telnet;
+package dao.dslam.metalico.keymile;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public interface Conector {
+public class KeymileMetalicoSuvd11 extends KeymileMetalicoSuvdDslam {
 
-    public void conectar();
-
+    
 }

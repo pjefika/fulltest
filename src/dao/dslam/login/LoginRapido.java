@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.login;
+package dao.dslam.login;
 
-import dao.dslam.telnet.ConsultaDslam;
+import dao.dslam.ConsultaDslam;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

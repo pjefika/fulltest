@@ -16,7 +16,7 @@ import com.gvt.www.ws.eai.oss.OSSTurbonetStatusConexao.OSSTurbonetStatusConexaoO
 import com.gvt.www.ws.eai.oss.ossturbonet.OSSTurbonetProxy;
 import dao.cadastro.util.TratativaDesignadores;
 import java.rmi.RemoteException;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.factory.DslamDAOFactory;
 import model.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;

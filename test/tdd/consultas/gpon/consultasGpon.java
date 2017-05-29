@@ -5,7 +5,7 @@
  */
 package tests.tdd.consultas.gpon;
 
-import model.dslam.vivo2.gpon.alcatel.AlcatelGponDslam;
+import dao.dslam.gpon.alcatel.AlcatelGponDslam;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

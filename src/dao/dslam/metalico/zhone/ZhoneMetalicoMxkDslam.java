@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.vivo2.metalico.zhone;
+package dao.dslam.metalico.zhone;
 
-import dao.dslam.telnet.ComandoDslam;
-import dao.dslam.telnet.ConsultaDslam;
+import dao.dslam.ComandoDslam;
+import dao.dslam.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
@@ -19,7 +19,7 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
-import model.dslam.login.LoginLento;
+import dao.dslam.login.LoginLento;
 import model.dslam.retorno.TratativaRetornoUtil;
 import model.entity.Cliente;
 

@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.vivo2.metalico;
+package dao.dslam.metalico;
 
 import java.math.BigInteger;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
 
 /**

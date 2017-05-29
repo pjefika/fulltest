@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.vivo2.gpon.alcatel;
+package dao.dslam.gpon.alcatel;
 
-import dao.dslam.telnet.ComandoDslam;
-import dao.dslam.telnet.ConsultaDslam;
+import dao.dslam.ComandoDslam;
+import dao.dslam.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
@@ -19,9 +19,9 @@ import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.login.LoginRapido;
+import dao.dslam.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
-import model.dslam.vivo2.gpon.DslamGpon;
+import dao.dslam.gpon.DslamGpon;
 import model.entity.Cliente;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

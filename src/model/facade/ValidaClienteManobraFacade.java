@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Motivos;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
 import model.dslam.factory.exception.CadastroITException;
 import model.dslam.factory.exception.WorkOrderInexException;

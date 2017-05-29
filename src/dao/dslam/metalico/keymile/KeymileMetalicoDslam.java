@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.vivo2.metalico.keymile;
+package dao.dslam.metalico.keymile;
 
-import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.ComandoDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.retorno.TratativaRetornoUtil;
-import model.dslam.vivo2.metalico.DslamMetalico;
+import dao.dslam.metalico.DslamMetalico;
 
 /**
  *

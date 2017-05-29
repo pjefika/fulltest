@@ -5,7 +5,7 @@
  */
 package model.fulltest.validacao;
 
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 
 /**
  *

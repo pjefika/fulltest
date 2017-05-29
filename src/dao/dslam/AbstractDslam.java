@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam;
+package dao.dslam;
 
-import dao.dslam.telnet.Conector;
-import dao.dslam.telnet.ConsultaDslam;
+import dao.dslam.Conector;
+import dao.dslam.ConsultaDslam;
 import java.io.IOException;
 import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.credencial.Credencial;
-import model.dslam.login.LoginDslamStrategy;
+import dao.dslam.login.LoginDslamStrategy;
 import model.produtos.ProdutoCliente;
 
 /**

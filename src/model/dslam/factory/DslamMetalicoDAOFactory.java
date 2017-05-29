@@ -9,14 +9,14 @@ import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import bean.ossturbonet.oss.gvt.com.InfoTBS;
 import dao.produtos.ProdutosDAO;
 import java.math.BigInteger;
-import model.dslam.AbstractDslam;
+import dao.dslam.AbstractDslam;
 import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.vivo2.metalico.DslamMetalico;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuadDslam;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd11;
-import model.dslam.vivo2.metalico.keymile.KeymileMetalicoSuvd3;
-import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoComboDslam;
-import model.dslam.vivo2.metalico.zhone.ZhoneMetalicoMxkDslam;
+import dao.dslam.metalico.DslamMetalico;
+import dao.dslam.metalico.keymile.KeymileMetalicoSuadDslam;
+import dao.dslam.metalico.keymile.KeymileMetalicoSuvd11;
+import dao.dslam.metalico.keymile.KeymileMetalicoSuvd3;
+import dao.dslam.metalico.zhone.ZhoneMetalicoComboDslam;
+import dao.dslam.metalico.zhone.ZhoneMetalicoMxkDslam;
 
 /**
  *

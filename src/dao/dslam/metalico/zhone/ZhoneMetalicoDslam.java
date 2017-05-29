@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.vivo2.metalico.zhone;
+package dao.dslam.metalico.zhone;
 
-import dao.dslam.telnet.ComandoDslam;
+import dao.dslam.ComandoDslam;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.retorno.TratativaRetornoUtil;
-import model.dslam.vivo2.metalico.DslamMetalico;
+import dao.dslam.metalico.DslamMetalico;
 import model.entity.Cliente;
 
 /**
