@@ -8,11 +8,11 @@ package model.facade;
 import java.rmi.RemoteException;
 import model.Motivos;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import model.entity.Cliente;
 import model.validacao.ValidacaoAutenticacao;
-import model.validacao.ValidacaoEstadoPorta;
+import model.validacao.ValidacaoEstadoPortaAdm;
 import model.validacao.ValidacaoRede;
 import model.validacao.ValidacaoVlanBanda;
 import model.validacao.manobra.ValidacaoEstadoPortaManobra;
@@ -41,7 +41,7 @@ public class ValidaClienteManobraSemAuthFacade extends ValidaClienteManobraFacad
 
         if (result) {
             EstadoDaPorta ep = met.getEstadoDaPorta();
-            ValidacaoEstadoPorta vEP = new ValidacaoEstadoPortaManobra(ep, m);
+            ValidacaoEstadoPortaAdm vEP = new ValidacaoEstadoPortaManobra(ep, m);
             valids.add(vEP);
             if (vEP.validar()) {
                 ValidacaoVlanBanda vlanValid = new ValidacaoVlanBanda(met.getVlanBanda(), dslam);

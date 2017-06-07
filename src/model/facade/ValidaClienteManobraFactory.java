@@ -6,7 +6,7 @@
 package model.facade;
 
 import model.Motivos;
-import model.dslam.factory.exception.manobra.MotivoManobraNaoImplException;
+import dao.dslam.factory.exception.manobra.MotivoManobraNaoImplException;
 
 /**
  *

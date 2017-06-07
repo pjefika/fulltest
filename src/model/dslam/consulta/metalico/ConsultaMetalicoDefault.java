@@ -5,6 +5,7 @@
  */
 package model.dslam.consulta.metalico;
 
+import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -16,9 +17,8 @@ import model.dslam.consulta.VlanVoip;
  *
  * @author G0041775
  */
-public interface ConsultaMetalicoDefault {
+public interface ConsultaMetalicoDefault extends ConsultaClienteInter{
 
-    public EstadoDaPorta getEstadoDaPorta() throws Exception;
 
     public TabelaParametrosMetalico getTabelaParametros() throws Exception;
 

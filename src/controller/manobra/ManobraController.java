@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import model.Motivos;
 import model.annotation.Logado;
 import model.annotation.NoCache;
-import model.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.entity.manobra.ConsultaClienteManobra;
 import model.entity.manobra.ValidacaoManobra;

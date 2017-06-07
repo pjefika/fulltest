@@ -8,7 +8,7 @@ package model.facade;
 import dao.cadastro.CadastroDAO;
 import java.rmi.RemoteException;
 import model.dslam.consulta.ConsultaClienteInter;
-import model.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.DslamNaoImplException;
 import model.entity.Cliente;
 import model.Motivos;
 import model.validacao.ValidacaoFactory;

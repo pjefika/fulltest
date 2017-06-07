@@ -7,8 +7,8 @@ package tests.tdd.consultas.metalico.keymile.SUAD;
 
 import java.math.BigInteger;
 import model.dslam.consulta.EstadoDaPorta;
-import dao.dslam.metalico.keymile.KeymileMetalicoDslam;
-import dao.dslam.metalico.keymile.KeymileMetalicoSuadDslam;
+import dao.dslam.impl.metalico.keymile.KeymileMetalicoDslam;
+import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuadDslam;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;

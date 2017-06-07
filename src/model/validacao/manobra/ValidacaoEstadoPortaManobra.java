@@ -7,13 +7,13 @@ package model.validacao.manobra;
 
 import model.Motivos;
 import model.dslam.consulta.EstadoDaPorta;
-import model.validacao.ValidacaoEstadoPorta;
+import model.validacao.ValidacaoEstadoPortaAdm;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPorta {
+public class ValidacaoEstadoPortaManobra extends ValidacaoEstadoPortaAdm {
 
     private transient Motivos m;
 

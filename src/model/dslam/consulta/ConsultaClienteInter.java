@@ -12,7 +12,9 @@ import model.entity.Cliente;
  * @author G0042204
  */
 public interface ConsultaClienteInter {
-    
+
     public Cliente consultar(Cliente c);
-    
+
+    public EstadoDaPorta getEstadoDaPorta() throws Exception;
+
 }

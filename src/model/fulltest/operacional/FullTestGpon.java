@@ -5,7 +5,9 @@
  */
 package model.fulltest.operacional;
 
+import java.util.List;
 import model.dslam.consulta.gpon.ConsultaGponDefault;
+import model.validacao.Validacao;
 
 /**
  *
@@ -14,6 +16,12 @@ import model.dslam.consulta.gpon.ConsultaGponDefault;
 public class FullTestGpon {
     
     private ConsultaGponDefault c;
+    
+    private List<Validacao> bateria;
+    
+    public FullTestGpon(ConsultaGponDefault c) {
+        this.c = c;
+    }
     
     
     

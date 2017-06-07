@@ -6,7 +6,7 @@
 package model.dslam.consulta;
 
 import java.math.BigInteger;
-import dao.dslam.AbstractDslam;
+import dao.dslam.impl.AbstractDslam;
 
 
 /**

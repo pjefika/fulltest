@@ -5,7 +5,7 @@
  */
 package model.validacao.manobra;
 
-import dao.dslam.AbstractDslam;
+import dao.dslam.impl.AbstractDslam;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.validacao.*;
 

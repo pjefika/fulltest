@@ -40,5 +40,6 @@ public abstract class Validacao implements Validator {
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
+    
 
 }

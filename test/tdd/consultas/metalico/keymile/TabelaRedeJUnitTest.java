@@ -7,7 +7,7 @@ package tests.tdd.consultas.metalico.keymile;
 
 import java.math.BigInteger;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import dao.dslam.metalico.keymile.KeymileMetalicoSuadDslam;
+import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuadDslam;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;

@@ -7,7 +7,7 @@ package model.dslam.consulta.gpon;
 
 import java.util.ArrayList;
 import java.util.List;
-import dao.dslam.AbstractDslam;
+import dao.dslam.impl.AbstractDslam;
 import model.fulltest.validacao.Validador;
 
 /**

@@ -5,7 +5,7 @@
  */
 package model.dslam.retorno;
 
-import dao.dslam.ComandoDslam;
+import dao.dslam.impl.ComandoDslam;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;

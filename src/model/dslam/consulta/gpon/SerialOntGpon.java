@@ -5,7 +5,7 @@
  */
 package model.dslam.consulta.gpon;
 
-import dao.dslam.AbstractDslam;
+import dao.dslam.impl.AbstractDslam;
 import model.fulltest.validacao.Validador;
 
 /**

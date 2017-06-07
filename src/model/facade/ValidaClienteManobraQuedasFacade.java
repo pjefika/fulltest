@@ -7,8 +7,8 @@ package model.facade;
 
 import java.rmi.RemoteException;
 import model.Motivos;
-import model.dslam.factory.exception.DslamNaoImplException;
-import model.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import model.entity.Cliente;
 import model.validacao.ValidacaoRede;
 import model.validacao.manobra.ValidacaoRedeManobra;
