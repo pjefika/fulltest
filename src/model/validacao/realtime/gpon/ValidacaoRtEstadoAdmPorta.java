@@ -13,28 +13,24 @@ import model.validacao.realtime.ValidacaoRealtimeAbs;
  *
  * @author G0042204
  */
-public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeAbs{
+public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeAbs {
 
     private ValidacaoEstadoPortaAdm valid;
-    
+
     public ValidacaoRtEstadoAdmPorta(AbstractDslam ds) {
         super(ds);
     }
 
     @Override
     public Boolean validar() {
-        
+
         try {
             valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta());
-            
-            
-            
+
         } catch (Exception e) {
+            
         }
-        
-        
-                
-        
+
         return false;
     }
 
