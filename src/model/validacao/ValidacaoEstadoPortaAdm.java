@@ -17,7 +17,7 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
 
     public ValidacaoEstadoPortaAdm(EstadoDaPorta e) {
         this.estadoPorta = e;
-        this.nome = "Estado Porta";
+        this.nome = "Estado Administrativo da Porta";
 
     }
 
