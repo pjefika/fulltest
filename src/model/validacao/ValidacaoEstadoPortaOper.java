@@ -11,11 +11,11 @@ import model.dslam.consulta.EstadoDaPorta;
  *
  * @author G0042204
  */
-public class ValidacaoEstadoPortaAdm extends Validacao {
+public class ValidacaoEstadoPortaOper extends Validacao {
 
     protected transient EstadoDaPorta estadoPorta;
 
-    public ValidacaoEstadoPortaAdm(EstadoDaPorta e) {
+    public ValidacaoEstadoPortaOper(EstadoDaPorta e) {
         this.estadoPorta = e;
         this.nome = "Estado Porta";
 
@@ -23,14 +23,14 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
 
     @Override
     public Boolean validar() {
-        if (!estadoPorta.getAdminState().equalsIgnoreCase("UP")) {
-            this.setMensagem("Porta Desativada (Adm state em Down).");
+        if (!estadoPorta.getOperState().equalsIgnoreCase("UP")) {
+            this.setMensagem("Não há Link.");
             this.setResultado(Boolean.FALSE);
-            return true;
-        } else {
-            this.setResultado(Boolean.FALSE);
-            this.setMensagem("Porta Ativada (Adm state Up)");
             return false;
+        } else {
+            this.setResultado(Boolean.TRUE);
+            this.setMensagem("Linkado ok.");
+            return true;
         }
     }
 

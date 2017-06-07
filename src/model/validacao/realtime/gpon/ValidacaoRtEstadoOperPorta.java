@@ -6,18 +6,18 @@
 package model.validacao.realtime.gpon;
 
 import dao.dslam.impl.AbstractDslam;
-import model.validacao.ValidacaoEstadoPortaAdm;
+import model.validacao.ValidacaoEstadoPortaOper;
 import model.validacao.realtime.ValidacaoRealtimeAbs;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeAbs {
+public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeAbs {
 
-    private ValidacaoEstadoPortaAdm valid;
+    private ValidacaoEstadoPortaOper valid;
 
-    public ValidacaoRtEstadoAdmPorta(AbstractDslam ds) {
+    public ValidacaoRtEstadoOperPorta(AbstractDslam ds) {
         super(ds);
     }
 
@@ -25,7 +25,7 @@ public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeAbs {
     public Boolean validar() {
 
         try {
-            valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta());
+            valid = new ValidacaoEstadoPortaOper(dslam.getEstadoDaPorta());
             return valid.validar();
         } catch (Exception e) {
             return false;
