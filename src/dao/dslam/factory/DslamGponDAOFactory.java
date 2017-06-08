@@ -22,9 +22,9 @@ public class DslamGponDAOFactory implements FactoryDslamInterface {
 
         if (modelo.trim().equalsIgnoreCase("ALCATEL")) {
             return new AlcatelGponDslam();
-        } else if (modelo.trim().equalsIgnoreCase("ZHONE")) {
+        } else if (modelo.trim().equalsIgnoreCase("GPON_CARD8")) {
             return new ZhoneGponDslam();
-        } else if (modelo.trim().equalsIgnoreCase("KEYMILE")) {
+        } else if (modelo.trim().equalsIgnoreCase("SUGP1")) {
             return new KeymileGponDslam();
         } else {
             throw new DslamNaoImplException();
