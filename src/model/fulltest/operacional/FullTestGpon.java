@@ -5,24 +5,43 @@
  */
 package model.fulltest.operacional;
 
+import dao.dslam.impl.AbstractDslam;
+import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.gpon.ConsultaGponDefault;
 import model.validacao.Validacao;
+import model.validacao.Validator;
+import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 
 /**
  *
  * @author G0042204
  */
-public class FullTestGpon {
-    
-    private ConsultaGponDefault c;
-    
+public class FullTestGpon implements Validator {
+
+    private AbstractDslam c;
+
     private List<Validacao> bateria;
-    
-    public FullTestGpon(ConsultaGponDefault c) {
+
+    private List<Validacao> valids;
+
+    public FullTestGpon(AbstractDslam c) {
         this.c = c;
+        bateria = new ArrayList<>();
+        valids = new ArrayList<>();
+        bateria.add(new ValidacaoRtEstadoAdmPorta(this.c));
     }
-    
-    
-    
+
+    @Override
+    public Boolean validar() {
+
+        for (Validacao v : bateria) {
+            Boolean res = v.validar();
+            valids.add(v);
+            if (!res) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
