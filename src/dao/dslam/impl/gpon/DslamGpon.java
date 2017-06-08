@@ -8,7 +8,7 @@ package dao.dslam.impl.gpon;
 import java.math.BigInteger;
 import dao.dslam.impl.AbstractDslam;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.ConsultaGponDefault;
+import dao.dslam.impl.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;

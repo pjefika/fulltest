@@ -5,7 +5,7 @@
  */
 package model.validacao.realtime;
 
-import model.dslam.consulta.gpon.ConsultaGponDefault;
+import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.Validacao;
 
 /**

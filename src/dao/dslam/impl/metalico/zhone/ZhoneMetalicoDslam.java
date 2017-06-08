@@ -9,7 +9,7 @@ import dao.dslam.impl.ComandoDslam;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.retorno.TratativaRetornoUtil;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
 
 /**

@@ -10,7 +10,7 @@ import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.dslam.retorno.TratativaRetornoUtil;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
 
 /**

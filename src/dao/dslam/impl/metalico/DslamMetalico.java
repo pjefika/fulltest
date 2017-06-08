@@ -7,7 +7,7 @@ package dao.dslam.impl.metalico;
 
 import java.math.BigInteger;
 import dao.dslam.impl.AbstractDslam;
-import model.dslam.consulta.metalico.ConsultaMetalicoDefault;
+import dao.dslam.impl.ConsultaMetalicoDefault;
 
 /**
  *

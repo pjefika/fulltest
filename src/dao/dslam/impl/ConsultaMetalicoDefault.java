@@ -3,15 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.consulta.metalico;
+package dao.dslam.impl;
 
-import model.dslam.consulta.ConsultaClienteInter;
+import dao.dslam.impl.ConsultaClienteInter;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.metalico.Modulacao;
+import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.metalico.TabelaRedeMetalico;
 
 /**
  *

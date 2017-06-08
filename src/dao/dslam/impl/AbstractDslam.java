@@ -6,7 +6,6 @@
 package dao.dslam.impl;
 
 import java.io.IOException;
-import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import model.produtos.ProdutoCliente;

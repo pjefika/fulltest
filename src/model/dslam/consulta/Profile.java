@@ -6,7 +6,7 @@
 package model.dslam.consulta;
 
 import dao.dslam.impl.AbstractDslam;
-import model.dslam.retorno.TratativaRetornoUtil;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.validacao.Validador;
 

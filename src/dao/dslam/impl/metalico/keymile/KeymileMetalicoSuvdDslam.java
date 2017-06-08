@@ -19,7 +19,7 @@ import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginRapido;
-import model.dslam.retorno.TratativaRetornoUtil;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 
 /**
  *

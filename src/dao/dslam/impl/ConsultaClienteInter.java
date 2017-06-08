@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.consulta;
+package dao.dslam.impl;
+
+import model.dslam.consulta.EstadoDaPorta;
 
 /**
  *

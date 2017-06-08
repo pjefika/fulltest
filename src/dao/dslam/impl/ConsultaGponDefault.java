@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.consulta.gpon;
+package dao.dslam.impl;
 
-import model.dslam.consulta.ConsultaClienteInter;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.dslam.consulta.gpon.TabelaParametrosGpon;
 
 /**
  *

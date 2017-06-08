@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dslam.retorno;
+package dao.dslam.impl.retorno;
 
 import dao.dslam.impl.ComandoDslam;
 import java.io.IOException;

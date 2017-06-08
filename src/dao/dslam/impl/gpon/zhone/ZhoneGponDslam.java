@@ -21,7 +21,7 @@ import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginLento;
-import model.dslam.retorno.TratativaRetornoUtil;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.gpon.DslamGpon;
 
 /**
