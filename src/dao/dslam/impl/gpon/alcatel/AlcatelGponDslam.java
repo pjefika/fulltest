@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
@@ -118,7 +119,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta() throws Exception {
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPorta()));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
@@ -127,9 +128,6 @@ public class AlcatelGponDslam extends DslamGpon {
 
         state.setAdminState(adminState);
         state.setOperState(operState);
-
-        System.out.println(adminState);
-        System.out.println(operState);
 
         return state;
     }

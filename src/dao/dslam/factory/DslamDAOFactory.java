@@ -12,16 +12,13 @@ import dao.dslam.factory.exception.DslamNaoImplException;
  *
  * @author G0042204
  */
-public class DslamDAOFactory implements FactoryDslamInterface {
+public class DslamDAOFactory {
 
-    @Override
-    public AbstractDslam getInstance(String modelo) throws DslamNaoImplException {
+    public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
         try {
-            FactoryDslamInterface fac = new DslamGponDAOFactory();
-            return fac.getInstance(modelo);
+            return DslamGponDAOFactory.getInstance(modelo, ip);
         } catch (DslamNaoImplException e) {
-            FactoryDslamInterface fac = new DslamMetalicoDAOFactory();
-            return fac.getInstance(modelo);
+            return DslamMetalicoDAOFactory.getInstance(modelo, ip);
         }
     }
 

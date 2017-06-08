@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.keymile;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
@@ -93,7 +94,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta() throws Exception {
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
         List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
 

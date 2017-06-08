@@ -1,10 +1,11 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package dao.dslam.impl.metalico.keymile;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import java.math.BigInteger;
 import java.util.List;
@@ -30,9 +31,9 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta() throws Exception {
-        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
-        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
+        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i)).getRetorno();
+        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i)).getRetorno();
 
         String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
@@ -46,7 +47,7 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     @Override
     public TabelaRedeMetalico getTabelaRede() throws Exception {
-        List<String> lTabs = this.getCd().consulta(this.getTabRede()).getRetorno();
+        List<String> lTabs = this.getCd().consulta(this.getTabRede(null)).getRetorno();
 
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
 
@@ -61,16 +62,16 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         return tab;
     }
 
-    public ComandoDslam getTabRede() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/pm/usercountertable", 3000, "/unit-"+this.getSlot()+"/port-"+this.getPorta()+"/pm/usercounterreset");
+    public ComandoDslam getTabRede(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm/usercountertable", 3000, "/unit-"+this.getSlot()+"/port-"+this.getPorta()+"/pm/usercounterreset");
     }
     
-    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/AdministrativeStatus");
+    public ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/main/AdministrativeStatus");
     }
 
-    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/main/OperationalStatus");
+    public ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/main/OperationalStatus");
     }
 
     public ComandoDslam getComandoConsultaVlan() {

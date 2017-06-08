@@ -5,6 +5,9 @@
  */
 package model.fulltest.operacional;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.DslamDAOFactory;
+import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,17 +21,18 @@ import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
  */
 public class FullTestGpon implements Validator {
 
-    private AbstractDslam c;
+    private EfikaCustomer cl;
+    
 
     private List<Validacao> bateria;
 
     private List<Validacao> valids;
 
-    public FullTestGpon(AbstractDslam c) {
-        this.c = c;
+    public FullTestGpon(EfikaCustomer cl) throws DslamNaoImplException {
+        this.cl = cl;
         bateria = new ArrayList<>();
         valids = new ArrayList<>();
-        bateria.add(new ValidacaoRtEstadoAdmPorta(this.c));
+        bateria.add(new ValidacaoRtEstadoAdmPorta(DslamDAOFactory.getInstance(cl.getRede().getModeloDslam()), this.cl));
     }
 
     @Override

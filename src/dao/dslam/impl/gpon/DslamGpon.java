@@ -38,9 +38,6 @@ public abstract class DslamGpon extends AbstractDslam
     public abstract SerialOntGpon getSerialOnt() throws Exception;
 
     @Override
-    public abstract EstadoDaPorta getEstadoDaPorta() throws Exception;
-
-    @Override
     public abstract VlanBanda getVlanBanda() throws Exception;
 
     @Override

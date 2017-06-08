@@ -5,8 +5,7 @@
  */
 package dao.dslam.impl;
 
-import dao.dslam.impl.ConsultaClienteInter;
-import model.dslam.consulta.EstadoDaPorta;
+import br.net.gvt.efika.customer.InventarioRede;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -20,23 +19,22 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
  *
  * @author G0041775
  */
-public interface ConsultaMetalicoDefault extends ConsultaClienteInter{
+public interface ConsultaMetalicoDefault extends ConsultaClienteInter {
 
+    public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception;
 
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception;
+    public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception;
 
-    public TabelaRedeMetalico getTabelaRede() throws Exception;
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception;
 
-    public VlanBanda getVlanBanda() throws Exception;
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception;
 
-    public VlanMulticast getVlanMulticast() throws Exception;
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception;
 
-    public VlanVoip getVlanVoip() throws Exception;
+    public VlanVod getVlanVod(InventarioRede i) throws Exception;
 
-    public VlanVod getVlanVod() throws Exception;
+    public Profile getProfile(InventarioRede i) throws Exception;
 
-    public Profile getProfile() throws Exception;
-    
-    public Modulacao getModulacao() throws Exception;
+    public Modulacao getModulacao(InventarioRede i) throws Exception;
 
 }

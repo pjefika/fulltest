@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.metalico.zhone;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
@@ -71,7 +72,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta() throws Exception {
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         List<String> leEst = this.getCd().consulta(this.getParams()).getRetorno();
         return super.getEstadoDaPorta(leEst);
     }

@@ -17,10 +17,9 @@ import dao.dslam.impl.metalico.zhone.ZhoneMetalicoMxkDslam;
  *
  * @author G0042204
  */
-public class DslamMetalicoDAOFactory implements FactoryDslamInterface {
+public class DslamMetalicoDAOFactory{
 
-    @Override
-    public AbstractDslam getInstance(String modelo) throws DslamNaoImplException {
+    public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
         if (modelo.equalsIgnoreCase("COMBOZH48")) {
             return new ZhoneMetalicoComboDslam();

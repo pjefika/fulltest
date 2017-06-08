@@ -23,6 +23,7 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
 
     @Override
     public Boolean validar() {
+        System.out.println("estadoPorta.getAdminState(): " + estadoPorta.getAdminState());
         if (!estadoPorta.getAdminState().equalsIgnoreCase("UP")) {
             this.setMensagem("Porta Desativada (Adm state em Down).");
             this.setResultado(Boolean.FALSE);

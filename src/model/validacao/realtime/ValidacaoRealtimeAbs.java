@@ -5,6 +5,7 @@
  */
 package model.validacao.realtime;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.Validacao;
 
@@ -15,9 +16,12 @@ import model.validacao.Validacao;
 public abstract class ValidacaoRealtimeAbs extends  Validacao{
 
     protected AbstractDslam dslam;
+    
+    protected EfikaCustomer cl;
 
-    public ValidacaoRealtimeAbs(AbstractDslam dslam) {
+    public ValidacaoRealtimeAbs(AbstractDslam dslam, EfikaCustomer cl) {
         this.dslam = dslam;
+        this.cl = cl;
     }
 
 }

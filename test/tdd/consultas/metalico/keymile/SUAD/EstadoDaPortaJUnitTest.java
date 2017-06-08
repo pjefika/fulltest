@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import tdd.consultas.CustomerMock;
 
 /**
  *
@@ -46,10 +47,8 @@ public class EstadoDaPortaJUnitTest {
         try {
 
             KeymileMetalicoDslam d = new KeymileMetalicoSuadDslam();
-            d.setIpDslam("10.141.228.1");
-            d.setSlot(new BigInteger("3"));
-            d.setPorta(new BigInteger("20"));
-            EstadoDaPorta est = d.getEstadoDaPorta();
+
+            EstadoDaPorta est = d.getEstadoDaPorta(CustomerMock.gponKeymile().getRede());
 
             System.out.println("Adm " + est.getAdminState());
             System.out.println("Oper " + est.getOperState());

@@ -5,6 +5,7 @@
  */
 package model.validacao.realtime.gpon;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.ValidacaoEstadoPortaAdm;
 import model.validacao.realtime.ValidacaoRealtimeAbs;
@@ -17,15 +18,15 @@ public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeAbs {
 
     private ValidacaoEstadoPortaAdm valid;
 
-    public ValidacaoRtEstadoAdmPorta(AbstractDslam ds) {
-        super(ds);
+    public ValidacaoRtEstadoAdmPorta(AbstractDslam ds, EfikaCustomer cl) {
+        super(ds, cl);
     }
 
     @Override
     public Boolean validar() {
 
         try {
-            valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta());
+            valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta(cl.getRede()));
             return valid.validar();
         } catch (Exception e) {
             return false;

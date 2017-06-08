@@ -15,10 +15,9 @@ import dao.dslam.impl.gpon.zhone.ZhoneGponDslam;
  *
  * @author G0042204
  */
-public class DslamGponDAOFactory implements FactoryDslamInterface {
+public class DslamGponDAOFactory {
 
-    @Override
-    public AbstractDslam getInstance(String modelo) throws DslamNaoImplException {
+    public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
         if (modelo.trim().equalsIgnoreCase("ALCATEL")) {
             return new AlcatelGponDslam();

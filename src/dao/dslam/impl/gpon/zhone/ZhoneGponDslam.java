@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.zhone;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
@@ -104,7 +105,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta() throws Exception {
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         List<String> leAdmin = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta()).getRetorno();
         List<String> leOper = this.getCd().consulta(this.getComandoTabelaParametros()).getRetorno();
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");

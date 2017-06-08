@@ -1,13 +1,13 @@
+package tdd.consultas.metalico.zhone.combo;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas.metalico.zhone.combo;
 
 import com.google.gson.Gson;
 import java.math.BigInteger;
-import model.dslam.consulta.EstadoDaPorta;
 import dao.dslam.impl.metalico.zhone.ZhoneMetalicoComboDslam;
 import dao.dslam.impl.metalico.zhone.ZhoneMetalicoDslam;
 import org.junit.After;
@@ -51,11 +51,11 @@ public class EstadoDaPortaJUnitTest {
             d.setSlot(new BigInteger("8"));
             d.setPorta(new BigInteger("12"));
   
-            EstadoDaPorta tab = d.getEstadoDaPorta();
+//            EstadoDaPorta tab = d.getEstadoDaPorta();
 
             Gson g = new Gson();
 
-            System.out.println(g.toJson(tab));
+//            System.out.println(g.toJson(tab));
 
             d.desconectar();
 

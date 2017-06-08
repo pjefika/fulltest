@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import model.dslam.consulta.EstadoDaPorta;
 
 /**
@@ -13,6 +14,8 @@ import model.dslam.consulta.EstadoDaPorta;
  */
 public interface ConsultaClienteInter {
 
-    public EstadoDaPorta getEstadoDaPorta() throws Exception;
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception;
+    
+    
 
 }
