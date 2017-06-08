@@ -5,7 +5,6 @@
  */
 package dao.dslam.factory;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.factory.exception.DslamNaoImplException;
 
@@ -16,20 +15,14 @@ import dao.dslam.factory.exception.DslamNaoImplException;
 public class DslamDAOFactory implements FactoryDslamInterface {
 
     @Override
-    public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException {
-
-        System.out.println(info.getTechnology());
-        System.out.println(info.getInfoTBS().getDslamModel());
-        System.out.println(info.getInfoTBS().getDslamVendor());
-
-        if (info.getTechnology().trim().equalsIgnoreCase("GPON")) {
+    public AbstractDslam getInstance(String modelo) throws DslamNaoImplException {
+        try {
             FactoryDslamInterface fac = new DslamGponDAOFactory();
-            return fac.getInstance(info);
-        } else {
+            return fac.getInstance(modelo);
+        } catch (DslamNaoImplException e) {
             FactoryDslamInterface fac = new DslamMetalicoDAOFactory();
-            return fac.getInstance(info);
+            return fac.getInstance(modelo);
         }
-
     }
 
 }

@@ -20,7 +20,6 @@ import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
-import model.entity.Cliente;
 
 /**
  *
@@ -32,11 +31,6 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         this.setCredencial(Credencial.KEYMILE);
         this.setLoginStrategy(new LoginRapido());
         this.setCd(new ConsultaDslam(this));
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public ComandoDslam getComandoConsultaVlan2() {
@@ -186,8 +180,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         String modul = null;
         Integer i;
         for (i = 0; i < pegaModul.size(); i++) {
-            if(pegaModul.get(i).contains("true")){
-                modul = pegaModul.get(i+1).replaceAll("\\ # Name", "").replaceAll("\\\\", "").trim();
+            if (pegaModul.get(i).contains("true")) {
+                modul = pegaModul.get(i + 1).replaceAll("\\ # Name", "").replaceAll("\\\\", "").trim();
             }
         }
 

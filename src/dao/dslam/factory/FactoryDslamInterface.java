@@ -5,7 +5,6 @@
  */
 package dao.dslam.factory;
 
-import bean.ossturbonet.oss.gvt.com.GetInfoOut;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.factory.exception.DslamNaoImplException;
 
@@ -15,6 +14,6 @@ import dao.dslam.factory.exception.DslamNaoImplException;
  */
 public interface FactoryDslamInterface {
 
-    public AbstractDslam getInstance(GetInfoOut info) throws DslamNaoImplException;
+    public AbstractDslam getInstance(String modelo) throws DslamNaoImplException;
 
 }

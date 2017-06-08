@@ -6,16 +6,13 @@
  */
 package model.autenticacao;
 
-import br.com.caelum.vraptor.serialization.SkipSerialization;
 
-@SuppressWarnings("serial")
 public class Usuario implements java.io.Serializable {
 
     private java.lang.String login;
 
     private java.lang.Integer nivel;
 
-    @SkipSerialization
     private java.lang.String senha;
 
     public Usuario() {

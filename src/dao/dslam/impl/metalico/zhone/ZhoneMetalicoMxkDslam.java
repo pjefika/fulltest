@@ -21,7 +21,6 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginLento;
 import model.dslam.retorno.TratativaRetornoUtil;
-import model.entity.Cliente;
 
 /**
  *
@@ -34,11 +33,6 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         this.setLoginStrategy(new LoginLento());
         this.setCd(new ConsultaDslam(this));
 
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

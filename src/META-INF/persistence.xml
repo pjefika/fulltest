@@ -3,8 +3,6 @@
   <persistence-unit name="fulltestAPIPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <jta-data-source>java:/co</jta-data-source>
-    <class>model.entity.manobra.ConsultaClienteManobra</class>
-    <class>model.entity.manobra.ValidacaoManobra</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.id.new_generator_mappings" value="false"/>

@@ -22,7 +22,6 @@ import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.gpon.DslamGpon;
-import model.entity.Cliente;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -298,11 +297,6 @@ public class AlcatelGponDslam extends DslamGpon {
         System.out.println(prof.getProfileUp());
 
         return prof;
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

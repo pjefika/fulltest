@@ -11,7 +11,6 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
-import model.entity.Cliente;
 
 /**
  *
@@ -59,10 +58,7 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
 //    public ComandoDslam getComandoConsultaProfileUp(){
 //        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 3000);
 //    }
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros() throws Exception {

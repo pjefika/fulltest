@@ -22,7 +22,6 @@ import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginRapido;
 import model.dslam.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.gpon.DslamGpon;
-import model.entity.Cliente;
 
 /**
  *
@@ -67,11 +66,6 @@ public class KeymileGponDslam extends DslamGpon {
         System.out.println(tabParam.getPotOnt());
 
         return tabParam;
-    }
-
-    @Override
-    public Cliente consultar(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public ComandoDslam getComandoSerialOnt() {
