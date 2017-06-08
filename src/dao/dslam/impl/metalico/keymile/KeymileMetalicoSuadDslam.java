@@ -8,6 +8,8 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.login.LoginRapido;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.Profile;
@@ -18,8 +20,6 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.credencial.Credencial;
-import dao.dslam.impl.login.LoginRapido;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
 
 /**
  *
@@ -35,10 +35,10 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
 
     @Override
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        List<String> velSinc = this.getCd().consulta(this.getVelSinc(null)).getRetorno();
-        List<String> atn = this.getCd().consulta(this.getAtn(null)).getRetorno();
-        List<String> snr = this.getCd().consulta(this.getSnr(null)).getRetorno();
+    public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
+        List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
+        List<String> atn = this.getCd().consulta(this.getAtn(i)).getRetorno();
+        List<String> snr = this.getCd().consulta(this.getSnr(i)).getRetorno();
 
         TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
         try {
@@ -61,8 +61,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanBanda getVlanBanda() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(null)).getRetorno();
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -78,8 +78,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanVoip getVlanVoip() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(null)).getRetorno();
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -95,8 +95,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanVod getVlanVod() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(null)).getRetorno();
+    public VlanVod getVlanVod(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -112,8 +112,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanMulticast getVlanMulticast() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(null)).getRetorno();
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
@@ -130,8 +130,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public Profile getProfile() throws Exception {
-        List<String> pegaProfile = this.getCd().consulta(this.getProf(null)).getRetorno();
+    public Profile getProfile(InventarioRede i) throws Exception {
+        List<String> pegaProfile = this.getCd().consulta(this.getProf(i)).getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
 
@@ -143,8 +143,8 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public Modulacao getModulacao() throws Exception {
-        List<String> pegaModul = this.getCd().consulta(this.getModul(null)).getRetorno();
+    public Modulacao getModulacao(InventarioRede i) throws Exception {
+        List<String> pegaModul = this.getCd().consulta(this.getModul(i)).getRetorno();
         String modul = TratativaRetornoUtil.tratKeymile(pegaModul, "Name");
 
         Modulacao m = new Modulacao();

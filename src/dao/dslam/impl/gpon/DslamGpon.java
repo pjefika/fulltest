@@ -5,18 +5,17 @@
  */
 package dao.dslam.impl.gpon;
 
-import java.math.BigInteger;
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
-import model.dslam.consulta.gpon.AlarmesGpon;
 import dao.dslam.impl.ConsultaGponDefault;
-import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.dslam.consulta.gpon.TabelaParametrosGpon;
 
 /**
  *
@@ -26,64 +25,30 @@ public abstract class DslamGpon extends AbstractDslam
         implements
         ConsultaGponDefault {
 
-    private BigInteger slot;
-    private BigInteger porta;
-    private BigInteger logica;
-    private BigInteger sequencial;
 
     @Override
-    public abstract TabelaParametrosGpon getTabelaParametros() throws Exception;
+    public abstract TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception;
 
     @Override
-    public abstract SerialOntGpon getSerialOnt() throws Exception;
+    public abstract SerialOntGpon getSerialOnt(InventarioRede i) throws Exception;
 
     @Override
-    public abstract VlanBanda getVlanBanda() throws Exception;
+    public abstract VlanBanda getVlanBanda(InventarioRede i) throws Exception;
 
     @Override
-    public abstract VlanVoip getVlanVoip() throws Exception;
+    public abstract VlanVoip getVlanVoip(InventarioRede i) throws Exception;
 
     @Override
-    public abstract VlanVod getVlanVod() throws Exception;
+    public abstract VlanVod getVlanVod(InventarioRede i) throws Exception;
 
     @Override
-    public abstract VlanMulticast getVlanMulticast() throws Exception;
+    public abstract VlanMulticast getVlanMulticast(InventarioRede i) throws Exception;
 
     @Override
-    public abstract AlarmesGpon getAlarmes() throws Exception;
+    public abstract AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
 
     @Override
-    public abstract Profile getProfile() throws Exception;
+    public abstract Profile getProfile(InventarioRede i) throws Exception;
 
-    public void setSlot(BigInteger slot) {
-        this.slot = slot;
-    }
-
-    public void setPorta(BigInteger porta) {
-        this.porta = porta;
-    }
-
-    public void setLogica(BigInteger logica) {
-        this.logica = logica;
-    }
-
-    public void setSequencial(BigInteger sequencial) {
-        this.sequencial = sequencial;
-    }
-
-    public BigInteger getSlot() {
-        return this.slot;
-    }
-
-    public BigInteger getPorta() {
-        return this.porta;
-    }
-
-    public BigInteger getLogica() {
-        return this.logica;
-    }
-
-    public BigInteger getSequencial() {
-        return this.sequencial;
-    }
+    
 }

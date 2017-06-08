@@ -7,12 +7,12 @@ package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
+import dao.dslam.impl.metalico.DslamMetalico;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import dao.dslam.impl.metalico.DslamMetalico;
 
 /**
  *
@@ -46,8 +46,8 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     @Override
-    public TabelaRedeMetalico getTabelaRede() throws Exception {
-        List<String> lTabs = this.getCd().consulta(this.getTabRede(null)).getRetorno();
+    public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
+        List<String> lTabs = this.getCd().consulta(this.getTabRede(i)).getRetorno();
 
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
 

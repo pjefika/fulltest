@@ -8,6 +8,9 @@ package dao.dslam.impl.gpon.zhone;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.gpon.DslamGpon;
+import dao.dslam.impl.login.LoginLento;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +24,6 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import dao.dslam.impl.login.LoginLento;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import dao.dslam.impl.gpon.DslamGpon;
 
 /**
  *
@@ -38,30 +38,30 @@ public class ZhoneGponDslam extends DslamGpon {
 
     }
 
-    private BigInteger getL500() {
-        return this.getLogica().add(new BigInteger("500"));
+    private Integer getL500(Integer logica) {
+        return logica+500;
     }
 
-    private BigInteger getL700() {
-        return this.getLogica().add(new BigInteger("700"));
+    private Integer getL700(Integer logica) {
+        return logica+700;
     }
 
-    private BigInteger getL900() {
-        return this.getLogica().add(new BigInteger("900"));
+    private Integer getL900(Integer logica) {
+        return logica+900;
     }
 
-    private BigInteger getL1100() {
-        return this.getLogica().add(new BigInteger("1100"));
+    private Integer getL1100(Integer logica) {
+        return logica+1100;
     }
 
-    public ComandoDslam getComandoTabelaParametros() {
-        return new ComandoDslam("onu status " + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica(), 5000);
+    public ComandoDslam getComandoTabelaParametros(InventarioRede i) {
+        return new ComandoDslam("onu status " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 5000);
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros() throws Exception {
-        List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros()).getRetorno();
-        List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + this.getSlot() + "-" + this.getPorta() + "-" + this.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+        List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Double potOlt = new Double(pegaParams.get(5));
         Double potOnt = new Double(pegaParams.get(6));
 
@@ -75,14 +75,14 @@ public class ZhoneGponDslam extends DslamGpon {
         return tabParam;
     }
 
-    public ComandoDslam getComandoSerialOnt() {
-        return new ComandoDslam("onu inventory 1-" + this.getSlot() + "-" + this.getPorta() + "-" + this.getLogica(), 3000);
+    public ComandoDslam getComandoSerialOnt(InventarioRede i) {
+        return new ComandoDslam("onu inventory 1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), 3000);
     }
 
     @Override
-    public SerialOntGpon getSerialOnt() throws Exception {
-        List<String> leSerial = this.getCd().consulta(this.getComandoSerialOnt()).getRetorno();
-        List<String> pegaSerial = TratativaRetornoUtil.tratZhone(leSerial, this.getLogica().toString(), "\\b\\w+\\b", 2);
+    public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
+        List<String> leSerial = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
+        List<String> pegaSerial = TratativaRetornoUtil.tratZhone(leSerial, i.getLogica().toString(), "\\b\\w+\\b", 2);
 
         String sernum = "";
 
@@ -100,16 +100,16 @@ public class ZhoneGponDslam extends DslamGpon {
         return serOnt;
     }
 
-    public ComandoDslam getComandoConsultaEstadoDaPorta() {
-        return new ComandoDslam("port show 1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/gpononu", 5000); //To change body of generated methods, choose Tools | Templates.
+    public ComandoDslam getComandoConsultaEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("port show 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu", 5000); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> leAdmin = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta()).getRetorno();
-        List<String> leOper = this.getCd().consulta(this.getComandoTabelaParametros()).getRetorno();
+        List<String> leAdmin = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i)).getRetorno();
+        List<String> leOper = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
-        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leOper, "1-" + this.getSlot() + "-" + this.getPorta() + "-" + this.getLogica(), "\\b\\w+\\b");
+        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leOper, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
         String operState = pegaOper.get(5);
 
@@ -124,14 +124,14 @@ public class ZhoneGponDslam extends DslamGpon {
         return estado;
     }
 
-    public ComandoDslam getComandoConsultaVlan() {
-        return new ComandoDslam("bridge show vlan " + this.getP100(), 5000);
+    public ComandoDslam getComandoConsultaVlan(InventarioRede i) {
+        return new ComandoDslam("bridge show vlan " + (i.getPorta()+100), 5000);
     }
 
     @Override
-    public VlanBanda getVlanBanda() throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
-        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500() + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -149,9 +149,9 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public VlanVoip getVlanVoip() throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
-        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700() + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
+        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -169,9 +169,9 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public VlanVod getVlanVod() throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
-        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900() + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+    public VlanVod getVlanVod(InventarioRede i) throws Exception {
+        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -189,12 +189,12 @@ public class ZhoneGponDslam extends DslamGpon {
         return vlanVod;
     }
 
-    public ComandoDslam getComandoConsultaVlanMulticast() {
-        return new ComandoDslam("bridge show port 1/" + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica() + "/gpononu", 45000);
+    public ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("bridge show port 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu", 45000);
     }
 
     @Override
-    public VlanMulticast getVlanMulticast() throws Exception {
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
 //        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
 //        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         VlanMulticast vlanMult = new VlanMulticast();
@@ -210,13 +210,13 @@ public class ZhoneGponDslam extends DslamGpon {
         return vlanMult;
     }
 
-    public ComandoDslam getComandoConsultaAlarmes() {
-        return new ComandoDslam("onu alarms " + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica(), 5000);
+    public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
+        return new ComandoDslam("onu alarms " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 5000);
     }
 
     @Override
-    public AlarmesGpon getAlarmes() throws Exception {
-        List<String> leAlarmes = this.getCd().consulta(this.getComandoConsultaAlarmes()).getRetorno();
+    public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
+        List<String> leAlarmes = this.getCd().consulta(this.getComandoConsultaAlarmes(i)).getRetorno();
         AlarmesGpon alarm = new AlarmesGpon();
         alarm.setListAlarmes(leAlarmes);
         for (String leAlarme : leAlarmes) {
@@ -230,20 +230,20 @@ public class ZhoneGponDslam extends DslamGpon {
         return alarm;
     }
 
-    public ComandoDslam getComandoConsultaProfileDown() {
-        return new ComandoDslam("get bridge-interface-record 1-" + this.getSlot() + "-" + this.getPorta() + "-" + this.getL500() + "-gponport-" + this.getP100() + "-" + this.getRin() + "/bridge", 3000);
+    public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
+        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + (i.getPorta()+100) + "-" + i.getRin() + "/bridge", 3000);
     }
 
-    public ComandoDslam getComandoConsultaProfileUp() {
-        return new ComandoDslam("onu gemports " + this.getSlot() + "/" + this.getPorta() + "/" + this.getLogica(), 3000);
+    public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
+        return new ComandoDslam("onu gemports " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 3000);
     }
 
     @Override
-    public Profile getProfile() throws Exception {
-        List<String> leProfDowns = this.getCd().consulta(this.getComandoConsultaProfileDown()).getRetorno();
-        List<String> leProfUps = this.getCd().consulta(this.getComandoConsultaProfileUp()).getRetorno();
+    public Profile getProfile(InventarioRede i) throws Exception {
+        List<String> leProfDowns = this.getCd().consulta(this.getComandoConsultaProfileDown(i)).getRetorno();
+        List<String> leProfUps = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
 
-        List<String> leProfileUp = TratativaRetornoUtil.tratZhone(leProfUps, "1-" + this.getSlot() + "-" + this.getPorta() + "-" + this.getL500(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leProfileUp = TratativaRetornoUtil.tratZhone(leProfUps, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         List<String> leProfileDown = TratativaRetornoUtil.tratZhone(leProfDowns, "bridgeIfEgressPacketRuleGroupIndex", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         String profileDown = leProfileDown.get(0);

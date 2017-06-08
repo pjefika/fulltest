@@ -8,21 +8,21 @@ package dao.dslam.impl.gpon.keymile;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.gpon.DslamGpon;
+import dao.dslam.impl.login.LoginRapido;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.Profile;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import dao.dslam.impl.login.LoginRapido;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import dao.dslam.impl.gpon.DslamGpon;
 
 /**
  *
@@ -46,18 +46,18 @@ public class KeymileGponDslam extends DslamGpon {
         this.setCd(new ConsultaDslam(this));
     }
 
-    public ComandoDslam getComandoPotOlt() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/status/olt");
+    public ComandoDslam getComandoPotOlt(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/olt");
     }
 
-    public ComandoDslam getComandoPotOnt() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/status/ont");
+    public ComandoDslam getComandoPotOnt(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/ont");
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros() throws Exception {
-        List<String> retOlt = this.getCd().consulta(this.getComandoPotOlt()).getRetorno();
-        List<String> retOnt = this.getCd().consulta(this.getComandoPotOnt()).getRetorno();
+    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+        List<String> retOlt = this.getCd().consulta(this.getComandoPotOlt(i)).getRetorno();
+        List<String> retOnt = this.getCd().consulta(this.getComandoPotOnt(i)).getRetorno();
 
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(new Double(TratativaRetornoUtil.tratKeymile(retOlt, "rxInputPower")));
@@ -69,13 +69,13 @@ public class KeymileGponDslam extends DslamGpon {
         return tabParam;
     }
 
-    public ComandoDslam getComandoSerialOnt() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/cfgm/onuCfgTable");
+    public ComandoDslam getComandoSerialOnt(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
     }
 
     @Override
-    public SerialOntGpon getSerialOnt() throws Exception {
-        List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt()).getRetorno();
+    public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
+        List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
         String sernum = TratativaRetornoUtil.tratKeymile(serOnt, "SerialNumber").replace("\"", "");
 
         SerialOntGpon ont = new SerialOntGpon();
@@ -85,18 +85,18 @@ public class KeymileGponDslam extends DslamGpon {
         return ont;
     }
 
-    public ComandoDslam getComandoConsultaEstadoAdminDaPorta() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/main/AdministrativeStatus");
+    public ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus");
     }
 
-    public ComandoDslam getComandoConsultaEstadoOperDaPorta() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/main/OperationalStatus");
+    public ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus");
     }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta()).getRetorno();
-        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta()).getRetorno();
+        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i)).getRetorno();
+        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i)).getRetorno();
 
         String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
@@ -110,8 +110,8 @@ public class KeymileGponDslam extends DslamGpon {
         return portState;
     }
 
-    public ComandoDslam getComandoConsultaVlanBanda1() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/interface-1/status/ServiceStatus");
+    public ComandoDslam getComandoConsultaVlanBanda1(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/status/ServiceStatus");
     }
 
     public ComandoDslam getComandoConsultaVlan2() {
@@ -119,8 +119,8 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public VlanBanda getVlanBanda() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanBanda1()).getRetorno();
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanBanda1(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
@@ -138,13 +138,13 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanBanda;
     }
 
-    public ComandoDslam getComandoConsultaVlanVoip1() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/interface-2/status/ServiceStatus");
+    public ComandoDslam getComandoConsultaVlanVoip1(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2/status/ServiceStatus");
     }
 
     @Override
-    public VlanVoip getVlanVoip() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1()).getRetorno();
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         BigInteger cvlan = new BigInteger("0");
@@ -163,13 +163,13 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanVoip;
     }
 
-    public ComandoDslam getComandoConsultaVlanVod1() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/interface-3/status/ServiceStatus");
+    public ComandoDslam getComandoConsultaVlanVod1(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3/status/ServiceStatus");
     }
 
     @Override
-    public VlanVod getVlanVod() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1()).getRetorno();
+    public VlanVod getVlanVod(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         BigInteger cvlan = new BigInteger("0");
@@ -189,13 +189,13 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanVod;
     }
 
-    public ComandoDslam getComandoConsultaVlanMulticast1() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/interface-4/status/ServiceStatus");
+    public ComandoDslam getComandoConsultaVlanMulticast1(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/status/ServiceStatus");
     }
 
     @Override
-    public VlanMulticast getVlanMulticast() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1()).getRetorno();
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         VlanMulticast vlanMult = new VlanMulticast();
         BigInteger cvlan = new BigInteger("0");
@@ -212,19 +212,19 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanMult;
     }
 
-    public ComandoDslam getComandoConsultaAlarmes() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/fm/alarmstatus");
+    public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/fm/alarmstatus");
     }
 
     @Override
-    public AlarmesGpon getAlarmes() throws Exception {
-        List<String> alarmesResp = this.getCd().consulta(this.getComandoConsultaAlarmes()).getRetorno();
+    public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
+        List<String> alarmesResp = this.getCd().consulta(this.getComandoConsultaAlarmes(i)).getRetorno();
         AlarmesGpon alarmes = new AlarmesGpon();
-        Integer i;
-        for (i = 0; i < alarmesResp.size(); i++) {
-            String leLine = alarmesResp.get(i);
+        Integer e;
+        for (e = 0; e < alarmesResp.size(); e++) {
+            String leLine = alarmesResp.get(e);
             if (leLine.contains(" FaultCauseState") && leLine.contains("On")) {
-                String pegaNomeAlarme = alarmesResp.get(i - 1);
+                String pegaNomeAlarme = alarmesResp.get(e - 1);
                 String nomeAlarme = pegaNomeAlarme.substring(0, pegaNomeAlarme.indexOf("\\ #")).replace("\"", "").trim();
                 alarmes.getListAlarmes().add(nomeAlarme);
             }
@@ -234,21 +234,21 @@ public class KeymileGponDslam extends DslamGpon {
         return alarmes;
     }
 
-    public ComandoDslam getComandoConsultaProfileUp() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/cfgm/onuCfgTable");
+    public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
     }
 
-    public ComandoDslam getComandoConsultaProfileDown() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/odn-" + this.getPorta() + "/ont-" + this.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting");
+    public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting");
     }
 
     @Override
-    public Profile getProfile() throws Exception {
-        List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp()).getRetorno();
+    public Profile getProfile(InventarioRede i) throws Exception {
+        List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
         String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
         String profileUp = TratativaRetornoUtil.upProfileNameKeymile(new Integer(profUpIndex));
 
-        List<String> profileDownResp = this.getCd().consulta(this.getComandoConsultaProfileDown()).getRetorno();
+        List<String> profileDownResp = this.getCd().consulta(this.getComandoConsultaProfileDown(i)).getRetorno();
         String profileDown = TratativaRetornoUtil.tratKeymile(profileDownResp, "Name", 2);
 
         Profile prof = new Profile();
