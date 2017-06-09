@@ -3,16 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.fulltest.validacao;
+package model.validacao;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 
 /**
  *
- * @author G0041775
+ * @author G0042204
  */
-public interface Validador {
+public abstract class ValidacaoEfikaCustomer extends Validacao{
     
-    public Boolean validar(EfikaCustomer cust);
-    
+    protected EfikaCustomer cust;
+
+    public ValidacaoEfikaCustomer(EfikaCustomer cust) {
+        this.cust = cust;
+    }
+
 }

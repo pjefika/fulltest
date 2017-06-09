@@ -5,7 +5,7 @@
  */
 package model.dslam.consulta.gpon;
 
-import dao.dslam.impl.AbstractDslam;
+import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.validacao.Validador;
 
 /**
@@ -24,7 +24,7 @@ public class SerialOntGpon implements Validador{
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
+    public Boolean validar(EfikaCustomer e) {
         return !this.serial.isEmpty();
     }
     

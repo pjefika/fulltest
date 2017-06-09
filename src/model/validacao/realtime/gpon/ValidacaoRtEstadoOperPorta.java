@@ -6,32 +6,27 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoEstadoPortaOper;
-import model.validacao.realtime.ValidacaoRealtimeAbs;
+import model.validacao.realtime.ValidacaoRealtimeGpon;
 
-/**
- *
- * @author G0041775
- */
-public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeAbs {
+
+public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeGpon {
 
     private ValidacaoEstadoPortaOper valid;
 
-    public ValidacaoRtEstadoOperPorta(AbstractDslam ds, EfikaCustomer cl) {
-        super(ds, cl);
+    public ValidacaoRtEstadoOperPorta(ConsultaGponDefault dslam, EfikaCustomer cl) {
+        super(dslam, cl);
     }
 
     @Override
     public Boolean validar() {
-
         try {
-            valid = new ValidacaoEstadoPortaOper(dslam.getEstadoDaPorta(cl.getRede()));
+            valid = new ValidacaoEstadoPortaOper(dslam.getEstadoDaPorta(cust.getRede()));
             return valid.validar();
         } catch (Exception e) {
             return false;
         }
-
     }
 
 }

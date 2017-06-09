@@ -5,7 +5,7 @@
  */
 package model.dslam.consulta.gpon;
 
-import dao.dslam.impl.AbstractDslam;
+import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.consulta.TabelaParamAbstract;
 import model.fulltest.validacao.Validador;
 
@@ -39,7 +39,7 @@ public class TabelaParametrosGpon extends TabelaParamAbstract implements Validad
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
+    public Boolean validar(EfikaCustomer e) {
         return (this.potOlt < -8 && this.potOlt > -25
                 && this.potOnt < -8 && this.potOnt > -25);
     }

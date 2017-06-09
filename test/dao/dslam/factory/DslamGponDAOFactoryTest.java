@@ -46,18 +46,20 @@ public class DslamGponDAOFactoryTest {
     @Test
     public void keymileGPON() throws Exception {
         String modelo = "SUGP1";
+        String ip = "10.200.35.66";
         DslamGponDAOFactory instance = new DslamGponDAOFactory();
         AbstractDslam expResult = new KeymileGponDslam();
-        AbstractDslam result = instance.getInstance(modelo);
+        AbstractDslam result = instance.getInstance(modelo, ip);
         assertEquals(expResult.getClass(), result.getClass());
     }
 
     @Test
     public void zhoneGPON() throws Exception {
         String modelo = "GPON_CARD8";
+        String ip = "10.200.35.66";
         DslamGponDAOFactory instance = new DslamGponDAOFactory();
         AbstractDslam expResult = new ZhoneGponDslam();
-        AbstractDslam result = instance.getInstance(modelo);
+        AbstractDslam result = instance.getInstance(modelo, ip);
         assertEquals(expResult.getClass(), result.getClass());
     }
 

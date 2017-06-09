@@ -5,6 +5,8 @@
  */
 package model.validacao;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
+
 /**
  *
  * @author G0042204
@@ -40,6 +42,5 @@ public abstract class Validacao implements Validator {
     public void setMensagem(String mensagem) {
         this.mensagem = mensagem;
     }
-    
 
 }

@@ -5,6 +5,7 @@
  */
 package model.dslam.consulta.gpon;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import dao.dslam.impl.AbstractDslam;
@@ -32,7 +33,7 @@ public class AlarmesGpon implements Validador{
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
+    public Boolean validar(EfikaCustomer e) {
         return this.listAlarmes.isEmpty();
     }
     

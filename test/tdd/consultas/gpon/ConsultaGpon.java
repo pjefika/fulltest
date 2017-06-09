@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests.tdd.consultas.gpon;
+package tdd.consultas.gpon;
 
 import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
 import org.junit.After;
@@ -17,9 +17,9 @@ import static org.junit.Assert.*;
  *
  * @author G0042204
  */
-public class consultasGpon {
+public class ConsultaGpon {
 
-    public consultasGpon() {
+    public ConsultaGpon() {
     }
 
     @BeforeClass

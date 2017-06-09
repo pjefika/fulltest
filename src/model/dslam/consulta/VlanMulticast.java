@@ -5,36 +5,22 @@
  */
 package model.dslam.consulta;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import java.math.BigInteger;
-import dao.dslam.impl.AbstractDslam;
-import model.fulltest.validacao.Validador;
 
 /**
  *
  * @author G0041775
  */
-public class VlanMulticast implements Validador{
-    private BigInteger cvlan;
+public class VlanMulticast extends VlanAbstract {
 
-    public BigInteger getCvlan() {
-        return cvlan;
-    }
-
-    public void setCvlan(BigInteger cvlan) {
-        this.cvlan = cvlan;
+    public VlanMulticast(BigInteger p100, BigInteger cvlan) {
+        super(p100, cvlan);
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
-        System.out.println(ds.getVlanMulticaste());
-        Boolean v = null;
-        try {
-            v = this.cvlan.equals(new BigInteger(ds.getVlanMulticaste()));
-        } catch (Exception e) {
-            
-        }
-        return v;
+    public Boolean validar(EfikaCustomer e) {
+        return false;
     }
-    
-    
+
 }

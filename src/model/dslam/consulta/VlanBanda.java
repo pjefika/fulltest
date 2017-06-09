@@ -5,23 +5,26 @@
  */
 package model.dslam.consulta;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import java.math.BigInteger;
-import dao.dslam.impl.AbstractDslam;
-
 
 /**
  *
  * @author G0041775
  */
-public class VlanBanda extends VlanAbstract{
-
+public class VlanBanda extends VlanAbstract {
+    
     public VlanBanda(BigInteger cvlan, BigInteger p100) {
-        this.setCvlan(cvlan);
-        this.setP100(p100);
+        super(p100, cvlan);
     }
     
     @Override
-    public Boolean validar(AbstractDslam ds) {
-        return (this.getCvlan().equals(new BigInteger(ds.getRin())) && this.getP100().equals(new BigInteger(ds.getP100())));
+    public Boolean validar(EfikaCustomer e) {
+        
+        BigInteger rin = new BigInteger(e.getRede().getRin().toString());
+        Integer soma = e.getRede().getPorta() + 100;
+        BigInteger p100 = new BigInteger(soma.toString());
+        
+        return this.getCvlan().equals(rin) && this.getP100().equals(p100);
     }
 }

@@ -5,6 +5,7 @@
  */
 package model.validacao;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.dslam.consulta.VlanBanda;
 
@@ -25,8 +26,8 @@ public class ValidacaoVlanBanda extends Validacao {
     }
 
     @Override
-    public Boolean validar() {
-        Boolean ret = vlanBanda.validar(ds);
+    public Boolean validar(EfikaCustomer e) {
+        Boolean ret = vlanBanda.validar(e);
         if (ret) {
             this.setMensagem("Vlan Banda configurado corretamente.");
         } else {

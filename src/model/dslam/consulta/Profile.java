@@ -5,6 +5,7 @@
  */
 package model.dslam.consulta;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.velocidade.Velocidades;
@@ -15,9 +16,9 @@ import model.fulltest.validacao.Validador;
  * @author G0041775
  */
 public class Profile implements Validador {
-    
+
     private String profileUp;
-    
+
     private String profileDown;
 
     public String getProfileUp() {
@@ -37,30 +38,26 @@ public class Profile implements Validador {
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
-        
+    public Boolean validar(EfikaCustomer ec) {
+
         String leprofDown = TratativaRetornoUtil.numberFromString(this.profileDown).get(0);
         String leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
-        
-        if(leprofUp.length()>3 && !leprofUp.contains(".")){
-            leprofUp = leprofUp.substring(0, (leprofUp.length()-3));
+
+        if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
+            leprofUp = leprofUp.substring(0, (leprofUp.length() - 3));
         }
-        
-        return (leprofDown.equals(velDown(ds)) && leprofUp.equals(velUp(ds)));
+
+        return (leprofDown.equals(velDown(ec)) && leprofUp.equals(velUp(ec)));
     }
-    
-    public static String velDown(AbstractDslam ds){
-        String downCrm = ds.getProd().getBanda().getDownCrm();
-        Velocidades velDown = Velocidades.valueOf("VEL_"+downCrm);
-                
+
+    protected static String velDown(EfikaCustomer ec) {
+        Velocidades velDown = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
         return velDown.getVel();
     }
-    
-    public static String velUp(AbstractDslam ds){
-        String upCrm = ds.getProd().getBanda().getUpCrm();
-        Velocidades velUp = Velocidades.valueOf("VEL_"+upCrm);
-                
+
+    protected static String velUp(EfikaCustomer ec) {
+        Velocidades velUp = Velocidades.valueOf("VEL_" + ec.getServicos().getVelUp());
         return velUp.getVel();
     }
-    
+
 }

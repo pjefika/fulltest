@@ -7,10 +7,14 @@ package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
+import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.ConsultaGponDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.validacao.Validacao;
 import model.validacao.Validator;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
@@ -22,17 +26,27 @@ import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 public class FullTestGpon implements Validator {
 
     private EfikaCustomer cl;
-    
 
     private List<Validacao> bateria;
 
     private List<Validacao> valids;
 
+    private ConsultaGponDefault dslam;
+
     public FullTestGpon(EfikaCustomer cl) throws DslamNaoImplException {
         this.cl = cl;
-        bateria = new ArrayList<>();
         valids = new ArrayList<>();
-        bateria.add(new ValidacaoRtEstadoAdmPorta(DslamDAOFactory.getInstance(cl.getRede().getModeloDslam()), this.cl));
+        preparaDslam();
+        preparaBateria();
+    }
+
+    protected void preparaDslam()  throws DslamNaoImplException {
+        dslam = (ConsultaGponDefault) DslamGponDAOFactory.getInstance(cl.getRede().getModeloDslam(), cl.getRede().getIpDslam());
+    }
+
+    protected void preparaBateria() {
+        bateria = new ArrayList<>();
+        bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
     }
 
     @Override

@@ -5,7 +5,7 @@
  */
 package model.dslam.consulta;
 
-import dao.dslam.impl.AbstractDslam;
+import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.validacao.Validador;
 
 /**
@@ -35,7 +35,7 @@ public class EstadoDaPorta implements Validador{
     }
 
     @Override
-    public Boolean validar(AbstractDslam ds) {
+    public Boolean validar(EfikaCustomer e) {
         return this.adminState.equalsIgnoreCase("UP") && this.operState.equalsIgnoreCase("UP");
     }
 
