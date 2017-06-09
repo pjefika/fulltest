@@ -18,8 +18,6 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
-import model.dslam.credencial.Credencial;
-import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 
 /**
@@ -28,14 +26,13 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
  */
 public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
-    public KeymileMetalicoSuvdDslam() {
-        this.setCredencial(Credencial.KEYMILE);
-        this.setLoginStrategy(new LoginRapido());
+    public KeymileMetalicoSuvdDslam(String ipDslam) {
+        super(ipDslam);
         this.setCd(new ConsultaDslam(this));
     }
 
-    public ComandoDslam getComandoConsultaVlan2() {
-        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
+    public ComandoDslam getComandoConsultaVlan2(String srvc) {
+        return new ComandoDslam("get /services/packet/" + srvc + "/cfgm/Service");
     }
 
     @Override
@@ -98,8 +95,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -116,8 +112,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -134,8 +129,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -146,14 +140,13 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult()).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
         BigInteger cvlan = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
 
@@ -164,7 +157,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        List<String> pegaProfile = this.getCd().consulta(this.getProf()).getRetorno();
+        List<String> pegaProfile = this.getCd().consulta(this.getProf(i)).getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
 
@@ -212,15 +205,15 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcVod(InventarioRede i) {
+    protected ComandoDslam getSrvcVod(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcMult() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-4/status/servicestatus");
+    protected ComandoDslam getSrvcMult(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/status/servicestatus");
     }
 
-    public ComandoDslam getProf() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/cfgm/chanprofile");
+    protected ComandoDslam getProf(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile");
     }
 }

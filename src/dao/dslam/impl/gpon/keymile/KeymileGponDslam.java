@@ -30,19 +30,8 @@ import model.dslam.credencial.Credencial;
  */
 public class KeymileGponDslam extends DslamGpon {
 
-    private String srvc;
-
-    public String getSrvc() {
-        return srvc;
-    }
-
-    public void setSrvc(String srvc) {
-        this.srvc = srvc;
-    }
-
-    public KeymileGponDslam() {
-        this.setCredencial(Credencial.KEYMILE);
-        this.setLoginStrategy(new LoginRapido());
+    public KeymileGponDslam(String ipDslam) {
+        super(ipDslam, Credencial.KEYMILE, new LoginRapido());
         this.setCd(new ConsultaDslam(this));
     }
 
@@ -110,12 +99,12 @@ public class KeymileGponDslam extends DslamGpon {
         return portState;
     }
 
-    public ComandoDslam getComandoConsultaVlanBanda1(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanBanda1(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/status/ServiceStatus");
     }
 
-    public ComandoDslam getComandoConsultaVlan2() {
-        return new ComandoDslam("get /services/packet/" + this.getSrvc() + "/cfgm/Service");
+    protected ComandoDslam getComandoConsultaVlan2(String srvc) {
+        return new ComandoDslam("get /services/packet/" + srvc + "/cfgm/Service");
     }
 
     @Override
@@ -125,8 +114,7 @@ public class KeymileGponDslam extends DslamGpon {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -150,8 +138,7 @@ public class KeymileGponDslam extends DslamGpon {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -175,16 +162,12 @@ public class KeymileGponDslam extends DslamGpon {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
 
         VlanVod vlanVod = new VlanVod(cvlan, p100);
-
-        System.out.println(vlanVod.getCvlan());
-        System.out.println(vlanVod.getP100());
 
         return vlanVod;
     }
@@ -200,8 +183,7 @@ public class KeymileGponDslam extends DslamGpon {
         VlanMulticast vlanMult = new VlanMulticast();
         BigInteger cvlan = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
 
@@ -229,7 +211,6 @@ public class KeymileGponDslam extends DslamGpon {
                 alarmes.getListAlarmes().add(nomeAlarme);
             }
         }
-        System.out.println(alarmes.getListAlarmes());
 
         return alarmes;
     }

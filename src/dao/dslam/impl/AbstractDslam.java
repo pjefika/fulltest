@@ -8,26 +8,30 @@ package dao.dslam.impl;
 import java.io.IOException;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import model.produtos.ProdutoCliente;
 
 /**
  *
  * @author G0041775
  */
-public abstract class AbstractDslam implements Conector, ConsultaClienteInter {
+public abstract class AbstractDslam implements ConsultaClienteInter {
 
-    private String ipDslam;
+    private final String ipDslam;
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
 
     private ConsultaDslam cd;
 
-    @Override
-    public void conectar() {
+    public AbstractDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
+        this.ipDslam = ipDslam;
+        this.credencial = credencial;
+        this.loginStrategy = loginStrategy;
+    }
+
+    public void conectar(){
         this.loginStrategy.conectar(this.getCd());
     }
 
-    public void desconectar() throws IOException {
+    public void desconectar() throws Exception{
         this.cd.close();
     }
 

@@ -22,15 +22,15 @@ public class DslamMetalicoDAOFactory{
     public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
         if (modelo.equalsIgnoreCase("COMBOZH48")) {
-            return new ZhoneMetalicoComboDslam();
+            return new ZhoneMetalicoComboDslam(ip);
         } else if (modelo.contains("MXK")) {
-            return new ZhoneMetalicoMxkDslam();
+            return new ZhoneMetalicoMxkDslam(ip);
         } else if (modelo.equalsIgnoreCase("SUVD3")) {
-            return new KeymileMetalicoSuvd3();
+            return new KeymileMetalicoSuvd3(ip);
         } else if (modelo.equalsIgnoreCase("SUVD11")) {
-            return new KeymileMetalicoSuvd11();
+            return new KeymileMetalicoSuvd11(ip);
         } else if (modelo.contains("SUAD")) {
-            return new KeymileMetalicoSuadDslam();
+            return new KeymileMetalicoSuadDslam(ip);
         } else {
             throw new DslamNaoImplException();
         }

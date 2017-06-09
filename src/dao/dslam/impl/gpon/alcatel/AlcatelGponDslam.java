@@ -33,9 +33,8 @@ import org.w3c.dom.NodeList;
  */
 public class AlcatelGponDslam extends DslamGpon {
 
-    public AlcatelGponDslam() {
-        this.setCredencial(Credencial.ALCATEL);
-        this.setLoginStrategy(new LoginRapido());
+    public AlcatelGponDslam(String ipDslam) {
+        super(ipDslam, Credencial.ALCATEL, new LoginRapido());
         this.setCd(new ConsultaDslam(this));
     }
 
@@ -51,19 +50,19 @@ public class AlcatelGponDslam extends DslamGpon {
         }
     }
 
-    public ComandoDslam getComandoInhibitAlarms() {
+    protected ComandoDslam getComandoInhibitAlarms() {
         return new ComandoDslam("environment inhibit-alarms", 100);
     }
 
-    public ComandoDslam getComandoModeBatch() {
+    protected ComandoDslam getComandoModeBatch() {
         return new ComandoDslam("environment mode batch", 100);
     }
 
-    public ComandoDslam getComandoExit() {
+    protected ComandoDslam getComandoExit() {
         return new ComandoDslam("exit", 100);
     }
 
-    public ComandoDslam getComandoDumpRafael() {
+    protected ComandoDslam getComandoDumpRafael() {
         return new ComandoDslam("show equipment ont operational-data detail xml", 1000);
     }
 
@@ -73,13 +72,13 @@ public class AlcatelGponDslam extends DslamGpon {
      * @return
      * @throws Exception
      */
-    public Document getDumpRafael() throws Exception {
+    protected Document getDumpRafael() throws Exception {
         //Document xml;
         //xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoDumpRafael()));
         return TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoDumpRafael()));
     }
 
-    public ComandoDslam getComandoTabelaParametros(InventarioRede i) {
+    protected ComandoDslam getComandoTabelaParametros(InventarioRede i) {
         return new ComandoDslam("show equipment ont optics 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 5000);
     }
 

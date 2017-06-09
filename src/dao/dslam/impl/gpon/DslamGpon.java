@@ -8,6 +8,7 @@ package dao.dslam.impl.gpon;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.login.LoginDslamStrategy;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -16,6 +17,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.credencial.Credencial;
 
 /**
  *
@@ -25,6 +27,9 @@ public abstract class DslamGpon extends AbstractDslam
         implements
         ConsultaGponDefault {
 
+    public DslamGpon(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
+        super(ipDslam, credencial, loginStrategy);
+    }
 
     @Override
     public abstract TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception;
@@ -50,5 +55,4 @@ public abstract class DslamGpon extends AbstractDslam
     @Override
     public abstract Profile getProfile(InventarioRede i) throws Exception;
 
-    
 }

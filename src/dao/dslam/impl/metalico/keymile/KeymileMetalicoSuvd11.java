@@ -7,9 +7,11 @@ package dao.dslam.impl.metalico.keymile;
 
 /**
  *
- * @author G0041775
  */
 public class KeymileMetalicoSuvd11 extends KeymileMetalicoSuvdDslam {
 
-    
+    public KeymileMetalicoSuvd11(String ipDslam) {
+        super(ipDslam);
+    }
+
 }

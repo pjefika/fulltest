@@ -11,6 +11,8 @@ package dao.dslam.impl;
  */
 public interface Conector {
 
-    public void conectar();
+    public void conectar() throws Exception;
+
+    public void close() throws Exception;
 
 }

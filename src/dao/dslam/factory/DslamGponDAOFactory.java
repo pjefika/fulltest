@@ -20,11 +20,11 @@ public class DslamGponDAOFactory {
     public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
         if (modelo.trim().equalsIgnoreCase("ALCATEL")) {
-            return new AlcatelGponDslam();
+            return new AlcatelGponDslam(ip);
         } else if (modelo.trim().equalsIgnoreCase("GPON_CARD8")) {
-            return new ZhoneGponDslam();
+            return new ZhoneGponDslam(ip);
         } else if (modelo.trim().equalsIgnoreCase("SUGP1")) {
-            return new KeymileGponDslam();
+            return new KeymileGponDslam(ip);
         } else {
             throw new DslamNaoImplException();
         }

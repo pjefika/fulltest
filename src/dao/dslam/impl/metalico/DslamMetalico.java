@@ -5,9 +5,10 @@
  */
 package dao.dslam.impl.metalico;
 
-import java.math.BigInteger;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import dao.dslam.impl.login.LoginDslamStrategy;
+import model.dslam.credencial.Credencial;
 
 /**
  *
@@ -17,31 +18,8 @@ public abstract class DslamMetalico extends AbstractDslam
         implements
         ConsultaMetalicoDefault {
 
-    private BigInteger slot;
-    private BigInteger porta;
-    private BigInteger sequencial;
-
-    public void setSlot(BigInteger slot) {
-        this.slot = slot;
+    public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
+        super(ipDslam, credencial, loginStrategy);
     }
 
-    public void setPorta(BigInteger porta) {
-        this.porta = porta;
-    }
-
-    public void setSequencial(BigInteger sequencial) {
-        this.sequencial = sequencial;
-    }
-
-    public BigInteger getSlot() {
-        return this.slot;
-    }
-
-    public BigInteger getPorta() {
-        return this.porta;
-    }
-
-    public BigInteger getSequencial() {
-        return this.sequencial;
-    }
 }

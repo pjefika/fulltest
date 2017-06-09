@@ -8,7 +8,6 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
-import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
@@ -19,7 +18,6 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.credencial.Credencial;
 
 /**
  *
@@ -27,12 +25,10 @@ import model.dslam.credencial.Credencial;
  */
 public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
-    public KeymileMetalicoSuadDslam() {
-        this.setCredencial(Credencial.KEYMILE);
-        this.setLoginStrategy(new LoginRapido());
+    public KeymileMetalicoSuadDslam(String ipDslam) {
+        super(ipDslam);
         this.setCd(new ConsultaDslam(this));
     }
-
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
@@ -67,8 +63,7 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -84,8 +79,7 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -101,8 +95,7 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         BigInteger cvlan = new BigInteger("0");
         BigInteger p100 = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -119,8 +112,7 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         VlanMulticast vlanMult = new VlanMulticast();
         BigInteger cvlan = new BigInteger("0");
         if (!leSrvc.contentEquals("no service connected")) {
-            this.setSrvc(leSrvc);
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
 

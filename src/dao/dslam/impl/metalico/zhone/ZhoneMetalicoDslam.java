@@ -5,12 +5,14 @@
  */
 package dao.dslam.impl.metalico.zhone;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
+import dao.dslam.impl.login.LoginDslamStrategy;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
+import model.dslam.credencial.Credencial;
 
 /**
  *
@@ -18,51 +20,12 @@ import dao.dslam.impl.metalico.DslamMetalico;
  */
 public abstract class ZhoneMetalicoDslam extends DslamMetalico {
 
-//    private BigInteger getL500(){
-//        return this.getLogica().add(new BigInteger("500"));
-//    }
-//    private BigInteger getL700(){
-//        return this.getLogica().add(new BigInteger("700"));
-//    }
-//    private BigInteger getL900(){
-//        return this.getLogica().add(new BigInteger("900"));
-//    }
-//    private BigInteger getL1100(){
-//        return this.getLogica().add(new BigInteger("1100"));
-//    }
-//    public ComandoDslam getComandoTabelaParametros() {
-//        return new ComandoDslam("onu status "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
-//    }
-//
-//    public ComandoDslam getComandoSerialOnt() {
-//        return new ComandoDslam("onu inventory 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getLogica(), 3000);
-//    }
-//
-//    public ComandoDslam getComandoConsultaEstadoDaPorta() {
-//        return new ComandoDslam("port show 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 5000); //To change body of generated methods, choose Tools | Templates.
-//    }
-    public ComandoDslam getComandoConsultaVlan() {
-        return new ComandoDslam("bridge show vlan " + this.getP100(), 5000);
+    public ZhoneMetalicoDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
+        super(ipDslam, credencial, loginStrategy);
     }
 
-//    public ComandoDslam getComandoConsultaVlanMulticast() {
-//        return new ComandoDslam("bridge show port 1/"+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica()+"/gpononu", 45000);
-//    }
-//    public ComandoDslam getComandoConsultaAlarmes() {
-//        return new ComandoDslam("onu alarms "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 5000);
-//    }
-//
-//    public ComandoDslam getComandoConsultaProfileDown(){
-//        return new ComandoDslam("get bridge-interface-record 1-"+this.getSlot()+"-"+this.getPorta()+"-"+this.getL500()+"-gponport-"+this.getP100()+"-"+this.getRin()+"/bridge", 3000);
-//    }
-//    public ComandoDslam getComandoConsultaProfileUp(){
-//        return new ComandoDslam("onu gemports "+this.getSlot()+"/"+this.getPorta()+"/"+this.getLogica(), 3000);
-//    }
-
-
-    @Override
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected ComandoDslam getComandoConsultaVlan(InventarioRede i) {
+        return new ComandoDslam("bridge show vlan " + (i.getPorta() + 100), 5000);
     }
 
     public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {

@@ -11,5 +11,9 @@ package dao.dslam.impl.metalico.keymile;
  */
 public class KeymileMetalicoSuvd3 extends KeymileMetalicoSuvdDslam {
 
+    public KeymileMetalicoSuvd3(String ipDslam) {
+        super(ipDslam);
+    }
+
   
 }

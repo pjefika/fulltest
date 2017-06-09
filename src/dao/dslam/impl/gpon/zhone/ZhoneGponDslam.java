@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.gpon.DslamGpon;
+import dao.dslam.impl.login.LoginDslamStrategy;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
@@ -31,27 +32,26 @@ import model.dslam.credencial.Credencial;
  */
 public class ZhoneGponDslam extends DslamGpon {
 
-    public ZhoneGponDslam() {
-        this.setCredencial(Credencial.ZHONE);
-        this.setLoginStrategy(new LoginLento());
+    public ZhoneGponDslam(String ipDslam) {
+        super(ipDslam, Credencial.ZHONE, new LoginLento());
         this.setCd(new ConsultaDslam(this));
 
     }
 
     private Integer getL500(Integer logica) {
-        return logica+500;
+        return logica + 500;
     }
 
     private Integer getL700(Integer logica) {
-        return logica+700;
+        return logica + 700;
     }
 
     private Integer getL900(Integer logica) {
-        return logica+900;
+        return logica + 900;
     }
 
     private Integer getL1100(Integer logica) {
-        return logica+1100;
+        return logica + 1100;
     }
 
     public ComandoDslam getComandoTabelaParametros(InventarioRede i) {
@@ -125,7 +125,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaVlan(InventarioRede i) {
-        return new ComandoDslam("bridge show vlan " + (i.getPorta()+100), 5000);
+        return new ComandoDslam("bridge show vlan " + (i.getPorta() + 100), 5000);
     }
 
     @Override
@@ -231,7 +231,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
-        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + (i.getPorta()+100) + "-" + i.getRin() + "/bridge", 3000);
+        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + (i.getPorta() + 100) + "-" + i.getRin() + "/bridge", 3000);
     }
 
     public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {

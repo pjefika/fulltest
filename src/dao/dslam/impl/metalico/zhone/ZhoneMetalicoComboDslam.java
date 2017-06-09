@@ -7,7 +7,6 @@ package dao.dslam.impl.metalico.zhone;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
@@ -29,16 +28,13 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
  */
 public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
-    public ZhoneMetalicoComboDslam() {
-        this.setCredencial(Credencial.ZHONE);
-        this.setLoginStrategy(new LoginLento());
-        this.setCd(new ConsultaDslam(this));
-
+    public ZhoneMetalicoComboDslam(String ipDslam) {
+        super(ipDslam, Credencial.ZHONE, new LoginLento());
     }
 
     @Override
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        List<String> leParams = this.getCd().consulta(this.getParams()).getRetorno();
+    public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
+        List<String> leParams = this.getCd().consulta(this.getParams(i)).getRetorno();
 
         TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
 
@@ -53,8 +49,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public TabelaRedeMetalico getTabelaRede() throws Exception {
-        List<String> leRedes = this.getCd().consulta(this.getParams()).getRetorno();
+    public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
+        List<String> leRedes = this.getCd().consulta(this.getParams(i)).getRetorno();
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
 
 //        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
@@ -75,13 +71,13 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> leEst = this.getCd().consulta(this.getParams()).getRetorno();
+        List<String> leEst = this.getCd().consulta(this.getParams(i)).getRetorno();
         return super.getEstadoDaPorta(leEst);
     }
 
     @Override
-    public VlanBanda getVlanBanda() throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
@@ -97,8 +93,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public VlanVoip getVlanVoip() throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-36", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
@@ -114,8 +110,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public VlanVod getVlanVod() throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan()).getRetorno();
+    public VlanVod getVlanVod(InventarioRede i) throws Exception {
+        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         BigInteger cvlan = new BigInteger("0");
@@ -131,8 +127,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public VlanMulticast getVlanMulticast() throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getMult()).getRetorno();
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
+        List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         BigInteger cvlan = new BigInteger("0");
 
@@ -146,9 +142,9 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public Profile getProfile() throws Exception {
-        List<String> leProfDown = this.getCd().consulta(this.getProfDown()).getRetorno();
-        List<String> leProfUp = this.getCd().consulta(this.getProfUp()).getRetorno();
+    public Profile getProfile(InventarioRede i) throws Exception {
+        List<String> leProfDown = this.getCd().consulta(this.getProfDown(i)).getRetorno();
+        List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
         Profile p = new Profile();
         BigInteger leDown = new BigInteger(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
@@ -160,32 +156,32 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public Modulacao getModulacao() throws Exception {
-        List<String> leModul = this.getCd().consulta(this.getModul()).getRetorno();
+    public Modulacao getModulacao(InventarioRede i) throws Exception {
+        List<String> leModul = this.getCd().consulta(this.getModul(i)).getRetorno();
         Modulacao m = new Modulacao();
         String modulacao = TratativaRetornoUtil.tratZhone(leModul, "adslTransmissionMode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
         m.setModulacao(modulacao);
         return m;
     }
 
-    public ComandoDslam getMult() {
-        return new ComandoDslam("bridge show port 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000);
+    protected ComandoDslam getMult(InventarioRede i) {
+        return new ComandoDslam("bridge show port 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl", 5000);
     }
 
-    public ComandoDslam getParams() {
-        return new ComandoDslam("dslstat 1-" + this.getSlot() + "-" + this.getPorta() + "-0/adsl", 5000, "a");
+    protected ComandoDslam getParams(InventarioRede i) {
+        return new ComandoDslam("dslstat 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl", 5000, "a");
     }
 
-    public ComandoDslam getProfDown() {
-        return new ComandoDslam("get adsl-co-profile 1/" + this.getSlot() + "/" + this.getPorta());
+    protected ComandoDslam getProfDown(InventarioRede i) {
+        return new ComandoDslam("get adsl-co-profile 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
-    public ComandoDslam getProfUp() {
-        return new ComandoDslam("get adsl-cpe-profile 1/" + this.getSlot() + "/" + this.getPorta());
+    protected ComandoDslam getProfUp(InventarioRede i) {
+        return new ComandoDslam("get adsl-cpe-profile 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
-    public ComandoDslam getModul() {
-        return new ComandoDslam("get adsl-profile 1/" + this.getSlot() + "/" + this.getPorta());
+    protected ComandoDslam getModul(InventarioRede i) {
+        return new ComandoDslam("get adsl-profile 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
 }

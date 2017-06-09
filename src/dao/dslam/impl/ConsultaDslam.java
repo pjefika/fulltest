@@ -53,13 +53,13 @@ public class ConsultaDslam implements Conector {
         return list;
     }
 
+    @Override
     public void close() throws IOException {
         if (out != null) {
             out.close();
             in.close();
             pingSocket.close();
         }
-
     }
 
     public ComandoDslam consulta(ComandoDslam comando) throws Exception {
