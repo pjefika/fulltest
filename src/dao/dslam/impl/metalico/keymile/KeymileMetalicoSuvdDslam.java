@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import java.math.BigInteger;
@@ -38,9 +39,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public TabelaParametrosMetalico getTabelaParametros() throws Exception {
-        List<String> velSinc = this.getCd().consulta(this.getVelSinc()).getRetorno();
-        List<String> atnSnr = this.getCd().consulta(this.getSnrAtn()).getRetorno();
+    public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
+        List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
+        List<String> atnSnr = this.getCd().consulta(this.getSnrAtn(i)).getRetorno();
 
         try {
             TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
@@ -90,8 +91,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanBanda getVlanBanda() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda()).getRetorno();
+    public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(i)).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
@@ -108,8 +109,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanVoip getVlanVoip() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip()).getRetorno();
+    public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(i)).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
@@ -126,8 +127,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanVod getVlanVod() throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod()).getRetorno();
+    public VlanVod getVlanVod(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         BigInteger cvlan = new BigInteger("0");
@@ -144,7 +145,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public VlanMulticast getVlanMulticast() throws Exception {
+    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult()).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
@@ -162,7 +163,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public Profile getProfile() throws Exception {
+    public Profile getProfile(InventarioRede i) throws Exception {
         List<String> pegaProfile = this.getCd().consulta(this.getProf()).getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
@@ -175,8 +176,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public Modulacao getModulacao() throws Exception {
-        List<String> pegaModul = this.getCd().consulta(this.getModul()).getRetorno();
+    public Modulacao getModulacao(InventarioRede ir) throws Exception {
+        List<String> pegaModul = this.getCd().consulta(this.getModul(ir)).getRetorno();
         String modul = null;
         Integer i;
         for (i = 0; i < pegaModul.size(); i++) {
@@ -191,28 +192,28 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return m;
     }
 
-    public ComandoDslam getModul() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/cfgm/portprofiles");
+    public ComandoDslam getModul(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles");
     }
 
-    public ComandoDslam getVelSinc() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/status/status");
+    public ComandoDslam getVelSinc(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/status/status");
     }
 
-    public ComandoDslam getSnrAtn() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/status/bandstatus");
+    public ComandoDslam getSnrAtn(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/bandstatus");
     }
 
-    public ComandoDslam getSrvcBanda() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-1/status/servicestatus");
+    public ComandoDslam getSrvcBanda(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcVoip() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-2/status/servicestatus");
+    public ComandoDslam getSrvcVoip(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcVod() {
-        return new ComandoDslam("get /unit-" + this.getSlot() + "/port-" + this.getPorta() + "/chan-1/interface-3/status/servicestatus");
+    public ComandoDslam getSrvcVod(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/status/servicestatus");
     }
 
     public ComandoDslam getSrvcMult() {
