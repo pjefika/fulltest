@@ -6,7 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import java.math.BigInteger;
+import model.EnumEstadoVlan;
 import model.fulltest.validacao.Validador;
 
 /**
@@ -15,29 +15,46 @@ import model.fulltest.validacao.Validador;
  */
 public abstract class VlanAbstract implements Validador {
 
-    private BigInteger p100;
+    private Integer cvlan;
 
-    private BigInteger cvlan;
+    private Integer svlan;
 
-    public VlanAbstract(BigInteger p100, BigInteger cvlan) {
-        this.p100 = p100;
-        this.cvlan = cvlan;
+    private EnumEstadoVlan state;
+
+    public VlanAbstract(Integer p100, Integer cvlan, EnumEstadoVlan estado) {
+        this.cvlan = p100;
+        this.svlan = cvlan;
+        this.state = estado;
     }
 
-    public BigInteger getP100() {
-        return p100;
+    @Deprecated
+    public VlanAbstract(Integer p100, Integer cvlan) {
+        this.cvlan = p100;
+        this.svlan = cvlan;
     }
 
-    public void setP100(BigInteger p100) {
-        this.p100 = p100;
+    public EnumEstadoVlan getState() {
+        return state;
     }
 
-    public BigInteger getCvlan() {
+    public void setState(EnumEstadoVlan state) {
+        this.state = state;
+    }
+
+    public Integer getCvlan() {
         return cvlan;
     }
 
-    public void setCvlan(BigInteger cvlan) {
+    public void setCvlan(Integer cvlan) {
         this.cvlan = cvlan;
+    }
+
+    public Integer getSvlan() {
+        return svlan;
+    }
+
+    public void setSvlan(Integer svlan) {
+        this.svlan = svlan;
     }
 
     @Override

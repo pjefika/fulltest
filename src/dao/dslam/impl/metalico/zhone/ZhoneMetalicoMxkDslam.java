@@ -8,7 +8,8 @@ package dao.dslam.impl.metalico.zhone;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
-import dao.dslam.impl.login.LoginDslamStrategy;
+import dao.dslam.impl.login.LoginLento;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
@@ -21,8 +22,6 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
-import dao.dslam.impl.login.LoginLento;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
 
 /**
  *
@@ -82,12 +81,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            cvlan = new BigInteger(leVlanBanda.get(2));
-            p100 = new BigInteger(leVlanBanda.get(1));
+            cvlan = new Integer(leVlanBanda.get(2));
+            p100 = new Integer(leVlanBanda.get(1));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
 
@@ -99,12 +98,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-36", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
 
         if (leVlanVoip != null) {
-            cvlan = new BigInteger(leVlanVoip.get(2));
-            p100 = new BigInteger(leVlanVoip.get(1));
+            cvlan = new Integer(leVlanVoip.get(2));
+            p100 = new Integer(leVlanVoip.get(1));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
 
@@ -116,12 +115,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
 
         if (leVlanVod != null) {
-            cvlan = new BigInteger(leVlanVod.get(2));
-            p100 = new BigInteger(leVlanVod.get(1));
+            cvlan = new Integer(leVlanVod.get(2));
+            p100 = new Integer(leVlanVod.get(1));
         }
         VlanVod vlanVod = new VlanVod(cvlan, p100);
 
@@ -132,10 +131,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?(\\d+((\\.|,| )\\d+)?)");
-        BigInteger cvlan = new BigInteger("0");
+        Integer cvlan = new Integer("0");
 
         if (leVlanMult != null) {
-            cvlan = new BigInteger(leVlanMult.get(0));
+            cvlan = new Integer(leVlanMult.get(0));
         }
         VlanMulticast vlanMult = new VlanMulticast();
         vlanMult.setCvlan(cvlan);

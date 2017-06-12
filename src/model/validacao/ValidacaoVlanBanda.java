@@ -6,7 +6,6 @@
 package model.validacao;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.AbstractDslam;
 import model.dslam.consulta.VlanBanda;
 
 /**
@@ -15,31 +14,31 @@ import model.dslam.consulta.VlanBanda;
  */
 public class ValidacaoVlanBanda extends Validacao {
 
-    private VlanBanda vlanBanda;
+    private transient VlanBanda vlan;
+    
+    private transient EfikaCustomer e;
 
-    private transient AbstractDslam ds;
-
-    public ValidacaoVlanBanda(VlanBanda v, AbstractDslam ds) {
+    public ValidacaoVlanBanda(VlanBanda v, EfikaCustomer ec) {
         super("Vlan Banda Larga");
-        this.vlanBanda = v;
-        this.ds = ds;
-    }
-
-    public Boolean validar(EfikaCustomer e) {
-        Boolean ret = vlanBanda.validar(e);
-        if (ret) {
-            this.setMensagem("Vlan Banda configurado corretamente.");
-        } else {
-            this.setMensagem("Vlan Banda configurado incorretamente.");
-        }
-
-        this.setResultado(ret);
-        return ret;
+        this.vlan = v;
+        this.e = ec;
     }
 
     @Override
     public Boolean validar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(vlan.validar(e)){
+            setMensagem("Vlan de Banda configurado corretamente.");
+            setResultado(true);
+            return true;
+        } else {
+            setMensagem("Vlan de Banda configurado incorretamente.\\n Cvlan esperado: "+
+                    e.getRede().getCvLan()+" - Cvlan configurado: "+vlan.getCvlan()+
+                    "\\n Svlan esperado: "+ e.getRede().getRin()+ " - Svlan configurado: "+vlan.getSvlan()+
+                    "\\n Estado Vlan: "+vlan.getState().toString());
+            setResultado(false);
+        }
+        
+        return false;
     }
 
 }

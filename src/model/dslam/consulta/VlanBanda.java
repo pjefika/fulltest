@@ -6,7 +6,8 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import java.math.BigInteger;
+import model.EnumEstadoVlan;
+
 
 /**
  *
@@ -15,20 +16,20 @@ import java.math.BigInteger;
 public class VlanBanda extends VlanAbstract {
 
     public VlanBanda() {
-        super(null, null);
+        super(null, null, null);
     }
 
-    public VlanBanda(BigInteger cvlan, BigInteger p100) {
-        super(p100, cvlan);
+    public VlanBanda(Integer cvlan, Integer p100, EnumEstadoVlan estado) {
+        super(p100, cvlan, estado);
+    }
+    
+    @Deprecated
+    public VlanBanda(Integer cvlan, Integer p100){
+        super(cvlan, p100);
     }
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-
-        BigInteger rin = new BigInteger(e.getRede().getRin().toString());
-        Integer soma = e.getRede().getPorta() + 100;
-        BigInteger p100 = new BigInteger(soma.toString());
-
-        return this.getCvlan().equals(rin) && this.getP100().equals(p100);
+        return this.getSvlan().equals(e.getRede().getRin()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }

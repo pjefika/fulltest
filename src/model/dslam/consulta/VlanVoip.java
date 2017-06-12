@@ -6,7 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import java.math.BigInteger;
 
 /**
  *
@@ -18,7 +17,7 @@ public class VlanVoip extends VlanAbstract {
         super(null, null);
     }
 
-    public VlanVoip(BigInteger p100, BigInteger cvlan) {
+    public VlanVoip(Integer p100, Integer cvlan) {
         super(p100, cvlan);
     }
 

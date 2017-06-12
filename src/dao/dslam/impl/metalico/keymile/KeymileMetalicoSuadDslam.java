@@ -9,7 +9,6 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -60,12 +59,12 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
-            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
 
@@ -76,12 +75,12 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
-            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
 
@@ -92,12 +91,12 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        BigInteger cvlan = new BigInteger("0");
-        BigInteger p100 = new BigInteger("0");
+        Integer cvlan = new Integer("0");
+        Integer p100 = new Integer("0");
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
-            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            p100 = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         VlanVod vlanVod = new VlanVod(cvlan, p100);
 
@@ -110,10 +109,10 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
-        BigInteger cvlan = new BigInteger("0");
+        Integer cvlan = new Integer("0");
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
-            cvlan = new BigInteger(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
+            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
 
         vlanMult.setCvlan(cvlan);
