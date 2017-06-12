@@ -16,9 +16,8 @@ public class ValidacaoEstadoPortaOper extends Validacao {
     protected transient EstadoDaPorta estadoPorta;
 
     public ValidacaoEstadoPortaOper(EstadoDaPorta e) {
+        super("Estado Operacional da Porta");
         this.estadoPorta = e;
-        this.nome = "Estado Operacional da Porta";
-
     }
 
     @Override

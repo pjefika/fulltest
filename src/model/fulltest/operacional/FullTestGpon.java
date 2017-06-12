@@ -7,18 +7,17 @@ package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
-import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.validacao.Validacao;
 import model.validacao.Validator;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
+import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
+import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
+import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
 
 /**
  *
@@ -48,12 +47,14 @@ public class FullTestGpon implements Validator {
 
     private void preparaBateria() {
         bateria = new ArrayList<>();
+        bateria.add(new ValidacaoRtSerialOntGpon(dslam, cl));
         bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
+        bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
+        bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
     }
 
     @Override
     public Boolean validar() {
-
         for (Validacao v : bateria) {
             Boolean res = v.validar();
             valids.add(v);
@@ -61,10 +62,13 @@ public class FullTestGpon implements Validator {
                 return false;
             }
         }
+
+        dslam.desconectar();
         return true;
     }
 
-    private void close() {
+    public List<Validacao> getValids() {
+        return valids;
     }
 
 }

@@ -11,11 +11,12 @@ import br.net.gvt.efika.customer.EfikaCustomer;
  *
  * @author G0042204
  */
-public abstract class ValidacaoEfikaCustomer extends Validacao{
-    
+public abstract class ValidacaoEfikaCustomer extends Validacao {
+
     protected EfikaCustomer cust;
 
-    public ValidacaoEfikaCustomer(EfikaCustomer cust) {
+    public ValidacaoEfikaCustomer(EfikaCustomer cust, String nome) {
+        super(nome);
         this.cust = cust;
     }
 

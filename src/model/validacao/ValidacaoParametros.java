@@ -19,10 +19,9 @@ public abstract class ValidacaoParametros extends Validacao {
     protected transient AbstractDslam ds;
 
     public ValidacaoParametros(TabelaParametrosMetalico tab, AbstractDslam dsl) {
+        super("Parâmetros de Sincronismo");
         this.t = tab;
         this.ds = dsl;
-        this.nome = "Parâmetros de Sincronismo";
     }
-
 
 }

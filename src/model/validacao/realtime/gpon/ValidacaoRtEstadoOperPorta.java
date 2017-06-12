@@ -10,20 +10,21 @@ import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoEstadoPortaOper;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
-
 public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeGpon {
 
     private ValidacaoEstadoPortaOper valid;
 
     public ValidacaoRtEstadoOperPorta(ConsultaGponDefault dslam, EfikaCustomer cl) {
-        super(dslam, cl);
+        super(dslam, cl, "Estado Operacional da Porta");
     }
 
     @Override
     public Boolean validar() {
         try {
             valid = new ValidacaoEstadoPortaOper(dslam.getEstadoDaPorta(cust.getRede()));
-            return valid.validar();
+            valid.validar();
+            this.merge(valid);
+            return valid.getResultado();
         } catch (Exception e) {
             return false;
         }

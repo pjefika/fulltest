@@ -17,8 +17,8 @@ public abstract class ValidacaoRealtimeGpon extends ValidacaoEfikaCustomer {
 
     protected ConsultaGponDefault dslam;
 
-    public ValidacaoRealtimeGpon(ConsultaGponDefault dslam, EfikaCustomer cust) {
-        super(cust);
+    public ValidacaoRealtimeGpon(ConsultaGponDefault dslam, EfikaCustomer cust, String nome) {
+        super(cust, nome);
         this.dslam = dslam;
     }
 

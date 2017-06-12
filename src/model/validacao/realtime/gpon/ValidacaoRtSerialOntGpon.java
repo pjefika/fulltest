@@ -7,25 +7,25 @@ package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaGponDefault;
-import model.validacao.ValidacaoParametrosGpon;
+import model.validacao.gpon.ValidacaoAssociacaoOnt;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
 /**
  *
  * @author G0041775
  */
-public class ValidacaoRtParametrosGpon extends ValidacaoRealtimeGpon {
+public class ValidacaoRtSerialOntGpon extends ValidacaoRealtimeGpon {
 
-    private ValidacaoParametrosGpon valid;
+    private ValidacaoAssociacaoOnt valid;
 
-    public ValidacaoRtParametrosGpon(ConsultaGponDefault dslam, EfikaCustomer cl) {
-        super(dslam, cl, "Parâmetros Ópticos");
+    public ValidacaoRtSerialOntGpon(ConsultaGponDefault dslam, EfikaCustomer cl) {
+        super(dslam, cl, "Associação Serial ONT");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoParametrosGpon(dslam.getTabelaParametros(cust.getRede()));
+            valid = new ValidacaoAssociacaoOnt(dslam.getSerialOnt(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

@@ -19,19 +19,19 @@ public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeGpon {
     private ValidacaoEstadoPortaAdm valid;
 
     public ValidacaoRtEstadoAdmPorta(ConsultaGponDefault dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+        super(dslam, cust, "Estado Administrativo da Porta");
     }
 
     @Override
     public Boolean validar() {
-
         try {
             valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta(cust.getRede()));
-            return valid.validar();
+            valid.validar();
+            this.merge(valid);
+            return valid.getResultado();
         } catch (Exception e) {
             return false;
         }
-
     }
 
 }

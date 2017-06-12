@@ -14,12 +14,11 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
  */
 public abstract class ValidacaoRede extends Validacao {
 
-    private TabelaRedeMetalico tabelaRede;
+    private final TabelaRedeMetalico tabelaRede;
 
     public ValidacaoRede(TabelaRedeMetalico i) {
+        super("Tabela de Rede");
         this.tabelaRede = i;
-        this.nome = "Tabela de Rede";
-
     }
 
     public Boolean isCrcOk() {

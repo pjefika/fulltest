@@ -47,9 +47,16 @@ public class FullTestGponTest {
             FullTestGpon instance = new FullTestGpon(CustomerMock.gponKeymile());
             Boolean expResult = true;
             Boolean result = instance.validar();
-            System.out.println("end");
+
+            instance.getValids().forEach((valid) -> {
+                System.out.println("Nome: " + valid.getNome() + " "
+                        + "|  Resultado: " + valid.getResultado() + " "
+                        + "|  Mensagem: " + valid.getMensagem());
+            });
+
             assertEquals(expResult, result);
         } catch (Exception e) {
+            e.printStackTrace();
             fail("The test case is a prototype.");
         }
 

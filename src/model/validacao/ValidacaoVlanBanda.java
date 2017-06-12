@@ -20,9 +20,9 @@ public class ValidacaoVlanBanda extends Validacao {
     private transient AbstractDslam ds;
 
     public ValidacaoVlanBanda(VlanBanda v, AbstractDslam ds) {
+        super("Vlan Banda Larga");
         this.vlanBanda = v;
         this.ds = ds;
-        this.nome = "Vlan Banda Larga";
     }
 
     public Boolean validar(EfikaCustomer e) {

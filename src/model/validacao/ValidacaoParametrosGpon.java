@@ -16,8 +16,8 @@ public class ValidacaoParametrosGpon extends Validacao {
     private transient TabelaParametrosGpon t;
 
     public ValidacaoParametrosGpon(TabelaParametrosGpon tab) {
+        super("Parâmetros Ópticos");
         t = tab;
-        nome = "Parâmetros Ópticos";
     }
 
     @Override
