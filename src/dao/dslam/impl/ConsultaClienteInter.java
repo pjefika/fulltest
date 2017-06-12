@@ -16,6 +16,8 @@ public interface ConsultaClienteInter {
 
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception;
     
+    public void desconectar();
+    
     
 
 }

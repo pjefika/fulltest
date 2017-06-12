@@ -48,7 +48,7 @@ public class DslamGponDAOFactoryTest {
         String modelo = "SUGP1";
         String ip = "10.200.35.66";
         DslamGponDAOFactory instance = new DslamGponDAOFactory();
-        AbstractDslam expResult = new KeymileGponDslam();
+        AbstractDslam expResult = new KeymileGponDslam(ip);
         AbstractDslam result = instance.getInstance(modelo, ip);
         assertEquals(expResult.getClass(), result.getClass());
     }
@@ -58,7 +58,7 @@ public class DslamGponDAOFactoryTest {
         String modelo = "GPON_CARD8";
         String ip = "10.200.35.66";
         DslamGponDAOFactory instance = new DslamGponDAOFactory();
-        AbstractDslam expResult = new ZhoneGponDslam();
+        AbstractDslam expResult = new ZhoneGponDslam(ip);
         AbstractDslam result = instance.getInstance(modelo, ip);
         assertEquals(expResult.getClass(), result.getClass());
     }

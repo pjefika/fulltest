@@ -35,7 +35,6 @@ public class AlcatelGponDslam extends DslamGpon {
 
     public AlcatelGponDslam(String ipDslam) {
         super(ipDslam, Credencial.ALCATEL, new LoginRapido());
-        this.setCd(new ConsultaDslam(this));
     }
 
     @Override

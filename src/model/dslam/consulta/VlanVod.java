@@ -14,10 +14,13 @@ import java.math.BigInteger;
  */
 public class VlanVod extends VlanAbstract {
 
+    public VlanVod() {
+        super(null, null);
+    }
+
     public VlanVod(BigInteger p100, BigInteger cvlan) {
         super(p100, cvlan);
     }
-    
 
     @Override
     public Boolean validar(EfikaCustomer e) {

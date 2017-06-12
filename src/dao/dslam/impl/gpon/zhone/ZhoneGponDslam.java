@@ -34,8 +34,6 @@ public class ZhoneGponDslam extends DslamGpon {
 
     public ZhoneGponDslam(String ipDslam) {
         super(ipDslam, Credencial.ZHONE, new LoginLento());
-        this.setCd(new ConsultaDslam(this));
-
     }
 
     private Integer getL500(Integer logica) {

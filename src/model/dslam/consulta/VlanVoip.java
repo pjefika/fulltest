@@ -14,6 +14,10 @@ import java.math.BigInteger;
  */
 public class VlanVoip extends VlanAbstract {
 
+    public VlanVoip() {
+        super(null, null);
+    }
+
     public VlanVoip(BigInteger p100, BigInteger cvlan) {
         super(p100, cvlan);
     }

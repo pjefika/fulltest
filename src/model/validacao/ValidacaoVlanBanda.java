@@ -25,7 +25,6 @@ public class ValidacaoVlanBanda extends Validacao {
         this.nome = "Vlan Banda Larga";
     }
 
-    @Override
     public Boolean validar(EfikaCustomer e) {
         Boolean ret = vlanBanda.validar(e);
         if (ret) {
@@ -36,6 +35,11 @@ public class ValidacaoVlanBanda extends Validacao {
 
         this.setResultado(ret);
         return ret;
+    }
+
+    @Override
+    public Boolean validar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -6,6 +6,7 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
@@ -40,11 +41,12 @@ public class FullTestGpon implements Validator {
         preparaBateria();
     }
 
-    protected void preparaDslam()  throws DslamNaoImplException {
-        dslam = (ConsultaGponDefault) DslamGponDAOFactory.getInstance(cl.getRede().getModeloDslam(), cl.getRede().getIpDslam());
+    private void preparaDslam() throws DslamNaoImplException {
+        InventarioRede rede = cl.getRede();
+        dslam = (ConsultaGponDefault) DslamGponDAOFactory.getInstance(rede.getModeloDslam(), rede.getIpDslam());
     }
 
-    protected void preparaBateria() {
+    private void preparaBateria() {
         bateria = new ArrayList<>();
         bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
     }
@@ -60,6 +62,9 @@ public class FullTestGpon implements Validator {
             }
         }
         return true;
+    }
+
+    private void close() {
     }
 
 }

@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import tdd.consultas.CustomerMock;
 
 /**
  *
@@ -46,7 +45,7 @@ public class FullTestGponTest {
 
         try {
             FullTestGpon instance = new FullTestGpon(CustomerMock.gponKeymile());
-            Boolean expResult = null;
+            Boolean expResult = true;
             Boolean result = instance.validar();
             System.out.println("end");
             assertEquals(expResult, result);

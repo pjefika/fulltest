@@ -5,9 +5,11 @@
  */
 package dao.dslam.impl;
 
-import java.io.IOException;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,14 +27,20 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         this.ipDslam = ipDslam;
         this.credencial = credencial;
         this.loginStrategy = loginStrategy;
+        this.cd = new ConsultaDslam(this);
     }
 
-    public void conectar(){
+    public void conectar() {
         this.loginStrategy.conectar(this.getCd());
     }
 
-    public void desconectar() throws Exception{
-        this.cd.close();
+    @Override
+    public void desconectar() {
+        try {
+            this.cd.close();
+        } catch (IOException ex) {
+            Logger.getLogger(AbstractDslam.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public String getIpDslam() {

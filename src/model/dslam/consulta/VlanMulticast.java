@@ -14,6 +14,10 @@ import java.math.BigInteger;
  */
 public class VlanMulticast extends VlanAbstract {
 
+    public VlanMulticast() {
+        super(null, null);
+    }
+
     public VlanMulticast(BigInteger p100, BigInteger cvlan) {
         super(p100, cvlan);
     }

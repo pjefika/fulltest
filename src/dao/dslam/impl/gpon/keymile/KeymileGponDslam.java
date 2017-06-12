@@ -32,7 +32,6 @@ public class KeymileGponDslam extends DslamGpon {
 
     public KeymileGponDslam(String ipDslam) {
         super(ipDslam, Credencial.KEYMILE, new LoginRapido());
-        this.setCd(new ConsultaDslam(this));
     }
 
     public ComandoDslam getComandoPotOlt(InventarioRede i) {

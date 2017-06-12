@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tdd.consultas;
+package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
@@ -11,7 +11,7 @@ import br.net.gvt.efika.customer.InventarioServico;
 
 /**
  *
- * @author g0042204
+ * @author G0042204
  */
 public class CustomerMock {
 
@@ -38,10 +38,9 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
-        
+
         c.setServicos(s);
 
         return c;
     }
-
 }
