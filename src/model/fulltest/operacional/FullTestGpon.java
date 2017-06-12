@@ -25,7 +25,7 @@ import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
  */
 public class FullTestGpon implements Validator {
 
-    private EfikaCustomer cl;
+    private final EfikaCustomer cl;
 
     private List<Validacao> bateria;
 
