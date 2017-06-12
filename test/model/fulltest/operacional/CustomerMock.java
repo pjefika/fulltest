@@ -45,4 +45,36 @@ public class CustomerMock {
 
         return c;
     }
+    
+        public static EfikaCustomer gponZhone() {
+
+        EfikaCustomer c = new EfikaCustomer();
+
+        InventarioRede r = new InventarioRede();
+        r.setIpDslam("10.214.57.7");
+        r.setModeloDslam("GPON_CARD8");
+
+        r.setSlot(13);
+        r.setPorta(1);
+        r.setSequencial(3074);
+        r.setLogica(2);
+        r.setRin(7);
+
+        r.setVlanVoip(1007);
+        r.setVlanVod(3007);
+        r.setVlanMulticast(4000);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setIsHib(Boolean.FALSE);
+        s.setIsSip(Boolean.TRUE);
+        s.setVelDown(15360l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
 }
