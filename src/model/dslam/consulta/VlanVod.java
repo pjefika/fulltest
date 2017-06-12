@@ -6,6 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import model.EnumEstadoVlan;
 
 /**
  *
@@ -17,13 +18,17 @@ public class VlanVod extends VlanAbstract {
         super(null, null);
     }
 
+    public VlanVod(Integer p100, Integer cvlan, EnumEstadoVlan est) {
+        super(p100, cvlan, est);
+    }
+
+    @Deprecated
     public VlanVod(Integer p100, Integer cvlan) {
         super(p100, cvlan);
     }
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-//        return (this.getCvlan().equals(new BigInteger(ds.getVlanVode())) && this.getP100().equals(new BigInteger(ds.getP100())));
-        return false;
+        return this.getSvlan().equals(e.getRede().getVlanVod()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }
