@@ -14,7 +14,7 @@ import model.dslam.consulta.Profile;
  */
 public class ValidacaoProfile extends ValidacaoEfikaCustomer {
 
-    private Profile profile;
+    private final Profile profile;
 
     public ValidacaoProfile(Profile profile, EfikaCustomer cust) {
         super(cust, "Profile");

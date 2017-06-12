@@ -6,7 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.validacao.Validador;
@@ -42,7 +41,7 @@ public class Profile implements Validador {
 
         String leprofDown = TratativaRetornoUtil.numberFromString(this.profileDown).get(0);
         String leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
-
+        
         if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
             leprofUp = leprofUp.substring(0, (leprofUp.length() - 3));
         }
@@ -51,6 +50,7 @@ public class Profile implements Validador {
     }
 
     protected static String velDown(EfikaCustomer ec) {
+        System.out.println("ec" + ec.getServicos().getVelDown());
         Velocidades velDown = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
         return velDown.getVel();
     }

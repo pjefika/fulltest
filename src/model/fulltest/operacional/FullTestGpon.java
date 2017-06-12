@@ -17,6 +17,7 @@ import model.validacao.Validator;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
 import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
+import model.validacao.realtime.gpon.ValidacaoRtProfile;
 import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
 
 /**
@@ -51,6 +52,7 @@ public class FullTestGpon implements Validator {
         bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
         bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
         bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
+        bateria.add(new ValidacaoRtProfile(dslam, cl));
     }
 
     @Override
@@ -59,6 +61,7 @@ public class FullTestGpon implements Validator {
             Boolean res = v.validar();
             valids.add(v);
             if (!res) {
+                dslam.desconectar();
                 return false;
             }
         }

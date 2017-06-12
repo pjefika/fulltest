@@ -38,6 +38,8 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
 
         c.setServicos(s);
 
