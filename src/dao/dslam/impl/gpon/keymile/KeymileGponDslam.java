@@ -143,11 +143,18 @@ public class KeymileGponDslam extends DslamGpon {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2/status/ServiceStatus");
     }
 
+    public ComandoDslam getComandoConsultaStatusVlanVoip(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2/cfgm/macsourcefilteringmode");
+    }
+
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVoip1(i)).getRetorno();
+        List<String> pegaStatus = this.getCd().consulta(this.getComandoConsultaStatusVlanVoip(i)).getRetorno();
+        String leStatus = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-
+        
+        EnumEstadoVlan state;
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         if (!leSrvc.contentEquals("no service connected")) {
@@ -155,7 +162,15 @@ public class KeymileGponDslam extends DslamGpon {
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+        if(leStatus.equalsIgnoreCase("None")){
+            state = EnumEstadoVlan.UP;
+        }else if(leStatus.equalsIgnoreCase("List")){
+            state = EnumEstadoVlan.DOWN;
+        }else {
+            state = EnumEstadoVlan.FLOODINGPREVENTION;
+        }
+        
+        VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
 
         System.out.println(vlanVoip.getSvlan());
         System.out.println(vlanVoip.getCvlan());
