@@ -121,14 +121,18 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaVlan(InventarioRede i) {
-        return new ComandoDslam("bridge show vlan " + (i.getPorta() + 100), 5000);
+        return new ComandoDslam("bridge show vlan " + i.getCvLan(), 5000);
     }
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-
+        System.out.println("vlanBANDAAA");
+        for (String string : leVlanBanda) {
+            System.out.println(string);
+        }
+        
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
 
@@ -227,7 +231,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
-        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + (i.getPorta() + 100) + "-" + i.getRin() + "/bridge", 3000);
+        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + i.getCvLan() + "-" + i.getRin() + "/bridge", 3000);
     }
 
     public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
