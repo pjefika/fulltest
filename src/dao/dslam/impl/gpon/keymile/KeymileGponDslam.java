@@ -12,6 +12,7 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.EnumEstadoVlan;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -123,11 +124,11 @@ public class KeymileGponDslam extends DslamGpon {
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        if(leStatus.equalsIgnoreCase("None")){
+        if (leStatus.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
-        }else if(leStatus.equalsIgnoreCase("List")){
+        } else if (leStatus.equalsIgnoreCase("List")) {
             state = EnumEstadoVlan.DOWN;
-        }else {
+        } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
@@ -153,7 +154,7 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> pegaStatus = this.getCd().consulta(this.getComandoConsultaStatusVlanVoip(i)).getRetorno();
         String leStatus = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
-        
+
         EnumEstadoVlan state;
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
@@ -162,14 +163,14 @@ public class KeymileGponDslam extends DslamGpon {
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        if(leStatus.equalsIgnoreCase("None")){
+        if (leStatus.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
-        }else if(leStatus.equalsIgnoreCase("List")){
+        } else if (leStatus.equalsIgnoreCase("List")) {
             state = EnumEstadoVlan.DOWN;
-        }else {
+        } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        
+
         VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
 
         System.out.println(vlanVoip.getSvlan());
@@ -201,14 +202,13 @@ public class KeymileGponDslam extends DslamGpon {
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        if(leStatus.equalsIgnoreCase("None")){
+        if (leStatus.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
-        }else if(leStatus.equalsIgnoreCase("List")){
+        } else if (leStatus.equalsIgnoreCase("List")) {
             state = EnumEstadoVlan.DOWN;
-        }else {
+        } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
 
@@ -282,6 +282,21 @@ public class KeymileGponDslam extends DslamGpon {
         System.out.println(prof.getProfileDown());
         System.out.println(prof.getProfileUp());
         return prof;
+    }
+
+    public ComandoDslam getComandoConsultaOnuTable(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/onutablestatus");
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        List<String> leTable = getCd().consulta(getComandoConsultaOnuTable(i)).getRetorno();
+        String leMac = TratativaRetornoUtil.tratKeymile(leTable, "OnuMacAddress");
+        String mac = leMac.substring(0, 2) + ":" + leMac.substring(2, 4) + ":" + leMac.substring(4, 6)
+                + ":" + leMac.substring(6, 8) + ":" + leMac.substring(8, 10) + ":" + leMac.substring(10, 12);
+        DeviceMAC dMac = new DeviceMAC(mac);
+
+        return dMac;
     }
 
 }

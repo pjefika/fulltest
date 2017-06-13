@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.validacao.Validacao;
 import model.validacao.Validator;
+import model.validacao.realtime.gpon.ValidacaoRtDeviceMAC;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
 import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
@@ -59,6 +60,7 @@ public class FullTestGpon implements Validator {
         bateria.add(new ValidacaoRtVlanBanda(dslam, cl));
         bateria.add(new ValidacaoRtVlanVoip(dslam, cl));
         bateria.add(new ValidacaoRtVlanVod(dslam, cl));
+        bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
     }
 
     @Override

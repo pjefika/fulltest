@@ -6,6 +6,7 @@
 package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -36,5 +37,7 @@ public interface ConsultaGponDefault extends ConsultaClienteInter{
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
 
     public Profile getProfile(InventarioRede i) throws Exception;
+    
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception;
 
 }
