@@ -10,19 +10,7 @@
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
                 <library dirs="200">
-                    <file>${file.reference.InventoryService.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.asm-3.3.1.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.asm-5.0.3.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.customer-lib-1.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -39,6 +27,10 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.commons-logging-1.1.3.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
+                    <file>${file.reference.customer-lib-1.1.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -149,10 +141,6 @@
                     <file>${file.reference.wsdl4j.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library dirs="200">
-                    <file>${file.reference.customer-lib.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
             <source-roots>
@@ -163,7 +151,7 @@
             </test-roots>
         </data>
         <libraries xmlns="http://www.netbeans.org/ns/ant-project-libraries/1">
-            <definitions>WebContent/WEB-INF/lib\nblibraries.properties</definitions>
+            <definitions>lib\nblibraries.properties</definitions>
         </libraries>
     </configuration>
 </project>

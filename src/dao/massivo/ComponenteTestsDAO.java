@@ -6,11 +6,9 @@
 package dao.massivo;
 
 import dao.FactoryEntityManager;
-import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import model.entity.AbstractEntity;
 
-@Stateless
 public class ComponenteTestsDAO {
 
 //    @PersistenceContext

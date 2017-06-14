@@ -24,14 +24,10 @@ public class FullTestApplication extends Application {
     }
 
     public Set<Object> getSingletons() {
-
         return singletons;
-
     }
 
     public Set<Class<?>> getEmpty() {
-
         return empty;
-
     }
 }

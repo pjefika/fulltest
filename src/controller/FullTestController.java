@@ -5,11 +5,11 @@
  */
 package controller;
 
-
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -19,19 +19,25 @@ import model.validacao.Validator;
 
 /**
  *
- * @author G0041775
+ * @author G0042204
  */
 @Path("/fulltest")
-public class FullTestController{
+public class FullTestController {
+
+    @POST
+    @Path("/fulltest")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Validator fulltest(@PathParam("customer") EfikaCustomer cs) throws DslamNaoImplException {
+        Validator v = new FullTestGpon(cs);
+        v.validar();
+        return v;
+    }
 
     @GET
     @Path("/{instancia}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Validator fulltest(@PathParam("customer") EfikaCustomer ec) throws DslamNaoImplException {
-        Validator v = new FullTestGpon(ec);
-        v.validar();
-        return v;
+    public void teste(@PathParam("instancia") String instancia) {
+        System.out.println(instancia);
     }
 
 }
