@@ -40,7 +40,6 @@ public class FullTestGpon implements Validator {
 
     public FullTestGpon(EfikaCustomer cl) throws DslamNaoImplException {
         this.cl = cl;
-        valids = new ArrayList<>();
         preparaDslam();
         preparaBateria();
     }
@@ -65,6 +64,7 @@ public class FullTestGpon implements Validator {
 
     @Override
     public Boolean validar() {
+        valids = new ArrayList<>();
         for (Validacao v : bateria) {
             Boolean res = v.validar();
             valids.add(v);
@@ -80,6 +80,18 @@ public class FullTestGpon implements Validator {
 
     public List<Validacao> getValids() {
         return valids;
+    }
+
+    public EfikaCustomer getCl() {
+        return cl;
+    }
+
+    public List<Validacao> getBateria() {
+        return bateria;
+    }
+
+    public ConsultaGponDefault getDslam() {
+        return dslam;
     }
 
 }
