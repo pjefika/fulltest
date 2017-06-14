@@ -26,9 +26,6 @@ public class ValidacaoVlanVod extends Validacao {
 
     @Override
     public Boolean validar() {
-        if(true){
-            return true;
-        }
         if (e.getServicos().getIsHib()) {
             if (vlan.validar(e)) {
                 setMensagem("Vlan de VoD configurado corretamente.");

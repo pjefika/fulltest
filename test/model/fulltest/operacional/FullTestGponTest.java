@@ -44,8 +44,8 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-//            FullTestGpon instance = new FullTestGpon(CustomerMock.gponKeymile());
-            FullTestGpon instance = new FullTestGpon(CustomerMock.gponZhone());
+            FullTestGpon instance = new FullTestGpon(CustomerMock.gponKeymile());
+//            FullTestGpon instance = new FullTestGpon(CustomerMock.gponZhone1());
             Boolean expResult = true;
             Boolean result = instance.validar();
 

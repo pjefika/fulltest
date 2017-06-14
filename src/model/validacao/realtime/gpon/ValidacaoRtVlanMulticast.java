@@ -7,6 +7,7 @@ package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaGponDefault;
+import exception.MetodoNaoImplementadoException;
 import model.validacao.ValidacaoVlanMulticast;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
@@ -23,12 +24,14 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
     }
 
     @Override
-    public Boolean validar() {
+    public Boolean validar() throws MetodoNaoImplementadoException {
         try {
             valid = new ValidacaoVlanMulticast(dslam.getVlanMulticast(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();
+        } catch (MetodoNaoImplementadoException ex) {
+            throw ex;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

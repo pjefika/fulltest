@@ -69,24 +69,27 @@ public class FullTestGpon implements Validator {
     public Boolean validar() {
         valids = new ArrayList<>();
         for (Validacao v : bateria) {
-            Boolean res = null;
+            Boolean res;
             try {
+                System.out.println("entreinotry");
                 res = v.validar();
                 valids.add(v);
+                System.out.println("termineiotry");
             } catch (MetodoNaoImplementadoException e) {
-
+                System.out.println("cainocatch");
+                res = true;
+                System.out.println("sainocatch");
             }
 
-            if (res != null) {
-                if (!res) {
-                    dslam.desconectar();
-                    return false;
-                }
+            
+            if (!res) {
+                dslam.desconectar();
+                return false;
             }
-
         }
 
         dslam.desconectar();
+
         return true;
     }
 

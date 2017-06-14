@@ -222,7 +222,6 @@ public class ZhoneGponDslam extends DslamGpon {
 //            cvlan = new BigInteger(leVlanMult.get(0));
 //        }
 //
-        
 
 //        System.out.println(vlanMult.getCvlan());
         return null;
@@ -278,7 +277,14 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
+        DeviceMAC leMac = new DeviceMAC();
+        if(leVlanBandaStatus.size()>0){
+            leMac.setMac(leVlanBandaStatus.get(0).toUpperCase());
+        }
+
+        return leMac;
     }
 
 }
