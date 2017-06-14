@@ -10,6 +10,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.ConsultaGponDefault;
+import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
 import java.util.List;
 import model.validacao.Validacao;
@@ -21,6 +22,7 @@ import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
 import model.validacao.realtime.gpon.ValidacaoRtProfile;
 import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
 import model.validacao.realtime.gpon.ValidacaoRtVlanBanda;
+import model.validacao.realtime.gpon.ValidacaoRtVlanMulticast;
 import model.validacao.realtime.gpon.ValidacaoRtVlanVod;
 import model.validacao.realtime.gpon.ValidacaoRtVlanVoip;
 
@@ -59,6 +61,7 @@ public class FullTestGpon implements Validator {
         bateria.add(new ValidacaoRtVlanBanda(dslam, cl));
         bateria.add(new ValidacaoRtVlanVoip(dslam, cl));
         bateria.add(new ValidacaoRtVlanVod(dslam, cl));
+        bateria.add(new ValidacaoRtVlanMulticast(dslam, cl));
         bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
     }
 
@@ -66,12 +69,21 @@ public class FullTestGpon implements Validator {
     public Boolean validar() {
         valids = new ArrayList<>();
         for (Validacao v : bateria) {
-            Boolean res = v.validar();
-            valids.add(v);
-            if (!res) {
-                dslam.desconectar();
-                return false;
+            Boolean res = null;
+            try {
+                res = v.validar();
+                valids.add(v);
+            } catch (MetodoNaoImplementadoException e) {
+
             }
+
+            if (res != null) {
+                if (!res) {
+                    dslam.desconectar();
+                    return false;
+                }
+            }
+
         }
 
         dslam.desconectar();

@@ -6,38 +6,37 @@
 package model.validacao;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.consulta.VlanVod;
+import exception.MetodoNaoImplementadoException;
+import model.dslam.consulta.VlanMulticast;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoVlanVod extends Validacao {
+public class ValidacaoVlanMulticast extends Validacao {
 
-    private transient VlanVod vlan;
+    private transient VlanMulticast vlan;
 
     private transient EfikaCustomer e;
 
-    public ValidacaoVlanVod(VlanVod v, EfikaCustomer ec) {
-        super("Vlan VoD");
+    public ValidacaoVlanMulticast(VlanMulticast v, EfikaCustomer ec) {
+        super("Vlan Multicast");
         this.vlan = v;
         this.e = ec;
     }
 
     @Override
-    public Boolean validar() {
-        if(true){
-            return true;
+    public Boolean validar() throws MetodoNaoImplementadoException{
+        if(vlan == null){
+            throw new MetodoNaoImplementadoException();
         }
         if (e.getServicos().getIsHib()) {
             if (vlan.validar(e)) {
-                setMensagem("Vlan de VoD configurado corretamente.");
+                setMensagem("Vlan de Multicast configurado corretamente.");
                 setResultado(true);
                 return true;
             } else {
-                setMensagem("Vlan de VoD configurado incorretamente. Cvlan esperado: "
-                        + e.getRede().getCvLan() + " - Cvlan configurado: " + vlan.getCvlan()
-                        + " Svlan esperado: " + e.getRede().getVlanVod()+ " - Svlan configurado: " + vlan.getSvlan()
+                setMensagem("Vlan de Multicast configurado incorretamente. Svlan esperado: " + e.getRede().getVlanVod()+ " - Svlan configurado: " + vlan.getSvlan()
                         + " Estado Vlan: " + vlan.getState().getEstadoVlan());
                 setResultado(false);
             }
