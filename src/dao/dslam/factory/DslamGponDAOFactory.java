@@ -19,7 +19,7 @@ public class DslamGponDAOFactory {
 
     public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
-        if (modelo.trim().equalsIgnoreCase("ALCATEL")) {
+        if (modelo.trim().equalsIgnoreCase("GPON_CARD")) {
             return new AlcatelGponDslam(ip);
         } else if (modelo.trim().equalsIgnoreCase("GPON_CARD8")) {
             return new ZhoneGponDslam(ip);

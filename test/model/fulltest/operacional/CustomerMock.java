@@ -108,5 +108,37 @@ public class CustomerMock {
 
         return c;
     }
+    
+        public static EfikaCustomer gponAlcatel() {
+
+        EfikaCustomer c = new EfikaCustomer();
+
+        InventarioRede r = new InventarioRede();
+        r.setIpDslam("10.214.57.11");
+        r.setModeloDslam("GPON_CARD");
+
+        r.setSlot(9);
+        r.setPorta(15);
+        r.setSequencial(2506);
+        r.setLogica(10);
+        r.setRin(9);
+        
+
+        r.setVlanVoip(1009);
+        r.setVlanVod(3009);
+        r.setVlanMulticast(4000);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setIsHib(Boolean.FALSE);
+        s.setIsSip(Boolean.TRUE);
+        s.setVelDown(51200l);
+        s.setVelUp(5120l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 
 }
