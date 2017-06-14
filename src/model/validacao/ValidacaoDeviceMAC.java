@@ -6,6 +6,7 @@
 package model.validacao;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import exception.MetodoNaoImplementadoException;
 import model.dslam.consulta.DeviceMAC;
 
 /**
@@ -25,7 +26,7 @@ public class ValidacaoDeviceMAC extends Validacao {
     }
     
     @Override
-    public Boolean validar() {
+    public Boolean validar() throws MetodoNaoImplementadoException{
         if (mac.validar(e)) {
             setMensagem("Mac identificado " + mac.getMac());
             setResultado(Boolean.TRUE);

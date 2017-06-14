@@ -12,6 +12,7 @@ import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -128,22 +129,27 @@ public class ZhoneGponDslam extends DslamGpon {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        System.out.println("vlanBANDAAA");
-        for (String string : leVlanBanda) {
-            System.out.println(string);
-        }
-        
+        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "\\b\\w+\\b");
+
+        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
+
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
             cvlan = new Integer(leVlanBanda.get(1));
             p100 = new Integer(leVlanBanda.get(0));
+            for (String string : leVlanBandaStatus) {
+                if (string.contentEquals("UP")) {
+                    state = EnumEstadoVlan.UP;
+                }
+            }
         }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
 
         System.out.println(vlanBanda.getCvlan());
         System.out.println(vlanBanda.getSvlan());
+        System.out.println(vlanBanda.getState());
 
         return vlanBanda;
     }
@@ -152,15 +158,21 @@ public class ZhoneGponDslam extends DslamGpon {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-
+        List<String> leVlanVoipStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700(i.getLogica()) + "-", "\\b\\w+\\b");
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
+        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
 
         if (leVlanVoip != null) {
             cvlan = new Integer(leVlanVoip.get(1));
             p100 = new Integer(leVlanVoip.get(0));
+            for (String string : leVlanVoipStatus) {
+                if (string.contentEquals("UP")) {
+                    state = EnumEstadoVlan.UP;
+                }
+            }
         }
-        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+        VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
 
         System.out.println(vlanVoip.getCvlan());
         System.out.println(vlanVoip.getSvlan());
@@ -172,16 +184,22 @@ public class ZhoneGponDslam extends DslamGpon {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
         List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-
+        List<String> leVlanVodStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900(i.getLogica()) + "-", "\\b\\w+\\b");
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
+        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
 
         if (leVlanVod != null) {
             cvlan = new Integer(leVlanVod.get(1));
             p100 = new Integer(leVlanVod.get(0));
+            for (String string : leVlanVodStatus) {
+                if (string.contentEquals("UP")) {
+                    state = EnumEstadoVlan.UP;
+                }
+            }
         }
 
-        VlanVod vlanVod = new VlanVod(cvlan, p100);
+        VlanVod vlanVod = new VlanVod(p100, cvlan, state);
 
         System.out.println(vlanVod.getCvlan());
         System.out.println(vlanVod.getSvlan());
@@ -197,17 +215,17 @@ public class ZhoneGponDslam extends DslamGpon {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
 //        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
 //        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        VlanMulticast vlanMult = new VlanMulticast();
+//        VlanMulticast vlanMult = new VlanMulticast();
 //        BigInteger cvlan = new BigInteger("0");
 //
 //        if(leVlanMult != null){
 //            cvlan = new BigInteger(leVlanMult.get(0));
 //        }
 //
-        vlanMult.setSvlan(null);
+        
 
 //        System.out.println(vlanMult.getCvlan());
-        return vlanMult;
+        return null;
     }
 
     public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {

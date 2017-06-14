@@ -5,12 +5,14 @@
  */
 package model.validacao;
 
+import exception.MetodoNaoImplementadoException;
+
 /**
  *
  * @author G0042204
  */
 public interface Validator {
 
-    public Boolean validar();
+    public Boolean validar() throws MetodoNaoImplementadoException;
 
 }
