@@ -30,9 +30,14 @@ public class FullTestController {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response fulltest(EfikaCustomer cs) throws Exception {
-        Validator v = new FullTestGpon(cs);
-        v.validar();
-        return Response.status(200).entity(v).build();
+        try {
+            Validator v = new FullTestGpon(cs);
+            v.validar();
+            return Response.status(200).entity(v).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+
     }
 
     @GET
