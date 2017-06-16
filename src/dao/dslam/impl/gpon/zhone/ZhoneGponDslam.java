@@ -51,13 +51,19 @@ public class ZhoneGponDslam extends DslamGpon {
         return logica + 1100;
     }
 
+    private List<String> leParams;
+
+    private List<String> leVlans;
+
     public ComandoDslam getComandoTabelaParametros(InventarioRede i) {
         return new ComandoDslam("onu status " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 5000);
     }
 
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-        List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        if (leParams == null) {
+            List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        }
         List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Double potOlt = new Double(pegaParams.get(5));
         Double potOnt = new Double(pegaParams.get(6));
@@ -104,9 +110,12 @@ public class ZhoneGponDslam extends DslamGpon {
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         List<String> leAdmin = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i)).getRetorno();
-        List<String> leOper = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        if (leParams == null) {
+            leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        }
+
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
-        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leOper, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
+        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
         String operState = pegaOper.get(5);
 
@@ -127,9 +136,12 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
-        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "\\b\\w+\\b");
+        if (leVlans == null) {
+            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        }
+
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "\\b\\w+\\b");
 
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
 
@@ -156,9 +168,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
-        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanVoipStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL700(i.getLogica()) + "-", "\\b\\w+\\b");
+        if (leVlans == null) {
+            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        }
+        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVlanVoipStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL700(i.getLogica()) + "-", "\\b\\w+\\b");
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
@@ -182,9 +196,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
-        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanVodStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL900(i.getLogica()) + "-", "\\b\\w+\\b");
+        if (leVlans == null) {
+            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        }
+        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVlanVodStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL900(i.getLogica()) + "-", "\\b\\w+\\b");
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
@@ -277,10 +293,12 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        List<String> leVlan = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
-        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlan, "-" + this.getL500(i.getLogica()) + "-", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
+        if (leVlans == null) {
+            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        }
+        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
         DeviceMAC leMac = new DeviceMAC();
-        if(leVlanBandaStatus.size()>0){
+        if (leVlanBandaStatus.size() > 0) {
             leMac.setMac(leVlanBandaStatus.get(0).toUpperCase());
         }
 
