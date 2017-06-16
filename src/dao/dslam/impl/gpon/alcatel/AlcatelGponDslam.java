@@ -136,12 +136,13 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanBanda(i)).getRetorno();
+        ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanBanda(i));
+        List<String> leResp = consulta.getRetorno();
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanBanda(i)));
+            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
@@ -152,7 +153,7 @@ public class AlcatelGponDslam extends DslamGpon {
             p100 = new Integer(pegaVlan[2]);
             state = EnumEstadoVlan.UP;
         }
-        
+
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
 
         System.out.println(cvlan);
@@ -167,12 +168,13 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanVoip(i)).getRetorno();
+        ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanVoip(i));
+        List<String> leResp = consulta.getRetorno();
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVoip(i)));
+            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
@@ -196,12 +198,13 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanVod(i)).getRetorno();
+        ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanVod(i));
+        List<String> leResp = consulta.getRetorno();
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanVod(i)));
+            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
             String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
@@ -226,12 +229,13 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = this.getCd().consulta(this.getComandoConsultaVlanMulticast(i)).getRetorno();
+        ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanMulticast(i));
+        List<String> leResp = consulta.getRetorno();
         String leVlan = "";
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaVlanMulticast(i)));
+            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
             leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (leVlan.isEmpty()) {
                 leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
@@ -303,9 +307,9 @@ public class AlcatelGponDslam extends DslamGpon {
 
         return prof;
     }
-    
-    public ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i){
-        return new ComandoDslam("show vlan bridge-port-fdb 1/1/"+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica()+"/4/1 xml", 5000);
+
+    public ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 5000);
     }
 
     @Override
@@ -314,12 +318,12 @@ public class AlcatelGponDslam extends DslamGpon {
         NodeList nodeList = xml.getElementsByTagName("instance");
         Integer e;
         String leMac = "";
-        for(e=0; e<nodeList.getLength(); e++){
+        for (e = 0; e < nodeList.getLength(); e++) {
             NodeList listin = nodeList.item(e).getChildNodes();
             Integer o;
-            for (o=0; o<listin.getLength();o++ ) {
-                System.out.println("item "+o+" ->"+listin.item(o).getTextContent());
-                if(listin.item(o).getTextContent().equals("600")){
+            for (o = 0; o < listin.getLength(); o++) {
+                System.out.println("item " + o + " ->" + listin.item(o).getTextContent());
+                if (listin.item(o).getTextContent().equals("600")) {
                     Node leNode = listin.item(o).getNextSibling();
                     leMac = leNode.getNextSibling().getTextContent();
                 }
