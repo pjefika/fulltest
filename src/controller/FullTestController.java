@@ -29,7 +29,7 @@ public class FullTestController {
     @Path("/fulltest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response fulltest(EfikaCustomer cs) throws DslamNaoImplException {
+    public Response fulltest(EfikaCustomer cs) throws Exception {
         Validator v = new FullTestGpon(cs);
         v.validar();
         return Response.status(200).entity(v).build();
