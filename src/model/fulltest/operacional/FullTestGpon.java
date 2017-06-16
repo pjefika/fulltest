@@ -25,11 +25,15 @@ import model.validacao.realtime.gpon.ValidacaoRtVlanBanda;
 import model.validacao.realtime.gpon.ValidacaoRtVlanMulticast;
 import model.validacao.realtime.gpon.ValidacaoRtVlanVod;
 import model.validacao.realtime.gpon.ValidacaoRtVlanVoip;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 /**
  *
  * @author G0042204
  */
+@JsonSerialize
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
 public class FullTestGpon implements Validator {
 
     private final EfikaCustomer cl;
@@ -76,7 +80,7 @@ public class FullTestGpon implements Validator {
             } catch (MetodoNaoImplementadoException e) {
                 res = true;
             }
-            
+
             if (!res) {
                 dslam.desconectar();
                 return false;
@@ -90,18 +94,6 @@ public class FullTestGpon implements Validator {
 
     public List<Validacao> getValids() {
         return valids;
-    }
-
-    public EfikaCustomer getCl() {
-        return cl;
-    }
-
-    public List<Validacao> getBateria() {
-        return bateria;
-    }
-
-    public ConsultaGponDefault getDslam() {
-        return dslam;
     }
 
 }

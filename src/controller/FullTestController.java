@@ -15,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import model.fulltest.operacional.FullTestGpon;
 import model.validacao.Validator;
 
@@ -29,10 +30,10 @@ public class FullTestController {
     @Path("/fulltest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Validator fulltest(EfikaCustomer cs) throws DslamNaoImplException, MetodoNaoImplementadoException {
+    public Response fulltest(EfikaCustomer cs) throws DslamNaoImplException, MetodoNaoImplementadoException {
         Validator v = new FullTestGpon(cs);
         v.validar();
-        return v;
+        return Response.status(200).entity(v).build();
     }
 
     @GET
