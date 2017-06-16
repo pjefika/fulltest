@@ -26,7 +26,7 @@ public class ValidacaoVlanMulticast extends Validacao {
     }
 
     @Override
-    public Boolean validar() throws MetodoNaoImplementadoException{
+    public Boolean validar() throws Exception{
         if(vlan == null){
             throw new MetodoNaoImplementadoException();
         }

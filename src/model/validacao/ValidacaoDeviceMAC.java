@@ -26,7 +26,7 @@ public class ValidacaoDeviceMAC extends Validacao {
     }
     
     @Override
-    public Boolean validar() throws MetodoNaoImplementadoException{
+    public Boolean validar() throws Exception{
         if (mac.validar(e)) {
             setMensagem("Mac identificado " + mac.getMac());
             setResultado(Boolean.TRUE);

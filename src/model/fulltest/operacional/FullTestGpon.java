@@ -70,7 +70,7 @@ public class FullTestGpon implements Validator {
     }
 
     @Override
-    public Boolean validar() {
+    public Boolean validar() throws Exception{
         valids = new ArrayList<>();
         for (Validacao v : bateria) {
             Boolean res;

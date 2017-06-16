@@ -7,7 +7,6 @@ package controller;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.DslamNaoImplException;
-import exception.MetodoNaoImplementadoException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,7 +29,7 @@ public class FullTestController {
     @Path("/fulltest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response fulltest(EfikaCustomer cs) throws DslamNaoImplException, MetodoNaoImplementadoException {
+    public Response fulltest(EfikaCustomer cs) throws DslamNaoImplException {
         Validator v = new FullTestGpon(cs);
         v.validar();
         return Response.status(200).entity(v).build();
