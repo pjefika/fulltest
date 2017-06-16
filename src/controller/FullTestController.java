@@ -29,7 +29,7 @@ public class FullTestController {
     @Path("/fulltest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Validator fulltest(@PathParam("customer") EfikaCustomer cs) throws DslamNaoImplException, MetodoNaoImplementadoException {
+    public Validator fulltest(EfikaCustomer cs) throws DslamNaoImplException, MetodoNaoImplementadoException {
         Validator v = new FullTestGpon(cs);
         v.validar();
         return v;
