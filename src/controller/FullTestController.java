@@ -6,7 +6,6 @@
 package controller;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,8 +14,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import model.fulltest.operacional.FullTestGpon;
-import model.validacao.Validator;
+import model.fulltest.operacional.FullTestGponFacade;
+import model.fulltest.operacional.FullTestInterface;
 
 /**
  *
@@ -31,9 +30,9 @@ public class FullTestController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response fulltest(EfikaCustomer cs) throws Exception {
         try {
-            Validator v = new FullTestGpon(cs);
-            v.validar();
-            return Response.status(200).entity(v).build();
+            FullTestInterface v = new FullTestGponFacade(cs);
+            
+            return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }

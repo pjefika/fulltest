@@ -6,7 +6,7 @@
 package jackson.ft;
 
 import model.fulltest.operacional.CustomerMock;
-import model.fulltest.operacional.FullTestGpon;
+import model.fulltest.operacional.FullTestGponFacade;
 import model.validacao.Validator;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
@@ -46,7 +46,7 @@ public class SerializationJUnitTest {
         try {
             //Test code
             ObjectMapper mapper = new ObjectMapper();
-            Validator ft = new FullTestGpon(CustomerMock.gponAlcatel());
+            Validator ft = new FullTestGponFacade(CustomerMock.gponAlcatel());
             ft.validar();
             String out = mapper.writeValueAsString(ft);
             System.out.println(out);

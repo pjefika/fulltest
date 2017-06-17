@@ -12,6 +12,7 @@ import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.ConsultaGponDefault;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
 import model.validacao.Validator;
@@ -34,28 +35,22 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
-public class FullTestGpon implements Validator {
-
-    private final EfikaCustomer cl;
-
-    private List<Validacao> bateria;
-
-    private List<Validacao> valids;
+public class FullTestGponFacade extends FullTestFacade implements FullTestInterface, Validator {
 
     private ConsultaGponDefault dslam;
 
-    public FullTestGpon(EfikaCustomer cl) throws DslamNaoImplException {
-        this.cl = cl;
-        preparaDslam();
-        preparaBateria();
+    public FullTestGponFacade(EfikaCustomer cl) throws DslamNaoImplException {
+        super(cl);
     }
 
-    private void preparaDslam() throws DslamNaoImplException {
+    @Override
+    protected void preparaDslam() throws DslamNaoImplException {
         InventarioRede rede = cl.getRede();
         dslam = (ConsultaGponDefault) DslamGponDAOFactory.getInstance(rede.getModeloDslam(), rede.getIpDslam());
     }
 
-    private void preparaBateria() {
+    @Override
+    protected void preparaBateria() {
         bateria = new ArrayList<>();
         bateria.add(new ValidacaoRtSerialOntGpon(dslam, cl));
         bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
@@ -70,8 +65,9 @@ public class FullTestGpon implements Validator {
     }
 
     @Override
-    public Boolean validar() throws Exception{
+    public Boolean validar() throws Exception {
         valids = new ArrayList<>();
+        dataInicio = Calendar.getInstance();
         for (Validacao v : bateria) {
             Boolean res;
             try {
@@ -83,17 +79,30 @@ public class FullTestGpon implements Validator {
 
             if (!res) {
                 dslam.desconectar();
+                mensagem = "Mensagem Negativa.";
+                dataFim = Calendar.getInstance();
                 return false;
             }
         }
 
         dslam.desconectar();
-
+        mensagem = "Mensagem Positiva";
+        dataFim = Calendar.getInstance();
         return true;
     }
 
     public List<Validacao> getValids() {
         return valids;
+    }
+
+    @Override
+    public FullTest executar(List<Validacao> bat) throws Exception {
+        if (bat != null) {
+            bateria = bat;
+        }
+        resultado = validar();
+
+        return FullTestAdapter.adapter(this);
     }
 
 }

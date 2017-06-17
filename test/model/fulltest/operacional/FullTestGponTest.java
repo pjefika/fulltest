@@ -46,7 +46,7 @@ public class FullTestGponTest {
         try {
 //            FullTestGpon instance = new FullTestGpon(CustomerMock.gponKeymile());
 //            FullTestGpon instance = new FullTestGpon(CustomerMock.gponZhone1());
-            FullTestGpon instance = new FullTestGpon(CustomerMock.gponAlcatel());
+            FullTestGponFacade instance = new FullTestGponFacade(CustomerMock.gponAlcatel());
             Boolean expResult = true;
             Boolean result = instance.validar();
 
