@@ -26,11 +26,11 @@ public class ValidacaoProfile extends ValidacaoEfikaCustomer {
     public Boolean validar() {
         if (profile.validar(cust)) {
             this.setResultado(Boolean.TRUE);
-            this.setMensagem("Profile OK.");
+            this.setMensagem("Profile configurado corretamente.");
             return true;
         } else {
             this.setResultado(Boolean.FALSE);
-            this.setMensagem("Profile NOK.");
+            this.setMensagem("Profile divergente da velocidade contratada.");
             return false;
         }
     }

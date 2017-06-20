@@ -34,7 +34,7 @@ public class ValidacaoVlanBanda extends Validacao {
             setMensagem("Vlan de Banda configurado incorretamente. Cvlan esperado: "+
                     e.getRede().getCvLan()+" - Cvlan configurado: "+vlan.getCvlan()+
                     " Svlan esperado: "+ e.getRede().getRin()+ " - Svlan configurado: "+vlan.getSvlan()+
-                    " Estado Vlan: "+vlan.getState().toString());
+                    " Estado Vlan: "+vlan.getState().toString()+".");
             setResultado(false);
         }
         

@@ -37,7 +37,7 @@ public class ValidacaoVlanMulticast extends Validacao {
                 return true;
             } else {
                 setMensagem("Vlan de Multicast configurado incorretamente. Svlan esperado: " + e.getRede().getVlanVod()+ " - Svlan configurado: " + vlan.getSvlan()
-                        + " Estado Vlan: " + vlan.getState().getEstadoVlan());
+                        + " Estado Vlan: " + vlan.getState().getEstadoVlan()+".");
                 setResultado(false);
             }
         }else{

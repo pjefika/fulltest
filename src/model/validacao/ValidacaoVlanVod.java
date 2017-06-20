@@ -35,7 +35,7 @@ public class ValidacaoVlanVod extends Validacao {
                 setMensagem("Vlan de VoD configurado incorretamente. Cvlan esperado: "
                         + e.getRede().getCvLan() + " - Cvlan configurado: " + vlan.getCvlan()
                         + " Svlan esperado: " + e.getRede().getVlanVod()+ " - Svlan configurado: " + vlan.getSvlan()
-                        + " Estado Vlan: " + vlan.getState().getEstadoVlan());
+                        + " Estado Vlan: " + vlan.getState().getEstadoVlan()+".");
                 setResultado(false);
             }
         }else{

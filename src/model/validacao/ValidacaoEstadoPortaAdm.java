@@ -25,7 +25,7 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
         System.out.println("estadoPorta.getAdminState(): " + estadoPorta.getAdminState());
         if (estadoPorta.getAdminState().equalsIgnoreCase("UP")) {
             this.setResultado(Boolean.TRUE);
-            this.setMensagem("Porta Ativada (Adm state Up)");
+            this.setMensagem("Porta Ativada (Adm state Up).");
             return true;
         } else {
             this.setResultado(Boolean.FALSE);

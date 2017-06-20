@@ -29,7 +29,7 @@ public class ValidacaoAssociacaoOnt extends Validacao {
             return true;
         } else {
             this.setResultado(Boolean.TRUE);
-            this.setMensagem("Identificado ONT associada: " + serial.getSerial());
+            this.setMensagem("Identificado ONT associada: " + serial.getSerial()+".");
             return false;
         }
     }

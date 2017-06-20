@@ -35,7 +35,7 @@ public class ValidacaoVlanVoip extends Validacao {
                 setMensagem("Vlan de Voip configurado incorretamente. Cvlan esperado: "
                         + e.getRede().getCvLan() + " - Cvlan configurado: " + vlan.getCvlan()
                         + " Svlan esperado: " + e.getRede().getVlanVoip()+ " - Svlan configurado: " + vlan.getSvlan()
-                        + " Estado Vlan: " + vlan.getState().toString());
+                        + " Estado Vlan: " + vlan.getState().toString()+".");
                 setResultado(false);
             }
         }else{
