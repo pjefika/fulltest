@@ -58,7 +58,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoExit() {
-        return new ComandoDslam("exit", 100);
+        return new ComandoDslam("exit all", 100);
     }
 
     protected ComandoDslam getComandoDumpRafael() {
@@ -96,7 +96,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return tabParam;
     }
 
-    public ComandoDslam getComandoSerialOnt(InventarioRede i) {
+    protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml");
     }
 
@@ -112,7 +112,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return ont;
     }
 
-    public ComandoDslam getComandoConsultaEstadoDaPorta(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaEstadoDaPorta(InventarioRede i) {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 5000);
     }
 
@@ -130,7 +130,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return state;
     }
 
-    public ComandoDslam getComandoConsultaVlanBanda(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanBanda(InventarioRede i) {
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 detail xml");
     }
 
@@ -162,7 +162,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanBanda;
     }
 
-    public ComandoDslam getComandoConsultaVlanVoip(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanVoip(InventarioRede i) {
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 detail xml");
     }
 
@@ -192,7 +192,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanVoip;
     }
 
-    public ComandoDslam getComandoConsultaVlanVod(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanVod(InventarioRede i) {
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 detail xml");
     }
 
@@ -223,7 +223,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return vlanVod;
     }
 
-    public ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 detail xml");
     }
 
@@ -255,7 +255,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return multz;
     }
 
-    public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
         return new ComandoDslam("show equipment ont operational-data 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 9000);
     }
 
@@ -281,7 +281,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return alarmes;
     }
 
-    public ComandoDslam getComandoConsultaProfile(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaProfile(InventarioRede i) {
         return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 5000);
     }
 
@@ -308,7 +308,7 @@ public class AlcatelGponDslam extends DslamGpon {
         return prof;
     }
 
-    public ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i) {
         return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 5000);
     }
 
@@ -330,6 +330,92 @@ public class AlcatelGponDslam extends DslamGpon {
             }
         }
         return new DeviceMAC(leMac.toUpperCase());
+    }
+
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.getAdminState());
+    }
+
+    @Override
+    public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        return getEstadoDaPorta(i);
+    }
+
+    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s) {
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland disabled sernum " + s.getSerial());
+    }
+
+    @Override
+    public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getSerialOnt(i);
+    }
+
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, Profile p) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + p.getProfileDown(), 1000,
+                "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + p.getProfileUp());
+    }
+
+    @Override
+    public Profile setProfile(InventarioRede i, Profile p) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetProfile(i, p)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 tag single-tagged network-vlan stacked:" + i.getRin() + ":" + i.getCvLan() + " vlan-scope local");
+    }
+
+    @Override
+    public VlanBanda createVlanBanda(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVod createVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void unsetOntFromOlt(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanBanda(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
