@@ -57,9 +57,9 @@ public class BackgroundTestController extends AbstractController {
 //        System.out.println(InitSingleton.getInstance().getThreadsOn());
         while (InitSingleton.getInstance().getThreadsOn()) {
             
-            List<TesteCliente> listTest = dao.listarInstanciasPendentes(40);
+            List<TesteCliente> listTest = dao.listarInstanciasPendentes(20);
             if (listTest.isEmpty()) {
-                listTest = dao.listarInstanciasPresasExec(40);
+                listTest = dao.listarInstanciasPresasExec(20);
             }
             if (!listTest.isEmpty()) {
 

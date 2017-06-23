@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var url = "/fulltestAPI/";
+var url = "/fulltestGpon/";
 
 var data = {
     modal: {

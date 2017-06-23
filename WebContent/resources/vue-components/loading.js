@@ -14,7 +14,7 @@ Vue.component("loading", {
         return data;
     },
     template: "<div class='text-center'>\n\
-                    <img src='/fulltestAPI/resources/imagens/ring.gif'/>\n\
+                    <img src='/fulltestGpon/resources/imagens/ring.gif'/>\n\
                 </div>",
     created: function () {
 

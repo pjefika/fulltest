@@ -13,9 +13,9 @@ var Lote = function(json) {
 }
 
 
-var loteURL = "/fulltestAPI/lote/";
+var loteURL = "/fulltestGpon/lote/";
 
-var exportURL = "/fulltestAPI/testecliente/exportSelect/"
+var exportURL = "/fulltestGpon/testecliente/exportSelect/"
 
 
 new Vue({

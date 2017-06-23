@@ -5,7 +5,7 @@
  */
 /* global Vue, moment, _, vm */
 
-var url = "/fulltestAPI/";
+var url = "/fulltestGpon/";
 
 Vue.component("massivo", {
     props: {
