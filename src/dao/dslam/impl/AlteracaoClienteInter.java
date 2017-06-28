@@ -12,6 +12,7 @@ import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -21,7 +22,9 @@ public interface AlteracaoClienteInter extends ConsultaClienteInter {
 
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception;
 
-    public Profile setProfile(InventarioRede i, Profile p) throws Exception;
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception;
+    
+    public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception;
 
     public VlanBanda createVlanBanda(InventarioRede i) throws Exception;
 

@@ -10,7 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.util.List;  
+import java.util.List;
 import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -23,6 +23,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -348,12 +349,12 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        if(!s.getSerial().contains(":")){
-            String first = s.getSerial().substring(0,4);
+        if (!s.getSerial().contains(":")) {
+            String first = s.getSerial().substring(0, 4);
             String second = s.getSerial().substring(4, s.getSerial().length());
             System.out.println(first);
             System.out.println(second);
-            s.setSerial(first+":"+second);
+            s.setSerial(first + ":" + second);
             System.out.println(s.getSerial());
         }
         List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s)).getRetorno();
@@ -363,18 +364,22 @@ public class AlcatelGponDslam extends DslamGpon {
         return getSerialOnt(i);
     }
 
-    protected ComandoDslam getComandoSetProfile(InventarioRede i, Profile p) {
-        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + p.getProfileDown(), 1000,
-                "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + p.getProfileUp());
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Profile p) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + p.getProfileDown());
+    }
+
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Profile p) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + p.getProfileUp());
     }
 
     @Override
-    public Profile setProfile(InventarioRede i, Profile p) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfile(i, p)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getProfile(i);
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
@@ -424,6 +429,16 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+
+        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
+        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
+
+        return p;
     }
 
 }

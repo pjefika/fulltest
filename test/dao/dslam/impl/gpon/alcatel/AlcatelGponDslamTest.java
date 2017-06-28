@@ -6,7 +6,8 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.impl.ComandoDslam;
+import java.util.ArrayList;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -17,6 +18,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -257,15 +259,32 @@ public class AlcatelGponDslamTest {
     }
 
     /**
-     * Test of setProfile method, of class AlcatelGponDslam.
+     * Test of setProfileDown method, of class AlcatelGponDslam.
      */
     @Test
-    public void testSetProfile() {
-        System.out.println("setProfile");
+    public void testSetProfileDown() {
+        System.out.println("setProfileDown");
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             Profile p = instance.getProfile(i);
-            Profile result = instance.setProfile(i, p);
+            Profile result = instance.setProfileDown(i, Velocidades.VEL_51200);
+            assertTrue(result.getProfileDown() != null);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of setProfileUp method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testSetProfileUp() {
+        System.out.println("setProfileUp");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            Profile p = instance.getProfile(i);
+            Profile result = instance.setProfileUp(i, Velocidades.VEL_25600);
             assertTrue(result.getProfileDown() != null);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -333,6 +352,28 @@ public class AlcatelGponDslamTest {
             assertTrue(result.getCvlan() != null);
         } catch (Exception e) {
             fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of createVlanMulticast method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testCastProfile() {
+        System.out.println("castProfile");
+        try {
+            List<Profile> profiles = new ArrayList<>();
+            for(Velocidades v : Velocidades.values()){
+                Profile p = instance.castProfile(v);
+                profiles.add(p);
+                System.out.println(v.name()+" Down ->"+p.getProfileDown());
+                System.out.println(v.name()+" Up ->"+p.getProfileUp());
+            }
+            assertEquals(profiles.size(), Velocidades.values().length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
         }
 
     }
