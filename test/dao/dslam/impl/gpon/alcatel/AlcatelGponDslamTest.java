@@ -266,7 +266,6 @@ public class AlcatelGponDslamTest {
         System.out.println("setProfileDown");
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
-            Profile p = instance.getProfile(i);
             Profile result = instance.setProfileDown(i, Velocidades.VEL_51200);
             assertTrue(result.getProfileDown() != null);
         } catch (Exception e) {
@@ -357,7 +356,7 @@ public class AlcatelGponDslamTest {
     }
 
     /**
-     * Test of createVlanMulticast method, of class AlcatelGponDslam.
+     * Test of castProfile method, of class AlcatelGponDslam.
      */
     @Test
     public void testCastProfile() {

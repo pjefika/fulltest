@@ -296,7 +296,6 @@ public class AlcatelGponDslam extends DslamGpon {
         if (leProfileUp.length() < 5) {
             leProfileUp = TratativaRetornoUtil.getXmlParam(xml, "(//parameter[@name='bandwidth-profile'])[2]");
         }
-        System.out.println("Profs " + leProfileUp);
         String profileUp = leProfileUp.substring(5, leProfileUp.length());
 
         Profile prof = new Profile();
@@ -364,22 +363,30 @@ public class AlcatelGponDslam extends DslamGpon {
         return getSerialOnt(i);
     }
 
-    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Profile p) {
-        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + p.getProfileDown());
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + castProfile(v).getProfileDown());
     }
 
-    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Profile p) {
-        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + p.getProfileUp());
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + castProfile(v).getProfileUp());
     }
 
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
     }
 
     @Override
     public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
