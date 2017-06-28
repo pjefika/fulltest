@@ -233,7 +233,7 @@ public class AlcatelGponDslam extends DslamGpon {
         ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanMulticast(i));
         List<String> leResp = consulta.getRetorno();
         String leVlan = "";
-        Integer cvlan = new Integer("0");
+        Integer svlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
@@ -243,15 +243,15 @@ public class AlcatelGponDslam extends DslamGpon {
             }
         }
         if (!leVlan.isEmpty()) {
-            cvlan = new Integer("4000");
+            svlan = new Integer("4000");
             state = EnumEstadoVlan.UP;
         }
 
         VlanMulticast multz = new VlanMulticast();
-        multz.setCvlan(cvlan);
+        multz.setSvlan(svlan);
         multz.setState(state);
 
-        System.out.println(cvlan);
+        System.out.println(svlan);
 
         return multz;
     }
@@ -395,22 +395,50 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanBanda(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 tag single-tagged network-vlan stacked:" + i.getVlanVoip() + ":" + i.getCvLan() + " vlan-scope local qos profile:14");
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVoip(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 tag single-tagged network-vlan stacked:" + i.getVlanVod() + ":" + i.getCvLan() + " vlan-scope local qos profile:12");
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVod(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 tag single-tagged qos profile:13");
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanMulticast(i);
     }
 
     @Override
@@ -418,24 +446,52 @@ public class AlcatelGponDslam extends DslamGpon {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 no vlan-id 600");
+    }
+
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 no vlan-id 601");
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 no vlan-id 602");
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 no vlan-id 4000");
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override

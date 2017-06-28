@@ -233,7 +233,7 @@ public class AlcatelGponDslamTest {
             EstadoDaPorta e = new EstadoDaPorta();
             e.setAdminState("up");
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-            
+
             assertTrue(result.getAdminState().equalsIgnoreCase("up"));
         } catch (Exception e) {
             fail(e.getMessage());
@@ -292,6 +292,22 @@ public class AlcatelGponDslamTest {
     }
 
     /**
+     * Test of deleteVlanBanda method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testDeleteVlanBanda() {
+        System.out.println("deleteVlanBanda");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            instance.deleteVlanBanda(i);
+            assertTrue(instance.getVlanBanda(i).getSvlan() == 0);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
      * Test of createVlanBanda method, of class AlcatelGponDslam.
      */
     @Test
@@ -300,7 +316,23 @@ public class AlcatelGponDslamTest {
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             VlanBanda result = instance.createVlanBanda(i);
-            assertTrue(result.getSvlan() != null);
+            assertTrue(result.getSvlan() != 0);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of deleteVlanVoip method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testDeleteVlanVoip() {
+        System.out.println("deleteVlanVoip");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            instance.deleteVlanVoip(i);
+            assertTrue(instance.getVlanVoip(i).getSvlan() == 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -316,7 +348,23 @@ public class AlcatelGponDslamTest {
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             VlanVoip result = instance.createVlanVoip(i);
-            assertTrue(result.getSvlan() != null);
+            assertTrue(result.getSvlan() != 0);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of deleteVlanVod method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testDeleteVlanVod() {
+        System.out.println("deleteVlanVod");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            instance.deleteVlanVod(i);
+            assertTrue(instance.getVlanVod(i).getSvlan() == 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -332,7 +380,23 @@ public class AlcatelGponDslamTest {
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             VlanVod result = instance.createVlanVod(i);
-            assertTrue(result.getCvlan() != null);
+            assertTrue(result.getSvlan() != 0);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of deleteVlanMulticast method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testDeleteVlanMulticast() {
+        System.out.println("deleteVlanMulticast");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            instance.deleteVlanMulticast(i);
+            assertTrue(instance.getVlanMulticast(i).getSvlan() == 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -348,7 +412,7 @@ public class AlcatelGponDslamTest {
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             VlanMulticast result = instance.createVlanMulticast(i);
-            assertTrue(result.getCvlan() != null);
+            assertTrue(result.getSvlan() != 0);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -363,11 +427,11 @@ public class AlcatelGponDslamTest {
         System.out.println("castProfile");
         try {
             List<Profile> profiles = new ArrayList<>();
-            for(Velocidades v : Velocidades.values()){
+            for (Velocidades v : Velocidades.values()) {
                 Profile p = instance.castProfile(v);
                 profiles.add(p);
-                System.out.println(v.name()+" Down ->"+p.getProfileDown());
-                System.out.println(v.name()+" Up ->"+p.getProfileUp());
+                System.out.println(v.name() + " Down ->" + p.getProfileDown());
+                System.out.println(v.name() + " Up ->" + p.getProfileUp());
             }
             assertEquals(profiles.size(), Velocidades.values().length);
         } catch (Exception e) {
