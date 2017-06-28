@@ -89,6 +89,12 @@ public class AlcatelGponDslam extends DslamGpon {
         xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros(i)));
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
         String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
+        if(potOnt.equals("invalid") || potOnt.equals("unknown")){
+            potOnt = "0";
+        }
+        if(potOlt.equals("invalid") || potOlt.equals("unknown")){
+            potOlt = "0";
+        }
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(new Double(potOlt));
         tabParam.setPotOnt(new Double(potOnt));
@@ -440,10 +446,19 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         return getVlanMulticast(i);
     }
+    
+    protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i){
+        return new ComandoDslam("configure equipment ont interface 1/1/"+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica()+" no sernum");
+    }
 
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState("down");
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        getCd().consulta(getComandoUnsetOntFromOlt(i));
+        e.setAdminState("up");
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {

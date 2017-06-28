@@ -114,31 +114,17 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //1630145676
-//        r.setIpDslam("10.214.57.22");
+        r.setIpDslam("10.214.57.22");
         r.setModeloDslam("GPON_CARD");
 
-//        r.setSlot(7);
-//        r.setPorta(7);
-//        r.setSequencial(2749);
-//        r.setLogica(17);
-//        r.setRin(14);
-//
-//        r.setVlanVoip(1014);
-//        r.setVlanVod(3014);
-//        r.setVlanMulticast(4000);
-        
+        r.setSlot(7);
+        r.setPorta(7);
+        r.setSequencial(2749);
+        r.setLogica(17);
+        r.setRin(14);
 
-        //defeito aberto
-        r.setIpDslam("10.221.176.33");
-        r.setSlot(9);
-        r.setPorta(1);
-        r.setSequencial(1027);
-        r.setLogica(3);
-        r.setRin(502);
-        r.setCvLan(1127);
-
-        r.setVlanVoip(1502);
-        r.setVlanVod(3502);
+        r.setVlanVoip(1014);
+        r.setVlanVod(3014);
         r.setVlanMulticast(4000);
 
         c.setRede(r);
@@ -146,9 +132,6 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
-//        s.setVelDown(51200l);
-//        s.setVelUp(25600l);
-        //DEFEITO ABERTO
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 

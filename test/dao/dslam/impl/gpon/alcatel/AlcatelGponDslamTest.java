@@ -249,9 +249,30 @@ public class AlcatelGponDslamTest {
         System.out.println("setOntToOlt");
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
-            SerialOntGpon s = instance.getSerialOnt(i);
+//            SerialOntGpon s = instance.getSerialOnt(i);
+            SerialOntGpon s = new SerialOntGpon();
+            s.setSerial("MSTC2AEA625C");
             SerialOntGpon result = instance.setOntToOlt(i, s);
             assertTrue(result.getSerial() != null);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
+     * Test of unsetOntToOlt method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testUnsetOntToOlt() throws Exception {
+        System.out.println("unsetOntToOlt");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        SerialOntGpon s = instance.getSerialOnt(i);
+        try {
+            instance.unsetOntFromOlt(i);
+            Boolean leBoolean = instance.getSerialOnt(i).getSerial().equals("ALCL00000000");
+            instance.setOntToOlt(i, s);
+            assertTrue(leBoolean);
         } catch (Exception e) {
             fail(e.getMessage());
         }
