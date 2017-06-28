@@ -45,8 +45,8 @@ public class CustomerMock {
 
         return c;
     }
-    
-        public static EfikaCustomer gponZhone() {
+
+    public static EfikaCustomer gponZhone() {
 
         EfikaCustomer c = new EfikaCustomer();
 
@@ -76,8 +76,8 @@ public class CustomerMock {
 
         return c;
     }
-    
-        public static EfikaCustomer gponZhone1() {
+
+    public static EfikaCustomer gponZhone1() {
 
         EfikaCustomer c = new EfikaCustomer();
 
@@ -90,7 +90,6 @@ public class CustomerMock {
         r.setSequencial(501);
         r.setLogica(21);
         r.setRin(6);
-        
 
         r.setVlanVoip(1006);
         r.setVlanVod(3006);
@@ -108,24 +107,24 @@ public class CustomerMock {
 
         return c;
     }
-    
-        public static EfikaCustomer gponAlcatel() {
+
+    public static EfikaCustomer gponAlcatel() {
 
         EfikaCustomer c = new EfikaCustomer();
-
         InventarioRede r = new InventarioRede();
-        r.setIpDslam("10.214.57.11");
+
+        //1630145676
+        r.setIpDslam("10.214.57.22");
         r.setModeloDslam("GPON_CARD");
 
-        r.setSlot(9);
-        r.setPorta(15);
-        r.setSequencial(2506);
-        r.setLogica(10);
-        r.setRin(9);
-        
+        r.setSlot(7);
+        r.setPorta(7);
+        r.setSequencial(2749);
+        r.setLogica(17);
+        r.setRin(14);
 
-        r.setVlanVoip(1009);
-        r.setVlanVod(3009);
+        r.setVlanVoip(1014);
+        r.setVlanVod(3014);
         r.setVlanMulticast(4000);
 
         c.setRede(r);
@@ -134,7 +133,7 @@ public class CustomerMock {
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
         s.setVelDown(51200l);
-        s.setVelUp(5120l);
+        s.setVelUp(25600l);
 
         c.setServicos(s);
 

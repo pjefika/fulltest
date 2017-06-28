@@ -40,7 +40,8 @@ public class Profile implements Validador {
     public Boolean validar(EfikaCustomer ec) {
 
         String leprofDown = TratativaRetornoUtil.numberFromString(this.profileDown).get(0);
-        String leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
+        String leprofUp;
+        leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
         
         if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
             leprofUp = leprofUp.substring(0, (leprofUp.length() - 3));

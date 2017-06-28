@@ -10,7 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.util.List;
+import java.util.List;  
 import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -42,7 +42,7 @@ public class AlcatelGponDslam extends DslamGpon {
         super.conectar();
         try {
             this.getCd().consulta(this.getComandoInhibitAlarms());
-            this.getCd().consulta(this.getComandoModeBatch());
+//            this.getCd().consulta(this.getComandoModeBatch());
             this.getCd().consulta(this.getComandoExit());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -348,6 +348,14 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
+        if(!s.getSerial().contains(":")){
+            String first = s.getSerial().substring(0,4);
+            String second = s.getSerial().substring(4, s.getSerial().length());
+            System.out.println(first);
+            System.out.println(second);
+            s.setSerial(first+":"+second);
+            System.out.println(s.getSerial());
+        }
         List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
