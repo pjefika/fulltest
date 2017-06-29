@@ -20,17 +20,20 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
 
         InventarioRede r = new InventarioRede();
-        r.setIpDslam("10.131.41.172");
+        
+        //3133933176
+        r.setIpDslam("10.131.38.18");
         r.setModeloDslam("SUGP1");
 
-        r.setSlot(20);
-        r.setPorta(4);
-        r.setSequencial(3356);
-        r.setLogica(4);
-        r.setRin(573);
+        r.setSlot(13);
+        r.setPorta(8);
+        r.setSequencial(3230);
+        r.setCvLan(3330);
+        r.setLogica(6);
+        r.setRin(162);
 
-        r.setVlanVoip(1573);
-        r.setVlanVod(3573);
+        r.setVlanVoip(1162);
+        r.setVlanVod(3162);
         r.setVlanMulticast(4000);
 
         c.setRede(r);

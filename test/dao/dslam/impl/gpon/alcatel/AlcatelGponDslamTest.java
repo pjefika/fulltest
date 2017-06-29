@@ -38,10 +38,10 @@ public class AlcatelGponDslamTest {
 
     @BeforeClass
     public static void setUpClass() {
-        try {
-            Thread.sleep(5000);
-        } catch (Exception e) {
-        }
+//        try {
+//            Thread.sleep(5000);
+//        } catch (Exception e) {
+//        }
     }
 
     @AfterClass

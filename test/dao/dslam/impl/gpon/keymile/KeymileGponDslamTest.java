@@ -211,7 +211,7 @@ public class KeymileGponDslamTest {
     public void testSetOntToOlt() {
         System.out.println("setOntToOlt");
         try {
-            SerialOntGpon s = null;
+            SerialOntGpon s = instance.getSerialOnt(i);
             SerialOntGpon result = instance.setOntToOlt(i, s);
             assertTrue(result.getSerial() != null);
         } catch (Exception e) {
@@ -226,10 +226,11 @@ public class KeymileGponDslamTest {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        EstadoDaPorta e = null;
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState("Up");
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-            assertTrue(result.getAdminState() != null);
+            assertTrue(result.getAdminState().equals("Up"));
         } catch (Exception ex) {
             ex.printStackTrace();
             fail();
@@ -240,11 +241,26 @@ public class KeymileGponDslamTest {
      * Test of createVlanBanda method, of class KeymileGponDslam.
      */
     @Test
-    public void testCreateVlanBanda() throws Exception {
+    public void testCreateVlanBanda() {
         System.out.println("createVlanBanda");
         try {
             VlanBanda result = instance.createVlanBanda(i);
-            assertTrue(result.getSvlan() != null);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of deleteVlanBanda method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testDeleteVlanBanda() {
+        System.out.println("deleteVlanBanda");
+        try {
+            instance.deleteVlanBanda(i);
+            assertTrue(instance.getVlanBanda(i).getSvlan().equals(0));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -255,26 +271,42 @@ public class KeymileGponDslamTest {
      * Test of createVlanVoip method, of class KeymileGponDslam.
      */
     @Test
-    public void testCreateVlanVoip() throws Exception {
+    public void testCreateVlanVoip() {
         System.out.println("createVlanVoip");
         try {
             VlanVoip result = instance.createVlanVoip(i);
-            assertTrue(result.getSvlan() != null);
+            assertTrue(result.getSvlan().equals(i.getVlanVoip()));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
+    }
+
+    /**
+     * Test of deleteVlanVoip method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testDeleteVlanVoip() {
+        System.out.println("deleteVlanVoip");
+        try {
+            instance.deleteVlanVoip(i);
+            assertTrue(instance.getVlanVoip(i).getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
     }
 
     /**
      * Test of createVlanVod method, of class KeymileGponDslam.
      */
     @Test
-    public void testCreateVlanVod() throws Exception {
+    public void testCreateVlanVod() {
         System.out.println("createVlanVod");
         try {
             VlanVod result = instance.createVlanVod(i);
-            assertTrue(result.getSvlan() != null);
+            assertTrue(result.getSvlan().equals(i.getVlanVod()));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -282,18 +314,50 @@ public class KeymileGponDslamTest {
     }
 
     /**
-     * Test of createVlanMulticast method, of class KeymileGponDslam.
+     * Test of deleteVlanVod method, of class KeymileGponDslam.
      */
     @Test
-    public void testCreateVlanMulticast() throws Exception {
-        System.out.println("createVlanMulticast");
+    public void testDeleteVlanVod() {
+        System.out.println("deleteVlanVod");
         try {
-            VlanMulticast result = instance.createVlanMulticast(i);
-            assertTrue(result.getSvlan() != null);
+            instance.deleteVlanVod(i);
+            assertTrue(instance.getVlanVod(i).getSvlan().equals(0));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
+
+    }
+
+    /**
+     * Test of createVlanMulticast method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testCreateVlanMulticast() {
+        System.out.println("createVlanMulticast");
+        try {
+            VlanMulticast result = instance.createVlanMulticast(i);
+            assertTrue(result.getSvlan().equals(4000));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of deleteVlanMulticast method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testDeleteVlanMulticast() {
+        System.out.println("deleteVlanMulticast");
+        try {
+            instance.deleteVlanMulticast(i);
+            assertTrue(instance.getVlanMulticast(i).getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
     }
 
     /**
@@ -307,60 +371,8 @@ public class KeymileGponDslamTest {
 //            assertTrue(result.getSvlan() != null);
 //        } catch (Exception e) {
 //            e.printStackTrace();
-            fail();
+        fail();
 //        }
-    }
-
-    /**
-     * Test of deleteVlanBanda method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testDeleteVlanBanda() throws Exception {
-        System.out.println("deleteVlanBanda");
-//        InventarioRede i = null;
-//        KeymileGponDslam instance = null;
-//        instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of deleteVlanVoip method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testDeleteVlanVoip() throws Exception {
-        System.out.println("deleteVlanVoip");
-//        InventarioRede i = null;
-//        KeymileGponDslam instance = null;
-//        instance.deleteVlanVoip(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of deleteVlanVod method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testDeleteVlanVod() throws Exception {
-        System.out.println("deleteVlanVod");
-//        InventarioRede i = null;
-//        KeymileGponDslam instance = null;
-//        instance.deleteVlanVod(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of deleteVlanMulticast method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testDeleteVlanMulticast() throws Exception {
-        System.out.println("deleteVlanMulticast");
-//        InventarioRede i = null;
-//        KeymileGponDslam instance = null;
-//        instance.deleteVlanMulticast(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
