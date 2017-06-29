@@ -345,7 +345,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip()+ " cos3 swap");
+                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
     }
 
     @Override
@@ -359,7 +359,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod()+ " cos5 swap");
+                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod() + " cos5 swap");
     }
 
     @Override
@@ -385,13 +385,20 @@ public class KeymileGponDslam extends DslamGpon {
         return getVlanMulticast(i);
     }
 
+    protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i) {
+        return new ComandoDslam("/unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/DisassociateONT");
+    }
+
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoUnsetOntFromOlt(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     protected ComandoDslam getComandoGetSrvc(InventarioRede i, String intrf) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-"+intrf+"/status/ServiceStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-" + intrf + "/status/ServiceStatus");
     }
 
     protected ComandoDslam getComandoDeleteVlan(String srvc) {
@@ -406,7 +413,7 @@ public class KeymileGponDslam extends DslamGpon {
     public void deleteVlanBanda(InventarioRede i) throws Exception {
         List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
         List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size()-1).replace("-", "");
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
         List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
@@ -417,7 +424,7 @@ public class KeymileGponDslam extends DslamGpon {
     public void deleteVlanVoip(InventarioRede i) throws Exception {
         List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
         List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size()-1).replace("-", "");
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
         List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
@@ -428,7 +435,7 @@ public class KeymileGponDslam extends DslamGpon {
     public void deleteVlanVod(InventarioRede i) throws Exception {
         List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
         List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size()-1).replace("-", "");
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
         List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
@@ -439,7 +446,7 @@ public class KeymileGponDslam extends DslamGpon {
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
         List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size()-1).replace("-", "");
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
         List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);

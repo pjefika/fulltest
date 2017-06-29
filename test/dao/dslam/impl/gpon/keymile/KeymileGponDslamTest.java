@@ -211,9 +211,10 @@ public class KeymileGponDslamTest {
     public void testSetOntToOlt() {
         System.out.println("setOntToOlt");
         try {
-            SerialOntGpon s = instance.getSerialOnt(i);
+            SerialOntGpon s = new SerialOntGpon();
+            s.setSerial("SAGE0000AC94");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial() != null);
+            assertTrue(result.getSerial().equalsIgnoreCase("SAGE0000AC94"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -366,13 +367,13 @@ public class KeymileGponDslamTest {
     @Test
     public void testUnsetOntFromOlt() throws Exception {
         System.out.println("unsetOntFromOlt");
-//        try{
-//            instance.unsetOntFromOlt(i);
-//            assertTrue(result.getSvlan() != null);
-//        } catch (Exception e) {
-//            e.printStackTrace();
+        try{
+            instance.unsetOntFromOlt(i);
+            assertTrue(instance.getSerialOnt(i).getSerial().equalsIgnoreCase("ABCD00000000"));
+        } catch (Exception e) {
+            e.printStackTrace();
         fail();
-//        }
+        }
     }
 
     /**
