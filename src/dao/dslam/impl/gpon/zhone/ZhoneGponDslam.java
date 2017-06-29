@@ -305,10 +305,25 @@ public class ZhoneGponDslam extends DslamGpon {
 
         return leMac;
     }
+    
+    protected ComandoDslam getComandoGetIdOnt(InventarioRede i, SerialOntGpon s){
+        return new ComandoDslam("onu show "+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica(), 3000);
+    }
+    
+    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, String idOnt){
+        return new ComandoDslam("onu set "+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica()+" "+idOnt);
+    }
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaIdOnt = getCd().consulta(getComandoGetIdOnt(i, s)).getRetorno();
+        String leSerNum = s.getSerial().substring(4, s.getSerial().length());
+        String leIdOnt = TratativaRetornoUtil.tratZhone(pegaIdOnt, leSerNum, "\\b\\w+\\b").get(0);
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, leIdOnt)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getSerialOnt(i);
     }
 
     @Override

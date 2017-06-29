@@ -7,7 +7,6 @@ package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.impl.ComandoDslam;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -51,61 +50,40 @@ public class ZhoneGponDslamTest {
 
     @After
     public void tearDown() {
+        instance.desconectar();
     }
+
+    ZhoneGponDslam instance = new ZhoneGponDslam(CustomerMock.gponZhone().getRede().getIpDslam());
+    InventarioRede i = CustomerMock.gponZhone().getRede();
 
     /**
      * Test of getTabelaParametros method, of class ZhoneGponDslam.
      */
     @Test
-    public void testGetTabelaParametros() throws Exception {
-        ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
-        TabelaParametrosGpon result = instance.getTabelaParametros(cl.getRede());
-        assertTrue(result.validar(cl));
-    }
-
-    /**
-     * Test of getComandoSerialOnt method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoSerialOnt() {
-        System.out.println("getComandoSerialOnt");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testGetTabelaParametros() {
+        try {
+            TabelaParametrosGpon result = instance.getTabelaParametros(cl.getRede());
+            assertTrue(result.getPotOlt() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
      * Test of getSerialOnt method, of class ZhoneGponDslam.
      */
     @Test
-    public void testGetSerialOnt() throws Exception {
+    public void testGetSerialOnt() {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        SerialOntGpon expResult = null;
-        SerialOntGpon result = instance.getSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        try {
+            SerialOntGpon result = instance.getSerialOnt(i);
+            assertTrue(result.getSerial() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
 
-    /**
-     * Test of getComandoConsultaEstadoDaPorta method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaEstadoDaPorta() {
-        System.out.println("getComandoConsultaEstadoDaPorta");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaEstadoDaPorta(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -114,28 +92,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        EstadoDaPorta expResult = null;
-        EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getComandoConsultaVlan method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaVlan() {
-        System.out.println("getComandoConsultaVlan");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaVlan(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            assertTrue(result.getAdminState() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -144,13 +107,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanBanda result = instance.getVlanBanda(i);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -159,13 +122,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        VlanVoip expResult = null;
-        VlanVoip result = instance.getVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanVoip result = instance.getVlanVoip(i);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -174,28 +137,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        VlanVod expResult = null;
-        VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getComandoConsultaVlanMulticast method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaVlanMulticast() {
-        System.out.println("getComandoConsultaVlanMulticast");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanVod result = instance.getVlanVod(i);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -204,28 +152,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        VlanMulticast expResult = null;
-        VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getComandoConsultaAlarmes method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaAlarmes() {
-        System.out.println("getComandoConsultaAlarmes");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaAlarmes(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanMulticast result = instance.getVlanMulticast(i);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -234,43 +167,13 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        AlarmesGpon expResult = null;
-        AlarmesGpon result = instance.getAlarmes(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getComandoConsultaProfileDown method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaProfileDown() {
-        System.out.println("getComandoConsultaProfileDown");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaProfileDown(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getComandoConsultaProfileUp method, of class ZhoneGponDslam.
-     */
-    @Test
-    public void testGetComandoConsultaProfileUp() {
-        System.out.println("getComandoConsultaProfileUp");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        ComandoDslam expResult = null;
-        ComandoDslam result = instance.getComandoConsultaProfileUp(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            AlarmesGpon result = instance.getAlarmes(i);
+            assertTrue(result.getListAlarmes() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     /**
@@ -279,13 +182,30 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        InventarioRede i = null;
-        ZhoneGponDslam instance = null;
-        Profile expResult = null;
-        Profile result = instance.getProfile(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            Profile result = instance.getProfile(i);
+            assertTrue(result.getProfileDown() != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of setOntToOlt method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testSetOntToOlt() {
+        System.out.println("setOntToOlt");
+        try {
+            SerialOntGpon s = new SerialOntGpon();
+            s.setSerial("PACED8A7ED87");
+            SerialOntGpon result = instance.setOntToOlt(i, s);
+            assertTrue(result.getSerial().equalsIgnoreCase("PACED8A7ED87"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
 }
