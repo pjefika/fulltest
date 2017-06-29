@@ -35,11 +35,11 @@ public class KeymileGponDslam extends DslamGpon {
         super(ipDslam, Credencial.KEYMILE, new LoginRapido());
     }
 
-    public ComandoDslam getComandoPotOlt(InventarioRede i) {
+    protected ComandoDslam getComandoPotOlt(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/olt");
     }
 
-    public ComandoDslam getComandoPotOnt(InventarioRede i) {
+    protected ComandoDslam getComandoPotOnt(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/ont");
     }
 
@@ -58,7 +58,7 @@ public class KeymileGponDslam extends DslamGpon {
         return tabParam;
     }
 
-    public ComandoDslam getComandoSerialOnt(InventarioRede i) {
+    protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
     }
 
@@ -74,11 +74,11 @@ public class KeymileGponDslam extends DslamGpon {
         return ont;
     }
 
-    public ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus");
     }
 
-    public ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus");
     }
 
@@ -141,11 +141,11 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanBanda;
     }
 
-    public ComandoDslam getComandoConsultaVlanVoip1(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanVoip1(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2/status/ServiceStatus");
     }
 
-    public ComandoDslam getComandoConsultaStatusVlanVoip(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaStatusVlanVoip(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2/cfgm/macsourcefilteringmode");
     }
 
@@ -180,11 +180,11 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanVoip;
     }
 
-    public ComandoDslam getComandoConsultaVlanVod1(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanVod1(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3/status/ServiceStatus");
     }
 
-    public ComandoDslam getComandoConsultaStatusVlanVod(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaStatusVlanVod(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3/cfgm/macsourcefilteringmode");
     }
 
@@ -216,7 +216,7 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanVod;
     }
 
-    public ComandoDslam getComandoConsultaVlanMulticast1(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaVlanMulticast1(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/status/ServiceStatus");
     }
 
@@ -238,7 +238,7 @@ public class KeymileGponDslam extends DslamGpon {
         return vlanMult;
     }
 
-    public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/fm/alarmstatus");
     }
 
@@ -259,11 +259,11 @@ public class KeymileGponDslam extends DslamGpon {
         return alarmes;
     }
 
-    public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
     }
 
-    public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting");
     }
 
@@ -285,7 +285,7 @@ public class KeymileGponDslam extends DslamGpon {
         return prof;
     }
 
-    public ComandoDslam getComandoConsultaOnuTable(InventarioRede i) {
+    protected ComandoDslam getComandoConsultaOnuTable(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/onutablestatus");
     }
 
@@ -300,9 +300,20 @@ public class KeymileGponDslam extends DslamGpon {
         return dMac;
     }
 
+    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, String profileId) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable "
+                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " + profileId + " false \"\" \"\" \"\" 1");
+    }
+
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
+        String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s, profUpIndex)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getSerialOnt(i);
     }
 
     @Override
