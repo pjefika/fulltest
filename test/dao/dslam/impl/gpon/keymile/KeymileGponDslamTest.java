@@ -6,6 +6,8 @@
 package dao.dslam.impl.gpon.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import java.util.ArrayList;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -367,12 +369,12 @@ public class KeymileGponDslamTest {
     @Test
     public void testUnsetOntFromOlt() throws Exception {
         System.out.println("unsetOntFromOlt");
-        try{
+        try {
             instance.unsetOntFromOlt(i);
             assertTrue(instance.getSerialOnt(i).getSerial().equalsIgnoreCase("ABCD00000000"));
         } catch (Exception e) {
             e.printStackTrace();
-        fail();
+            fail();
         }
     }
 
@@ -380,32 +382,32 @@ public class KeymileGponDslamTest {
      * Test of setProfileDown method, of class KeymileGponDslam.
      */
     @Test
-    public void testSetProfileDown() throws Exception {
+    public void testSetProfileDown() {
         System.out.println("setProfileDown");
-//        InventarioRede i = null;
-//        Velocidades v = null;
-//        KeymileGponDslam instance = null;
-//        Profile expResult = null;
-//        Profile result = instance.setProfileDown(i, v);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            Profile result = instance.setProfileDown(i, Velocidades.VEL_51200);
+            assertTrue(result.getProfileDown().equalsIgnoreCase(instance.castProfile(Velocidades.VEL_51200).getProfileDown()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
     }
 
     /**
      * Test of setProfileUp method, of class KeymileGponDslam.
      */
     @Test
-    public void testSetProfileUp() throws Exception {
+    public void testSetProfileUp() {
         System.out.println("setProfileUp");
-//        InventarioRede i = null;
-//        Velocidades v = null;
-//        KeymileGponDslam instance = null;
-//        Profile expResult = null;
-//        Profile result = instance.setProfileUp(i, v);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            Profile result = instance.setProfileUp(i, Velocidades.VEL_25600);
+            assertTrue(result.getProfileUp().equalsIgnoreCase(instance.castProfile(Velocidades.VEL_25600).getProfileUp()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
     }
 
     /**
@@ -414,13 +416,19 @@ public class KeymileGponDslamTest {
     @Test
     public void testCastProfile() {
         System.out.println("castProfile");
-//        Velocidades v = null;
-//        KeymileGponDslam instance = null;
-//        Profile expResult = null;
-//        Profile result = instance.castProfile(v);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            List<Profile> profiles = new ArrayList<>();
+            for (Velocidades v : Velocidades.values()) {
+                Profile p = instance.castProfile(v);
+                profiles.add(p);
+                System.out.println(v.name() + " Down ->" + p.getProfileDown());
+                System.out.println(v.name() + " Up ->" + p.getProfileUp());
+            }
+            assertEquals(profiles.size(), Velocidades.values().length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
 }

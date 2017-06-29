@@ -453,19 +453,35 @@ public class KeymileGponDslam extends DslamGpon {
         }
     }
 
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting false default true " + castProfile(v).getProfileDown());
+    }
+
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
     }
 
     @Override
     public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymile(castProfile(v).getProfileUp());
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, getSerialOnt(i), profUpIndex)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
     }
 
     @Override
     public Profile castProfile(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Profile p = new Profile();
+        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
+        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
+        return p;
     }
 
 }

@@ -164,5 +164,56 @@ public class TratativaRetornoUtil {
         
         return prf;
     }
+    
+    public static String upProfileIdKeymile(String profName){
+        
+        Integer prfIndex = null;
+        
+        switch(profName){
+            case "HSI_750K_RETAIL_UP":
+                prfIndex = 2;
+                break;
+            case "HSI_1M_RETAIL_UP":
+                prfIndex = 3;
+                break;
+            case "HSI_2M_RETAIL_UP":
+                prfIndex = 4;
+                break;
+            case "HSI_3M_RETAIL_UP":
+                prfIndex = 5;
+                break;
+            case "HSI_5M_RETAIL_UP":
+                prfIndex = 6;
+                break;
+            case "HSI_10M_RETAIL_UP":
+                prfIndex = 7;
+                break;
+            case "HSI_15M_RETAIL_UP":
+                prfIndex = 8;
+                break;
+            case "HSI_50M_RETAIL_UP":
+                prfIndex = 9;
+                break;
+            case "HSI_75M_RETAIL_UP":
+                prfIndex = 10;
+                break;
+            case "HSI_100M_RETAIL_UP":
+                prfIndex = 11;
+                break;
+            case "HSI_150M_RETAIL_UP":
+                prfIndex = 12;
+                break;
+            case "HSI_12.5M_RETAIL_UP":
+                prfIndex = 13;
+                break;
+            case "HSI_25M_RETAIL_UP":
+                prfIndex = 14;
+                break;
+            default:
+                break;
+        }
+        
+        return prfIndex.toString();
+    }
 
 }
