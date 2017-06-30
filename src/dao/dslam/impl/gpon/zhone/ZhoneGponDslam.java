@@ -357,8 +357,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVoip(InventarioRede i) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL700(i.getLogica()) + "/gponport gtp 2 "
-                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " stagged cos 5 outcosall 5 scos 5 soutcosall 5 "
-                + "epktrule 2", 3000);
+                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " stagged cos 5 outcosall 5 "
+                + "scos 5 soutcosall 5 epktrule 2", 3000);
     }
 
     @Override
@@ -371,9 +371,20 @@ public class ZhoneGponDslam extends DslamGpon {
         return getVlanVoip(i);
     }
 
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL900(i.getLogica()) + "/gponport gtp 1 "
+                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVod() + " stagged cos 3 "
+                + "outcosall 3 scos 3 soutcosall 3", 3000);
+    }
+
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        leVlans = null;
+        return getVlanVod(i);
     }
 
     @Override
@@ -410,9 +421,16 @@ public class ZhoneGponDslam extends DslamGpon {
         }
     }
 
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu slan " + i.getVlanVod(), 1500);
+    }
+
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
