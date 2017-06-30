@@ -208,4 +208,21 @@ public class ZhoneGponDslamTest {
         }
     }
 
+    /**
+     * Test of setEstadoDaPorta method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testSetEstadoDaPorta() {
+        System.out.println("setEstadoDaPorta");
+        try {
+            EstadoDaPorta es = new EstadoDaPorta();
+            es.setAdminState("up");
+            EstadoDaPorta result = instance.setEstadoDaPorta(i, es);
+            assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
 }

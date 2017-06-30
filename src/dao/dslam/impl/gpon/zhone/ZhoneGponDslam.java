@@ -305,13 +305,13 @@ public class ZhoneGponDslam extends DslamGpon {
 
         return leMac;
     }
-    
-    protected ComandoDslam getComandoGetIdOnt(InventarioRede i, SerialOntGpon s){
-        return new ComandoDslam("onu show "+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica(), 3000);
+
+    protected ComandoDslam getComandoGetIdOnt(InventarioRede i, SerialOntGpon s) {
+        return new ComandoDslam("onu show " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 3000);
     }
-    
-    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, String idOnt){
-        return new ComandoDslam("onu set "+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica()+" "+idOnt);
+
+    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, String idOnt) {
+        return new ComandoDslam("onu set " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " " + idOnt);
     }
 
     @Override
@@ -326,9 +326,23 @@ public class ZhoneGponDslam extends DslamGpon {
         return getSerialOnt(i);
     }
 
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu");
+    }
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getEstadoDaPorta(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
+                + "gtp " + castProfile(up).getProfileUp() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
+                + "epktrule " + castProfile(down).getProfileDown());
     }
 
     @Override
@@ -388,7 +402,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public Profile castProfile(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Profile p = new Profile();
+        p.setProfileDown(v.getVel());
+        Integer leProfUp = new Integer(v.getVel()) * 1000;
+        p.setProfileUp(leProfUp.toString());
+        return p;
     }
 
 }
