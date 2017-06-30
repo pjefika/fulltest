@@ -351,13 +351,24 @@ public class ZhoneGponDslam extends DslamGpon {
         for (String string : leResp) {
             System.out.println(string);
         }
-        leVlans = null; 
+        leVlans = null;
         return getVlanBanda(i);
+    }
+
+    protected ComandoDslam getComandoCreateVoip(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL700(i.getLogica()) + "/gponport gtp 2 "
+                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " stagged cos 5 outcosall 5 scos 5 soutcosall 5 "
+                + "epktrule 2", 3000);
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        leVlans = null;
+        return getVlanVoip(i);
     }
 
     @Override
@@ -374,9 +385,9 @@ public class ZhoneGponDslam extends DslamGpon {
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
-        return new ComandoDslam("bridge delete 1/"+ i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() +"/gpononu slan "+i.getRin(), 1500);
+
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu slan " + i.getRin(), 1500);
     }
 
     @Override
@@ -387,9 +398,16 @@ public class ZhoneGponDslam extends DslamGpon {
         }
     }
 
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu slan " + i.getVlanVoip(), 1500);
+    }
+
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override

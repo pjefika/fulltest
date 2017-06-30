@@ -257,4 +257,34 @@ public class ZhoneGponDslamTest {
         }
     }
 
+    /**
+     * Test of createVlanVoip method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testCreateVlanVoip() {
+        System.out.println("createVlanVoip");
+        try {
+            VlanVoip result = instance.createVlanVoip(i);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of deleteVlanVoip method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testDeleteVlanVoip() {
+        System.out.println("deleteVlanVoip");
+        try {
+            instance.deleteVlanVoip(i);
+            assertTrue(instance.getVlanVoip(i).getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
 }
