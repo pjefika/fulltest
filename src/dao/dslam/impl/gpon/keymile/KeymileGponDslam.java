@@ -335,7 +335,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public VlanBanda createVlanBanda(InventarioRede i) throws Exception {
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);

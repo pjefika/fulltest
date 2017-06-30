@@ -342,12 +342,17 @@ public class ZhoneGponDslam extends DslamGpon {
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
                 + "gtp " + castProfile(up).getProfileUp() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
-                + "epktrule " + castProfile(down).getProfileDown());
+                + "epktrule " + castProfile(down).getProfileDown(), 3000);
     }
 
     @Override
-    public VlanBanda createVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i, vDown, vUp)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        leVlans = null; 
+        return getVlanBanda(i);
     }
 
     @Override
@@ -369,10 +374,17 @@ public class ZhoneGponDslam extends DslamGpon {
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
+        return new ComandoDslam("bridge delete 1/"+ i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() +"/gpononu slan "+i.getRin(), 1500);
+    }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override

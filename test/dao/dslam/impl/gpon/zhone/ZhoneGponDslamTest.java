@@ -7,6 +7,7 @@ package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.customer.InventarioServico;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -16,6 +17,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -219,6 +221,36 @@ public class ZhoneGponDslamTest {
             es.setAdminState("up");
             EstadoDaPorta result = instance.setEstadoDaPorta(i, es);
             assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of createVlanBanda method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testCreateVlanBanda() {
+        System.out.println("createVlanBanda");
+        try {
+            VlanBanda result = instance.createVlanBanda(i, Velocidades.VEL_51200, Velocidades.VEL_25600);
+            assertTrue(!result.getSvlan().equals(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of deleteVlanBanda method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testDeleteVlanBanda() {
+        System.out.println("deleteVlanBanda");
+        try {
+            instance.deleteVlanBanda(i);
+            assertTrue(instance.getVlanBanda(i).getSvlan().equals(0));
         } catch (Exception e) {
             e.printStackTrace();
             fail();

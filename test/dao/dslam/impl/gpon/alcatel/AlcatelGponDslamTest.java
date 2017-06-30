@@ -336,7 +336,7 @@ public class AlcatelGponDslamTest {
         System.out.println("createVlanBanda");
         InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
-            VlanBanda result = instance.createVlanBanda(i);
+            VlanBanda result = instance.createVlanBanda(i, null, null);
             assertTrue(result.getSvlan() != 0);
         } catch (Exception e) {
             fail(e.getMessage());

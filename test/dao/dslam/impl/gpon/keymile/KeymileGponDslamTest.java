@@ -247,7 +247,7 @@ public class KeymileGponDslamTest {
     public void testCreateVlanBanda() {
         System.out.println("createVlanBanda");
         try {
-            VlanBanda result = instance.createVlanBanda(i);
+            VlanBanda result = instance.createVlanBanda(i, null, null);
             assertTrue(!result.getSvlan().equals(0));
         } catch (Exception e) {
             e.printStackTrace();
