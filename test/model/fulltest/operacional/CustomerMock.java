@@ -8,6 +8,21 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
+import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 /**
  *
@@ -20,7 +35,7 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
 
         InventarioRede r = new InventarioRede();
-        
+
         //3133933176
         r.setIpDslam("10.131.38.18");
         r.setModeloDslam("SUGP1");
@@ -49,23 +64,64 @@ public class CustomerMock {
         return c;
     }
 
+    public static EfikaCustomer getCustomer(String instancia) {
+        try {
+
+            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+            cm.setMaxTotal(1);
+            cm.setDefaultMaxPerRoute(1);
+            HttpHost ip = new HttpHost("10.40.195.81", 8080);
+            cm.setMaxPerRoute(new HttpRoute(ip), 50);
+
+            // Cookies
+            RequestConfig globalConfig = RequestConfig.custom()
+                    .setCookieSpec(CookieSpecs.DEFAULT)
+                    .build();
+
+            CloseableHttpClient httpclient = HttpClients.custom()
+                    .setConnectionManager(cm)
+                    .setDefaultRequestConfig(globalConfig)
+                    .build();
+
+            HttpGet httpget = new HttpGet("http://10.40.195.81:8080/stealerAPI/oss/" + instancia);
+            httpget.setHeader(HttpHeaders.CONTENT_TYPE, "text/html");
+            CloseableHttpResponse response = httpclient.execute(httpget);
+            InputStream instream = response.getEntity().getContent();
+            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            StringBuffer result = new StringBuffer();
+            String line = "";
+            while ((line = rd.readLine()) != null) {
+                result.append(line);
+            }
+            instream.close();
+
+            Gson g = new Gson();
+
+            EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
+
+            return ec;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public static EfikaCustomer gponZhone() {
 
         EfikaCustomer c = new EfikaCustomer();
-        //5131785417
+        //8532731862
         InventarioRede r = new InventarioRede();
-        r.setIpDslam("10.151.202.168");
+        r.setIpDslam("10.185.9.140");
         r.setModeloDslam("GPON_CARD8");
 
-        r.setSlot(4);
-        r.setPorta(6);
-        r.setSequencial(936);
-        r.setCvLan(1036);
-        r.setLogica(8);
-        r.setRin(435);
+        r.setSlot(2);
+        r.setPorta(2);
+        r.setSequencial(308);
+        r.setCvLan(408);
+        r.setLogica(20);
+        r.setRin(495);
 
-        r.setVlanVoip(1435);
-        r.setVlanVod(3435);
+        r.setVlanVoip(1495);
+        r.setVlanVod(3495);
         r.setVlanMulticast(4000);
 
         c.setRede(r);
@@ -73,8 +129,8 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.TRUE);
         s.setIsSip(Boolean.TRUE);
-        s.setVelDown(51200l);
-        s.setVelUp(25600l);
+        s.setVelDown(15360l);
+        s.setVelUp(1024l);
 
         c.setServicos(s);
 

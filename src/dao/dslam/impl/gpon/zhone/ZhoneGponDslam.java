@@ -90,12 +90,13 @@ public class ZhoneGponDslam extends DslamGpon {
 
         String sernum = "";
 
-        if (pegaSerial.size() > 3) {
-            sernum = pegaSerial.get(6) + pegaSerial.get(5);
-        } else {
-            sernum = pegaSerial.get(pegaSerial.size() - 1) + pegaSerial.get(pegaSerial.size() - 2);
+        if (pegaSerial != null) {
+            if (pegaSerial.size() > 3) {
+                sernum = pegaSerial.get(6) + pegaSerial.get(5);
+            } else {
+                sernum = pegaSerial.get(pegaSerial.size() - 1) + pegaSerial.get(pegaSerial.size() - 2);
+            }
         }
-
         SerialOntGpon serOnt = new SerialOntGpon();
         serOnt.setSerial(sernum);
 
@@ -389,12 +390,19 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
+    }
+
+    protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i) {
+        return new ComandoDslam("onu clear " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 3000);
     }
 
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoUnsetOntFromOlt(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
@@ -435,17 +443,37 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    }
+
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("bridge modify 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "-gponport-"
+                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + castProfile(v).getProfileDown());
     }
 
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getProfile(i);
     }
 
     @Override
     public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Profile atual = getProfile(i);
+        deleteVlanBanda(i);
+        Velocidades vDown = null;
+        for (Velocidades leV : Velocidades.values()) {
+            if(leV.getVel().equals(atual.getProfileDown())){
+                vDown = leV;
+                break;
+            }
+        }
+        createVlanBanda(i, vDown, v);
+        
+        return getProfile(i);
     }
 
     @Override

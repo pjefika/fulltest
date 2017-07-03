@@ -7,7 +7,7 @@ package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import br.net.gvt.efika.customer.InventarioServico;
+import java.io.IOException;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
-    private EfikaCustomer cl = CustomerMock.gponZhone();
+    private EfikaCustomer cl = CustomerMock.getCustomer("1125035199");
 
     public ZhoneGponDslamTest() {
 
@@ -80,7 +80,7 @@ public class ZhoneGponDslamTest {
         System.out.println("getSerialOnt");
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
-            assertTrue(result.getSerial() != null);
+            assertTrue(!result.getSerial().isEmpty());
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -315,6 +315,51 @@ public class ZhoneGponDslamTest {
             e.printStackTrace();
             fail();
         }
+    }
+
+    /**
+     * Test of setProfileDown method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testSetProfileDown() {
+        System.out.println("setProfileDown");
+        try {
+            Profile p = instance.setProfileDown(i, Velocidades.VEL_51200);
+            assertTrue(p!=null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of setProfileUp method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testSetProfileUp() {
+        System.out.println("setProfileUp");
+        try {
+            Profile p = instance.setProfileUp(i, Velocidades.VEL_25600);
+            assertTrue(p!=null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testC() {
+        EfikaCustomer ec = CustomerMock.getCustomer("1125035199");
+        System.out.println(ec.getRede().getVendorDslam());
+        System.out.println(ec.getRede().getIpDslam());
+        System.out.println(ec.getRede().getSlot());
+        System.out.println(ec.getRede().getPorta());
+        System.out.println(ec.getRede().getLogica());
+        System.out.println(ec.getRede().getCvLan());
+        System.out.println(ec.getServicos().getVelDown());
+        System.out.println(ec.getServicos().getVelUp());
+        assertTrue(ec != null);
+
     }
 
 }
