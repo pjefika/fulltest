@@ -6,6 +6,8 @@
 package model.validacao.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.AlteracaoGponDefault;
+import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoEfikaCustomer;
 
@@ -15,11 +17,14 @@ import model.validacao.ValidacaoEfikaCustomer;
  */
 public abstract class ValidacaoRealtimeGpon extends ValidacaoEfikaCustomer {
 
-    protected ConsultaGponDefault dslam;
+    protected ConsultaGponDefault consultaGpon;
+    
+    protected AlteracaoGponDefault alteracaoGpon;
 
-    public ValidacaoRealtimeGpon(ConsultaGponDefault dslam, EfikaCustomer cust, String nome) {
+    public ValidacaoRealtimeGpon(ConsultaClienteInter dslam, EfikaCustomer cust, String nome) {
         super(cust, nome);
-        this.dslam = dslam;
+        this.consultaGpon = (ConsultaGponDefault) dslam;
+        this.alteracaoGpon = (AlteracaoGponDefault) dslam;
     }
 
 }

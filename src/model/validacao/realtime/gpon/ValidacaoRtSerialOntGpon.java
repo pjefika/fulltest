@@ -25,7 +25,7 @@ public class ValidacaoRtSerialOntGpon extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoAssociacaoOnt(dslam.getSerialOnt(cust.getRede()));
+            valid = new ValidacaoAssociacaoOnt(consultaGpon.getSerialOnt(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

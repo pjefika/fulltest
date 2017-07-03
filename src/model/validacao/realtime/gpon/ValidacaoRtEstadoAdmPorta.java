@@ -6,6 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoEstadoPortaAdm;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
@@ -18,14 +19,14 @@ public class ValidacaoRtEstadoAdmPorta extends ValidacaoRealtimeGpon {
 
     private ValidacaoEstadoPortaAdm valid;
 
-    public ValidacaoRtEstadoAdmPorta(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtEstadoAdmPorta(ConsultaClienteInter dslam, EfikaCustomer cust) {
         super(dslam, cust, "Estado Administrativo da Porta");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta(cust.getRede()));
+            valid = new ValidacaoEstadoPortaAdm(consultaGpon.getEstadoDaPorta(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

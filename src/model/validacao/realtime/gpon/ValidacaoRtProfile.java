@@ -25,7 +25,7 @@ public class ValidacaoRtProfile extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoProfile(dslam.getProfile(cust.getRede()), cust);
+            valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

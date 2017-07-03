@@ -6,9 +6,10 @@
 package model.validacao.realtime.gpon.corretiva;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
+import model.dslam.consulta.EstadoDaPorta;
 import model.validacao.ValidacaoEstadoPortaAdm;
-import model.validacao.realtime.ValidacaoRealtimeGpon;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 
 /**
@@ -19,19 +20,27 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
 
     private ValidacaoEstadoPortaAdm valid;
 
-    public ValidacaoCorretivaRtEstadoAdmPorta(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoCorretivaRtEstadoAdmPorta(ConsultaClienteInter dslam, EfikaCustomer cust) {
         super(dslam, cust);
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoEstadoPortaAdm(dslam.getEstadoDaPorta(cust.getRede()));
+            EstadoDaPorta eP = consultaGpon.getEstadoDaPorta(cust.getRede());
+            valid = new ValidacaoEstadoPortaAdm(eP);
             if(valid.validar()){
                 setResultado(Boolean.FALSE);
                 setMensagem("A porta já estava em UP.");
             }else{
-                
+                valid = new ValidacaoEstadoPortaAdm(alteracaoGpon.setEstadoDaPorta(cust.getRede(), eP));
+                if(valid.validar()){
+                    setResultado(Boolean.TRUE);
+                    setMensagem("Estado da Porta alterado.");
+                }else{
+                    setResultado(Boolean.TRUE);
+                    setMensagem("Não foi possível alterar o Estado da Porta.");
+                }
             }
             return valid.getResultado();
         } catch (Exception e) {

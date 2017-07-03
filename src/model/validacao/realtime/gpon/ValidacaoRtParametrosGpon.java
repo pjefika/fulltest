@@ -25,7 +25,7 @@ public class ValidacaoRtParametrosGpon extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoParametrosGpon(dslam.getTabelaParametros(cust.getRede()));
+            valid = new ValidacaoParametrosGpon(consultaGpon.getTabelaParametros(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

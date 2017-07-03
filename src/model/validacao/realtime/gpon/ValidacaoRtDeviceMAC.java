@@ -26,7 +26,7 @@ public class ValidacaoRtDeviceMAC extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoDeviceMAC(dslam.getDeviceMac(cust.getRede()), cust);
+            valid = new ValidacaoDeviceMAC(consultaGpon.getDeviceMac(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

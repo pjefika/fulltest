@@ -26,7 +26,7 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() throws Exception {
         try {
-            valid = new ValidacaoVlanMulticast(dslam.getVlanMulticast(cust.getRede()), cust);
+            valid = new ValidacaoVlanMulticast(consultaGpon.getVlanMulticast(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

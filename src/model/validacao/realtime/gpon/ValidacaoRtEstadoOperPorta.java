@@ -21,7 +21,7 @@ public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoEstadoPortaOper(dslam.getEstadoDaPorta(cust.getRede()));
+            valid = new ValidacaoEstadoPortaOper(consultaGpon.getEstadoDaPorta(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();
