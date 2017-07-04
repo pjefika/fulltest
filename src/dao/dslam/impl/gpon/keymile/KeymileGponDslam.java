@@ -10,6 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
 import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
@@ -482,6 +483,25 @@ public class KeymileGponDslam extends DslamGpon {
         p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
         p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
         return p;
+    }
+    
+    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i){
+        return new ComandoDslam("/unit-"+i.getSlot()+"/status/FlushOnuBlacklist", 3000, "get /unit-"+i.getSlot()+"/status/onuBlackListTable");
+    }
+
+    @Override
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
+        Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
+        List<SerialOntGpon> lSerial = new ArrayList<>();
+        for(int e = 1; e<=qntSerial; e++){
+            String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
+            SerialOntGpon s = new SerialOntGpon();
+            s.setSerial(leSerial);
+            lSerial.add(s);
+        }
+        
+        return lSerial;
     }
 
 }

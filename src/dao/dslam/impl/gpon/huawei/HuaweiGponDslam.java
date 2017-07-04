@@ -8,6 +8,7 @@ package dao.dslam.impl.gpon.huawei;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -150,5 +151,10 @@ public class HuaweiGponDslam  extends DslamGpon {
     public Profile castProfile(Velocidades v) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

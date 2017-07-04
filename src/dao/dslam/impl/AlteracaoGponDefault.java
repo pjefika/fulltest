@@ -6,6 +6,7 @@
 package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import java.util.List;
 import model.dslam.consulta.gpon.SerialOntGpon;
 
 /**

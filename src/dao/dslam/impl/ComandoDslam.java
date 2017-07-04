@@ -16,8 +16,12 @@ public class ComandoDslam {
     private String sintax;
 
     private Integer sleep = 1000;
+    
+    private Integer sleepAux = 1000;
 
     private String sintaxAux;
+
+    private String sintaxAux2;
 
     private List<String> retorno;
 
@@ -34,6 +38,21 @@ public class ComandoDslam {
         this.sintax = sintax;
         this.sleep = sleep;
         this.sintaxAux = sintaxAux;
+    }
+
+    public ComandoDslam(String sintax, Integer sleep, String sintaxAux, Integer sleepAux) {
+        this.sintax = sintax;
+        this.sleep = sleep;
+        this.sintaxAux = sintaxAux;
+        this.sleepAux = sleepAux;
+    }
+
+    public ComandoDslam(String sintax, Integer sleep, String sintaxAux, Integer sleepAux, String sintaxAux2) {
+        this.sintax = sintax;
+        this.sleep = sleep;
+        this.sintaxAux = sintaxAux;
+        this.sintaxAux2 = sintaxAux2;
+        this.sleepAux = sleepAux;
     }
 
     public String getSintax() {
@@ -54,6 +73,22 @@ public class ComandoDslam {
             resp.append(string);
         }
         return resp.toString();
+    }
+
+    public String getSintaxAux2() {
+        return sintaxAux2;
+    }
+
+    public void setSintaxAux2(String sintaxAux2) {
+        this.sintaxAux2 = sintaxAux2;
+    }
+
+    public Integer getSleepAux() {
+        return sleepAux;
+    }
+
+    public void setSleepAux(Integer sleepAux) {
+        this.sleepAux = sleepAux;
     }
 
     public void setRetorno(List<String> retorno) {

@@ -61,11 +61,21 @@ public class TratativaRetornoUtil {
 
     }
     
-    public static List<String> tratZhone(List<String> list, String qqqro, String regex, Integer o){
+    public static List<String> linhasAbaixo(List<String> list, String qqqro){
+        List<String> leList = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i).contains(qqqro)){
+                leList.add(list.get(i+2));
+            }
+        }
+        return leList;
+    }
+
+    public static List<String> tratZhone(List<String> list, String qqqro, String regex, Integer o) {
         Integer i = 1;
         for (String leLine : list) {
-            if(leLine.contains(qqqro)){
-                if(i.equals(o)){
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
                     List<String> allMatches = new ArrayList<String>();
                     Matcher m = Pattern.compile(regex).matcher(leLine);
                     while (m.find()) {
@@ -76,49 +86,59 @@ public class TratativaRetornoUtil {
                 i++;
             }
         }
-        
+
         return null;
     }
 //    /-?\\.?(\\d+((\\.|,| )\\d+)?)
-    
-    public static List<String> numberFromString(String str){
+
+    public static List<String> numberFromString(String str) {
         List<String> allMatches = new ArrayList<String>();
         Matcher m = Pattern.compile("-?\\.?(\\d+((\\.|,| )\\d+)?)").matcher(str);
         while (m.find()) {
             allMatches.add(m.group());
         }
-        
+
         return allMatches;
     }
-    
-    public static List<String> tratZhone(List<String> list, String qqqro,String regex){
+
+    public static List<String> tratZhone(List<String> list, String qqqro, String regex) {
         return tratZhone(list, qqqro, regex, 1);
     }
-    
-    public static String tratKeymile(List<String> list, String qqqro, Integer o){
+
+    public static String tratKeymile(List<String> list, String qqqro, Integer o) {
         Integer i = 1;
         for (String leLine : list) {
-            if(leLine.contains(qqqro)){
-                if(i.equals(o)){
-                    return leLine.substring(0, leLine.indexOf("\\ #")).replace("\"", "").replace(";", "").trim();    
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
+                    return leLine.substring(0, leLine.indexOf("\\ #")).replace("\"", "").replace(";", "").trim();
                 }
                 i++;
             }
-            
+
         }
-        
-        return "Parâmetro não encontrado "+qqqro;
+
+        return "Parâmetro não encontrado " + qqqro;
     }
 
-    public static String tratKeymile(List<String> list, String qqqro){
+    public static String tratKeymile(List<String> list, String qqqro) {
         return tratKeymile(list, qqqro, 1);
     }
-    
-    public static String upProfileNameKeymile(Integer profIndex){
-        
+
+    public static Integer countStringOccurrence(List<String> list, String qqqro) {
+        Integer count = 0;
+        for (String string : list) {
+            if(string.contains(qqqro)){
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static String upProfileNameKeymile(Integer profIndex) {
+
         String prf = "";
-        
-        switch(profIndex){
+
+        switch (profIndex) {
             case 2:
                 prf = "HSI_750K_RETAIL_UP";
                 break;
@@ -161,15 +181,15 @@ public class TratativaRetornoUtil {
             default:
                 break;
         }
-        
+
         return prf;
     }
-    
-    public static String upProfileIdKeymile(String profName){
-        
+
+    public static String upProfileIdKeymile(String profName) {
+
         Integer prfIndex = null;
-        
-        switch(profName){
+
+        switch (profName) {
             case "HSI_750K_RETAIL_UP":
                 prfIndex = 2;
                 break;
@@ -212,7 +232,7 @@ public class TratativaRetornoUtil {
             default:
                 break;
         }
-        
+
         return prfIndex.toString();
     }
 

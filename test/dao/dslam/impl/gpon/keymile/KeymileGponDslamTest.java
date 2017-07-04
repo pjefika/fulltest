@@ -53,8 +53,8 @@ public class KeymileGponDslamTest {
         instance.desconectar();
     }
 
-    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
-    InventarioRede i = CustomerMock.gponKeymile().getRede();
+    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.getCustomer("5130585760").getRede().getIpDslam());
+    InventarioRede i = CustomerMock.getCustomer("5130585760").getRede();
 
     /**
      * Test of getTabelaParametros method, of class KeymileGponDslam.
@@ -214,9 +214,9 @@ public class KeymileGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("SAGE0000AC94");
+            s.setSerial("MSTC25E8AB61");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("SAGE0000AC94"));
+            assertTrue(result.getSerial().equalsIgnoreCase("MSTC25E8AB61"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -403,6 +403,25 @@ public class KeymileGponDslamTest {
         try {
 //            Profile result = instance.setProfileUp(i, Velocidades.VEL_25600);
 //            assertTrue(result.getProfileUp().equalsIgnoreCase(instance.castProfile(Velocidades.VEL_25600).getProfileUp()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+
+    }
+
+    /**
+     * Test of getSlotsAvailableOnts method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testGetSlotsAvailableOnts() {
+        System.out.println("getSlotsAvailableOnts");
+        try {
+            List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
+            for (SerialOntGpon serialOntGpon : result) {
+                System.out.println(serialOntGpon.getSerial());
+            }
+            assertTrue(result!=null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

@@ -10,6 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
 import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
@@ -43,7 +44,7 @@ public class AlcatelGponDslam extends DslamGpon {
         super.conectar();
         try {
             this.getCd().consulta(this.getComandoInhibitAlarms());
-//            this.getCd().consulta(this.getComandoModeBatch());
+            this.getCd().consulta(this.getComandoModeBatch());
             this.getCd().consulta(this.getComandoExit());
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -89,10 +90,10 @@ public class AlcatelGponDslam extends DslamGpon {
         xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros(i)));
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
         String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
-        if(potOnt.equals("invalid") || potOnt.equals("unknown")){
+        if (potOnt.equals("invalid") || potOnt.equals("unknown")) {
             potOnt = "0";
         }
-        if(potOlt.equals("invalid") || potOlt.equals("unknown")){
+        if (potOlt.equals("invalid") || potOlt.equals("unknown")) {
             potOlt = "0";
         }
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
@@ -446,9 +447,9 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         return getVlanMulticast(i);
     }
-    
-    protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i){
-        return new ComandoDslam("configure equipment ont interface 1/1/"+i.getSlot()+"/"+i.getPorta()+"/"+i.getLogica()+" no sernum");
+
+    protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i) {
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " no sernum");
     }
 
     @Override
@@ -519,4 +520,26 @@ public class AlcatelGponDslam extends DslamGpon {
         return p;
     }
 
+    protected ComandoDslam getComandoListaOntPorSlot() {
+        return new ComandoDslam("show pon unprovision-onu xml");
+    }
+
+    @Override
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoListaOntPorSlot()));
+        NodeList nodeList = xml.getElementsByTagName("info");
+        List<SerialOntGpon> serialList = new ArrayList<>();
+        for (int e = 0; e < nodeList.getLength(); e++) {
+            Node node = nodeList.item(e);
+
+            if (node.getTextContent().contains("1/1/" + i.getSlot())) {
+                SerialOntGpon s = new SerialOntGpon();
+                s.setSerial(node.getNextSibling().getTextContent());
+                serialList.add(s);
+            }
+
+        }
+        return serialList;
+    }
+   
 }

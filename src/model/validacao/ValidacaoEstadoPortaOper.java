@@ -23,12 +23,12 @@ public class ValidacaoEstadoPortaOper extends Validacao {
     @Override
     public Boolean validar() {
         if (!estadoPorta.getOperState().equalsIgnoreCase("UP")) {
-            this.setMensagem("Não há Link.");
+            this.setMensagem("Sem sincronismo.");
             this.setResultado(Boolean.FALSE);
             return false;
         } else {
             this.setResultado(Boolean.TRUE);
-            this.setMensagem("Linkado ok.");
+            this.setMensagem("Sincronismo ok.");
             return true;
         }
     }

@@ -7,7 +7,7 @@ package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import java.io.IOException;
+import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -32,8 +32,6 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
-    private EfikaCustomer cl = CustomerMock.getCustomer("1125035199");
-
     public ZhoneGponDslamTest() {
 
     }
@@ -54,9 +52,9 @@ public class ZhoneGponDslamTest {
     public void tearDown() {
         instance.desconectar();
     }
-
-    ZhoneGponDslam instance = new ZhoneGponDslam(CustomerMock.gponZhone().getRede().getIpDslam());
-    InventarioRede i = CustomerMock.gponZhone().getRede();
+    private EfikaCustomer cl = CustomerMock.getCustomer("1630107429");
+    ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
+    InventarioRede i = cl.getRede();
 
     /**
      * Test of getTabelaParametros method, of class ZhoneGponDslam.
@@ -347,10 +345,29 @@ public class ZhoneGponDslamTest {
         }
     }
 
+    /**
+     * Test of getSlotsAvailableOnts method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testGetSlotsAvailableOnts() {
+        System.out.println("getSlotsAvailableOnts");
+        try {
+            List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
+            for (SerialOntGpon l : ls) {
+                System.out.println(l.getSerial());
+            }
+            assertTrue(ls != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
     @Test
     public void testC() {
-        EfikaCustomer ec = CustomerMock.getCustomer("1125035199");
+        EfikaCustomer ec = CustomerMock.getCustomer("1630107429");
         System.out.println(ec.getRede().getVendorDslam());
+        System.out.println(ec.getRede().getModeloDslam());
         System.out.println(ec.getRede().getIpDslam());
         System.out.println(ec.getRede().getSlot());
         System.out.println(ec.getRede().getPorta());

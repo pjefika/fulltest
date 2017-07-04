@@ -47,6 +47,7 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
         bateria = new ArrayList<>();
         bateria.add(new ValidacaoCorretivaRtEstadoAdmPorta(dslam, cl));
         bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
+        bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
         bateria.add(new ValidacaoCorretivaRtProfile(dslam, cl));
     }
 

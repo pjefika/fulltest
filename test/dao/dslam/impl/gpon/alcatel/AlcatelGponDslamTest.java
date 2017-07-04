@@ -441,6 +441,25 @@ public class AlcatelGponDslamTest {
     }
 
     /**
+     * Test of getSlotsAvailableOnts method, of class AlcatelGponDslam.
+     */
+    @Test
+    public void testGetSlotsAvailableOnts() {
+        System.out.println("getSlotsAvailableOnts");
+        InventarioRede i = CustomerMock.gponAlcatel().getRede();
+        try {
+            List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
+            for (SerialOntGpon serialOntGpon : result) {
+                System.out.println(serialOntGpon.getSerial());
+            }
+            assertTrue(result!=null);
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    /**
      * Test of castProfile method, of class AlcatelGponDslam.
      */
     @Test
