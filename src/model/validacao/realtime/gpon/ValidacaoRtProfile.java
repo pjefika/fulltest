@@ -6,6 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoProfile;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
@@ -18,7 +19,7 @@ public class ValidacaoRtProfile extends ValidacaoRealtimeGpon {
 
     private ValidacaoProfile valid;
 
-    public ValidacaoRtProfile(ConsultaGponDefault dslam, EfikaCustomer cl) {
+    public ValidacaoRtProfile(ConsultaClienteInter dslam, EfikaCustomer cl) {
         super(dslam, cl, "Profile");
     }
 

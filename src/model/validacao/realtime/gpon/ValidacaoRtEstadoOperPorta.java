@@ -6,6 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoEstadoPortaOper;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
@@ -14,7 +15,7 @@ public class ValidacaoRtEstadoOperPorta extends ValidacaoRealtimeGpon {
 
     private ValidacaoEstadoPortaOper valid;
 
-    public ValidacaoRtEstadoOperPorta(ConsultaGponDefault dslam, EfikaCustomer cl) {
+    public ValidacaoRtEstadoOperPorta(ConsultaClienteInter dslam, EfikaCustomer cl) {
         super(dslam, cl, "Estado Operacional da Porta");
     }
 

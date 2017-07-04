@@ -7,14 +7,13 @@ package model.validacao.realtime.gpon.corretiva;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaClienteInter;
-import dao.dslam.impl.ConsultaGponDefault;
 import model.dslam.consulta.EstadoDaPorta;
 import model.validacao.ValidacaoEstadoPortaAdm;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
 public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPorta {
 
@@ -30,15 +29,15 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
             EstadoDaPorta eP = consultaGpon.getEstadoDaPorta(cust.getRede());
             valid = new ValidacaoEstadoPortaAdm(eP);
             if(valid.validar()){
-                setResultado(Boolean.FALSE);
-                setMensagem("A porta já estava em UP.");
+                setResultado(Boolean.TRUE);
+                setMensagem("Porta já ativada.");
             }else{
                 valid = new ValidacaoEstadoPortaAdm(alteracaoGpon.setEstadoDaPorta(cust.getRede(), eP));
                 if(valid.validar()){
-                    setResultado(Boolean.TRUE);
-                    setMensagem("Estado da Porta alterado.");
+                    setResultado(Boolean.FALSE);
+                    setMensagem("A porta estava desativada e foi ativada com sucesso, aguarde alguns instantes e teste novamente.");
                 }else{
-                    setResultado(Boolean.TRUE);
+                    setResultado(Boolean.FALSE);
                     setMensagem("Não foi possível alterar o Estado da Porta.");
                 }
             }

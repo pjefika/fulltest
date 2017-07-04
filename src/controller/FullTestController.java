@@ -33,12 +33,10 @@ public class FullTestController {
     public Response fulltest(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new FullTestGponFacade(cs);
-            
             return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
-
     }
 
     @POST
@@ -63,7 +61,6 @@ public class FullTestController {
          try {
             EfikaCustomer cs = CustomerDAO.getCustomer(instancia);
             FullTestInterface v = new FullTestGponFacade(cs);
-            
             
             return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {

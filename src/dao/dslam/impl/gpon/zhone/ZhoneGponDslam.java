@@ -452,16 +452,16 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
         }
-        return getProfile(i);
+//        return getProfile(i);
     }
 
     @Override
-    public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception {
+    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception {
         Profile atual = getProfile(i);
         deleteVlanBanda(i);
         Velocidades vDown = null;
@@ -473,7 +473,7 @@ public class ZhoneGponDslam extends DslamGpon {
         }
         createVlanBanda(i, vDown, v);
         
-        return getProfile(i);
+//        return getProfile(i);
     }
 
     @Override

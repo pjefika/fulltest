@@ -22,9 +22,9 @@ public interface AlteracaoClienteInter extends ConsultaClienteInter {
 
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception;
 
-    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception;
+    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception;
     
-    public Profile setProfileUp(InventarioRede i, Velocidades v) throws Exception;
+    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception;
 
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception;
 
