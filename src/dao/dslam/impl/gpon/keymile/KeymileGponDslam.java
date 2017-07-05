@@ -468,8 +468,8 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymile(castProfile(v).getProfileUp());
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymile(castProfile(vUp).getProfileUp());
         List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, getSerialOnt(i), profUpIndex)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);

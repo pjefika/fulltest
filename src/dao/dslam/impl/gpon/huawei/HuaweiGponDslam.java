@@ -103,7 +103,7 @@ public class HuaweiGponDslam  extends DslamGpon {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception {
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

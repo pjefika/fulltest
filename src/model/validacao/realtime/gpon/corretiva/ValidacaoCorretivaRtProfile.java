@@ -33,7 +33,7 @@ public class ValidacaoCorretivaRtProfile extends ValidacaoRtProfile {
             }else{
                 setResultado(Boolean.FALSE);
                 alteracaoGpon.setProfileDown(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()));
-                alteracaoGpon.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelUp().toString()));
+                alteracaoGpon.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()), Velocidades.valueOf("VEL_"+cust.getServicos().getVelUp().toString()));
                 valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
                 if(valid.validar()){
                     setMensagem("A Velocidade estava configurada incorretamente e foi corrigida, aguarde alguns instantes e teste novamente.");

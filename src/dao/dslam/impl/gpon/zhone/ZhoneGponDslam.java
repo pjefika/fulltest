@@ -467,26 +467,16 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        Profile atual = getProfile(i);
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         deleteVlanBanda(i);
-        Velocidades vDown = null;
-        for (Velocidades leV : Velocidades.values()) {
-            if (leV.getVel().equals(atual.getProfileDown())) {
-                vDown = leV;
-                break;
-            }
-        }
-        createVlanBanda(i, vDown, v);
-
-//        return getProfile(i);
+        createVlanBanda(i, vDown, vUp);
     }
 
     @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         p.setProfileDown(v.getVel());
-        Integer leProfUp = new Integer(v.getVel()) * 1000;
+        Integer leProfUp = Math.round(new Float(v.getVel())*1000);
         p.setProfileUp(leProfUp.toString());
         return p;
     }

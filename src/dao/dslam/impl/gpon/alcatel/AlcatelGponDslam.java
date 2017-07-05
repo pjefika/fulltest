@@ -388,8 +388,8 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, v)).getRetorno();
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, vUp)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
         }

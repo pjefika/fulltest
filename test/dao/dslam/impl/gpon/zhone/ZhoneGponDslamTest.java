@@ -8,6 +8,7 @@ package dao.dslam.impl.gpon.zhone;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import com.google.gson.Gson;
+import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -338,8 +339,8 @@ public class ZhoneGponDslamTest {
     public void testSetProfileUp() {
         System.out.println("setProfileUp");
         try {
-//            Profile p = instance.setProfileUp(i, Velocidades.VEL_25600);
-//            assertTrue(p!=null);
+            instance.setProfileUp(i, Velocidades.VEL_25600, Velocidades.VEL_12800);
+            assertTrue(true);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -380,6 +381,27 @@ public class ZhoneGponDslamTest {
         System.out.println(g.toJson(ec));
         assertTrue(ec != null);
 
+    }
+    
+    /**
+     * Test of castProfile method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testCastProfile() {
+        System.out.println("castProfile");
+        try {
+            List<Profile> profiles = new ArrayList<>();
+            for (Velocidades v : Velocidades.values()) {
+                Profile p = instance.castProfile(v);
+                profiles.add(p);
+                System.out.println(v.name() + " Down ->" + p.getProfileDown());
+                System.out.println(v.name() + " Up ->" + p.getProfileUp());
+            }
+            assertEquals(profiles.size(), Velocidades.values().length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
 }
