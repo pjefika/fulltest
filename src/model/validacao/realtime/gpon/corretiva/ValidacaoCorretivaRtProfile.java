@@ -7,7 +7,6 @@ package model.validacao.realtime.gpon.corretiva;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaClienteInter;
-import model.dslam.consulta.Profile;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.ValidacaoProfile;
 import model.validacao.realtime.gpon.ValidacaoRtProfile;
@@ -36,7 +35,7 @@ public class ValidacaoCorretivaRtProfile extends ValidacaoRtProfile {
                 alteracaoGpon.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()), Velocidades.valueOf("VEL_"+cust.getServicos().getVelUp().toString()));
                 valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
                 if(valid.validar()){
-                    setMensagem("A Velocidade estava configurada incorretamente e foi corrigida, aguarde alguns instantes e teste novamente.");
+                    setMensagem("A Velocidade estava configurada incorretamente e foi corrigida, solicite a reinicialização do modem e teste novamente.");
                 }else{
                     setMensagem("Não foi possível corrigir a Velocidade configurada, que está divergente do serviço contratado.");
                 }

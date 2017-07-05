@@ -329,6 +329,10 @@ public class KeymileGponDslam extends DslamGpon {
         }
         return getEstadoDaPorta(i);
     }
+    
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, String intrf, String mode){
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-" + intrf + "/cfgm/macsourcefilteringmode "+mode);
+    }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
@@ -339,6 +343,10 @@ public class KeymileGponDslam extends DslamGpon {
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
         for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "1", "none")).getRetorno();
+        for (String string : leResp1) {
             System.out.println(string);
         }
         return getVlanBanda(i);
@@ -355,6 +363,7 @@ public class KeymileGponDslam extends DslamGpon {
         for (String string : leResp) {
             System.out.println(string);
         }
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "2", "none"));
         return getVlanVoip(i);
     }
 
@@ -369,6 +378,7 @@ public class KeymileGponDslam extends DslamGpon {
         for (String string : leResp) {
             System.out.println(string);
         }
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "3", "none"));
         return getVlanVod(i);
     }
 
@@ -383,6 +393,7 @@ public class KeymileGponDslam extends DslamGpon {
         for (String string : leResp) {
             System.out.println(string);
         }
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
         return getVlanMulticast(i);
     }
 

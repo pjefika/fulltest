@@ -9,7 +9,6 @@ import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.gpon.ValidacaoAssociacaoOnt;
-import model.validacao.realtime.ValidacaoRealtimeGpon;
 
 /**
  *

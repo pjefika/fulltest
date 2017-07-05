@@ -29,8 +29,7 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
             EstadoDaPorta eP = consultaGpon.getEstadoDaPorta(cust.getRede());
             valid = new ValidacaoEstadoPortaAdm(eP);
             if(valid.validar()){
-                setResultado(Boolean.TRUE);
-                setMensagem("Porta já ativada.");
+                merge(valid);
             }else{
                 valid = new ValidacaoEstadoPortaAdm(alteracaoGpon.setEstadoDaPorta(cust.getRede(), eP));
                 if(valid.validar()){
@@ -38,7 +37,7 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
                     setMensagem("A porta estava desativada e foi ativada com sucesso, aguarde alguns instantes e teste novamente.");
                 }else{
                     setResultado(Boolean.FALSE);
-                    setMensagem("Não foi possível alterar o Estado da Porta.");
+                    setMensagem("Não foi possível ativar a Porta.");
                 }
             }
             return valid.getResultado();
