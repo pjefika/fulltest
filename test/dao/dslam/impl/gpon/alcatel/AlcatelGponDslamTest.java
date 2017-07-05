@@ -58,8 +58,8 @@ public class AlcatelGponDslamTest {
     public void tearDown() {
     }
 
-    private static AlcatelGponDslam instance = new AlcatelGponDslam(CustomerMock.gponAlcatel().getRede().getIpDslam());
-
+    private static AlcatelGponDslam instance = new AlcatelGponDslam(CustomerMock.getCustomer("2430282756").getRede().getIpDslam());
+    private static InventarioRede i = CustomerMock.getCustomer("2430282756").getRede();
     /**
      * Test of getTabelaParametros method, of class AlcatelGponDslam.
      */
@@ -227,7 +227,6 @@ public class AlcatelGponDslamTest {
     @Test
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = CustomerMock.gponAlcatel().getRede();
 
         try {
             EstadoDaPorta e = new EstadoDaPorta();

@@ -69,6 +69,7 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
     public Boolean validar() throws Exception {
         valids = new ArrayList<>();
         dataInicio = Calendar.getInstance();
+
         for (Validacao v : bateria) {
             Boolean res;
             try {
@@ -85,10 +86,16 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
                 return false;
             }
         }
-
         dslam.desconectar();
-        mensagem = "Não foram identificados problemas.";
         dataFim = Calendar.getInstance();
+        for (Validacao valid : valids) {
+            if (!valid.getResultado()) {
+                mensagem = valid.getMensagem();
+                return false;
+            }
+        }
+        mensagem = "Não foram identificados problemas.";
+        
         return true;
     }
 

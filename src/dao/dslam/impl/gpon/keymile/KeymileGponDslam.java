@@ -68,6 +68,10 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
         String sernum = TratativaRetornoUtil.tratKeymile(serOnt, "SerialNumber").replace("\"", "");
 
+        if(sernum.contains("ABCD00")){
+            sernum = "";
+        }
+        
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
 

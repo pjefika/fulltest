@@ -112,7 +112,9 @@ public class AlcatelGponDslam extends DslamGpon {
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt(i)));
         String sernum = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']").replace(":", "");
-
+        if(sernum.contains("ALCL00")){
+            sernum = "";
+        }
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
         System.out.println(sernum);
@@ -345,7 +347,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        List<String> oi = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
+        for (String string : oi) {
+            System.out.println(string);
+        }
         return getEstadoDaPorta(i);
     }
 
