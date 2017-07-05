@@ -38,7 +38,7 @@ public class FullTestGponTest {
     public void tearDown() {
     }
 
-    private EfikaCustomer cust = CustomerMock.getCustomer("7932321318");
+    private EfikaCustomer cust = CustomerMock.getCustomer("1630107429");
     
     /**
      * Test of validar method, of class FullTestGpon.

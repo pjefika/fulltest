@@ -15,6 +15,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import model.fulltest.operacional.FullTestCorrectiveGponFacade;
 import model.fulltest.operacional.FullTestGponFacade;
 import model.fulltest.operacional.FullTestInterface;
 import model.fulltest.operacional.LinkGponFacade;
@@ -46,6 +47,21 @@ public class FullTestController {
     public Response link(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new LinkGponFacade(cs);
+            
+            return Response.status(200).entity(v.executar(null)).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
+
+    }
+
+    @POST
+    @Path("/corrective")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corrective(EfikaCustomer cs) throws Exception {
+        try {
+            FullTestInterface v = new FullTestCorrectiveGponFacade(cs);
             
             return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {

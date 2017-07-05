@@ -275,14 +275,20 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
+        String profileDown = "0";
+        String profileUp = "0";
+
         List<String> leProfDowns = this.getCd().consulta(this.getComandoConsultaProfileDown(i)).getRetorno();
         List<String> leProfUps = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
 
         List<String> leProfileUp = TratativaRetornoUtil.tratZhone(leProfUps, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         List<String> leProfileDown = TratativaRetornoUtil.tratZhone(leProfDowns, "bridgeIfEgressPacketRuleGroupIndex", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        try {
+            profileDown = leProfileDown.get(0);
+            profileUp = leProfileUp.get(leProfileUp.size() - 6);
+        } catch (Exception e) {
 
-        String profileDown = leProfileDown.get(0);
-        String profileUp = leProfileUp.get(leProfileUp.size() - 6);
+        }
 
         Profile prof = new Profile();
         prof.setProfileDown(profileDown);
@@ -492,12 +498,12 @@ public class ZhoneGponDslam extends DslamGpon {
     private List<String> getSernum(List<String> listSerial) {
         List<String> leSernums = new ArrayList<>();
         for (String string : listSerial) {
-            
+
             if (string.trim().length() > 5) {
-                System.out.println("oi"+string);
+                System.out.println("oi" + string);
                 String[] leSer = string.split("\\b\\w+\\b");
                 for (String string1 : leSer) {
-                    System.out.println(string1+"lele");
+                    System.out.println(string1 + "lele");
                 }
                 String serNum = leSer[1] + leSer[2];
                 leSernums.add(serNum);
@@ -514,7 +520,7 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> serials = getSernum(leSerns);
         List<SerialOntGpon> leSerialOnt = new ArrayList<>();
         for (String serial : serials) {
-            SerialOntGpon s  = new SerialOntGpon();
+            SerialOntGpon s = new SerialOntGpon();
             s.setSerial(serial);
             leSerialOnt.add(s);
         }
