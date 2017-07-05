@@ -26,10 +26,16 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
     @Override
     public Boolean validar() throws Exception {
         try {
-            valid = new ValidacaoVlanMulticast(consultaGpon.getVlanMulticast(cust.getRede()), cust);
-            valid.validar();
-            this.merge(valid);
-            return valid.getResultado();
+            if (cust.getServicos().getIsHib()) {
+                valid = new ValidacaoVlanMulticast(consultaGpon.getVlanMulticast(cust.getRede()), cust);
+                valid.validar();
+                this.merge(valid);
+            } else {
+                setMensagem("Cliente sem TV Híbrida.");
+                setResultado(Boolean.TRUE);
+            }
+
+            return getResultado();
         } catch (MetodoNaoImplementadoException ex) {
             throw ex;
         } catch (Exception e) {

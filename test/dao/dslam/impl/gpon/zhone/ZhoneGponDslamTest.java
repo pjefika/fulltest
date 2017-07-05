@@ -7,6 +7,7 @@ package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import com.google.gson.Gson;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -365,7 +366,7 @@ public class ZhoneGponDslamTest {
 
     @Test
     public void testC() {
-        EfikaCustomer ec = CustomerMock.getCustomer("1630107429");
+        EfikaCustomer ec = CustomerMock.getCustomer("7932321318");
         System.out.println(ec.getRede().getVendorDslam());
         System.out.println(ec.getRede().getModeloDslam());
         System.out.println(ec.getRede().getIpDslam());
@@ -375,6 +376,8 @@ public class ZhoneGponDslamTest {
         System.out.println(ec.getRede().getCvLan());
         System.out.println(ec.getServicos().getVelDown());
         System.out.println(ec.getServicos().getVelUp());
+        Gson g = new Gson();
+        System.out.println(g.toJson(ec));
         assertTrue(ec != null);
 
     }

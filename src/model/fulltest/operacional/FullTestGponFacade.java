@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
 import model.validacao.Validator;
+import model.validacao.realtime.gpon.ValidacaoRtAlarmes;
 import model.validacao.realtime.gpon.ValidacaoRtDeviceMAC;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
@@ -55,6 +56,7 @@ public class FullTestGponFacade extends FullTestFacade implements FullTestInterf
         bateria.add(new ValidacaoRtSerialOntGpon(dslam, cl));
         bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
         bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
+//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
         bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
         bateria.add(new ValidacaoRtProfile(dslam, cl));
         bateria.add(new ValidacaoRtVlanBanda(dslam, cl));
@@ -62,6 +64,7 @@ public class FullTestGponFacade extends FullTestFacade implements FullTestInterf
         bateria.add(new ValidacaoRtVlanVod(dslam, cl));
         bateria.add(new ValidacaoRtVlanMulticast(dslam, cl));
         bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
+        
     }
 
     @Override

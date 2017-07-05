@@ -159,7 +159,7 @@ public class ZhoneGponDslam extends DslamGpon {
                 }
             }
         }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, EnumEstadoVlan.UP);
 
         System.out.println(vlanBanda.getCvlan());
         System.out.println(vlanBanda.getSvlan());
@@ -188,7 +188,7 @@ public class ZhoneGponDslam extends DslamGpon {
                 }
             }
         }
-        VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
+        VlanVoip vlanVoip = new VlanVoip(p100, cvlan, EnumEstadoVlan.UP);
 
         System.out.println(vlanVoip.getCvlan());
         System.out.println(vlanVoip.getSvlan());
@@ -217,7 +217,7 @@ public class ZhoneGponDslam extends DslamGpon {
             }
         }
 
-        VlanVod vlanVod = new VlanVod(p100, cvlan, state);
+        VlanVod vlanVod = new VlanVod(p100, cvlan, EnumEstadoVlan.UP);
 
         System.out.println(vlanVod.getCvlan());
         System.out.println(vlanVod.getSvlan());

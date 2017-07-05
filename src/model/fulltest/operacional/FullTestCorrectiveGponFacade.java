@@ -15,10 +15,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
+import model.validacao.realtime.gpon.ValidacaoRtDeviceMAC;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
 import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
+import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
 import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtEstadoAdmPorta;
 import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtProfile;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanBanda;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanMulticast;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanVod;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanVoip;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -45,10 +51,18 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
     @Override
     protected void preparaBateria() {
         bateria = new ArrayList<>();
+        bateria.add(new ValidacaoRtSerialOntGpon(dslam, cl));
         bateria.add(new ValidacaoCorretivaRtEstadoAdmPorta(dslam, cl));
         bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
+//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
         bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
         bateria.add(new ValidacaoCorretivaRtProfile(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanBanda(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanVoip(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanVod(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanMulticast(dslam, cl));
+        bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
+
     }
 
     @Override
@@ -66,14 +80,14 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
 
             if (!res) {
                 dslam.desconectar();
-                mensagem = valids.get(valids.size()-1).getMensagem();
+                mensagem = valids.get(valids.size() - 1).getMensagem();
                 dataFim = Calendar.getInstance();
                 return false;
             }
         }
 
         dslam.desconectar();
-        mensagem = "Mensagem Positiva";
+        mensagem = "Não foram identificados problemas.";
         dataFim = Calendar.getInstance();
         return true;
     }
