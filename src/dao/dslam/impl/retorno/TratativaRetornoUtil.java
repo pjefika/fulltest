@@ -20,6 +20,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -134,7 +135,7 @@ public class TratativaRetornoUtil {
         return count;
     }
 
-    public static String upProfileNameKeymile(Integer profIndex) {
+    public static String upProfileNameKeymileGpon(Integer profIndex) {
 
         String prf = "";
 
@@ -185,7 +186,7 @@ public class TratativaRetornoUtil {
         return prf;
     }
 
-    public static String upProfileIdKeymile(String profName) {
+    public static String upProfileIdKeymileGpon(String profName) {
 
         Integer prfIndex = null;
 
@@ -234,6 +235,44 @@ public class TratativaRetornoUtil {
         }
 
         return prfIndex.toString();
+    }
+    
+    public static List<Double> velocidadeMinima(Velocidades v){
+        List<Double> l = new ArrayList<>();
+        switch(v.getVel()){
+            case "3":
+                l.add(3072d);
+                l.add(750d);
+                break;
+            case "5":
+                l.add(5120d);
+                l.add(750d);
+                break;
+            case "10":
+                l.add(11742d);
+                l.add(1024d);
+                break;
+            case "15":
+                l.add(17503d);
+                l.add(1024d);
+                break;
+            case "25":
+                l.add(26680d);
+                l.add(2344d);
+                break;
+            case "35":
+                l.add(37000d);
+                l.add(3600d);
+                break;
+            case "50":
+                l.add(51200d);
+                l.add(5120d);
+                break;
+            default:
+                break;
+        }
+        return l;
+        
     }
 
 }

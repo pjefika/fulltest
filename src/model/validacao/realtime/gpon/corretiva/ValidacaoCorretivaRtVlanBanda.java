@@ -33,9 +33,9 @@ public class ValidacaoCorretivaRtVlanBanda extends ValidacaoRtVlanBanda {
                 setResultado(Boolean.FALSE);
                 alteracaoGpon.deleteVlanBanda(cust.getRede());
                 valid = new ValidacaoVlanBanda(alteracaoGpon.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
-                if(valid.validar()){
-                    setMensagem("Vlan de Banda estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e teste novamente.");
-                }else{
+                if (valid.validar()) {
+                    setMensagem("Vlan de Banda estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e execute o teste novamente.");
+                } else {
                     setMensagem("Não foi possível corrigir o Vlan de Banda.");
                 }
             }

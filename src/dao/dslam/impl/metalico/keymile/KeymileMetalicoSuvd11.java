@@ -5,6 +5,10 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
+import model.dslam.consulta.Profile;
+import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.velocidade.Velocidades;
+
 /**
  *
  */
@@ -12,6 +16,16 @@ public class KeymileMetalicoSuvd11 extends KeymileMetalicoSuvdDslam {
 
     public KeymileMetalicoSuvd11(String ipDslam) {
         super(ipDslam);
+    }
+
+    @Override
+    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

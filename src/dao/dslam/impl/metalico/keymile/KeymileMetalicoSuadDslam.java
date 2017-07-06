@@ -17,12 +17,13 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
  * @author G0042204
  */
-public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
+public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     public KeymileMetalicoSuadDslam(String ipDslam) {
         super(ipDslam);
@@ -179,4 +180,6 @@ public class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile");
     }
+
+   
 }

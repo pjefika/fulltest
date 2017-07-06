@@ -276,7 +276,7 @@ public class KeymileGponDslam extends DslamGpon {
     public Profile getProfile(InventarioRede i) throws Exception {
         List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
         String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
-        String profileUp = TratativaRetornoUtil.upProfileNameKeymile(new Integer(profUpIndex));
+        String profileUp = TratativaRetornoUtil.upProfileNameKeymileGpon(new Integer(profUpIndex));
 
         List<String> profileDownResp = this.getCd().consulta(this.getComandoConsultaProfileDown(i)).getRetorno();
         String profileDown = TratativaRetornoUtil.tratKeymile(profileDownResp, "Name", 2);
@@ -484,7 +484,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymile(castProfile(vUp).getProfileUp());
+        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymileGpon(castProfile(vUp).getProfileUp());
         List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, getSerialOnt(i), profUpIndex)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);

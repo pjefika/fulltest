@@ -34,7 +34,7 @@ public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRtVlanVoip {
                 alteracaoGpon.deleteVlanVoip(cust.getRede());
                 valid = new ValidacaoVlanVoip(alteracaoGpon.createVlanVoip(cust.getRede()), cust);
                 if(valid.validar()){
-                    setMensagem("Vlan de VoIP estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e teste novamente.");
+                    setMensagem("Vlan de VoIP estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e execute o teste novamente.");
                 }else{
                     setMensagem("Não foi possível corrigir o Vlan de VoIP.");
                 }

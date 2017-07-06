@@ -22,6 +22,7 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -181,5 +182,15 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     protected ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get vdsl-config 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
+    }
+
+    @Override
+    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

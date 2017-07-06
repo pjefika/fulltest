@@ -34,7 +34,7 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
                 valid = new ValidacaoEstadoPortaAdm(alteracaoGpon.setEstadoDaPorta(cust.getRede(), eP));
                 if(valid.validar()){
                     setResultado(Boolean.FALSE);
-                    setMensagem("A porta estava desativada e foi ativada com sucesso, aguarde alguns instantes e teste novamente.");
+                    setMensagem("A porta estava desativada e foi ativada com sucesso, aguarde alguns instantes e execute o teste novamente.");
                 }else{
                     setResultado(Boolean.FALSE);
                     setMensagem("Não foi possível ativar a Porta.");

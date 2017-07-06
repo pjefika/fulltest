@@ -94,7 +94,7 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
                 return false;
             }
         }
-        mensagem = "Não foram identificados problemas.";
+        mensagem = "Não foram identificados problemas de configuração.";
         
         return true;
     }

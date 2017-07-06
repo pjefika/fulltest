@@ -12,16 +12,21 @@ import model.dslam.consulta.metalico.TabelaParametrosMetalico;
  *
  * @author G0042204
  */
-public abstract class ValidacaoParametros extends Validacao {
+public class ValidacaoParametrosMetalico extends Validacao {
 
-    protected TabelaParametrosMetalico t;
+    protected transient TabelaParametrosMetalico t;
 
-    protected transient AbstractDslam ds;
-
-    public ValidacaoParametros(TabelaParametrosMetalico tab, AbstractDslam dsl) {
+    public ValidacaoParametrosMetalico(TabelaParametrosMetalico tab, AbstractDslam dsl) {
         super("Parâmetros de Sincronismo");
         this.t = tab;
-        this.ds = dsl;
+    }
+
+    @Override
+    public Boolean validar() throws Exception {
+        
+        
+        
+        return false;
     }
 
 }

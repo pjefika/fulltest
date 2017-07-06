@@ -5,15 +5,15 @@
  */
 package model.dslam.consulta.metalico;
 
-import model.dslam.consulta.TabelaParamAbstract;
-
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosMetalico extends TabelaParamAbstract {
+public class TabelaParametrosMetalico {
 
     private Double snrDown, snrUp, atnDown, atnUp;
+
+    private Double velSincDown, velSincUp, velMaxDown, velMaxUp;
 
     public TabelaParametrosMetalico() {
     }
@@ -22,8 +22,39 @@ public class TabelaParametrosMetalico extends TabelaParamAbstract {
         return this.snrDown >= t.getSnrDown()
                 && this.snrUp >= t.getSnrUp()
                 && this.atnDown >= t.getAtnDown()
-                && this.atnUp >= t.getAtnUp()
-                && super.validar(t);
+                && this.atnUp >= t.getAtnUp();
+    }
+
+    public Double getVelSincDown() {
+        return velSincDown;
+    }
+
+    public void setVelSincDown(Double velSincDown) {
+        this.velSincDown = velSincDown;
+    }
+
+    public Double getVelSincUp() {
+        return velSincUp;
+    }
+
+    public void setVelSincUp(Double velSincUp) {
+        this.velSincUp = velSincUp;
+    }
+
+    public Double getVelMaxDown() {
+        return velMaxDown;
+    }
+
+    public void setVelMaxDown(Double velMaxDown) {
+        this.velMaxDown = velMaxDown;
+    }
+
+    public Double getVelMaxUp() {
+        return velMaxUp;
+    }
+
+    public void setVelMaxUp(Double velMaxUp) {
+        this.velMaxUp = velMaxUp;
     }
 
     public Double getSnrDown() {

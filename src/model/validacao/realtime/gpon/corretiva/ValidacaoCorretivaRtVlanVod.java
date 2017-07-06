@@ -34,7 +34,7 @@ public class ValidacaoCorretivaRtVlanVod extends ValidacaoRtVlanVod {
                     alteracaoGpon.deleteVlanVod(cust.getRede());
                     valid = new ValidacaoVlanVod(alteracaoGpon.createVlanVod(cust.getRede()), cust);
                     if (valid.validar()) {
-                        setMensagem("Vlan de VoD estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e teste novamente.");
+                        setMensagem("Vlan de VoD estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e execute o teste novamente.");
                     } else {
                         setMensagem("Não foi possível corrigir o Vlan de VoD.");
                     }
