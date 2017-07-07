@@ -24,7 +24,7 @@ public class ValidacaoAssociacaoOnt extends Validacao {
     @Override
     public Boolean validar() {
         if (serial.getSerial().isEmpty()) {
-            this.setMensagem("ONT não associada.");
+            this.setMensagem("Não foi identificado serial Gpon associado. Solicite o serial para o cliente e configure no Wise Tool(somente letras maiúsculas, ex.:MSTC010101).");
             this.setResultado(Boolean.FALSE);
             return true;
         } else {

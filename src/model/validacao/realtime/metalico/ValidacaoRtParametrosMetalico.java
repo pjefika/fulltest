@@ -7,6 +7,7 @@ package model.validacao.realtime.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import model.dslam.velocidade.Velocidades;
 import model.validacao.ValidacaoParametrosMetalico;
 import model.validacao.realtime.ValidacaoRealtimeMetalico;
 
@@ -24,14 +25,15 @@ public class ValidacaoRtParametrosMetalico extends ValidacaoRealtimeMetalico {
 
     @Override
     public Boolean validar() {
-//        try {
-//            valid = new ValidacaoParametrosMetalico(consultaMetalico.getTabelaParametros(cust.getRede()));
-//            valid.validar();
-//            this.merge(valid);
-//            return valid.getResultado();
-//        } catch (Exception e) {
+        try {
+            valid = new ValidacaoParametrosMetalico(consultaMetalico.getTabelaParametros(cust.getRede()), consultaMetalico.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown())));
+            valid.validar();
+            this.merge(valid);
+            return valid.getResultado();
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
-//        }
+        }
 
     }
 

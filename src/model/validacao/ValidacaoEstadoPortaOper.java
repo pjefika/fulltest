@@ -23,7 +23,7 @@ public class ValidacaoEstadoPortaOper extends Validacao {
     @Override
     public Boolean validar() {
         if (!estadoPorta.getOperState().equalsIgnoreCase("UP")) {
-            this.setMensagem("Sem sincronismo.");
+            this.setMensagem("Identificado que o modem está sem sincronismo, certifique-se com o cliente se está ligado e com os cabos conectados. Se sim, solicite ao cliente que reinicialize o modem e teste novamente.");
             this.setResultado(Boolean.FALSE);
             return false;
         } else {

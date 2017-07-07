@@ -9,7 +9,6 @@ import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoVlanVoip;
-import model.validacao.realtime.ValidacaoRealtimeGpon;
 
 /**
  *
@@ -34,9 +33,9 @@ public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRtVlanVoip {
                 alteracaoGpon.deleteVlanVoip(cust.getRede());
                 valid = new ValidacaoVlanVoip(alteracaoGpon.createVlanVoip(cust.getRede()), cust);
                 if(valid.validar()){
-                    setMensagem("Vlan de VoIP estava configurado incorretamente e foi corrigido, solicite a reinicialização do modem e execute o teste novamente.");
+                    setMensagem("Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.");
                 }else{
-                    setMensagem("Não foi possível corrigir o Vlan de VoIP.");
+                    setMensagem("Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
             return valid.getResultado();

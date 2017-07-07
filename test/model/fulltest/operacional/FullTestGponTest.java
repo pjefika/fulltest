@@ -97,5 +97,33 @@ public class FullTestGponTest {
 
         // TODO review the generated test code and remove the default call to fail.
     }
+    
+    /**
+     * Test of validar method, of class FullTestGpon.
+     */
+    @Test
+    public void testValidarMetalico() {
+
+        try {
+
+            FullTestMetalicoFacade instance = new FullTestMetalicoFacade(CustomerMock.getCustomer("4130222839"));
+
+            Boolean expResult = true;
+            Boolean result = instance.validar();
+
+            instance.getValids().forEach((valid) -> {
+                System.out.println("Nome: " + valid.getNome() + " "
+                        + "|  Resultado: " + valid.getResultado() + " "
+                        + "|  Mensagem: " + valid.getMensagem());
+            });
+
+            assertEquals(expResult, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("The test case is a prototype.");
+        }
+
+        // TODO review the generated test code and remove the default call to fail.
+    }
 
 }

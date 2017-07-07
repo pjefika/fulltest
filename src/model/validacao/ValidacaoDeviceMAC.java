@@ -32,7 +32,7 @@ public class ValidacaoDeviceMAC extends Validacao {
             setResultado(Boolean.TRUE);
             return true;
         }
-        setMensagem("Não identificado MAC.");
+        setMensagem("Não identificado MAC do modem, solicite ao cliente que reinicialize o equipamento e execute o teste novamente.");
         setResultado(Boolean.FALSE);
         return false;
     }

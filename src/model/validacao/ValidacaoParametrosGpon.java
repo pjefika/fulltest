@@ -23,13 +23,13 @@ public class ValidacaoParametrosGpon extends Validacao {
     @Override
     public Boolean validar() {
 
-        if (t.getPotOlt().compareTo(new Double("-8")) <= 0 && t.getPotOlt().compareTo(new Double("-25")) >= 0
-                && t.getPotOnt().compareTo(new Double("-8")) <= 0 && t.getPotOnt().compareTo(new Double("-25")) >= 0) {
-            setMensagem("Parâmetros dentro do padrão (entre -8 e -25).");
+        if (t.getPotOlt().compareTo(new Double("-8")) <= 0 && t.getPotOlt().compareTo(new Double("-30")) >= 0
+                && t.getPotOnt().compareTo(new Double("-8")) <= 0 && t.getPotOnt().compareTo(new Double("-30")) >= 0) {
+            setMensagem("Parâmetros dentro do padrão (entre -8 e -30).");
             setResultado(Boolean.TRUE);
             return true;
         } else {
-            setMensagem("Parâmetros fora do padrão (entre -8 e -25). Pot. OLT: " + t.getPotOlt() + ". Pot. ONT: " + t.getPotOnt());
+            setMensagem("Parâmetros fora do padrão (entre -8 e -30). Pot. OLT: " + t.getPotOlt() + ". Pot. ONT: " + t.getPotOnt()+" Seguir o fluxo com o problema/sintoma informado pelo cliente.");
             setResultado(Boolean.FALSE);
             return false;
         }

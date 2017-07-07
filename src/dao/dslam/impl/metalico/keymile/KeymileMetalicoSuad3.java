@@ -6,7 +6,6 @@
 package dao.dslam.impl.metalico.keymile;
 
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import model.dslam.consulta.Profile;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.velocidade.Velocidades;
 
@@ -23,7 +22,7 @@ public class KeymileMetalicoSuad3 extends KeymileMetalicoSuadDslam{
     @Override
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
         TabelaParametrosMetalico t = new TabelaParametrosMetalico();
-        t.setSnrDown(1d);
+        t.setSnrDown(6d);
         t.setSnrUp(5d);
         t.setAtnDown(1d);
         t.setAtnUp(2d);
@@ -33,11 +32,4 @@ public class KeymileMetalicoSuad3 extends KeymileMetalicoSuadDslam{
         return t;
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
-        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD3");
-        return p;
-    }
 }

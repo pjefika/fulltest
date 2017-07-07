@@ -6,7 +6,6 @@
 package dao.dslam.impl.metalico.keymile;
 
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import model.dslam.consulta.Profile;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.velocidade.Velocidades;
 
@@ -31,13 +30,5 @@ public class KeymileMetalicoSuad1 extends KeymileMetalicoSuadDslam{
         t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
         
         return t;
-    }
-
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
-        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
-        return p;
     }
 }

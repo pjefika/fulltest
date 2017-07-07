@@ -35,9 +35,9 @@ public class ValidacaoCorretivaRtProfile extends ValidacaoRtProfile {
                 alteracaoGpon.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()), Velocidades.valueOf("VEL_"+cust.getServicos().getVelUp().toString()));
                 valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
                 if(valid.validar()){
-                    setMensagem("A Velocidade estava configurada incorretamente e foi corrigida, solicite a reinicialização do modem e execute o teste novamente.");
+                    setMensagem("Profile corrigido, solicite ao cliente que efetue um teste de velocidade.");
                 }else{
-                    setMensagem("Não foi possível corrigir a Velocidade configurada, que está divergente do serviço contratado.");
+                    setMensagem("Não foi possível corrigir o Profile, que está divergente do serviço contratado. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
             return valid.getResultado();

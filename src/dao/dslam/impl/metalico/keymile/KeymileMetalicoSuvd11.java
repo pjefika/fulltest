@@ -7,6 +7,7 @@ package dao.dslam.impl.metalico.keymile;
 
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -20,7 +21,7 @@ public class KeymileMetalicoSuvd11 extends KeymileMetalicoSuvdDslam {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new TabelaParametrosMetalicoVdsl();
     }
 
     @Override

@@ -181,5 +181,13 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile");
     }
 
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
+        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
+        return p;
+    }
+
    
 }

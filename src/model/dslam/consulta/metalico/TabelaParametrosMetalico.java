@@ -9,7 +9,7 @@ package model.dslam.consulta.metalico;
  *
  * @author G0042204
  */
-public class TabelaParametrosMetalico {
+public class TabelaParametrosMetalico extends TabelaParametrosAbstract{
 
     private Double snrDown, snrUp, atnDown, atnUp;
 
@@ -21,6 +21,8 @@ public class TabelaParametrosMetalico {
     public Boolean validar(TabelaParametrosMetalico t) {
         return this.snrDown >= t.getSnrDown()
                 && this.snrUp >= t.getSnrUp()
+                && this.velSincDown >= t.getVelSincDown()
+                && this.velSincUp >= t.getVelSincUp()
                 && this.atnDown >= t.getAtnDown()
                 && this.atnUp >= t.getAtnUp();
     }
