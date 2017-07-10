@@ -64,7 +64,7 @@ public class FullTestGponFacade extends FullTestFacade implements FullTestInterf
         bateria.add(new ValidacaoRtVlanVod(dslam, cl));
         bateria.add(new ValidacaoRtVlanMulticast(dslam, cl));
         bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
-        
+
     }
 
     @Override
