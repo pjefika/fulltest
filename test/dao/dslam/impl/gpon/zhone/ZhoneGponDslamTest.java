@@ -368,7 +368,7 @@ public class ZhoneGponDslamTest {
     @Test
     public void testC() {
         //1630144309
-        EfikaCustomer ec = CustomerMock.getCustomer("2430254485");
+        EfikaCustomer ec = CustomerMock.getCustomer("2135563108");
         System.out.println(ec.getRede().getVendorDslam());
         System.out.println(ec.getRede().getModeloDslam());
         System.out.println(ec.getRede().getIpDslam());

@@ -7,7 +7,6 @@ package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;

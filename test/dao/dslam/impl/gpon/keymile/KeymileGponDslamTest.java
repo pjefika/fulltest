@@ -53,8 +53,8 @@ public class KeymileGponDslamTest {
         instance.desconectar();
     }
 
-    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.getCustomer("5130585760").getRede().getIpDslam());
-    InventarioRede i = CustomerMock.getCustomer("5130585760").getRede();
+    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.getCustomer("5131100861").getRede().getIpDslam());
+    InventarioRede i = CustomerMock.getCustomer("5131100861").getRede();
 
     /**
      * Test of getTabelaParametros method, of class KeymileGponDslam.
@@ -214,9 +214,9 @@ public class KeymileGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("MSTC25E8AB61");
+            s.setSerial("PACED8A7CD4B");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("MSTC25E8AB61"));
+            assertTrue(result.getSerial().equalsIgnoreCase("PACED8A7CD4B"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
