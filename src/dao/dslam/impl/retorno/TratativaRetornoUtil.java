@@ -32,6 +32,7 @@ import org.xml.sax.SAXException;
 public class TratativaRetornoUtil {
 
     private static Document convertStringToDocument(String xmlStr) {
+        System.out.println(xmlStr);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {
@@ -50,6 +51,13 @@ public class TratativaRetornoUtil {
         return convertStringToDocument(cd.getBlob().substring(xmlBegins));
     }
 
+    public static Document stringXmlConfigData(ComandoDslam cd) {
+        Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
+        String search = "</configuration-data>";
+        Integer xmlEnd = cd.getBlob().indexOf(search) + search.length();
+        return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnd));
+    }
+
     public static String getXmlParam(Document xml, String query) {
         try {
             XPathFactory xpathFactory = XPathFactory.newInstance();
@@ -61,12 +69,12 @@ public class TratativaRetornoUtil {
         }
 
     }
-    
-    public static List<String> linhasAbaixo(List<String> list, String qqqro){
+
+    public static List<String> linhasAbaixo(List<String> list, String qqqro) {
         List<String> leList = new ArrayList<>();
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i).contains(qqqro)){
-                leList.add(list.get(i+2));
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).contains(qqqro)) {
+                leList.add(list.get(i + 2));
             }
         }
         return leList;
@@ -128,7 +136,7 @@ public class TratativaRetornoUtil {
     public static Integer countStringOccurrence(List<String> list, String qqqro) {
         Integer count = 0;
         for (String string : list) {
-            if(string.contains(qqqro)){
+            if (string.contains(qqqro)) {
                 count++;
             }
         }
@@ -236,10 +244,10 @@ public class TratativaRetornoUtil {
 
         return prfIndex.toString();
     }
-    
-    public static List<Double> velocidadeMinima(Velocidades v){
+
+    public static List<Double> velocidadeMinima(Velocidades v) {
         List<Double> l = new ArrayList<>();
-        switch(v.getVel()){
+        switch (v.getVel()) {
             case "3":
                 l.add(3072d);
                 l.add(750d);
@@ -272,7 +280,7 @@ public class TratativaRetornoUtil {
                 break;
         }
         return l;
-        
+
     }
 
 }

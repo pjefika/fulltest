@@ -7,6 +7,7 @@ package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
+import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -110,9 +111,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt(i)));
+        ComandoDslam cd = this.getCd().consulta(this.getComandoSerialOnt(i));
+        Document xml = TratativaRetornoUtil.stringXmlConfigData(cd);
         String sernum = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']").replace(":", "");
-        if(sernum.contains("ALCL00")){
+        if (sernum.contains("ALCL00")) {
             sernum = "";
         }
         SerialOntGpon ont = new SerialOntGpon();
@@ -546,5 +548,5 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         return serialList;
     }
-   
+
 }
