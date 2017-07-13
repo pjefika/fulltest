@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -18,6 +19,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -184,6 +186,88 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return m;
     }
 
+    @Override
+    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        String leSet = getCd().consulta(getComandoSetProfileDefault(i, v)).getBlob();
+        List<String> leResp = new ArrayList<>();
+        if (leSet.contains("previously")) {
+            leSet = getCd().consulta(getComandoSetProfileSeco(i, v)).getBlob();
+            if (leSet.contains("previously")) {
+                leResp = getCd().consulta(getComandoSetProfileSUVD1(i, v)).getRetorno();
+            } else {
+                String[] parser = leSet.split("\n");
+                for (String string : parser) {
+                    leResp.add(string);
+                }
+            }
+        } else {
+            String[] parser = leSet.split("\n");
+            for (String string : parser) {
+                leResp.add(string);
+            }
+        }
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        setProfileDown(i, vUp);
+    }
+    
+    @Override
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVod createVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanBanda(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown());
+    }
+
+    protected ComandoDslam getComandoSetProfileSeco(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileUp());
+    }
+
+    protected ComandoDslam getComandoSetProfileSUVD1(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileUp() + "_SUVD1");
+    }
+
     public ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles");
     }
@@ -214,5 +298,13 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getProf(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile");
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+//        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
+//        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
+        return p;
     }
 }

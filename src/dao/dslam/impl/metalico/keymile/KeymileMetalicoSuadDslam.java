@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -145,39 +146,114 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return m;
     }
 
-    public ComandoDslam getVelSinc(InventarioRede i) {
+    @Override
+    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        String leSet = getCd().consulta(getComandoSetProfileSUAD1(i, v)).getBlob();
+        List<String> leResp = new ArrayList<>();
+        if (leSet.contains("previously")) {
+            leResp = getCd().consulta(getComandoSetProfileDefault(i, v)).getRetorno();
+        } else {
+            String[] parser = leSet.split("\n");
+            for (String string : parser) {
+                leResp.add(string);
+            }
+        }
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        setProfileDown(i, vUp);
+    }
+
+    @Override
+    public Modulacao setModulacao(InventarioRede i, Modulacao m) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanVod createVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanBanda(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVoip(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanVod(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileDown());
+    }
+
+    protected ComandoDslam getComandoSetProfileSUAD1(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileUp());
+    }
+
+    protected ComandoDslam getVelSinc(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/status/status");
     }
 
-    public ComandoDslam getAtn(InventarioRede i) {
+    protected ComandoDslam getAtn(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/attenuation");
     }
 
-    public ComandoDslam getSnr(InventarioRede i) {
+    protected ComandoDslam getSnr(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/snrmargin");
     }
 
-    public ComandoDslam getSrvcBanda(InventarioRede i) {
+    protected ComandoDslam getSrvcBanda(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcVoip(InventarioRede i) {
+    protected ComandoDslam getSrvcVoip(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-2/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcVod(InventarioRede i) {
+    protected ComandoDslam getSrvcVod(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-3/status/servicestatus");
     }
 
-    public ComandoDslam getSrvcMult(InventarioRede i) {
+    protected ComandoDslam getSrvcMult(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-4/status/ServiceStatus");
     }
 
-    public ComandoDslam getProf(InventarioRede i) {
+    protected ComandoDslam getProf(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename");
     }
 
-    public ComandoDslam getModul(InventarioRede i) {
+    protected ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile");
     }
 
@@ -189,5 +265,4 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return p;
     }
 
-   
 }

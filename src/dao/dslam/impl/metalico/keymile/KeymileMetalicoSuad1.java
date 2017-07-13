@@ -5,7 +5,14 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanMulticast;
+import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.velocidade.Velocidades;
 
@@ -31,4 +38,6 @@ public class KeymileMetalicoSuad1 extends KeymileMetalicoSuadDslam{
         
         return t;
     }
+
+    
 }

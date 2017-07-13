@@ -18,7 +18,7 @@ import model.dslam.credencial.Credencial;
  */
 public abstract class DslamMetalico extends AbstractDslam
         implements
-        ConsultaMetalicoDefault, ProfileCasterInterface {
+        ConsultaMetalicoDefault, ProfileCasterInterface, AlteracaoMetalicoDefault {
 
     public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
