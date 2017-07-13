@@ -5,6 +5,9 @@
  */
 package model.fulltest.operacional;
 
+import model.entity.FulltestGenericEntity;
+import util.GsonUtil;
+
 /**
  *
  * @author G0041775
@@ -20,7 +23,18 @@ public class FullTestAdapter {
         ft.setValids(ff.valids);
         ft.setMensagem(ff.mensagem);
         ft.setResultado(ff.resultado);
-        
+
         return ft;
     }
+
+    public static FulltestGenericEntity adapter(FullTest f) {
+        return new FulltestGenericEntity(
+                GsonUtil.serialize(f.getCl()),
+                GsonUtil.serialize(f.getValids()),
+                f.getResultado(),
+                f.getDataInicio(),
+                f.getDataFim(),
+                f.getMensagem());
+    }
+
 }

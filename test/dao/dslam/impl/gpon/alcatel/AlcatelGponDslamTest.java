@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,15 +34,20 @@ import static org.junit.Assert.*;
  */
 public class AlcatelGponDslamTest {
 
+    /**
+     * 2430282756 - Ready | 5137240278 - Falha Leitura
+     */
+    private static EfikaCustomer cust = CustomerMock.getCustomer("2430282756");
+    private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
+    private static InventarioRede i = cust.getRede();
+
     public AlcatelGponDslamTest() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-//        try {
-//            Thread.sleep(5000);
-//        } catch (Exception e) {
-//        }
+        instance.conectar();
+
     }
 
     @AfterClass
@@ -58,15 +64,12 @@ public class AlcatelGponDslamTest {
     public void tearDown() {
     }
 
-    private static AlcatelGponDslam instance = new AlcatelGponDslam(CustomerMock.getCustomer("2430282756").getRede().getIpDslam());
-    private static InventarioRede i = CustomerMock.getCustomer("2430282756").getRede();
     /**
      * Test of getTabelaParametros method, of class AlcatelGponDslam.
      */
     @Test
     public void testGetTabelaParametros() {
         System.out.println("getTabelaParametros");
-        InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             TabelaParametrosGpon result = instance.getTabelaParametros(i);
             assertTrue(result.getPotOlt() != null);
@@ -84,10 +87,10 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetSerialOnt() {
         System.out.println("getSerialOnt");
-        InventarioRede i = CustomerMock.gponAlcatel().getRede();
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
             assertTrue(result.getSerial() != null);
+            System.out.println("");
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -451,7 +454,7 @@ public class AlcatelGponDslamTest {
             for (SerialOntGpon serialOntGpon : result) {
                 System.out.println(serialOntGpon.getSerial());
             }
-            assertTrue(result!=null);
+            assertTrue(result != null);
         } catch (Exception e) {
             fail(e.getMessage());
         }

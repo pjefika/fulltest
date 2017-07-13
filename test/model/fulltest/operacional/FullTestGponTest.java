@@ -39,7 +39,7 @@ public class FullTestGponTest {
     }
 
     private EfikaCustomer cust = CustomerMock.getCustomer("1630107429");
-    
+
     /**
      * Test of validar method, of class FullTestGpon.
      */
@@ -47,8 +47,8 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-//zhone - 1630103256
-//2135562376
+            //zhone - 1630103256
+            //2135562376
             FullTestGponFacade instance = new FullTestGponFacade(cust);
 //            FullTestGponFacade instance = new FullTestCorrectiveGponFacade(CustomerMock.getCustomer("7932321318"));
             Boolean expResult = true;
@@ -97,7 +97,7 @@ public class FullTestGponTest {
 
         // TODO review the generated test code and remove the default call to fail.
     }
-    
+
     /**
      * Test of validar method, of class FullTestGpon.
      */
