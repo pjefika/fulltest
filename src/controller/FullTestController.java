@@ -7,6 +7,7 @@ package controller;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.customer.CustomerDAO;
+import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,19 +26,21 @@ import model.fulltest.operacional.LinkGponFacade;
  * @author G0042204
  */
 @Path("/fulltest")
-public class FullTestController {
+public class FullTestController extends RestJaxAbstract{
 
     @POST
     @Path("/fulltest")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response fulltest(EfikaCustomer cs) throws Exception {
+        Response r;
         try {
             FullTestInterface v = new FullTestGponFacade(cs);
-            return Response.status(200).entity(v.executar(null)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            r = ok(v);
+        } catch (DslamNaoImplException e) {
+            r = serverError(e);
         }
+        return r;
     }
 
     @POST
@@ -47,7 +50,6 @@ public class FullTestController {
     public Response link(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new LinkGponFacade(cs);
-            
             return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
@@ -62,7 +64,6 @@ public class FullTestController {
     public Response corrective(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new FullTestCorrectiveGponFacade(cs);
-            
             return Response.status(200).entity(v.executar(null)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();

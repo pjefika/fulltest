@@ -12,7 +12,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
         </properties>
     </persistence-unit>
-<!--    <persistence-unit name="fulltestAPIPU" transaction-type="RESOURCE_LOCAL">
+    <!--    <persistence-unit name="fulltestAPIPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>model.entity.crm.LogCrm</class>
         <class>model.entity.FulltestGenericEntity</class>
