@@ -21,7 +21,7 @@ import model.entity.AbstractEntity;
  * @author G0042204
  */
 @Entity
-@Table(name = "FULLTESTAPI_LOG_CRM")
+@Table(name = "FULLTESTAPI_CRM")
 public class LogCrm extends AbstractEntity {
 
     @NotNull(message = "Campo obrigatório")
@@ -34,6 +34,10 @@ public class LogCrm extends AbstractEntity {
     @Lob
     @Column(length = 255555)
     private String customer;
+
+    @Lob
+    @Column(length = 255555)
+    private String valids;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar datahora = Calendar.getInstance();
@@ -116,6 +120,14 @@ public class LogCrm extends AbstractEntity {
 
     public void setDatahora(Calendar datahora) {
         this.datahora = datahora;
+    }
+
+    public String getValids() {
+        return valids;
+    }
+
+    public void setValids(String valids) {
+        this.valids = valids;
     }
 
 }
