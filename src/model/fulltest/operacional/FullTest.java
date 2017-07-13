@@ -6,38 +6,22 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.List;
-import model.entity.AbstractEntity;
 import model.validacao.Validacao;
 
 /**
  *
  * @author G0042204
  */
-public class FullTest extends AbstractEntity {
-
-    protected Boolean resultado;
+public class FullTest extends FullTestAbs {
 
     protected EfikaCustomer cl;
 
     protected List<Validacao> valids;
 
-    protected Calendar dataInicio;
-
-    protected Calendar dataFim;
-
-    protected String mensagem;
-
     public FullTest() {
-    }
-
-    public Boolean getResultado() {
-        return resultado;
-    }
-
-    public void setResultado(Boolean resultado) {
-        this.resultado = resultado;
+        valids = new ArrayList<>();
     }
 
     public EfikaCustomer getCl() {
@@ -54,30 +38,6 @@ public class FullTest extends AbstractEntity {
 
     public void setValids(List<Validacao> valids) {
         this.valids = valids;
-    }
-
-    public Calendar getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Calendar dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Calendar getDataFim() {
-        return dataFim;
-    }
-
-    public void setDataFim(Calendar dataFim) {
-        this.dataFim = dataFim;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
     }
 
 }

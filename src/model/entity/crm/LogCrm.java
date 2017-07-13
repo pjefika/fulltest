@@ -29,7 +29,6 @@ public class LogCrm extends AbstractEntity {
     private String instancia, designador, designadorAcesso, executor, conclusao;
 
     @NotNull(message = "Campo obrigatório")
-    @Size(min = 1, message = "Campo obrigatório")
     private Boolean cadastro, semBloqueio, fulltest;
 
     @Lob

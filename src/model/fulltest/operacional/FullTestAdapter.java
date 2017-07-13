@@ -5,7 +5,7 @@
  */
 package model.fulltest.operacional;
 
-import model.entity.crm.LogCrm;
+import model.entity.FulltestGenericEntity;
 import util.GsonUtil;
 
 /**
@@ -27,13 +27,14 @@ public class FullTestAdapter {
         return ft;
     }
 
-    public static LogCrm adapter(FullTest f) {
-        
-        LogCrm l = new LogCrm();
-        
-        l.setCustomer(GsonUtil.serialize(f.getCl()));
-                
-        
-        return null;
+    public static FulltestGenericEntity adapter(FullTest f) {
+        return new FulltestGenericEntity(
+                GsonUtil.serialize(f.getCl()),
+                GsonUtil.serialize(f.getValids()),
+                f.getResultado(),
+                f.getDataInicio(),
+                f.getDataFim(),
+                f.getMensagem());
     }
+
 }
