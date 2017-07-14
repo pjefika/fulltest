@@ -37,7 +37,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.getCustomer("7130262160");
+        ec = CustomerMock.getCustomer("8530140041");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());

@@ -190,18 +190,18 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         String leSet = getCd().consulta(getComandoSetProfileDefault(i, v)).getBlob();
         List<String> leResp = new ArrayList<>();
-        if (leSet.contains("previously")) {
+        if (leSet.contains("previously") || leSet.contains("is not compatible")) {
             leSet = getCd().consulta(getComandoSetProfileSeco(i, v)).getBlob();
-            if (leSet.contains("previously")) {
+            if (leSet.contains("previously") || leSet.contains("is not compatible")) {
                 leResp = getCd().consulta(getComandoSetProfileSUVD1(i, v)).getRetorno();
             } else {
-                String[] parser = leSet.split("\n");
+                String[] parser = leSet.split("\\n");
                 for (String string : parser) {
                     leResp.add(string);
                 }
             }
         } else {
-            String[] parser = leSet.split("\n");
+            String[] parser = leSet.split("\\n");
             for (String string : parser) {
                 leResp.add(string);
             }
@@ -265,7 +265,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileSUVD1(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileUp() + "_SUVD1");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown() + "D1");
     }
 
     public ComandoDslam getModul(InventarioRede i) {
@@ -303,8 +303,33 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
-//        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
-//        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
+        Double leVel = new Double(v.getVel());
+        Double umDeUp = 20d;
+        Double doisDeUp = 30d;
+        Double tresDeUp = 40d;
+
+        Boolean isUmDeUp = leVel.compareTo(umDeUp) <= 0;
+        Boolean isDoisDeUp = leVel.compareTo(doisDeUp) <= 0;
+        Boolean isTresDeUp = leVel.compareTo(tresDeUp) <= 0;
+
+        if (isUmDeUp) {
+            p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb_SUV");
+            p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb");
+        } else {
+            if (isDoisDeUp) {
+                p.setProfileDown("HSI_" + v.getVel() + "Mb_2Mb_SUV");
+                p.setProfileUp("HSI_" + v.getVel() + "Mb_2Mb");
+            } else {
+                if (isTresDeUp) {
+                    p.setProfileDown("HSI_" + v.getVel() + "Mb_3Mb_SUV");
+                    p.setProfileUp("HSI_" + v.getVel() + "Mb_3Mb");
+                } else {
+                    p.setProfileDown("HSI_" + v.getVel() + "Mb_5Mb_SUV");
+                    p.setProfileUp("HSI_" + v.getVel() + "Mb_5Mb");
+                }
+            }
+        }
+
         return p;
     }
 
