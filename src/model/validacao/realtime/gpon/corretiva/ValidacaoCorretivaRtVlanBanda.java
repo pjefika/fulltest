@@ -39,7 +39,7 @@ public class ValidacaoCorretivaRtVlanBanda extends ValidacaoRtVlanBanda {
                     setMensagem("Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
-            return valid.getResultado();
+            return getResultado();
         } catch (Exception e) {
             e.printStackTrace();
             return false;

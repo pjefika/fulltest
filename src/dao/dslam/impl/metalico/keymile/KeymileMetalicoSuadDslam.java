@@ -150,10 +150,10 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         String leSet = getCd().consulta(getComandoSetProfileSUAD1(i, v)).getBlob();
         List<String> leResp = new ArrayList<>();
-        if (leSet.contains("previously")) {
+        if (leSet.contains("previously") || leSet.contains("is not compatible")) {
             leResp = getCd().consulta(getComandoSetProfileDefault(i, v)).getRetorno();
         } else {
-            String[] parser = leSet.split("\n");
+            String[] parser = leSet.split("\\n");
             for (String string : parser) {
                 leResp.add(string);
             }
@@ -169,8 +169,22 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public Modulacao setModulacao(InventarioRede i, Modulacao m) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        String leSet = getCd().consulta(setModulSUAD1(i, v)).getBlob();
+        List<String> leResp = new ArrayList<>();
+        if (leSet.contains("previously") || leSet.contains("is not compatible")) {
+            leResp = getCd().consulta(setModulDefault(i, v)).getRetorno();
+        } else {
+            String[] parser = leSet.split("\\n");
+            for (String string : parser) {
+                leResp.add(string);
+            }
+        }
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        
+        return getModulacao(i);
     }
 
     @Override
@@ -257,12 +271,33 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile");
     }
 
+    protected ComandoDslam setModulDefault(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao());
+    }
+
+    protected ComandoDslam setModulSUAD1(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao() + "1");
+    }
+
     @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
         p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
         return p;
+    }
+
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        Modulacao m = new Modulacao();
+
+        Double leVel = new Double(v.getVel());
+        Double autoLimit = 5d;
+        Boolean isAdsl2Plus = leVel.compareTo(autoLimit) > 0;
+        String leModul = isAdsl2Plus ? "ADSL2PLUS_ONLY_SUAD" : "ADSL2PLUS_AUTO_SUAD";
+        m.setModulacao(leModul);
+
+        return m;
     }
 
 }

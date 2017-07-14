@@ -215,7 +215,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         setProfileDown(i, vUp);
     }
-    
+
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -306,5 +306,10 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 //        p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
 //        p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
         return p;
+    }
+
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

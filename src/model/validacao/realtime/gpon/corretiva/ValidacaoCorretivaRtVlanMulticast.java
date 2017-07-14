@@ -41,7 +41,7 @@ public class ValidacaoCorretivaRtVlanMulticast extends ValidacaoRtVlanMulticast 
                     }
                 }
 
-                return valid.getResultado();
+                return getResultado();
             } else {
                 setMensagem("Cliente sem TV Híbrida.");
                 setResultado(Boolean.TRUE);

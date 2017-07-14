@@ -8,6 +8,7 @@ package dao.dslam.impl.metalico;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import dao.dslam.impl.ModulacaoCasterInterface;
 import dao.dslam.impl.ProfileCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import model.dslam.credencial.Credencial;
@@ -18,7 +19,7 @@ import model.dslam.credencial.Credencial;
  */
 public abstract class DslamMetalico extends AbstractDslam
         implements
-        ConsultaMetalicoDefault, ProfileCasterInterface, AlteracaoMetalicoDefault {
+        ConsultaMetalicoDefault, ProfileCasterInterface, AlteracaoMetalicoDefault, ModulacaoCasterInterface {
 
     public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);

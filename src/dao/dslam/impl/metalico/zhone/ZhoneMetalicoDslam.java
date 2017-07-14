@@ -12,7 +12,9 @@ import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -41,5 +43,10 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         e.setOperState(operState);
 
         return e;
+    }
+
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

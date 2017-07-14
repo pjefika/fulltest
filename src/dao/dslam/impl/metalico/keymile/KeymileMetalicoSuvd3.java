@@ -26,7 +26,7 @@ public class KeymileMetalicoSuvd3 extends KeymileMetalicoSuvdDslam {
     }
 
     @Override
-    public Modulacao setModulacao(InventarioRede i, Modulacao m) {
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

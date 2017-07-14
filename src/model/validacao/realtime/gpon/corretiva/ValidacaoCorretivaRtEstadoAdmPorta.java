@@ -31,16 +31,16 @@ public class ValidacaoCorretivaRtEstadoAdmPorta extends ValidacaoRtEstadoAdmPort
             if (valid.validar()) {
                 merge(valid);
             } else {
+                setResultado(Boolean.FALSE);
+                eP.setAdminState("up");
                 valid = new ValidacaoEstadoPortaAdm(alteracaoGpon.setEstadoDaPorta(cust.getRede(), eP));
                 if (valid.validar()) {
-                    setResultado(Boolean.FALSE);
                     setMensagem("Corrigido estado da porta, aguarde 3 minutos para estabilização do modem e teste novamente.");
                 } else {
-                    setResultado(Boolean.FALSE);
                     setMensagem("Não foi possível corrigir o estado da porta. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
-            return valid.getResultado();
+            return getResultado();
         } catch (Exception e) {
             return false;
         }
