@@ -37,7 +37,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.getCustomer("7133817337");
+        ec = CustomerMock.getCustomer("7130262160");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -118,45 +118,48 @@ public class AlteracaoClienteInterIT {
      * Test of createVlanBanda method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testCreateVlanBanda() throws Exception {
+    public void testCreateVlanBanda() {
         System.out.println("createVlanBanda");
 
         Velocidades vDown = null;
         Velocidades vUp = null;
+        try {
+            VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
+            assertTrue(!result.getCvlan().equals("0"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
-        VlanBanda expResult = null;
-        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of createVlanVoip method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testCreateVlanVoip() throws Exception {
+    public void testCreateVlanVoip() {
         System.out.println("createVlanVoip");
 
-        VlanVoip expResult = null;
-        VlanVoip result = instance.createVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanVoip result = instance.createVlanVoip(i);
+            assertTrue(!result.getCvlan().equals("0"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
      * Test of createVlanVod method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testCreateVlanVod() throws Exception {
+    public void testCreateVlanVod() {
         System.out.println("createVlanVod");
 
-        VlanVod expResult = null;
-        VlanVod result = instance.createVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanVod result = instance.createVlanVod(i);
+            assertTrue(!result.getCvlan().equals("0"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
@@ -166,59 +169,69 @@ public class AlteracaoClienteInterIT {
     public void testCreateVlanMulticast() throws Exception {
         System.out.println("createVlanMulticast");
 
-        VlanMulticast expResult = null;
-        VlanMulticast result = instance.createVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            VlanMulticast result = instance.createVlanMulticast(i);
+            assertTrue(!result.getCvlan().equals("0"));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     /**
      * Test of deleteVlanBanda method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testDeleteVlanBanda() throws Exception {
+    public void testDeleteVlanBanda() {
         System.out.println("deleteVlanBanda");
+        try {
+            instance.deleteVlanBanda(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
 
-        instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of deleteVlanVoip method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testDeleteVlanVoip() throws Exception {
+    public void testDeleteVlanVoip() {
         System.out.println("deleteVlanVoip");
-
-        instance.deleteVlanVoip(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            instance.deleteVlanVoip(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 
     /**
      * Test of deleteVlanVod method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testDeleteVlanVod() throws Exception {
+    public void testDeleteVlanVod() {
         System.out.println("deleteVlanVod");
-
-        instance.deleteVlanVod(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            instance.deleteVlanVod(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 
     /**
      * Test of deleteVlanMulticast method, of class AlteracaoClienteInter.
      */
     @Test
-    public void testDeleteVlanMulticast() throws Exception {
+    public void testDeleteVlanMulticast() {
         System.out.println("deleteVlanMulticast");
-
-        instance.deleteVlanMulticast(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+            instance.deleteVlanMulticast(i);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 
     /**
