@@ -7,7 +7,6 @@ package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.ConsultaClienteInter;
-import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoProfile;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 

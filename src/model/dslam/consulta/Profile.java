@@ -44,7 +44,7 @@ public class Profile implements Validador {
         leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
         
         if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
-            Float leFloat = new Float(leprofUp)/1000;
+            Integer leFloat = new Integer(leprofUp)/1000;
             leprofUp = leFloat.toString();
         }
 
