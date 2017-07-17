@@ -90,7 +90,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "1")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -107,7 +107,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "2")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -124,7 +124,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "3")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -141,7 +141,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
@@ -256,6 +256,55 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        String leResp = "";
+        Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
+        if (isAdsl) {
+            leResp = getCd().consulta(getComandoSetModulacaoAdsl(i, v)).getBlob();
+            if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                leResp = getCd().consulta(getComandoSetModulacaoAdsl1(i, v)).getBlob();
+            }
+        } else {
+            leResp = getCd().consulta(getComandoSetModulacaoVdsl(i, v)).getBlob();
+            if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                leResp = getCd().consulta(getComandoSetModulacaoVdsl1(i, v)).getBlob();
+                if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                    leResp = getCd().consulta(getComandoSetModulacaoVdsl11(i, v)).getBlob();
+                }
+            }
+        }
+
+        System.out.println(leResp);
+
+        return getModulacao(i);
+    }
+
+    protected ComandoDslam getComandoSetModulacaoAdsl(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "false default 0 false default 0 false default 0 true " + castModulacao(v).getModulacao() + " priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoAdsl1(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "false default 0 false default 0 false default 0 true ADSL2PLUS_SUVD11 priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + " 0 false default 0 false default 0 false default priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl1(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + "D1 0 false default 0 false default 0 false default priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl11(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + "D11 0 false default 0 false default 0 false default priority");
+    }
+
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown());
     }
@@ -268,32 +317,20 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown() + "D1");
     }
 
-    public ComandoDslam getModul(InventarioRede i) {
+    protected ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles");
     }
 
-    public ComandoDslam getVelSinc(InventarioRede i) {
+    protected ComandoDslam getVelSinc(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/status/status");
     }
 
-    public ComandoDslam getSnrAtn(InventarioRede i) {
+    protected ComandoDslam getSnrAtn(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/bandstatus");
     }
 
-    public ComandoDslam getSrvcBanda(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/status/servicestatus");
-    }
-
-    public ComandoDslam getSrvcVoip(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2/status/servicestatus");
-    }
-
-    protected ComandoDslam getSrvcVod(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/status/servicestatus");
-    }
-
-    protected ComandoDslam getSrvcMult(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/status/servicestatus");
+    protected ComandoDslam getComandoGetSrvc(InventarioRede i, String intrf) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus");
     }
 
     protected ComandoDslam getProf(InventarioRede i) {
@@ -335,6 +372,16 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public Modulacao castModulacao(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Modulacao m = new Modulacao();
+
+        Double leVel = new Double(v.getVel());
+//        Double autoLimit = 5d;
+        Double adslLimit = 20d;
+//        Boolean isAuto = leVel.compareTo(autoLimit) <= 0;
+        Boolean isAdsl = leVel.compareTo(adslLimit) <= 0;
+        String leModul = isAdsl ? "ADSL2PLUS_ONLY_SUV" : "VDSL_17A_B8_12_SUV";
+        m.setModulacao(leModul);
+
+        return m;
     }
 }
