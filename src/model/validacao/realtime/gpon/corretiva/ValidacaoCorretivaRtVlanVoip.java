@@ -7,31 +7,33 @@ package model.validacao.realtime.gpon.corretiva;
 
 import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoVlanVoip;
+import model.validacao.realtime.ValidacaoRealtimeCorretiveGpon;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRtVlanVoip {
+public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRealtimeCorretiveGpon {
 
     private ValidacaoVlanVoip valid;
 
-    public ValidacaoCorretivaRtVlanVoip(ConsultaGponDefault dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidacaoCorretivaRtVlanVoip(AbstractDslam dslam, EfikaCustomer cust) {
+        super(dslam, cust, "Vlan VoIP");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoVlanVoip(consultaGpon.getVlanVoip(cust.getRede()), cust);
+            valid = new ValidacaoVlanVoip(cg.getVlanVoip(cust.getRede()), cust);
             if (valid.validar()) {
                 merge(valid);
             } else {
                 setResultado(Boolean.FALSE);
-                alteracaoGpon.deleteVlanVoip(cust.getRede());
-                valid = new ValidacaoVlanVoip(alteracaoGpon.createVlanVoip(cust.getRede()), cust);
+                alter.deleteVlanVoip(cust.getRede());
+                valid = new ValidacaoVlanVoip(alter.createVlanVoip(cust.getRede()), cust);
                 if(valid.validar()){
                     setMensagem("Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.");
                 }else{
@@ -40,7 +42,6 @@ public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRtVlanVoip {
             }
             return valid.getResultado();
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }

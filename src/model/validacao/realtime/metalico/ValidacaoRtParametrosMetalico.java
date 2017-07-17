@@ -6,7 +6,7 @@
 package model.validacao.realtime.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaMetalicoDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.ValidacaoParametrosMetalico;
 import model.validacao.realtime.ValidacaoRealtimeMetalico;
@@ -19,7 +19,7 @@ public class ValidacaoRtParametrosMetalico extends ValidacaoRealtimeMetalico {
 
     private ValidacaoParametrosMetalico valid;
 
-    public ValidacaoRtParametrosMetalico(ConsultaMetalicoDefault dslam, EfikaCustomer cl) {
+    public ValidacaoRtParametrosMetalico(AbstractDslam dslam, EfikaCustomer cl) {
         super(dslam, cl, "Parâmetros Ópticos");
     }
 

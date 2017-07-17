@@ -7,33 +7,35 @@ package model.validacao.realtime.gpon.corretiva;
 
 import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
 import exception.MetodoNaoImplementadoException;
 import model.validacao.ValidacaoVlanMulticast;
+import model.validacao.realtime.ValidacaoRealtimeCorretiveGpon;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCorretivaRtVlanMulticast extends ValidacaoRtVlanMulticast {
+public class ValidacaoCorretivaRtVlanMulticast extends ValidacaoRealtimeCorretiveGpon {
 
     private ValidacaoVlanMulticast valid;
 
-    public ValidacaoCorretivaRtVlanMulticast(ConsultaGponDefault dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidacaoCorretivaRtVlanMulticast(AbstractDslam dslam, EfikaCustomer cust) {
+        super(dslam, cust, "Vlan Multicast");
     }
 
     @Override
     public Boolean validar() throws Exception {
         try {
             if (cust.getServicos().getIsHib()) {
-                valid = new ValidacaoVlanMulticast(consultaGpon.getVlanMulticast(cust.getRede()), cust);
+                valid = new ValidacaoVlanMulticast(cg.getVlanMulticast(cust.getRede()), cust);
                 if (valid.validar()) {
                     this.merge(valid);
                 } else {
                     setResultado(Boolean.FALSE);
-                    alteracaoGpon.deleteVlanMulticast(cust.getRede());
-                    valid = new ValidacaoVlanMulticast(alteracaoGpon.createVlanMulticast(cust.getRede()), cust);
+                    alter.deleteVlanMulticast(cust.getRede());
+                    valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
                     if (valid.validar()) {
                         setMensagem("Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.");
                     } else {

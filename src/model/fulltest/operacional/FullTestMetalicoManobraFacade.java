@@ -8,13 +8,13 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.impl.AlteracaoMetalicoDefault;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
 import model.validacao.Validator;
-import model.validacao.realtime.metalico.ValidacaoRtParametrosMetalico;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -24,31 +24,18 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
-public class FullTestMetalicoFacade extends FullTestFacade implements FullTestInterface, Validator {
+public class FullTestMetalicoManobraFacade extends FullTestMetalicoFacade implements FullTestInterface, Validator {
 
-    public FullTestMetalicoFacade(EfikaCustomer cl) throws DslamNaoImplException, FuncIndisponivelDslamException {
+    private AlteracaoMetalicoDefault alter;
+
+    public FullTestMetalicoManobraFacade(EfikaCustomer cl) throws DslamNaoImplException, FuncIndisponivelDslamException {
         super(cl);
-    }
-
-    @Override
-    public FullTest executar() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void preparaDslam() throws DslamNaoImplException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     protected void preparaBateria() {
         bateria = new ArrayList<>();
-        bateria.add(new ValidacaoRtParametrosMetalico(dslam, cl));
-    }
-
-    @Override
-    public List<Validacao> carregarValidacoes() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        bateria.add(null);
     }
 
     @Override
@@ -76,6 +63,16 @@ public class FullTestMetalicoFacade extends FullTestFacade implements FullTestIn
         mensagem = "Mensagem Positiva";
         dataFim = Calendar.getInstance();
         return true;
+    }
+
+    @Override
+    public List<Validacao> carregarValidacoes() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public FullTest executar() throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

@@ -5,11 +5,13 @@
  */
 package dao.dslam.impl.metalico;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.ProfileCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.credencial.Credencial;
 
 /**
@@ -22,6 +24,11 @@ public abstract class DslamMetalico extends AbstractDslam
 
     public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

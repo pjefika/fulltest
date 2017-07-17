@@ -7,19 +7,19 @@ package model.validacao.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AlteracaoGponDefault;
 
 /**
  *
  * @author G0042204
  */
-public abstract class ValidacaoRealtimeGpon extends ValidacaoRealtime {
+public abstract class ValidacaoRealtimeCorretiveGpon extends ValidacaoRealtimeGpon {
+    
+    protected AlteracaoGponDefault alter;
 
-    protected ConsultaGponDefault cg;
-
-    public ValidacaoRealtimeGpon(AbstractDslam dslam, EfikaCustomer cust, String nome) {
+    public ValidacaoRealtimeCorretiveGpon(AbstractDslam dslam, EfikaCustomer cust, String nome) {
         super(dslam, cust, nome);
-        this.cg = (ConsultaGponDefault) dslam;
+        this.alter = (AlteracaoGponDefault) dslam;
     }
 
 }

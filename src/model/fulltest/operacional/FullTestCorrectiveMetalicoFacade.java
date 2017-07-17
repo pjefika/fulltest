@@ -7,16 +7,25 @@ package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.impl.ConsultaGponDefault;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
-import model.validacao.realtime.gpon.ValidacaoRtEstadoAdmPorta;
+import model.validacao.realtime.gpon.ValidacaoRtDeviceMAC;
 import model.validacao.realtime.gpon.ValidacaoRtEstadoOperPorta;
 import model.validacao.realtime.gpon.ValidacaoRtParametrosGpon;
+import model.validacao.realtime.gpon.ValidacaoRtSerialOntGpon;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtEstadoAdmPorta;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtProfile;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanBanda;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanMulticast;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanVod;
+import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanVoip;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -26,29 +35,34 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
-public class LinkGponFacade extends FullTestGponFacade {
+public class FullTestCorrectiveMetalicoFacade extends FullTestMetalicoFacade {
 
-    public LinkGponFacade(EfikaCustomer cl) throws DslamNaoImplException, FuncIndisponivelDslamException {
+    public FullTestCorrectiveMetalicoFacade(EfikaCustomer cl) throws DslamNaoImplException, FuncIndisponivelDslamException {
         super(cl);
-    }
-
-    @Override
-    protected void preparaDslam() throws DslamNaoImplException {
-        InventarioRede rede = cl.getRede();
     }
 
     @Override
     protected void preparaBateria() {
         bateria = new ArrayList<>();
-        bateria.add(new ValidacaoRtEstadoAdmPorta(dslam, cl));
+        bateria.add(new ValidacaoRtSerialOntGpon(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtEstadoAdmPorta(dslam, cl));
         bateria.add(new ValidacaoRtEstadoOperPorta(dslam, cl));
+//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
         bateria.add(new ValidacaoRtParametrosGpon(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtProfile(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanBanda(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanVoip(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanVod(dslam, cl));
+        bateria.add(new ValidacaoCorretivaRtVlanMulticast(dslam, cl));
+        bateria.add(new ValidacaoRtDeviceMAC(dslam, cl));
+
     }
 
     @Override
     public Boolean validar() throws Exception {
         valids = new ArrayList<>();
         dataInicio = Calendar.getInstance();
+
         for (Validacao v : bateria) {
             Boolean res;
             try {
@@ -60,15 +74,21 @@ public class LinkGponFacade extends FullTestGponFacade {
 
             if (!res) {
                 dslam.desconectar();
-                mensagem = "Mensagem Negativa.";
+                mensagem = valids.get(valids.size() - 1).getMensagem();
                 dataFim = Calendar.getInstance();
                 return false;
             }
         }
-
         dslam.desconectar();
-        mensagem = "Mensagem Positiva";
         dataFim = Calendar.getInstance();
+        for (Validacao valid : valids) {
+            if (!valid.getResultado()) {
+                mensagem = valid.getMensagem();
+                return false;
+            }
+        }
+        mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";
+
         return true;
     }
 

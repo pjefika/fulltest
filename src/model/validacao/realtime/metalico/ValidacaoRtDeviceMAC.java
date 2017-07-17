@@ -5,29 +5,27 @@
  */
 package model.validacao.realtime.metalico;
 
-import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.validacao.ValidacaoDeviceMAC;
-import model.validacao.ValidacaoVlanVoip;
-import model.validacao.realtime.ValidacaoRealtimeGpon;
+import model.validacao.realtime.ValidacaoRealtime;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoRtDeviceMAC extends ValidacaoRealtimeGpon {
+public class ValidacaoRtDeviceMAC extends ValidacaoRealtime {
 
     private ValidacaoDeviceMAC valid;
 
-    public ValidacaoRtDeviceMAC(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtDeviceMAC(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust, "Mac do Equipamento.");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoDeviceMAC(consultaGpon.getDeviceMac(cust.getRede()), cust);
+            valid = new ValidacaoDeviceMAC(consulta.getDeviceMac(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

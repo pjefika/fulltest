@@ -6,37 +6,37 @@
 package model.validacao.realtime.gpon.corretiva;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaClienteInter;
+import dao.dslam.impl.AbstractDslam;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.ValidacaoProfile;
-import model.validacao.realtime.gpon.ValidacaoRtProfile;
+import model.validacao.realtime.ValidacaoRealtimeCorretiveGpon;
 
 /**
  *
  * @author G0041775
  */
-public class ValidacaoCorretivaRtProfile extends ValidacaoRtProfile {
+public class ValidacaoCorretivaRtProfile extends ValidacaoRealtimeCorretiveGpon {
 
     private ValidacaoProfile valid;
 
-    public ValidacaoCorretivaRtProfile(ConsultaClienteInter dslam, EfikaCustomer cl) {
-        super(dslam, cl);
+    public ValidacaoCorretivaRtProfile(AbstractDslam dslam, EfikaCustomer cl) {
+        super(dslam, cl, "Estado Administrativo da Porta");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
-            if(valid.validar()){
+            valid = new ValidacaoProfile(cg.getProfile(cust.getRede()), cust);
+            if (valid.validar()) {
                 this.merge(valid);
-            }else{
+            } else {
                 setResultado(Boolean.FALSE);
-                alteracaoGpon.setProfileDown(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()));
-                alteracaoGpon.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_"+cust.getServicos().getVelDown().toString()), Velocidades.valueOf("VEL_"+cust.getServicos().getVelUp().toString()));
-                valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
-                if(valid.validar()){
+                alter.setProfileDown(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown().toString()));
+                alter.setProfileUp(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown().toString()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp().toString()));
+                valid = new ValidacaoProfile(cg.getProfile(cust.getRede()), cust);
+                if (valid.validar()) {
                     setMensagem("Profile corrigido, solicite ao cliente que efetue um teste de velocidade.");
-                }else{
+                } else {
                     setMensagem("Não foi possível corrigir o Profile, que está divergente do serviço contratado. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }

@@ -13,7 +13,9 @@ import model.validacao.Validacao;
  * @author G0041775
  */
 public interface FullTestInterface {
-    
-    public FullTest executar(List<Validacao> bateria) throws Exception;
-    
+
+    public FullTest executar() throws Exception;
+
+    public List<Validacao> carregarValidacoes();
+
 }

@@ -36,7 +36,7 @@ public class FullTestController extends RestJaxAbstract{
         Response r;
         try {
             FullTestInterface v = new FullTestGponFacade(cs);
-            r = ok(v.executar(null));
+            r = ok(v.executar());
         } catch (DslamNaoImplException e) {
             r = serverError(e);
         }
@@ -50,7 +50,7 @@ public class FullTestController extends RestJaxAbstract{
     public Response link(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new LinkGponFacade(cs);
-            return Response.status(200).entity(v.executar(null)).build();
+            return Response.status(200).entity(v.executar()).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -64,7 +64,7 @@ public class FullTestController extends RestJaxAbstract{
     public Response corrective(EfikaCustomer cs) throws Exception {
         try {
             FullTestInterface v = new FullTestCorrectiveGponFacade(cs);
-            return Response.status(200).entity(v.executar(null)).build();
+            return Response.status(200).entity(v.executar()).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -79,7 +79,7 @@ public class FullTestController extends RestJaxAbstract{
             EfikaCustomer cs = CustomerDAO.getCustomer(instancia);
             FullTestInterface v = new FullTestGponFacade(cs);
             
-            return Response.status(200).entity(v.executar(null)).build();
+            return Response.status(200).entity(v.executar()).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }

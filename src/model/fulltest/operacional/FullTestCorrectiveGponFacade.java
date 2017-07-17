@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamGponDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ConsultaGponDefault;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
@@ -36,16 +37,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
 public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
 
-    private ConsultaGponDefault dslam;
-
-    public FullTestCorrectiveGponFacade(EfikaCustomer cl) throws DslamNaoImplException {
+    public FullTestCorrectiveGponFacade(EfikaCustomer cl) throws DslamNaoImplException, FuncIndisponivelDslamException {
         super(cl);
     }
 
     @Override
     protected void preparaDslam() throws DslamNaoImplException {
-        InventarioRede rede = cl.getRede();
-        dslam = (ConsultaGponDefault) DslamGponDAOFactory.getInstance(rede.getModeloDslam(), rede.getIpDslam());
     }
 
     @Override
@@ -95,7 +92,7 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
             }
         }
         mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";
-        
+
         return true;
     }
 
@@ -103,14 +100,5 @@ public class FullTestCorrectiveGponFacade extends FullTestGponFacade {
         return valids;
     }
 
-    @Override
-    public FullTest executar(List<Validacao> bat) throws Exception {
-        if (bat != null) {
-            bateria = bat;
-        }
-        resultado = validar();
-
-        return FullTestAdapter.adapter(this);
-    }
 
 }
