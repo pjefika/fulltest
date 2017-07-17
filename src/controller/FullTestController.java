@@ -36,7 +36,7 @@ public class FullTestController extends RestJaxAbstract{
         Response r;
         try {
             FullTestInterface v = new FullTestGponFacade(cs);
-            r = ok(v);
+            r = ok(v.executar(null));
         } catch (DslamNaoImplException e) {
             r = serverError(e);
         }
