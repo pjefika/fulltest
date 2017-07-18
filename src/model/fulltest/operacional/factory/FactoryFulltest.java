@@ -8,10 +8,7 @@ package model.fulltest.operacional.factory;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import model.fulltest.operacional.FullTestCorrectiveGponFacade;
-import model.fulltest.operacional.FullTestCorrectiveMetalicoFacade;
-import model.fulltest.operacional.FullTestGponFacade;
-import model.fulltest.operacional.FullTestInterface;
+import model.fulltest.operacional.facade.FullTestInterface;
 
 /**
  *
@@ -30,20 +27,21 @@ public class FactoryFulltest {
      * @throws dao.dslam.factory.exception.FuncIndisponivelDslamException
      */
     public static FullTestInterface create(Boolean corretivo, EfikaCustomer cs) throws DslamNaoImplException, FuncIndisponivelDslamException {
-        // Bloco Corretivo
-        if (corretivo) {
-            try {
-                return new FullTestCorrectiveGponFacade(cs);
-            } catch (DslamNaoImplException e) {
-                return new FullTestCorrectiveMetalicoFacade(cs);
-            }
-        } else {
-            // Bloco Não Corretivo
-            try {
-                return new FullTestGponFacade(cs);
-            } catch (DslamNaoImplException e) {
-                return new FullTestCorrectiveMetalicoFacade(cs);
-            }
-        }
+//        // Bloco Corretivo
+//        if (corretivo) {
+//            try {
+//                return new FullTestCorrectiveGponFacade();
+//            } catch (DslamNaoImplException e) {
+//                return new FullTestCorrectiveMetalicoFacade();
+//            }
+//        } else {
+//            // Bloco Não Corretivo
+//            try {
+//                return new FullTestGponFacade();
+//            } catch (DslamNaoImplException e) {
+//                return new FullTestCorrectiveMetalicoFacade();
+//            }
+//        }
+        return null;
     }
 }

@@ -5,19 +5,16 @@
  */
 package model.fulltest.operacional;
 
-import dao.dslam.factory.exception.DslamNaoImplException;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.fulltest.operacional.factory.FactoryFulltest;
-import model.validacao.Validacao;
+import model.fulltest.operacional.facade.FullTestCorrectiveGponFacade;
+import model.fulltest.operacional.facade.FullTestInterface;
+import br.net.gvt.efika.customer.EfikaCustomer;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tests.CustomerTest;
 
 /**
  *
@@ -25,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class FullTestInterfaceIT {
 
-    private FullTestInterface instance;
+    private final EfikaCustomer cust = CustomerTest.create();
 
     public FullTestInterfaceIT() {
     }
@@ -40,13 +37,6 @@ public class FullTestInterfaceIT {
 
     @Before
     public void setUp() {
-        try {
-            instance = FactoryFulltest.create(Boolean.TRUE, CustomerMock.getCustomer("1630107429"));
-        } catch (DslamNaoImplException ex) {
-            fail(ex.getMessage());
-        } catch (FuncIndisponivelDslamException ex) {
-            fail(ex.getMessage());
-        }
     }
 
     @After
@@ -57,14 +47,14 @@ public class FullTestInterfaceIT {
      * Test of executar method, of class FullTestInterface.
      */
     @Test
-    public void testExecutar(){
+    public void testExecutar() {
+        System.out.println("executar");
         try {
-            System.out.println("executar");
-            List<Validacao> bateria = null;
-            FullTest expResult = null;
-            FullTest result = instance.executar();
-            assertTrue(result != null);
+            FullTestInterface instance = new FullTestCorrectiveGponFacade();
+            FullTest result = instance.executar(cust);
+            assertTrue(result.getResultado());
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
     }

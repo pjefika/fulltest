@@ -5,10 +5,8 @@
  */
 package model.validacao.realtime.gpon.corretiva;
 
-import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
-import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoVlanVoip;
 import model.validacao.realtime.ValidacaoRealtimeCorretiveGpon;
 

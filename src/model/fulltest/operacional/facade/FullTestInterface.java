@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.fulltest.operacional;
+package model.fulltest.operacional.facade;
 
-import java.util.List;
-import model.validacao.Validacao;
+import br.net.gvt.efika.customer.EfikaCustomer;
+import model.fulltest.operacional.FullTest;
 
 /**
  *
@@ -14,8 +14,6 @@ import model.validacao.Validacao;
  */
 public interface FullTestInterface {
 
-    public FullTest executar() throws Exception;
-
-    public List<Validacao> carregarValidacoes();
+    FullTest executar(EfikaCustomer cl) throws Exception;
 
 }

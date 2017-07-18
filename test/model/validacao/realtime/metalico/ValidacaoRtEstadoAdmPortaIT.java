@@ -3,26 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jackson.ft;
+package model.validacao.realtime.metalico;
 
-import model.fulltest.operacional.CustomerMock;
-import model.fulltest.operacional.FullTestGponFacade;
+import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.DslamDAOFactory;
 import model.validacao.Validator;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import tests.CustomerTest;
 
 /**
  *
  * @author G0042204
  */
-public class SerializationJUnitTest {
+public class ValidacaoRtEstadoAdmPortaIT {
 
-    public SerializationJUnitTest() {
+    private EfikaCustomer cust = CustomerTest.create();
+
+    public ValidacaoRtEstadoAdmPortaIT() {
     }
 
     @BeforeClass
@@ -41,18 +43,21 @@ public class SerializationJUnitTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of validar method, of class ValidacaoRtEstadoAdmPorta.
+     */
     @Test
-    public void hello() {
+    public void testValidar() {
+
         try {
-            //Test code
-            ObjectMapper mapper = new ObjectMapper();
-            Validator ft = new FullTestGponFacade(CustomerMock.gponAlcatel());
-            ft.validar();
-            String out = mapper.writeValueAsString(ft);
-            System.out.println(out);
+            Validator instance = new ValidacaoRtEstadoAdmPorta(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Boolean expResult = true;
+            Boolean result = instance.validar();
+            assertEquals(expResult, result);
         } catch (Exception e) {
             fail(e.getMessage());
         }
 
     }
+
 }

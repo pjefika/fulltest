@@ -20,7 +20,7 @@ public class ValidacaoCorretivaRtProfile extends ValidacaoRealtimeCorretiveGpon 
     private ValidacaoProfile valid;
 
     public ValidacaoCorretivaRtProfile(AbstractDslam dslam, EfikaCustomer cl) {
-        super(dslam, cl, "Estado Administrativo da Porta");
+        super(dslam, cl, "Profile");
     }
 
     @Override

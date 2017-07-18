@@ -8,7 +8,6 @@ package model.validacao.realtime.gpon;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtProfile;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

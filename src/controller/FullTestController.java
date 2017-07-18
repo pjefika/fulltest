@@ -16,10 +16,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import model.fulltest.operacional.FullTestCorrectiveGponFacade;
-import model.fulltest.operacional.FullTestGponFacade;
-import model.fulltest.operacional.FullTestInterface;
-import model.fulltest.operacional.LinkGponFacade;
+import model.fulltest.operacional.facade.FullTestCorrectiveGponFacade;
+import model.fulltest.operacional.facade.FullTestGponFacade;
+import model.fulltest.operacional.facade.FullTestInterface;
+import model.fulltest.operacional.facade.LinkGponFacade;
 
 /**
  *
@@ -35,8 +35,8 @@ public class FullTestController extends RestJaxAbstract{
     public Response fulltest(EfikaCustomer cs) throws Exception {
         Response r;
         try {
-            FullTestInterface v = new FullTestGponFacade(cs);
-            r = ok(v.executar());
+            FullTestInterface v = new FullTestGponFacade();
+            r = ok(v.executar(cs));
         } catch (DslamNaoImplException e) {
             r = serverError(e);
         }
@@ -49,8 +49,8 @@ public class FullTestController extends RestJaxAbstract{
     @Consumes(MediaType.APPLICATION_JSON)
     public Response link(EfikaCustomer cs) throws Exception {
         try {
-            FullTestInterface v = new LinkGponFacade(cs);
-            return Response.status(200).entity(v.executar()).build();
+            FullTestInterface v = new LinkGponFacade();
+            return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -63,8 +63,8 @@ public class FullTestController extends RestJaxAbstract{
     @Consumes(MediaType.APPLICATION_JSON)
     public Response corrective(EfikaCustomer cs) throws Exception {
         try {
-            FullTestInterface v = new FullTestCorrectiveGponFacade(cs);
-            return Response.status(200).entity(v.executar()).build();
+            FullTestInterface v = new FullTestCorrectiveGponFacade();
+            return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
@@ -77,9 +77,9 @@ public class FullTestController extends RestJaxAbstract{
     public Response teste(@PathParam("instancia") String instancia) {
          try {
             EfikaCustomer cs = CustomerDAO.getCustomer(instancia);
-            FullTestInterface v = new FullTestGponFacade(cs);
+            FullTestInterface v = new FullTestGponFacade();
             
-            return Response.status(200).entity(v.executar()).build();
+            return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
