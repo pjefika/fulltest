@@ -5,7 +5,9 @@
  */
 package model.fulltest.operacional;
 
+import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
+import model.fulltest.operacional.facade.FullTestFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -18,6 +20,8 @@ import static org.junit.Assert.*;
  * @author g0042204
  */
 public class FullTestGponTest {
+
+    private final EfikaCustomer cust = CustomerMock.getCustomer("1630107429");
 
     public FullTestGponTest() {
     }
@@ -38,92 +42,28 @@ public class FullTestGponTest {
     public void tearDown() {
     }
 
-    private EfikaCustomer cust = CustomerMock.getCustomer("1630107429");
-
-    /**
-     * Test of validar method, of class FullTestGpon.
-     */
     @Test
     public void testValidar() {
 
         try {
             //zhone - 1630103256
             //2135562376
-            FullTestGponFacade instance = new FullTestGponFacade(cust);
-//            FullTestGponFacade instance = new FullTestCorrectiveGponFacade(CustomerMock.getCustomer("7932321318"));
+            FullTestInterface instance = new FullTestFacade();
+//            FullTestGponFacade instance = new FullTestFacade(CustomerMock.getCustomer("7932321318"));
             Boolean expResult = true;
-            Boolean result = instance.validar();
+            FullTest f = instance.executar(cust);
 
-            instance.getValids().forEach((valid) -> {
+            f.getValids().forEach((valid) -> {
                 System.out.println("Nome: " + valid.getNome() + " "
                         + "|  Resultado: " + valid.getResultado() + " "
                         + "|  Mensagem: " + valid.getMensagem());
             });
 
-            assertEquals(expResult, result);
+            assertEquals(expResult, f.getResultado());
         } catch (Exception e) {
             e.printStackTrace();
-            fail("The test case is a prototype.");
+            fail(e.getMessage());
         }
-
-        // TODO review the generated test code and remove the default call to fail.
-    }
-
-    /**
-     * Test of validar method, of class FullTestGpon.
-     */
-    @Test
-    public void testValidarCorrective() {
-
-        try {
-//zhone - 1630103256
-//2135562376
-//            FullTestGponFacade instance = new FullTestGponFacade(CustomerMock.getCustomer("7932321318"));
-            FullTestGponFacade instance = new FullTestCorrectiveGponFacade(cust);
-            Boolean expResult = true;
-            Boolean result = instance.validar();
-
-            instance.getValids().forEach((valid) -> {
-                System.out.println("Nome: " + valid.getNome() + " "
-                        + "|  Resultado: " + valid.getResultado() + " "
-                        + "|  Mensagem: " + valid.getMensagem());
-            });
-
-            assertEquals(expResult, result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("The test case is a prototype.");
-        }
-
-        // TODO review the generated test code and remove the default call to fail.
-    }
-
-    /**
-     * Test of validar method, of class FullTestGpon.
-     */
-    @Test
-    public void testValidarMetalico() {
-
-        try {
-
-            FullTestMetalicoFacade instance = new FullTestMetalicoFacade(CustomerMock.getCustomer("4130222839"));
-
-            Boolean expResult = true;
-            Boolean result = instance.validar();
-
-            instance.getValids().forEach((valid) -> {
-                System.out.println("Nome: " + valid.getNome() + " "
-                        + "|  Resultado: " + valid.getResultado() + " "
-                        + "|  Mensagem: " + valid.getMensagem());
-            });
-
-            assertEquals(expResult, result);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("The test case is a prototype.");
-        }
-
-        // TODO review the generated test code and remove the default call to fail.
     }
 
 }

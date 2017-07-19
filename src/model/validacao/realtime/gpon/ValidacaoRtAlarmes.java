@@ -6,7 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.validacao.ValidacaoAlarme;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
@@ -18,14 +18,14 @@ public class ValidacaoRtAlarmes extends ValidacaoRealtimeGpon {
 
     private ValidacaoAlarme valid;
 
-    public ValidacaoRtAlarmes(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtAlarmes(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust, "Lista de Alarmes");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoAlarme(consultaGpon.getAlarmes(cust.getRede()), cust);
+            valid = new ValidacaoAlarme(cg.getAlarmes(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

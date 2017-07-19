@@ -34,6 +34,10 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
+    private EfikaCustomer cl = CustomerMock.getCustomer("1630107601");
+    ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
+    InventarioRede i = cl.getRede();
+
     public ZhoneGponDslamTest() {
 
     }
@@ -54,9 +58,6 @@ public class ZhoneGponDslamTest {
     public void tearDown() {
         instance.desconectar();
     }
-    private EfikaCustomer cl = CustomerMock.getCustomer("1630107429");
-    ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
-    InventarioRede i = cl.getRede();
 
     /**
      * Test of getTabelaParametros method, of class ZhoneGponDslam.
@@ -184,6 +185,7 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
+        
         try {
             Profile result = instance.getProfile(i);
             assertTrue(result.getProfileDown() != null);
@@ -383,7 +385,7 @@ public class ZhoneGponDslamTest {
         assertTrue(ec != null);
 
     }
-    
+
     /**
      * Test of castProfile method, of class KeymileGponDslam.
      */

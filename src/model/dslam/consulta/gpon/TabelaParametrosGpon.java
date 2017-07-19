@@ -6,13 +6,13 @@
 package model.dslam.consulta.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosGpon implements Validador {
+public class TabelaParametrosGpon implements Validavel {
 
     private Double potOnt;
 

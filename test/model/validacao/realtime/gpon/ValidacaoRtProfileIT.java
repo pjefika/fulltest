@@ -3,26 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jackson.ft;
+package model.validacao.realtime.gpon;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.DslamDAOFactory;
 import model.fulltest.operacional.CustomerMock;
-import model.fulltest.operacional.FullTestGponFacade;
-import model.validacao.Validator;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author G0042204
  */
-public class SerializationJUnitTest {
+public class ValidacaoRtProfileIT {
 
-    public SerializationJUnitTest() {
+    private EfikaCustomer cust = CustomerMock.getCustomer("1630107601");
+
+    public ValidacaoRtProfileIT() {
     }
 
     @BeforeClass
@@ -41,18 +42,20 @@ public class SerializationJUnitTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of validar method, of class ValidacaoRtProfile.
+     */
     @Test
-    public void hello() {
+    public void testValidar() {
+
         try {
-            //Test code
-            ObjectMapper mapper = new ObjectMapper();
-            Validator ft = new FullTestGponFacade(CustomerMock.gponAlcatel());
-            ft.validar();
-            String out = mapper.writeValueAsString(ft);
-            System.out.println(out);
+            ValidacaoRtProfile instance = new ValidacaoRtProfile(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Boolean result = instance.validar();
+            assertEquals(true, result);
         } catch (Exception e) {
             fail(e.getMessage());
         }
 
     }
+
 }

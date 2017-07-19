@@ -7,6 +7,7 @@ package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import model.validacao.Validacao;
 

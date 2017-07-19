@@ -5,14 +5,12 @@
  */
 package model.fulltest.validacao;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-
 /**
  *
- * @author G0041775
+ * @author G0042204
  */
-public interface Validador {
+public enum FulltestMode {
     
-    public Boolean validar(EfikaCustomer cust);
+    MANOBRA;
     
 }

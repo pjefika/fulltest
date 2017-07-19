@@ -6,7 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.validacao.ValidacaoVlanBanda;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
@@ -18,19 +18,18 @@ public class ValidacaoRtVlanBanda extends ValidacaoRealtimeGpon {
 
     private ValidacaoVlanBanda valid;
 
-    public ValidacaoRtVlanBanda(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtVlanBanda(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust, "Vlan Banda");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoVlanBanda(consultaGpon.getVlanBanda(cust.getRede()), cust);
+            valid = new ValidacaoVlanBanda(cg.getVlanBanda(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }
