@@ -6,7 +6,7 @@
 package model.fulltest.operacional.strategy;
 
 import dao.dslam.factory.exception.DslamNaoImplException;
-import model.fulltest.operacional.facade.FullTestFacadeAbs;
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.validacao.Validacao;
 
 /**
@@ -18,7 +18,7 @@ import model.validacao.Validacao;
 public class CondicionalStrategy implements ExecutionStrategy {
 
     @Override
-    public void action(FullTestFacadeAbs ft) throws DslamNaoImplException {
+    public void action(FullTestGenericFacade ft) {
         for (Validacao v : ft.getBateria()) {
             Boolean res;
             try {
@@ -31,7 +31,6 @@ public class CondicionalStrategy implements ExecutionStrategy {
             if (!res) {
                 ft.setResultado(res);
                 ft.setMensagem(v.getMensagem());
-                ft.finalizar();
                 return;
             }
         }

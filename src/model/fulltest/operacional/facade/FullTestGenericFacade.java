@@ -7,12 +7,12 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.fulltest.operacional.strategy.CondicionalStrategy;
+import model.fulltest.operacional.FullTest;
+import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.fulltest.validacao.factory.FactoryValidacao;
@@ -22,7 +22,7 @@ import model.validacao.Validacao;
  *
  * @author g0042204
  */
-public abstract class FullTestFacadeAbs {
+public abstract class FullTestGenericFacade extends FulltestExecution {
 
     protected EfikaCustomer cl;
 
@@ -42,28 +42,42 @@ public abstract class FullTestFacadeAbs {
 
     private ExecutionStrategy exec;
 
-    public FullTestFacadeAbs() {
+    public FullTestGenericFacade() {
     }
 
-    public void exec(EfikaCustomer cl) throws DslamNaoImplException {
-        this.cl = cl;
+    @Override
+    void iniciar(EfikaCustomer e) throws Exception {
+        this.cl = e;
         this.exec = FactoryExecutionStrategy.condicional();
-        this.dslam = DslamDAOFactory.getInstance(cl.getRede());
-        this.bateria = FactoryValidacao.crm(dslam, cl);
-        this.valids = new ArrayList<>();
         this.dataInicio = Calendar.getInstance();
-        this.exec.action(this);
+        this.dslam = DslamDAOFactory.getInstance(this.cl.getRede());
+        this.bateria = FactoryValidacao.crm(this.dslam, this.cl);
+        this.valids = new ArrayList<>();
     }
 
-    public void finalizar() {
+    @Override
+    void encerrar() {
         dslam.desconectar();
         dataFim = Calendar.getInstance();
-        this.tratativaMensagemEncerramento();
+        this.encerramento();
     }
 
-    protected void tratativaMensagemEncerramento() {
+    @Override
+    void validar() {
+        this.exec.action(this);
+    }
+    
+    public FullTest cast(){
+        return FullTestAdapter.adapter(this);
+    }
+
+    protected void encerramento() {
         if (mensagem == null) {
             mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";
+        }
+
+        if (resultado == null) {
+            resultado = true;
         }
     }
 

@@ -5,9 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
-import dao.dslam.factory.exception.DslamNaoImplException;
-import model.fulltest.operacional.facade.FullTestFacadeAbs;
-import model.validacao.Validacao;
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 
 /**
  * Estratégia de execução que interrompe a execução caso encontre validações
@@ -18,7 +16,7 @@ import model.validacao.Validacao;
 public class ForcedStrategy implements ExecutionStrategy {
 
     @Override
-    public void action(FullTestFacadeAbs ft) throws DslamNaoImplException {
+    public void action(FullTestGenericFacade ft) {
         ft.getBateria().forEach((v) -> {
             try {
                 v.validar();

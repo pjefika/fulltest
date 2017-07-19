@@ -5,7 +5,7 @@
  */
 package model.fulltest.operacional;
 
-import model.fulltest.operacional.facade.FullTestFacadeAbs;
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.entity.FulltestGenericEntity;
 import util.GsonUtil;
 
@@ -15,7 +15,7 @@ import util.GsonUtil;
  */
 public class FullTestAdapter {
 
-    public static FullTest adapter(FullTestFacadeAbs ff) {
+    public static FullTest adapter(FullTestGenericFacade ff) {
         FullTest ft = new FullTest();
         
         ft.setCl(ff.getCl());

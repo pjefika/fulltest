@@ -7,7 +7,7 @@ package model.fulltest.operacional;
 
 import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.operacional.facade.FullTestCorrectiveGponFacade;
+import model.fulltest.operacional.facade.FullTestFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,8 +48,8 @@ public class FullTestGponTest {
         try {
             //zhone - 1630103256
             //2135562376
-            FullTestInterface instance = new FullTestCorrectiveGponFacade();
-//            FullTestGponFacade instance = new FullTestCorrectiveGponFacade(CustomerMock.getCustomer("7932321318"));
+            FullTestInterface instance = new FullTestFacade();
+//            FullTestGponFacade instance = new FullTestFacade(CustomerMock.getCustomer("7932321318"));
             Boolean expResult = true;
             FullTest f = instance.executar(cust);
 

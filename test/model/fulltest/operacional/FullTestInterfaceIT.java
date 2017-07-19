@@ -5,7 +5,7 @@
  */
 package model.fulltest.operacional;
 
-import model.fulltest.operacional.facade.FullTestCorrectiveGponFacade;
+import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import org.junit.After;
@@ -44,14 +44,15 @@ public class FullTestInterfaceIT {
     }
 
     /**
-     * Test of executar method, of class FullTestInterface.
+     * Test of exec method, of class FullTestInterface.
      */
     @Test
     public void testExecutar() {
         System.out.println("executar");
         try {
-            FullTestInterface instance = new FullTestCorrectiveGponFacade();
+            FullTestInterface instance = new FullTestFacade();
             FullTest result = instance.executar(cust);
+
             assertTrue(result.getResultado());
         } catch (Exception e) {
             e.printStackTrace();

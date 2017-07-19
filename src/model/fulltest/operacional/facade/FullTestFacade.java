@@ -5,6 +5,9 @@
  */
 package model.fulltest.operacional.facade;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
+import model.fulltest.operacional.FullTest;
+import model.fulltest.operacional.FullTestAdapter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
@@ -14,10 +17,15 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
  */
 @JsonSerialize
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"cl", "dslam", "bateria"})
-public class FullTestCorrectiveMetalicoFacade extends FullTestMetalicoFacade {
+public class FullTestFacade extends FullTestGenericFacade implements FullTestInterface {
 
-    public FullTestCorrectiveMetalicoFacade() {
+    public FullTestFacade() {
     }
 
-    
+    @Override
+    public FullTest executar(EfikaCustomer cl) throws Exception {
+        super.exec(cl);
+        return cast();
+    }
+
 }

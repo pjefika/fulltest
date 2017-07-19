@@ -5,8 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
-import dao.dslam.factory.exception.DslamNaoImplException;
-import model.fulltest.operacional.facade.FullTestFacadeAbs;
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 
 /**
  *
@@ -14,5 +13,5 @@ import model.fulltest.operacional.facade.FullTestFacadeAbs;
  */
 public interface ExecutionStrategy {
 
-    public void action(FullTestFacadeAbs ft) throws DslamNaoImplException;
+    public void action(FullTestGenericFacade ft);
 }

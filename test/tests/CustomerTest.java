@@ -14,7 +14,7 @@ import model.fulltest.operacional.CustomerMock;
  */
 public class CustomerTest {
 
-    private static final EfikaCustomer CLIENTE_TESTE = CustomerMock.getCustomer("6232803886");
+    private static final EfikaCustomer CLIENTE_TESTE = CustomerMock.getCustomer("4130886762");
 
     public static EfikaCustomer create() {
         return CLIENTE_TESTE;
