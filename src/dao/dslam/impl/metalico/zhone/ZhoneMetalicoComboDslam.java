@@ -223,15 +223,31 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         return getEstadoDaPorta(i);
     }
+    
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v){
+        return new ComandoDslam("update adsl-co-profile fastMaxTxRate="+castProfile(v).getProfileDown()+
+                " interleaveMaxTxRate="+castProfile(v).getProfileDown()+" 1/"+i.getSlot()+"/"+i.getPorta());
+    }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+    
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v){
+        return new ComandoDslam("update adsl-cpe-profile fastMaxTxRate="+castProfile(v).getProfileUp()+
+                " interleaveMaxTxRate="+castProfile(v).getProfileUp()+" 1/"+i.getSlot()+"/"+i.getPorta());
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, vUp)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
