@@ -253,4 +253,16 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        Modulacao m = new Modulacao();
+        Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
+        String leModul = isAdsl ? "adsl2plusmode" : "vdsl2mode";
+
+        m.setModulacao(leModul);
+
+        return m;
+    }
+
 }

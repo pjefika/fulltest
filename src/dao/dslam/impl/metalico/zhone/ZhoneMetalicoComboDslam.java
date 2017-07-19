@@ -255,4 +255,15 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        Modulacao m = new Modulacao();
+        Boolean isAuto = new Double(v.getVel()).compareTo(5d) <= 0;
+        String leModul = isAuto ? "autonegotiatemode" : "adsl2plusmode";
+
+        m.setModulacao(leModul);
+
+        return m;
+    }
+
 }
