@@ -148,10 +148,10 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
         Profile p = new Profile();
-        BigInteger leDown = new BigInteger(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
-        BigInteger leUp = new BigInteger(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
-        p.setProfileDown(leDown.toString());
-        p.setProfileUp(leUp.toString());
+        String leDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        String leUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileDown(leDown);
+        p.setProfileUp(leUp);
 
         return p;
     }
@@ -161,6 +161,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         List<String> leModul = this.getCd().consulta(this.getModul(i)).getRetorno();
         Modulacao m = new Modulacao();
         String modulacao = TratativaRetornoUtil.tratZhone(leModul, "adslTransmissionMode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
+        System.out.println(modulacao);
         m.setModulacao(modulacao);
         return m;
     }
@@ -187,17 +188,27 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+        t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+        t.setSnrDown(6d);
+        t.setSnrUp(5d);
+        t.setAtnDown(1d);
+        t.setAtnUp(2d);
+        return t;
+    }
+    
+    protected ComandoDslam getComandoSetModulacao(InventarioRede i, Velocidades v){
+        return new ComandoDslam("update adsl-profile adslTransmissionMode="+castModulacao(v).getModulacao()+" 1/"+i.getSlot()+"/"+i.getPorta());
     }
 
     @Override
-    public Profile castProfile(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Modulacao setModulacao(InventarioRede i, Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetModulacao(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getModulacao(i);
     }
 
     @Override
@@ -264,6 +275,30 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         m.setModulacao(leModul);
 
         return m;
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+        p.setProfileUp("1280000");
+        switch (v.getVel()) {
+            case "3":
+                p.setProfileDown("3840000");
+                break;
+            case "5":
+                p.setProfileDown("7680000");
+                break;
+            case "10":
+                p.setProfileDown("12800000");
+                break;
+            case "15":
+                p.setProfileDown("17664000");
+                break;
+            default:
+                break;
+        }
+
+        return p;
     }
 
 }

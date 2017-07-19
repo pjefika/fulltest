@@ -12,6 +12,7 @@ import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
+import model.dslam.consulta.Profile;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.Velocidades;
@@ -44,5 +45,7 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
 
         return e;
     }
+    
+    
 
 }

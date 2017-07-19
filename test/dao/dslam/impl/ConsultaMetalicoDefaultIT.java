@@ -40,7 +40,7 @@ public class ConsultaMetalicoDefaultIT {
     InventarioRede i;
 
     public ConsultaMetalicoDefaultIT() {
-        ec = CustomerMock.getCustomer("7133423305");
+        ec = CustomerMock.getCustomer("5130772490");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());

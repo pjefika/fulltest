@@ -190,11 +190,6 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public Profile castProfile(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Modulacao setModulacao(InventarioRede i, Velocidades v) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -265,4 +260,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         return m;
     }
 
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+
+        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
+
+        return p;
+    }
 }
