@@ -28,7 +28,7 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
     }
 
     protected ComandoDslam getComandoConsultaVlan(InventarioRede i) {
-        return new ComandoDslam("bridge show vlan " + (i.getPorta() + 100), 5000);
+        return new ComandoDslam("bridge show vlan " + i.getCvLan(), 5000);
     }
 
     public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {
