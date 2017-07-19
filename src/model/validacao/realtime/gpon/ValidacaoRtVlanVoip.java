@@ -6,6 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.validacao.ValidacaoVlanVoip;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
@@ -18,14 +19,14 @@ public class ValidacaoRtVlanVoip extends ValidacaoRealtimeGpon {
 
     private ValidacaoVlanVoip valid;
 
-    public ValidacaoRtVlanVoip(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtVlanVoip(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust, "Vlan VoIP");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoVlanVoip(consultaGpon.getVlanVoip(cust.getRede()), cust);
+            valid = new ValidacaoVlanVoip(cg.getVlanVoip(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

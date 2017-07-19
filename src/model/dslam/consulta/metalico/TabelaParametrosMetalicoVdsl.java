@@ -5,14 +5,18 @@
  */
 package model.dslam.consulta.metalico;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosMetalicoVdsl extends TabelaParametrosMetalico {
+public class TabelaParametrosMetalicoVdsl extends TabelaParametrosMetalico implements TabelaMetalicoInter<TabelaParametrosMetalicoVdsl> {
 
     private Double snrDown1, snrDown2, snrUp1, snrUp2, atnDown1, atnDown2, atnUp1, atnUp2;
 
+    @Override
     public Boolean validar(TabelaParametrosMetalicoVdsl t) {
         return this.snrDown1 >= t.getSnrDown1()
                 && this.snrDown2 >= t.getSnrDown2()
@@ -23,6 +27,28 @@ public class TabelaParametrosMetalicoVdsl extends TabelaParametrosMetalico {
                 && this.atnUp1 >= t.getAtnUp1()
                 && this.atnUp2 >= t.getAtnUp2()
                 && super.validar(t);
+    }
+
+    @Override
+    public List<Double> getSnrsDown() {
+        List<Double> d = new ArrayList<>();
+
+        d.add(getSnrDown());
+        d.add(getSnrDown1());
+        d.add(getSnrDown2());
+
+        return d;
+    }
+
+    @Override
+    public List<Double> getSnrsUp() {
+        List<Double> d = new ArrayList<>();
+
+        d.add(getSnrUp());
+        d.add(getSnrUp1());
+        d.add(getSnrUp2());
+
+        return d;
     }
 
     public Double getSnrDown1() {

@@ -5,34 +5,34 @@
  */
 package model.validacao.realtime.gpon.corretiva;
 
-import model.validacao.realtime.gpon.*;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.ValidacaoVlanBanda;
+import model.validacao.realtime.ValidacaoRealtimeCorretiveGpon;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoCorretivaRtVlanBanda extends ValidacaoRtVlanBanda {
+public class ValidacaoCorretivaRtVlanBanda extends ValidacaoRealtimeCorretiveGpon {
 
     private ValidacaoVlanBanda valid;
 
-    public ValidacaoCorretivaRtVlanBanda(ConsultaGponDefault dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidacaoCorretivaRtVlanBanda(AbstractDslam dslam, EfikaCustomer cust) {
+        super(dslam, cust, "Vlan Banda Larga");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoVlanBanda(consultaGpon.getVlanBanda(cust.getRede()), cust);
+            valid = new ValidacaoVlanBanda(cg.getVlanBanda(cust.getRede()), cust);
             if (valid.validar()) {
                 merge(valid);
             } else {
                 setResultado(Boolean.FALSE);
-                alteracaoGpon.deleteVlanBanda(cust.getRede());
-                valid = new ValidacaoVlanBanda(alteracaoGpon.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
+                alter.deleteVlanBanda(cust.getRede());
+                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
                 if (valid.validar()) {
                     setMensagem("Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.");
                 } else {

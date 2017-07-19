@@ -6,7 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.validacao.gpon.ValidacaoAssociacaoOnt;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
@@ -18,14 +18,14 @@ public class ValidacaoRtSerialOntGpon extends ValidacaoRealtimeGpon {
 
     private ValidacaoAssociacaoOnt valid;
 
-    public ValidacaoRtSerialOntGpon(ConsultaGponDefault dslam, EfikaCustomer cl) {
+    public ValidacaoRtSerialOntGpon(AbstractDslam dslam, EfikaCustomer cl) {
         super(dslam, cl, "Associação Serial ONT");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoAssociacaoOnt(consultaGpon.getSerialOnt(cust.getRede()));
+            valid = new ValidacaoAssociacaoOnt(cg.getSerialOnt(cust.getRede()));
             valid.validar();
             this.merge(valid);
             return valid.getResultado();
