@@ -37,7 +37,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.getCustomer("8530140041");
+        ec = CustomerMock.getCustomer("7133423305");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -121,8 +121,8 @@ public class AlteracaoClienteInterIT {
     public void testCreateVlanBanda() {
         System.out.println("createVlanBanda");
 
-        Velocidades vDown = null;
-        Velocidades vUp = null;
+        Velocidades vDown = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
+        Velocidades vUp = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
         try {
             VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
             assertTrue(!result.getCvlan().equals("0"));

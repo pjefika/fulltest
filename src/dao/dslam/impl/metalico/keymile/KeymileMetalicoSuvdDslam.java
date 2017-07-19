@@ -218,42 +218,96 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "1", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanBanda(i);
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "2", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanVoip(i);
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "3", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanVod(i);
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
+        return getVlanMulticast(i);
+
     }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
@@ -278,6 +332,38 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         System.out.println(leResp);
 
         return getModulacao(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/mcast/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4 {4000}");
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod() + " cos5 swap");
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
+    }
+
+    protected ComandoDslam getComandoDeleteMulticast(String srvc) {
+        return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
+    }
+
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, String intrf, String mode) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode " + mode);
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1 " + i.getCvLan() + " cos0 " + i.getRin() + " cos0 swap");
+    }
+
+    protected ComandoDslam getComandoDeleteVlan(String srvc) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm/", 500, "deleteservice " + srvc);
     }
 
     protected ComandoDslam getComandoSetModulacaoAdsl(InventarioRede i, Velocidades v) {
