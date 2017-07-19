@@ -33,7 +33,7 @@ public class AlteracaoMetalicoDefaultInterIT {
     InventarioRede i;
 
     public AlteracaoMetalicoDefaultInterIT() {
-        ec = CustomerMock.getCustomer("8533712725");
+        ec = CustomerMock.getCustomer("6133452215");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -65,30 +65,28 @@ public class AlteracaoMetalicoDefaultInterIT {
     public void testSetModulacao() {
         System.out.println("setModulacao");
 
-        
         Velocidades v = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
-        
+
         try {
             Modulacao result = instance.setModulacao(i, v);
             String anotherString = instance.castModulacao(v).getModulacao();
-            assertTrue(result.getModulacao().equalsIgnoreCase(anotherString));
+
+            assertTrue(result.getModulacao().contains(anotherString));
         } catch (Exception ex) {
             fail(ex.getMessage());
         }
 
     }
-    
+
     @Test
-    public void testCastModulacao(){
+    public void testCastModulacao() {
         System.out.println("castModulacao");
-        
+
         Velocidades[] vs = Velocidades.values();
         for (Velocidades v : vs) {
-            System.out.println(instance.castModulacao(v).getModulacao() +" -> "+v.getVel());
+            System.out.println(instance.castModulacao(v).getModulacao() + " -> " + v.getVel());
         }
-        
-    }
 
-   
+    }
 
 }
