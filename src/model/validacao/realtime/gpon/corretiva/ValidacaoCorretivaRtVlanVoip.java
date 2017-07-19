@@ -38,7 +38,7 @@ public class ValidacaoCorretivaRtVlanVoip extends ValidacaoRealtimeCorretiveGpon
                     setMensagem("Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
-            return valid.getResultado();
+            return getResultado();
         } catch (Exception e) {
             return false;
         }

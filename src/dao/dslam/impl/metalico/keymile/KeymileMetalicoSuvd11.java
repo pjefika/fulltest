@@ -5,7 +5,8 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
-import model.dslam.consulta.Profile;
+import br.net.gvt.efika.customer.InventarioRede;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
 import model.dslam.velocidade.Velocidades;
@@ -25,7 +26,7 @@ public class KeymileMetalicoSuvd11 extends KeymileMetalicoSuvdDslam {
     }
 
     @Override
-    public Profile castProfile(Velocidades v) {
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

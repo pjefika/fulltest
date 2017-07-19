@@ -39,13 +39,11 @@ public class ValidacaoCorretivaRtVlanVod extends ValidacaoRealtimeCorretiveGpon 
                         setMensagem("Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                     }
                 }
-                return valid.getResultado();
             } else {
                 setMensagem("Cliente sem TV Híbrida.");
                 setResultado(Boolean.TRUE);
-                return getResultado();
             }
-
+            return getResultado();
         } catch (Exception e) {
             e.printStackTrace();
             return false;

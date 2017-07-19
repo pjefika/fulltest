@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -18,6 +19,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -88,7 +90,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcBanda(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "1")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -105,7 +107,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVoip(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "2")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -122,7 +124,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "3")).getRetorno();
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
@@ -139,7 +141,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(i)).getRetorno();
+        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         VlanMulticast vlanMult = new VlanMulticast();
@@ -184,35 +186,288 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return m;
     }
 
-    public ComandoDslam getModul(InventarioRede i) {
+    @Override
+    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        String leSet = getCd().consulta(getComandoSetProfileDefault(i, v)).getBlob();
+        List<String> leResp = new ArrayList<>();
+        if (leSet.contains("previously") || leSet.contains("is not compatible")) {
+            leSet = getCd().consulta(getComandoSetProfileSeco(i, v)).getBlob();
+            if (leSet.contains("previously") || leSet.contains("is not compatible")) {
+                leResp = getCd().consulta(getComandoSetProfileSUVD1(i, v)).getRetorno();
+            } else {
+                String[] parser = leSet.split("\\n");
+                for (String string : parser) {
+                    leResp.add(string);
+                }
+            }
+        } else {
+            String[] parser = leSet.split("\\n");
+            for (String string : parser) {
+                leResp.add(string);
+            }
+        }
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        setProfileDown(i, vUp);
+    }
+
+    @Override
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "1", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanBanda(i);
+    }
+
+    @Override
+    public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "2", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanVoip(i);
+    }
+
+    @Override
+    public VlanVod createVlanVod(InventarioRede i) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "3", "none")).getRetorno();
+        for (String string : leResp1) {
+            System.out.println(string);
+        }
+        return getVlanVod(i);
+    }
+
+    @Override
+    public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
+        return getVlanMulticast(i);
+
+    }
+
+    @Override
+    public void deleteVlanBanda(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void deleteVlanVoip(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void deleteVlanVod(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+        List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    @Override
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        String leResp = "";
+        Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
+        if (isAdsl) {
+            leResp = getCd().consulta(getComandoSetModulacaoAdsl(i, v)).getBlob();
+            if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                leResp = getCd().consulta(getComandoSetModulacaoAdsl1(i, v)).getBlob();
+            }
+        } else {
+            leResp = getCd().consulta(getComandoSetModulacaoVdsl(i, v)).getBlob();
+            if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                leResp = getCd().consulta(getComandoSetModulacaoVdsl1(i, v)).getBlob();
+                if (leResp.contains("previously") || leResp.contains("is not compatible")) {
+                    leResp = getCd().consulta(getComandoSetModulacaoVdsl11(i, v)).getBlob();
+                }
+            }
+        }
+
+        System.out.println(leResp);
+
+        return getModulacao(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/mcast/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4 {4000}");
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod() + " cos5 swap");
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
+    }
+
+    protected ComandoDslam getComandoDeleteMulticast(String srvc) {
+        return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
+    }
+
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, String intrf, String mode) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode " + mode);
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1 " + i.getCvLan() + " cos0 " + i.getRin() + " cos0 swap");
+    }
+
+    protected ComandoDslam getComandoDeleteVlan(String srvc) {
+        return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm/", 500, "deleteservice " + srvc);
+    }
+
+    protected ComandoDslam getComandoSetModulacaoAdsl(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "false default 0 false default 0 false default 0 true " + castModulacao(v).getModulacao() + " priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoAdsl1(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "false default 0 false default 0 false default 0 true ADSL2PLUS_SUVD11 priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + " 0 false default 0 false default 0 false default priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl1(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + "D1 0 false default 0 false default 0 false default priority");
+    }
+
+    protected ComandoDslam getComandoSetModulacaoVdsl11(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+                + "true " + castModulacao(v).getModulacao() + "D11 0 false default 0 false default 0 false default priority");
+    }
+
+    protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown());
+    }
+
+    protected ComandoDslam getComandoSetProfileSeco(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileUp());
+    }
+
+    protected ComandoDslam getComandoSetProfileSUVD1(InventarioRede i, Velocidades vDown) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown() + "D1");
+    }
+
+    protected ComandoDslam getModul(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles");
     }
 
-    public ComandoDslam getVelSinc(InventarioRede i) {
+    protected ComandoDslam getVelSinc(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/status/status");
     }
 
-    public ComandoDslam getSnrAtn(InventarioRede i) {
+    protected ComandoDslam getSnrAtn(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/bandstatus");
     }
 
-    public ComandoDslam getSrvcBanda(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/status/servicestatus");
-    }
-
-    public ComandoDslam getSrvcVoip(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2/status/servicestatus");
-    }
-
-    protected ComandoDslam getSrvcVod(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/status/servicestatus");
-    }
-
-    protected ComandoDslam getSrvcMult(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/status/servicestatus");
+    protected ComandoDslam getComandoGetSrvc(InventarioRede i, String intrf) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus");
     }
 
     protected ComandoDslam getProf(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile");
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+        Double leVel = new Double(v.getVel());
+        Double umDeUp = 20d;
+        Double doisDeUp = 30d;
+        Double tresDeUp = 40d;
+
+        Boolean isUmDeUp = leVel.compareTo(umDeUp) <= 0;
+        Boolean isDoisDeUp = leVel.compareTo(doisDeUp) <= 0;
+        Boolean isTresDeUp = leVel.compareTo(tresDeUp) <= 0;
+
+        if (isUmDeUp) {
+            p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb_SUV");
+            p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb");
+        } else {
+            if (isDoisDeUp) {
+                p.setProfileDown("HSI_" + v.getVel() + "Mb_2Mb_SUV");
+                p.setProfileUp("HSI_" + v.getVel() + "Mb_2Mb");
+            } else {
+                if (isTresDeUp) {
+                    p.setProfileDown("HSI_" + v.getVel() + "Mb_3Mb_SUV");
+                    p.setProfileUp("HSI_" + v.getVel() + "Mb_3Mb");
+                } else {
+                    p.setProfileDown("HSI_" + v.getVel() + "Mb_5Mb_SUV");
+                    p.setProfileUp("HSI_" + v.getVel() + "Mb_5Mb");
+                }
+            }
+        }
+
+        return p;
+    }
+
+    @Override
+    public Modulacao castModulacao(Velocidades v) {
+        Modulacao m = new Modulacao();
+
+        Double leVel = new Double(v.getVel());
+//        Double autoLimit = 5d;
+        Double adslLimit = 20d;
+//        Boolean isAuto = leVel.compareTo(autoLimit) <= 0;
+        Boolean isAdsl = leVel.compareTo(adslLimit) <= 0;
+        String leModul = isAdsl ? "ADSL2PLUS_ONLY_SUV" : "VDSL_17A_B8_12_SUV";
+        m.setModulacao(leModul);
+
+        return m;
     }
 }

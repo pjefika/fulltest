@@ -40,7 +40,7 @@ public class ValidacaoCorretivaRtProfile extends ValidacaoRealtimeCorretiveGpon 
                     setMensagem("Não foi possível corrigir o Profile, que está divergente do serviço contratado. Seguir o fluxo com o problema/sintoma informado pelo cliente.");
                 }
             }
-            return valid.getResultado();
+            return getResultado();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
