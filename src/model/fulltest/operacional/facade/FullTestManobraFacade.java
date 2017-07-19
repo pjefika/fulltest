@@ -6,6 +6,8 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.validacao.factory.FactoryValidacao;
 
@@ -24,7 +26,27 @@ public class FullTestManobraFacade extends FullTestGenericFacade implements Full
     @Override
     void iniciar(EfikaCustomer e) throws Exception {
         super.iniciar(e);
-        this.setBateria(FactoryValidacao.manobra(dslam, cl));
+        if (dslam instanceof DslamMetalico == false) {
+            throw new FuncIndisponivelDslamException();
+        } else {
+            this.setBateria(FactoryValidacao.manobra(dslam, cl));
+        }
     }
+
+    @Override
+    void validar() {
+        super.validar(); 
+        
+        // Adaptação de Fraseologia
+        getValids().forEach((t) -> {
+            if(!t.getResultado()){
+                this.setResultado(Boolean.FALSE);
+                this.setMensagem(t.getMensagem());
+            }
+        });
+    }
+    
+    
+    
 
 }

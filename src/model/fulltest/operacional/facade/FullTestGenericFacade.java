@@ -51,7 +51,6 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         this.exec = FactoryExecutionStrategy.condicional();
         this.dataInicio = Calendar.getInstance();
         this.dslam = DslamDAOFactory.getInstance(this.cl.getRede());
-        this.bateria = FactoryValidacao.crm(this.dslam, this.cl);
         this.valids = new ArrayList<>();
     }
 
@@ -90,6 +89,9 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     }
 
     public List<Validacao> getBateria() {
+        if(bateria == null){
+            bateria = FactoryValidacao.crm(this.dslam, this.cl);
+        }
         return bateria;
     }
 

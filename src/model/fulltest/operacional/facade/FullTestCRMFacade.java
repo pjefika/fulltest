@@ -25,7 +25,6 @@ public class FullTestCRMFacade extends FullTestGenericFacade implements FullTest
     void iniciar(EfikaCustomer e) throws Exception {
         super.iniciar(e);
         this.setBateria(FactoryValidacao.crm(dslam, cl));
-
     }
 
 }

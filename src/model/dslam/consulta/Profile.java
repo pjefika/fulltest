@@ -8,13 +8,13 @@ package model.dslam.consulta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.velocidade.Velocidades;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class Profile implements Validador {
+public class Profile implements Validavel {
 
     private String profileUp;
 

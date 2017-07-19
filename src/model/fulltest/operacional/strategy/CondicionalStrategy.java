@@ -5,7 +5,6 @@
  */
 package model.fulltest.operacional.strategy;
 
-import dao.dslam.factory.exception.DslamNaoImplException;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.validacao.Validacao;
 

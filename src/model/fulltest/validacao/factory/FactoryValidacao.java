@@ -29,7 +29,6 @@ public class FactoryValidacao {
 
     public static List<Validacao> manobra(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validacao> lst = new ArrayList<>();
-        lst.add(null);
         return lst;
     }
 

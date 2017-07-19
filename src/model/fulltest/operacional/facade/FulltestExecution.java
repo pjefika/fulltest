@@ -19,7 +19,7 @@ public abstract class FulltestExecution {
             iniciar(cl);
             validar();
         } catch (DslamNaoImplException e) {
-
+            throw e;
         } finally {
             encerrar();
         }

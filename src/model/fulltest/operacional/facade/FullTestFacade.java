@@ -7,7 +7,6 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.operacional.FullTestAdapter;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 

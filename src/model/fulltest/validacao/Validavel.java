@@ -11,7 +11,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
  *
  * @author G0041775
  */
-public interface Validador {
+public interface Validavel {
     
     public Boolean validar(EfikaCustomer cust);
     

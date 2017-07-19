@@ -12,7 +12,7 @@ package dao.dslam.factory.exception;
 public class FuncIndisponivelDslamException extends Exception {
 
     public FuncIndisponivelDslamException() {
-        super("Funcionalidade indisponível para este modelo de Dslam.");
+        super("Funcionalidade indisponível para este modelo de DSLAM.");
     }
 
 }
