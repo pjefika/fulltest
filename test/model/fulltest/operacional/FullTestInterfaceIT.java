@@ -7,7 +7,7 @@ package model.fulltest.operacional;
 
 import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.operacional.facade.FullTestManobraFacade;
+import model.fulltest.operacional.facade.FullTestFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -50,8 +50,8 @@ public class FullTestInterfaceIT {
     public void testExecutar() {
         System.out.println("executar");
         try {
-            //FullTestInterface instance = new FullTestFacade();
-            FullTestInterface instance = new FullTestManobraFacade();
+            FullTestInterface instance = new FullTestFacade();
+//            FullTestInterface instance = new FullTestManobraFacade();
             FullTest result = instance.executar(cust);
 
             assertTrue(result.getResultado());

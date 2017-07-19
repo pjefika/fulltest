@@ -28,8 +28,13 @@ import model.validacao.realtime.gpon.corretiva.ValidacaoCorretivaRtVlanVoip;
 public class FactoryValidacao {
 
     public static List<Validacao> manobra(AbstractDslam dslam, EfikaCustomer cust) {
-        List<Validacao> lst = new ArrayList<>();
-        return lst;
+        List<Validacao> bateria = new ArrayList<>();
+        bateria.add(new ValidacaoCorretivaRtEstadoAdmPorta(dslam, cust));
+        bateria.add(new ValidacaoCorretivaRtVlanBanda(dslam, cust));
+        bateria.add(new ValidacaoCorretivaRtVlanVoip(dslam, cust));
+        bateria.add(new ValidacaoCorretivaRtVlanVod(dslam, cust));
+        bateria.add(new ValidacaoCorretivaRtVlanMulticast(dslam, cust));
+        return bateria;
     }
 
     public static List<Validacao> crm(AbstractDslam dslam, EfikaCustomer cust) {
