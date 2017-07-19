@@ -210,10 +210,18 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         return getModulacao(i);
     }
+    
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e){
+        return new ComandoDslam("port "+e.getAdminState()+" 1/"+i.getSlot()+"/"+i.getPorta()+"/0/adsl");
+    }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getEstadoDaPorta(i);
     }
 
     @Override
