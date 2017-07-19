@@ -9,13 +9,13 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import dao.dslam.impl.AbstractDslam;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class AlarmesGpon implements Validador{
+public class AlarmesGpon implements Validavel{
 
     private List<String> listAlarmes;
 

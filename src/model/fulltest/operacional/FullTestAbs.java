@@ -7,6 +7,7 @@ package model.fulltest.operacional;
 
 import java.util.Calendar;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
 import model.entity.AbstractEntity;
 
 /**
@@ -18,8 +19,10 @@ public abstract class FullTestAbs extends AbstractEntity {
 
     protected Boolean resultado;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     protected Calendar dataInicio;
 
+    @Temporal(javax.persistence.TemporalType.DATE)
     protected Calendar dataFim;
 
     protected String mensagem;

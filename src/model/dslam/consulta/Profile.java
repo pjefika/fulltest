@@ -8,13 +8,13 @@ package model.dslam.consulta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.velocidade.Velocidades;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class Profile implements Validador {
+public class Profile implements Validavel {
 
     private String profileUp;
 
@@ -44,7 +44,7 @@ public class Profile implements Validador {
         leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
         
         if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
-            Float leFloat = new Float(leprofUp)/1000;
+            Integer leFloat = new Integer(leprofUp)/1000;
             leprofUp = leFloat.toString();
         }
 

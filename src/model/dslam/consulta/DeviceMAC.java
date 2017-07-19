@@ -6,13 +6,13 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class DeviceMAC implements Validador{
+public class DeviceMAC implements Validavel{
     
     public String mac = "";
 

@@ -6,7 +6,6 @@
 package model.validacao;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import exception.MetodoNaoImplementadoException;
 import model.dslam.consulta.DeviceMAC;
 
 /**

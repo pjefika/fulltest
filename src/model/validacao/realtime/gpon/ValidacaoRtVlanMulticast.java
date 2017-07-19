@@ -6,6 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaGponDefault;
 import exception.MetodoNaoImplementadoException;
 import model.validacao.ValidacaoVlanMulticast;
@@ -19,7 +20,7 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
 
     private ValidacaoVlanMulticast valid;
 
-    public ValidacaoRtVlanMulticast(ConsultaGponDefault dslam, EfikaCustomer cust) {
+    public ValidacaoRtVlanMulticast(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust, "Vlan Multicast");
     }
 
@@ -27,7 +28,7 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
     public Boolean validar() throws Exception {
         try {
             if (cust.getServicos().getIsHib()) {
-                valid = new ValidacaoVlanMulticast(consultaGpon.getVlanMulticast(cust.getRede()), cust);
+                valid = new ValidacaoVlanMulticast(cg.getVlanMulticast(cust.getRede()), cust);
                 valid.validar();
                 this.merge(valid);
             } else {
@@ -39,7 +40,6 @@ public class ValidacaoRtVlanMulticast extends ValidacaoRealtimeGpon {
         } catch (MetodoNaoImplementadoException ex) {
             throw ex;
         } catch (Exception e) {
-            e.printStackTrace();
             return false;
         }
     }

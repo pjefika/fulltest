@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional;
 
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.entity.FulltestGenericEntity;
 import util.GsonUtil;
 
@@ -14,15 +15,15 @@ import util.GsonUtil;
  */
 public class FullTestAdapter {
 
-    public static FullTest adapter(FullTestFacade ff) {
+    public static FullTest adapter(FullTestGenericFacade ff) {
         FullTest ft = new FullTest();
-//        ft.setBateria(ff.bateria);
-        ft.setCl(ff.cl);
-        ft.setDataFim(ff.dataFim);
-        ft.setDataInicio(ff.dataInicio);
-        ft.setValids(ff.valids);
-        ft.setMensagem(ff.mensagem);
-        ft.setResultado(ff.resultado);
+        
+        ft.setCl(ff.getCl());
+        ft.setDataFim(ff.getDataFim());
+        ft.setDataInicio(ff.getDataInicio());
+        ft.setValids(ff.getValids());
+        ft.setMensagem(ff.getMensagem());
+        ft.setResultado(ff.getResultado());
 
         return ft;
     }

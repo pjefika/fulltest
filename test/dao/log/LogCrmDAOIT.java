@@ -58,6 +58,7 @@ public class LogCrmDAOIT {
             t.setExecutor("EXECUTOR");
             t.setConclusao("CONCLUSÃO");
             t.setCustomer("CUSTOMER");
+            t.setValids("VALIDS");
 
             t.setCadastro(Boolean.FALSE);
             t.setFulltest(Boolean.FALSE);

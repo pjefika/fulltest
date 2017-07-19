@@ -6,8 +6,7 @@
 package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaClienteInter;
-import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.AbstractDslam;
 import model.validacao.ValidacaoProfile;
 import model.validacao.realtime.ValidacaoRealtimeGpon;
 
@@ -19,14 +18,14 @@ public class ValidacaoRtProfile extends ValidacaoRealtimeGpon {
 
     private ValidacaoProfile valid;
 
-    public ValidacaoRtProfile(ConsultaClienteInter dslam, EfikaCustomer cl) {
+    public ValidacaoRtProfile(AbstractDslam dslam, EfikaCustomer cl) {
         super(dslam, cl, "Profile");
     }
 
     @Override
     public Boolean validar() {
         try {
-            valid = new ValidacaoProfile(consultaGpon.getProfile(cust.getRede()), cust);
+            valid = new ValidacaoProfile(cg.getProfile(cust.getRede()), cust);
             valid.validar();
             this.merge(valid);
             return valid.getResultado();

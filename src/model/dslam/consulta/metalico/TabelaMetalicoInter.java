@@ -3,17 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.fulltest.operacional;
+package model.dslam.consulta.metalico;
 
 import java.util.List;
-import model.validacao.Validacao;
 
 /**
  *
- * @author G0041775
+ * @author G0042204
+ * @param <T>
  */
-public interface FullTestInterface {
+public interface TabelaMetalicoInter<T> {
+
+    public Boolean validar(T t);
+
+    public List<Double> getSnrsDown();
+
+    public List<Double> getSnrsUp();
     
-    public FullTest executar(List<Validacao> bateria) throws Exception;
     
+
 }

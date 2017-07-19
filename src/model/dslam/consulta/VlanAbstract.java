@@ -7,13 +7,13 @@ package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.EnumEstadoVlan;
-import model.fulltest.validacao.Validador;
+import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public abstract class VlanAbstract implements Validador {
+public abstract class VlanAbstract implements Validavel {
 
     private Integer cvlan;
 
