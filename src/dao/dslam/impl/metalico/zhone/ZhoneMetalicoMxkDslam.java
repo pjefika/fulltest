@@ -252,8 +252,14 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
-        Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
-        String leModul = isAdsl ? "adsl2plusmode" : "vdsl2mode";
+        Boolean isAuto = new Double(v.getVel()).compareTo(5d) <= 0;
+        Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0 && !isAuto;
+        String leModul = "";
+        if (isAuto) {
+            leModul = "autonegotiatemode";
+        } else {
+            leModul = isAdsl ? "adsl2plusmode" : "vdsl2mode";
+        }
 
         m.setModulacao(leModul);
 
@@ -263,8 +269,39 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
-
-        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
+        
+        switch (v.getVel()) {
+            case "3":
+                p.setProfileDown("3840");
+                p.setProfileUp("1280");
+                break;
+            case "5":
+                p.setProfileDown("7680");
+                p.setProfileUp("1280");
+                break;
+            case "10":
+                p.setProfileDown("12800");
+                p.setProfileUp("1280");
+                break;
+            case "15":
+                p.setProfileDown("17664");
+                p.setProfileUp("1280");
+                break;
+            case "25":
+                p.setProfileDown("27500");
+                p.setProfileUp("2600");
+                break;
+            case "35":
+                p.setProfileDown("38000");
+                p.setProfileUp("4000");
+                break;
+            case "50":
+                p.setProfileDown("55000");
+                p.setProfileUp("6000");
+                break;
+            default:
+                break;
+        }
 
         return p;
     }
