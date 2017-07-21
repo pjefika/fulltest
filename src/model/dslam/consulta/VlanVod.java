@@ -18,6 +18,11 @@ public class VlanVod extends VlanAbstract {
         super(null, null);
     }
 
+    @Override
+    public String getNome() {
+        return "Vlan VoD";
+    }
+
     public VlanVod(Integer p100, Integer cvlan, EnumEstadoVlan est) {
         super(p100, cvlan, est);
     }

@@ -21,6 +21,11 @@ public class TabelaParametrosGpon implements Validavel {
     public TabelaParametrosGpon() {
     }
 
+    @Override
+    public String getNome() {
+        throw new UnsupportedOperationException("Not supported yethis."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public Double getPotOnt() {
         return potOnt;
     }
@@ -39,8 +44,8 @@ public class TabelaParametrosGpon implements Validavel {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-        return (this.potOlt < -8 && this.potOlt > -25
-                && this.potOnt < -8 && this.potOnt > -25);
+        return this.getPotOlt().compareTo(new Double("-8")) <= 0 && this.getPotOlt().compareTo(new Double("-30")) >= 0
+                && this.getPotOnt().compareTo(new Double("-8")) <= 0 && this.getPotOnt().compareTo(new Double("-30")) >= 0;
     }
 
 }

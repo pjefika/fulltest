@@ -1,0 +1,97 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model.validacao.impl;
+
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import model.validacao.ValidacaoResult;
+import model.validacao.validador.Validator;
+
+/**
+ *
+ * @author G0042204
+ */
+public abstract class Validacao implements Validator {
+
+    private String nome;
+
+    private String mensagem;
+
+    private Boolean resultado;
+
+    public Validacao() {
+    }
+
+    public Validacao(String nome) {
+        this.nome = nome;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public ValidacaoResult validar() {
+        try {
+            iniciar();
+            processar();
+            return new ValidacaoResult(nome, mensagem, resultado);
+        } catch (FuncIndisponivelDslamException e) {
+            return new ValidacaoResult(nome, e.getMessage(), Boolean.TRUE);
+        }
+    }
+
+    protected void processar() {
+        if (checar()) {
+            this.finalizar(frasePositiva(), Boolean.TRUE);
+        } else {
+            this.finalizar(fraseNegativa(), Boolean.FALSE);
+        }
+    }
+
+    protected abstract String frasePositiva();
+
+    protected abstract String fraseNegativa();
+
+    protected void iniciar() throws FuncIndisponivelDslamException {
+    }
+
+    protected void finalizar(String msg, Boolean result) {
+        this.mensagem = msg;
+        this.resultado = result;
+    }
+
+    public abstract Boolean checar();
+
+    public void merge(Validacao v) {
+        this.setNome(v.getNome());
+        this.finalizar(v.getMensagem(), v.getResultado());
+    }
+
+    public void setResultado(Boolean resultado) {
+        this.resultado = resultado;
+    }
+
+    public Boolean getResultado() {
+        return resultado;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getMensagem() {
+        return mensagem;
+    }
+
+    public void setMensagem(String mensagem) {
+        this.mensagem = mensagem;
+    }
+
+}

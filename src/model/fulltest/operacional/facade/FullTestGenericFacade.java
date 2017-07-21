@@ -16,7 +16,8 @@ import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.fulltest.validacao.factory.FactoryValidacao;
-import model.validacao.Validacao;
+import model.validacao.ValidacaoResult;
+import model.validacao.validador.Validator;
 
 /**
  *
@@ -26,9 +27,9 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     protected EfikaCustomer cl;
 
-    private List<Validacao> bateria;
+    private List<Validator> bateria;
 
-    protected List<Validacao> valids;
+    protected List<ValidacaoResult> valids;
 
     protected Calendar dataInicio;
 
@@ -88,22 +89,22 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         this.cl = cl;
     }
 
-    public List<Validacao> getBateria() {
+    public List<Validator> getBateria() {
         if(bateria == null){
             bateria = FactoryValidacao.crm(this.dslam, this.cl);
         }
         return bateria;
     }
 
-    public void setBateria(List<Validacao> bateria) {
+    public void setBateria(List<Validator> bateria) {
         this.bateria = bateria;
     }
 
-    public List<Validacao> getValids() {
+    public List<ValidacaoResult> getValids() {
         return valids;
     }
 
-    public void setValids(List<Validacao> valids) {
+    public void setValids(List<ValidacaoResult> valids) {
         this.valids = valids;
     }
 

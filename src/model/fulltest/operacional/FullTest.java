@@ -7,9 +7,8 @@ package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import model.validacao.Validacao;
+import model.validacao.ValidacaoResult;
 
 /**
  *
@@ -19,7 +18,7 @@ public class FullTest extends FullTestAbs {
 
     protected EfikaCustomer cl;
 
-    protected List<Validacao> valids;
+    protected List<ValidacaoResult> valids;
 
     public FullTest() {
         valids = new ArrayList<>();
@@ -33,11 +32,11 @@ public class FullTest extends FullTestAbs {
         this.cl = cl;
     }
 
-    public List<Validacao> getValids() {
+    public List<ValidacaoResult> getValids() {
         return valids;
     }
 
-    public void setValids(List<Validacao> valids) {
+    public void setValids(List<ValidacaoResult> valids) {
         this.valids = valids;
     }
 

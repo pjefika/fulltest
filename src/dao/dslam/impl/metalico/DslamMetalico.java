@@ -7,6 +7,7 @@ package dao.dslam.impl.metalico;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.ModulacaoCasterInterface;
 import dao.dslam.impl.ProfileCasterInterface;

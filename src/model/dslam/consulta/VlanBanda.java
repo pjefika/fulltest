@@ -8,7 +8,6 @@ package model.dslam.consulta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.EnumEstadoVlan;
 
-
 /**
  *
  * @author G0041775
@@ -19,12 +18,17 @@ public class VlanBanda extends VlanAbstract {
         super(null, null, null);
     }
 
+    @Override
+    public String getNome() {
+        return "Vlan Banda Larga";
+    }
+
     public VlanBanda(Integer cvlan, Integer p100, EnumEstadoVlan estado) {
         super(p100, cvlan, estado);
     }
-    
+
     @Deprecated
-    public VlanBanda(Integer cvlan, Integer p100){
+    public VlanBanda(Integer cvlan, Integer p100) {
         super(cvlan, p100);
     }
 

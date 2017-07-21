@@ -43,15 +43,14 @@ public class ValidacaoRtProfileIT {
     }
 
     /**
-     * Test of validar method, of class ValidacaoRtProfile.
+     * Test of validar method, of class ValidadorProfile.
      */
     @Test
     public void testValidar() {
 
         try {
-            ValidacaoRtProfile instance = new ValidacaoRtProfile(DslamDAOFactory.getInstance(cust.getRede()), cust);
-            Boolean result = instance.validar();
-            assertEquals(true, result);
+            ValidadorProfile instance = new ValidadorProfile(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            assertEquals(true, instance.validar().getResultado());
         } catch (Exception e) {
             fail(e.getMessage());
         }

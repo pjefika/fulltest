@@ -12,7 +12,8 @@ import model.fulltest.validacao.Validavel;
  *
  * @author G0041775
  */
-public class SerialOntGpon implements Validavel{
+public class SerialOntGpon implements Validavel {
+
     private String serial;
 
     public String getSerial() {
@@ -27,5 +28,10 @@ public class SerialOntGpon implements Validavel{
     public Boolean validar(EfikaCustomer e) {
         return !this.serial.isEmpty();
     }
-    
+
+    @Override
+    public String getNome() {
+        return "Associação Serial ONT";
+    }
+
 }

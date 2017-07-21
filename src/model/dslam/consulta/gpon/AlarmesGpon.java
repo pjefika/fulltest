@@ -8,22 +8,25 @@ package model.dslam.consulta.gpon;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
-import dao.dslam.impl.AbstractDslam;
 import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class AlarmesGpon implements Validavel{
+public class AlarmesGpon implements Validavel {
 
     private List<String> listAlarmes;
 
-    
-    public AlarmesGpon(){
+    public AlarmesGpon() {
         this.listAlarmes = new ArrayList<>();
     }
-    
+
+    @Override
+    public String getNome() {
+        return "Lista de Alarmes";
+    }
+
     public List<String> getListAlarmes() {
         return listAlarmes;
     }
@@ -36,7 +39,5 @@ public class AlarmesGpon implements Validavel{
     public Boolean validar(EfikaCustomer e) {
         return this.listAlarmes.isEmpty();
     }
-    
-    
-    
+
 }

@@ -12,7 +12,9 @@ import br.net.gvt.efika.customer.EfikaCustomer;
  * @author G0041775
  */
 public interface Validavel {
-    
+
     public Boolean validar(EfikaCustomer cust);
-    
+
+    public String getNome();
+
 }
