@@ -184,19 +184,30 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         return new ComandoDslam("get vdsl-config 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
     }
 
-    @Override
-    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected ComandoDslam getComandoSetModulacao(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update vdsl-config transmit-mode=" + castModulacao(v).getModulacao() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
     }
 
     @Override
-    public Modulacao setModulacao(InventarioRede i, Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetModulacao(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getModulacao(i);
+    }
+
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getEstadoDaPorta(i);
     }
 
     @Override
@@ -269,7 +280,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
-        
+
         switch (v.getVel()) {
             case "3":
                 p.setProfileDown("3840");

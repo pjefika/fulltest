@@ -186,18 +186,6 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         return new ComandoDslam("get adsl-profile 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
-    @Override
-    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
-        t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
-        t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
-        t.setSnrDown(6d);
-        t.setSnrUp(5d);
-        t.setAtnDown(1d);
-        t.setAtnUp(2d);
-        return t;
-    }
-
     protected ComandoDslam getComandoSetModulacao(InventarioRede i, Velocidades v) {
         return new ComandoDslam("update adsl-profile adslTransmissionMode=" + castModulacao(v).getModulacao() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
@@ -264,7 +252,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36 td 23 downlink vlan "+i.getCvLan()+" slan "+i.getVlanVoip()+" cos 5 outcosall 5 scos 5 soutcosall 5");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36 td 23 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " cos 5 outcosall 5 scos 5 soutcosall 5");
     }
 
     @Override
@@ -277,7 +265,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37 td 21 downlink vlan "+i.getCvLan()+" slan "+i.getVlanVod()+" cos 3 outcosall 3 scos 3 soutcosall 3");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37 td 21 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVod() + " cos 3 outcosall 3 scos 3 soutcosall 3");
     }
 
     @Override
