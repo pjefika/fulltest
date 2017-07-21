@@ -209,9 +209,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
         return getEstadoDaPorta(i);
     }
-    
-    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v){
-        return new ComandoDslam("update vdsl-co-config fastMaxTxRate="+castProfile(v).getProfileDown()+" interleaveMaxTxRate="+castProfile(v).getProfileDown()+" 1/"+i.getSlot()+"/"+i.getPorta()+"/0/vdsl");
+
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update vdsl-co-config fastMaxTxRate=" + castProfile(v).getProfileDown() + " interleaveMaxTxRate=" + castProfile(v).getProfileDown() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
     }
 
     @Override
@@ -222,6 +222,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update vdsl-cpe-config fastMaxTxRate=" + castProfile(v).getProfileUp() + " interleaveMaxTxRate=" + castProfile(v).getProfileUp() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
+    }
+
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, vDown)).getRetorno();
@@ -229,49 +233,105 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             System.out.println(string);
         }
     }
-    
-    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v){
-        return new ComandoDslam("update vdsl-cpe-config fastMaxTxRate="+castProfile(v).getProfileUp()+" interleaveMaxTxRate="+castProfile(v).getProfileUp()+" 1/"+i.getSlot()+"/"+i.getPorta()+"/0/vdsl");
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 downlink vlan 600 xlate-to " + i.getCvLan() + " slan " + i.getRin() + " tagged", 2000);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanBanda(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/36 downlink vlan 601 xlate-to " + i.getCvLan() + " slan " + i.getVlanVoip() + " tagged", 2000);
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVoip(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/37 downlink vlan 602 xlate-to " + i.getCvLan() + " slan " + i.getVlanVod() + " tagged", 2000);
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVod(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/38 downlink vlan 4000 tagged cos 4 outcosall 4", 2000);
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanMulticast(i);
     }
 
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
+        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/35 vlan "+i.getCvLan()+" slan "+i.getRin());
+    }
+    
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i){
+        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/36 vlan "+i.getCvLan()+" slan "+i.getVlanVoip());
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i){
+        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/37 vlan "+i.getCvLan()+" slan "+i.getVlanVod());
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i){
+        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/38 vlan "+i.getVlanMulticast());
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
