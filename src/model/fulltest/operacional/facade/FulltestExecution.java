@@ -18,15 +18,14 @@ public abstract class FulltestExecution {
         try {
             iniciar(cl);
             validar();
+            encerrar();
         } catch (DslamNaoImplException e) {
             throw e;
-        } finally {
-            encerrar();
         }
     }
-    
+
     abstract void iniciar(EfikaCustomer cl) throws Exception;
-    
+
     abstract void validar();
 
     abstract void encerrar();

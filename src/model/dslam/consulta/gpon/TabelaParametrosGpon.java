@@ -23,7 +23,7 @@ public class TabelaParametrosGpon implements Validavel {
 
     @Override
     public String getNome() {
-        throw new UnsupportedOperationException("Not supported yethis."); //To change body of generated methods, choose Tools | Templates.
+        return "Parâmetros Ópticos";
     }
 
     public Double getPotOnt() {

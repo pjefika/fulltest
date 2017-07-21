@@ -41,6 +41,7 @@ public abstract class Validador extends ValidFlow implements Validator {
             processar();
             return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado());
         } catch (Exception ex) {
+            ex.printStackTrace();
             return new ValidacaoResult(valid.getNome(), ex.getMessage(), Boolean.TRUE);
         }
     }

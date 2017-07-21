@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("1630107429");
+    private final EfikaCustomer cust = CustomerMock.getCustomer("7932321318");
 
     public FullTestGponTest() {
     }
@@ -58,6 +58,8 @@ public class FullTestGponTest {
                         + "|  Resultado: " + valid.getResultado() + " "
                         + "|  Mensagem: " + valid.getMensagem());
             });
+            
+            System.out.println(f.getMensagem());
 
             assertEquals(expResult, f.getResultado());
         } catch (Exception e) {

@@ -8,7 +8,6 @@ package model.fulltest.operacional.strategy;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.validacao.ValidacaoResult;
 import model.validacao.validador.Validator;
-import model.validacao.impl.Validacao;
 
 /**
  * Estratégia de execução que interrompe a execução caso encontre validações
@@ -31,10 +30,13 @@ public class CondicionalStrategy implements ExecutionStrategy {
                     return;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 ft.setResultado(Boolean.FALSE);
                 ft.setMensagem(e.getMessage());
+                
             }
         }
+        
     }
     
 }
