@@ -209,15 +209,29 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
         return getEstadoDaPorta(i);
     }
+    
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v){
+        return new ComandoDslam("update vdsl-co-config fastMaxTxRate="+castProfile(v).getProfileDown()+" interleaveMaxTxRate="+castProfile(v).getProfileDown()+" 1/"+i.getSlot()+"/"+i.getPorta()+"/0/vdsl");
+    }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, vDown)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+    
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v){
+        return new ComandoDslam("update vdsl-cpe-config fastMaxTxRate="+castProfile(v).getProfileUp()+" interleaveMaxTxRate="+castProfile(v).getProfileUp()+" 1/"+i.getSlot()+"/"+i.getPorta()+"/0/vdsl");
     }
 
     @Override
