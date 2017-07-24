@@ -85,8 +85,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            cvlan = new Integer(leVlanBanda.get(1));
-            p100 = new Integer(leVlanBanda.get(0));
+            p100 = new Integer(leVlanBanda.get(1));
+            cvlan = new Integer(leVlanBanda.get(0));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
 
@@ -102,8 +102,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            cvlan = new Integer(leVlanBanda.get(1));
-            p100 = new Integer(leVlanBanda.get(0));
+            p100 = new Integer(leVlanBanda.get(1));
+            cvlan = new Integer(leVlanBanda.get(0));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
 
@@ -119,8 +119,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            cvlan = new Integer(leVlanBanda.get(1));
-            p100 = new Integer(leVlanBanda.get(0));
+            p100 = new Integer(leVlanBanda.get(1));
+            cvlan = new Integer(leVlanBanda.get(0));
         }
         VlanVod vlanVod = new VlanVod(cvlan, p100);
 
@@ -148,10 +148,10 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
         Profile p = new Profile();
-        BigInteger leDown = new BigInteger(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
-        BigInteger leUp = new BigInteger(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)).divide(new BigInteger("1000"));
-        p.setProfileDown(leDown.toString());
-        p.setProfileUp(leUp.toString());
+        String leDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        String leUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileDown(leDown);
+        p.setProfileUp(leUp);
 
         return p;
     }
@@ -161,6 +161,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         List<String> leModul = this.getCd().consulta(this.getModul(i)).getRetorno();
         Modulacao m = new Modulacao();
         String modulacao = TratativaRetornoUtil.tratZhone(leModul, "adslTransmissionMode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
+        System.out.println(modulacao);
         m.setModulacao(modulacao);
         return m;
     }
@@ -185,74 +186,156 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         return new ComandoDslam("get adsl-profile 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
-    @Override
-    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected ComandoDslam getComandoSetModulacao(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update adsl-profile adslTransmissionMode=" + castModulacao(v).getModulacao() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
-    public Profile castProfile(Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        List<String> leResp = getCd().consulta(getComandoSetModulacao(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getModulacao(i);
     }
 
-    @Override
-    public Modulacao setModulacao(InventarioRede i, Velocidades v) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/adsl");
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getEstadoDaPorta(i);
+    }
+
+    protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update adsl-co-profile fastMaxTxRate=" + castProfile(v).getProfileDown()
+                + " interleaveMaxTxRate=" + castProfile(v).getProfileDown() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("update adsl-cpe-profile fastMaxTxRate=" + castProfile(v).getProfileUp()
+                + " interleaveMaxTxRate=" + castProfile(v).getProfileUp() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, vUp)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35 td 20 downlink vlan " + i.getCvLan() + " slan " + i.getRin());
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanBanda(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36 td 23 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " cos 5 outcosall 5 scos 5 soutcosall 5");
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVoip(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37 td 21 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVod() + " cos 3 outcosall 3 scos 3 soutcosall 3");
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanVod(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/38 td 22 downlink vlan 4000 cos 4 outcosall 4");
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+        return getVlanMulticast(i);
+    }
+
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35");
     }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36");
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37");
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
+    }
+
+    protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/38");
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> leResp = getCd().consulta(getComandoDeleteVlanMulticast(i)).getRetorno();
+        for (String string : leResp) {
+            System.out.println(string);
+        }
     }
 
     @Override
@@ -264,6 +347,30 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         m.setModulacao(leModul);
 
         return m;
+    }
+
+    @Override
+    public Profile castProfile(Velocidades v) {
+        Profile p = new Profile();
+        p.setProfileUp("1280000");
+        switch (v.getVel()) {
+            case "3":
+                p.setProfileDown("3840000");
+                break;
+            case "5":
+                p.setProfileDown("7680000");
+                break;
+            case "10":
+                p.setProfileDown("12800000");
+                break;
+            case "15":
+                p.setProfileDown("17664000");
+                break;
+            default:
+                break;
+        }
+
+        return p;
     }
 
 }

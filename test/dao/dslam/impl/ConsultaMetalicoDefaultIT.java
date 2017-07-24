@@ -35,26 +35,22 @@ import static org.junit.Assert.*;
  */
 public class ConsultaMetalicoDefaultIT {
 
-    DslamMetalico instance;
-    EfikaCustomer ec;
-    InventarioRede i;
+    private static DslamMetalico instance;
+    private static EfikaCustomer ec = CustomerMock.getCustomer("4133335556");
+    private static InventarioRede i = ec.getRede();
 
     public ConsultaMetalicoDefaultIT() {
-        ec = CustomerMock.getCustomer("7133423305");
-        i = ec.getRede();
-        try {
-            instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
-        } catch (DslamNaoImplException ex) {
-            Logger.getLogger(AlteracaoClienteInterIT.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass() throws DslamNaoImplException {
+        instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
+        instance.conectar();
     }
 
     @AfterClass
     public static void tearDownClass() {
+        instance.desconectar();
     }
 
     @Before
@@ -200,7 +196,7 @@ public class ConsultaMetalicoDefaultIT {
     @Test
     public void testGetTabelaParametrosIdeal() {
         System.out.println("getTabelaParametrosIdeal");
-        Velocidades v = null;
+        Velocidades v = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
 
         try {
             TabelaParametrosMetalico result = instance.getTabelaParametrosIdeal(v);
