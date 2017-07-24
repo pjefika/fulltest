@@ -10,8 +10,6 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.metalico.DslamMetalico;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -36,7 +34,7 @@ import static org.junit.Assert.*;
 public class ConsultaMetalicoDefaultIT {
 
     private static DslamMetalico instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("4133335556");
+    private static EfikaCustomer ec = CustomerMock.getCustomer("4130222839");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaMetalicoDefaultIT() {

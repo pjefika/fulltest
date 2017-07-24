@@ -217,7 +217,7 @@ public class ZhoneMetalicoComboDslamIT {
      * Test of setModulacao method, of class ZhoneMetalicoComboDslam.
      */
     @Test
-    public void testSetModulacao() {
+    public void testSetModulacao() throws Exception {
         System.out.println("setModulacao");
         InventarioRede i = null;
         Velocidades v = null;

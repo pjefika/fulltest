@@ -68,7 +68,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
+        VlanBanda vlanBanda = new VlanBanda(p100,cvlan);
 
         return vlanBanda;
     }
