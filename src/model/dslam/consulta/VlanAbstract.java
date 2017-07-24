@@ -21,9 +21,9 @@ public abstract class VlanAbstract implements Validavel {
 
     private EnumEstadoVlan state;
 
-    public VlanAbstract(Integer p100, Integer cvlan, EnumEstadoVlan estado) {
-        this.cvlan = p100;
-        this.svlan = cvlan;
+    public VlanAbstract(Integer cvlan, Integer svlan, EnumEstadoVlan estado) {
+        this.cvlan = cvlan;
+        this.svlan = svlan;
         this.state = estado;
     }
 

@@ -43,7 +43,6 @@ public class ConsultaDslam implements Conector {
         String line;
         try {
             while ((line = in.readLine()) != null) {
-                System.out.println(line);
                 list.add(line);
             }
         } catch (Exception e) {

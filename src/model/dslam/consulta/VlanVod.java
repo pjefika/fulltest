@@ -23,13 +23,8 @@ public class VlanVod extends VlanAbstract {
         return "Vlan VoD";
     }
 
-    public VlanVod(Integer p100, Integer cvlan, EnumEstadoVlan est) {
-        super(p100, cvlan, est);
-    }
-
-    @Deprecated
-    public VlanVod(Integer p100, Integer cvlan) {
-        super(p100, cvlan);
+    public VlanVod(Integer cvlan, Integer svlan, EnumEstadoVlan est) {
+        super(cvlan, svlan, est);
     }
 
     @Override

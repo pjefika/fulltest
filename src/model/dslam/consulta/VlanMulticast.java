@@ -23,13 +23,8 @@ public class VlanMulticast extends VlanAbstract {
         return "Vlan Multicast";
     }
 
-    public VlanMulticast(Integer p100, Integer cvlan, EnumEstadoVlan estado) {
-        super(p100, cvlan, estado);
-    }
-
-    @Deprecated
-    public VlanMulticast(Integer p100, Integer cvlan) {
-        super(p100, cvlan);
+    public VlanMulticast(Integer cvlan, Integer svlan, EnumEstadoVlan estado) {
+        super(cvlan, svlan, estado);
     }
 
     @Override

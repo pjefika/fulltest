@@ -23,14 +23,10 @@ public class VlanVoip extends VlanAbstract {
         return "Vlan VoIP";
     }
 
-    public VlanVoip(Integer p100, Integer cvlan, EnumEstadoVlan est) {
-        super(p100, cvlan, est);
+    public VlanVoip(Integer cvlan, Integer svlan, EnumEstadoVlan est) {
+        super(cvlan, svlan, est);
     }
 
-    @Deprecated
-    public VlanVoip(Integer p100, Integer cvlan) {
-        super(p100, cvlan);
-    }
 
     @Override
     public Boolean validar(EfikaCustomer e) {

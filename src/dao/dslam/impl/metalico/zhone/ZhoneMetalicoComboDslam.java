@@ -89,8 +89,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             cvlan = new Integer(leVlanBanda.get(0));
             p100 = new Integer(leVlanBanda.get(1));
         }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
-        vlanBanda.setState(EnumEstadoVlan.UP);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, EnumEstadoVlan.UP);
 
         return vlanBanda;
     }
@@ -107,8 +106,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             p100 = new Integer(leVlanBanda.get(1));
             cvlan = new Integer(leVlanBanda.get(0));
         }
-        VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
-        vlanVoip.setState(EnumEstadoVlan.UP);
+        VlanVoip vlanVoip = new VlanVoip(cvlan, p100, EnumEstadoVlan.UP);
 
         return vlanVoip;
     }
@@ -125,8 +123,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             p100 = new Integer(leVlanBanda.get(1));
             cvlan = new Integer(leVlanBanda.get(0));
         }
-        VlanVod vlanVod = new VlanVod(cvlan, p100);
-        vlanVod.setState(EnumEstadoVlan.UP);
+        VlanVod vlanVod = new VlanVod(cvlan, p100, EnumEstadoVlan.UP);
 
         return vlanVod;
     }
@@ -135,14 +132,12 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        Integer cvlan = new Integer("0");
+        Integer svlan = new Integer("0");
 
         if (leVlanMult != null) {
-            cvlan = new Integer(leVlanMult.get(0));
+            svlan = new Integer(leVlanMult.get(0));
         }
-        VlanMulticast vlanMult = new VlanMulticast();
-        vlanMult.setCvlan(cvlan);
-        vlanMult.setState(EnumEstadoVlan.UP);
+        VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
         
 
         return vlanMult;

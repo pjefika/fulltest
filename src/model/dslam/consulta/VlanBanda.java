@@ -23,13 +23,8 @@ public class VlanBanda extends VlanAbstract {
         return "Vlan Banda Larga";
     }
 
-    public VlanBanda(Integer cvlan, Integer p100, EnumEstadoVlan estado) {
-        super(p100, cvlan, estado);
-    }
-
-    @Deprecated
-    public VlanBanda(Integer cvlan, Integer p100) {
-        super(cvlan, p100);
+    public VlanBanda(Integer cvlan, Integer svlan, EnumEstadoVlan estado) {
+        super(cvlan, svlan, estado);
     }
 
     @Override
