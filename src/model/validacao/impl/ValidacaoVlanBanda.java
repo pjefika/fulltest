@@ -28,10 +28,7 @@ public class ValidacaoVlanBanda extends ValidacaoValidavel {
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de Banda configurado incorretamente. Cvlan esperado: "
-                + getCust().getRede().getCvLan() + " - Cvlan configurado: " + vlan.getCvlan()
-                + " Svlan esperado: " + getCust().getRede().getRin() + " - Svlan configurado: " + vlan.getSvlan()
-                + " Estado Vlan: " + vlan.getState().toString() + ".";
+        return "Vlan de Banda configurado incorretamente.";
     }
 
 }

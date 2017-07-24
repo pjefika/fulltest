@@ -30,4 +30,6 @@ public abstract class FulltestExecution {
 
     abstract void encerrar();
 
+    protected abstract void encerramento();
+
 }

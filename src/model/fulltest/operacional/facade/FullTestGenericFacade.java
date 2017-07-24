@@ -71,6 +71,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         return FullTestAdapter.adapter(this);
     }
 
+    @Override
     protected void encerramento() {
         if (mensagem == null) {
             mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";

@@ -37,8 +37,7 @@ public class ValidacaoVlanVoip extends ValidacaoValidavel {
     
     @Override
     protected String fraseNegativa() {
-        return "Vlan de Multicast configurado incorretamente. Svlan esperado: " + getCust().getRede().getVlanVod()
-                + " - Svlan configurado: " + vlan.getSvlan() + " Estado Vlan: " + vlan.getState().getEstadoVlan() + ".";
+        return "Vlan de Multicast configurado incorretamente.";
     }
     
 }

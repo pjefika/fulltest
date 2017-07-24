@@ -16,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import model.fulltest.operacional.facade.FactoryFulltestFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 
@@ -24,7 +25,7 @@ import model.fulltest.operacional.facade.FullTestInterface;
  * @author G0042204
  */
 @Path("/fulltest")
-public class FullTestController extends RestJaxAbstract{
+public class FullTestController extends RestJaxAbstract {
 
     @POST
     @Path("/fulltest")
@@ -52,7 +53,19 @@ public class FullTestController extends RestJaxAbstract{
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
         }
+    }
 
+    @POST
+    @Path("/manobra")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response manobra(EfikaCustomer cs) throws Exception {
+        try {
+            FullTestInterface v = FactoryFulltestFacade.manobra();
+            return Response.status(200).entity(v.executar(cs)).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+        }
     }
 
     @POST
@@ -73,10 +86,10 @@ public class FullTestController extends RestJaxAbstract{
     @Path("/{instancia}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response teste(@PathParam("instancia") String instancia) {
-         try {
+        try {
             EfikaCustomer cs = CustomerDAO.getCustomer(instancia);
             FullTestInterface v = new FullTestFacade();
-            
+
             return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
