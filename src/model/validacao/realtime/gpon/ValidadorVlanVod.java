@@ -9,13 +9,13 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.impl.Validacao;
 import model.validacao.impl.ValidacaoVlanVod;
-import model.validacao.realtime.ValidadorGpon;
+import model.validacao.realtime.Validador;
 
 /**
  *
  * @author G0042204
  */
-public class ValidadorVlanVod extends ValidadorGpon {
+public class ValidadorVlanVod extends Validador {
 
     public ValidadorVlanVod(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust);
@@ -23,7 +23,7 @@ public class ValidadorVlanVod extends ValidadorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanVod(cg.getVlanVod(cust.getRede()), cust);
+        return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust);
     }
 
 }

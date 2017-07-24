@@ -95,12 +95,13 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
+        
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
-        VlanVod vlanVod = new VlanVod(cvlan, p100);
+        VlanVod vlanVod = new VlanVod(p100, cvlan);
 
         return vlanVod;
     }

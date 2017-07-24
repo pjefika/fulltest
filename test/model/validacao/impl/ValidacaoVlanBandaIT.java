@@ -54,7 +54,7 @@ public class ValidacaoVlanBandaIT {
             ValidacaoResult r = v.validar();
             System.out.println("d");
             assertTrue(r.getResultado());
-        } catch (DslamNaoImplException e) {
+        } catch (DslamNaoImplException e) { 
             e.printStackTrace();
         }
 

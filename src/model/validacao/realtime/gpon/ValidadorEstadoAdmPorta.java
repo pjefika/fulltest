@@ -9,13 +9,13 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.impl.Validacao;
 import model.validacao.impl.ValidacaoEstadoPortaAdm;
-import model.validacao.realtime.ValidadorGpon;
+import model.validacao.realtime.Validador;
 
 /**
  *
  * @author G0042204
  */
-public class ValidadorEstadoAdmPorta extends ValidadorGpon {
+public class ValidadorEstadoAdmPorta extends Validador {
 
     public ValidadorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust);

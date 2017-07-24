@@ -32,12 +32,12 @@ public class ValidacaoVlanVoip extends ValidacaoValidavel {
     
     @Override
     protected String frasePositiva() {
-        return "Vlan de Multicast configurado corretamente.";
+        return "Vlan de VoIP configurado corretamente.";
     }
     
     @Override
     protected String fraseNegativa() {
-        return "Vlan de Multicast configurado incorretamente.";
+        return "Vlan de VoIP configurado incorretamente.";
     }
     
 }
