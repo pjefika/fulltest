@@ -5,6 +5,7 @@
  */
 package model.validacao;
 
+import model.validacao.impl.Validacao;
 import java.math.BigInteger;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 

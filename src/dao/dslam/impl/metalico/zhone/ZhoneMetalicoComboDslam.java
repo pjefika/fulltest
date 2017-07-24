@@ -11,6 +11,7 @@ import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
+import model.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -85,10 +86,11 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            p100 = new Integer(leVlanBanda.get(1));
             cvlan = new Integer(leVlanBanda.get(0));
+            p100 = new Integer(leVlanBanda.get(1));
         }
         VlanBanda vlanBanda = new VlanBanda(cvlan, p100);
+        vlanBanda.setState(EnumEstadoVlan.UP);
 
         return vlanBanda;
     }
@@ -106,6 +108,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             cvlan = new Integer(leVlanBanda.get(0));
         }
         VlanVoip vlanVoip = new VlanVoip(cvlan, p100);
+        vlanVoip.setState(EnumEstadoVlan.UP);
 
         return vlanVoip;
     }
@@ -123,6 +126,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             cvlan = new Integer(leVlanBanda.get(0));
         }
         VlanVod vlanVod = new VlanVod(cvlan, p100);
+        vlanVod.setState(EnumEstadoVlan.UP);
 
         return vlanVod;
     }
@@ -138,6 +142,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         VlanMulticast vlanMult = new VlanMulticast();
         vlanMult.setCvlan(cvlan);
+        vlanMult.setState(EnumEstadoVlan.UP);
+        
 
         return vlanMult;
     }

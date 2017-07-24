@@ -27,19 +27,7 @@ public interface ConsultaGponDefault extends ConsultaClienteInter {
 
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception;
 
-    public VlanBanda getVlanBanda(InventarioRede i) throws Exception;
-
-    public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception;
-
-    public VlanVoip getVlanVoip(InventarioRede i) throws Exception;
-
-    public VlanVod getVlanVod(InventarioRede i) throws Exception;
-
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
-
-    public Profile getProfile(InventarioRede i) throws Exception;
-
-    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception;
 
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception;
 

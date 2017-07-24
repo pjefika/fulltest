@@ -6,21 +6,25 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import model.dslam.ValidavelAbs;
 import model.fulltest.validacao.Validavel;
 
 /**
  *
  * @author G0041775
  */
-public class DeviceMAC implements Validavel{
-    
-    public String mac = "";
+public class DeviceMAC extends ValidavelAbs implements Validavel {
+
+    private String mac = "";
+    private static String NOME = "MAC do Equipamento";
 
     public DeviceMAC() {
+        super(NOME);
     }
-    
-    public DeviceMAC(String m) {
-        mac = m;
+
+    public DeviceMAC(String mac) {
+        super(NOME);
+        this.mac = mac;
     }
 
     public String getMac() {
@@ -35,6 +39,5 @@ public class DeviceMAC implements Validavel{
     public Boolean validar(EfikaCustomer cust) {
         return !mac.isEmpty();
     }
-    
-    
+
 }

@@ -18,6 +18,11 @@ public class VlanVoip extends VlanAbstract {
         super(null, null);
     }
 
+    @Override
+    public String getNome() {
+        return "Vlan VoIP";
+    }
+
     public VlanVoip(Integer p100, Integer cvlan, EnumEstadoVlan est) {
         super(p100, cvlan, est);
     }

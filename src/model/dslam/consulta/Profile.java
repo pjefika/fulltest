@@ -7,6 +7,7 @@ package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import model.dslam.ValidavelAbs;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.validacao.Validavel;
 
@@ -14,11 +15,17 @@ import model.fulltest.validacao.Validavel;
  *
  * @author G0041775
  */
-public class Profile implements Validavel {
+public class Profile extends ValidavelAbs implements Validavel {
 
     private String profileUp;
 
     private String profileDown;
+
+    private static final String NOME = "MAC do Equipamento";
+
+    public Profile() {
+        super(NOME);
+    }
 
     public String getProfileUp() {
         return profileUp;
@@ -42,9 +49,9 @@ public class Profile implements Validavel {
         String leprofDown = TratativaRetornoUtil.numberFromString(this.profileDown).get(0);
         String leprofUp;
         leprofUp = TratativaRetornoUtil.numberFromString(this.profileUp).get(0);
-        
+
         if (leprofUp.length() > 3 && !leprofUp.contains(".")) {
-            Integer leFloat = new Integer(leprofUp)/1000;
+            Integer leFloat = new Integer(leprofUp) / 1000;
             leprofUp = leFloat.toString();
         }
 

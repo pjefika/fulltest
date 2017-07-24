@@ -35,18 +35,26 @@ public class FullTestManobraFacade extends FullTestGenericFacade implements Full
 
     @Override
     void validar() {
-        super.validar(); 
-        
+        super.validar();
+
         // Adaptação de Fraseologia
         getValids().forEach((t) -> {
-            if(!t.getResultado()){
+            if (!t.getResultado()) {
                 this.setResultado(Boolean.FALSE);
                 this.setMensagem(t.getMensagem());
             }
         });
     }
-    
-    
-    
+
+    @Override
+    protected void encerramento() {
+        if (mensagem == null) {
+            mensagem = "Não foram identificados problemas de configuração.";
+        }
+
+        if (resultado == null) {
+            resultado = true;
+        }
+    }
 
 }

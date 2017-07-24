@@ -5,9 +5,11 @@
  */
 package model.validacao.realtime.metalico;
 
+import model.validacao.realtime.ValidadorRtEstadoAdmPorta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
-import model.validacao.Validator;
+import model.validacao.ValidacaoResult;
+import model.validacao.validador.Validator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,16 +46,16 @@ public class ValidacaoRtEstadoAdmPortaIT {
     }
 
     /**
-     * Test of validar method, of class ValidacaoRtEstadoAdmPorta.
+     * Test of validar method, of class ValidadorRtEstadoAdmPorta.
      */
     @Test
     public void testValidar() {
 
         try {
-            Validator instance = new ValidacaoRtEstadoAdmPorta(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Validator instance = new ValidadorRtEstadoAdmPorta(DslamDAOFactory.getInstance(cust.getRede()), cust);
             Boolean expResult = true;
-            Boolean result = instance.validar();
-            assertEquals(expResult, result);
+            ValidacaoResult r = instance.validar();
+            assertEquals(expResult, r.getResultado());
         } catch (Exception e) {
             fail(e.getMessage());
         }

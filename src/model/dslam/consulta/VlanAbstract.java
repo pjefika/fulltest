@@ -31,6 +31,7 @@ public abstract class VlanAbstract implements Validavel {
     public VlanAbstract(Integer p100, Integer cvlan) {
         this.cvlan = p100;
         this.svlan = cvlan;
+        this.state = EnumEstadoVlan.UP;
     }
 
     public EnumEstadoVlan getState() {

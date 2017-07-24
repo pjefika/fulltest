@@ -5,11 +5,13 @@
  */
 package model.dslam.consulta.metalico;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
+
 /**
  *
  * @author G0042204
  */
-public class TabelaParametrosMetalico extends TabelaParametrosAbstract{
+public class TabelaParametrosMetalico extends TabelaParametrosAbstract<TabelaParametrosMetalico> {
 
     private Double snrDown, snrUp, atnDown, atnUp;
 
@@ -18,6 +20,7 @@ public class TabelaParametrosMetalico extends TabelaParametrosAbstract{
     public TabelaParametrosMetalico() {
     }
 
+    @Override
     public Boolean validar(TabelaParametrosMetalico t) {
         return this.snrDown >= t.getSnrDown()
                 && this.snrUp >= t.getSnrUp()
@@ -90,4 +93,5 @@ public class TabelaParametrosMetalico extends TabelaParametrosAbstract{
     public void setAtnUp(Double atnUp) {
         this.atnUp = atnUp;
     }
+
 }

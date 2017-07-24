@@ -18,10 +18,15 @@ public class VlanMulticast extends VlanAbstract {
         super(null, null);
     }
 
+    @Override
+    public String getNome() {
+        return "Vlan Multicast";
+    }
+
     public VlanMulticast(Integer p100, Integer cvlan, EnumEstadoVlan estado) {
         super(p100, cvlan, estado);
     }
-    
+
     @Deprecated
     public VlanMulticast(Integer p100, Integer cvlan) {
         super(p100, cvlan);

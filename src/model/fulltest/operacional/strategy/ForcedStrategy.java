@@ -5,6 +5,8 @@
  */
 package model.fulltest.operacional.strategy;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
 
 /**
@@ -17,15 +19,19 @@ public class ForcedStrategy implements ExecutionStrategy {
 
     @Override
     public void action(FullTestGenericFacade ft) {
-        ft.getBateria().forEach((v) -> {
-            try {
-                v.validar();
-            } catch (Exception e) {
-                v.setMensagem(e.getMessage());
-            } finally {
-                ft.getValids().add(v);
-            }
-        });
+        try {
+            ft.getBateria().forEach((v) -> {
+                try {
+                    ft.getValids().add(v.validar());
+                } catch (Exception ex) {
+                    Logger.getLogger(ForcedStrategy.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        } catch (Exception e) {
+            ft.setMensagem(e.getMessage());
+            ft.setResultado(Boolean.FALSE);
+        }
+
     }
 
 }

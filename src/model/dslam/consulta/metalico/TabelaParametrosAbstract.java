@@ -8,7 +8,11 @@ package model.dslam.consulta.metalico;
 /**
  *
  * @author G0041775
+ * @param <T>
  */
-public abstract class TabelaParametrosAbstract {
-    
+public abstract class TabelaParametrosAbstract<T>  {
+
+    public abstract Boolean validar(T t);
+
+
 }
