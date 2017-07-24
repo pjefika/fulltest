@@ -71,9 +71,11 @@ public class ConsultaDslam implements Conector {
             pingSocket.setSoTimeout(comando.getSleep());
             out.println(comando.getSintax());
             if (comando.getSintaxAux() != null) {
+                Thread.sleep(comando.getSleep());
                 pingSocket.setSoTimeout(comando.getSleepAux());
                 out.println(comando.getSintaxAux());
                 if (comando.getSintaxAux2() != null) {
+                    Thread.sleep(comando.getSleepAux());
                     pingSocket.setSoTimeout(comando.getSleep());
                     out.println(comando.getSintaxAux2());
                 }

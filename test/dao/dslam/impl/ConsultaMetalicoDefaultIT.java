@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
 public class ConsultaMetalicoDefaultIT {
 
     private static DslamMetalico instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("4130222839");
+    private static EfikaCustomer ec = CustomerMock.getCustomer("6130336224");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaMetalicoDefaultIT() {
@@ -67,7 +67,7 @@ public class ConsultaMetalicoDefaultIT {
         System.out.println("getTabelaParametros");
         try {
             TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-            assertTrue(result != null);
+            assertTrue(result.validar(instance.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_"+ec.getServicos().getVelDown()))));
         } catch (Exception e) {
             fail(e.getMessage());
         }
