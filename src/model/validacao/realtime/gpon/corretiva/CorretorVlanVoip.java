@@ -10,13 +10,13 @@ import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.impl.Validacao;
 import model.validacao.impl.ValidacaoVlanVoip;
-import model.validacao.realtime.CorretorGpon;
+import model.validacao.realtime.Corretor;
 
 /**
  *
  * @author G0042204
  */
-public class CorretorVlanVoip extends CorretorGpon {
+public class CorretorVlanVoip extends Corretor {
 
     public CorretorVlanVoip(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust);

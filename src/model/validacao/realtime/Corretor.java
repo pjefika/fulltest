@@ -53,7 +53,8 @@ public abstract class Corretor extends Validador {
             }
             return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado());
         } catch (Exception ex) {
-            return new ValidacaoResult(valid.getNome(), ex.getMessage(), Boolean.FALSE);
+            ex.printStackTrace();
+            return null;
         }
     }
 

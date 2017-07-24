@@ -16,27 +16,28 @@ import model.validacao.validador.Validator;
  * @author G0042204
  */
 public class CondicionalStrategy implements ExecutionStrategy {
-    
+
     @Override
     public void action(FullTestGenericFacade ft) {
         for (Validator v : ft.getBateria()) {
             ValidacaoResult r;
             try {
                 r = v.validar();
-                ft.getValids().add(r);
-                if (!r.getResultado()) {
-                    ft.setResultado(r.getResultado());
-                    ft.setMensagem(r.getMensagem());
-                    return;
+                if (r != null) {
+                    ft.getValids().add(r);
+                    if (!r.getResultado()) {
+                        ft.setResultado(r.getResultado());
+                        ft.setMensagem(r.getMensagem());
+                        return;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 ft.setResultado(Boolean.FALSE);
                 ft.setMensagem(e.getMessage());
-                
             }
         }
-        
+
     }
-    
+
 }
