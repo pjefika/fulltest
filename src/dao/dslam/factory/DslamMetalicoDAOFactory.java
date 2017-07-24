@@ -20,13 +20,13 @@ import dao.dslam.impl.metalico.zhone.ZhoneMetalicoMxkDslam;
  *
  * @author G0042204
  */
-public class DslamMetalicoDAOFactory{
+public class DslamMetalicoDAOFactory {
 
     public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
-        if (modelo.equalsIgnoreCase("COMBOZH48")) {
+        if (modelo.contains("48")) {
             return new ZhoneMetalicoComboDslam(ip);
-        } else if (modelo.contains("MXK")) {
+        } else if (modelo.contains("MXK") && !modelo.contains("48")) {
             return new ZhoneMetalicoMxkDslam(ip);
         } else if (modelo.equalsIgnoreCase("SUVD3")) {
             return new KeymileMetalicoSuvd3(ip);
@@ -40,7 +40,7 @@ public class DslamMetalicoDAOFactory{
             return new KeymileMetalicoSuad3(ip);
         } else if (modelo.equalsIgnoreCase("SUAD5")) {
             return new KeymileMetalicoSuad5(ip);
-        }else {
+        } else {
             throw new DslamNaoImplException();
         }
     }

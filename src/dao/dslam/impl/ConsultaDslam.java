@@ -40,15 +40,14 @@ public class ConsultaDslam implements Conector {
     public List<String> getRetorno() throws IOException {
 
         List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < 999999; i++) {
-
-            String line = in.readLine();
-            if (line.contains("||")) {
-                break;
+        String line;
+        try {
+            while ((line = in.readLine()) != null) {
+                System.out.println(line);
+                list.add(line);
             }
-
-            list.add(line);
+        } catch (Exception e) {
+            return list;
         }
         return list;
     }
@@ -70,40 +69,23 @@ public class ConsultaDslam implements Conector {
                 this.conectar();
             }
 
+            pingSocket.setSoTimeout(comando.getSleep());
             out.println(comando.getSintax());
-            Thread.sleep(comando.getSleep());
             if (comando.getSintaxAux() != null) {
+                pingSocket.setSoTimeout(comando.getSleepAux());
                 out.println(comando.getSintaxAux());
-                Thread.sleep(comando.getSleepAux());
-                if(comando.getSintaxAux2()!=null){
+                if (comando.getSintaxAux2() != null) {
+                    pingSocket.setSoTimeout(comando.getSleep());
                     out.println(comando.getSintaxAux2());
-                    Thread.sleep(comando.getSleep());
                 }
             }
-            out.println("||");
+
             comando.setRetorno(this.getRetorno());
             return comando;
 
-        } catch (Exception e) {
-            try {
-                close();
-                Thread.sleep(3000);
-                conectar();
-                out.println(comando.getSintax());
-                Thread.sleep(comando.getSleep());
-                if (comando.getSintaxAux() != null) {
-                    out.println(comando.getSintaxAux());
-                    Thread.sleep(1000);
-                }
-                out.println("||");
-                comando.setRetorno(this.getRetorno());
-                return comando;
-            } catch (Exception ex) {
-                System.out.println("Nao foi nem depois de fechar e abrir conexao Dx");
-                ex.printStackTrace();
-            }
+        } catch (IOException e) {
+            throw e;
         }
-        return null;
     }
 
 }

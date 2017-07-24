@@ -12,7 +12,10 @@ import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import dao.dslam.impl.metalico.DslamMetalico;
-import model.dslam.credencial.Credencial;
+import model.dslam.consulta.Profile;
+import model.dslam.consulta.metalico.Modulacao;
+import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+
 
 /**
  *
@@ -25,7 +28,7 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
     }
 
     protected ComandoDslam getComandoConsultaVlan(InventarioRede i) {
-        return new ComandoDslam("bridge show vlan " + (i.getSequencial()+ 100), 5000);
+        return new ComandoDslam("bridge show vlan " + i.getCvLan(), 5000);
     }
 
     public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {
@@ -41,6 +44,18 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         e.setOperState(operState);
 
         return e;
+    }
+
+    @Override
+    public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+        t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+        t.setSnrDown(6d);
+        t.setSnrUp(5d);
+        t.setAtnDown(1d);
+        t.setAtnUp(2d);
+        return t;
     }
 
 }
