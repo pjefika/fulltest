@@ -36,7 +36,7 @@ import static org.junit.Assert.*;
 public class ConsultaMetalicoDefaultIT {
 
     private static DslamMetalico instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("1122297805");
+    private static EfikaCustomer ec = CustomerMock.getCustomer("4133335556");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaMetalicoDefaultIT() {
