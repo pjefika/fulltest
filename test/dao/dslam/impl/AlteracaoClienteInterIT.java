@@ -68,7 +68,7 @@ public class AlteracaoClienteInterIT {
     @Test
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
-        String leState = "up";
+        String leState = "down";
 
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(leState);
