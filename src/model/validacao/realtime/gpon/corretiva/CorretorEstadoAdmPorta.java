@@ -18,16 +18,17 @@ import model.validacao.realtime.Corretor;
  * @author G0041775
  */
 public class CorretorEstadoAdmPorta extends Corretor {
-
+    
     private EstadoDaPorta ep;
-
+    
     public CorretorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust);
     }
-
+    
     @Override
-    protected void corrigir() throws FalhaAoCorrigirException{
+    protected void corrigir() throws FalhaAoCorrigirException {
         try {
+            ep.setAdminState("up");
             ValidacaoEstadoPortaAdm v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep));
             v.validar();
             this.setValid(v);
@@ -35,21 +36,21 @@ public class CorretorEstadoAdmPorta extends Corretor {
             throw new FalhaAoCorrigirException();
         }
     }
-
+    
     @Override
     protected Validacao consultar() throws Exception {
         ep = consulta.getEstadoDaPorta(cust.getRede());
         return new ValidacaoEstadoPortaAdm(ep);
     }
-
+    
     @Override
     protected String fraseCorrecaoOk() {
         return "Corrigido estado da porta, aguarde 3 minutos para estabilização do modem e teste novamente.";
     }
-
+    
     @Override
     protected String fraseFalhaCorrecao() {
         return "Não foi possível corrigir o estado da porta. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
     }
-
+    
 }

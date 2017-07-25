@@ -22,7 +22,7 @@ import util.PrintUtil;
  */
 public class FullTestManobraFacadeIT {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("4130886762");
+    private final EfikaCustomer cust = CustomerMock.getCustomer("1124013751");
 
     public FullTestManobraFacadeIT() {
     }

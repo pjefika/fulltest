@@ -34,11 +34,14 @@ public class FactoryValidacao {
     public static List<Validator> manobra(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validator> bateria = new ArrayList<>();
         
-        bateria.add(new ValidadorEstadoAdmPorta(dslam, cust));
-        bateria.add(new ValidadorVlanBanda(dslam, cust));
+        bateria.add(new CorretorEstadoAdmPorta(dslam, cust));
+//        bateria.add(new ValidadorEstadoAdmPorta(dslam, cust));
+//        bateria.add(new ValidadorVlanBanda(dslam, cust));
+        bateria.add(new CorretorVlanBanda(dslam, cust));
+        
         bateria.add(new ValidadorVlanVoip(dslam, cust));
         bateria.add(new ValidadorVlanVod(dslam, cust));
-        
+
 //        bateria.add(new CorretorEstadoAdmPorta(dslam, cust));
 //        bateria.add(new CorretorVlanBanda(dslam, cust));
 //        bateria.add(new CorretorVlanVoip(dslam, cust));
