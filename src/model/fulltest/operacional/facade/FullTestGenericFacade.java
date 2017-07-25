@@ -15,7 +15,7 @@ import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.validacao.factory.FactoryValidacao;
 import model.validacao.ValidacaoResult;
 import model.validacao.validador.Validator;
 

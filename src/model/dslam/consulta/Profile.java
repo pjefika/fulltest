@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.ValidavelAbs;
 import model.dslam.velocidade.Velocidades;
-import model.fulltest.validacao.Validavel;
+import model.validacao.Validavel;
 
 /**
  *

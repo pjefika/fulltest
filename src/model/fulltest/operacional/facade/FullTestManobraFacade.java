@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.validacao.factory.FactoryValidacao;
 
 /**
  *

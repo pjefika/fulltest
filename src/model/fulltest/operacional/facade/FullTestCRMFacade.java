@@ -7,7 +7,7 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.validacao.factory.FactoryValidacao;
 
 /**
  *

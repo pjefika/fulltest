@@ -8,7 +8,7 @@ package model.dslam.consulta.gpon;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
-import model.fulltest.validacao.Validavel;
+import model.validacao.Validavel;
 
 /**
  *
