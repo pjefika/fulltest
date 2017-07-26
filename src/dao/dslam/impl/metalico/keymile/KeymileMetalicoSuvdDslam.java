@@ -41,12 +41,15 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
         List<String> atnSnr = this.getCd().consulta(this.getSnrAtn(i)).getRetorno();
+        List<String> att = getCd().consulta(getAttainableRate(i)).getRetorno();
 
         try {
             TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
 
             tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
             tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+            tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+            tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
             tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
             tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
             tab.setAtnUp1(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
@@ -69,6 +72,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             try {
                 tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
                 tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+                tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+                tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
                 tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
                 tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
                 tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
@@ -99,7 +104,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
-        
+
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
@@ -112,7 +117,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        
+
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
 
         return vlanBanda;
@@ -140,7 +145,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        
+
         VlanVoip vlanVoip = new VlanVoip(cvlan, svlan, state);
 
         return vlanVoip;
@@ -156,7 +161,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
-        
+
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
@@ -181,7 +186,6 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
-        
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
@@ -314,46 +318,66 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
-        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
+        try {
+            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
+            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+            for (String string : leResp) {
+                System.out.println(string);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
-        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
+        try {
+            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
+            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+            for (String string : leResp) {
+                System.out.println(string);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
-        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-        List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
+        try {
+            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
+            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
+            for (String string : leResp) {
+                System.out.println(string);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
-        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-        String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-        List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
+        try {
+            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
+            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+            List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
+            for (String string : leResp) {
+                System.out.println(string);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+
     }
 
     @Override

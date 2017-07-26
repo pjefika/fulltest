@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
 public class ConsultaClienteInterIT {
 
     private static DslamMetalico instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("6130336224");
+    private static EfikaCustomer ec = CustomerMock.getCustomer("4130222839");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaClienteInterIT() {

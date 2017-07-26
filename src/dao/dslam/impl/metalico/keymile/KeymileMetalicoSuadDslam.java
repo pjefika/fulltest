@@ -37,6 +37,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
         List<String> atn = this.getCd().consulta(this.getAtn(i)).getRetorno();
         List<String> snr = this.getCd().consulta(this.getSnr(i)).getRetorno();
+        List<String> att = getCd().consulta(getAttainableRate(i)).getRetorno();
 
         TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
         try {
@@ -46,6 +47,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             tabParam.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(snr, "Upstream")));
             tabParam.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atn, "Downstream")));
             tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atn, "Upstream")));
+            tabParam.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+            tabParam.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
         } catch (Exception e) {
             tabParam.setVelSincDown(new Double("0"));
             tabParam.setVelSincUp(new Double("0"));
@@ -231,6 +234,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, 1, "none"));
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -240,6 +244,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, 2, "none"));
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -249,6 +254,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
+        getCd().consulta(getComandoSetMacSourceFilteringMode(i, 3, "none"));
+        
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -370,6 +377,10 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam setModulSUAD1(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao() + "1");
+    }
+    
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode){
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() +  "/chan-1/vcc-" + intrf + "/cfgm/macsourcefilteringmode "+mode);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {

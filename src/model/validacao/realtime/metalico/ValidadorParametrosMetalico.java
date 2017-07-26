@@ -8,8 +8,8 @@ package model.validacao.realtime.metalico;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.dslam.velocidade.Velocidades;
-import model.validacao.ValidacaoParametrosMetalico;
 import model.validacao.impl.Validacao;
+import model.validacao.impl.metalico.ValidacaoParametrosMetalico;
 import model.validacao.realtime.ValidadorMetalico;
 
 /**
