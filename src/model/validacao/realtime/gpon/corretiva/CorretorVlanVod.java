@@ -39,7 +39,7 @@ public class CorretorVlanVod extends Corretor {
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return "Não foi possível corrigir a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
     }
 
     @Override
