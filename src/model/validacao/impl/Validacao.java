@@ -21,9 +21,6 @@ public abstract class Validacao implements Validator {
 
     private Boolean resultado;
 
-    public Validacao() {
-    }
-
     public Validacao(String nome) {
         this.nome = nome;
     }

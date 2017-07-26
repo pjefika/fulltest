@@ -17,6 +17,7 @@ public class ValidacaoPacotesUp extends Validacao {
     private final TabelaRedeMetalico tab;
 
     public ValidacaoPacotesUp(TabelaRedeMetalico tab) {
+        super("Pacotes de UP > 4000?");
         this.tab = tab;
     }
 

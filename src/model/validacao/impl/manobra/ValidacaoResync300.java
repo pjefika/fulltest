@@ -17,6 +17,7 @@ public class ValidacaoResync300 extends Validacao {
     private final TabelaRedeMetalico tab;
 
     public ValidacaoResync300(TabelaRedeMetalico tab) {
+        super("Resync < 300?");
         this.tab = tab;
     }
 

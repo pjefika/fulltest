@@ -17,6 +17,7 @@ public class ValidacaoPacotesDown extends Validacao {
     private final TabelaRedeMetalico tab;
 
     public ValidacaoPacotesDown(TabelaRedeMetalico tab) {
+        super("Pacotes de DOWN > 6000?");
         this.tab = tab;
     }
 
@@ -27,12 +28,12 @@ public class ValidacaoPacotesDown extends Validacao {
 
     @Override
     protected String frasePositiva() {
-        return "frasePositiva - resync50";
+        return "frasePositiva - pctDown";
     }
 
     @Override
     protected String fraseNegativa() {
-        return "fraseNegativa - resync50";
+        return "fraseNegativa - pctDown";
     }
 
 }
