@@ -41,12 +41,15 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
         List<String> atnSnr = this.getCd().consulta(this.getSnrAtn(i)).getRetorno();
+        List<String> att = getCd().consulta(getAttainableRate(i)).getRetorno();
 
         try {
             TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
 
             tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
             tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+            tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+            tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
             tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
             tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
             tab.setAtnUp1(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
@@ -69,6 +72,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             try {
                 tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
                 tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+                tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+                tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
                 tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
                 tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
                 tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));

@@ -37,6 +37,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
         List<String> atn = this.getCd().consulta(this.getAtn(i)).getRetorno();
         List<String> snr = this.getCd().consulta(this.getSnr(i)).getRetorno();
+        List<String> att = getCd().consulta(getAttainableRate(i)).getRetorno();
 
         TabelaParametrosMetalico tabParam = new TabelaParametrosMetalico();
         try {
@@ -46,6 +47,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             tabParam.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(snr, "Upstream")));
             tabParam.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atn, "Downstream")));
             tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atn, "Upstream")));
+            tabParam.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+            tabParam.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
         } catch (Exception e) {
             tabParam.setVelSincDown(new Double("0"));
             tabParam.setVelSincUp(new Double("0"));
