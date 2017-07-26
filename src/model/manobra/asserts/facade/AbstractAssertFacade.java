@@ -24,7 +24,9 @@ public abstract class AbstractAssertFacade implements Assertter {
     }
 
     protected void adicionarAssert(CustomerAssert asserts) {
-        as.add(asserts);
+        if (asserts != null) {
+            as.add(asserts);
+        }
     }
 
     public abstract void afirmar() throws Exception;
