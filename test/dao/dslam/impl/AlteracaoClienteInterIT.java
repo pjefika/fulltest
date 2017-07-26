@@ -37,7 +37,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.getCustomer("4130886762");
+            ec = CustomerMock.getCustomer("1124013751");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -68,7 +68,7 @@ public class AlteracaoClienteInterIT {
     @Test
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
-        String leState = "up";
+        String leState = "down";
 
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(leState);
@@ -240,10 +240,6 @@ public class AlteracaoClienteInterIT {
     @Test
     public void testDesconectar() {
         System.out.println("desconectar");
-
         instance.desconectar();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
-
 }

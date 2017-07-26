@@ -19,7 +19,7 @@ public class EstadoDaPorta extends ValidavelAbs implements Validavel {
 
     private String operState;
 
-    private static final String NOME = "MAC do Equipamento";
+    private static final String NOME = "Estado da Porta";
 
     public EstadoDaPorta() {
         super(NOME);
