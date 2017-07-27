@@ -6,7 +6,6 @@
 package model.manobra.analitcs;
 
 import br.net.gvt.efika.customer.CustomerAssert;
-import java.util.Iterator;
 import java.util.List;
 import model.manobra.MotivoManobraEnum;
 
@@ -36,7 +35,7 @@ public abstract class AnaliseMotivoAbstract implements Analiser {
                 return new AnaliseMotivoDTO(motivo, criterio.getConclusao());
             }
         }
-        return null;
+        return new AnaliseMotivoDTO(motivo, ConclusaoMotivo.PORTA_OK);
     }
 
 }

@@ -48,13 +48,16 @@ public class AnaliseMotivoGenericIT {
         List<CustomerAssert> lst = new ArrayList<>();
         lst.add(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
         lst.add(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+        lst.add(new CustomerAssertImpl(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
+                
 
-        Analiser a = new AnaliseMotivoGeneric(lst, MotivoManobraEnum.AUTH_SINC);
-        AnaliseMotivoDTO result = a.run();
-        
-        System.out.println("resultado: " + result.getConclusao());
+        for (MotivoManobraEnum v : MotivoManobraEnum.values()) {
+            Analiser a = new AnaliseMotivoGeneric(lst, v);
+            AnaliseMotivoDTO result = a.run();
+            System.out.println("Motivo: " + result.getMotivo().getMotivo() + " | Resultado: " + result.getConclusao());
+            System.out.println();
+        }
 
-        assertTrue(result.getConclusao().equals(ConclusaoMotivo.PORTA_OK));
 
     }
 

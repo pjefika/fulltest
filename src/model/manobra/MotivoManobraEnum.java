@@ -15,11 +15,11 @@ import java.util.List;
  */
 public enum MotivoManobraEnum {
 
-    AUTH_SINC("Autenticação - Sincronismo"),
-    MUDA("Linha muda"),
+    AUTH_SINC("Sem Autenticação/Sincronismo"),
+    MUDA("Linha Muda"),
     QUEDA("Quedas"),
-    SEMNAVEG("Não navega"),
-    SEMVEL("Não atinge velocidade");
+    SEMNAVEG("Não Navega"),
+    NAO_ATINGE("Não Atinge Velocidade");
 
     private String motivo;
 

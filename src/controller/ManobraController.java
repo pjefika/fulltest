@@ -5,8 +5,10 @@
  */
 package controller;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
+import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.manobra.LogManobra;
+import model.manobra.facade.ManobraAssertsFacade;
 
 /**
  *
@@ -62,8 +65,17 @@ public class ManobraController extends RestJaxAbstract {
         } finally {
             dao.close();
         }
-        
+
         return r;
+    }
+
+    @POST
+    @Path("/fulltest")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response manobra(EfikaCustomer cs) throws Exception {
+        ManobraAssertsFacade f = new ManobraAssertsFacade(cs);
+        return ok(f.run());
     }
 
 }
