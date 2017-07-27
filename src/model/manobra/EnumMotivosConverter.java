@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.manobra;
 
+import model.manobra.MotivoManobraEnum;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -20,22 +21,22 @@ import javax.enterprise.context.Dependent;
  * @author G0042204
  */
 @Dependent
-public class EnumMotivosConverter implements JsonDeserializer<Motivos>, JsonSerializer<Motivos> {
+public class EnumMotivosConverter implements JsonDeserializer<MotivoManobraEnum>, JsonSerializer<MotivoManobraEnum> {
 
     @Override
-    public Motivos deserialize(JsonElement json, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+    public MotivoManobraEnum deserialize(JsonElement json, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         if (!((Class) type).isEnum()) {
             throw new IllegalArgumentException("Expected an enum type");
         }
         Class<? extends Enum> classOfT = (Class<? extends Enum>) type;
         if (json != null && !json.isJsonNull()) {
             if (json.isJsonPrimitive()) {
-                return (Motivos) Enum.valueOf(classOfT, json.getAsString());
+                return (MotivoManobraEnum) Enum.valueOf(classOfT, json.getAsString());
             } else {
                 JsonObject jsonObject = (JsonObject) json;
                 JsonElement value = jsonObject.get("name");
                 if (value != null) {
-                    return (Motivos) Enum.valueOf(classOfT, value.getAsString());
+                    return (MotivoManobraEnum) Enum.valueOf(classOfT, value.getAsString());
                 }
             }
         }
@@ -43,7 +44,7 @@ public class EnumMotivosConverter implements JsonDeserializer<Motivos>, JsonSeri
     }
 
     @Override
-    public JsonElement serialize(Motivos src, Type type, JsonSerializationContext jsc) {
+    public JsonElement serialize(MotivoManobraEnum src, Type type, JsonSerializationContext jsc) {
         Class<?> classOfSrc = (Class<?>) type;
         if (!classOfSrc.isEnum()) {
             throw new IllegalArgumentException("Expected an enum type");

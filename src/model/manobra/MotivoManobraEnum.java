@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.manobra;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +13,9 @@ import java.util.List;
  *
  * @author G0034481
  */
-public enum Motivos {
+public enum MotivoManobraEnum {
 
-    SEMSINC("Sem sincronismo"),
-    SEMAUTH("Sem autenticação"),
+    AUTH_SINC("Autenticação - Sincronismo"),
     MUDA("Linha muda"),
     QUEDA("Quedas"),
     SEMNAVEG("Não navega"),
@@ -24,7 +23,7 @@ public enum Motivos {
 
     private String motivo;
 
-    private Motivos(String m) {
+    private MotivoManobraEnum(String m) {
         this.motivo = m;
     }
 
@@ -42,9 +41,9 @@ public enum Motivos {
     }
 
     public static List<String> toListString() {
-        List<Motivos> lm = Arrays.asList(Motivos.values());
+        List<MotivoManobraEnum> lm = Arrays.asList(MotivoManobraEnum.values());
         List<String> l = new ArrayList<>();
-        for (Motivos m : lm) {
+        for (MotivoManobraEnum m : lm) {
             l.add(m.getMotivo());
         }
         return l;

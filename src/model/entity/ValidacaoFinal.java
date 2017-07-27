@@ -5,7 +5,7 @@
  */
 package model.entity;
 
-import model.Motivos;
+import model.manobra.MotivoManobraEnum;
 
 /**
  *
@@ -17,13 +17,13 @@ public class ValidacaoFinal {
 
     private String fraseologia;
     
-    private Motivos motivo;
+    private MotivoManobraEnum motivo;
 
-    public Motivos getMotivo() {
+    public MotivoManobraEnum getMotivo() {
         return motivo;
     }
 
-    public void setMotivo(Motivos m) {
+    public void setMotivo(MotivoManobraEnum m) {
         this.motivo = m;
     }
 
