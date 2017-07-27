@@ -5,7 +5,6 @@
  */
 package model.manobra.analitcs;
 
-import model.manobra.ConclusaoMotivo;
 import model.manobra.MotivoManobraEnum;
 
 /**

@@ -6,6 +6,7 @@
 package model.manobra.analitcs;
 
 import br.net.gvt.efika.customer.CustomerAssert;
+import java.util.Iterator;
 import java.util.List;
 import model.manobra.MotivoManobraEnum;
 
@@ -13,17 +14,29 @@ import model.manobra.MotivoManobraEnum;
  *
  * @author G0042204
  */
-public abstract class AnaliseMotivoAbstract {
+public abstract class AnaliseMotivoAbstract implements Analiser {
+
+    private final List<CustomerAssert> asserts;
 
     private final MotivoManobraEnum motivo;
 
-    private final List<CustomerAssert> cas;
+    private final List<CriterioMotivo> criterios;
 
-    public AnaliseMotivoAbstract(MotivoManobraEnum motivo, List<CustomerAssert> cas) {
+    public AnaliseMotivoAbstract(List<CustomerAssert> asserts, MotivoManobraEnum motivo, List<CriterioMotivo> criterios) {
+        this.asserts = asserts;
         this.motivo = motivo;
-        this.cas = cas;
+        this.criterios = criterios;
     }
-    
-    protected abstract List<CustomerAssert> criterio();
+
+    @Override
+    public final AnaliseMotivoDTO run() {
+
+        for (CriterioMotivo criterio : criterios) {
+            if (criterio.check(asserts)) {
+                return new AnaliseMotivoDTO(motivo, criterio.getConclusao());
+            }
+        }
+        return null;
+    }
 
 }

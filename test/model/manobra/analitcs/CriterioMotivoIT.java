@@ -9,7 +9,6 @@ import br.net.gvt.efika.asserts.AssertsEnum;
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.ConclusaoMotivo;
 import model.manobra.MotivoManobraEnum;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -50,10 +49,10 @@ public class CriterioMotivoIT {
     public void testAdicionarCriterio() {
         try {
             System.out.println("adicionarCriterio");
-            CustomerAssert c = new CustomerAssert();
+            CustomerAssertImpl c = new CustomerAssertImpl();
             CriterioMotivo instance = new CriterioMotivo();
             instance.adicionarCriterio(c);
-            assertTrue(instance.getCas().size() > 0);
+            assertTrue(instance.getCriterios().size() > 0);
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -69,9 +68,10 @@ public class CriterioMotivoIT {
         try {
             System.out.println("check");
             List<CustomerAssert> lst = new ArrayList<>();
-            lst.add(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-            lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+            lst.add(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+            lst.add(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
 
+            
             for (CriterioMotivo c : FactoryCriterio.obter(MotivoManobraEnum.AUTH_SINC)) {
                 System.out.println("Value: " + c.check(lst));
             }

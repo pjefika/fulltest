@@ -8,8 +8,6 @@ package model.manobra.analitcs;
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.ConclusaoMotivo;
-import model.manobra.MotivoManobraEnum;
 
 /**
  *
@@ -17,37 +15,32 @@ import model.manobra.MotivoManobraEnum;
  */
 public class CriterioMotivo implements Checker {
 
-    private MotivoManobraEnum motivo;
-
-    private List<CustomerAssert> cas;
+    private List<CustomerAssertImpl> criterios;
 
     private ConclusaoMotivo conclusao;
 
     public CriterioMotivo() {
     }
 
-    public void adicionarCriterio(CustomerAssert c) {
-        getCas().add(c);
+    public void adicionarCriterio(CustomerAssertImpl c) {
+        getCriterios().add(c);
     }
 
+    /**
+     *
+     * @param lst asserts do customer
+     * @return
+     */
     @Override
     public Boolean check(List<CustomerAssert> lst) {
-        return cas.containsAll(lst);
+        return lst.containsAll(criterios);
     }
 
-    public List<CustomerAssert> getCas() {
-        if (cas == null) {
-            cas = new ArrayList<>();
+    public List<CustomerAssertImpl> getCriterios() {
+        if (criterios == null) {
+            criterios = new ArrayList<>();
         }
-        return cas;
-    }
-
-    public MotivoManobraEnum getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(MotivoManobraEnum motivo) {
-        this.motivo = motivo;
+        return criterios;
     }
 
     public ConclusaoMotivo getConclusao() {

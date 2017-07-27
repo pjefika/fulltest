@@ -9,8 +9,8 @@ package model.manobra.analitcs;
  *
  * @author G0042204
  */
-public interface Analiser<T> {
+public interface Analiser {
 
-    public AnaliseMotivoDTO analizar(T m);
+    public AnaliseMotivoDTO run();
 
 }

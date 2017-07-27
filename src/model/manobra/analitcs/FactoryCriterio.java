@@ -9,7 +9,6 @@ import br.net.gvt.efika.asserts.AssertsEnum;
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.ConclusaoMotivo;
 import model.manobra.MotivoManobraEnum;
 
 /**
@@ -23,19 +22,16 @@ public class FactoryCriterio {
         switch (m) {
             case AUTH_SINC:
                 CriterioMotivo c = new CriterioMotivo();
-                c.setMotivo(MotivoManobraEnum.AUTH_SINC);
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
                 c.setConclusao(ConclusaoMotivo.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
-                c.setMotivo(MotivoManobraEnum.AUTH_SINC);
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.FALSE));
                 c.setConclusao(ConclusaoMotivo.PORTA_NOK);
                 lst.add(c);
-
                 break;
         }
 
