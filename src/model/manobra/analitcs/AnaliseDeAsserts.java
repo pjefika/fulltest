@@ -113,7 +113,6 @@ public class AnaliseDeAsserts {
             setFraseologia("Porta NOK. Motivo Quedas BA.");
             setIsPortOk(false);
         }
-
     }
 
     public Boolean getIsPortOk() {
