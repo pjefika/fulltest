@@ -6,12 +6,12 @@
 package model.manobra.facade;
 
 import java.util.List;
-import model.manobra.analitcs.AnaliseMotivoDTO;
+import model.manobra.analitcs.AnaliseMotivo;
 
 /**
  *
  * @author G0042204
  */
 public interface AssertsManobraFacade {
-    public List<AnaliseMotivoDTO> run();
+    public List<AnaliseMotivo> run();
 }

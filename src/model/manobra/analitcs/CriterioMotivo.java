@@ -17,7 +17,7 @@ public class CriterioMotivo implements Checker {
 
     private List<CustomerAssert> criterios;
 
-    private ConclusaoMotivo conclusao;
+    private ConclusaoManobra conclusao;
 
     public CriterioMotivo() {
     }
@@ -43,11 +43,11 @@ public class CriterioMotivo implements Checker {
         return criterios;
     }
 
-    public ConclusaoMotivo getConclusao() {
+    public ConclusaoManobra getConclusao() {
         return conclusao;
     }
 
-    public void setConclusao(ConclusaoMotivo conclusao) {
+    public void setConclusao(ConclusaoManobra conclusao) {
         this.conclusao = conclusao;
     }
 

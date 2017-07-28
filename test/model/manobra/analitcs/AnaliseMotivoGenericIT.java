@@ -53,7 +53,7 @@ public class AnaliseMotivoGenericIT {
 
         for (MotivoManobraEnum v : MotivoManobraEnum.values()) {
             Analiser a = new AnaliseMotivoGeneric(lst, v);
-            AnaliseMotivoDTO result = a.run();
+            AnaliseMotivo result = a.run();
             System.out.println("Motivo: " + result.getMotivo().getMotivo() + " | Resultado: " + result.getConclusao());
             System.out.println();
         }

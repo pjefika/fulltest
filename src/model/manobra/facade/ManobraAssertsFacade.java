@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import model.manobra.MotivoManobraEnum;
-import model.manobra.analitcs.AnaliseMotivoDTO;
+import model.manobra.analitcs.AnaliseMotivo;
 import model.manobra.analitcs.AnaliseMotivoGeneric;
 import model.manobra.analitcs.Analiser;
 
@@ -26,11 +26,11 @@ public class ManobraAssertsFacade implements AssertsManobraFacade{
     }
 
     @Override
-    public List<AnaliseMotivoDTO> run() {
-        List<AnaliseMotivoDTO> list = new ArrayList<>();
+    public List<AnaliseMotivo> run() {
+        List<AnaliseMotivo> list = new ArrayList<>();
         for (MotivoManobraEnum v : MotivoManobraEnum.values()) {
             Analiser a = new AnaliseMotivoGeneric(e.getAsserts(), v);
-            AnaliseMotivoDTO result = a.run();
+            AnaliseMotivo result = a.run();
             list.add(result);
         }
         return list;

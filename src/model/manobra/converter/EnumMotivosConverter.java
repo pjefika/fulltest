@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.manobra;
+package model.manobra.converter;
 
-import model.manobra.MotivoManobraEnum;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -15,6 +14,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import javax.enterprise.context.Dependent;
+import model.manobra.MotivoManobraEnum;
 
 /**
  *

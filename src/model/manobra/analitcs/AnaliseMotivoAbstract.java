@@ -28,14 +28,14 @@ public abstract class AnaliseMotivoAbstract implements Analiser {
     }
 
     @Override
-    public final AnaliseMotivoDTO run() {
+    public final AnaliseMotivo run() {
 
         for (CriterioMotivo criterio : criterios) {
             if (criterio.check(asserts)) {
-                return new AnaliseMotivoDTO(motivo, criterio.getConclusao());
+                return new AnaliseMotivo(motivo, criterio.getConclusao());
             }
         }
-        return new AnaliseMotivoDTO(motivo, ConclusaoMotivo.PORTA_OK);
+        return new AnaliseMotivo(motivo, ConclusaoManobra.PORTA_OK);
     }
 
 }

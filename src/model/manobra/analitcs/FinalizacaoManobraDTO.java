@@ -5,12 +5,18 @@
  */
 package model.manobra.analitcs;
 
+import java.util.List;
+
 /**
  *
  * @author G0042204
  */
-public interface Analiser {
+public class FinalizacaoManobraDTO {
 
-    public AnaliseMotivo run();
+    private List<AnaliseMotivo> analises;
+
+    private Boolean manobrar;
+
+    private ConclusaoManobraDTO conclusao;
 
 }

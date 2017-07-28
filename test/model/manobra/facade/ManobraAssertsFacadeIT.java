@@ -10,7 +10,7 @@ import br.net.gvt.efika.customer.CustomerAssert;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.analitcs.AnaliseMotivoDTO;
+import model.manobra.analitcs.AnaliseMotivo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,13 +54,27 @@ public class ManobraAssertsFacadeIT {
             EfikaCustomer e = new EfikaCustomer();
 
             List<CustomerAssert> lst = new ArrayList<>();
+
+            lst.add(new CustomerAssert(AssertsEnum.REDE_CONFIAVEL, Boolean.FALSE));
+            lst.add(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.RESYNC_MENOR_5, Boolean.TRUE));
             lst.add(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
             lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.TRUE));
             lst.add(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
+
+            lst.add(new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.TRUE));
             e.setAsserts(lst);
 
             ManobraAssertsFacade instance = new ManobraAssertsFacade(e);
-            List<AnaliseMotivoDTO> result = instance.run();
+            List<AnaliseMotivo> result = instance.run();
+
+            result.forEach((t) -> {
+                System.out.println("Motivo: " + t.getMotivo() + " Conclusão:" + t.getConclusao().name());
+            });
+
             assertTrue(result.size() > 0);
         } catch (Exception e) {
             fail(e.getMessage());

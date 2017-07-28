@@ -11,16 +11,16 @@ import model.manobra.MotivoManobraEnum;
  *
  * @author G0042204
  */
-public class AnaliseMotivoDTO {
+public class AnaliseMotivo {
 
     private MotivoManobraEnum motivo;
 
-    private ConclusaoMotivo conclusao;
+    private ConclusaoManobra conclusao;
 
-    public AnaliseMotivoDTO() {
+    public AnaliseMotivo() {
     }
 
-    public AnaliseMotivoDTO(MotivoManobraEnum motivo, ConclusaoMotivo conclusao) {
+    public AnaliseMotivo(MotivoManobraEnum motivo, ConclusaoManobra conclusao) {
         this.motivo = motivo;
         this.conclusao = conclusao;
     }
@@ -33,11 +33,11 @@ public class AnaliseMotivoDTO {
         this.motivo = motivo;
     }
 
-    public ConclusaoMotivo getConclusao() {
+    public ConclusaoManobra getConclusao() {
         return conclusao;
     }
 
-    public void setConclusao(ConclusaoMotivo conclusao) {
+    public void setConclusao(ConclusaoManobra conclusao) {
         this.conclusao = conclusao;
     }
 

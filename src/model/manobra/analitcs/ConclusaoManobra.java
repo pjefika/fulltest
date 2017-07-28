@@ -9,13 +9,13 @@ package model.manobra.analitcs;
  *
  * @author G0042204
  */
-public enum ConclusaoMotivo {
+public enum ConclusaoManobra {
 
     PORTA_NOK("Porta com Defeito"), PORTA_OK("Porta Ok"), TROCAR_MODEM("Trocar Modem");
 
     private final String nome;
 
-    private ConclusaoMotivo(String nome) {
+    private ConclusaoManobra(String nome) {
         this.nome = nome;
     }
 
