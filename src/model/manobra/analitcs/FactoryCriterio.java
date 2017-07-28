@@ -132,7 +132,27 @@ public class FactoryCriterio {
             case MUDA:
                 
                 c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.TRUE));
+                c.setConclusao(ConclusaoMotivo.PORTA_OK);
+                lst.add(c);
+                
+                c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.FALSE));
                 c.setConclusao(ConclusaoMotivo.PORTA_NOK);
+                lst.add(c);
+                
+                c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.FALSE));
+                c.setConclusao(ConclusaoMotivo.PORTA_OK);
+                lst.add(c);
+                
+                c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.TRUE));
+                c.setConclusao(ConclusaoMotivo.PORTA_OK);
                 lst.add(c);
                 
                 break;
@@ -140,9 +160,16 @@ public class FactoryCriterio {
             case RUIDO:
                 
                 c = new CriterioMotivo();
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.RUIDO_CHIADO, Boolean.FALSE));
-            
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_SIP, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.RUIDO_CHIADO, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_5, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.REDE_CONFIAVEL, Boolean.TRUE));
+                c.setConclusao(ConclusaoMotivo.PORTA_NOK);
+                lst.add(c);
                 
+                c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_SIP, Boolean.TRUE));
+                c.setConclusao(ConclusaoMotivo.PORTA_OK);
 
         }
 
