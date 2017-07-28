@@ -6,6 +6,7 @@
 package model.manobra.asserts.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.customer.InventarioServico;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
@@ -15,6 +16,7 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.VelocidadesUtil;
 import model.manobra.asserts.impl.AssertAttainableDown;
 import model.manobra.asserts.impl.AssertAttainableUp;
+import model.manobra.asserts.impl.AssertIsSip;
 import model.manobra.asserts.impl.AssertPacotesDown;
 import model.manobra.asserts.impl.AssertPacotesUp;
 import model.manobra.asserts.impl.AssertRedeConfiavel;
@@ -23,6 +25,7 @@ import model.manobra.asserts.impl.AssertResync5;
 import model.manobra.asserts.impl.AssertResync50;
 import model.validacao.impl.manobra.ValidacaoAttainableDown;
 import model.validacao.impl.manobra.ValidacaoAttainableUp;
+import model.validacao.impl.manobra.ValidacaoIsSip;
 import model.validacao.impl.manobra.ValidacaoPacotesDown;
 import model.validacao.impl.manobra.ValidacaoPacotesUp;
 import model.validacao.impl.manobra.ValidacaoResync300;
@@ -50,6 +53,7 @@ public class AssertsManobra extends AbstractAssertFacade {
         TabelaRedeMetalico trede = consultar().getTabelaRede(cust.getRede());
         TabelaParametrosMetalico param = consultar().getTabelaParametros(cust.getRede());
         TabelaParametrosMetalico ideal = consultar().getTabelaParametrosIdeal(VelocidadesUtil.obterDown(cust));
+        InventarioServico serviceInventory = cust.getServicos();
 
         adicionarAssert(new AssertRedeConfiavel(new ValidacaoRedeConfiavel(cust, trede)).claim());
         adicionarAssert(new AssertResync300(new ValidacaoResync300(trede)).claim());
@@ -59,6 +63,7 @@ public class AssertsManobra extends AbstractAssertFacade {
         adicionarAssert(new AssertPacotesUp(new ValidacaoPacotesUp(trede)).claim());
         adicionarAssert(new AssertAttainableDown(new ValidacaoAttainableDown(param, ideal)).claim());
         adicionarAssert(new AssertAttainableUp(new ValidacaoAttainableUp(param, ideal)).claim());
+        adicionarAssert(new AssertIsSip(new ValidacaoIsSip(serviceInventory)).claim());
 
     }
 
