@@ -128,6 +128,21 @@ public class FactoryCriterio {
                 lst.add(c);
 
                 break;
+                
+            case MUDA:
+                
+                c = new CriterioMotivo();
+                c.setConclusao(ConclusaoMotivo.PORTA_NOK);
+                lst.add(c);
+                
+                break;
+                
+            case RUIDO:
+                
+                c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.RUIDO_CHIADO, Boolean.FALSE));
+            
+                
 
         }
 

@@ -18,6 +18,7 @@ public enum MotivoManobraEnum {
     AUTH_SINC("Sem Autenticação/Sincronismo"),
     MUDA("Linha Muda"),
     QUEDA("Quedas"),
+    RUIDO("Ruído/Chiado"),
     SEMNAVEG("Não Navega"),
     NAO_ATINGE("Não Atinge Velocidade");
 
