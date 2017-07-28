@@ -25,9 +25,9 @@ public class AssertPacotesDown implements EfikaAssertable {
     @Override
     public CustomerAssert claim() {
         try {
-            return new CustomerAssert(AssertsEnum.PACOTES_DOWN_MENOR_6000, v.validar().getResultado());
+            return new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, v.validar().getResultado());
         } catch (Exception e) {
-            return new CustomerAssert(AssertsEnum.PACOTES_DOWN_MENOR_6000, Boolean.FALSE);
+            return new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, Boolean.FALSE);
         }
     }
 

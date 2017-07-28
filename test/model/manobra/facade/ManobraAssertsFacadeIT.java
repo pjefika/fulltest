@@ -11,7 +11,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import model.manobra.analitcs.AnaliseMotivoDTO;
-import model.manobra.analitcs.CustomerAssertImpl;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -55,9 +54,9 @@ public class ManobraAssertsFacadeIT {
             EfikaCustomer e = new EfikaCustomer();
 
             List<CustomerAssert> lst = new ArrayList<>();
-            lst.add(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-            lst.add(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
-            lst.add(new CustomerAssertImpl(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
+            lst.add(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
             e.setAsserts(lst);
 
             ManobraAssertsFacade instance = new ManobraAssertsFacade(e);

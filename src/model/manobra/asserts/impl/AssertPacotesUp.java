@@ -25,9 +25,9 @@ public class AssertPacotesUp implements EfikaAssertable {
     @Override
     public CustomerAssert claim() {
         try {
-            return new CustomerAssert(AssertsEnum.PACOTES_UP_MENOR_4000, v.validar().getResultado());
+            return new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, v.validar().getResultado());
         } catch (Exception e) {
-            return new CustomerAssert(AssertsEnum.PACOTES_UP_MENOR_4000, Boolean.FALSE);
+            return new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.FALSE);
         }
     }
 

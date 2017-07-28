@@ -14,6 +14,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${file.reference.customer-lib-1.5.3.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${file.reference.axis.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
@@ -47,10 +51,6 @@
                 </library>
                 <library dirs="200">
                     <file>${file.reference.hibernate-commons-annotations-5.0.1.Final.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.customer-lib-1.5.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">

@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class CriterioMotivo implements Checker {
 
-    private List<CustomerAssertImpl> criterios;
+    private List<CustomerAssert> criterios;
 
     private ConclusaoMotivo conclusao;
 
     public CriterioMotivo() {
     }
 
-    public void adicionarCriterio(CustomerAssertImpl c) {
+    public void adicionarCriterio(CustomerAssert c) {
         getCriterios().add(c);
     }
 
@@ -36,7 +36,7 @@ public class CriterioMotivo implements Checker {
         return lst.containsAll(criterios);
     }
 
-    public List<CustomerAssertImpl> getCriterios() {
+    public List<CustomerAssert> getCriterios() {
         if (criterios == null) {
             criterios = new ArrayList<>();
         }

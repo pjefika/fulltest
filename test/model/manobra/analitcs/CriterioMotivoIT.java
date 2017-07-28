@@ -49,7 +49,7 @@ public class CriterioMotivoIT {
     public void testAdicionarCriterio() {
         try {
             System.out.println("adicionarCriterio");
-            CustomerAssertImpl c = new CustomerAssertImpl();
+            CustomerAssert c = new CustomerAssert();
             CriterioMotivo instance = new CriterioMotivo();
             instance.adicionarCriterio(c);
             assertTrue(instance.getCriterios().size() > 0);
@@ -68,8 +68,8 @@ public class CriterioMotivoIT {
         try {
             System.out.println("check");
             List<CustomerAssert> lst = new ArrayList<>();
-            lst.add(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-            lst.add(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+            lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
 
             
             for (CriterioMotivo c : FactoryCriterio.obter(MotivoManobraEnum.AUTH_SINC)) {

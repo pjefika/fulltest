@@ -8,7 +8,6 @@ package controller;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,6 +17,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.manobra.LogManobra;
+import model.manobra.asserts.facade.AssertsManobra;
+import model.manobra.asserts.facade.Assertter;
+import model.manobra.facade.AssertsManobraFacade;
 import model.manobra.facade.ManobraAssertsFacade;
 
 /**
@@ -70,12 +72,33 @@ public class ManobraController extends RestJaxAbstract {
     }
 
     @POST
-    @Path("/fulltest")
+    @Path("/analitico")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response manobra(EfikaCustomer cs) throws Exception {
-        ManobraAssertsFacade f = new ManobraAssertsFacade(cs);
-        return ok(f.run());
+    public Response analitico(EfikaCustomer cust) {
+        Response r;
+        try {
+            AssertsManobraFacade f = new ManobraAssertsFacade(cust);
+            r = ok(f.run());
+        } catch (Exception e) {
+            r = serverError(e);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/asserts")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response asserts(EfikaCustomer cust) {
+        Response r;
+        try {
+            Assertter instance = new AssertsManobra(cust);
+            r = ok(instance.assertThese());
+        } catch (Exception e) {
+            r = serverError(e);
+        }
+        return r;
     }
 
 }

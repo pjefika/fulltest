@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
  */
 public class AssertterManobraIT {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("4130222839");
+    private final EfikaCustomer cust = CustomerMock.getCustomer("1124013751");
 
     public AssertterManobraIT() {
     }
@@ -49,6 +49,9 @@ public class AssertterManobraIT {
     @Test
     public void testAssertThese() throws Exception {
         try {
+            cust.getServicos().setVelDown(15360l);
+            cust.getServicos().setVelUp(1024l);
+            
             System.out.println("assertThese");
             Assertter instance = new AssertsManobra(cust);
             List<CustomerAssert> result = instance.assertThese();

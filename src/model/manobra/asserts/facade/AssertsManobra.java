@@ -12,7 +12,6 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.dslam.velocidade.Velocidades;
 import model.dslam.velocidade.VelocidadesUtil;
 import model.manobra.asserts.impl.AssertAttainableDown;
 import model.manobra.asserts.impl.AssertAttainableUp;

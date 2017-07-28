@@ -46,9 +46,9 @@ public class AnaliseMotivoGenericIT {
     public void testSomeMethod() {
 
         List<CustomerAssert> lst = new ArrayList<>();
-        lst.add(new CustomerAssertImpl(AssertsEnum.HAS_SYNC, Boolean.TRUE));
-        lst.add(new CustomerAssertImpl(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
-        lst.add(new CustomerAssertImpl(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
+        lst.add(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
+        lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
+        lst.add(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
                 
 
         for (MotivoManobraEnum v : MotivoManobraEnum.values()) {
