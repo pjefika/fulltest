@@ -9,7 +9,6 @@ import br.net.gvt.efika.asserts.AssertsEnum;
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.MotivoManobraEnum;
 
 /**
  *
@@ -25,13 +24,13 @@ public class FactoryCriterio {
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
                 break;
 
@@ -41,17 +40,17 @@ public class FactoryCriterio {
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 break;
@@ -60,18 +59,18 @@ public class FactoryCriterio {
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.TROCAR_MODEM);
+                c.setConclusao(ConclusaoManobraEnum.TROCAR_MODEM);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.TROCAR_MODEM);
+                c.setConclusao(ConclusaoManobraEnum.TROCAR_MODEM);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 break;
@@ -82,49 +81,49 @@ public class FactoryCriterio {
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.FALSE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.FALSE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.FALSE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_REPARO, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.TROCAR_MODEM);
+                c.setConclusao(ConclusaoManobraEnum.TROCAR_MODEM);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 break;
@@ -134,25 +133,25 @@ public class FactoryCriterio {
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
                 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
                 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.FALSE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.FALSE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
                 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.FALSE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
                 
                 break;
@@ -164,12 +163,12 @@ public class FactoryCriterio {
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RUIDO_CHIADO, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.RESYNC_MENOR_5, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.REDE_CONFIAVEL, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_NOK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
                 
                 c = new CriterioMotivo();
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.IS_SIP, Boolean.TRUE));
-                c.setConclusao(ConclusaoManobra.PORTA_OK);
+                c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
 
         }
 

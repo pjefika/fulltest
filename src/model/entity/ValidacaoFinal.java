@@ -5,7 +5,7 @@
  */
 package model.entity;
 
-import model.manobra.MotivoManobraEnum;
+import model.manobra.analitcs.MotivoManobraEnum;
 
 /**
  *

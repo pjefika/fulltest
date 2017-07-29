@@ -13,7 +13,7 @@ public class ConclusaoManobraDTO {
 
     private final String nome, frase;
 
-    public ConclusaoManobraDTO(ConclusaoManobra c) {
+    public ConclusaoManobraDTO(ConclusaoManobraEnum c) {
         this.nome = c.name();
         this.frase = c.getNome();
     }

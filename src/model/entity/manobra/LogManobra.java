@@ -6,7 +6,6 @@
 package model.entity.manobra;
 
 import java.util.Calendar;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -26,18 +25,15 @@ public class LogManobra extends AbstractEntity {
 
     @NotNull(message = "Campo obrigatório")
     @Size(min = 1)
-    private String instancia, designador, designadorAcesso, executor, conclusao;
-
-    @NotNull(message = "Campo obrigatório")
-    private Boolean cadastro, semBloqueio, fulltest;
+    private String instancia, designador, designadorAcesso, executor;
 
     @Lob
-    @Column(length = 255555)
     private String customer;
 
     @Lob
-    @Column(length = 255555)
-    private String valids;
+    private String analises;
+
+    private Boolean manobrar;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar datahora = Calendar.getInstance();
@@ -74,38 +70,6 @@ public class LogManobra extends AbstractEntity {
         this.executor = executor;
     }
 
-    public String getConclusao() {
-        return conclusao;
-    }
-
-    public void setConclusao(String conclusao) {
-        this.conclusao = conclusao;
-    }
-
-    public Boolean getCadastro() {
-        return cadastro;
-    }
-
-    public void setCadastro(Boolean cadastro) {
-        this.cadastro = cadastro;
-    }
-
-    public Boolean getSemBloqueio() {
-        return semBloqueio;
-    }
-
-    public void setSemBloqueio(Boolean semBloqueio) {
-        this.semBloqueio = semBloqueio;
-    }
-
-    public Boolean getFulltest() {
-        return fulltest;
-    }
-
-    public void setFulltest(Boolean fulltest) {
-        this.fulltest = fulltest;
-    }
-
     public String getCustomer() {
         return customer;
     }
@@ -120,14 +84,6 @@ public class LogManobra extends AbstractEntity {
 
     public void setDatahora(Calendar datahora) {
         this.datahora = datahora;
-    }
-
-    public String getValids() {
-        return valids;
-    }
-
-    public void setValids(String valids) {
-        this.valids = valids;
     }
 
 }

@@ -7,7 +7,6 @@ package model.manobra.analitcs;
 
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.List;
-import model.manobra.MotivoManobraEnum;
 
 /**
  *

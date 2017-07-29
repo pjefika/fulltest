@@ -68,7 +68,7 @@ public class ManobraAssertsFacadeIT {
             lst.add(new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.TRUE));
             e.setAsserts(lst);
 
-            ManobraAssertsFacade instance = new ManobraAssertsFacade(e);
+            AnalisadorManobraFacade instance = new AnalisadorManobraFacade(e);
             List<AnaliseMotivo> result = instance.run();
 
             result.forEach((t) -> {

@@ -5,33 +5,28 @@
  */
 package model.manobra.analitcs;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author G0042204
  */
-public class FinalizacaoManobraDTO {
+public class FinalizacaoManobra {
 
-    private List<AnaliseMotivoDTO> analises;
+    private List<AnaliseMotivo> analises;
 
     private Boolean manobrar;
 
-    private AnaliseMotivoDTO conclusao;
+    private AnaliseMotivo conclusao;
+    
+    public FinalizacaoManobra() {
+    }
 
-    public List<AnaliseMotivoDTO> getAnalises() {
-        if(analises == null){
-            analises = new ArrayList<>();
-        } 
+    public List<AnaliseMotivo> getAnalises() {
         return analises;
     }
 
-    public void adicionarAnalise(AnaliseMotivoDTO am) {
-        getAnalises().add(am);
-    }
-
-    public void setAnalises(List<AnaliseMotivoDTO> analises) {
+    public void setAnalises(List<AnaliseMotivo> analises) {
         this.analises = analises;
     }
 
@@ -43,11 +38,11 @@ public class FinalizacaoManobraDTO {
         this.manobrar = manobrar;
     }
 
-    public AnaliseMotivoDTO getConclusao() {
+    public AnaliseMotivo getConclusao() {
         return conclusao;
     }
 
-    public void setConclusao(AnaliseMotivoDTO conclusao) {
+    public void setConclusao(AnaliseMotivo conclusao) {
         this.conclusao = conclusao;
     }
 

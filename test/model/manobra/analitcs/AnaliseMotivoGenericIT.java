@@ -9,7 +9,6 @@ import br.net.gvt.efika.asserts.AssertsEnum;
 import br.net.gvt.efika.customer.CustomerAssert;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.MotivoManobraEnum;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;

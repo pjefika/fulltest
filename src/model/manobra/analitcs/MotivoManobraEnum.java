@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.manobra;
+package model.manobra.analitcs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public enum MotivoManobraEnum {
     SEMNAVEG("Não Navega"),
     NAO_ATINGE("Não Atinge Velocidade");
 
-    private String motivo;
+    public String motivo;
 
     private MotivoManobraEnum(String m) {
         this.motivo = m;
@@ -32,21 +31,15 @@ public enum MotivoManobraEnum {
         return motivo;
     }
 
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
-
-    @Override
-    public String toString() {
-        return this.name();
-    }
-
-    public static List<String> toListString() {
-        List<MotivoManobraEnum> lm = Arrays.asList(MotivoManobraEnum.values());
-        List<String> l = new ArrayList<>();
-        for (MotivoManobraEnum m : lm) {
-            l.add(m.getMotivo());
+    public static List<MotivoManobraDTO> toDTO() {
+        List<MotivoManobraDTO> l = new ArrayList<>();
+        for (MotivoManobraEnum m : MotivoManobraEnum.values()) {
+            l.add(new MotivoManobraDTO(m));
         }
         return l;
+    }
+
+    public MotivoManobraDTO dto() {
+        return new MotivoManobraDTO(this);
     }
 }

@@ -17,10 +17,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.manobra.LogManobra;
+import model.manobra.analitcs.FinalizacaoManobraAdapter;
+import model.manobra.analitcs.MotivoManobraEnum;
 import model.manobra.asserts.facade.AssertsManobra;
 import model.manobra.asserts.facade.Assertter;
-import model.manobra.facade.AssertsManobraFacade;
-import model.manobra.facade.ManobraAssertsFacade;
+import model.manobra.facade.AnalisadorManobraFacade;
+import model.manobra.facade.AnalisadorManobra;
 
 /**
  *
@@ -78,8 +80,8 @@ public class ManobraController extends RestJaxAbstract {
     public Response analitico(EfikaCustomer cust) {
         Response r;
         try {
-            AssertsManobraFacade f = new ManobraAssertsFacade(cust);
-            r = ok(f.run());
+            AnalisadorManobra f = new AnalisadorManobraFacade(cust);
+            r = ok(FinalizacaoManobraAdapter.adapter(f.analisar()));
         } catch (Exception e) {
             r = serverError(e);
         }
@@ -95,6 +97,19 @@ public class ManobraController extends RestJaxAbstract {
         try {
             Assertter instance = new AssertsManobra(cust);
             r = ok(instance.assertThese());
+        } catch (Exception e) {
+            r = serverError(e);
+        }
+        return r;
+    }
+
+    @GET
+    @Path("/motivos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response listarMotivos() {
+        Response r;
+        try {
+            r = ok(MotivoManobraEnum.toDTO());
         } catch (Exception e) {
             r = serverError(e);
         }

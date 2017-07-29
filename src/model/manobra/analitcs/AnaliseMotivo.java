@@ -5,8 +5,6 @@
  */
 package model.manobra.analitcs;
 
-import model.manobra.MotivoManobraEnum;
-
 /**
  *
  * @author G0042204
@@ -15,12 +13,12 @@ public class AnaliseMotivo {
 
     private MotivoManobraEnum motivo;
 
-    private ConclusaoManobra conclusao;
+    private ConclusaoManobraEnum conclusao;
 
     public AnaliseMotivo() {
     }
 
-    public AnaliseMotivo(MotivoManobraEnum motivo, ConclusaoManobra conclusao) {
+    public AnaliseMotivo(MotivoManobraEnum motivo, ConclusaoManobraEnum conclusao) {
         this.motivo = motivo;
         this.conclusao = conclusao;
     }
@@ -33,11 +31,11 @@ public class AnaliseMotivo {
         this.motivo = motivo;
     }
 
-    public ConclusaoManobra getConclusao() {
+    public ConclusaoManobraEnum getConclusao() {
         return conclusao;
     }
 
-    public void setConclusao(ConclusaoManobra conclusao) {
+    public void setConclusao(ConclusaoManobraEnum conclusao) {
         this.conclusao = conclusao;
     }
 

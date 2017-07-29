@@ -5,13 +5,14 @@
  */
 package model.manobra.facade;
 
-import java.util.List;
-import model.manobra.analitcs.AnaliseMotivo;
+import model.manobra.analitcs.FinalizacaoManobra;
 
 /**
  *
  * @author G0042204
  */
-public interface AssertsManobraFacade {
-    public List<AnaliseMotivo> run();
+public interface AnalisadorManobra {
+
+    public FinalizacaoManobra analisar();
+
 }
