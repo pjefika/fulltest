@@ -7,6 +7,7 @@ package dao.log;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.AbstractHibernateDAO;
+import java.util.List;
 import javax.persistence.Query;
 import model.entity.manobra.LogManobra;
 
@@ -32,17 +33,16 @@ public class LogManobraDAO extends AbstractHibernateDAO implements ManobraDAO {
     }
 
     @Override
-    public LogManobra buscarLogManobraExistente(EfikaCustomer e) throws Exception {
+    public List<LogManobra> listarLogManobraPorCustomer(EfikaCustomer e) throws Exception {
         try {
             Query query = getEm().createQuery("FROM LogManobra v WHERE 1=1 "
                     + "AND (v.instancia =:param OR v.designador =:param1 OR v.designadorAcesso =:param2) "
-                    + "AND DATEDIFF('day', v.inicio, NOW()) = 0"
-                    + "AND v.resultado =:param3");
+                    + "AND DATEDIFF('day', v.datahora, NOW()) = 0");
+            
             query.setParameter("param", e.getInstancia());
             query.setParameter("param1", e.getDesignador());
             query.setParameter("param2", e.getDesignadorAcesso());
-            query.setParameter("param3", false);
-            return (LogManobra) query.getSingleResult();
+            return (List<LogManobra>) query.getResultList();
         } catch (Exception ex) {
             return null;
         }

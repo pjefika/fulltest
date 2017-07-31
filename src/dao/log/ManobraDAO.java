@@ -7,6 +7,7 @@ package dao.log;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.InterfaceDAO;
+import java.util.List;
 import model.entity.manobra.LogManobra;
 
 /**
@@ -15,6 +16,6 @@ import model.entity.manobra.LogManobra;
  */
 public interface ManobraDAO extends InterfaceDAO<LogManobra> {
 
-    public LogManobra buscarLogManobraExistente(EfikaCustomer e) throws Exception;
+    public List<LogManobra> listarLogManobraPorCustomer(EfikaCustomer e) throws Exception;
 
 }

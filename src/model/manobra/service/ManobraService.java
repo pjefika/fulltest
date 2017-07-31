@@ -11,4 +11,6 @@ package model.manobra.service;
  */
 public interface ManobraService {
     
+    
+    
 }

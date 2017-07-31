@@ -19,7 +19,9 @@ public class AnaliseMotivoDTO {
     }
 
     public AnaliseMotivoDTO(AnaliseMotivo am) {
-        this.motivo = am.getMotivo().dto();
+        if (am.getMotivo() != null) {
+            this.motivo = am.getMotivo().dto();
+        }
         this.conclusao = am.getConclusao().dto();
     }
 

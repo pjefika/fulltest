@@ -20,12 +20,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.manobra.LogManobra;
+import model.manobra.analitcs.FinalizacaoManobra;
 import model.manobra.analitcs.FinalizacaoManobraAdapter;
 import model.manobra.analitcs.MotivoManobraEnum;
 import model.manobra.asserts.facade.AssertsManobra;
 import model.manobra.asserts.facade.Assertter;
 import model.manobra.facade.AnalisadorManobraFacade;
 import model.manobra.facade.AnalisadorManobra;
+import util.GsonUtil;
 
 /**
  *
@@ -69,18 +71,26 @@ public class ManobraController extends RestJaxAbstract {
         Response r;
         try {
             AnalisadorManobra f = new AnalisadorManobraFacade(in.getCust());
-            r = ok(FinalizacaoManobraAdapter.adapter(f.analisar()));
-        } catch (Exception e) {
-            r = serverError(e);
-        } finally {
+            FinalizacaoManobra fim = f.analisar();
+
             try {
                 LogManobra l = new LogManobra(in.getCust());
+                l.setCustomer(GsonUtil.serialize(in.getCust()));
+                l.setAnalises(GsonUtil.serialize(fim));
+                l.setExecutor(in.getExecutor());
+                l.setConclusao(fim.getConclusao().getConclusao());
+                l.setMotivo(fim.getConclusao().getMotivo());
+                l.setManobrar(fim.getManobrar());
                 dao = FactoryDAO.create();
                 dao.cadastrar(l);
                 dao.close();
             } catch (Exception ex) {
                 Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
+            r = ok(FinalizacaoManobraAdapter.adapter(fim));
+        } catch (Exception e) {
+            r = serverError(e);
         }
 
         return r;
@@ -108,6 +118,20 @@ public class ManobraController extends RestJaxAbstract {
         Response r;
         try {
             r = ok(MotivoManobraEnum.toDTO());
+        } catch (Exception e) {
+            r = serverError(e);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/listarManobras")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response listarManobras(EfikaCustomer cust) {
+        Response r;
+        try {
+            r = ok(FactoryDAO.create().listarLogManobraPorCustomer(cust));
         } catch (Exception e) {
             r = serverError(e);
         }

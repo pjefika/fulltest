@@ -6,6 +6,7 @@
 package controller.in;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import model.manobra.analitcs.MotivoManobraEnum;
 
 /**
  *
@@ -16,6 +17,8 @@ public class AnaliticoIn {
     private String executor;
 
     private EfikaCustomer cust;
+
+    private MotivoManobraEnum motivo;
 
     public AnaliticoIn() {
     }
@@ -34,6 +37,14 @@ public class AnaliticoIn {
 
     public void setCust(EfikaCustomer cust) {
         this.cust = cust;
+    }
+
+    public MotivoManobraEnum getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(MotivoManobraEnum motivo) {
+        this.motivo = motivo;
     }
 
 }
