@@ -17,5 +17,5 @@ public interface InterfaceDAO<T> {
     public T buscarPorId(T t) throws Exception;
 
     public void close();
-    
+
 }

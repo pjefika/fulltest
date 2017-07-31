@@ -6,8 +6,11 @@
 package controller;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import controller.in.AnaliticoIn;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -33,21 +36,6 @@ public class ManobraController extends RestJaxAbstract {
 
     private InterfaceDAO<LogManobra> dao;
 
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/log")
-    public Response log(LogManobra l) throws Exception {
-        try {
-            dao = FactoryDAO.createLogManobra();
-            dao.cadastrar(l);
-            dao.close();
-            return ok(l);
-        } catch (Exception e) {
-            return serverError(e);
-        }
-    }
-
     /**
      *
      * @param id
@@ -59,7 +47,7 @@ public class ManobraController extends RestJaxAbstract {
     public Response get(@PathParam("id") Integer id) {
         Response r;
         try {
-            dao = FactoryDAO.createLogManobra();
+            dao = FactoryDAO.create();
             LogManobra l = new LogManobra();
             l.setId(id);
 
@@ -77,14 +65,24 @@ public class ManobraController extends RestJaxAbstract {
     @Path("/analitico")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response analitico(EfikaCustomer cust) {
+    public Response analitico(AnaliticoIn in) {
         Response r;
         try {
-            AnalisadorManobra f = new AnalisadorManobraFacade(cust);
+            AnalisadorManobra f = new AnalisadorManobraFacade(in.getCust());
             r = ok(FinalizacaoManobraAdapter.adapter(f.analisar()));
         } catch (Exception e) {
             r = serverError(e);
+        } finally {
+            try {
+                LogManobra l = new LogManobra(in.getCust());
+                dao = FactoryDAO.create();
+                dao.cadastrar(l);
+                dao.close();
+            } catch (Exception ex) {
+                Logger.getLogger(ManobraController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
         return r;
     }
 

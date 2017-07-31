@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.manobra.service;
 
 /**
  *
  * @author G0042204
  */
-public class LogAdapter {
+public interface ManobraService {
     
 }

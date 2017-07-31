@@ -5,8 +5,14 @@
  */
 package model.entity.manobra;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Calendar;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -14,6 +20,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import model.entity.AbstractEntity;
+import model.manobra.analitcs.ConclusaoManobraEnum;
+import model.manobra.analitcs.MotivoManobraEnum;
 
 /**
  *
@@ -28,15 +36,58 @@ public class LogManobra extends AbstractEntity {
     private String instancia, designador, designadorAcesso, executor;
 
     @Lob
-    private String customer;
+    @Basic(fetch = LAZY)
+    @Column(columnDefinition = "LONGVARCHAR")
+    protected String customer;
 
     @Lob
-    private String analises;
+    @Basic(fetch = LAZY)
+    @Column(columnDefinition = "LONGVARCHAR")
+    protected String analises;
 
     private Boolean manobrar;
 
+    @Enumerated(EnumType.STRING)
+    private ConclusaoManobraEnum conclusao;
+
+    @Enumerated(EnumType.STRING)
+    private MotivoManobraEnum motivo;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar datahora = Calendar.getInstance();
+
+    public LogManobra() {
+    }
+
+    public LogManobra(EfikaCustomer c) {
+        this.setInstancia(c.getInstancia());
+        this.setDesignador(c.getDesignador());
+        this.setDesignadorAcesso(c.getDesignadorAcesso());
+    }
+
+    public String getAnalises() {
+        return analises;
+    }
+
+    public void setAnalises(String analises) {
+        this.analises = analises;
+    }
+
+    public Boolean getManobrar() {
+        return manobrar;
+    }
+
+    public void setManobrar(Boolean manobrar) {
+        this.manobrar = manobrar;
+    }
+
+    public ConclusaoManobraEnum getConclusao() {
+        return conclusao;
+    }
+
+    public void setConclusao(ConclusaoManobraEnum conclusao) {
+        this.conclusao = conclusao;
+    }
 
     public String getInstancia() {
         return instancia;
@@ -84,6 +135,14 @@ public class LogManobra extends AbstractEntity {
 
     public void setDatahora(Calendar datahora) {
         this.datahora = datahora;
+    }
+
+    public MotivoManobraEnum getMotivo() {
+        return motivo;
+    }
+
+    public void setMotivo(MotivoManobraEnum motivo) {
+        this.motivo = motivo;
     }
 
 }
