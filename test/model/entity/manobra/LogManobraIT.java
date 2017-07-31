@@ -14,6 +14,7 @@ import dao.InterfaceDAO;
 import java.util.ArrayList;
 import java.util.List;
 import model.manobra.analitcs.FinalizacaoManobra;
+import model.manobra.analitcs.MotivoManobraEnum;
 import model.manobra.facade.AnalisadorManobra;
 import model.manobra.facade.AnalisadorManobraFacade;
 import org.junit.After;
@@ -30,38 +31,38 @@ import util.GsonUtil;
  * @author G0042204
  */
 public class LogManobraIT {
-    
+
     public LogManobraIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     @Test
     public void test() {
-        
+
         AnaliticoIn in = new AnaliticoIn();
         EfikaCustomer e = new EfikaCustomer();
-        
+
         e.setInstancia("instancia");
         e.setDesignador("designador");
         e.setDesignadorAcesso("designadorAcesso");
-        
+
         List<CustomerAssert> lst = new ArrayList<>();
-        
+
         lst.add(new CustomerAssert(AssertsEnum.REDE_CONFIAVEL, Boolean.FALSE));
         lst.add(new CustomerAssert(AssertsEnum.RESYNC_MENOR_300, Boolean.TRUE));
         lst.add(new CustomerAssert(AssertsEnum.RESYNC_MENOR_50, Boolean.TRUE));
@@ -70,28 +71,30 @@ public class LogManobraIT {
         lst.add(new CustomerAssert(AssertsEnum.AUTH_ABERTURA_ORDEM, Boolean.TRUE));
         lst.add(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.TRUE));
         lst.add(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
-        
+
         lst.add(new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, Boolean.TRUE));
         lst.add(new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.TRUE));
         e.setAsserts(lst);
-        
+
         AnalisadorManobra f = new AnalisadorManobraFacade(e);
         FinalizacaoManobra fim = f.analisar();
-        
+
         in.setCust(e);
         in.setExecutor("G0042204");
-        
+        in.setMotivo(MotivoManobraEnum.RUIDO);
+
         LogManobra l = new LogManobra(in.getCust());
-        
+
         l.setCustomer(GsonUtil.serialize(e));
         l.setAnalises(GsonUtil.serialize(fim));
         l.setExecutor(in.getExecutor());
         l.setConclusao(fim.getConclusao().getConclusao());
         l.setMotivo(fim.getConclusao().getMotivo());
         l.setManobrar(fim.getManobrar());
-        
+        l.setMotivoEntrada(MotivoManobraEnum.NAO_ATINGE);
+
         System.out.println(GsonUtil.serialize(l));
-        
+
         try {
             InterfaceDAO<LogManobra> dao = FactoryDAO.create();
             dao.cadastrar(l);
@@ -101,7 +104,7 @@ public class LogManobraIT {
             ex.printStackTrace();
             fail(ex.getMessage());
         }
-        
+
     }
-    
+
 }

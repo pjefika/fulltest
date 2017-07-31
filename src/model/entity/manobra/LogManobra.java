@@ -51,7 +51,10 @@ public class LogManobra extends AbstractEntity {
     private ConclusaoManobraEnum conclusao;
 
     @Enumerated(EnumType.STRING)
-    private MotivoManobraEnum motivo;
+    private MotivoManobraEnum motivoSaida;
+
+    @Enumerated(EnumType.STRING)
+    private MotivoManobraEnum motivoEntrada;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar datahora = Calendar.getInstance();
@@ -138,11 +141,19 @@ public class LogManobra extends AbstractEntity {
     }
 
     public MotivoManobraEnum getMotivo() {
-        return motivo;
+        return motivoSaida;
     }
 
     public void setMotivo(MotivoManobraEnum motivo) {
-        this.motivo = motivo;
+        this.motivoSaida = motivo;
+    }
+
+    public MotivoManobraEnum getMotivoEntrada() {
+        return motivoEntrada;
+    }
+
+    public void setMotivoEntrada(MotivoManobraEnum motivoEntrada) {
+        this.motivoEntrada = motivoEntrada;
     }
 
 }

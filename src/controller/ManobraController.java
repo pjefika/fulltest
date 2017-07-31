@@ -81,6 +81,7 @@ public class ManobraController extends RestJaxAbstract {
                 l.setConclusao(fim.getConclusao().getConclusao());
                 l.setMotivo(fim.getConclusao().getMotivo());
                 l.setManobrar(fim.getManobrar());
+                l.setMotivoEntrada(in.getMotivo());
                 dao = FactoryDAO.create();
                 dao.cadastrar(l);
                 dao.close();
