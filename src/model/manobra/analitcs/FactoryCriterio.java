@@ -44,11 +44,13 @@ public class FactoryCriterio {
                 lst.add(c);
 
                 c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.FALSE));
                 c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.HAS_SYNC, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
                 c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
