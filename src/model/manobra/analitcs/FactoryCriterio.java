@@ -60,18 +60,18 @@ public class FactoryCriterio {
             case SEMNAVEG:
 
                 c = new CriterioMotivo();
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, Boolean.FALSE));
                 c.setConclusao(ConclusaoManobraEnum.TROCAR_MODEM);
                 lst.add(c);
 
                 c = new CriterioMotivo();
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.FALSE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.FALSE));
                 c.setConclusao(ConclusaoManobraEnum.TROCAR_MODEM);
                 lst.add(c);
 
                 c = new CriterioMotivo();
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_DOWN_OK, Boolean.TRUE));
-                c.adicionarCriterio(new CustomerAssert(AssertsEnum.ATT_UP_OK, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.PACOTES_DOWN_MAIOR_6000, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.PACOTES_UP_MAIOR_4000, Boolean.TRUE));
                 c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 

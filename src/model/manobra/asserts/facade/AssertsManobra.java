@@ -16,6 +16,7 @@ import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.VelocidadesUtil;
 import model.manobra.asserts.impl.AssertAttainableDown;
 import model.manobra.asserts.impl.AssertAttainableUp;
+import model.manobra.asserts.impl.AssertHasSync;
 import model.manobra.asserts.impl.AssertIsSip;
 import model.manobra.asserts.impl.AssertPacotesDown;
 import model.manobra.asserts.impl.AssertPacotesUp;
@@ -23,6 +24,7 @@ import model.manobra.asserts.impl.AssertRedeConfiavel;
 import model.manobra.asserts.impl.AssertResync300;
 import model.manobra.asserts.impl.AssertResync5;
 import model.manobra.asserts.impl.AssertResync50;
+import model.validacao.impl.ValidacaoEstadoPortaOper;
 import model.validacao.impl.manobra.ValidacaoAttainableDown;
 import model.validacao.impl.manobra.ValidacaoAttainableUp;
 import model.validacao.impl.manobra.ValidacaoIsSip;
@@ -55,6 +57,7 @@ public class AssertsManobra extends AbstractAssertFacade {
         TabelaParametrosMetalico ideal = consultar().getTabelaParametrosIdeal(VelocidadesUtil.obterDown(cust));
         InventarioServico serviceInventory = cust.getServicos();
 
+        adicionarAssert(new AssertHasSync(new ValidacaoEstadoPortaOper(consultar().getEstadoDaPorta(cust.getRede()))).claim());
         adicionarAssert(new AssertRedeConfiavel(new ValidacaoRedeConfiavel(cust, trede)).claim());
         adicionarAssert(new AssertResync300(new ValidacaoResync300(trede)).claim());
         adicionarAssert(new AssertResync50(new ValidacaoResync50(trede)).claim());
