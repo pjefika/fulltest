@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -31,8 +32,9 @@ import static org.junit.Assert.*;
  */
 public class ConsultaClienteInterIT {
 
-    private static DslamMetalico instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("6130336224");
+//    private static DslamMetalico instance;
+    private static DslamGpon instance;
+    private static EfikaCustomer ec = CustomerMock.getCustomer("1630108047");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaClienteInterIT() {
@@ -40,7 +42,7 @@ public class ConsultaClienteInterIT {
 
     @BeforeClass
     public static void setUpClass() throws DslamNaoImplException {
-        instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
+        instance = (DslamGpon) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
         instance.conectar();
     }
 
