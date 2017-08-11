@@ -10,6 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import exception.MetodoNaoImplementadoException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -232,18 +233,19 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast(i)).getRetorno();
-        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100(i.getLogica())+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        VlanMulticast vlanMult = new VlanMulticast();
-        Integer svlan = 0;
-
-        if(leVlanMult != null){
-            svlan = new Integer(leVlanMult.get(0));
-        }
-        vlanMult.setSvlan(svlan);
-
-        System.out.println(vlanMult.getSvlan());
-        return vlanMult;
+//        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast(i)).getRetorno();
+//        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100(i.getLogica())+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+//        VlanMulticast vlanMult = new VlanMulticast();
+//        Integer svlan = 0;
+//
+//        if(leVlanMult != null){
+//            svlan = new Integer(leVlanMult.get(0));
+//        }
+//        vlanMult.setSvlan(svlan);
+//
+//        System.out.println(vlanMult.getSvlan());
+//        return null;
+        throw new MetodoNaoImplementadoException();
     }
 
     public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
