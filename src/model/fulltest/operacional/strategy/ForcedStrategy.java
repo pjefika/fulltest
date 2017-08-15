@@ -8,6 +8,7 @@ package model.fulltest.operacional.strategy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
+import model.validacao.ValidacaoResult;
 
 /**
  * Estratégia de execução que interrompe a execução caso encontre validações
@@ -22,7 +23,10 @@ public class ForcedStrategy implements ExecutionStrategy {
         try {
             ft.getBateria().forEach((v) -> {
                 try {
-                    ft.getValids().add(v.validar());
+                    ValidacaoResult r = v.validar();
+                    if (r != null) {
+                        ft.getValids().add(r);
+                    }
                 } catch (Exception ex) {
                     Logger.getLogger(ForcedStrategy.class.getName()).log(Level.SEVERE, null, ex);
                 }
