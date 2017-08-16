@@ -34,7 +34,7 @@ public class ConsultaClienteInterIT {
 
 //    private static DslamMetalico instance;
     private static DslamGpon instance;
-    private static EfikaCustomer ec = CustomerMock.getCustomer("1630108047");
+    private static EfikaCustomer ec = CustomerMock.getCustomer("3131769345");
     private static InventarioRede i = ec.getRede();
 
     public ConsultaClienteInterIT() {

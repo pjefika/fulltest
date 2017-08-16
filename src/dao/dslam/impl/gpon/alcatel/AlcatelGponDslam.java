@@ -106,7 +106,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml");
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 3000);
     }
 
     @Override
@@ -143,15 +143,16 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanBanda(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 detail xml", 5000);
     }
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanBanda(i));
         List<String> leResp = consulta.getRetorno();
+   
+        Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
-        Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
@@ -161,21 +162,21 @@ public class AlcatelGponDslam extends DslamGpon {
             }
 
             String[] pegaVlan = leVlan.split(":");
-            cvlan = new Integer(pegaVlan[1]);
-            p100 = new Integer(pegaVlan[2]);
+            svlan = new Integer(pegaVlan[1]);
+            cvlan = new Integer(pegaVlan[2]);
             state = EnumEstadoVlan.UP;
         }
 
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
 
+        System.out.println(svlan);
         System.out.println(cvlan);
-        System.out.println(p100);
 
         return vlanBanda;
     }
 
     protected ComandoDslam getComandoConsultaVlanVoip(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 detail xml", 3000);
     }
 
     @Override
@@ -205,7 +206,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanVod(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 detail xml", 3000);
     }
 
     @Override
@@ -236,7 +237,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 detail xml", 3000);
     }
 
     @Override
@@ -320,7 +321,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i) {
-        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 5000);
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 9000);
     }
 
     @Override
