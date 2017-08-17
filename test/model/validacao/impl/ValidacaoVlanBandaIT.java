@@ -47,7 +47,7 @@ public class ValidacaoVlanBandaIT {
     }
 
     @Test
-    public void testSomeMethod() {
+    public void testSomeMethod() throws Exception {
 
         try {
             Validador v = new ValidadorVlanBanda(DslamDAOFactory.getInstance(cust.getRede()), cust);

@@ -41,7 +41,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     protected AbstractDslam dslam;
 
-    private ExecutionStrategy exec;
+    protected ExecutionStrategy exec;
 
     public FullTestGenericFacade() {
     }

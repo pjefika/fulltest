@@ -47,7 +47,7 @@ public class CorretorVlanBandaIT {
     }
 
     @Test
-    public void testSomeMethod() {
+    public void testSomeMethod() throws Exception {
 
         try {
             Corretor c = new CorretorVlanBanda(DslamDAOFactory.getInstance(cust.getRede()), cust);
