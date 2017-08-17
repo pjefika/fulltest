@@ -21,7 +21,7 @@ public class Profile extends ValidavelAbs implements Validavel {
 
     private String profileDown;
 
-    private static final String NOME = "MAC do Equipamento";
+    private static final String NOME = "Profile";
 
     public Profile() {
         super(NOME);

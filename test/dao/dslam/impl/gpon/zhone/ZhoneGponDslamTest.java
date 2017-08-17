@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
-    private EfikaCustomer cl = CustomerMock.getCustomer("1630107601");
+    private EfikaCustomer cl = CustomerMock.getCustomer("1630108047");
     ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
     InventarioRede i = cl.getRede();
 

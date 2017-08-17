@@ -10,6 +10,8 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import exception.MetodoNaoImplementadoException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.EnumEstadoVlan;
@@ -151,8 +153,8 @@ public class ZhoneGponDslam extends DslamGpon {
         Integer p100 = new Integer("0");
 
         if (leVlanBanda != null) {
-            cvlan = new Integer(leVlanBanda.get(1));
-            p100 = new Integer(leVlanBanda.get(0));
+            p100 = new Integer(leVlanBanda.get(1));
+            cvlan = new Integer(leVlanBanda.get(0));
             for (String string : leVlanBandaStatus) {
                 if (string.contentEquals("UP")) {
                     state = EnumEstadoVlan.UP;
@@ -226,23 +228,24 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
-        return new ComandoDslam("bridge show port 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu", 45000);
+        return new ComandoDslam("bridge show port 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu", 90000);
     }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-//        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast()).getRetorno();
-//        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100()+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+//        List<String> leVlan= this.getCd().consulta(this.getComandoConsultaVlanMulticast(i)).getRetorno();
+//        List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlan, "-"+this.getL1100(i.getLogica())+"-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 //        VlanMulticast vlanMult = new VlanMulticast();
-//        BigInteger cvlan = new BigInteger("0");
+//        Integer svlan = 0;
 //
 //        if(leVlanMult != null){
-//            cvlan = new BigInteger(leVlanMult.get(0));
+//            svlan = new Integer(leVlanMult.get(0));
 //        }
+//        vlanMult.setSvlan(svlan);
 //
-
-//        System.out.println(vlanMult.getCvlan());
-        return null;
+//        System.out.println(vlanMult.getSvlan());
+//        return null;
+        throw new MetodoNaoImplementadoException();
     }
 
     public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
@@ -349,7 +352,7 @@ public class ZhoneGponDslam extends DslamGpon {
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
                 + "gtp " + castProfile(up).getProfileUp() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
-                + "epktrule " + castProfile(down).getProfileDown(), 3000);
+                + "epktrule " + castProfile(down).getProfileDown(), 5000);
     }
 
     @Override
@@ -454,7 +457,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
         return new ComandoDslam("bridge modify 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "-gponport-"
-                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + castProfile(v).getProfileDown());
+                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + castProfile(v).getProfileDown(), 1500);
     }
 
     @Override
@@ -476,7 +479,7 @@ public class ZhoneGponDslam extends DslamGpon {
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         p.setProfileDown(v.getVel());
-        Integer leProfUp = Math.round(new Float(v.getVel())*1000);
+        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
         p.setProfileUp(leProfUp.toString());
         return p;
     }

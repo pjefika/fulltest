@@ -54,7 +54,8 @@ public class TratativaRetornoUtil {
     public static Document stringXmlConfigData(ComandoDslam cd) {
         Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
         String search = "</configuration-data>";
-        Integer xmlEnd = cd.getBlob().indexOf(search) + search.length();
+//        Integer xmlEnd = cd.getBlob().indexOf(search) + search.length();
+        Integer xmlEnd = cd.getBlob().lastIndexOf('>')+1;
         return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnd));
     }
 
