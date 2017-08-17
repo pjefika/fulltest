@@ -30,6 +30,14 @@ public class TabelaParametrosMetalico extends TabelaParametrosAbstract<TabelaPar
                 && this.atnUp >= t.getAtnUp();
     }
 
+    public Boolean validarAttainableDown(TabelaParametrosMetalico t) {
+        return this.velMaxDown >= t.velMaxDown;
+    }
+
+    public Boolean validarAttainableUp(TabelaParametrosMetalico t) {
+        return this.velMaxUp >= t.velMaxUp;
+    }
+
     public Double getVelSincDown() {
         return velSincDown;
     }

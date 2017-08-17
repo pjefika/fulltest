@@ -9,7 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
+import model.validacao.factory.FactoryValidador;
 
 /**
  *
@@ -29,7 +30,8 @@ public class FullTestManobraFacade extends FullTestGenericFacade implements Full
         if (dslam instanceof DslamMetalico == false) {
             throw new FuncIndisponivelDslamException();
         } else {
-            this.setBateria(FactoryValidacao.manobra(dslam, cl));
+            this.setExec(FactoryExecutionStrategy.forced());
+            this.setBateria(FactoryValidador.manobra(dslam, cl));
         }
     }
 

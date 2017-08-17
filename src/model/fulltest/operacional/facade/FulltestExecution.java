@@ -6,7 +6,6 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.factory.exception.DslamNaoImplException;
 
 /**
  *
@@ -15,13 +14,9 @@ import dao.dslam.factory.exception.DslamNaoImplException;
 public abstract class FulltestExecution {
 
     final void exec(EfikaCustomer cl) throws Exception {
-        try {
-            iniciar(cl);
-            validar();
-            encerrar();
-        } catch (DslamNaoImplException e) {
-            throw e;
-        }
+        iniciar(cl);
+        validar();
+        encerrar();
     }
 
     abstract void iniciar(EfikaCustomer cl) throws Exception;

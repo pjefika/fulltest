@@ -5,7 +5,7 @@
  */
 package model.produtos;
 
-import model.validacao.VelocidadeMinima;
+import model.validacao.impl.VelocidadeMinima;
 
 /**
  *

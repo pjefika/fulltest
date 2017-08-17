@@ -7,7 +7,7 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.validacao.factory.FactoryValidador;
 
 /**
  *
@@ -24,7 +24,7 @@ public class FullTestCRMFacade extends FullTestGenericFacade implements FullTest
     @Override
     void iniciar(EfikaCustomer e) throws Exception {
         super.iniciar(e);
-        this.setBateria(FactoryValidacao.crm(dslam, cl));
+        this.setBateria(FactoryValidador.crm(dslam, cl));
     }
 
 }

@@ -33,7 +33,7 @@ public class AlteracaoMetalicoDefaultInterIT {
     InventarioRede i;
 
     public AlteracaoMetalicoDefaultInterIT() {
-        ec = CustomerMock.getCustomer("1122297805");
+        ec = CustomerMock.getCustomer("1124013751");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());

@@ -34,6 +34,10 @@ public class KeymileMetalicoSuvd1 extends KeymileMetalicoSuvdDslam {
             t.setAtnUp(0d);
             t.setSnrDown(2d);
             t.setSnrUp(5d);
+            t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+            t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+            t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+            t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
             return t;
         } else {
             TabelaParametrosMetalicoVdsl t = new TabelaParametrosMetalicoVdsl();
@@ -49,6 +53,10 @@ public class KeymileMetalicoSuvd1 extends KeymileMetalicoSuvdDslam {
             t.setSnrUp(5d);
             t.setSnrUp1(5d);
             t.setSnrUp2(5d);
+            t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+            t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+            t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+            t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
             return t;
         }
 

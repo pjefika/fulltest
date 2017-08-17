@@ -22,7 +22,7 @@ import util.PrintUtil;
  */
 public class FullTestManobraFacadeIT {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("4130222839");
+    private final EfikaCustomer cust = CustomerMock.getCustomer("5530262971");
 
     public FullTestManobraFacadeIT() {
     }
@@ -56,6 +56,7 @@ public class FullTestManobraFacadeIT {
             PrintUtil.print(result);
             assertEquals(true, result.getResultado());
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
 

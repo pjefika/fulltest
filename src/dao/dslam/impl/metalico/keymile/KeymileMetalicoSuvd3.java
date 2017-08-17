@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
 import model.dslam.velocidade.Velocidades;
@@ -29,6 +30,10 @@ public class KeymileMetalicoSuvd3 extends KeymileMetalicoSuvdDslam {
             t.setAtnUp(0d);
             t.setSnrDown(6d);
             t.setSnrUp(5d);
+            t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+            t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+            t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+            t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
             return t;
         } else {
             TabelaParametrosMetalicoVdsl t = new TabelaParametrosMetalicoVdsl();
@@ -44,6 +49,10 @@ public class KeymileMetalicoSuvd3 extends KeymileMetalicoSuvdDslam {
             t.setSnrUp(5d);
             t.setSnrUp1(5d);
             t.setSnrUp2(5d);
+            t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
+            t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+            t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+            t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
             return t;
         }
 

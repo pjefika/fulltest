@@ -7,7 +7,7 @@ package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.ValidavelAbs;
-import model.fulltest.validacao.Validavel;
+import model.validacao.Validavel;
 
 /**
  *
@@ -19,7 +19,7 @@ public class EstadoDaPorta extends ValidavelAbs implements Validavel {
 
     private String operState;
 
-    private static final String NOME = "MAC do Equipamento";
+    private static final String NOME = "Estado da Porta";
 
     public EstadoDaPorta() {
         super(NOME);

@@ -24,6 +24,13 @@ public class DslamMetalicoDAOFactory {
 
     public static AbstractDslam getInstance(String modelo, String ip) throws DslamNaoImplException {
 
+        /**
+         * Tratativa para TELEDATA
+         */
+        if (modelo.contains("LIADSLPT48")) {
+            throw new DslamNaoImplException();
+        }
+
         if (modelo.contains("48")) {
             return new ZhoneMetalicoComboDslam(ip);
         } else if (modelo.contains("MXK") && !modelo.contains("48")) {

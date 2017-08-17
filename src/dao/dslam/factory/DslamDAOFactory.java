@@ -8,6 +8,7 @@ package dao.dslam.factory;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.factory.exception.FalhaInventarioRedeException;
 
 /**
  *
@@ -23,11 +24,18 @@ public class DslamDAOFactory {
         }
     }
 
-    public static AbstractDslam getInstance(InventarioRede r) throws DslamNaoImplException {
+    public static AbstractDslam getInstance(InventarioRede r) throws Exception {
+        validar(r);
         try {
             return DslamGponDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
         } catch (DslamNaoImplException e) {
             return DslamMetalicoDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
+        }
+    }
+    
+    public static void validar(InventarioRede rede) throws Exception{
+        if(rede == null){
+            throw new FalhaInventarioRedeException();
         }
     }
 

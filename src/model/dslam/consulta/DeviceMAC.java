@@ -7,7 +7,7 @@ package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.ValidavelAbs;
-import model.fulltest.validacao.Validavel;
+import model.validacao.Validavel;
 
 /**
  *

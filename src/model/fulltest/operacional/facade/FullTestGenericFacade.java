@@ -15,7 +15,7 @@ import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
-import model.fulltest.validacao.factory.FactoryValidacao;
+import model.validacao.factory.FactoryValidador;
 import model.validacao.ValidacaoResult;
 import model.validacao.validador.Validator;
 
@@ -66,8 +66,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     void validar() {
         this.exec.action(this);
     }
-    
-    public FullTest cast(){
+
+    public FullTest cast() {
         return FullTestAdapter.adapter(this);
     }
 
@@ -91,8 +91,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     }
 
     public List<Validator> getBateria() {
-        if(bateria == null){
-            bateria = FactoryValidacao.crm(this.dslam, this.cl);
+        if (bateria == null) {
+            bateria = FactoryValidador.crm(this.dslam, this.cl);
         }
         return bateria;
     }
@@ -147,6 +147,14 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     public void setDslam(AbstractDslam dslam) {
         this.dslam = dslam;
+    }
+
+    public ExecutionStrategy getExec() {
+        return exec;
+    }
+
+    public void setExec(ExecutionStrategy exec) {
+        this.exec = exec;
     }
 
 }

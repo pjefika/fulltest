@@ -6,7 +6,7 @@
 package model.dslam.consulta.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.validacao.Validavel;
+import model.validacao.Validavel;
 
 /**
  *

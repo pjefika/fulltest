@@ -28,6 +28,8 @@ public class KeymileMetalicoSuad5 extends KeymileMetalicoSuadDslam{
         t.setAtnUp(2d);
         t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
         t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+        t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+        t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
         
         return t;
     }

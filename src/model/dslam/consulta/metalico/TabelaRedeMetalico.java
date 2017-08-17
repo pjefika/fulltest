@@ -5,11 +5,30 @@
  */
 package model.dslam.consulta.metalico;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import java.math.BigInteger;
+import model.validacao.Validavel;
 
-public class TabelaRedeMetalico {
+public class TabelaRedeMetalico implements Validavel {
 
     private BigInteger pctDown, pctUp, crcDown, crcUp, fecDown, fecUp, resync;
+
+    /**
+     * *
+     * Implementar
+     *
+     * @param cust
+     * @return
+     */
+    @Override
+    public Boolean validar(EfikaCustomer cust) {
+        return isCrcOk();
+    }
+
+    @Override
+    public String getNome() {
+        return "Rede Confiável";
+    }
 
     public BigInteger getResync() {
         return resync;
@@ -65,5 +84,86 @@ public class TabelaRedeMetalico {
 
     public void setFecUp(BigInteger fecUp) {
         this.fecUp = fecUp;
+    }
+
+    public Boolean isCrcOk() {
+        BigInteger maxCrcDown = this.getPctDown().divide(new BigInteger("6000"));
+        BigInteger maxCrcUp = this.getPctUp().divide(new BigInteger("5000"));
+        if (this.getCrcDown().compareTo(maxCrcDown) > 0 || this.getCrcUp().compareTo(maxCrcUp) > 0) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * True para resync menor que 300
+     *
+     * @return
+     */
+    public Boolean resync300() {
+        return this.getResync().compareTo(new BigInteger("300")) < 0;
+    }
+
+    /**
+     * True para resync menor que 50
+     *
+     * @return
+     */
+    public Boolean resync50() {
+        return this.getResync().compareTo(new BigInteger("50")) < 0;
+    }
+
+    /**
+     * True para resync menor que 5
+     *
+     * @return
+     */
+    public Boolean resync5() {
+        return this.getResync().compareTo(new BigInteger("5")) < 0;
+    }
+
+    /**
+     * True para pacotes down E up menor que 50
+     *
+     * @return
+     */
+    public Boolean pctA() {
+        return this.getPctDown().compareTo(new BigInteger("50")) < 0 && this.getPctUp().compareTo(new BigInteger("50")) < 0;
+    }
+
+    /**
+     * True para pacotes down >= 6000
+     *
+     * @return
+     */
+    public Boolean pctDown() {
+        return this.getPctDown().compareTo(new BigInteger("6000")) >= 0;
+    }
+
+    /**
+     * True para pacotes up >= 4000
+     *
+     * @return
+     */
+    public Boolean pctUp() {
+        return this.getPctDown().compareTo(new BigInteger("4000")) >= 0;
+    }
+
+    /**
+     * True para pacotes down E up maior que 3000
+     *
+     * @return
+     */
+    public Boolean pctB() {
+        return this.getPctDown().compareTo(new BigInteger("3000")) > 0 && this.getPctUp().compareTo(new BigInteger("3000")) > 0;
+    }
+
+    /**
+     * True para pacotes down E up menor que 1000
+     *
+     * @return
+     */
+    public Boolean pctC() {
+        return this.getPctDown().compareTo(new BigInteger("1000")) < 0 && this.getPctUp().compareTo(new BigInteger("1000")) < 0;
     }
 }

@@ -51,6 +51,8 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         TabelaParametrosMetalico t = new TabelaParametrosMetalico();
         t.setVelSincDown(TratativaRetornoUtil.velocidadeMinima(v).get(0));
         t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
+        t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
+        t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
         t.setSnrDown(6d);
         t.setSnrUp(5d);
         t.setAtnDown(1d);
