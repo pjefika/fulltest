@@ -11,6 +11,7 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
@@ -65,6 +66,13 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     @Override
     void validar() {
         this.exec.action(this);
+        Optional<ValidacaoResult> leValid = getValids().stream().filter((t) -> {
+            return !t.getResultado();
+        }).findFirst();
+        leValid.ifPresent((t) -> {
+            this.setResultado(Boolean.FALSE);
+            this.setMensagem(t.getMensagem());
+        });
     }
 
     public FullTest cast() {

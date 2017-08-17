@@ -6,8 +6,11 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Optional;
+import java.util.function.Predicate;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
+import model.validacao.ValidacaoResult;
 import model.validacao.factory.FactoryValidador;
 
 /**
@@ -29,17 +32,5 @@ public class FullTestCRMFacade extends FullTestGenericFacade implements FullTest
         this.setBateria(FactoryValidador.crm(dslam, cl));
     }
 
-    @Override
-    void validar() {
-        super.validar();
-
-        // Adaptação de Fraseologia
-        getValids().forEach((t) -> {
-            if (!t.getResultado()) {
-                this.setResultado(Boolean.FALSE);
-                this.setMensagem(t.getMensagem());
-            }
-        });
-    }
 
 }
