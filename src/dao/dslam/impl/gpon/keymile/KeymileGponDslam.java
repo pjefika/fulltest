@@ -123,12 +123,12 @@ public class KeymileGponDslam extends DslamGpon {
         String leStatus = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer cvlan = new Integer("0");
-        Integer p100 = new Integer("0");
+        Integer svlan = new Integer("0");
         EnumEstadoVlan state;
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
-            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
+            cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         if (leStatus.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
@@ -137,7 +137,7 @@ public class KeymileGponDslam extends DslamGpon {
         } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, state);
+        VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
 
         System.out.println(vlanBanda.getSvlan());
         System.out.println(vlanBanda.getCvlan());
