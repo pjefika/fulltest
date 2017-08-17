@@ -26,9 +26,17 @@ public class CorretorVlanMulticast extends Corretor {
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
             alter.deleteVlanMulticast(cust.getRede());
-            valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
+            try {
+                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
+            } catch (Exception e) {
+                throw new FalhaAoCorrigirException();
+            }
         } catch (Exception e) {
-            throw new FalhaAoCorrigirException();
+            try {
+                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
+            } catch (Exception ex) {
+                throw new FalhaAoCorrigirException();
+            }
         }
     }
 

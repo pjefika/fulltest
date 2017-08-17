@@ -26,9 +26,17 @@ public class CorretorVlanVod extends Corretor {
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
             alter.deleteVlanVod(cust.getRede());
-            valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust);
+            try {
+                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust);
+            } catch (Exception e) {
+                throw new FalhaAoCorrigirException();
+            }
         } catch (Exception e) {
-            throw new FalhaAoCorrigirException();
+            try {
+                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust);
+            } catch (Exception ex) {
+                throw new FalhaAoCorrigirException();
+            }
         }
     }
 

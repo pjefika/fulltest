@@ -37,11 +37,11 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoPotOlt(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/olt");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/olt", 3000);
     }
 
     protected ComandoDslam getComandoPotOnt(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/ont");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/ont", 3000);
     }
 
     @Override
@@ -125,7 +125,7 @@ public class KeymileGponDslam extends DslamGpon {
         Integer cvlan = new Integer("0");
         Integer svlan = new Integer("0");
         EnumEstadoVlan state;
-        if (!leSrvc.contentEquals("no service connected")) {
+        if (!leSrvc.contains("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));

@@ -33,7 +33,16 @@ public class CorretorVlanBanda extends Corretor {
                 valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_0, Velocidades.VEL_0), cust);
             }
         } catch (Exception ex) {
-            throw new FalhaAoCorrigirException();
+            try {
+                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
+            } catch (Exception e) {
+                try {
+                    valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_0, Velocidades.VEL_0), cust);
+                } catch (Exception exc) {
+                    throw new FalhaAoCorrigirException();
+                }
+
+            }
         }
     }
 

@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.fulltest.operacional.facade.FactoryFulltestFacade;
+import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 
@@ -74,7 +75,7 @@ public class FullTestController extends RestJaxAbstract {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response corrective(EfikaCustomer cs) throws Exception {
         try {
-            FullTestInterface v = new FullTestFacade();
+            FullTestInterface v = new FullTestCRMFacade();
             return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();

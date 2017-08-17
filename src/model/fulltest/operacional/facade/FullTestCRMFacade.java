@@ -29,4 +29,17 @@ public class FullTestCRMFacade extends FullTestGenericFacade implements FullTest
         this.setBateria(FactoryValidador.crm(dslam, cl));
     }
 
+    @Override
+    void validar() {
+        super.validar();
+
+        // Adaptação de Fraseologia
+        getValids().forEach((t) -> {
+            if (!t.getResultado()) {
+                this.setResultado(Boolean.FALSE);
+                this.setMensagem(t.getMensagem());
+            }
+        });
+    }
+
 }
