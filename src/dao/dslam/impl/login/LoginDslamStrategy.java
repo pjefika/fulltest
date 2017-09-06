@@ -13,6 +13,6 @@ import dao.dslam.impl.ConsultaDslam;
  */
 public interface LoginDslamStrategy {
 
-    public void conectar(ConsultaDslam cs);
+    public void conectar(ConsultaDslam cs) throws Exception;
 
 }
