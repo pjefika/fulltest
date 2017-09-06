@@ -41,15 +41,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void conectar() {
-        try {
-            super.conectar();
-            this.getCd().consulta(this.getComandoInhibitAlarms());
-            this.getCd().consulta(this.getComandoModeBatch());
-            this.getCd().consulta(this.getComandoExit());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public void conectar() throws Exception {
+        super.conectar();
+        this.getCd().consulta(this.getComandoInhibitAlarms());
+        this.getCd().consulta(this.getComandoModeBatch());
+        this.getCd().consulta(this.getComandoExit());
     }
 
     protected ComandoDslam getComandoInhibitAlarms() {

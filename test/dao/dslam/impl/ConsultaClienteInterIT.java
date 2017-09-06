@@ -10,7 +10,6 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.gpon.DslamGpon;
-import dao.dslam.impl.metalico.DslamMetalico;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;

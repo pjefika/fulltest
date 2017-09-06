@@ -6,11 +6,8 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import java.util.Optional;
-import java.util.function.Predicate;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
-import model.validacao.ValidacaoResult;
 import model.validacao.factory.FactoryValidador;
 
 /**
