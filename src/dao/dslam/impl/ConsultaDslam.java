@@ -33,7 +33,7 @@ public class ConsultaDslam implements Conector {
     }
 
     @Override
-    public void conectar() {
+    public void conectar() throws Exception{
         this.dslam.conectar();
     }
 

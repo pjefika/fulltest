@@ -41,7 +41,7 @@ public class ConsultaMetalicoDefaultIT {
     }
 
     @BeforeClass
-    public static void setUpClass() throws DslamNaoImplException {
+    public static void setUpClass() throws Exception {
         instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
         instance.conectar();
     }
@@ -67,7 +67,7 @@ public class ConsultaMetalicoDefaultIT {
         System.out.println("getTabelaParametros");
         try {
             TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-            assertTrue(result.validar(instance.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_"+ec.getServicos().getVelDown()))));
+            assertTrue(result.validar(instance.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown()))));
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -99,7 +99,7 @@ public class ConsultaMetalicoDefaultIT {
 
         try {
             VlanBanda result = instance.getVlanBanda(i);
-            System.out.println("e"+result.getCvlan());
+            System.out.println("e" + result.getCvlan());
             assertTrue(result != null);
         } catch (Exception e) {
             fail(e.getMessage());

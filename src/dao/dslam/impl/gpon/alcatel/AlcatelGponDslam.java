@@ -42,8 +42,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public void conectar() {
-        super.conectar();
         try {
+            super.conectar();
             this.getCd().consulta(this.getComandoInhibitAlarms());
             this.getCd().consulta(this.getComandoModeBatch());
             this.getCd().consulta(this.getComandoExit());
@@ -150,7 +150,7 @@ public class AlcatelGponDslam extends DslamGpon {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanBanda(i));
         List<String> leResp = consulta.getRetorno();
-   
+
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;

@@ -41,7 +41,7 @@ public class ConsultaClienteInterIT {
     }
 
     @BeforeClass
-    public static void setUpClass() throws DslamNaoImplException {
+    public static void setUpClass() throws DslamNaoImplException, Exception {
         instance = (DslamGpon) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
         instance.conectar();
     }
@@ -69,7 +69,6 @@ public class ConsultaClienteInterIT {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
             assertTrue(result != null);
         } catch (Exception e) {
-            e.printStackTrace();
             fail(e.getMessage());
         }
 
