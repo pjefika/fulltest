@@ -30,7 +30,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         this.cd = new ConsultaDslam(this);
     }
 
-    public void conectar() {
+    public void conectar() throws Exception {
         this.loginStrategy.conectar(this.getCd());
     }
 
