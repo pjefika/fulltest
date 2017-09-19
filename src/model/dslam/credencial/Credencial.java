@@ -12,7 +12,7 @@ package model.dslam.credencial;
 public enum Credencial {
 
     ZHONE("admin", "zhone"),
-//    ALCATEL("co", "#operco33"),
+    ALCATEL_LEITURA("co", "#operco33"),
     ALCATEL("alcatel", "#alcatel101"),
     KEYMILE("manager", "");
 

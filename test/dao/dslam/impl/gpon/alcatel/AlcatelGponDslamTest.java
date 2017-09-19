@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -37,7 +39,7 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4730490622");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("5131781500");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -46,7 +48,11 @@ public class AlcatelGponDslamTest {
 
     @BeforeClass
     public static void setUpClass() {
-        instance.conectar();
+        try {
+            instance.conectar();
+        } catch (Exception ex) {
+            Logger.getLogger(AlcatelGponDslamTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
