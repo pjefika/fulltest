@@ -23,21 +23,22 @@ public class AbstractHibernateDAO {
         getEm().getTransaction().begin();
         getEm().persist(obj);
         getEm().getTransaction().commit();
+        this.close();
     }
 
     public EntityManager getEm() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("fulltestAPIPU");
-//            emf = Persistence.createEntityManagerFactory("localPU");
             em = emf.createEntityManager();
         }
         return em;
     }
 
     public void close() {
-        if (emf.isOpen()) {
+        try {
             em.close();
             emf.close();
+        } catch (Exception e) {
         }
     }
 
