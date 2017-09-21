@@ -21,7 +21,7 @@ public abstract class FulltestExecution {
 
     abstract void iniciar(EfikaCustomer cl) throws Exception;
 
-    abstract void validar();
+    abstract void validar() throws Exception;
 
     abstract void encerrar();
 

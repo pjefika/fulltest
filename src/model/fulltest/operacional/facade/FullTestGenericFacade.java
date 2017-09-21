@@ -64,7 +64,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     }
 
     @Override
-    void validar() {
+    void validar() throws Exception {
         this.exec.action(this);
         Optional<ValidacaoResult> leValid = getValids().stream().filter((t) -> {
             return !t.getResultado();
