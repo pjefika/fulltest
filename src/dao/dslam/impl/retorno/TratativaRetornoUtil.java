@@ -277,19 +277,19 @@ public class TratativaRetornoUtil {
             case "25":
                 l.add(26680d);
                 l.add(2344d);
-                l.add(100000d);
+                l.add(115000d);
                 l.add(49000d);
                 break;
             case "35":
                 l.add(37000d);
                 l.add(3600d);
-                l.add(100000d);
+                l.add(115000d);
                 l.add(49000d);
                 break;
             case "50":
                 l.add(51200d);
                 l.add(5120d);
-                l.add(100000d);
+                l.add(115000d);
                 l.add(49000d);
                 break;
             default:
