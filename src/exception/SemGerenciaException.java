@@ -12,7 +12,7 @@ package exception;
 public class SemGerenciaException extends Exception{
 
     public SemGerenciaException() {
-        super("Identificado Shelf sem gerência, favor realizar abertura de SGEN.");
+        super("Identificado Shelf sem gerência.");
     }
 
     public SemGerenciaException(String message) {

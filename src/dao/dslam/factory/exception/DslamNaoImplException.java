@@ -12,7 +12,7 @@ package dao.dslam.factory.exception;
 public class DslamNaoImplException extends Exception {
 
     public DslamNaoImplException() {
-        super("DSLAM não suportado.");
+        super("DSLAM não suportado pelo Efika.");
     }
 
 }
