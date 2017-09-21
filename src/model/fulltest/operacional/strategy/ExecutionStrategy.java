@@ -13,5 +13,5 @@ import model.fulltest.operacional.facade.FullTestGenericFacade;
  */
 public interface ExecutionStrategy {
 
-    public void action(FullTestGenericFacade ft);
+    public void action(FullTestGenericFacade ft) throws Exception;
 }

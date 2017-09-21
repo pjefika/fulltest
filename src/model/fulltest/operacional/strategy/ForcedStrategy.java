@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
+import exception.SemGerenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
@@ -17,6 +18,8 @@ import model.validacao.ValidacaoResult;
  * @author G0042204
  */
 public class ForcedStrategy implements ExecutionStrategy {
+
+    private static final Logger LOG = Logger.getLogger(ForcedStrategy.class.getName());
 
     @Override
     public void action(FullTestGenericFacade ft) {
@@ -32,6 +35,11 @@ public class ForcedStrategy implements ExecutionStrategy {
                 }
             });
         } catch (Exception e) {
+            LOG.log(Level.INFO, e.getMessage());
+            if (e instanceof SemGerenciaException) {
+                throw e;
+            }
+
             ft.setMensagem(e.getMessage());
             ft.setResultado(Boolean.FALSE);
         }

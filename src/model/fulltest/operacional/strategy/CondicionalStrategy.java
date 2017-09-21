@@ -5,6 +5,9 @@
  */
 package model.fulltest.operacional.strategy;
 
+import exception.SemGerenciaException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.validacao.ValidacaoResult;
 import model.validacao.validador.Validator;
@@ -17,8 +20,10 @@ import model.validacao.validador.Validator;
  */
 public class CondicionalStrategy implements ExecutionStrategy {
 
+    private static final Logger LOG = Logger.getLogger(CondicionalStrategy.class.getName());
+
     @Override
-    public void action(FullTestGenericFacade ft) {
+    public void action(FullTestGenericFacade ft) throws Exception {
         for (Validator v : ft.getBateria()) {
             ValidacaoResult r;
             try {
@@ -32,12 +37,15 @@ public class CondicionalStrategy implements ExecutionStrategy {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.log(Level.INFO, e.getMessage());
+                if (e instanceof SemGerenciaException) {
+                    throw e;
+                }
+
                 ft.setResultado(Boolean.FALSE);
                 ft.setMensagem(e.getMessage());
             }
         }
 
     }
-
 }
