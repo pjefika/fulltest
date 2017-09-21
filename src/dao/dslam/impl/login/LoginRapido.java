@@ -24,7 +24,7 @@ public class LoginRapido implements LoginDslamStrategy {
 
         cs.pingSocket = new Socket();
         try {
-            cs.pingSocket.connect(new InetSocketAddress(cs.dslam.getIpDslam(), 23), 10000);
+            cs.pingSocket.connect(new InetSocketAddress(cs.dslam.getIpDslam(), 23), 5000);
             cs.out = new PrintWriter(cs.pingSocket.getOutputStream(), true);
             cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
             cs.out.println(cs.dslam.getCredencial().getLogin());

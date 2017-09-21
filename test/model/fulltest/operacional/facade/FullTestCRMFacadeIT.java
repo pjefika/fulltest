@@ -14,30 +14,31 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
  * @author G0042204
  */
 public class FullTestCRMFacadeIT {
-    
+
     private final EfikaCustomer cust = CustomerMock.getCustomer("4430405872");
-    
+
     public FullTestCRMFacadeIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -52,11 +53,12 @@ public class FullTestCRMFacadeIT {
             FullTestCRMFacade instance = new FullTestCRMFacade();
             FullTest result = instance.executar(cust);
             System.out.println("end");
+            System.out.println("Result:" + GsonUtil.serialize(result));
             assertTrue(result != null);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
 }

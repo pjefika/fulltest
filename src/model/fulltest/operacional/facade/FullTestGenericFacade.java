@@ -110,6 +110,9 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     }
 
     public List<ValidacaoResult> getValids() {
+        if (valids == null) {
+            valids = new ArrayList<>();
+        }
         return valids;
     }
 

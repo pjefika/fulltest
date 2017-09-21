@@ -38,12 +38,12 @@ public class CondicionalStrategy implements ExecutionStrategy {
                 }
             } catch (Exception e) {
                 LOG.log(Level.INFO, e.getMessage());
+                ft.setResultado(Boolean.FALSE);
+                ft.setMensagem(e.getMessage());
                 if (e instanceof SemGerenciaException) {
                     throw e;
                 }
 
-                ft.setResultado(Boolean.FALSE);
-                ft.setMensagem(e.getMessage());
             }
         }
 
