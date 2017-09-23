@@ -6,10 +6,7 @@
 package model.entity.crm;
 
 import java.util.Calendar;
-import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.LAZY;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -34,13 +31,9 @@ public class LogCrm extends AbstractEntity {
     private Boolean cadastro, semBloqueio, fulltest;
 
     @Lob
-    @Basic(fetch = LAZY)
-    @Column(columnDefinition = "LONGVARCHAR")
     private String customer;
 
     @Lob
-    @Basic(fetch = LAZY)
-    @Column(columnDefinition = "LONGVARCHAR")
     private String valids;
 
     @Temporal(TemporalType.TIMESTAMP)

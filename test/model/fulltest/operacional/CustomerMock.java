@@ -51,16 +51,18 @@ public class CustomerMock {
         r.setVlanMulticast(4000);
 
         c.setRede(r);
+        c.setServicos(sipVdsl());
 
+        return c;
+    }
+
+    public static InventarioServico sipVdsl() {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
-
-        c.setServicos(s);
-
-        return c;
+        return s;
     }
 
     public static EfikaCustomer getCustomer(String instancia) {

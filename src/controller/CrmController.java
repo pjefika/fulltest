@@ -34,7 +34,6 @@ public class CrmController extends RestJaxAbstract {
         try {
             dao = FactoryDAO.createLogCRM();
             dao.cadastrar(l);
-            dao.close();
             return ok(l);
         } catch (Exception e) {
             return serverError(e);
@@ -59,10 +58,8 @@ public class CrmController extends RestJaxAbstract {
             r = ok(dao.buscarPorId(l));
         } catch (Exception e) {
             r = serverError(e);
-        } finally {
-            dao.close();
         }
-        
+
         return r;
     }
 
