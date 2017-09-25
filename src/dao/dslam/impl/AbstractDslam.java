@@ -25,14 +25,15 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
     private ConsultaDslam cd;
-    protected List<VelocidadeVendor> vels;
+    protected List<VelocidadeVendor> velsDown, velsUp;
 
     public AbstractDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         this.ipDslam = ipDslam;
         this.credencial = credencial;
         this.loginStrategy = loginStrategy;
         this.cd = new ConsultaDslam(this);
-        this.vels = new ArrayList<>();
+        this.velsDown = new ArrayList<>();
+        this.velsUp = new ArrayList<>();
     }
 
     public void conectar() throws Exception {
@@ -48,11 +49,14 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         }
     }
 
-    protected abstract List<VelocidadeVendor> obterVelocidadesVendor();
+    protected abstract List<VelocidadeVendor> obterVelocidadesDownVendor();
 
-    protected Velocidades compare(String sintaxVendor) {
-        for (VelocidadeVendor v : obterVelocidadesVendor()) {
-            if (v.getSintax().equalsIgnoreCase(sintaxVendor)) {
+    protected abstract List<VelocidadeVendor> obterVelocidadesUpVendor();
+
+    protected Velocidades compare(String sintaxVendor, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getSintaxVel().equalsIgnoreCase(sintaxVendor)) {
                 return v.getVel();
             }
         }

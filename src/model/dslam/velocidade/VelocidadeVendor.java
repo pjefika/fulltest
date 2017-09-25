@@ -13,11 +13,14 @@ public class VelocidadeVendor {
 
     private Velocidades vel;
 
-    private String sintax;
+    private String sintaxVel;
 
-    public VelocidadeVendor(Velocidades vel, String sintax) {
+    private String sintaxMod;
+
+    public VelocidadeVendor(Velocidades vel, String sintaxVel, String sintaxMod) {
         this.vel = vel;
-        this.sintax = sintax;
+        this.sintaxVel = sintaxVel;
+        this.sintaxMod = sintaxMod;
     }
 
     public Velocidades getVel() {
@@ -28,12 +31,20 @@ public class VelocidadeVendor {
         this.vel = vel;
     }
 
-    public String getSintax() {
-        return sintax;
+    public String getSintaxVel() {
+        return sintaxVel;
     }
 
-    public void setSintax(String sintax) {
-        this.sintax = sintax;
+    public void setSintaxVel(String sintaxVel) {
+        this.sintaxVel = sintaxVel;
+    }
+
+    public String getSintaxMod() {
+        return sintaxMod;
+    }
+
+    public void setSintaxMod(String sintaxMod) {
+        this.sintaxMod = sintaxMod;
     }
 
 }

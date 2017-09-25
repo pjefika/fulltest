@@ -158,20 +158,28 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
         p.setProfileDown(leDown);
         p.setProfileUp(leUp);
-        p.setDown(compare(leDown));
-        p.setUp(compare(leUp));
+        p.setDown(compare(leDown, true));
+        p.setUp(compare(leUp, false));
 
         return p;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesVendor() {
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
+        return velsUp;
+    }
 
-        vels.add(new VelocidadeVendor(Velocidades.VEL_0, "0"));
-        vels.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000"));
-        vels.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664000"));
-
-        return vels;
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840000", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680000", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800000", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664000", "adsl2plusmode"));
+        return velsDown;
     }
 
     @Override

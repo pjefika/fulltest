@@ -418,6 +418,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     protected ComandoDslam getComandoDeleteMulticast(String srvc) {
         return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
     }
+    
+    
 
     @Override
     public Profile castProfile(Velocidades v) {

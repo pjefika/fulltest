@@ -23,7 +23,7 @@ public abstract class DslamGpon extends AbstractDslam
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesVendor() {
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
