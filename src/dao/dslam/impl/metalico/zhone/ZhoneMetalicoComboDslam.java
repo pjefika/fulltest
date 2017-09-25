@@ -22,6 +22,7 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -38,15 +39,14 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
         List<String> leParams = this.getCd().consulta(this.getParams(i)).getRetorno();
 
-        
         TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
 
         tab.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tab.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
-        
+
         tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslMaxAttainableDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslMaxAttainableUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
-        
+
         tab.setSnrDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
         tab.setSnrUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineSnrMgn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
         tab.setAtnDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAturCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
@@ -143,7 +143,6 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
             svlan = new Integer(leVlanMult.get(0));
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
-        
 
         return vlanMult;
     }
@@ -156,10 +155,23 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         Profile p = new Profile();
         String leDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
         String leUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+
         p.setProfileDown(leDown);
         p.setProfileUp(leUp);
+        p.setDown(compare(leDown));
+        p.setUp(compare(leUp));
 
         return p;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesVendor() {
+
+        vels.add(new VelocidadeVendor(Velocidades.VEL_0, "0"));
+        vels.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000"));
+        vels.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664000"));
+
+        return vels;
     }
 
     @Override

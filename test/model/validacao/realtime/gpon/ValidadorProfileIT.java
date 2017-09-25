@@ -19,11 +19,11 @@ import static org.junit.Assert.*;
  *
  * @author G0042204
  */
-public class ValidacaoRtProfileIT {
+public class ValidadorProfileIT {
 
-    private EfikaCustomer cust = CustomerMock.getCustomer("1630107601");
+    private EfikaCustomer cust = CustomerMock.getCustomer("4130886762");
 
-    public ValidacaoRtProfileIT() {
+    public ValidadorProfileIT() {
     }
 
     @BeforeClass

@@ -29,13 +29,17 @@ public enum Velocidades {
     VEL_0("0");
 
     private final String valor;
-    
+
     private Velocidades(String vel) {
         valor = vel;
     }
-    
-    public String getVel(){
+
+    public String getVel() {
         return valor;
     }
-    
+
+    public static Velocidades find(Long vel) {
+        return Velocidades.valueOf("VEL_" + vel.toString());
+    }
+
 }

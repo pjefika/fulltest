@@ -5,18 +5,21 @@
  */
 package model.dslam.velocidade;
 
-import java.util.List;
-
 /**
  *
  * @author G0042204
  */
-public class VelocidadeGpon {
-    
-    private Integer crm;
-    
-    private List<String> sint;
-    
+public enum VelocidadesZhoneCombo {
+
+    AAOISDJ(Velocidades.VEL_1024, "128000");
+
     private Velocidades vel;
+
+    private String sintax;
+
+    private VelocidadesZhoneCombo(Velocidades vel, String sintax) {
+        this.vel = vel;
+        this.sintax = sintax;
+    }
 
 }

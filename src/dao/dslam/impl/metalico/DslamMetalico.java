@@ -12,8 +12,12 @@ import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.ModulacaoCasterInterface;
 import dao.dslam.impl.ProfileCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
+import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -31,5 +35,12 @@ public abstract class DslamMetalico extends AbstractDslam
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
         return null;
     }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesVendor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 
 }
