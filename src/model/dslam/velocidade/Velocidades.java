@@ -25,17 +25,20 @@ public enum Velocidades {
     VEL_5120("5"),
     VEL_3072("3"),
     VEL_2048("2"),
-    VEL_1024("1"),
-    VEL_0("0");
+    VEL_1024("1");
 
     private final String valor;
-    
+
     private Velocidades(String vel) {
         valor = vel;
     }
-    
-    public String getVel(){
+
+    public String getVel() {
         return valor;
     }
-    
+
+    public static Velocidades find(Long vel) {
+        return Velocidades.valueOf("VEL_" + vel.toString());
+    }
+
 }

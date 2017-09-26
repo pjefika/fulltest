@@ -9,13 +9,13 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import model.validacao.impl.Validacao;
 import model.validacao.impl.ValidacaoProfile;
-import model.validacao.realtime.ValidadorGpon;
+import model.validacao.realtime.Validador;
 
 /**
  *
  * @author G0041775
  */
-public class ValidadorProfile extends ValidadorGpon {
+public class ValidadorProfile extends Validador {
 
     public ValidadorProfile(AbstractDslam dslam, EfikaCustomer cust) {
         super(dslam, cust);
@@ -23,7 +23,7 @@ public class ValidadorProfile extends ValidadorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoProfile(cg.getProfile(cust.getRede()), cust);
+        return new ValidacaoProfile(consulta.getProfile(cust.getRede()), cust);
     }
 
 }

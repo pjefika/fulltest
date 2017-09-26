@@ -39,7 +39,7 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("5131781500");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("6139714160");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -109,7 +109,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetEstadoDaPorta() {
         System.out.println("getEstadoDaPorta");
-        
+
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
             assertTrue(result.getAdminState() != null);
@@ -125,7 +125,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetVlanBanda() {
         System.out.println("getVlanBanda");
-        
+
         try {
             VlanBanda result = instance.getVlanBanda(i);
             assertTrue(result.getCvlan() != null);
@@ -141,7 +141,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetVlanVoip() {
         System.out.println("getVlanVoip");
-        
+
         try {
             VlanVoip result = instance.getVlanVoip(i);
             assertTrue(result.getCvlan() != null);
@@ -157,7 +157,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetVlanVod() {
         System.out.println("getVlanVod");
-        
+
         try {
             VlanVod result = instance.getVlanVod(i);
             assertTrue(result.getCvlan() != null);
@@ -173,7 +173,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetVlanMulticast() {
         System.out.println("getVlanMulticast");
-        
+
         try {
             VlanMulticast result = instance.getVlanMulticast(i);
             assertTrue(result.getSvlan() != null);
@@ -189,7 +189,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetAlarmes() {
         System.out.println("getAlarmes");
-        
+
         try {
             AlarmesGpon result = instance.getAlarmes(i);
             assertTrue(result.getListAlarmes() != null);
@@ -205,7 +205,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetProfile() {
         System.out.println("getProfile");
-        
+
         try {
             Profile result = instance.getProfile(i);
             assertTrue(result.getProfileDown() != null);
@@ -221,7 +221,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetDeviceMac() {
         System.out.println("getDeviceMac");
-        
+
         try {
             DeviceMAC result = instance.getDeviceMac(i);
             assertTrue(result.getMac() != null);
@@ -255,7 +255,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testSetOntToOlt() {
         System.out.println("setOntToOlt");
-        
+
         try {
 //            SerialOntGpon s = instance.getSerialOnt(i);
             SerialOntGpon s = new SerialOntGpon();
@@ -274,7 +274,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testUnsetOntToOlt() throws Exception {
         System.out.println("unsetOntToOlt");
-        
+
         SerialOntGpon s = instance.getSerialOnt(i);
         try {
             instance.unsetOntFromOlt(i);
@@ -293,10 +293,10 @@ public class AlcatelGponDslamTest {
     @Test
     public void testSetProfileDown() {
         System.out.println("setProfileDown");
-        
+
         try {
-//            Profile result = instance.setProfileDown(i, Velocidades.VEL_51200);
-//            assertTrue(result.getProfileDown() != null);
+            instance.setProfileDown(i, Velocidades.VEL_102400);
+            assertTrue(instance.getProfile(i) != null);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -309,11 +309,11 @@ public class AlcatelGponDslamTest {
     @Test
     public void testSetProfileUp() {
         System.out.println("setProfileUp");
-        
+
         try {
             Profile p = instance.getProfile(i);
-//            Profile result = instance.setProfileUp(i, Velocidades.VEL_25600);
-//            assertTrue(result.getProfileDown() != null);
+            instance.setProfileUp(i, Velocidades.VEL_102400, Velocidades.VEL_51200);
+            assertTrue(instance.getProfile(i) != null);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -326,7 +326,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testDeleteVlanBanda() {
         System.out.println("deleteVlanBanda");
-        
+
         try {
             instance.deleteVlanBanda(i);
             assertTrue(instance.getVlanBanda(i).getSvlan() == 0);
@@ -342,7 +342,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testCreateVlanBanda() {
         System.out.println("createVlanBanda");
-        
+
         try {
             VlanBanda result = instance.createVlanBanda(i, null, null);
             assertTrue(result.getSvlan() != 0);
@@ -358,7 +358,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testDeleteVlanVoip() {
         System.out.println("deleteVlanVoip");
-        
+
         try {
             instance.deleteVlanVoip(i);
             assertTrue(instance.getVlanVoip(i).getSvlan() == 0);
@@ -374,7 +374,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testCreateVlanVoip() {
         System.out.println("createVlanVoip");
-        
+
         try {
             VlanVoip result = instance.createVlanVoip(i);
             assertTrue(result.getSvlan() != 0);
@@ -390,7 +390,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testDeleteVlanVod() {
         System.out.println("deleteVlanVod");
-        
+
         try {
             instance.deleteVlanVod(i);
             assertTrue(instance.getVlanVod(i).getSvlan() == 0);
@@ -406,7 +406,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testCreateVlanVod() {
         System.out.println("createVlanVod");
-        
+
         try {
             VlanVod result = instance.createVlanVod(i);
             assertTrue(result.getSvlan() != 0);
@@ -422,7 +422,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testDeleteVlanMulticast() {
         System.out.println("deleteVlanMulticast");
-        
+
         try {
             instance.deleteVlanMulticast(i);
             assertTrue(instance.getVlanMulticast(i).getSvlan() == 0);
@@ -438,7 +438,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testCreateVlanMulticast() {
         System.out.println("createVlanMulticast");
-        
+
         try {
             VlanMulticast result = instance.createVlanMulticast(i);
             assertTrue(result.getSvlan() != 0);
@@ -454,7 +454,7 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
-        
+
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {
@@ -467,26 +467,6 @@ public class AlcatelGponDslamTest {
 
     }
 
-    /**
-     * Test of castProfile method, of class AlcatelGponDslam.
-     */
-    @Test
-    public void testCastProfile() {
-        System.out.println("castProfile");
-        try {
-            List<Profile> profiles = new ArrayList<>();
-            for (Velocidades v : Velocidades.values()) {
-                Profile p = instance.castProfile(v);
-                profiles.add(p);
-                System.out.println(v.name() + " Down ->" + p.getProfileDown());
-                System.out.println(v.name() + " Up ->" + p.getProfileUp());
-            }
-            assertEquals(profiles.size(), Velocidades.values().length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-
-    }
+   
 
 }

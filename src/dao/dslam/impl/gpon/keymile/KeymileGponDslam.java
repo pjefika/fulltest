@@ -24,6 +24,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -68,10 +69,10 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
         String sernum = TratativaRetornoUtil.tratKeymile(serOnt, "SerialNumber").replace("\"", "");
 
-        if(sernum.contains("ABCD00")){
+        if (sernum.contains("ABCD00")) {
             sernum = "";
         }
-        
+
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
 
@@ -284,10 +285,30 @@ public class KeymileGponDslam extends DslamGpon {
         Profile prof = new Profile();
         prof.setProfileUp(profileUp);
         prof.setProfileDown(profileDown);
+        prof.setDown(compare(profileDown, true));
+        prof.setUp(compare(profUpIndex, false));
 
-        System.out.println(prof.getProfileDown());
-        System.out.println(prof.getProfileUp());
+        System.out.println(prof.getDown());
+        System.out.println(prof.getUp());
         return prof;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        for (Velocidades v : Velocidades.values()) {
+            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+        }
+        return velsDown;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        for (Velocidades v : Velocidades.values()) {
+            if (new Float(v.getVel()).compareTo(200f) < 0) {
+                velsUp.add(new VelocidadeVendor(v, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_" + v.getVel() + "M_RETAIL_UP")));
+            }
+        }
+        return velsUp;
     }
 
     protected ComandoDslam getComandoConsultaOnuTable(InventarioRede i) {
@@ -305,16 +326,16 @@ public class KeymileGponDslam extends DslamGpon {
         return dMac;
     }
 
-    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, String profileId) {
+    protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, Velocidades vUp) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable "
-                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " + profileId + " false \"\" \"\" \"\" 1");
+                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
     }
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
         List<String> profileUpResp = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
         String profUpIndex = TratativaRetornoUtil.tratKeymile(profileUpResp, "TcontVirtualPortBindingProfileIndex");
-        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s, profUpIndex)).getRetorno();
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s, compare(profUpIndex, false))).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -333,9 +354,9 @@ public class KeymileGponDslam extends DslamGpon {
         }
         return getEstadoDaPorta(i);
     }
-    
-    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, String intrf, String mode){
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-" + intrf + "/cfgm/macsourcefilteringmode "+mode);
+
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, String intrf, String mode) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-" + intrf + "/cfgm/macsourcefilteringmode " + mode);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
@@ -470,7 +491,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting false default true " + castProfile(v).getProfileDown());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1/cfgm/IfRateLimiting false default true " + compare(v, true).getSintaxVel());
     }
 
     @Override
@@ -484,24 +505,23 @@ public class KeymileGponDslam extends DslamGpon {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        String profUpIndex = TratativaRetornoUtil.upProfileIdKeymileGpon(castProfile(vUp).getProfileUp());
-        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, getSerialOnt(i), profUpIndex)).getRetorno();
+        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, getSerialOnt(i), vUp)).getRetorno();
         for (String string : leResp) {
             System.out.println(string);
         }
 //        return getProfile(i);
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
-        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
-        return p;
-    }
-    
-    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i){
-        return new ComandoDslam("/unit-"+i.getSlot()+"/status/FlushOnuBlacklist", 3000, "get /unit-"+i.getSlot()+"/status/onuBlackListTable");
+//    @Override
+//    public Profile castProfile(Velocidades v) {
+//        Profile p = new Profile();
+//        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
+//        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
+//        return p;
+//    }
+
+    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
+        return new ComandoDslam("/unit-" + i.getSlot() + "/status/FlushOnuBlacklist", 3000, "get /unit-" + i.getSlot() + "/status/onuBlackListTable");
     }
 
     @Override
@@ -509,13 +529,13 @@ public class KeymileGponDslam extends DslamGpon {
         List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
         Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
         List<SerialOntGpon> lSerial = new ArrayList<>();
-        for(int e = 1; e<=qntSerial; e++){
+        for (int e = 1; e <= qntSerial; e++) {
             String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
             SerialOntGpon s = new SerialOntGpon();
             s.setSerial(leSerial);
             lSerial.add(s);
         }
-        
+
         return lSerial;
     }
 

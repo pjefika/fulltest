@@ -8,8 +8,12 @@ package dao.dslam.impl;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.dslam.velocidade.VelocidadeVendor;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -20,14 +24,16 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
     private final String ipDslam;
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
-
     private ConsultaDslam cd;
+    protected List<VelocidadeVendor> velsDown, velsUp;
 
     public AbstractDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         this.ipDslam = ipDslam;
         this.credencial = credencial;
         this.loginStrategy = loginStrategy;
         this.cd = new ConsultaDslam(this);
+        this.velsDown = new ArrayList<>();
+        this.velsUp = new ArrayList<>();
     }
 
     public void conectar() throws Exception {
@@ -41,6 +47,30 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         } catch (IOException ex) {
             Logger.getLogger(AbstractDslam.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    protected abstract List<VelocidadeVendor> obterVelocidadesDownVendor();
+
+    protected abstract List<VelocidadeVendor> obterVelocidadesUpVendor();
+
+    protected Velocidades compare(String sintaxVendor, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getSintaxVel().equalsIgnoreCase(sintaxVendor)) {
+                return v.getVel();
+            }
+        }
+        return null;
+    }
+
+    protected VelocidadeVendor compare(Velocidades vel, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getVel() == vel) {
+                return v;
+            }
+        }
+        return null;
     }
 
     public String getIpDslam() {

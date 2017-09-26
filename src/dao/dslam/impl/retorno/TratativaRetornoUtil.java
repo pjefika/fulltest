@@ -240,6 +240,7 @@ public class TratativaRetornoUtil {
                 prfIndex = 14;
                 break;
             default:
+                prfIndex = 12;
                 break;
         }
 

@@ -23,6 +23,7 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -47,11 +48,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
         tab.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tab.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
-        
+
         tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslMaxAttainableDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslMaxAttainableUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
-        
-        
+
         tab.setSnrDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "curSnrMargin", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)) / 10);
         tab.setSnrUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "curSnrMargin", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
         tab.setAtnDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "currAtn", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)) / 10);
@@ -100,6 +100,32 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, EnumEstadoVlan.UP);
 
         return vlanBanda;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000", "autonegotiatemode"));
+
+        return velsUp;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "adsl2plusmode"));
+        return velsDown;
     }
 
     @Override
@@ -293,10 +319,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         return getVlanMulticast(i);
     }
 
-    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
-        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/35 vlan "+i.getCvLan()+" slan "+i.getRin());
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 vlan " + i.getCvLan() + " slan " + i.getRin());
     }
-    
+
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
@@ -305,8 +331,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i){
-        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/36 vlan "+i.getCvLan()+" slan "+i.getVlanVoip());
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/36 vlan " + i.getCvLan() + " slan " + i.getVlanVoip());
     }
 
     @Override
@@ -317,8 +343,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i){
-        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/37 vlan "+i.getCvLan()+" slan "+i.getVlanVod());
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/37 vlan " + i.getCvLan() + " slan " + i.getVlanVod());
     }
 
     @Override
@@ -329,8 +355,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i){
-        return new ComandoDslam("bridge delete 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl vc 0/38 vlan "+i.getVlanMulticast());
+    protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/38 vlan " + i.getVlanMulticast());
     }
 
     @Override
@@ -358,7 +384,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         return m;
     }
 
-    @Override
+//    @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
 
@@ -397,4 +423,5 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
         return p;
     }
+
 }

@@ -6,7 +6,6 @@
 package dao.dslam.impl.gpon.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -53,8 +52,8 @@ public class KeymileGponDslamTest {
         instance.desconectar();
     }
 
-    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.getCustomer("8131326366").getRede().getIpDslam());
-    InventarioRede i = CustomerMock.getCustomer("5131100861").getRede();
+    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.getCustomer("3125205633").getRede().getIpDslam());
+    InventarioRede i = CustomerMock.getCustomer("3125205633").getRede();
 
     /**
      * Test of getTabelaParametros method, of class KeymileGponDslam.
@@ -385,8 +384,8 @@ public class KeymileGponDslamTest {
     public void testSetProfileDown() {
         System.out.println("setProfileDown");
         try {
-//            Profile result = instance.setProfileDown(i, Velocidades.VEL_51200);
-//            assertTrue(result.getProfileDown().equalsIgnoreCase(instance.castProfile(Velocidades.VEL_51200).getProfileDown()));
+            instance.setProfileDown(i, Velocidades.VEL_51200);
+            assertTrue(instance.getProfile(i)!=null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -401,13 +400,12 @@ public class KeymileGponDslamTest {
     public void testSetProfileUp() {
         System.out.println("setProfileUp");
         try {
-//            Profile result = instance.setProfileUp(i, Velocidades.VEL_25600);
-//            assertTrue(result.getProfileUp().equalsIgnoreCase(instance.castProfile(Velocidades.VEL_25600).getProfileUp()));
+            instance.setProfileUp(i, Velocidades.VEL_51200, Velocidades.VEL_25600);
+            assertTrue(instance.getProfile(i)!=null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
-
     }
 
     /**
@@ -426,28 +424,8 @@ public class KeymileGponDslamTest {
             e.printStackTrace();
             fail();
         }
-
     }
 
-    /**
-     * Test of castProfile method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testCastProfile() {
-        System.out.println("castProfile");
-        try {
-            List<Profile> profiles = new ArrayList<>();
-            for (Velocidades v : Velocidades.values()) {
-                Profile p = instance.castProfile(v);
-                profiles.add(p);
-                System.out.println(v.name() + " Down ->" + p.getProfileDown());
-                System.out.println(v.name() + " Up ->" + p.getProfileUp());
-            }
-            assertEquals(profiles.size(), Velocidades.values().length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
+    
 
 }

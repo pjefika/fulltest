@@ -10,10 +10,11 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.ModulacaoCasterInterface;
-import dao.dslam.impl.ProfileCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 
 /**
  *
@@ -21,7 +22,7 @@ import model.dslam.credencial.Credencial;
  */
 public abstract class DslamMetalico extends AbstractDslam
         implements
-        ConsultaMetalicoDefault, ProfileCasterInterface, AlteracaoMetalicoDefault, ModulacaoCasterInterface {
+        ConsultaMetalicoDefault, AlteracaoMetalicoDefault, ModulacaoCasterInterface {
 
     public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
@@ -29,6 +30,16 @@ public abstract class DslamMetalico extends AbstractDslam
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        return null;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        return null;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
         return null;
     }
 
