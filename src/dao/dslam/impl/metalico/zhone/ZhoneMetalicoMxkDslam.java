@@ -105,7 +105,6 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
 
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
@@ -117,7 +116,6 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
 
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));

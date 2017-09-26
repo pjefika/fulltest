@@ -166,14 +166,12 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
         return velsUp;
     }
 
     @Override
     protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_0, "0", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840000", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680000", "autonegotiatemode"));
