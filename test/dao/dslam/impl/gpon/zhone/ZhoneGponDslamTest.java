@@ -34,7 +34,7 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
-    private EfikaCustomer cl = CustomerMock.getCustomer("1630108047");
+    private EfikaCustomer cl = CustomerMock.getCustomer("1133607450");
     ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
     InventarioRede i = cl.getRede();
 
@@ -326,8 +326,8 @@ public class ZhoneGponDslamTest {
     public void testSetProfileDown() {
         System.out.println("setProfileDown");
         try {
-//            Profile p = instance.setProfileDown(i, Velocidades.VEL_51200);
-//            assertTrue(p!=null);
+            instance.setProfileDown(i, Velocidades.VEL_15360);
+            assertTrue(instance.getProfile(i)!=null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -341,8 +341,8 @@ public class ZhoneGponDslamTest {
     public void testSetProfileUp() {
         System.out.println("setProfileUp");
         try {
-            instance.setProfileUp(i, Velocidades.VEL_25600, Velocidades.VEL_12800);
-            assertTrue(true);
+            instance.setProfileUp(i, Velocidades.VEL_15360, Velocidades.VEL_1024);
+            assertTrue(instance.getProfile(i)!=null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

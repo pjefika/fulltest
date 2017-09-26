@@ -11,7 +11,6 @@ import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.MetodoNaoImplementadoException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.EnumEstadoVlan;
@@ -26,6 +25,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -296,10 +296,30 @@ public class ZhoneGponDslam extends DslamGpon {
         Profile prof = new Profile();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
+        prof.setDown(compare(profileDown, true));
+        prof.setUp(compare(profileUp, false));
         System.out.println(prof.getProfileDown());
         System.out.println(prof.getProfileUp());
 
         return prof;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        Velocidades[] values = Velocidades.values();
+        for (Velocidades v : values) {
+            velsDown.add(new VelocidadeVendor(v, v.getVel()));
+        }
+        return velsDown;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        Velocidades[] values = Velocidades.values();
+        for (Velocidades v : values) {
+            velsUp.add(new VelocidadeVendor(v, Integer.toString(Math.round(new Float(v.getVel()) * 1000))));
+        }
+        return velsUp;
     }
 
     @Override
@@ -351,8 +371,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
-                + "gtp " + castProfile(up).getProfileUp() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
-                + "epktrule " + castProfile(down).getProfileDown(), 5000);
+                + "gtp " + compare(up, false).getSintaxVel() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
+                + "epktrule " + compare(down, true).getSintaxVel(), 5000);
     }
 
     @Override
@@ -457,7 +477,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
         return new ComandoDslam("bridge modify 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "-gponport-"
-                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + castProfile(v).getProfileDown(), 1500);
+                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + compare(v, true).getSintaxVel(), 1500);
     }
 
     @Override
