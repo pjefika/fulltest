@@ -25,6 +25,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -309,11 +310,34 @@ public class AlcatelGponDslam extends DslamGpon {
         Profile prof = new Profile();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
+        prof.setDown(compare(profileDown, true));
+        prof.setUp(compare(profileUp, false));
 
-        System.out.println(prof.getProfileDown());
-        System.out.println(prof.getProfileUp());
+        System.out.println(prof.getDown());
+        System.out.println(prof.getUp());
 
         return prof;
+    }
+    
+
+    
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        Velocidades[] velocidades = Velocidades.values();
+        for (Velocidades v : velocidades) {
+            velsUp.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_UP"));
+        }
+        
+        return velsUp;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        Velocidades[] velocidades = Velocidades.values();
+        for (Velocidades v : velocidades) {
+            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+        }
+        return velsDown;
     }
 
     protected ComandoDslam getComandoConsultaDeviceMAC(InventarioRede i) {
@@ -375,11 +399,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + castProfile(v).getProfileDown());
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 queue 0 shaper-profile name:" + compare(v, true).getSintaxVel());
     }
 
     protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + castProfile(v).getProfileUp());
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 upstream-queue 0 bandwidth-profile name:" + compare(v, false).getSintaxVel());
     }
 
     @Override

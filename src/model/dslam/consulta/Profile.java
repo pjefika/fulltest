@@ -6,7 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import model.dslam.ValidavelAbs;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.Validavel;
@@ -22,8 +21,6 @@ public class Profile extends ValidavelAbs implements Validavel {
     private String profileDown;
 
     private Velocidades down, up;
-
-    private Velocidades find, find1;
 
     private static final String NOME = "Profile";
 

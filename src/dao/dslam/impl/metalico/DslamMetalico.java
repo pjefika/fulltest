@@ -12,8 +12,10 @@ import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.ModulacaoCasterInterface;
 import dao.dslam.impl.ProfileCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 
 /**
  *
@@ -32,7 +34,14 @@ public abstract class DslamMetalico extends AbstractDslam
         return null;
     }
 
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        return null;
+    }
 
-    
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        return null;
+    }
 
 }

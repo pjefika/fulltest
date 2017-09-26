@@ -23,6 +23,11 @@ public class VelocidadeVendor {
         this.sintaxMod = sintaxMod;
     }
 
+    public VelocidadeVendor(Velocidades vel, String sintaxVel) {
+        this.vel = vel;
+        this.sintaxVel = sintaxVel;
+    }
+
     public Velocidades getVel() {
         return vel;
     }

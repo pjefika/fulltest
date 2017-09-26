@@ -63,6 +63,16 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         return null;
     }
 
+    protected VelocidadeVendor compare(Velocidades vel, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getVel() == vel) {
+                return v;
+            }
+        }
+        return null;
+    }
+
     public String getIpDslam() {
         return this.ipDslam;
     }
