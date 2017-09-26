@@ -7,7 +7,6 @@ package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -538,15 +537,15 @@ public class AlcatelGponDslam extends DslamGpon {
         }
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-
-        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
-        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
-
-        return p;
-    }
+//    @Override
+//    public Profile castProfile(Velocidades v) {
+//        Profile p = new Profile();
+//
+//        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
+//        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
+//
+//        return p;
+//    }
 
     protected ComandoDslam getComandoListaOntPorSlot() {
         return new ComandoDslam("show pon unprovision-onu xml");

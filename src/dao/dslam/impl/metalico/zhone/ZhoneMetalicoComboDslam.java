@@ -373,7 +373,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         return m;
     }
 
-    @Override
+//    @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         p.setProfileUp("1280000");

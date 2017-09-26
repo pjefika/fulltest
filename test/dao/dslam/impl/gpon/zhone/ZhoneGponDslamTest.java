@@ -185,7 +185,7 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        
+
         try {
             Profile result = instance.getProfile(i);
             assertTrue(result.getProfileDown() != null);
@@ -327,7 +327,7 @@ public class ZhoneGponDslamTest {
         System.out.println("setProfileDown");
         try {
             instance.setProfileDown(i, Velocidades.VEL_15360);
-            assertTrue(instance.getProfile(i)!=null);
+            assertTrue(instance.getProfile(i) != null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -342,7 +342,7 @@ public class ZhoneGponDslamTest {
         System.out.println("setProfileUp");
         try {
             instance.setProfileUp(i, Velocidades.VEL_15360, Velocidades.VEL_1024);
-            assertTrue(instance.getProfile(i)!=null);
+            assertTrue(instance.getProfile(i) != null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -384,27 +384,6 @@ public class ZhoneGponDslamTest {
         System.out.println(g.toJson(ec));
         assertTrue(ec != null);
 
-    }
-
-    /**
-     * Test of castProfile method, of class KeymileGponDslam.
-     */
-    @Test
-    public void testCastProfile() {
-        System.out.println("castProfile");
-        try {
-            List<Profile> profiles = new ArrayList<>();
-            for (Velocidades v : Velocidades.values()) {
-                Profile p = instance.castProfile(v);
-                profiles.add(p);
-                System.out.println(v.name() + " Down ->" + p.getProfileDown());
-                System.out.println(v.name() + " Up ->" + p.getProfileUp());
-            }
-            assertEquals(profiles.size(), Velocidades.values().length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
 }

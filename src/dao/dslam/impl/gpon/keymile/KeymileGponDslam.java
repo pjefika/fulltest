@@ -512,13 +512,13 @@ public class KeymileGponDslam extends DslamGpon {
 //        return getProfile(i);
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
-        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
-        return p;
-    }
+//    @Override
+//    public Profile castProfile(Velocidades v) {
+//        Profile p = new Profile();
+//        p.setProfileDown("HSI_" + v.getVel() + "M_RETAIL_DOWN");
+//        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
+//        return p;
+//    }
 
     protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
         return new ComandoDslam("/unit-" + i.getSlot() + "/status/FlushOnuBlacklist", 3000, "get /unit-" + i.getSlot() + "/status/onuBlackListTable");

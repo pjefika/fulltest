@@ -467,26 +467,6 @@ public class AlcatelGponDslamTest {
 
     }
 
-    /**
-     * Test of castProfile method, of class AlcatelGponDslam.
-     */
-    @Test
-    public void testCastProfile() {
-        System.out.println("castProfile");
-        try {
-            List<Profile> profiles = new ArrayList<>();
-            for (Velocidades v : Velocidades.values()) {
-                Profile p = instance.castProfile(v);
-                profiles.add(p);
-                System.out.println(v.name() + " Down ->" + p.getProfileDown());
-                System.out.println(v.name() + " Up ->" + p.getProfileUp());
-            }
-            assertEquals(profiles.size(), Velocidades.values().length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-
-    }
+   
 
 }

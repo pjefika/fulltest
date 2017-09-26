@@ -6,7 +6,6 @@
 package dao.dslam.impl.gpon.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;

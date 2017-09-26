@@ -497,7 +497,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile");
     }
 
-    @Override
+//    @Override
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         Double leVel = new Double(v.getVel());

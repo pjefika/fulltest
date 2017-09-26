@@ -495,14 +495,14 @@ public class ZhoneGponDslam extends DslamGpon {
         createVlanBanda(i, vDown, vUp);
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown(v.getVel());
-        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
-        p.setProfileUp(leProfUp.toString());
-        return p;
-    }
+//    @Override
+//    public Profile castProfile(Velocidades v) {
+//        Profile p = new Profile();
+//        p.setProfileDown(v.getVel());
+//        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
+//        p.setProfileUp(leProfUp.toString());
+//        return p;
+//    }
 
     protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
         return new ComandoDslam("onu show " + i.getSlot(), 1000, "Y", 5000, "A");
