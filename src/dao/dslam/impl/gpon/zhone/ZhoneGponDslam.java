@@ -13,7 +13,7 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;

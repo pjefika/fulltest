@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.service;
+
+import model.dslam.config.ConfiguracaoDslam;
 
 /**
  *
  * @author G0042204
  */
-public class InfoCRM {
+public interface ConfigDslamService {
+
+    public ConfiguracaoDslam consultar() throws Exception;
 
 }

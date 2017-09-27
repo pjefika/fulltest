@@ -1,0 +1,44 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model.service;
+
+import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.DslamDAOFactory;
+import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.ConsultaClienteInter;
+
+/**
+ *
+ * @author G0042204
+ */
+public abstract class ConfigGenericService {
+
+    private EfikaCustomer ec;
+
+    private AbstractDslam dslam;
+
+    public ConfigGenericService(EfikaCustomer ec) {
+        this.ec = ec;
+    }
+
+    public EfikaCustomer getEc() {
+        return ec;
+    }
+
+    public void setEc(EfikaCustomer ec) {
+        this.ec = ec;
+    }
+
+    public AbstractDslam getDslam() throws Exception {
+        if (dslam == null) {
+            dslam = DslamDAOFactory.getInstance(ec.getRede());
+        }
+        return dslam;
+    }
+
+    public abstract ConsultaClienteInter consulta() throws Exception;
+    
+}
