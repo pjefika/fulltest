@@ -20,6 +20,16 @@ public abstract class VlanAbstract implements Validavel {
 
     private EnumEstadoVlan state;
 
+    private String name = getNome();
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String oi) {
+        this.name = oi;
+    }
+
     public VlanAbstract(Integer cvlan, Integer svlan, EnumEstadoVlan estado) {
         this.cvlan = cvlan;
         this.svlan = svlan;
