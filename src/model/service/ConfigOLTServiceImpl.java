@@ -14,7 +14,7 @@ import java.util.List;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.consulta.VlanAbstract;
 
-public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigOLTService {
+public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT> {
 
     public ConfigOLTServiceImpl(EfikaCustomer ec) {
         super(ec);

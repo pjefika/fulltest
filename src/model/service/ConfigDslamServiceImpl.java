@@ -10,7 +10,7 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoDslam;
 
-public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigDslamService {
+public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDslam> {
 
     public ConfigDslamServiceImpl(EfikaCustomer ec) {
         super(ec);

@@ -90,7 +90,6 @@ public class FullTestController extends RestJaxAbstract {
         try {
             EfikaCustomer cs = CustomerDAO.getCustomer(instancia);
             FullTestInterface v = new FullTestFacade();
-
             return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();

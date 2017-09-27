@@ -5,14 +5,12 @@
  */
 package model.service;
 
-import model.dslam.config.ConfiguracaoOLT;
-
 /**
  *
  * @author G0042204
  */
-public interface ConfigOLTService {
+public interface ConfigPortaService <T> {
 
-    public ConfiguracaoOLT consultar() throws Exception;
+    public T consultar() throws Exception;
 
 }

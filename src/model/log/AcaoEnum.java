@@ -9,10 +9,8 @@ package model.log;
  *
  * @author G0042204
  */
-public interface InterfaceLogged {
+public enum AcaoEnum {
 
-    public String getExecutor();
-
-    public String getCustomer();
-
+    CONSULTA_CONFIG_PORTA,
+    
 }
