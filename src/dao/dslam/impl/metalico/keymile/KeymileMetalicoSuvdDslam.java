@@ -20,6 +20,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -31,6 +32,31 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public KeymileMetalicoSuvdDslam(String ipDslam) {
         super(ipDslam);
         this.setCd(new ConsultaDslam(this));
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "HSI_25Mb_2Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_35Mb_3Mb_SUV"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_50Mb_5Mb_SUV"));
+        return velsUp;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25Mb_2Mb_SUV", "VDSL_17A_B8_12_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35Mb_3Mb_SUV", "VDSL_17A_B8_12_SUV"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50Mb_5Mb_SUV", "VDSL_17A_B8_12_SUV"));
+        return velsDown;
     }
 
     protected ComandoDslam getComandoConsultaVlan2(String srvc) {
@@ -215,7 +241,10 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Profile prof = new Profile();
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
-
+        
+        prof.setDown(compare(first, Boolean.TRUE));
+        prof.setUp(compare(first, Boolean.FALSE));
+        
         return prof;
     }
 

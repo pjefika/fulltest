@@ -49,7 +49,10 @@ public class FullTestController extends RestJaxAbstract {
             log.setSaida(e.getMessage());
             return serverError(e);
         } finally {
-            FactoryDAO.createLogEntityDAO().cadastrar(log);
+            try {
+                FactoryDAO.createLogEntityDAO().cadastrar(log);
+            } catch (Exception e) {
+            }
         }
     }
 

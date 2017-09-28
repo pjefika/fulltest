@@ -33,14 +33,14 @@ public abstract class DslamMetalico extends AbstractDslam
         return null;
     }
 
-    @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        return null;
-    }
-
-    @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        return null;
-    }
+//    @Override
+//    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+//        return null;
+//    }
+//
+//    @Override
+//    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+//        return null;
+//    }
 
 }

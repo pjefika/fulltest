@@ -31,6 +31,8 @@ public class FactoryValidador {
         List<Validator> bateria = new ArrayList<>();
 
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust));
+        bateria.add(new CorretorProfile(dslam, cust));
+
         bateria.add(new CorretorVlanBanda(dslam, cust));
         bateria.add(new CorretorVlanVoip(dslam, cust));
         bateria.add(new CorretorVlanVod(dslam, cust));

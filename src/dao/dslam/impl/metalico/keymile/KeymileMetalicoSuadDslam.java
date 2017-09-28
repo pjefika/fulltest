@@ -19,6 +19,7 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -176,6 +177,9 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
 
+        prof.setDown(compare(first, Boolean.TRUE));
+        prof.setUp(compare(first, Boolean.FALSE));
+
         return prof;
     }
 
@@ -255,7 +259,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
         getCd().consulta(getComandoSetMacSourceFilteringMode(i, 3, "none"));
-        
+
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -328,11 +332,11 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileDown());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel());
     }
 
     protected ComandoDslam getComandoSetProfileSUAD1(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileUp());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel() + "_SUAD");
     }
 
     protected ComandoDslam getVelSinc(InventarioRede i) {
@@ -378,9 +382,9 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     protected ComandoDslam setModulSUAD1(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao() + "1");
     }
-    
-    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode){
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() +  "/chan-1/vcc-" + intrf + "/cfgm/macsourcefilteringmode "+mode);
+
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-" + intrf + "/cfgm/macsourcefilteringmode " + mode);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
@@ -418,8 +422,24 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     protected ComandoDslam getComandoDeleteMulticast(String srvc) {
         return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
     }
-    
-    
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
+        return velsDown;
+    }
+
+    @Override
+    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        return velsUp;
+    }
 
 //    @Override
     public Profile castProfile(Velocidades v) {
