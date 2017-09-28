@@ -6,8 +6,11 @@
 package controller;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import controller.in.FulltestCOIn;
+import controller.in.FulltestCRMIn;
+import controller.in.FulltestManobraIn;
+import dao.FactoryDAO;
 import dao.customer.CustomerDAO;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -16,7 +19,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import model.fulltest.operacional.facade.FactoryFulltestFacade;
+import model.entity.LogEntity;
+import model.fulltest.operacional.FullTest;
+import model.fulltest.operacional.facade.FactoryFulltest;
+import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
@@ -29,58 +35,60 @@ import model.fulltest.operacional.facade.FullTestInterface;
 public class FullTestController extends RestJaxAbstract {
 
     @POST
-    @Path("/fulltest")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response fulltest(EfikaCustomer cs) throws Exception {
-        Response r;
-        try {
-            FullTestInterface v = new FullTestFacade();
-            r = ok(v.executar(cs));
-        } catch (DslamNaoImplException e) {
-            r = serverError(e);
-        }
-        return r;
-    }
-
-    @POST
-    @Path("/link")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response link(EfikaCustomer cs) throws Exception {
-        try {
-            FullTestInterface v = new FullTestFacade();
-            return Response.status(200).entity(v.executar(cs)).build();
-        } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
-        }
-    }
-
-    @POST
     @Path("/manobra")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response manobra(EfikaCustomer cs) throws Exception {
+    public Response manobra(FulltestManobraIn cs) throws Exception {
+        LogEntity log = cs.create();
         try {
-            FullTestInterface v = FactoryFulltestFacade.manobra();
-            return Response.status(200).entity(v.executar(cs)).build();
+            FullTestInterface v = FactoryFulltest.manobra();
+            FullTest res = v.executar(cs.getCust());
+            log.setSaida(res);
+            return ok(res);
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            log.setSaida(e.getMessage());
+            return serverError(e);
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
         }
     }
 
     @POST
-    @Path("/corrective")
+    @Path("/crm")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response corrective(EfikaCustomer cs) throws Exception {
+    public Response crm(FulltestCRMIn cs) throws Exception {
+        LogEntity log = cs.create();
         try {
             FullTestInterface v = new FullTestCRMFacade();
-            return Response.status(200).entity(v.executar(cs)).build();
+            FullTest res = v.executar(cs.getCust());
+            log.setSaida(res);
+            return ok(res);
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            log.setSaida(e.getMessage());
+            return serverError(e);
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
         }
+    }
 
+    @POST
+    @Path("/co")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response co(FulltestCOIn cs) throws Exception {
+        LogEntity log = cs.create();
+        try {
+            FullTestInterface v = new FullTestCOFacade();
+            FullTest res = v.executar(cs.getCust());
+            log.setSaida(res);
+            return ok(res);
+        } catch (Exception e) {
+            log.setSaida(e.getMessage());
+            return serverError(e);
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
     }
 
     @GET
@@ -92,7 +100,7 @@ public class FullTestController extends RestJaxAbstract {
             FullTestInterface v = new FullTestFacade();
             return Response.status(200).entity(v.executar(cs)).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).build();
+            return serverError(e);
         }
     }
 

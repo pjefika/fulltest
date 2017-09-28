@@ -9,7 +9,7 @@ package model.fulltest.operacional.facade;
  *
  * @author G0042204
  */
-public class FactoryFulltestFacade {
+public class FactoryFulltest {
     
     public static FullTestInterface manobra(){
         return new FullTestManobraFacade();
