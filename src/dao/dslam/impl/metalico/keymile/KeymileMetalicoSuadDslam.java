@@ -213,7 +213,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        setProfileDown(i, vUp);
+        setProfileDown(i, vDown);
     }
 
     @Override
@@ -336,7 +336,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileSUAD1(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel() + "_SUAD");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel() + "_SUAD1");
     }
 
     protected ComandoDslam getVelSinc(InventarioRede i) {
@@ -376,11 +376,11 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam setModulDefault(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + compare(v, Boolean.TRUE).getSintaxMod());
     }
 
     protected ComandoDslam setModulSUAD1(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao() + "1");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + compare(v, Boolean.TRUE).getSintaxMod() + "1");
     }
 
     protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode) {
@@ -449,7 +449,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return p;
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
 

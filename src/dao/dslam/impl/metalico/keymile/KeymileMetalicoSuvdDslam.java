@@ -467,7 +467,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoSetModulacaoAdsl(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
-                + "false default 0 false default 0 false default 0 true " + castModulacao(v).getModulacao() + " priority");
+                + "false default 0 false default 0 false default 0 true " + compare(v, Boolean.TRUE).getSintaxMod() + " priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoAdsl1(InventarioRede i, Velocidades v) {
@@ -477,29 +477,29 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoSetModulacaoVdsl(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
-                + "true " + castModulacao(v).getModulacao() + " 0 false default 0 false default 0 false default priority");
+                + "true " + compare(v, Boolean.TRUE).getSintaxMod() + " 0 false default 0 false default 0 false default priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoVdsl1(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
-                + "true " + castModulacao(v).getModulacao() + "D1 0 false default 0 false default 0 false default priority");
+                + "true " + compare(v, Boolean.TRUE).getSintaxMod() + "D1 0 false default 0 false default 0 false default priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoVdsl11(InventarioRede i, Velocidades v) {
         return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
-                + "true " + castModulacao(v).getModulacao() + "D11 0 false default 0 false default 0 false default priority");
+                + "true " + compare(v, Boolean.TRUE).getSintaxMod() + "D11 0 false default 0 false default 0 false default priority");
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + compare(vDown, Boolean.TRUE).getSintaxVel());
     }
 
     protected ComandoDslam getComandoSetProfileSeco(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileUp());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + compare(vDown, Boolean.TRUE).getSintaxVel().replace("_SUV", ""));
     }
 
     protected ComandoDslam getComandoSetProfileSUVD1(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + castProfile(vDown).getProfileDown() + "D1");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile " + compare(vDown, Boolean.TRUE).getSintaxVel() + "D1");
     }
 
     protected ComandoDslam getModul(InventarioRede i) {
@@ -559,7 +559,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return p;
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
 

@@ -105,10 +105,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
 
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
 
         return velsUp;
     }
@@ -367,7 +368,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
         Boolean isAuto = new Double(v.getVel()).compareTo(5d) <= 0;

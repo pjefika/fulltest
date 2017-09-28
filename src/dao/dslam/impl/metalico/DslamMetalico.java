@@ -9,12 +9,9 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import dao.dslam.impl.ModulacaoCasterInterface;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
 
 /**
  *
@@ -22,7 +19,7 @@ import model.dslam.velocidade.VelocidadeVendor;
  */
 public abstract class DslamMetalico extends AbstractDslam
         implements
-        ConsultaMetalicoDefault, AlteracaoMetalicoDefault, ModulacaoCasterInterface {
+        ConsultaMetalicoDefault, AlteracaoMetalicoDefault {
 
     public DslamMetalico(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
