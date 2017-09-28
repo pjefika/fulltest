@@ -6,12 +6,15 @@
 package controller;
 
 import controller.in.ConsultaConfigPortaIn;
+import dao.FactoryDAO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import model.dslam.config.ConfiguracaoPorta;
+import model.entity.LogEntity;
 import model.service.FactoryService;
 
 /**
@@ -27,10 +30,16 @@ public class ConfigPortaController extends RestJaxAbstract {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response consulta(ConsultaConfigPortaIn cs) throws Exception {
         Response r;
+        LogEntity log = cs.create();
         try {
-            r = ok(FactoryService.create(cs.getCust()).consultar());
+            ConfiguracaoPorta config = FactoryService.create(cs.getCust()).consultar();
+            log.setSaida(config);
+            r = ok(config);
         } catch (Exception e) {
             r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
         }
         return r;
     }

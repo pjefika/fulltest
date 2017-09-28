@@ -18,7 +18,7 @@ public class ConsultaConfigPortaIn extends LogIn {
     private EfikaCustomer cust;
 
     @Override
-    public Object input() {
+    public EfikaCustomer input() {
         return cust;
     }
 

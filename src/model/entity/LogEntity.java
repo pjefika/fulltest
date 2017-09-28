@@ -23,7 +23,7 @@ import util.GsonUtil;
  * @author G0034481
  */
 @Entity
-@Table(name = "FULLTEST_LOGS")
+@Table(name = "FULLTESTAPI_LOG")
 public class LogEntity extends AbstractEntity {
 
     @Lob
@@ -43,10 +43,12 @@ public class LogEntity extends AbstractEntity {
     private AcaoEnum acao;
 
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
-    private Calendar dataLog;
+    private Calendar dataIn = Calendar.getInstance();
+
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Calendar dataOut;
 
     public LogEntity() {
-        dataLog = Calendar.getInstance();
     }
 
     public String getEntrada() {
@@ -55,7 +57,7 @@ public class LogEntity extends AbstractEntity {
 
     public void setEntrada(Object entrada) {
         try {
-            this.entrada = GsonUtil.serialize(saida);
+            this.entrada = GsonUtil.serialize(entrada);
         } catch (Exception e) {
             this.entrada = "Falha ao serializar.";
         }
@@ -67,14 +69,11 @@ public class LogEntity extends AbstractEntity {
 
     public void setSaida(Object saida) {
         try {
+            dataOut = Calendar.getInstance();
             this.saida = GsonUtil.serialize(saida);
         } catch (Exception e) {
             this.saida = "Falha ao serializar.";
         }
-    }
-
-    public Calendar getDataLog() {
-        return dataLog;
     }
 
     public String getExecutor() {
@@ -91,6 +90,22 @@ public class LogEntity extends AbstractEntity {
 
     public void setAcao(AcaoEnum acao) {
         this.acao = acao;
+    }
+
+    public Calendar getDataIn() {
+        return dataIn;
+    }
+
+    public void setDataIn(Calendar dataIn) {
+        this.dataIn = dataIn;
+    }
+
+    public Calendar getDataOut() {
+        return dataOut;
+    }
+
+    public void setDataOut(Calendar dataOut) {
+        this.dataOut = dataOut;
     }
 
 }
