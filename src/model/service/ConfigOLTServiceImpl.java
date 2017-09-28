@@ -29,12 +29,11 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         olt.setParametros(c.getTabelaParametros(i));
         olt.setProfile(c.getProfile(i));
         olt.setSerial(c.getSerialOnt(i));
-        List<VlanAbstract> lVlans = new ArrayList<>();
-        lVlans.add(c.getVlanBanda(i));
-        lVlans.add(c.getVlanVoip(i));
-        lVlans.add(c.getVlanVod(i));
-        lVlans.add(c.getVlanMulticast(i));
-        olt.setVlans(lVlans);
+        olt.setVlanBanda(c.getVlanBanda(i));
+        olt.setVlanVoip(c.getVlanVoip(i));
+        olt.setVlanVod(c.getVlanVod(i));
+        olt.setVlanMulticast(c.getVlanMulticast(i));
+        
         
         return olt;
     }
