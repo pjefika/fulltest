@@ -5,12 +5,11 @@
  */
 package model.dslam.config;
 
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
@@ -18,66 +17,57 @@ import model.dslam.consulta.VlanVoip;
  */
 public abstract class ConfiguracaoPorta {
 
-    private EstadoDaPorta estadoPorta;
+    private ValidacaoResult estadoPorta;
 
 //    private Profile profile;
-    
-    private VlanBanda vlanBanda;
-    
-    private VlanVoip vlanVoip;
-    
-    private VlanVod vlanVod;
-    
-    private VlanMulticast vlanMulticast;
+    private ValidacaoResult vlanBanda;
+
+    private ValidacaoResult vlanVoip;
+
+    private ValidacaoResult vlanVod;
+
+    private ValidacaoResult vlanMulticast;
 
     public ConfiguracaoPorta() {
     }
 
-    public EstadoDaPorta getEstadoPorta() {
+    public ValidacaoResult getEstadoPorta() {
         return estadoPorta;
     }
 
-    public void setEstadoPorta(EstadoDaPorta estadoPorta) {
+    public void setEstadoPorta(ValidacaoResult estadoPorta) {
         this.estadoPorta = estadoPorta;
     }
 
-//    public Profile getProfile() {
-//        return profile;
-//    }
-//
-//    public void setProfile(Profile profile) {
-//        this.profile = profile;
-//    }
-
-    public VlanBanda getVlanBanda() {
+    public ValidacaoResult getVlanBanda() {
         return vlanBanda;
     }
 
-    public void setVlanBanda(VlanBanda vlanBanda) {
+    public void setVlanBanda(ValidacaoResult vlanBanda) {
         this.vlanBanda = vlanBanda;
     }
 
-    public VlanVoip getVlanVoip() {
+    public ValidacaoResult getVlanVoip() {
         return vlanVoip;
     }
 
-    public void setVlanVoip(VlanVoip vlanVoip) {
+    public void setVlanVoip(ValidacaoResult vlanVoip) {
         this.vlanVoip = vlanVoip;
     }
 
-    public VlanVod getVlanVod() {
+    public ValidacaoResult getVlanVod() {
         return vlanVod;
     }
 
-    public void setVlanVod(VlanVod vlanVod) {
+    public void setVlanVod(ValidacaoResult vlanVod) {
         this.vlanVod = vlanVod;
     }
 
-    public VlanMulticast getVlanMulticast() {
+    public ValidacaoResult getVlanMulticast() {
         return vlanMulticast;
     }
 
-    public void setVlanMulticast(VlanMulticast vlanMulticast) {
+    public void setVlanMulticast(ValidacaoResult vlanMulticast) {
         this.vlanMulticast = vlanMulticast;
     }
 

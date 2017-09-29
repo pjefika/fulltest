@@ -6,7 +6,7 @@
 package util;
 
 import model.fulltest.operacional.FullTest;
-import model.validacao.realtime.Corretor;
+import model.validacao.impl.realtime.Corretor;
 
 /**
  *

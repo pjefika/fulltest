@@ -7,7 +7,7 @@ package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.validacao.impl.ValidacaoValidavel;
+import model.validacao.impl.both.ValidacaoValidavel;
 
 /**
  *

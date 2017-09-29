@@ -5,11 +5,11 @@
  */
 package model.validacao.realtime.metalico;
 
-import model.validacao.realtime.ValidadorDeviceMAC;
+import model.validacao.impl.realtime.ValidadorDeviceMAC;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
-import model.validacao.validador.Validator;
+import model.validacao.impl.realtime.Validator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

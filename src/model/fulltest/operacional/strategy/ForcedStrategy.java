@@ -9,8 +9,8 @@ import exception.SemGerenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
-import model.validacao.ValidacaoResult;
-import model.validacao.validador.Validator;
+import model.validacao.impl.both.ValidacaoResult;
+import model.validacao.impl.realtime.Validator;
 
 /**
  * Estratégia de execução que interrompe a execução caso encontre validações

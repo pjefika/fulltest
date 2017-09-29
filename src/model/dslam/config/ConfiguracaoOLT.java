@@ -5,8 +5,7 @@
  */
 package model.dslam.config;
 
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
@@ -16,27 +15,11 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     private ProfileGpon profile;
 
-    private SerialOntGpon serial;
+    private ValidacaoResult serial;
 
-    private TabelaParametrosGpon parametros;
+    private ValidacaoResult parametros;
 
     public ConfiguracaoOLT() {
-    }
-
-    public SerialOntGpon getSerial() {
-        return serial;
-    }
-
-    public void setSerial(SerialOntGpon serial) {
-        this.serial = serial;
-    }
-
-    public TabelaParametrosGpon getParametros() {
-        return parametros;
-    }
-
-    public void setParametros(TabelaParametrosGpon parametros) {
-        this.parametros = parametros;
     }
 
     public ProfileGpon getProfile() {
@@ -45,6 +28,22 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     public void setProfile(ProfileGpon profile) {
         this.profile = profile;
+    }
+
+    public ValidacaoResult getSerial() {
+        return serial;
+    }
+
+    public void setSerial(ValidacaoResult serial) {
+        this.serial = serial;
+    }
+
+    public ValidacaoResult getParametros() {
+        return parametros;
+    }
+
+    public void setParametros(ValidacaoResult parametros) {
+        this.parametros = parametros;
     }
 
 }

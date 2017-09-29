@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
+import model.validacao.impl.both.ValidacaoResult;
+import model.validacao.impl.realtime.Validator;
 
 /**
  *
@@ -40,5 +42,9 @@ public abstract class ConfigGenericService {
     }
 
     public abstract ConsultaClienteInter consulta() throws Exception;
-    
+
+    public ValidacaoResult exec(Validator v) throws Exception {
+        return v.validar();
+    }
+
 }

@@ -7,7 +7,7 @@ package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.validacao.impl.ValidacaoValidavel;
+import model.validacao.impl.both.ValidacaoValidavel;
 
 /**
  *

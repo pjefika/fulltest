@@ -11,6 +11,14 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
+import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
+import model.validacao.impl.realtime.ValidadorProfile;
+import model.validacao.impl.realtime.ValidadorVlanBanda;
+import model.validacao.impl.realtime.ValidadorVlanVod;
+import model.validacao.impl.realtime.ValidadorVlanVoip;
+import model.validacao.impl.realtime.ValidadorVlanMulticast;
+import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
+import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
 public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT> {
 
@@ -23,23 +31,22 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         ConfiguracaoOLT olt = new ConfiguracaoOLT();
         InventarioRede i = getEc().getRede();
         ConsultaGponDefault c = consulta();
-        olt.setEstadoPorta(c.getEstadoDaPorta(i));
-        olt.setParametros(c.getTabelaParametros(i));
-        
-        
+
+        olt.setEstadoPorta(this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc())));
+        olt.setParametros(this.exec(new ValidadorParametrosGpon(getDslam(), getEc())));
+
         ProfileGpon pg = new ProfileGpon();
-        pg.setAtual(c.getProfile(i));
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc())));
         pg.setDownValues(this.getDslam().listarVelocidadesDown());
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
-        
+
         olt.setProfile(pg);
-        olt.setSerial(c.getSerialOnt(i));
-        olt.setVlanBanda(c.getVlanBanda(i));
-        olt.setVlanVoip(c.getVlanVoip(i));
-        olt.setVlanVod(c.getVlanVod(i));
-        olt.setVlanMulticast(c.getVlanMulticast(i));
-        
-        
+        olt.setSerial(this.exec(new ValidadorSerialOntGpon(getDslam(), getEc())));
+        olt.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc())));
+        olt.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc())));
+        olt.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc())));
+        olt.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc())));
+
         return olt;
     }
 

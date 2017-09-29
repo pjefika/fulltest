@@ -5,12 +5,13 @@
  */
 package model.validacao.realtime.gpon.corretiva;
 
+import model.validacao.impl.realtime.CorretorProfile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.ValidacaoResult;
+import model.validacao.impl.both.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;

@@ -7,7 +7,7 @@ package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.consulta.metalico.TabelaParametrosAbstract;
-import model.validacao.impl.ValidacaoEfikaCustomer;
+import model.validacao.impl.both.ValidacaoEfikaCustomer;
 
 /**
  *
@@ -22,6 +22,11 @@ public class ValidacaoParametrosMetalico extends ValidacaoEfikaCustomer {
         super(cust, "Parâmetros");
         this.tab = tab;
         this.ideal = ideal;
+    }
+
+    @Override
+    public Object getObject() {
+        return tab;
     }
 
     @Override

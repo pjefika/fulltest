@@ -6,9 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.ValidavelAbs;
 import model.dslam.velocidade.Velocidades;
-import model.validacao.Validavel;
 
 /**
  *

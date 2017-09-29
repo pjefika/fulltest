@@ -7,7 +7,7 @@ package model.dslam.config;
 
 import java.util.List;
 import model.dslam.config.velocidade.VelocidadeDTO;
-import model.dslam.consulta.Profile;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
@@ -15,7 +15,7 @@ import model.dslam.consulta.Profile;
  */
 public class ProfileGpon {
 
-    private Profile atual;
+    private ValidacaoResult atual;
 
     private List<VelocidadeDTO> downValues;
 
@@ -24,11 +24,11 @@ public class ProfileGpon {
     public ProfileGpon() {
     }
 
-    public Profile getAtual() {
+    public ValidacaoResult getAtual() {
         return atual;
     }
 
-    public void setAtual(Profile atual) {
+    public void setAtual(ValidacaoResult atual) {
         this.atual = atual;
     }
 

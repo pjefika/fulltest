@@ -5,13 +5,13 @@
  */
 package model.validacao.impl;
 
+import model.validacao.impl.both.ValidacaoResult;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.ValidacaoResult;
-import model.validacao.realtime.Validador;
-import model.validacao.realtime.gpon.ValidadorVlanBanda;
+import model.validacao.impl.realtime.Validador;
+import model.validacao.impl.realtime.ValidadorVlanBanda;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
