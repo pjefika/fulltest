@@ -35,19 +35,19 @@ public class CustomerMock {
 
         InventarioRede r = new InventarioRede();
 
-        //3133933176
-        r.setIpDslam("10.131.38.18");
+        //lab
+        r.setIpDslam("10.200.38.155");
         r.setModeloDslam("SUGP1");
 
-        r.setSlot(13);
-        r.setPorta(8);
-        r.setSequencial(3230);
-        r.setCvLan(3330);
-        r.setLogica(6);
-        r.setRin(162);
+        r.setSlot(21);
+        r.setPorta(1);
+        r.setSequencial(2023);
+        r.setCvLan(2123);
+        r.setLogica(23);
+        r.setRin(111);
 
-        r.setVlanVoip(1162);
-        r.setVlanVod(3162);
+        r.setVlanVoip(1111);
+        r.setVlanVod(3111);
         r.setVlanMulticast(4000);
 
         c.setRede(r);

@@ -266,7 +266,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable", 3000);
     }
 
     protected ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
@@ -295,19 +295,40 @@ public class KeymileGponDslam extends DslamGpon {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        for (Velocidades v : Velocidades.values()) {
-            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "HSI_200M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "HSI_300M_RETAIL_DOWN"));
         }
+
         return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        for (Velocidades v : Velocidades.values()) {
-            if (new Float(v.getVel()).compareTo(200f) < 0) {
-                velsUp.add(new VelocidadeVendor(v, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_" + v.getVel() + "M_RETAIL_UP")));
-            }
+
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_1M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_2M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_3M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_5M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_12.5M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_25M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_50M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_75M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_100M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_150M_RETAIL_UP")));
         }
+
         return velsUp;
     }
 
@@ -519,7 +540,6 @@ public class KeymileGponDslam extends DslamGpon {
 //        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
 //        return p;
 //    }
-
     protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
         return new ComandoDslam("/unit-" + i.getSlot() + "/status/FlushOnuBlacklist", 3000, "get /unit-" + i.getSlot() + "/status/onuBlackListTable");
     }

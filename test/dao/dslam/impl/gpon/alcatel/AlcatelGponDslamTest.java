@@ -298,16 +298,16 @@ public class AlcatelGponDslamTest {
         System.out.println("setProfileDown");
         Profile p = instance.getProfile(i);
         List<String> errors = new ArrayList<>();
-//        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
+        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
             try {
-                instance.setProfileDown(i, Velocidades.VEL_102400);
+                instance.setProfileDown(i, vDown.getVel());
                 System.out.println(GsonUtil.serialize(instance.getProfile(i)));
 
             } catch (Exception e) {
-//                errors.add(vDown.getVel().name() + "-" + e.getMessage());
+                errors.add(vDown.getVel().name() + "-" + e.getMessage());
             }
-//        }
-//        assertTrue(errors.isEmpty());
+        }
+        assertTrue(errors.isEmpty());
 
     }
 
