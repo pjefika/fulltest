@@ -6,7 +6,6 @@
 package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.impl.ConsultaGponDefault;
 import model.dslam.config.ConfiguracaoOLT;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;

@@ -166,7 +166,6 @@ public class AlcatelGponDslam extends DslamGpon {
 
 //        System.out.println(svlan);
 //        System.out.println(cvlan);
-
         return vlanBanda;
     }
 
@@ -196,7 +195,6 @@ public class AlcatelGponDslam extends DslamGpon {
 
 //        System.out.println(cvlan);
 //        System.out.println(p100);
-
         return vlanVoip;
     }
 
@@ -259,7 +257,6 @@ public class AlcatelGponDslam extends DslamGpon {
         multz.setState(state);
 
 //        System.out.println(svlan);
-
         return multz;
     }
 
@@ -313,12 +310,12 @@ public class AlcatelGponDslam extends DslamGpon {
 
 //        System.out.println(prof.getDown());
 //        System.out.println(prof.getUp());
-
         return prof;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        List<VelocidadeVendor> velsUp = new ArrayList<>();
         Velocidades[] velocidades = Velocidades.values();
         for (Velocidades v : velocidades) {
             velsUp.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_UP"));
