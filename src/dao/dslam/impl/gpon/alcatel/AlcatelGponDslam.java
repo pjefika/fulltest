@@ -315,10 +315,17 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        List<VelocidadeVendor> velsUp = new ArrayList<>();
-        Velocidades[] velocidades = Velocidades.values();
-        for (Velocidades v : velocidades) {
-            velsUp.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_UP"));
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "HSI_2M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, "HSI_12.5M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, "HSI_75M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_UP"));
         }
 
         return velsUp;
@@ -326,10 +333,21 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        Velocidades[] velocidades = Velocidades.values();
-        for (Velocidades v : velocidades) {
-            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "HSI_200M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "HSI_300M_RETAIL_DOWN"));
         }
+
         return velsDown;
     }
 
