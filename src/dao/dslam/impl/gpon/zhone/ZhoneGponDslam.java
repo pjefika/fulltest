@@ -306,19 +306,40 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        Velocidades[] values = Velocidades.values();
-        for (Velocidades v : values) {
-            velsDown.add(new VelocidadeVendor(v, v.getVel()));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "5"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "10"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "15"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "25"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "35"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "50"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "100"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "150"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "200"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "300"));
         }
+
         return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        Velocidades[] values = Velocidades.values();
-        for (Velocidades v : values) {
-            velsUp.add(new VelocidadeVendor(v, Integer.toString(Math.round(new Float(v.getVel()) * 1000))));
+
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "5000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, "12500"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, "25000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, "50000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, "75000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, "100000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, "150000"));
         }
+
         return velsUp;
     }
 
