@@ -28,7 +28,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            ep.setAdminState("up");
+            ep.setAdminState(Boolean.TRUE);
             ValidacaoEstadoPortaAdm v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep));
             v.validar();
             this.setValid(v);

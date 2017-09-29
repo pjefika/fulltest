@@ -37,7 +37,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-            ec = CustomerMock.getCustomer("1124013751");
+        ec = CustomerMock.getCustomer("1124013751");
         i = ec.getRede();
         try {
             instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -68,13 +68,11 @@ public class AlteracaoClienteInterIT {
     @Test
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
-        String leState = "down";
-
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState(leState);
+        e.setAdminState(Boolean.TRUE);
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-            assertTrue(result.getAdminState().equalsIgnoreCase(leState));
+            assertTrue(result.getAdminState());
         } catch (Exception ex) {
             fail(ex.getMessage());
         }

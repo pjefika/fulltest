@@ -22,7 +22,7 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
 
     @Override
     public Boolean checar() {
-        return ep.getAdminState().equalsIgnoreCase("UP");
+        return ep.getAdminState();
     }
 
     @Override

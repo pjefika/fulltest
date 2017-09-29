@@ -131,9 +131,8 @@ public class AlcatelGponDslam extends DslamGpon {
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
 
         EstadoDaPorta state = new EstadoDaPorta();
-
-        state.setAdminState(adminState);
-        state.setOperState(operState);
+        state.setAdminState(adminState.equalsIgnoreCase("UP"));
+        state.setOperState(operState.equalsIgnoreCase("UP"));
 
         return state;
     }
@@ -165,8 +164,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
 
-        System.out.println(svlan);
-        System.out.println(cvlan);
+//        System.out.println(svlan);
+//        System.out.println(cvlan);
 
         return vlanBanda;
     }
@@ -195,8 +194,8 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
 
-        System.out.println(cvlan);
-        System.out.println(p100);
+//        System.out.println(cvlan);
+//        System.out.println(p100);
 
         return vlanVoip;
     }
@@ -225,9 +224,9 @@ public class AlcatelGponDslam extends DslamGpon {
         }
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
-
-        System.out.println(cvlan);
-        System.out.println(p100);
+//
+//        System.out.println(cvlan);
+//        System.out.println(p100);
 
         return vlanVod;
     }
@@ -259,7 +258,7 @@ public class AlcatelGponDslam extends DslamGpon {
         multz.setSvlan(svlan);
         multz.setState(state);
 
-        System.out.println(svlan);
+//        System.out.println(svlan);
 
         return multz;
     }
@@ -285,7 +284,7 @@ public class AlcatelGponDslam extends DslamGpon {
             }
 
         }
-        System.out.println(alarmes.getListAlarmes());
+//        System.out.println(alarmes.getListAlarmes());
 
         return alarmes;
     }
@@ -312,26 +311,24 @@ public class AlcatelGponDslam extends DslamGpon {
         prof.setDown(compare(profileDown, true));
         prof.setUp(compare(profileUp, false));
 
-        System.out.println(prof.getDown());
-        System.out.println(prof.getUp());
+//        System.out.println(prof.getDown());
+//        System.out.println(prof.getUp());
 
         return prof;
     }
-    
 
-    
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         Velocidades[] velocidades = Velocidades.values();
         for (Velocidades v : velocidades) {
             velsUp.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_UP"));
         }
-        
+
         return velsUp;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         Velocidades[] velocidades = Velocidades.values();
         for (Velocidades v : velocidades) {
             velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
@@ -364,7 +361,8 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.getAdminState());
+        String sintax = e.getAdminState() ? "up" : "down";
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + sintax);
     }
 
     @Override
@@ -482,10 +480,10 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState("down");
+        e.setAdminState(Boolean.FALSE);
         getCd().consulta(getComandoSetEstadoDaPorta(i, e));
         getCd().consulta(getComandoUnsetOntFromOlt(i));
-        e.setAdminState("up");
+        e.setAdminState(Boolean.TRUE);
         getCd().consulta(getComandoSetEstadoDaPorta(i, e));
     }
 
@@ -546,7 +544,6 @@ public class AlcatelGponDslam extends DslamGpon {
 //
 //        return p;
 //    }
-
     protected ComandoDslam getComandoListaOntPorSlot() {
         return new ComandoDslam("show pon unprovision-onu xml");
     }

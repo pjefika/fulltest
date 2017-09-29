@@ -7,12 +7,6 @@ package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;

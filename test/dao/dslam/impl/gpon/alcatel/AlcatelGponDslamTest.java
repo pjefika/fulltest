@@ -239,10 +239,10 @@ public class AlcatelGponDslamTest {
 
         try {
             EstadoDaPorta e = new EstadoDaPorta();
-            e.setAdminState("up");
+            e.setAdminState(Boolean.TRUE);
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
 
-            assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+            assertTrue(result.getAdminState());
         } catch (Exception e) {
             fail(e.getMessage());
         }

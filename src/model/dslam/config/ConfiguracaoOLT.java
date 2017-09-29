@@ -14,6 +14,8 @@ import model.dslam.consulta.gpon.TabelaParametrosGpon;
  */
 public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
+    private ProfileGpon profile;
+
     private SerialOntGpon serial;
 
     private TabelaParametrosGpon parametros;
@@ -35,6 +37,14 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     public void setParametros(TabelaParametrosGpon parametros) {
         this.parametros = parametros;
+    }
+
+    public ProfileGpon getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileGpon profile) {
+        this.profile = profile;
     }
 
 }

@@ -9,9 +9,7 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import java.util.List;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
 
 public abstract class DslamGpon extends AbstractDslam
         implements
@@ -20,17 +18,5 @@ public abstract class DslamGpon extends AbstractDslam
     public DslamGpon(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
     }
-
-    @Override
-    protected  List<VelocidadeVendor> obterVelocidadesUpVendor(){
-        return null;
-    }
-
-    @Override
-    protected  List<VelocidadeVendor> obterVelocidadesDownVendor(){
-        return null;
-    }
-
-    
 
 }

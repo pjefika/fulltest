@@ -40,8 +40,8 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         } else {
             operState = "Down";
         }
-        e.setAdminState(admState);
-        e.setOperState(operState);
+        e.setAdminState(admState.equalsIgnoreCase("UP"));
+        e.setOperState(operState.equalsIgnoreCase("UP"));
 
         return e;
     }

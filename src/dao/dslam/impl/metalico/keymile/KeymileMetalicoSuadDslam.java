@@ -424,7 +424,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
@@ -433,7 +433,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
         velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));

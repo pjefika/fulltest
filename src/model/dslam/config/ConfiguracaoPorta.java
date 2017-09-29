@@ -20,7 +20,7 @@ public abstract class ConfiguracaoPorta {
 
     private EstadoDaPorta estadoPorta;
 
-    private Profile profile;
+//    private Profile profile;
     
     private VlanBanda vlanBanda;
     
@@ -41,13 +41,13 @@ public abstract class ConfiguracaoPorta {
         this.estadoPorta = estadoPorta;
     }
 
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
-    }
+//    public Profile getProfile() {
+//        return profile;
+//    }
+//
+//    public void setProfile(Profile profile) {
+//        this.profile = profile;
+//    }
 
     public VlanBanda getVlanBanda() {
         return vlanBanda;

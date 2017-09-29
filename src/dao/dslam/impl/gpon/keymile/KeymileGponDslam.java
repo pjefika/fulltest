@@ -97,8 +97,8 @@ public class KeymileGponDslam extends DslamGpon {
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
 
         EstadoDaPorta portState = new EstadoDaPorta();
-        portState.setAdminState(adminState);
-        portState.setOperState(operState);
+        portState.setAdminState(adminState.equalsIgnoreCase("UP"));
+        portState.setOperState(operState.equalsIgnoreCase("UP"));
 
         System.out.println(portState.getAdminState());
         System.out.println(portState.getOperState());
@@ -294,7 +294,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         for (Velocidades v : Velocidades.values()) {
             velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
         }
@@ -302,7 +302,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         for (Velocidades v : Velocidades.values()) {
             if (new Float(v.getVel()).compareTo(200f) < 0) {
                 velsUp.add(new VelocidadeVendor(v, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_" + v.getVel() + "M_RETAIL_UP")));

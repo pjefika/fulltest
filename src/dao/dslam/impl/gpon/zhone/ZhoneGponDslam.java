@@ -125,8 +125,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
         EstadoDaPorta estado = new EstadoDaPorta();
 
-        estado.setAdminState(adminState);
-        estado.setOperState(operState);
+        estado.setAdminState(adminState.equalsIgnoreCase("UP"));
+        estado.setOperState(operState.equalsIgnoreCase("UP"));
 
         System.out.println(estado.getAdminState());
         System.out.println(estado.getOperState());
@@ -305,7 +305,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         Velocidades[] values = Velocidades.values();
         for (Velocidades v : values) {
             velsDown.add(new VelocidadeVendor(v, v.getVel()));
@@ -314,7 +314,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         Velocidades[] values = Velocidades.values();
         for (Velocidades v : values) {
             velsUp.add(new VelocidadeVendor(v, Integer.toString(Math.round(new Float(v.getVel()) * 1000))));

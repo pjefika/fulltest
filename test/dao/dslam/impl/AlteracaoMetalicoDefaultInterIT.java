@@ -12,15 +12,11 @@ import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -61,32 +57,32 @@ public class AlteracaoMetalicoDefaultInterIT {
     /**
      * Test of setModulacao method, of class AlteracaoMetalicoDefaultInter.
      */
-    @Test
-    public void testSetModulacao() {
-        System.out.println("setModulacao");
-
-        Velocidades v = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
-
-        try {
-            Modulacao result = instance.setModulacao(i, v);
-            String anotherString = instance.castModulacao(v).getModulacao();
-
-            assertTrue(result.getModulacao().contains(anotherString));
-        } catch (Exception ex) {
-            fail(ex.getMessage());
-        }
-
-    }
-
-    @Test
-    public void testCastModulacao() {
-        System.out.println("castModulacao");
-
-        Velocidades[] vs = Velocidades.values();
-        for (Velocidades v : vs) {
-            System.out.println(instance.castModulacao(v).getModulacao() + " -> " + v.getVel());
-        }
-
-    }
+//    @Test
+//    public void testSetModulacao() {
+//        System.out.println("setModulacao");
+//
+//        Velocidades v = Velocidades.valueOf("VEL_" + ec.getServicos().getVelDown());
+//
+//        try {
+//            Modulacao result = instance.setModulacao(i, v);
+//            String anotherString = instance.castModulacao(v).getModulacao();
+//
+//            assertTrue(result.getModulacao().contains(anotherString));
+//        } catch (Exception ex) {
+//            fail(ex.getMessage());
+//        }
+//
+//    }
+//
+//    @Test
+//    public void testCastModulacao() {
+//        System.out.println("castModulacao");
+//
+//        Velocidades[] vs = Velocidades.values();
+//        for (Velocidades v : vs) {
+//            System.out.println(instance.castModulacao(v).getModulacao() + " -> " + v.getVel());
+//        }
+//
+//    }
 
 }

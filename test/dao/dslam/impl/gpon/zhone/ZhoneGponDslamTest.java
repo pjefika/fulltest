@@ -220,9 +220,8 @@ public class ZhoneGponDslamTest {
         System.out.println("setEstadoDaPorta");
         try {
             EstadoDaPorta es = new EstadoDaPorta();
-            es.setAdminState("up");
             EstadoDaPorta result = instance.setEstadoDaPorta(i, es);
-            assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+            assertTrue(result.getAdminState());
         } catch (Exception e) {
             e.printStackTrace();
             fail();

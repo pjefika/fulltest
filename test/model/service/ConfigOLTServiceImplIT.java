@@ -57,18 +57,5 @@ public class ConfigOLTServiceImplIT {
         assertTrue(result!=null);
     }
 
-    /**
-     * Test of consulta method, of class ConfigOLTServiceImpl.
-     */
-    @Test
-    public void testConsulta() throws Exception {
-        System.out.println("consulta");
-        ConfigOLTServiceImpl instance = null;
-        ConsultaGponDefault expResult = null;
-        ConsultaGponDefault result = instance.consulta();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-    
+
 }

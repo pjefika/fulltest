@@ -229,10 +229,9 @@ public class KeymileGponDslamTest {
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState("Up");
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-            assertTrue(result.getAdminState().equals("Up"));
+            assertTrue(result.getAdminState());
         } catch (Exception ex) {
             ex.printStackTrace();
             fail();

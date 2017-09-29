@@ -20,6 +20,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -154,6 +155,16 @@ public class HuaweiGponDslam  extends DslamGpon {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

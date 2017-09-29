@@ -9,10 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ConsultaGponDefault;
-import java.util.ArrayList;
-import java.util.List;
 import model.dslam.config.ConfiguracaoOLT;
-import model.dslam.consulta.VlanAbstract;
+import model.dslam.config.ProfileGpon;
 
 public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT> {
 
@@ -27,7 +25,14 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         ConsultaGponDefault c = consulta();
         olt.setEstadoPorta(c.getEstadoDaPorta(i));
         olt.setParametros(c.getTabelaParametros(i));
-        olt.setProfile(c.getProfile(i));
+        
+        
+        ProfileGpon pg = new ProfileGpon();
+        pg.setAtual(c.getProfile(i));
+        pg.setDownValues(this.getDslam().listarVelocidadesDown());
+        pg.setUpValues(this.getDslam().listarVelocidadesUp());
+        
+        olt.setProfile(pg);
         olt.setSerial(c.getSerialOnt(i));
         olt.setVlanBanda(c.getVlanBanda(i));
         olt.setVlanVoip(c.getVlanVoip(i));

@@ -22,7 +22,7 @@ public class ValidacaoEstadoPortaOper extends Validacao {
 
     @Override
     public Boolean checar() {
-        return ep.getOperState().equalsIgnoreCase("UP");
+        return ep.getOperState();
     }
 
     @Override
