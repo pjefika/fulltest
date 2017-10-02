@@ -41,7 +41,11 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
 
         olt.setProfile(pg);
+        
         olt.setSerial(this.exec(new ValidadorSerialOntGpon(getDslam(), getEc())));
+        if(!olt.getSerial().getResultado()){
+            olt.setSerialDisp(c.getSlotsAvailableOnts(i));
+        }
         olt.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc())));
         olt.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc())));
         olt.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc())));

@@ -241,10 +241,13 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Profile prof = new Profile();
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
-        
-        prof.setDown(compare(first, Boolean.TRUE));
-        prof.setUp(compare(first, Boolean.FALSE));
-        
+
+        String profz = first.contains("_SUV") ? first : first + "_SUV";
+        String leprofz = profz.contains("D1") ?  profz.replace("D1", "") : profz;
+
+        prof.setDown(compare(leprofz, Boolean.TRUE));
+        prof.setUp(compare(leprofz, Boolean.FALSE));
+
         return prof;
     }
 

@@ -5,6 +5,8 @@
  */
 package model.dslam.config;
 
+import java.util.List;
+import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**
@@ -17,9 +19,19 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     private ValidacaoResult serial;
 
+    private List<SerialOntGpon> serialDisp;
+
     private ValidacaoResult parametros;
 
     public ConfiguracaoOLT() {
+    }
+
+    public List<SerialOntGpon> getSerialDisp() {
+        return serialDisp;
+    }
+
+    public void setSerialDisp(List<SerialOntGpon> serialDisp) {
+        this.serialDisp = serialDisp;
     }
 
     public ProfileGpon getProfile() {
