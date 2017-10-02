@@ -17,6 +17,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.SerialOntDispGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
@@ -374,8 +375,8 @@ public class ZhoneGponDslamTest {
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
         try {
-            List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
-            for (SerialOntGpon l : ls) {
+            List<SerialOntDispGpon> ls = instance.getSlotsAvailableOnts(i);
+            for (SerialOntDispGpon l : ls) {
                 System.out.println(l.getSerial());
             }
             assertTrue(ls != null);

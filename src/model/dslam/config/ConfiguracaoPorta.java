@@ -5,10 +5,6 @@
  */
 package model.dslam.config;
 
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**
