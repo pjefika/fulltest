@@ -14,7 +14,7 @@ import model.dslam.consulta.Validavel;
  */
 public class SerialOntGpon implements Validavel {
 
-    private String serial;
+    private String serial, slot, porta;
 
     public String getSerial() {
         return serial;

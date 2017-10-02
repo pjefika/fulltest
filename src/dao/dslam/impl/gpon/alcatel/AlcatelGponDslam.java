@@ -21,7 +21,6 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.SerialOntDispGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -565,17 +564,15 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public List<SerialOntDispGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoListaOntPorSlot()));
         NodeList nodeList = xml.getElementsByTagName("info");
-        List<SerialOntDispGpon> serialList = new ArrayList<>();
+        List<SerialOntGpon> serialList = new ArrayList<>();
         for (int e = 0; e < nodeList.getLength(); e++) {
             Node node = nodeList.item(e);
-            System.out.println("node->"+node.getTextContent());
-            if (node.getTextContent().contains("1/" + i.getSlot())) {
-                
-                String[] splita = node.getTextContent().split("/");
-                SerialOntDispGpon s = new SerialOntDispGpon(node.getNextSibling().getTextContent(), splita[splita.length-2], splita[splita.length-1]);
+
+            if (node.getTextContent().contains("1/1/" + i.getSlot())) {
+                SerialOntGpon s = new SerialOntGpon();
                 s.setSerial(node.getNextSibling().getTextContent());
                 serialList.add(s);
             }
@@ -583,10 +580,5 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         return serialList;
     }
-
-//    @Override
-//    public List<SerialOntDispGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
 
 }

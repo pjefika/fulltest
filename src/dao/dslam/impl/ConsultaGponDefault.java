@@ -8,7 +8,6 @@ package dao.dslam.impl;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.SerialOntDispGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 
@@ -24,6 +23,6 @@ public interface ConsultaGponDefault extends ConsultaClienteInter {
 
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
 
-    public List<SerialOntDispGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception;
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception;
 
 }

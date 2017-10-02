@@ -21,7 +21,6 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.SerialOntDispGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -546,7 +545,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    public List<SerialOntDispGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
         Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
         List<SerialOntGpon> lSerial = new ArrayList<>();
@@ -557,8 +556,8 @@ public class KeymileGponDslam extends DslamGpon {
             lSerial.add(s);
         }
 
-//        return lSerial;
-        return null;
+        return lSerial;
+
     }
 
 }
