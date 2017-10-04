@@ -56,7 +56,7 @@ public class KeymileGponDslamTest {
 
 //    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
 //    InventarioRede i = CustomerMock.gponKeymile().getRede();
-    InventarioRede i = CustomerMock.getCustomer("7130435396").getRede();
+    InventarioRede i = CustomerMock.getCustomer("8530167751").getRede();
     KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
 
     /**
@@ -220,9 +220,9 @@ public class KeymileGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("PACED8A7CD4B");
+            s.setSerial("PACEF5585BA5");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("PACED8A7CD4B"));
+            assertTrue(result.getSerial().equalsIgnoreCase("PACEF5585BA5"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -376,7 +376,7 @@ public class KeymileGponDslamTest {
         System.out.println("unsetOntFromOlt");
         try {
             instance.unsetOntFromOlt(i);
-            assertTrue(instance.getSerialOnt(i).getSerial().equalsIgnoreCase("ABCD00000000"));
+            assertTrue(instance.getSerialOnt(i).getSerial().equalsIgnoreCase(""));
         } catch (Exception e) {
             e.printStackTrace();
             fail();

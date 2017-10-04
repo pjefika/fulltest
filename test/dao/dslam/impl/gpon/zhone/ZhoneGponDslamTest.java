@@ -376,7 +376,7 @@ public class ZhoneGponDslamTest {
         try {
             List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon l : ls) {
-                System.out.println(l.getSerial());
+                System.out.println(GsonUtil.serialize(l));
             }
             assertTrue(ls != null);
         } catch (Exception e) {

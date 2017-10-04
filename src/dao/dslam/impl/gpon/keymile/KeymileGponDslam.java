@@ -553,9 +553,6 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> leShelf = getCd().consulta(getComandoListaShelf(i)).getRetorno();
-        leShelf.forEach((t) -> {
-            System.out.println(t);
-        });
         List<String> slots = new ArrayList<>();
         leShelf.forEach((t) -> {
             if (t.contains("SUGP")) {
@@ -570,11 +567,7 @@ public class KeymileGponDslam extends DslamGpon {
         List<SerialOntGpon> lSerial = new ArrayList<>();
 
         for (String slot : slots) {
-            System.out.println("leSlot->"+slot);
             List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i, slot)).getRetorno();
-            for (String string : leResp) {
-                System.out.println(string);
-            }
             Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
             for (int e = 1; e <= qntSerial; e++) {
                 String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);

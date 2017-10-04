@@ -525,7 +525,7 @@ public class ZhoneGponDslam extends DslamGpon {
 //        return p;
 //    }
     protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
-        return new ComandoDslam("onu show " + i.getSlot(), 1000, "Y", 5000, "A");
+        return new ComandoDslam("onu show", 1000, "Y", 5000, "A");
     }
 
     private List<String> getSernum(List<String> listSerial) {
@@ -533,11 +533,7 @@ public class ZhoneGponDslam extends DslamGpon {
         for (String string : listSerial) {
 
             if (string.trim().length() > 5) {
-                System.out.println("oi" + string);
                 String[] leSer = string.split("\\b\\w+\\b");
-                for (String string1 : leSer) {
-                    System.out.println(string1 + "lele");
-                }
                 String serNum = leSer[1] + leSer[2];
                 leSernums.add(serNum);
             }
@@ -549,6 +545,7 @@ public class ZhoneGponDslam extends DslamGpon {
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
+        
         List<String> leSerns = TratativaRetornoUtil.linhasAbaixo(leResp, "sernoID");
         List<String> serials = getSernum(leSerns);
         List<SerialOntGpon> leSerialOnt = new ArrayList<>();
