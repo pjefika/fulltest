@@ -12,6 +12,8 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -62,6 +64,10 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
+    }
+
+    protected ComandoDslam getComandoListaShelf(InventarioRede i) {
+        return new ComandoDslam("ls -e", 2000);
     }
 
     @Override
@@ -540,20 +546,45 @@ public class KeymileGponDslam extends DslamGpon {
 //        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
 //        return p;
 //    }
-    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
-        return new ComandoDslam("/unit-" + i.getSlot() + "/status/FlushOnuBlacklist", 3000, "get /unit-" + i.getSlot() + "/status/onuBlackListTable");
+    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i, String slot) {
+        return new ComandoDslam("/unit-" + slot + "/status/FlushOnuBlacklist", 3000, "get /unit-" + slot + "/status/onuBlackListTable");
     }
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
-        Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
+        List<String> leShelf = getCd().consulta(getComandoListaShelf(i)).getRetorno();
+        leShelf.forEach((t) -> {
+            System.out.println(t);
+        });
+        List<String> slots = new ArrayList<>();
+        leShelf.forEach((t) -> {
+            if (t.contains("SUGP")) {
+                Matcher line = Pattern.compile("\\d+").matcher(t);
+                List<String> l = new ArrayList<>();
+                while(line.find()){
+                    l.add(line.group());
+                }
+                slots.add(l.get(0));
+            }
+        });
         List<SerialOntGpon> lSerial = new ArrayList<>();
-        for (int e = 1; e <= qntSerial; e++) {
-            String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
-            SerialOntGpon s = new SerialOntGpon();
-            s.setSerial(leSerial);
-            lSerial.add(s);
+
+        for (String slot : slots) {
+            System.out.println("leSlot->"+slot);
+            List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i, slot)).getRetorno();
+            for (String string : leResp) {
+                System.out.println(string);
+            }
+            Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
+            for (int e = 1; e <= qntSerial; e++) {
+                String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
+                String lePorta = TratativaRetornoUtil.tratKeymile(leResp, "Odn", e);
+                SerialOntGpon s = new SerialOntGpon();
+                s.setSerial(leSerial);
+                s.setSlot(slot);
+                s.setPorta(lePorta);
+                lSerial.add(s);
+            }
         }
 
         return lSerial;

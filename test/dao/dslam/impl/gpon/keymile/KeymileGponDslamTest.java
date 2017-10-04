@@ -19,7 +19,6 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -55,8 +54,10 @@ public class KeymileGponDslamTest {
         instance.desconectar();
     }
 
-    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
-    InventarioRede i = CustomerMock.gponKeymile().getRede();
+//    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
+//    InventarioRede i = CustomerMock.gponKeymile().getRede();
+    InventarioRede i = CustomerMock.getCustomer("7130435396").getRede();
+    KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
 
     /**
      * Test of getTabelaParametros method, of class KeymileGponDslam.
@@ -81,6 +82,7 @@ public class KeymileGponDslamTest {
         System.out.println("getSerialOnt");
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
+            System.out.println(result.getSerial());
             assertTrue(result.getSerial() != null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -434,7 +436,7 @@ public class KeymileGponDslamTest {
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {
-                System.out.println(serialOntGpon.getSerial());
+                System.out.println(GsonUtil.serialize(serialOntGpon));
             }
             assertTrue(result != null);
         } catch (Exception e) {
