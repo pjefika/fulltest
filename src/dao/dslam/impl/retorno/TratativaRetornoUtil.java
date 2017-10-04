@@ -48,7 +48,8 @@ public class TratativaRetornoUtil {
 
     public static Document stringXmlParse(ComandoDslam cd) {
         Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
-        return convertStringToDocument(cd.getBlob().substring(xmlBegins));
+        Integer xmlEnds = cd.getBlob().indexOf("/runtime-data>")+14;
+        return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnds));
     }
 
     public static Document stringXmlConfigData(ComandoDslam cd) {

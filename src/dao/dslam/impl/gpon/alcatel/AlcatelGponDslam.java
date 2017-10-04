@@ -571,9 +571,12 @@ public class AlcatelGponDslam extends DslamGpon {
         for (int e = 0; e < nodeList.getLength(); e++) {
             Node node = nodeList.item(e);
 
-            if (node.getTextContent().contains("1/1/" + i.getSlot())) {
+            if (node.getTextContent().contains("1/1/")) {
+                String[] slotPorta = node.getTextContent().split("/");                
                 SerialOntGpon s = new SerialOntGpon();
-                s.setSerial(node.getNextSibling().getTextContent());
+                s.setSerial(node.getNextSibling().getNextSibling().getTextContent());
+                s.setPorta(slotPorta[3]);
+                s.setSlot(slotPorta[2]);
                 serialList.add(s);
             }
 

@@ -41,7 +41,7 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("8531046937");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1133605807");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -300,7 +300,7 @@ public class AlcatelGponDslamTest {
         List<String> errors = new ArrayList<>();
 //        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
 //            try {
-                instance.setProfileDown(i, Velocidades.VEL_102400);
+                instance.setProfileDown(i, Velocidades.VEL_10240);
                 System.out.println(GsonUtil.serialize(instance.getProfile(i)));
 
 //            } catch (Exception e) {
@@ -466,7 +466,6 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
-        System.out.println(i.getSlot());
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {

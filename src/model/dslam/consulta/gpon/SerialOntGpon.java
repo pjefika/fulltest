@@ -16,6 +16,22 @@ public class SerialOntGpon implements Validavel {
 
     private String serial, slot, porta;
 
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
+
+    public String getPorta() {
+        return porta;
+    }
+
+    public void setPorta(String porta) {
+        this.porta = porta;
+    }
+
     public String getSerial() {
         return serial;
     }

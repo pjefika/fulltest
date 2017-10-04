@@ -87,7 +87,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        System.out.println("oioi");
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        for (String leVlan : leVlans) {
+            System.out.println(leVlan);
+            System.out.println("oi");
+        }
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         Integer cvlan = new Integer("0");
