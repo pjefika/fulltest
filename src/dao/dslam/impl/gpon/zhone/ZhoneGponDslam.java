@@ -65,11 +65,12 @@ public class ZhoneGponDslam extends DslamGpon {
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         if (leParams == null) {
-            List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+            leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
         }
         List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        Double potOlt = new Double(pegaParams.get(5));
-        Double potOnt = new Double(pegaParams.get(6));
+        
+        Double potOlt = pegaParams.size()<8 ? new Double(0) : new Double(pegaParams.get(5));
+        Double potOnt = pegaParams.size()<8 ? new Double(pegaParams.get(5)) : new Double(pegaParams.get(6));
 
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(potOlt);
@@ -524,8 +525,14 @@ public class ZhoneGponDslam extends DslamGpon {
 //        p.setProfileUp(leProfUp.toString());
 //        return p;
 //    }
-    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
-        return new ComandoDslam("onu show", 1000, "Y", 5000, "A");
+    protected ComandoDslam getComandoGetSlotsAvailableOnts0() {
+        return new ComandoDslam("onu show");
+    }
+    protected ComandoDslam getComandoGetSlotsAvailableOnts1() {
+        return new ComandoDslam("Y");
+    }
+    protected ComandoDslam getComandoGetSlotsAvailableOnts2() {
+        return new ComandoDslam("A", 15000);
     }
 
     private List<String> getSernum(List<String> listSerial) {
@@ -544,7 +551,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
+        getCd().consulta(getComandoGetSlotsAvailableOnts0());
+        Thread.sleep(1000);
+        getCd().consulta(getComandoGetSlotsAvailableOnts1());
+        Thread.sleep(5000);
+        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts2()).getRetorno();
         
         List<String> leSerns = TratativaRetornoUtil.linhasAbaixo(leResp, "sernoID");
         List<String> serials = getSernum(leSerns);

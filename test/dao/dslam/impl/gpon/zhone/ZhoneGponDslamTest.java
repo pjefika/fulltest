@@ -83,6 +83,7 @@ public class ZhoneGponDslamTest {
         System.out.println("getSerialOnt");
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
+            System.out.println(result.getSerial());
             assertTrue(!result.getSerial().isEmpty());
         } catch (Exception e) {
             e.printStackTrace();
