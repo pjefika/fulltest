@@ -40,6 +40,13 @@ public class EstadoDaPorta extends ValidavelAbs implements Validavel {
     }
 
     @Override
+    public String toString() {
+        return adminState == true ? "up" : "down";
+    }
+    
+    
+
+    @Override
     public Boolean validar(EfikaCustomer e) {
         return this.adminState && this.operState;
     }

@@ -355,7 +355,8 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, Velocidades vUp) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable "
-                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
+                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " 
+                + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
     }
 
     @Override
@@ -370,7 +371,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus " + e.getAdminState());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus " + e.toString());
     }
 
     @Override

@@ -80,6 +80,7 @@ public class KeymileGponDslamTest {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
+        System.out.println(i.getSlot()+" "+i.getPorta());
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
             System.out.println(result.getSerial());
@@ -220,9 +221,9 @@ public class KeymileGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("PACEF5585BA5");
+            s.setSerial("MSTC2A9E1E35");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("PACEF5585BA5"));
+            assertTrue(result.getSerial().equalsIgnoreCase("MSTC2A9E1E35"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -236,6 +237,7 @@ public class KeymileGponDslamTest {
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
         EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.TRUE);
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
             assertTrue(result.getAdminState());
@@ -433,6 +435,7 @@ public class KeymileGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
+        
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {

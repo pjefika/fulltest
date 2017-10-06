@@ -100,6 +100,8 @@ public class ZhoneGponDslamTest {
         System.out.println("getEstadoDaPorta");
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -207,9 +209,9 @@ public class ZhoneGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("PACED8A7ED87");
+            s.setSerial("SAGE000002EF");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("PACED8A7ED87"));
+            assertTrue(result.getSerial().equalsIgnoreCase("SAGE000002EF"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -224,6 +226,7 @@ public class ZhoneGponDslamTest {
         System.out.println("setEstadoDaPorta");
         try {
             EstadoDaPorta es = new EstadoDaPorta();
+            es.setAdminState(Boolean.TRUE);
             EstadoDaPorta result = instance.setEstadoDaPorta(i, es);
             assertTrue(result.getAdminState());
         } catch (Exception e) {
@@ -374,6 +377,7 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
+        //SAGE000002EF - lab
         try {
             List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon l : ls) {
@@ -384,6 +388,18 @@ public class ZhoneGponDslamTest {
             e.printStackTrace();
             fail();
         }
+    }
+
+    /**
+     * Test of unsetOntFromOlt method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testUnsetOntFromOlt() throws Exception {
+        System.out.println("unsetOntFromOlt");
+        instance.unsetOntFromOlt(i);
+        
+        System.out.println(GsonUtil.serialize(instance.getSerialOnt(i)));
+        assertTrue(true);
     }
 
     @Test

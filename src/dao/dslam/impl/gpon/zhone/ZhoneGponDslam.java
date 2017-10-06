@@ -122,7 +122,7 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
         List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
-        String operState = pegaOper.get(5);
+        String operState = pegaOper!=null ? pegaOper.get(5) : "DOWN";
 
         EstadoDaPorta estado = new EstadoDaPorta();
 
@@ -379,7 +379,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu");
+        return new ComandoDslam("port " + e.toString() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu");
     }
 
     @Override
