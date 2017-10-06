@@ -377,7 +377,7 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
-        //SAGE000002EF - lab
+        //SAGE0000032C - lab
         try {
             List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon l : ls) {

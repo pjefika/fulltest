@@ -116,9 +116,9 @@ public class CustomerMock {
 
         r.setSlot(5);
         r.setPorta(2);
-        r.setSequencial(132);
-        r.setCvLan(232);
-        r.setLogica(8);
+        r.setSequencial(135);
+        r.setCvLan(235);
+        r.setLogica(11);
         r.setRin(121);
 
         r.setVlanVoip(1121);
