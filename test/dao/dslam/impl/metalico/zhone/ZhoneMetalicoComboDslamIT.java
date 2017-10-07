@@ -51,7 +51,7 @@ public class ZhoneMetalicoComboDslamIT {
     @After
     public void tearDown() {
     }
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4130825270");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("6239416181");
     private static ZhoneMetalicoComboDslam instance = new ZhoneMetalicoComboDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -91,13 +91,14 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        EstadoDaPorta expResult = null;
-        EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
+        try {
+            EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            System.out.println(GsonUtil.serialize(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -108,7 +109,7 @@ public class ZhoneMetalicoComboDslamIT {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
         System.out.println(GsonUtil.serialize(result));
-        assertTrue(result.getCvlan()!=0);
+        assertTrue(result.getCvlan() != 0);
 
     }
 
@@ -240,14 +241,10 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        ZhoneMetalicoComboDslam instance = null;
-        EstadoDaPorta expResult = null;
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

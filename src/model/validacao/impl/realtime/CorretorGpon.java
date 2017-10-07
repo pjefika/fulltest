@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoGponDefault;
+import java.util.Locale;
 
 /**
  *
@@ -18,8 +19,8 @@ public abstract class CorretorGpon extends Corretor {
 
     protected AlteracaoGponDefault ag;
 
-    public CorretorGpon(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public CorretorGpon(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override

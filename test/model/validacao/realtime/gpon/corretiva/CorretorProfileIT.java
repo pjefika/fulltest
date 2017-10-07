@@ -8,6 +8,7 @@ package model.validacao.realtime.gpon.corretiva;
 import model.validacao.impl.realtime.CorretorProfile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.CustomerMock;
@@ -50,7 +51,7 @@ public class CorretorProfileIT {
     public void testConsultar() {
 
         try {
-            CorretorProfile c = new CorretorProfile(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            CorretorProfile c = new CorretorProfile(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("co", "CO"));
             ValidacaoResult consultar = c.validar();
             assertTrue(consultar != null);
             System.out.println("end");

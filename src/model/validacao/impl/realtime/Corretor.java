@@ -10,6 +10,8 @@ import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**
@@ -21,9 +23,12 @@ public abstract class Corretor extends Validador {
     protected AlteracaoClienteInter alter;
 
     protected Validador validador;
+  
+    protected ResourceBundle bundle;
 
-    public Corretor(AbstractDslam dslam, EfikaCustomer cust) {
+    public Corretor(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust);
+        this.bundle = ResourceBundle.getBundle("messages", local);
     }
 
     @Override
@@ -58,6 +63,7 @@ public abstract class Corretor extends Validador {
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }

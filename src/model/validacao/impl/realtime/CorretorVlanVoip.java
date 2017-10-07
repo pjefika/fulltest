@@ -8,6 +8,7 @@ package model.validacao.impl.realtime;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoVlanVoip;
 import model.validacao.impl.realtime.Corretor;
@@ -18,8 +19,8 @@ import model.validacao.impl.realtime.Corretor;
  */
 public class CorretorVlanVoip extends Corretor {
 
-    public CorretorVlanVoip(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public CorretorVlanVoip(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override

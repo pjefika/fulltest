@@ -224,7 +224,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/adsl");
+        return new ComandoDslam("port " + e.toString() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/adsl");
     }
 
     @Override

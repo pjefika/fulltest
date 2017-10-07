@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.consulta.DeviceMAC;
@@ -111,9 +113,12 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetEstadoDaPorta() {
         System.out.println("getEstadoDaPorta");
-
+        Locale locale = new Locale("manobra", "CO");
+        ResourceBundle messages = ResourceBundle.getBundle("messages", locale);
+        System.out.println(messages.getString("fulltest_ok"));
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -300,8 +305,8 @@ public class AlcatelGponDslamTest {
         List<String> errors = new ArrayList<>();
 //        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
 //            try {
-                instance.setProfileDown(i, Velocidades.VEL_10240);
-                System.out.println(GsonUtil.serialize(instance.getProfile(i)));
+        instance.setProfileDown(i, Velocidades.VEL_10240);
+        System.out.println(GsonUtil.serialize(instance.getProfile(i)));
 
 //            } catch (Exception e) {
 //                errors.add(vDown.getVel().name() + "-" + e.getMessage());

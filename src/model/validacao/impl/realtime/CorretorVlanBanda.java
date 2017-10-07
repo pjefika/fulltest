@@ -8,6 +8,7 @@ package model.validacao.impl.realtime;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoVlanBanda;
@@ -19,8 +20,8 @@ import model.validacao.impl.realtime.Corretor;
  */
 public class CorretorVlanBanda extends Corretor {
 
-    public CorretorVlanBanda(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public CorretorVlanBanda(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override

@@ -16,7 +16,6 @@ import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.Velocidades;
 
-
 /**
  *
  * @author G0042204
@@ -34,12 +33,14 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
     public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
         String admState = TratativaRetornoUtil.tratZhone(r, "AdminStatus", "\\b\\w+\\b").get(1);
-        String operState = TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b").get(1);
+        String operState = TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b") == null ? "down" : TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b").get(1);
+
         if (operState.equalsIgnoreCase("DATA")) {
             operState = "Up";
         } else {
             operState = "Down";
         }
+
         e.setAdminState(admState.equalsIgnoreCase("UP"));
         e.setOperState(operState.equalsIgnoreCase("UP"));
 

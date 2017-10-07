@@ -8,6 +8,7 @@ package model.validacao.impl.realtime;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.dslam.consulta.EstadoDaPorta;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaAdm;
@@ -20,8 +21,8 @@ public class CorretorEstadoAdmPorta extends Corretor {
 
     private EstadoDaPorta ep;
 
-    public CorretorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public CorretorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override
@@ -49,12 +50,12 @@ public class CorretorEstadoAdmPorta extends Corretor {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Corrigido estado da porta, aguarde 3 minutos para estabilização do modem e teste novamente.";
+        return bundle.getString("correcaoEstadoAdm_ok");
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível corrigir o estado da porta. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return bundle.getString("correcaoEstadoAdm_nok");
     }
 
 }

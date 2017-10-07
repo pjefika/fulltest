@@ -9,6 +9,7 @@ import model.validacao.impl.realtime.CorretorVlanBanda;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
+import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
 import model.fulltest.operacional.FullTest;
 import model.validacao.impl.both.ValidacaoResult;
@@ -51,7 +52,7 @@ public class CorretorVlanBandaIT {
     public void testSomeMethod() throws Exception {
 
         try {
-            Corretor c = new CorretorVlanBanda(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Corretor c = new CorretorVlanBanda(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("co", "CO"));
             ValidacaoResult vr =  c.validar();
             System.out.println("");
             assertTrue(vr.getResultado());
