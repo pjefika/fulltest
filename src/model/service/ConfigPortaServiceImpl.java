@@ -7,7 +7,13 @@ package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.TipoRede;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.impl.AlteracaoClienteInter;
+import dao.dslam.impl.AlteracaoGponDefault;
+import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaClienteInter;
+import dao.dslam.impl.ConsultaGponDefault;
+import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoPorta;
 
 /**
@@ -22,18 +28,45 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
 
     @Override
     public ConsultaClienteInter consulta() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.getEc().getRede().getTipo() == TipoRede.GPON) {
+            try {
+                return (ConsultaGponDefault) getDslam();
+            } catch (ClassCastException e) {
+                throw new FuncIndisponivelDslamException();
+            }
+        } else {
+            try {
+                return (ConsultaMetalicoDefault) getDslam();
+            } catch (ClassCastException e) {
+                throw new FuncIndisponivelDslamException();
+            }
+        }
+    }
+
+    @Override
+    public AlteracaoClienteInter alteracao() throws Exception {
+        if (this.getEc().getRede().getTipo() == TipoRede.GPON) {
+            try {
+                return (AlteracaoGponDefault) getDslam();
+            } catch (ClassCastException e) {
+                throw new FuncIndisponivelDslamException();
+            }
+        } else {
+            try {
+                return (AlteracaoMetalicoDefault) getDslam();
+            } catch (ClassCastException e) {
+                throw new FuncIndisponivelDslamException();
+            }
+        }
     }
 
     @Override
     public ConfiguracaoPorta consultar() throws Exception {
-        if(this.getEc().getRede().getTipo() == TipoRede.GPON){
+        if (this.getEc().getRede().getTipo() == TipoRede.GPON) {
             return FactoryService.createConfigOLTService(this.getEc()).consultar();
-        }else{
+        } else {
             return FactoryService.createConfigDslamService(this.getEc()).consultar();
-        }        
+        }
     }
-
-  
 
 }

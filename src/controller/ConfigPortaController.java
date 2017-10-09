@@ -5,6 +5,7 @@
  */
 package controller;
 
+import controller.in.SetAdminStateIn;
 import controller.in.ConsultaConfigPortaIn;
 import dao.FactoryDAO;
 import javax.ws.rs.Consumes;
@@ -14,7 +15,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.dslam.config.ConfiguracaoPorta;
+import model.dslam.consulta.EstadoDaPorta;
 import model.entity.LogEntity;
+import model.service.ConfigGenericService;
+import model.service.ConfigPortaService;
 import model.service.FactoryService;
 
 /**
@@ -43,5 +47,28 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
+    
+    
+    @POST
+    @Path("/setAdminState")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setAdminState(SetAdminStateIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigPortaService config = FactoryService.create(cs.getCust());
+            EstadoDaPorta result = config.setterEstadoDaPorta(cs.getEstadoPorta());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
 
 }

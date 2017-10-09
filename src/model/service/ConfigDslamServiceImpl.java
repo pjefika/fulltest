@@ -7,6 +7,8 @@ package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import dao.dslam.impl.AlteracaoClienteInter;
+import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoDslam;
 
@@ -24,6 +26,15 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
     public ConsultaMetalicoDefault consulta() throws Exception {
         try {
             return (ConsultaMetalicoDefault) getDslam();
+        } catch (ClassCastException e) {
+            throw new FuncIndisponivelDslamException();
+        }
+    }
+
+    @Override
+    public AlteracaoClienteInter alteracao() throws Exception {
+        try {
+            return (AlteracaoMetalicoDefault) getDslam();
         } catch (ClassCastException e) {
             throw new FuncIndisponivelDslamException();
         }

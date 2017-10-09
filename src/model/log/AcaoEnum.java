@@ -12,6 +12,7 @@ package model.log;
 public enum AcaoEnum {
 
     CONSULTA_CONFIG_PORTA,
+    SET_AMD_STATE,
     FULLTEST_CO,
     FULLTEST_CRM, 
     VALIDADOR_MANOBRA;
