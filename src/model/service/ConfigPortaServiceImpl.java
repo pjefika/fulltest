@@ -18,12 +18,14 @@ import model.dslam.config.ConfiguracaoPorta;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
+import model.validacao.impl.realtime.ValidadorVlanMulticast;
+import model.validacao.impl.realtime.ValidadorVlanVod;
+import model.validacao.impl.realtime.ValidadorVlanVoip;
 
 /**
  *
@@ -101,6 +103,27 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         alteracao().deleteVlanBanda(getEc().getRede());
         alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
         return exec(new ValidadorVlanBanda(getDslam(), getEc()));
+    }
+
+    @Override
+    public ValidacaoResult setterVlanVoip() throws Exception {
+        alteracao().deleteVlanVoip(getEc().getRede());
+        alteracao().createVlanVoip(getEc().getRede());
+        return exec(new ValidadorVlanVoip(getDslam(), getEc()));
+    }
+
+    @Override
+    public ValidacaoResult setterVlanVod() throws Exception {
+        alteracao().deleteVlanVod(getEc().getRede());
+        alteracao().createVlanVod(getEc().getRede());
+        return exec(new ValidadorVlanVod(getDslam(), getEc()));
+    }
+
+    @Override
+    public ValidacaoResult setterVlanMulticast() throws Exception {
+        alteracao().deleteVlanMulticast(getEc().getRede());
+        alteracao().createVlanMulticast(getEc().getRede());
+        return exec(new ValidadorVlanMulticast(getDslam(), getEc()));
     }
     
     

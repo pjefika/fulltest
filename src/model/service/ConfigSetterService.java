@@ -22,5 +22,11 @@ public interface ConfigSetterService {
     public ProfileGpon setterProfile(Profile profile) throws Exception;
     
     public ValidacaoResult setterVlanBanda() throws Exception;
+    
+    public ValidacaoResult setterVlanVoip() throws Exception;
+    
+    public ValidacaoResult setterVlanVod() throws Exception;
+    
+    public ValidacaoResult setterVlanMulticast() throws Exception;
 
 }

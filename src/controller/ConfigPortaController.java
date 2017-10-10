@@ -10,6 +10,9 @@ import controller.in.ConsultaConfigPortaIn;
 import controller.in.SetOntToOltIn;
 import controller.in.SetProfileIn;
 import controller.in.SetVlanBandaIn;
+import controller.in.SetVlanMulticastIn;
+import controller.in.SetVlanVodIn;
+import controller.in.SetVlanVoipIn;
 import controller.in.UnsetOntFromOltIn;
 import dao.FactoryDAO;
 import java.util.List;
@@ -154,6 +157,72 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
             ValidacaoResult result = config.setterVlanBanda();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/setVlanVoip")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setVlanVoip(SetVlanVoipIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ValidacaoResult result = config.setterVlanVoip();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/setVlanVod")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setVlanVod(SetVlanVodIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ValidacaoResult result = config.setterVlanVod();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/setVlanMulticast")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setVlanMulticast(SetVlanMulticastIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ValidacaoResult result = config.setterVlanMulticast();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
