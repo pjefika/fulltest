@@ -5,15 +5,18 @@
  */
 package model.service;
 
-import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.Profile;
+import java.util.List;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
  * @author G0041775
  */
-public interface ConfigSetterGponService{
+public interface ConfigSetterGponService {
+
+    public List<SerialOntGpon> unsetterOntFromOlt() throws Exception;
     
-    
-    
+    public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception;
+
 }

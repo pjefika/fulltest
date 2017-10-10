@@ -93,5 +93,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         
         return pg;
     }
+    
+    
 
 }

@@ -8,13 +8,13 @@ package model.service;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
+import java.util.List;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.Profile;
-import model.dslam.velocidade.Velocidades;
+import model.dslam.consulta.gpon.SerialOntGpon;
+import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -68,12 +68,24 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     }
 
     @Override
-    public AlteracaoClienteInter alteracao() throws Exception {
+    public AlteracaoGponDefault alteracao() throws Exception {
         try {
             return (AlteracaoGponDefault) getDslam();
         } catch (ClassCastException e) {
             throw new FuncIndisponivelDslamException();
         }
+    }
+
+    @Override
+    public List<SerialOntGpon> unsetterOntFromOlt() throws Exception {
+        alteracao().unsetOntFromOlt(getEc().getRede());
+        return consulta().getSlotsAvailableOnts(getEc().getRede());
+    }
+
+    @Override
+    public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception {
+        alteracao().setOntToOlt(getEc().getRede(), serial);
+        return exec(new ValidadorSerialOntGpon(getDslam(), getEc()));
     }
 
     

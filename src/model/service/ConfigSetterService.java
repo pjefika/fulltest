@@ -5,9 +5,11 @@
  */
 package model.service;
 
+import java.util.List;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**
