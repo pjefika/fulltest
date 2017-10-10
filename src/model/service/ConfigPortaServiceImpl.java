@@ -15,12 +15,19 @@ import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoPorta;
+import model.dslam.config.ProfileGpon;
+import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
+import model.dslam.velocidade.Velocidades;
+import model.validacao.impl.both.ValidacaoResult;
+import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
+import model.validacao.impl.realtime.ValidadorProfile;
 
 /**
  *
  * @author G0042204
  */
-public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta> {
+public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta>, ConfigSetterService {
 
     public ConfigPortaServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -67,6 +74,24 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         } else {
             return FactoryService.createConfigDslamService(this.getEc()).consultar();
         }
+    }
+    
+    @Override
+    public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception{
+        alteracao().setEstadoDaPorta(getEc().getRede(), est);
+        return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc()));
+    }
+    
+    @Override
+    public ProfileGpon setterProfile(Profile profile) throws Exception {
+        ProfileGpon pg = new ProfileGpon();
+        alteracao().setProfileDown(getEc().getRede(), profile.getDown());
+        alteracao().setProfileUp(getEc().getRede(), profile.getDown(), profile.getUp());
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc())));
+        pg.setDownValues(this.getDslam().listarVelocidadesDown());
+        pg.setUpValues(this.getDslam().listarVelocidadesUp());
+        
+        return pg;
     }
 
 }

@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.log;
+package model.service;
+
+import model.dslam.config.ProfileGpon;
+import model.dslam.consulta.Profile;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public enum AcaoEnum {
-
-    CONSULTA_CONFIG_PORTA,
-    SET_ADM_STATE,
-    SET_PROFILE,
-    FULLTEST_CO,
-    FULLTEST_CRM, 
-    VALIDADOR_MANOBRA;
+public interface ConfigSetterGponService{
+    
+    
     
 }

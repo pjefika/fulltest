@@ -13,7 +13,8 @@ import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
+import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -23,7 +24,7 @@ import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
-public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT> {
+public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService {
 
     public ConfigOLTServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -74,9 +75,8 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
             throw new FuncIndisponivelDslamException();
         }
     }
+
     
-    @Override
-    public EstadoDaPorta setterEstadoDaPorta(EstadoDaPorta est) throws Exception{
-        return alteracao().setEstadoDaPorta(getEc().getRede(), est);
-    }
+
+    
 }

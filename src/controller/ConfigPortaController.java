@@ -7,6 +7,7 @@ package controller;
 
 import controller.in.SetAdminStateIn;
 import controller.in.ConsultaConfigPortaIn;
+import controller.in.SetProfileIn;
 import dao.FactoryDAO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,11 +16,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.dslam.config.ConfiguracaoPorta;
-import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.config.ProfileGpon;
 import model.entity.LogEntity;
-import model.service.ConfigGenericService;
-import model.service.ConfigPortaService;
+import model.service.ConfigSetterService;
 import model.service.FactoryService;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
@@ -57,8 +58,30 @@ public class ConfigPortaController extends RestJaxAbstract {
         Response r;
         LogEntity log = cs.create();
         try {
-            ConfigPortaService config = FactoryService.create(cs.getCust());
-            EstadoDaPorta result = config.setterEstadoDaPorta(cs.getEstadoPorta());
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ValidacaoResult result = config.setterEstadoDaPorta(cs.getEstadoPorta());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/setProfile")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setProfile(SetProfileIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ProfileGpon result = config.setterProfile(cs.getProfile());
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

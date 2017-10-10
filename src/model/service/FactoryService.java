@@ -20,6 +20,18 @@ public class FactoryService {
         return new ConfigOLTServiceImpl(ec);
     }
 
+    public static ConfigSetterGponService createConfigSetterGponService(EfikaCustomer ec) {
+        return new ConfigOLTServiceImpl(ec);
+    }
+
+    public static ConfigSetterService createConfigSetterService(EfikaCustomer ec) {
+        return new ConfigPortaServiceImpl(ec);
+    }
+
+    public static ConfigSetterMetalicoService createConfigSetterMetalicoService(EfikaCustomer ec) {
+        return new ConfigDslamServiceImpl(ec);
+    }
+
     public static ConfigPortaService<ConfiguracaoDslam> createConfigDslamService(EfikaCustomer ec) {
         return new ConfigDslamServiceImpl(ec);
     }

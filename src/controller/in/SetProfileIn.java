@@ -7,6 +7,7 @@ package controller.in;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Profile;
 import model.log.AcaoEnum;
 import model.log.LogIn;
 
@@ -14,11 +15,11 @@ import model.log.LogIn;
  *
  * @author G0042204
  */
-public class SetAdminStateIn extends LogIn {
+public class SetProfileIn extends LogIn {
 
     private EfikaCustomer cust;
 
-    private EstadoDaPorta estadoPorta;
+    private Profile profile;
 
     @Override
     public EfikaCustomer input() {
@@ -27,7 +28,7 @@ public class SetAdminStateIn extends LogIn {
 
     @Override
     public AcaoEnum acao() {
-        return AcaoEnum.SET_ADM_STATE;
+        return AcaoEnum.SET_PROFILE;
     }
 
     public EfikaCustomer getCust() {
@@ -38,12 +39,12 @@ public class SetAdminStateIn extends LogIn {
         this.cust = cust;
     }
 
-    public EstadoDaPorta getEstadoPorta() {
-        return estadoPorta;
+    public Profile getProfile() {
+        return profile;
     }
 
-    public void setEstadoPorta(EstadoDaPorta estadoPorta) {
-        this.estadoPorta = estadoPorta;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
 }

@@ -10,7 +10,6 @@ import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.ConsultaClienteInter;
-import model.dslam.consulta.EstadoDaPorta;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 
@@ -50,9 +49,6 @@ public abstract class ConfigGenericService {
     public ValidacaoResult exec(Validator v) throws Exception {
         return v.validar();
     }
-
-    public EstadoDaPorta setterEstadoDaPorta(EstadoDaPorta est) throws Exception {
-        return alteracao().setEstadoDaPorta(getEc().getRede(), est);
-    }
+    
 
 }

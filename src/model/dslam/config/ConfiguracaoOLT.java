@@ -15,8 +15,6 @@ import model.validacao.impl.both.ValidacaoResult;
  */
 public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
-    private ProfileGpon profile;
-
     private ValidacaoResult serial;
 
     private List<SerialOntGpon> serialDisp;
@@ -32,14 +30,6 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     public void setSerialDisp(List<SerialOntGpon> serialDisp) {
         this.serialDisp = serialDisp;
-    }
-
-    public ProfileGpon getProfile() {
-        return profile;
-    }
-
-    public void setProfile(ProfileGpon profile) {
-        this.profile = profile;
     }
 
     public ValidacaoResult getSerial() {
