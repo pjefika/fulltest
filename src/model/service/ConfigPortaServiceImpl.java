@@ -18,10 +18,12 @@ import model.dslam.config.ConfiguracaoPorta;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.VlanBanda;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
+import model.validacao.impl.realtime.ValidadorVlanBanda;
 
 /**
  *
@@ -92,6 +94,13 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
         
         return pg;
+    }
+
+    @Override
+    public ValidacaoResult setterVlanBanda() throws Exception {
+        alteracao().deleteVlanBanda(getEc().getRede());
+        alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
+        return exec(new ValidadorVlanBanda(getDslam(), getEc()));
     }
     
     

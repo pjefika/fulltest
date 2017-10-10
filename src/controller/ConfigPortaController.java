@@ -9,6 +9,7 @@ import controller.in.SetAdminStateIn;
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.SetOntToOltIn;
 import controller.in.SetProfileIn;
+import controller.in.SetVlanBandaIn;
 import controller.in.UnsetOntFromOltIn;
 import dao.FactoryDAO;
 import java.util.List;
@@ -131,6 +132,28 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterGponService config = FactoryService.createConfigSetterGponService(cs.getCust());
             ValidacaoResult result = config.setterOntToOlt(cs.getSerial());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/setVlanBanda")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response setVlanBanda(SetVlanBandaIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
+            ValidacaoResult result = config.setterVlanBanda();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

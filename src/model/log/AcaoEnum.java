@@ -16,6 +16,7 @@ public enum AcaoEnum {
     SET_PROFILE,
     UNSET_ONT_FROM_OLT,
     SET_ONT_TO_OLT,
+    SET_VLAN_BANDA,
     FULLTEST_CO,
     FULLTEST_CRM, 
     VALIDADOR_MANOBRA;

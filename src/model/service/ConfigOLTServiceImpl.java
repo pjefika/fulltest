@@ -87,8 +87,5 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         alteracao().setOntToOlt(getEc().getRede(), serial);
         return exec(new ValidadorSerialOntGpon(getDslam(), getEc()));
     }
-
-    
-
     
 }
