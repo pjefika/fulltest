@@ -35,12 +35,12 @@ public class CorretorProfile extends Corretor {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Profile corrigido, solicite ao cliente que efetue um teste de velocidade.";
+        return bundle.getString("correcaoProfile_ok");
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível corrigir o Profile, que está divergente do serviço contratado. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return bundle.getString("correcaoProfile_nok");
     }
 
     @Override
