@@ -5,6 +5,7 @@
  */
 package model.validacao.impl.both;
 
+import java.util.Locale;
 import model.dslam.consulta.EstadoDaPorta;
 
 /**
@@ -15,8 +16,8 @@ public class ValidacaoEstadoPortaAdm extends Validacao {
 
     protected transient EstadoDaPorta ep;
 
-    public ValidacaoEstadoPortaAdm(EstadoDaPorta e) {
-        super("Estado Administrativo da Porta");
+    public ValidacaoEstadoPortaAdm(EstadoDaPorta e, Locale local) {
+        super("Estado Administrativo da Porta", local);
         this.ep = e;
     }
 

@@ -29,16 +29,16 @@ public class CorretorVlanBanda extends Corretor {
         try {
             alter.deleteVlanBanda(cust.getRede());
             try {
-                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
+                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust, bundle.getLocale());
             } catch (Exception e) {
-                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust);
+                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust, bundle.getLocale());
             }
         } catch (Exception ex) {
             try {
-                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust);
+                valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust, bundle.getLocale());
             } catch (Exception e) {
                 try {
-                    valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust);
+                    valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust, bundle.getLocale());
                 } catch (Exception exc) {
                     throw new FalhaAoCorrigirException();
                 }
@@ -59,7 +59,7 @@ public class CorretorVlanBanda extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanBanda(consulta.getVlanBanda(cust.getRede()), cust);
+        return new ValidacaoVlanBanda(consulta.getVlanBanda(cust.getRede()), cust, bundle.getLocale());
     }
 
 }

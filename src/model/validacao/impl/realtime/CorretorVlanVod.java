@@ -28,13 +28,13 @@ public class CorretorVlanVod extends Corretor {
         try {
             alter.deleteVlanVod(cust.getRede());
             try {
-                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust);
+                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust, bundle.getLocale());
             } catch (Exception e) {
                 throw new FalhaAoCorrigirException();
             }
         } catch (Exception e) {
             try {
-                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust);
+                valid = new ValidacaoVlanVod(alter.createVlanVod(cust.getRede()), cust, bundle.getLocale());
             } catch (Exception ex) {
                 throw new FalhaAoCorrigirException();
             }
@@ -53,6 +53,6 @@ public class CorretorVlanVod extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust);
+        return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust, bundle.getLocale());
     }
 }

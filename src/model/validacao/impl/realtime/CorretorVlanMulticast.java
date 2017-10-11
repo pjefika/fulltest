@@ -28,13 +28,13 @@ public class CorretorVlanMulticast extends Corretor {
         try {
             alter.deleteVlanMulticast(cust.getRede());
             try {
-                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
+                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust, bundle.getLocale());
             } catch (Exception e) {
                 throw new FalhaAoCorrigirException();
             }
         } catch (Exception e) {
             try {
-                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust);
+                valid = new ValidacaoVlanMulticast(alter.createVlanMulticast(cust.getRede()), cust, bundle.getLocale());
             } catch (Exception ex) {
                 throw new FalhaAoCorrigirException();
             }
@@ -53,7 +53,7 @@ public class CorretorVlanMulticast extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanMulticast(consulta.getVlanMulticast(cust.getRede()), cust);
+        return new ValidacaoVlanMulticast(consulta.getVlanMulticast(cust.getRede()), cust, bundle.getLocale());
     }
 
 }

@@ -8,7 +8,7 @@ package model.validacao.realtime.metalico;
 import model.validacao.impl.realtime.ValidadorDeviceMAC;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
-import dao.dslam.factory.exception.DslamNaoImplException;
+import java.util.Locale;
 import model.validacao.impl.realtime.Validator;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -49,7 +49,7 @@ public class ValidacaoRtDeviceMACIT {
     public void testValidar(){
         try {
             System.out.println("validar");
-            Validator mac = new ValidadorDeviceMAC(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Validator mac = new ValidadorDeviceMAC(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("co", "CO"));
             assertTrue(mac.validar().getResultado());
             System.out.println("end");
         } catch (Exception e) {

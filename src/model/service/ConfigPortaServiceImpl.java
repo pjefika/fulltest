@@ -83,7 +83,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     @Override
     public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception{
         alteracao().setEstadoDaPorta(getEc().getRede(), est);
-        return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc()));
+        return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local));
     }
     
     @Override
@@ -91,7 +91,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         ProfileGpon pg = new ProfileGpon();
         alteracao().setProfileDown(getEc().getRede(), profile.getDown());
         alteracao().setProfileUp(getEc().getRede(), profile.getDown(), profile.getUp());
-        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc())));
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
         pg.setDownValues(this.getDslam().listarVelocidadesDown());
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
         
@@ -102,28 +102,28 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     public ValidacaoResult setterVlanBanda() throws Exception {
         alteracao().deleteVlanBanda(getEc().getRede());
         alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
-        return exec(new ValidadorVlanBanda(getDslam(), getEc()));
+        return exec(new ValidadorVlanBanda(getDslam(), getEc(), local));
     }
 
     @Override
     public ValidacaoResult setterVlanVoip() throws Exception {
         alteracao().deleteVlanVoip(getEc().getRede());
         alteracao().createVlanVoip(getEc().getRede());
-        return exec(new ValidadorVlanVoip(getDslam(), getEc()));
+        return exec(new ValidadorVlanVoip(getDslam(), getEc(), local));
     }
 
     @Override
     public ValidacaoResult setterVlanVod() throws Exception {
         alteracao().deleteVlanVod(getEc().getRede());
         alteracao().createVlanVod(getEc().getRede());
-        return exec(new ValidadorVlanVod(getDslam(), getEc()));
+        return exec(new ValidadorVlanVod(getDslam(), getEc(), local));
     }
 
     @Override
     public ValidacaoResult setterVlanMulticast() throws Exception {
         alteracao().deleteVlanMulticast(getEc().getRede());
         alteracao().createVlanMulticast(getEc().getRede());
-        return exec(new ValidadorVlanMulticast(getDslam(), getEc()));
+        return exec(new ValidadorVlanMulticast(getDslam(), getEc(), local));
     }
     
     

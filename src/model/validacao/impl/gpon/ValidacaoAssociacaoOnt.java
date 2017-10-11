@@ -6,6 +6,7 @@
 package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoValidavel;
 
@@ -17,19 +18,19 @@ public class ValidacaoAssociacaoOnt extends ValidacaoValidavel {
 
     private final SerialOntGpon serial;
 
-    public ValidacaoAssociacaoOnt(SerialOntGpon serial, EfikaCustomer cust) {
-        super(cust, serial);
+    public ValidacaoAssociacaoOnt(SerialOntGpon serial, EfikaCustomer cust, Locale local) {
+        super(cust, serial, local);
         this.serial = serial;
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Não foi identificado serial Gpon associado. Solicite o serial para o cliente e configure no Wise Tool(somente letras maiúsculas, ex.:MSTC010101).";
+        return bundle.getString("validacaoSerialOnt_nok");
     }
 
     @Override
     protected String frasePositiva() {
-        return "Identificado ONT associada: " + serial.getSerial() + ".";
+        return bundle.getString("validacaoSerialOnt_ok") + serial.getSerial() + ".";
     }
 
 }

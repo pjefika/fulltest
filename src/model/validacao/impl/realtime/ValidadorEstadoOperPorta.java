@@ -7,18 +7,19 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaOper;
 
 public class ValidadorEstadoOperPorta extends Validador {
 
-    public ValidadorEstadoOperPorta(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidadorEstadoOperPorta(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoEstadoPortaOper(consulta.getEstadoDaPorta(cust.getRede()));
+        return new ValidacaoEstadoPortaOper(consulta.getEstadoDaPorta(cust.getRede()), bundle.getLocale());
     }
 
 }

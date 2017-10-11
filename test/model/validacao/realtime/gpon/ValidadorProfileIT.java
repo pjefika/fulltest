@@ -7,6 +7,7 @@ package model.validacao.realtime.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
+import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
 import model.validacao.impl.realtime.ValidadorProfile;
 import org.junit.After;
@@ -50,7 +51,7 @@ public class ValidadorProfileIT {
     public void testValidar() {
 
         try {
-            ValidadorProfile instance = new ValidadorProfile(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            ValidadorProfile instance = new ValidadorProfile(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("co", "CO"));
             assertEquals(true, instance.validar().getResultado());
         } catch (Exception e) {
             fail(e.getMessage());

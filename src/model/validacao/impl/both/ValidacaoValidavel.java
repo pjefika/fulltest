@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.Validavel;
 
 /**
@@ -16,8 +17,8 @@ public abstract class ValidacaoValidavel extends ValidacaoEfikaCustomer {
 
     private final Validavel v;
 
-    public ValidacaoValidavel(EfikaCustomer cust, Validavel v) {
-        super(cust, v.getNome());
+    public ValidacaoValidavel(EfikaCustomer cust, Validavel v, Locale local) {
+        super(cust, v.getNome(), local);
         this.v = v;
     }
 

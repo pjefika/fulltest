@@ -5,6 +5,7 @@
  */
 package model.validacao.impl.metalico.manobra;
 
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 
@@ -16,8 +17,8 @@ public class ValidacaoResync50 extends Validacao {
 
     private final TabelaRedeMetalico tab;
 
-    public ValidacaoResync50(TabelaRedeMetalico tab) {
-        super("Resync < 50?");
+    public ValidacaoResync50(TabelaRedeMetalico tab, Locale local) {
+        super("Resync < 50?", local);
         this.tab = tab;
     }
     

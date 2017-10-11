@@ -7,6 +7,7 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoProfile;
 
@@ -16,13 +17,13 @@ import model.validacao.impl.both.ValidacaoProfile;
  */
 public class ValidadorProfile extends Validador {
 
-    public ValidadorProfile(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidadorProfile(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoProfile(consulta.getProfile(cust.getRede()), cust);
+        return new ValidacaoProfile(consulta.getProfile(cust.getRede()), cust, bundle.getLocale());
     }
 
 }

@@ -11,6 +11,8 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
@@ -26,6 +28,8 @@ import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
 public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService {
 
+    
+    
     public ConfigOLTServiceImpl(EfikaCustomer ec) {
         super(ec);
     }
@@ -36,24 +40,24 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         InventarioRede i = getEc().getRede();
         ConsultaGponDefault c = consulta();
 
-        olt.setEstadoPorta(this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc())));
-        olt.setParametros(this.exec(new ValidadorParametrosGpon(getDslam(), getEc())));
+        olt.setEstadoPorta(this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local)));
+        olt.setParametros(this.exec(new ValidadorParametrosGpon(getDslam(), getEc(), local)));
 
         ProfileGpon pg = new ProfileGpon();
-        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc())));
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
         pg.setDownValues(this.getDslam().listarVelocidadesDown());
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
 
         olt.setProfile(pg);
         
-        olt.setSerial(this.exec(new ValidadorSerialOntGpon(getDslam(), getEc())));
+        olt.setSerial(this.exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local)));
         if(!olt.getSerial().getResultado()){
             olt.setSerialDisp(c.getSlotsAvailableOnts(i));
         }
-        olt.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc())));
-        olt.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc())));
-        olt.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc())));
-        olt.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc())));
+        olt.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
+        olt.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+        olt.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+        olt.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
 
         return olt;
     }
@@ -85,7 +89,7 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     @Override
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception {
         alteracao().setOntToOlt(getEc().getRede(), serial);
-        return exec(new ValidadorSerialOntGpon(getDslam(), getEc()));
+        return exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local));
     }
     
 }

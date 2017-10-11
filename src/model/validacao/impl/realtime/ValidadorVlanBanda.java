@@ -7,6 +7,7 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoVlanBanda;
 
@@ -16,12 +17,12 @@ import model.validacao.impl.both.ValidacaoVlanBanda;
  */
 public class ValidadorVlanBanda extends Validador {
 
-    public ValidadorVlanBanda(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidadorVlanBanda(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanBanda(consulta.getVlanBanda(cust.getRede()), cust);
+        return new ValidacaoVlanBanda(consulta.getVlanBanda(cust.getRede()), cust, bundle.getLocale());
     }
 }

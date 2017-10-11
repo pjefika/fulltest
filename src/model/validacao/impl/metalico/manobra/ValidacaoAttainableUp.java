@@ -5,6 +5,7 @@
  */
 package model.validacao.impl.metalico.manobra;
 
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 
@@ -18,8 +19,8 @@ public class ValidacaoAttainableUp extends Validacao {
     
     private final TabelaParametrosMetalico ideal;
 
-    public ValidacaoAttainableUp(TabelaParametrosMetalico tab, TabelaParametrosMetalico ideal) {
-        super("Attainable Upload");
+    public ValidacaoAttainableUp(TabelaParametrosMetalico tab, TabelaParametrosMetalico ideal, Locale local) {
+        super("Attainable Upload", local);
         this.tab = tab;
         this.ideal = ideal;
     }

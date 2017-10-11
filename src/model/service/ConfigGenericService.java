@@ -10,6 +10,7 @@ import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.ConsultaClienteInter;
+import java.util.Locale;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 
@@ -22,6 +23,8 @@ public abstract class ConfigGenericService {
     private EfikaCustomer ec;
 
     private AbstractDslam dslam;
+    
+    protected transient Locale local = new Locale("co", "CO");
 
     public ConfigGenericService(EfikaCustomer ec) {
         this.ec = ec;

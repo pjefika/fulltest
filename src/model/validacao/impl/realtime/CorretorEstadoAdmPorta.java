@@ -34,7 +34,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
             ep.setAdminState(Boolean.TRUE);
-            ValidacaoEstadoPortaAdm v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep));
+            ValidacaoEstadoPortaAdm v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep), bundle.getLocale());
             v.validar();
             this.setValid(v);
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
     @Override
     protected Validacao consultar() throws Exception {
         ep = consulta.getEstadoDaPorta(cust.getRede());
-        return new ValidacaoEstadoPortaAdm(ep);
+        return new ValidacaoEstadoPortaAdm(ep, bundle.getLocale());
     }
 
     @Override

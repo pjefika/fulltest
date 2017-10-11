@@ -23,12 +23,11 @@ public abstract class Corretor extends Validador {
     protected AlteracaoClienteInter alter;
 
     protected Validador validador;
-  
+
     protected ResourceBundle bundle;
 
     public Corretor(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
-        super(dslam, cust);
-        this.bundle = ResourceBundle.getBundle("messages", local);
+        super(dslam, cust, local);
     }
 
     @Override

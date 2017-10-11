@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 
 /**
  *
@@ -15,8 +16,8 @@ public abstract class ValidacaoEfikaCustomer extends Validacao {
 
     protected EfikaCustomer cust;
 
-    public ValidacaoEfikaCustomer(EfikaCustomer cust, String nome) {
-        super(nome);
+    public ValidacaoEfikaCustomer(EfikaCustomer cust, String nome, Locale local) {
+        super(nome, local);
         this.cust = cust;
     }
 

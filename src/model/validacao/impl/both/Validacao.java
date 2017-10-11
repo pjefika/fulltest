@@ -7,6 +7,8 @@ package model.validacao.impl.both;
 
 import model.validacao.impl.realtime.Validator;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -20,8 +22,11 @@ public abstract class Validacao implements Validator {
 
     private Boolean resultado;
 
-    public Validacao(String nome) {
+    protected ResourceBundle bundle;
+
+    public Validacao(String nome, Locale local) {
         this.nome = nome;
+        this.bundle = ResourceBundle.getBundle("messages", local);
     }
 
     /**

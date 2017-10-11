@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.VlanVod;
 
 /**
@@ -16,8 +17,8 @@ public class ValidacaoVlanVod extends ValidacaoValidavel {
     
     private final transient VlanVod vlan;
     
-    public ValidacaoVlanVod(VlanVod v, EfikaCustomer cust) {
-        super(cust, v);
+    public ValidacaoVlanVod(VlanVod v, EfikaCustomer cust, Locale local) {
+        super(cust, v, local);
         this.vlan = v;
     }
     

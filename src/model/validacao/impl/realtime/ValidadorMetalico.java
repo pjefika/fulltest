@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import java.util.Locale;
 
 /**
  *
@@ -18,8 +19,8 @@ public abstract class ValidadorMetalico extends Validador {
 
     protected ConsultaMetalicoDefault metalico;
 
-    public ValidadorMetalico(AbstractDslam dslam, EfikaCustomer cust) {
-        super(dslam, cust);
+    public ValidadorMetalico(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+        super(dslam, cust, local);
     }
 
     @Override

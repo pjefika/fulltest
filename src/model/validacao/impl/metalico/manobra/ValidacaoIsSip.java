@@ -7,6 +7,7 @@ package model.validacao.impl.metalico.manobra;
 
 import model.validacao.impl.both.Validacao;
 import br.net.gvt.efika.customer.InventarioServico;
+import java.util.Locale;
 
 /**
  *
@@ -16,8 +17,8 @@ public class ValidacaoIsSip extends Validacao {
 
     private final InventarioServico iS;
 
-    public ValidacaoIsSip(InventarioServico tab) {
-        super("Linha é SIP?");
+    public ValidacaoIsSip(InventarioServico tab, Locale local) {
+        super("Linha é SIP?", local);
         this.iS = tab;
     }
 

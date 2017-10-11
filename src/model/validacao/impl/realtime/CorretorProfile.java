@@ -45,7 +45,7 @@ public class CorretorProfile extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoProfile(consulta.getProfile(cust.getRede()), cust);
+        return new ValidacaoProfile(consulta.getProfile(cust.getRede()), cust, bundle.getLocale());
     }
 
 }

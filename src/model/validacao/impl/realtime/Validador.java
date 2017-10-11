@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.both.Validacao;
 
@@ -25,10 +27,13 @@ public abstract class Validador extends ValidFlow implements Validator {
     protected EfikaCustomer cust;
 
     protected ConsultaClienteInter consulta;
+    
+    protected ResourceBundle bundle;
 
-    public Validador(AbstractDslam dslam, EfikaCustomer cust) {
+    public Validador(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         this.dslam = dslam;
         this.cust = cust;
+        this.bundle = ResourceBundle.getBundle("messages", local);
     }
 
     @Override

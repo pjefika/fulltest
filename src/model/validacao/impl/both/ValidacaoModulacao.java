@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.Profile;
 
 /**
@@ -14,8 +15,8 @@ import model.dslam.consulta.Profile;
  */
 public class ValidacaoModulacao extends ValidacaoValidavel {
 
-    public ValidacaoModulacao(Profile profile, EfikaCustomer cust) {
-        super(cust, profile);
+    public ValidacaoModulacao(Profile profile, EfikaCustomer cust, Locale local) {
+        super(cust, profile, local);
     }
 
     @Override

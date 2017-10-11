@@ -8,6 +8,7 @@ package model.validacao.realtime.metalico;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
+import java.util.Locale;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 import org.junit.After;
@@ -52,7 +53,7 @@ public class ValidacaoRtEstadoAdmPortaIT {
     public void testValidar() {
 
         try {
-            Validator instance = new ValidadorEstadoAdmPorta(DslamDAOFactory.getInstance(cust.getRede()), cust);
+            Validator instance = new ValidadorEstadoAdmPorta(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("co", "CO"));
             Boolean expResult = true;
             ValidacaoResult r = instance.validar();
             assertEquals(expResult, r.getResultado());

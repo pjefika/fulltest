@@ -5,6 +5,7 @@
  */
 package model.validacao.impl.metalico.manobra;
 
+import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 
@@ -16,8 +17,8 @@ public class ValidacaoPacotesUp extends Validacao {
 
     private final TabelaRedeMetalico tab;
 
-    public ValidacaoPacotesUp(TabelaRedeMetalico tab) {
-        super("Pacotes de UP > 4000?");
+    public ValidacaoPacotesUp(TabelaRedeMetalico tab, Locale local) {
+        super("Pacotes de UP > 4000?", local);
         this.tab = tab;
     }
     
