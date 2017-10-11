@@ -24,8 +24,6 @@ public abstract class Corretor extends Validador {
 
     protected Validador validador;
 
-    protected ResourceBundle bundle;
-
     public Corretor(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
     }
