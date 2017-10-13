@@ -11,7 +11,6 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
 import java.util.Locale;
-import java.util.ResourceBundle;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**

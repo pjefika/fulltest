@@ -17,6 +17,7 @@ import java.util.regex.Pattern;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -355,7 +356,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, Velocidades vUp) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable "
-                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " 
+                + "\"" + s.getSerial() + "\" \"0000\" false vlanId "
                 + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
     }
 
@@ -554,17 +555,7 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> leShelf = getCd().consulta(getComandoListaShelf(i)).getRetorno();
-        List<String> slots = new ArrayList<>();
-        leShelf.forEach((t) -> {
-            if (t.contains("SUGP")) {
-                Matcher line = Pattern.compile("\\d+").matcher(t);
-                List<String> l = new ArrayList<>();
-                while(line.find()){
-                    l.add(line.group());
-                }
-                slots.add(l.get(0));
-            }
-        });
+        List<String> slots = TratativaRetornoUtil.listaSlotsKeymile(leShelf, "SUGP");
         List<SerialOntGpon> lSerial = new ArrayList<>();
 
         for (String slot : slots) {
@@ -583,6 +574,21 @@ public class KeymileGponDslam extends DslamGpon {
 
         return lSerial;
 
+    }
+
+    @Override
+    public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
+        InventarioRede inventario = i;
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < 33; j++) {
+            inventario.setLogica(j);
+            EstadoDaPorta estado = getEstadoDaPorta(inventario);
+            Porta porta = new Porta();
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(j);
+            list.add(porta);
+        }
+        return list;
     }
 
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -440,6 +441,24 @@ public class KeymileGponDslamTest {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {
                 System.out.println(GsonUtil.serialize(serialOntGpon));
+            }
+            assertTrue(result != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    /**
+     * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testGetEstadoPortasProximas() {
+        System.out.println("getSlotsAvailableOnts");
+        
+        try {
+            List<Porta> result = instance.getEstadoPortasProximas(i);
+            for (Porta porta : result) {
+                System.out.println(GsonUtil.serialize(porta));
             }
             assertTrue(result != null);
         } catch (Exception e) {

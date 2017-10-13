@@ -139,6 +139,21 @@ public class TratativaRetornoUtil {
     public static String tratKeymile(List<String> list, String qqqro) {
         return tratKeymile(list, qqqro, 1);
     }
+    
+    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){
+        List<String> leList = new ArrayList<>();
+        retornoDslam.forEach((t) -> {
+            if (t.contains(tipoSlot)) {
+                Matcher line = Pattern.compile("\\d+").matcher(t);
+                List<String> l = new ArrayList<>();
+                while(line.find()){
+                    l.add(line.group());
+                }
+                leList.add(l.get(0));
+            }
+        });
+        return leList;
+    }
 
     public static Integer countStringOccurrence(List<String> list, String qqqro) {
         Integer count = 0;
