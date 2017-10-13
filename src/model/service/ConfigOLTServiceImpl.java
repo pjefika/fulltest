@@ -11,10 +11,9 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
@@ -26,7 +25,7 @@ import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
-public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService {
+public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService, ConfigGetterGponService {
 
     
     
@@ -90,6 +89,11 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception {
         alteracao().setOntToOlt(getEc().getRede(), serial);
         return exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public List<Porta> getterEstadoPortasProximas() throws Exception {
+        return consulta().getEstadoPortasProximas(getEc().getRede());
     }
     
 }

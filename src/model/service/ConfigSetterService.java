@@ -8,7 +8,6 @@ package model.service;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
 import model.validacao.impl.both.ValidacaoResult;
 
 /**

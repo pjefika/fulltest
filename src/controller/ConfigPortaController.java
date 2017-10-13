@@ -7,6 +7,7 @@ package controller;
 
 import controller.in.SetAdminStateIn;
 import controller.in.ConsultaConfigPortaIn;
+import controller.in.GetEstadoPortasProximasIn;
 import controller.in.SetOntToOltIn;
 import controller.in.SetProfileIn;
 import controller.in.SetVlanBandaIn;
@@ -24,8 +25,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.dslam.config.ConfiguracaoPorta;
 import model.dslam.config.ProfileGpon;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.entity.LogEntity;
+import model.service.ConfigGetterGponService;
 import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterService;
 import model.service.FactoryService;
@@ -223,6 +226,28 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
             ValidacaoResult result = config.setterVlanMulticast();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+    
+    
+    @POST
+    @Path("/getEstadoPortasProximas")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getEstadoPortasProximas(GetEstadoPortasProximasIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigGetterGponService config = FactoryService.createConfigGetterGponService(cs.getCust());
+            List<Porta> result = config.getterEstadoPortasProximas();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

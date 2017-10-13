@@ -24,6 +24,10 @@ public class FactoryService {
         return new ConfigOLTServiceImpl(ec);
     }
 
+    public static ConfigGetterGponService createConfigGetterGponService(EfikaCustomer ec) {
+        return new ConfigOLTServiceImpl(ec);
+    }
+
     public static ConfigSetterService createConfigSetterService(EfikaCustomer ec) {
         return new ConfigPortaServiceImpl(ec);
     }

@@ -12,6 +12,7 @@ package model.log;
 public enum AcaoEnum {
 
     CONSULTA_CONFIG_PORTA,
+    GET_ESTADO_PORTAS_PROXIMAS,
     SET_ADM_STATE,
     SET_PROFILE,
     UNSET_ONT_FROM_OLT,

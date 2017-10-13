@@ -88,11 +88,11 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus",500);
     }
 
     protected ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus",500);
     }
 
     @Override
