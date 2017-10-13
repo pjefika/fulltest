@@ -125,9 +125,13 @@ public class AlcatelGponDslam extends DslamGpon {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 5000);
     }
 
+    protected ComandoDslam getComandoConsultaEstadoDaPortaV2(InventarioRede i) {
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
+    }
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i)));
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPortaV2(i)));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
 
@@ -586,7 +590,18 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        InventarioRede inventario = i;
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < 33; j++) {
+            inventario.setLogica(j);
+            EstadoDaPorta estado = getEstadoDaPorta(inventario);
+            Porta porta = new Porta();
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(j);
+            list.add(porta);
+        }
+        return list;
     }
+    
 
 }

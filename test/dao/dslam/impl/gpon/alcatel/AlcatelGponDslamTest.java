@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -113,9 +114,6 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetEstadoDaPorta() {
         System.out.println("getEstadoDaPorta");
-        Locale locale = new Locale("manobra", "CO");
-        ResourceBundle messages = ResourceBundle.getBundle("messages", locale);
-        System.out.println(messages.getString("fulltest_ok"));
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
             System.out.println(GsonUtil.serialize(result));
@@ -482,6 +480,24 @@ public class AlcatelGponDslamTest {
 //            fail(e.getMessage());
         }
 
+    }
+    /**
+     * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testGetEstadoPortasProximas() {
+        System.out.println("getSlotsAvailableOnts");
+        
+        try {
+            List<Porta> result = instance.getEstadoPortasProximas(i);
+            for (Porta porta : result) {
+                System.out.println(GsonUtil.serialize(porta));
+            }
+            assertTrue(result != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
 }
