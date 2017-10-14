@@ -188,8 +188,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
         Profile p = new Profile();
-        p.setProfileDown(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
-        p.setProfileUp(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
+        String profDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileDown(profDown);
+        String profUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileUp(profUp);
+        p.setDown(compare(profDown, Boolean.TRUE));
+        p.setUp(compare(profUp, Boolean.FALSE));
 
         return p;
     }
