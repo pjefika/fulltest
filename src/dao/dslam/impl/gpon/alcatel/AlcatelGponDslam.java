@@ -50,19 +50,19 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoInhibitAlarms() {
-        return new ComandoDslam("environment inhibit-alarms", 100);
+        return new ComandoDslam("environment inhibit-alarms");
     }
 
     protected ComandoDslam getComandoModeBatch() {
-        return new ComandoDslam("environment mode batch", 100);
+        return new ComandoDslam("environment mode batch");
     }
 
     protected ComandoDslam getComandoExit() {
-        return new ComandoDslam("exit all", 100);
+        return new ComandoDslam("exit all");
     }
 
     protected ComandoDslam getComandoDumpRafael() {
-        return new ComandoDslam("show equipment ont operational-data detail xml", 1000);
+        return new ComandoDslam("show equipment ont operational-data detail xml");
     }
 
     /**

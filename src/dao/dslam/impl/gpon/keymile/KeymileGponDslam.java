@@ -12,8 +12,6 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -133,7 +131,7 @@ public class KeymileGponDslam extends DslamGpon {
         Integer cvlan = new Integer("0");
         Integer svlan = new Integer("0");
         EnumEstadoVlan state;
-        if (!leSrvc.contains("no service connected")) {
+        if (!leSrvc.contains("no service connected") && !leStatus.contains("Parâmetro não encontrado MACSRCFilter")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
