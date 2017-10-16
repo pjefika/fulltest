@@ -10,7 +10,7 @@ package model.fulltest.operacional.type;
  * @author G0042204
  */
 public enum FulltestType {
-    
-    MANOBRA;
-    
+
+    VALIDADOR_MANOBRA, CRM, CO;
+
 }

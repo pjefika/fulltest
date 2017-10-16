@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.dslam.config.VelocidadeViewModel;
+import model.dslam.config.velocidade.VelocidadeDTO;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
@@ -19,7 +21,7 @@ import model.dslam.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public abstract class AbstractDslam implements ConsultaClienteInter {
+public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeViewModel {
 
     private final String ipDslam;
     private Credencial credencial;
@@ -49,9 +51,27 @@ public abstract class AbstractDslam implements ConsultaClienteInter {
         }
     }
 
-    protected abstract List<VelocidadeVendor> obterVelocidadesDownVendor();
+    @Override
+    public List<VelocidadeDTO> listarVelocidadesDown() {
+        List<VelocidadeDTO> ar = new ArrayList<>();
+        this.obterVelocidadesDownVendor().forEach((vd) -> {
+            ar.add(new VelocidadeDTO(vd.getVel()));
+        });
+        return ar;
+    }
 
-    protected abstract List<VelocidadeVendor> obterVelocidadesUpVendor();
+    @Override
+    public List<VelocidadeDTO> listarVelocidadesUp() {
+        List<VelocidadeDTO> ar = new ArrayList<>();
+        this.obterVelocidadesUpVendor().forEach((vd) -> {
+            ar.add(new VelocidadeDTO(vd.getVel()));
+        });
+        return ar;
+    }
+
+    public abstract List<VelocidadeVendor> obterVelocidadesDownVendor();
+
+    public abstract List<VelocidadeVendor> obterVelocidadesUpVendor();
 
     protected Velocidades compare(String sintaxVendor, Boolean isDown) {
         List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();

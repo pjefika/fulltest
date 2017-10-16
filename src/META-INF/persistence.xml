@@ -5,6 +5,7 @@
     <jta-data-source>java:/co</jta-data-source>
     <class>model.entity.manobra.LogManobra</class>
     <class>model.entity.crm.LogCrm</class>
+    <class>model.entity.LogEntity</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.id.new_generator_mappings" value="false"/>

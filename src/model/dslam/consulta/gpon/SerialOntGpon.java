@@ -6,7 +6,7 @@
 package model.dslam.consulta.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.validacao.Validavel;
+import model.dslam.consulta.Validavel;
 
 /**
  *
@@ -14,7 +14,23 @@ import model.validacao.Validavel;
  */
 public class SerialOntGpon implements Validavel {
 
-    private String serial;
+    private String serial, slot, porta;
+
+    public String getSlot() {
+        return slot;
+    }
+
+    public void setSlot(String slot) {
+        this.slot = slot;
+    }
+
+    public String getPorta() {
+        return porta;
+    }
+
+    public void setPorta(String porta) {
+        this.porta = porta;
+    }
 
     public String getSerial() {
         return serial;

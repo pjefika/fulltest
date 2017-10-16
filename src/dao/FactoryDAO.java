@@ -7,9 +7,11 @@ package dao;
 
 import dao.fulltest.FulltestGenericDAO;
 import dao.log.LogCrmDAO;
+import dao.log.LogEntityDAO;
 import dao.log.LogManobraDAO;
 import dao.log.ManobraDAO;
 import model.entity.FulltestGenericEntity;
+import model.entity.LogEntity;
 import model.entity.crm.LogCrm;
 
 /**
@@ -20,6 +22,10 @@ public class FactoryDAO {
 
     public static InterfaceDAO<LogCrm> createLogCRM() {
         return new LogCrmDAO();
+    }
+
+    public static InterfaceDAO<LogEntity> createLogEntityDAO() {
+        return new LogEntityDAO();
     }
 
     public static ManobraDAO create() {

@@ -6,8 +6,9 @@
 package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.gpon.AlarmesGpon;
-import model.validacao.impl.ValidacaoValidavel;
+import model.validacao.impl.both.ValidacaoValidavel;
 
 /**
  *
@@ -17,8 +18,8 @@ public class ValidacaoAlarme extends ValidacaoValidavel {
 
     protected transient AlarmesGpon alarm;
 
-    public ValidacaoAlarme(AlarmesGpon alarm, EfikaCustomer cust) {
-        super(cust, alarm);
+    public ValidacaoAlarme(AlarmesGpon alarm, EfikaCustomer cust, Locale local) {
+        super(cust, alarm, local);
         this.alarm = alarm;
     }
 

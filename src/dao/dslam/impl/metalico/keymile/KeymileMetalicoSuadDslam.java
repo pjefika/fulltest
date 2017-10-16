@@ -11,7 +11,7 @@ import dao.dslam.impl.ConsultaDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -19,6 +19,7 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -176,6 +177,9 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
 
+        prof.setDown(compare(first, Boolean.TRUE));
+        prof.setUp(compare(first, Boolean.FALSE));
+
         return prof;
     }
 
@@ -209,7 +213,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        setProfileDown(i, vUp);
+        setProfileDown(i, vDown);
     }
 
     @Override
@@ -255,7 +259,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
         getCd().consulta(getComandoSetMacSourceFilteringMode(i, 3, "none"));
-        
+
         for (String string : leResp) {
             System.out.println(string);
         }
@@ -328,11 +332,11 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileDown());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel());
     }
 
     protected ComandoDslam getComandoSetProfileSUAD1(InventarioRede i, Velocidades vDown) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + castProfile(vDown).getProfileUp());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel() + "_SUAD1");
     }
 
     protected ComandoDslam getVelSinc(InventarioRede i) {
@@ -372,15 +376,15 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam setModulDefault(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + compare(v, Boolean.TRUE).getSintaxMod());
     }
 
     protected ComandoDslam setModulSUAD1(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + castModulacao(v).getModulacao() + "1");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofile " + compare(v, Boolean.TRUE).getSintaxMod() + "1");
     }
-    
-    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode){
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() +  "/chan-1/vcc-" + intrf + "/cfgm/macsourcefilteringmode "+mode);
+
+    protected ComandoDslam getComandoSetMacSourceFilteringMode(InventarioRede i, Integer intrf, String mode) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-" + intrf + "/cfgm/macsourcefilteringmode " + mode);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
@@ -418,8 +422,24 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     protected ComandoDslam getComandoDeleteMulticast(String srvc) {
         return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
     }
-    
-    
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
+        return velsDown;
+    }
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        return velsUp;
+    }
 
 //    @Override
     public Profile castProfile(Velocidades v) {
@@ -429,7 +449,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         return p;
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
 

@@ -11,7 +11,7 @@ import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -165,13 +165,13 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000"));
         return velsUp;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280000", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840000", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680000", "autonegotiatemode"));
@@ -211,7 +211,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetModulacao(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("update adsl-profile adslTransmissionMode=" + castModulacao(v).getModulacao() + " 1/" + i.getSlot() + "/" + i.getPorta());
+        return new ComandoDslam("update adsl-profile adslTransmissionMode=" + compare(v, Boolean.TRUE).getSintaxMod() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
@@ -224,7 +224,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/adsl");
+        return new ComandoDslam("port " + e.toString() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/adsl");
     }
 
     @Override
@@ -237,8 +237,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("update adsl-co-profile fastMaxTxRate=" + castProfile(v).getProfileDown()
-                + " interleaveMaxTxRate=" + castProfile(v).getProfileDown() + " 1/" + i.getSlot() + "/" + i.getPorta());
+        return new ComandoDslam("update adsl-co-profile fastMaxTxRate=" + compare(v, Boolean.TRUE).getSintaxVel()
+                + " interleaveMaxTxRate=" + compare(v, Boolean.TRUE).getSintaxVel() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
@@ -250,8 +250,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("update adsl-cpe-profile fastMaxTxRate=" + castProfile(v).getProfileUp()
-                + " interleaveMaxTxRate=" + castProfile(v).getProfileUp() + " 1/" + i.getSlot() + "/" + i.getPorta());
+        return new ComandoDslam("update adsl-cpe-profile fastMaxTxRate=" + compare(v, Boolean.FALSE).getSintaxVel()
+                + " interleaveMaxTxRate=" + compare(v, Boolean.FALSE).getSintaxVel() + " 1/" + i.getSlot() + "/" + i.getPorta());
     }
 
     @Override
@@ -362,7 +362,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
         Boolean isAuto = new Double(v.getVel()).compareTo(5d) <= 0;

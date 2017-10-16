@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.validacao.impl.ValidacaoValidavel;
+import model.validacao.impl.both.ValidacaoValidavel;
 
 /**
  *
@@ -17,8 +18,8 @@ public class ValidacaoRedeConfiavel extends ValidacaoValidavel {
 
     private final TabelaRedeMetalico tab;
 
-    public ValidacaoRedeConfiavel(EfikaCustomer cust, TabelaRedeMetalico tab) {
-        super(cust, tab);
+    public ValidacaoRedeConfiavel(EfikaCustomer cust, TabelaRedeMetalico tab, Locale local) {
+        super(cust, tab, local);
         this.tab = tab;
     }
 

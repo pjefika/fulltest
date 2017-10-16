@@ -35,19 +35,19 @@ public class CustomerMock {
 
         InventarioRede r = new InventarioRede();
 
-        //3133933176
-        r.setIpDslam("10.131.38.18");
+        //lab
+        r.setIpDslam("10.200.38.155");
         r.setModeloDslam("SUGP1");
 
-        r.setSlot(13);
-        r.setPorta(8);
-        r.setSequencial(3230);
-        r.setCvLan(3330);
-        r.setLogica(6);
-        r.setRin(162);
+        r.setSlot(21);
+        r.setPorta(1);
+        r.setSequencial(2023);
+        r.setCvLan(2123);
+        r.setLogica(23);
+        r.setRin(111);
 
-        r.setVlanVoip(1162);
-        r.setVlanVod(3162);
+        r.setVlanVoip(1111);
+        r.setVlanVod(3111);
         r.setVlanMulticast(4000);
 
         c.setRede(r);
@@ -109,20 +109,20 @@ public class CustomerMock {
     public static EfikaCustomer gponZhone() {
 
         EfikaCustomer c = new EfikaCustomer();
-        //8532731862
+        //lab
         InventarioRede r = new InventarioRede();
-        r.setIpDslam("10.185.9.140");
+        r.setIpDslam("10.200.38.121");
         r.setModeloDslam("GPON_CARD8");
 
-        r.setSlot(2);
+        r.setSlot(5);
         r.setPorta(2);
-        r.setSequencial(308);
-        r.setCvLan(408);
-        r.setLogica(20);
-        r.setRin(495);
+        r.setSequencial(135);
+        r.setCvLan(235);
+        r.setLogica(11);
+        r.setRin(121);
 
-        r.setVlanVoip(1495);
-        r.setVlanVod(3495);
+        r.setVlanVoip(1121);
+        r.setVlanVod(3121);
         r.setVlanMulticast(4000);
 
         c.setRede(r);

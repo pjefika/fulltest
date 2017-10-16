@@ -12,9 +12,10 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -49,19 +50,19 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoInhibitAlarms() {
-        return new ComandoDslam("environment inhibit-alarms", 100);
+        return new ComandoDslam("environment inhibit-alarms");
     }
 
     protected ComandoDslam getComandoModeBatch() {
-        return new ComandoDslam("environment mode batch", 100);
+        return new ComandoDslam("environment mode batch");
     }
 
     protected ComandoDslam getComandoExit() {
-        return new ComandoDslam("exit all", 100);
+        return new ComandoDslam("exit all");
     }
 
     protected ComandoDslam getComandoDumpRafael() {
-        return new ComandoDslam("show equipment ont operational-data detail xml", 1000);
+        return new ComandoDslam("show equipment ont operational-data detail xml");
     }
 
     /**
@@ -124,16 +125,19 @@ public class AlcatelGponDslam extends DslamGpon {
         return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 5000);
     }
 
+    protected ComandoDslam getComandoConsultaEstadoDaPortaV2(InventarioRede i) {
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
+    }
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i)));
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPortaV2(i)));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
 
         EstadoDaPorta state = new EstadoDaPorta();
-
-        state.setAdminState(adminState);
-        state.setOperState(operState);
+        state.setAdminState(adminState.equalsIgnoreCase("UP"));
+        state.setOperState(operState.equalsIgnoreCase("UP"));
 
         return state;
     }
@@ -165,9 +169,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
 
-        System.out.println(svlan);
-        System.out.println(cvlan);
-
+//        System.out.println(svlan);
+//        System.out.println(cvlan);
         return vlanBanda;
     }
 
@@ -195,9 +198,8 @@ public class AlcatelGponDslam extends DslamGpon {
         }
         VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
 
-        System.out.println(cvlan);
-        System.out.println(p100);
-
+//        System.out.println(cvlan);
+//        System.out.println(p100);
         return vlanVoip;
     }
 
@@ -225,9 +227,9 @@ public class AlcatelGponDslam extends DslamGpon {
         }
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
-
-        System.out.println(cvlan);
-        System.out.println(p100);
+//
+//        System.out.println(cvlan);
+//        System.out.println(p100);
 
         return vlanVod;
     }
@@ -259,8 +261,7 @@ public class AlcatelGponDslam extends DslamGpon {
         multz.setSvlan(svlan);
         multz.setState(state);
 
-        System.out.println(svlan);
-
+//        System.out.println(svlan);
         return multz;
     }
 
@@ -285,13 +286,13 @@ public class AlcatelGponDslam extends DslamGpon {
             }
 
         }
-        System.out.println(alarmes.getListAlarmes());
+//        System.out.println(alarmes.getListAlarmes());
 
         return alarmes;
     }
 
     protected ComandoDslam getComandoConsultaProfile(InventarioRede i) {
-        return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 5000);
+        return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 xml", 7500);
     }
 
     @Override
@@ -312,30 +313,46 @@ public class AlcatelGponDslam extends DslamGpon {
         prof.setDown(compare(profileDown, true));
         prof.setUp(compare(profileUp, false));
 
-        System.out.println(prof.getDown());
-        System.out.println(prof.getUp());
-
+//        System.out.println(prof.getDown());
+//        System.out.println(prof.getUp());
         return prof;
     }
-    
 
-    
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        Velocidades[] velocidades = Velocidades.values();
-        for (Velocidades v : velocidades) {
-            velsUp.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_UP"));
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "HSI_2M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, "HSI_12.5M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, "HSI_75M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_UP"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_UP"));
         }
-        
+
         return velsUp;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        Velocidades[] velocidades = Velocidades.values();
-        for (Velocidades v : velocidades) {
-            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "HSI_200M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "HSI_300M_RETAIL_DOWN"));
         }
+
         return velsDown;
     }
 
@@ -364,7 +381,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.getAdminState());
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString());
     }
 
     @Override
@@ -482,10 +499,10 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState("down");
+        e.setAdminState(Boolean.FALSE);
         getCd().consulta(getComandoSetEstadoDaPorta(i, e));
         getCd().consulta(getComandoUnsetOntFromOlt(i));
-        e.setAdminState("up");
+        e.setAdminState(Boolean.TRUE);
         getCd().consulta(getComandoSetEstadoDaPorta(i, e));
     }
 
@@ -546,9 +563,8 @@ public class AlcatelGponDslam extends DslamGpon {
 //
 //        return p;
 //    }
-
     protected ComandoDslam getComandoListaOntPorSlot() {
-        return new ComandoDslam("show pon unprovision-onu xml");
+        return new ComandoDslam("show pon unprovision-onu xml", 3000);
     }
 
     @Override
@@ -559,14 +575,33 @@ public class AlcatelGponDslam extends DslamGpon {
         for (int e = 0; e < nodeList.getLength(); e++) {
             Node node = nodeList.item(e);
 
-            if (node.getTextContent().contains("1/1/" + i.getSlot())) {
+            if (node.getTextContent().contains("1/1/")) {
+                String[] slotPorta = node.getTextContent().split("/");                
                 SerialOntGpon s = new SerialOntGpon();
-                s.setSerial(node.getNextSibling().getTextContent());
+                s.setSerial(node.getNextSibling().getNextSibling().getTextContent());
+                s.setPorta(slotPorta[3]);
+                s.setSlot(slotPorta[2]);
                 serialList.add(s);
             }
 
         }
         return serialList;
     }
+
+    @Override
+    public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
+        InventarioRede inventario = i;
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < 33; j++) {
+            inventario.setLogica(j);
+            EstadoDaPorta estado = getEstadoDaPorta(inventario);
+            Porta porta = new Porta();
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(j);
+            list.add(porta);
+        }
+        return list;
+    }
+    
 
 }

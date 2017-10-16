@@ -35,8 +35,8 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
 
         EstadoDaPorta portState = new EstadoDaPorta();
-        portState.setAdminState(adminState);
-        portState.setOperState(operState);
+        portState.setAdminState(adminState.equalsIgnoreCase("UP"));
+        portState.setOperState(operState.equalsIgnoreCase("UP"));
 
         return portState;
     }
@@ -68,7 +68,7 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/main/administrativestatus " + e.getAdminState());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/main/administrativestatus " + e.toString());
     }
 
     protected ComandoDslam getTabRede(InventarioRede i) {

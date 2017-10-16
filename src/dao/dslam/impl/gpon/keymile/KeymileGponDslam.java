@@ -12,9 +12,10 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -64,6 +65,10 @@ public class KeymileGponDslam extends DslamGpon {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
     }
 
+    protected ComandoDslam getComandoListaShelf(InventarioRede i) {
+        return new ComandoDslam("ls -e", 2000);
+    }
+
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
         List<String> serOnt = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
@@ -81,11 +86,11 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus",500);
     }
 
     protected ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus",500);
     }
 
     @Override
@@ -97,8 +102,8 @@ public class KeymileGponDslam extends DslamGpon {
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
 
         EstadoDaPorta portState = new EstadoDaPorta();
-        portState.setAdminState(adminState);
-        portState.setOperState(operState);
+        portState.setAdminState(adminState.equalsIgnoreCase("UP"));
+        portState.setOperState(operState.equalsIgnoreCase("UP"));
 
         System.out.println(portState.getAdminState());
         System.out.println(portState.getOperState());
@@ -126,7 +131,7 @@ public class KeymileGponDslam extends DslamGpon {
         Integer cvlan = new Integer("0");
         Integer svlan = new Integer("0");
         EnumEstadoVlan state;
-        if (!leSrvc.contains("no service connected")) {
+        if (!leSrvc.contains("no service connected") && !leStatus.contains("Parâmetro não encontrado MACSRCFilter")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
@@ -266,7 +271,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable", 3000);
     }
 
     protected ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
@@ -294,20 +299,41 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        for (Velocidades v : Velocidades.values()) {
-            velsDown.add(new VelocidadeVendor(v, "HSI_" + v.getVel() + "M_RETAIL_DOWN"));
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_1M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "HSI_100M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "HSI_150M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "HSI_200M_RETAIL_DOWN"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "HSI_300M_RETAIL_DOWN"));
         }
+
         return velsDown;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        for (Velocidades v : Velocidades.values()) {
-            if (new Float(v.getVel()).compareTo(200f) < 0) {
-                velsUp.add(new VelocidadeVendor(v, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_" + v.getVel() + "M_RETAIL_UP")));
-            }
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_1M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_2M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_3M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_5M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_12.5M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_25M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_50M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_75M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_100M_RETAIL_UP")));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, TratativaRetornoUtil.upProfileIdKeymileGpon("HSI_150M_RETAIL_UP")));
         }
+
         return velsUp;
     }
 
@@ -328,7 +354,8 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s, Velocidades vUp) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/cfgm/onuCfgTable "
-                + "\"" + s.getSerial() + "\" \"0000\" false vlanId " + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
+                + "\"" + s.getSerial() + "\" \"0000\" false vlanId "
+                + compare(vUp, false).getSintaxVel() + " false \"\" \"\" \"\" 1");
     }
 
     @Override
@@ -343,7 +370,7 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus " + e.getAdminState());
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus " + e.toString());
     }
 
     @Override
@@ -519,24 +546,47 @@ public class KeymileGponDslam extends DslamGpon {
 //        p.setProfileUp("HSI_" + v.getVel() + "M_RETAIL_UP");
 //        return p;
 //    }
-
-    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
-        return new ComandoDslam("/unit-" + i.getSlot() + "/status/FlushOnuBlacklist", 3000, "get /unit-" + i.getSlot() + "/status/onuBlackListTable");
+    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i, String slot) {
+        return new ComandoDslam("/unit-" + slot + "/status/FlushOnuBlacklist", 3000, "get /unit-" + slot + "/status/onuBlackListTable");
     }
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
-        Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
+        List<String> leShelf = getCd().consulta(getComandoListaShelf(i)).getRetorno();
+        List<String> slots = TratativaRetornoUtil.listaSlotsKeymile(leShelf, "SUGP");
         List<SerialOntGpon> lSerial = new ArrayList<>();
-        for (int e = 1; e <= qntSerial; e++) {
-            String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
-            SerialOntGpon s = new SerialOntGpon();
-            s.setSerial(leSerial);
-            lSerial.add(s);
+
+        for (String slot : slots) {
+            List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i, slot)).getRetorno();
+            Integer qntSerial = TratativaRetornoUtil.countStringOccurrence(leResp, "SerialNumber");
+            for (int e = 1; e <= qntSerial; e++) {
+                String leSerial = TratativaRetornoUtil.tratKeymile(leResp, "SerialNumber", e);
+                String lePorta = TratativaRetornoUtil.tratKeymile(leResp, "Odn", e);
+                SerialOntGpon s = new SerialOntGpon();
+                s.setSerial(leSerial);
+                s.setSlot(slot);
+                s.setPorta(lePorta);
+                lSerial.add(s);
+            }
         }
 
         return lSerial;
+
+    }
+
+    @Override
+    public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
+        InventarioRede inventario = i;
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < 33; j++) {
+            inventario.setLogica(j);
+            EstadoDaPorta estado = getEstadoDaPorta(inventario);
+            Porta porta = new Porta();
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(j);
+            list.add(porta);
+        }
+        return list;
     }
 
 }

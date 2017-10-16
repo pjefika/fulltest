@@ -12,7 +12,7 @@ import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
-import model.EnumEstadoVlan;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -87,7 +87,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
+        System.out.println("oioi");
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        for (String leVlan : leVlans) {
+            System.out.println(leVlan);
+            System.out.println("oi");
+        }
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         Integer cvlan = new Integer("0");
@@ -103,18 +108,19 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
 
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000", "autonegotiatemode"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
+        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
 
         return velsUp;
     }
 
     @Override
-    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
 
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
         velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
@@ -182,8 +188,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
         Profile p = new Profile();
-        p.setProfileDown(TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
-        p.setProfileUp(TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0));
+        String profDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileDown(profDown);
+        String profUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
+        p.setProfileUp(profUp);
+        p.setDown(compare(profDown, Boolean.TRUE));
+        p.setUp(compare(profUp, Boolean.FALSE));
 
         return p;
     }
@@ -231,7 +241,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
+        return new ComandoDslam("port " + e.toString() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/0/vdsl");
     }
 
     @Override
@@ -367,7 +377,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
     }
 
-    @Override
+//    @Override
     public Modulacao castModulacao(Velocidades v) {
         Modulacao m = new Modulacao();
         Boolean isAuto = new Double(v.getVel()).compareTo(5d) <= 0;

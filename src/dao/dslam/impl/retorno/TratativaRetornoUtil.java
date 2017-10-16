@@ -48,14 +48,15 @@ public class TratativaRetornoUtil {
 
     public static Document stringXmlParse(ComandoDslam cd) {
         Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
-        return convertStringToDocument(cd.getBlob().substring(xmlBegins));
+        Integer xmlEnds = cd.getBlob().lastIndexOf('>') + 1;
+        return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnds));
     }
 
     public static Document stringXmlConfigData(ComandoDslam cd) {
         Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
         String search = "</configuration-data>";
 //        Integer xmlEnd = cd.getBlob().indexOf(search) + search.length();
-        Integer xmlEnd = cd.getBlob().lastIndexOf('>')+1;
+        Integer xmlEnd = cd.getBlob().lastIndexOf('>') + 1;
         return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnd));
     }
 
@@ -75,7 +76,12 @@ public class TratativaRetornoUtil {
         List<String> leList = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).contains(qqqro)) {
-                leList.add(list.get(i + 2));
+                try {
+                    leList.add(list.get(i + 2));
+                } catch (Exception e) {
+                    leList.add(list.get(i + 1));
+                }
+
             }
         }
         return leList;
@@ -132,6 +138,21 @@ public class TratativaRetornoUtil {
 
     public static String tratKeymile(List<String> list, String qqqro) {
         return tratKeymile(list, qqqro, 1);
+    }
+    
+    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){
+        List<String> leList = new ArrayList<>();
+        retornoDslam.forEach((t) -> {
+            if (t.contains(tipoSlot)) {
+                Matcher line = Pattern.compile("\\d+").matcher(t);
+                List<String> l = new ArrayList<>();
+                while(line.find()){
+                    l.add(line.group());
+                }
+                leList.add(l.get(0));
+            }
+        });
+        return leList;
     }
 
     public static Integer countStringOccurrence(List<String> list, String qqqro) {
@@ -255,7 +276,7 @@ public class TratativaRetornoUtil {
                 l.add(750d);
                 l.add(21000d);
                 l.add(1100d);
-                
+
                 break;
             case "5":
                 l.add(5120d);
@@ -265,7 +286,7 @@ public class TratativaRetornoUtil {
                 break;
             case "10":
                 l.add(11742d);
-                l.add(1024d); 
+                l.add(1024d);
                 l.add(21000d);
                 l.add(1100d);
                 break;

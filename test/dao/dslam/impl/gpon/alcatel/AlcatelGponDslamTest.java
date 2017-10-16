@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -21,6 +22,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -29,6 +31,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
@@ -39,7 +42,8 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("6139714160");
+//    private static EfikaCustomer cust = CustomerMock.getCustomer("5137223195");
+    private static EfikaCustomer cust = CustomerMock.gponAlcatel();
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -109,9 +113,9 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetEstadoDaPorta() {
         System.out.println("getEstadoDaPorta");
-
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -208,6 +212,7 @@ public class AlcatelGponDslamTest {
 
         try {
             Profile result = instance.getProfile(i);
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getProfileDown() != null);
         } catch (Exception e) {
             fail(e.getMessage());
@@ -239,10 +244,10 @@ public class AlcatelGponDslamTest {
 
         try {
             EstadoDaPorta e = new EstadoDaPorta();
-            e.setAdminState("up");
+            e.setAdminState(Boolean.TRUE);
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
 
-            assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+            assertTrue(result.getAdminState());
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -291,15 +296,20 @@ public class AlcatelGponDslamTest {
      * Test of setProfileDown method, of class AlcatelGponDslam.
      */
     @Test
-    public void testSetProfileDown() {
+    public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
+        Profile p = instance.getProfile(i);
+        List<String> errors = new ArrayList<>();
+//        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
+//            try {
+        instance.setProfileDown(i, Velocidades.VEL_10240);
+        System.out.println(GsonUtil.serialize(instance.getProfile(i)));
 
-        try {
-            instance.setProfileDown(i, Velocidades.VEL_102400);
-            assertTrue(instance.getProfile(i) != null);
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+//            } catch (Exception e) {
+//                errors.add(vDown.getVel().name() + "-" + e.getMessage());
+//            }
+//        }
+        assertTrue(errors.isEmpty());
 
     }
 
@@ -307,16 +317,20 @@ public class AlcatelGponDslamTest {
      * Test of setProfileUp method, of class AlcatelGponDslam.
      */
     @Test
-    public void testSetProfileUp() {
+    public void testSetProfileUp() throws Exception {
         System.out.println("setProfileUp");
+        Profile p = instance.getProfile(i);
+        List<String> errors = new ArrayList<>();
+        for (VelocidadeVendor vUp : instance.obterVelocidadesUpVendor()) {
+            try {
+                instance.setProfileUp(i, p.getDown(), vUp.getVel());
+                System.out.println(GsonUtil.serialize(instance.getProfile(i)));
 
-        try {
-            Profile p = instance.getProfile(i);
-            instance.setProfileUp(i, Velocidades.VEL_102400, Velocidades.VEL_51200);
-            assertTrue(instance.getProfile(i) != null);
-        } catch (Exception e) {
-            fail(e.getMessage());
+            } catch (Exception e) {
+                errors.add(vUp.getVel().name() + "-" + e.getMessage());
+            }
         }
+        assertTrue(errors.isEmpty());
 
     }
 
@@ -454,19 +468,35 @@ public class AlcatelGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
-
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {
-                System.out.println(serialOntGpon.getSerial());
+                System.out.println(GsonUtil.serialize(serialOntGpon));
             }
             assertTrue(result != null);
         } catch (Exception e) {
-            fail(e.getMessage());
+            e.printStackTrace();
+//            fail(e.getMessage());
         }
 
     }
-
-   
+    /**
+     * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testGetEstadoPortasProximas() {
+        System.out.println("getSlotsAvailableOnts");
+        
+        try {
+            List<Porta> result = instance.getEstadoPortasProximas(i);
+            for (Porta porta : result) {
+                System.out.println(GsonUtil.serialize(porta));
+            }
+            assertTrue(result != null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 
 }

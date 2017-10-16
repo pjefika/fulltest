@@ -37,6 +37,10 @@ public enum Velocidades {
         return valor;
     }
 
+    public String getValor() {
+        return valor;
+    }
+
     public static Velocidades find(Long vel) {
         return Velocidades.valueOf("VEL_" + vel.toString());
     }

@@ -19,6 +19,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -27,6 +28,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
@@ -34,7 +36,7 @@ import static org.junit.Assert.*;
  */
 public class ZhoneGponDslamTest {
 
-    private EfikaCustomer cl = CustomerMock.getCustomer("1133607450");
+    private EfikaCustomer cl = CustomerMock.gponZhone();
     ZhoneGponDslam instance = new ZhoneGponDslam(cl.getRede().getIpDslam());
     InventarioRede i = cl.getRede();
 
@@ -81,6 +83,7 @@ public class ZhoneGponDslamTest {
         System.out.println("getSerialOnt");
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
+            System.out.println(result.getSerial());
             assertTrue(!result.getSerial().isEmpty());
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,6 +100,8 @@ public class ZhoneGponDslamTest {
         System.out.println("getEstadoDaPorta");
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,6 +117,7 @@ public class ZhoneGponDslamTest {
         System.out.println("getVlanBanda");
         try {
             VlanBanda result = instance.getVlanBanda(i);
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(!result.getSvlan().equals(0));
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,9 +209,9 @@ public class ZhoneGponDslamTest {
         System.out.println("setOntToOlt");
         try {
             SerialOntGpon s = new SerialOntGpon();
-            s.setSerial("PACED8A7ED87");
+            s.setSerial("SAGE000002EF");
             SerialOntGpon result = instance.setOntToOlt(i, s);
-            assertTrue(result.getSerial().equalsIgnoreCase("PACED8A7ED87"));
+            assertTrue(result.getSerial().equalsIgnoreCase("SAGE000002EF"));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -220,9 +226,9 @@ public class ZhoneGponDslamTest {
         System.out.println("setEstadoDaPorta");
         try {
             EstadoDaPorta es = new EstadoDaPorta();
-            es.setAdminState("up");
+            es.setAdminState(Boolean.TRUE);
             EstadoDaPorta result = instance.setEstadoDaPorta(i, es);
-            assertTrue(result.getAdminState().equalsIgnoreCase("up"));
+            assertTrue(result.getAdminState());
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -323,30 +329,46 @@ public class ZhoneGponDslamTest {
      * Test of setProfileDown method, of class ZhoneGponDslam.
      */
     @Test
-    public void testSetProfileDown() {
+    public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        try {
-            instance.setProfileDown(i, Velocidades.VEL_15360);
-            assertTrue(instance.getProfile(i) != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
+        Profile p = instance.getProfile(i);
+        List<String> errors = new ArrayList<>();
+        for (VelocidadeVendor vDown : instance.obterVelocidadesDownVendor()) {
+            try {
+                instance.setProfileDown(i, vDown.getVel());
+                System.out.println(GsonUtil.serialize(instance.getProfile(i)));
+
+            } catch (Exception e) {
+                errors.add(vDown.getVel().name() + "-" + e.getMessage());
+            }
         }
+        errors.forEach((t) -> {
+            System.out.println(t);
+        });
+        assertTrue(errors.isEmpty());
     }
 
     /**
      * Test of setProfileUp method, of class ZhoneGponDslam.
      */
     @Test
-    public void testSetProfileUp() {
+    public void testSetProfileUp() throws Exception {
         System.out.println("setProfileUp");
-        try {
-            instance.setProfileUp(i, Velocidades.VEL_15360, Velocidades.VEL_1024);
-            assertTrue(instance.getProfile(i) != null);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
+        Profile p = instance.getProfile(i);
+        List<String> errors = new ArrayList<>();
+        for (VelocidadeVendor vUp : instance.obterVelocidadesUpVendor()) {
+            try {
+                instance.setProfileUp(i, p.getDown(), vUp.getVel());
+                System.out.println(GsonUtil.serialize(instance.getProfile(i)));
+
+            } catch (Exception e) {
+                errors.add(vUp.getVel().name() + "-" + e.getMessage());
+            }
         }
+        errors.forEach((t) -> {
+            System.out.println(t);
+        });
+        assertTrue(errors.isEmpty());
     }
 
     /**
@@ -355,16 +377,29 @@ public class ZhoneGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
+        //SAGE0000032C - lab
         try {
             List<SerialOntGpon> ls = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon l : ls) {
-                System.out.println(l.getSerial());
+                System.out.println(GsonUtil.serialize(l));
             }
             assertTrue(ls != null);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
+    }
+
+    /**
+     * Test of unsetOntFromOlt method, of class ZhoneGponDslam.
+     */
+    @Test
+    public void testUnsetOntFromOlt() throws Exception {
+        System.out.println("unsetOntFromOlt");
+        instance.unsetOntFromOlt(i);
+        
+        System.out.println(GsonUtil.serialize(instance.getSerialOnt(i)));
+        assertTrue(true);
     }
 
     @Test
