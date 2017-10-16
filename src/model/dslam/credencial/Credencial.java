@@ -14,6 +14,7 @@ public enum Credencial {
     ZHONE("admin", "zhone"),
     ALCATEL_LEITURA("co", "#operco33"),
     ALCATEL("alcatel", "#alcatel101"),
+    VIVO1("s_efika_cf", "@Ef1k@!"),
     KEYMILE("manager", "");
 
     private String login;

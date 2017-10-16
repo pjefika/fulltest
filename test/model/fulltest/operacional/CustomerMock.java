@@ -169,5 +169,36 @@ public class CustomerMock {
 
         return c;
     }
+    
+    public static EfikaCustomer gponHuaweiV1(){
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1630145676
+        r.setIpDslam("BR_SPOAN_OLT06");
+        r.setModeloDslam("MA5600Tx1");
+
+        r.setSlot(6);
+        r.setPorta(0);
+        r.setCvLan(606);
+        r.setLogica(4);
+        r.setRin(179);
+
+        r.setVlanVoip(3004);
+        r.setVlanVod(3001);
+        r.setVlanMulticast(3001);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setIsHib(Boolean.FALSE);
+        s.setIsSip(Boolean.TRUE);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 
 }
