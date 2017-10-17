@@ -24,16 +24,17 @@ public class LoginComJump implements LoginDslamStrategy {
     public void conectar(ConsultaDslam cs) throws Exception {
 
         cs.pingSocket = new Socket();
-        
+
         try {
             SocketAddress adr = new InetSocketAddress("10.18.81.96", 23);
+//            cs.pingSocket = new Socket("10.18.81.96", 22);
             
-            cs.pingSocket.connect(adr, 5000);
+            cs.pingSocket.connect(adr);
             cs.out = new PrintWriter(cs.pingSocket.getOutputStream(), false);
             cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
             cs.out.println("incid");
             cs.out.println("v!vo@incid");
-            cs.out.println("telnet "+cs.dslam.getIpDslam());
+            cs.out.println("telnet " + cs.dslam.getIpDslam());
             cs.out.println(cs.dslam.getCredencial().getLogin());
             cs.out.println(cs.dslam.getCredencial().getPass());
         } catch (Exception e) {

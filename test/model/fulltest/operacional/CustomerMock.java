@@ -175,7 +175,7 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //1630145676
-        r.setIpDslam("BR_SPOAN_OLT06");
+        r.setIpDslam("BR_SPOAT_OLT03");
         r.setModeloDslam("MA5600Tx1");
 
         r.setSlot(6);

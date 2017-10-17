@@ -7,8 +7,11 @@ package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
+import com.jcraft.jsch.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Security;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -24,6 +27,8 @@ import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.hsqldb.lib.StringInputStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,26 +41,26 @@ import static org.junit.Assert.*;
  * @author G0041775
  */
 public class HuaweiGponDslamVivo1IT {
-    
+
     public HuaweiGponDslamVivo1IT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     private static EfikaCustomer cust = CustomerMock.gponHuaweiV1();
     private static HuaweiGponDslamVivo1 instance = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
@@ -66,7 +71,66 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testConectar() throws Exception {
         System.out.println("conectar");
-        instance.conectar();
+//        instance.conectar();
+        try {
+            Security.insertProviderAt(new BouncyCastleProvider(), 1);
+
+//            Shell shell = new SshByPassword("10.18.81.96", 22, "incid", "v!vo@incid");
+            UserInfo user = new UserInfo() {
+                @Override
+                public String getPassphrase() {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public String getPassword() {
+                    return "v!vo@incid";
+                }
+
+                @Override
+                public boolean promptPassword(String string) {
+                    return true;
+                }
+
+                @Override
+                public boolean promptPassphrase(String string) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+
+                @Override
+                public boolean promptYesNo(String string) {
+                    return false;
+                }
+
+                @Override
+                public void showMessage(String string) {
+                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                }
+            };
+            JSch jsch = new JSch();
+
+            Session session = jsch.getSession("incid", "10.18.81.96", 22);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.setUserInfo(user);
+            session.setPassword("v!vo@incid");
+
+            session.connect();
+//            Channel channel = session.openChannel("shell");
+            String cmd = "telnet "+i.getIpDslam();
+            InputStream in = new ByteArrayInputStream(cmd.getBytes("UTF-8"));
+
+//            channel.setInputStream(in);
+//            channel.setOutputStream(System.out);
+//            channel.connect();
+            int assinged_port=session.setPortForwardingL(30, i.getIpDslam(), 23);
+            System.out.println(assinged_port);
+            session.setInputStream(in);
+            session.setOutputStream(System.out);
+//            System.out.println(stdout2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // TODO review the generated test code and remove the default call to fail.
     }
 
@@ -77,7 +141,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        
+
     }
 
     /**
@@ -460,5 +524,5 @@ public class HuaweiGponDslamVivo1IT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
