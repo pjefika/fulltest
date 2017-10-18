@@ -8,11 +8,14 @@ package dao.dslam.impl.gpon.huawei;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import com.jcraft.jsch.*;
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.security.Security;
 import java.util.List;
+import java.util.Properties;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
@@ -24,17 +27,18 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.hsqldb.lib.StringInputStream;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static sun.security.krb5.Confounder.bytes;
 
 /**
  *
@@ -74,58 +78,55 @@ public class HuaweiGponDslamVivo1IT {
 //        instance.conectar();
         try {
             Security.insertProviderAt(new BouncyCastleProvider(), 1);
-
-//            Shell shell = new SshByPassword("10.18.81.96", 22, "incid", "v!vo@incid");
-            UserInfo user = new UserInfo() {
-                @Override
-                public String getPassphrase() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public String getPassword() {
-                    return "v!vo@incid";
-                }
-
-                @Override
-                public boolean promptPassword(String string) {
-                    return true;
-                }
-
-                @Override
-                public boolean promptPassphrase(String string) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-
-                @Override
-                public boolean promptYesNo(String string) {
-                    return false;
-                }
-
-                @Override
-                public void showMessage(String string) {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                }
-            };
             JSch jsch = new JSch();
-
             Session session = jsch.getSession("incid", "10.18.81.96", 22);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.setUserInfo(user);
             session.setPassword("v!vo@incid");
 
-            session.connect();
-//            Channel channel = session.openChannel("shell");
-            String cmd = "telnet "+i.getIpDslam();
-            InputStream in = new ByteArrayInputStream(cmd.getBytes("UTF-8"));
+            Properties config = new Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
 
-//            channel.setInputStream(in);
+            session.connect();
+            String cmd = "telnet " + i.getIpDslam();
+//            Shell shell = new SshByPassword("10.18.81.96", 22, "incid", "v!vo@incid");
+            Channel channel = session.openChannel("shell");
+
+//            ByteArrayInputStream is = new ByteArrayInputStream(cmd.getBytes());
+//            channel.setInputStream(is);
+//            channel.setOutputStream(new ByteArrayOutputStream());
 //            channel.setOutputStream(System.out);
-//            channel.connect();
-            int assinged_port=session.setPortForwardingL(30, i.getIpDslam(), 23);
-            System.out.println(assinged_port);
-            session.setInputStream(in);
-            session.setOutputStream(System.out);
+            PrintWriter print = new PrintWriter(channel.getOutputStream(), false);
+            BufferedReader in = new BufferedReader(new InputStreamReader(channel.getInputStream()));
+
+            channel.connect();
+            Thread.sleep(1000);
+//            for (int j = 0; j < 3; j++) {
+//                print.println(cmd + "\r" + Credencial.VIVO1.getLogin() + "\r" + Credencial.VIVO1.getPass() + "\r");
+//                Thread.sleep(1000);               
+//            }
+            print.print(cmd + "\r");
+            print.flush();
+            Thread.sleep(3000);
+            print.print(Credencial.VIVO1.getLogin()+"\r");
+            print.flush();
+            Thread.sleep(1000);
+            print.print(Credencial.VIVO1.getPass()+"\r");
+            print.flush();
+            Thread.sleep(1000);
+            print.print("enable\r");
+            print.flush();
+            Thread.sleep(1000);
+            print.print("config\r");
+            print.flush();
+            print.println();
+            print.flush();
+//            Thread.sleep(1000);
+            
+            String l = "";
+            while ((l = in.readLine()) != null) {
+                System.out.println(l);
+            }
+
 //            System.out.println(stdout2);
         } catch (Exception e) {
             e.printStackTrace();

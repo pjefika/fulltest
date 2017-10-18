@@ -55,10 +55,10 @@ public class KeymileGponDslamTest {
         instance.desconectar();
     }
 
-    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
-    InventarioRede i = CustomerMock.gponKeymile().getRede();
-//    InventarioRede i = CustomerMock.getCustomer("8530167751").getRede();
-//    KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
+//    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
+//    InventarioRede i = CustomerMock.gponKeymile().getRede();
+    InventarioRede i = CustomerMock.getCustomer("5133077367").getRede();
+    KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
 
     /**
      * Test of getTabelaParametros method, of class KeymileGponDslam.
