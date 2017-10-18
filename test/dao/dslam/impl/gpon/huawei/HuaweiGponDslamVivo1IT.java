@@ -120,9 +120,11 @@ public class HuaweiGponDslamVivo1IT {
             print.flush();
             print.println();
             print.flush();
-//            Thread.sleep(1000);
             
             String l = "";
+            
+            Thread.sleep(5000);
+            channel.disconnect();
             while ((l = in.readLine()) != null) {
                 System.out.println(l);
             }
