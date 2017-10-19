@@ -5,7 +5,7 @@
  */
 package dao.dslam.impl.login;
 
-import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.Conector;
 
 /**
  *
@@ -13,6 +13,6 @@ import dao.dslam.impl.ConsultaDslam;
  */
 public interface LoginDslamStrategy {
 
-    public void conectar(ConsultaDslam cs) throws Exception;
+    public void conectar(Conector cs) throws Exception;
 
 }

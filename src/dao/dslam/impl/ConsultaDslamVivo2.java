@@ -17,7 +17,7 @@ import dao.dslam.impl.login.LoginDslamStrategy;
  *
  * @author G0042204
  */
-public class ConsultaDslam implements Conector {
+public class ConsultaDslamVivo2 implements Conector {
 
     public Socket pingSocket;
     public PrintWriter out;
@@ -27,13 +27,13 @@ public class ConsultaDslam implements Conector {
 
     public LoginDslamStrategy styLogin;
 
-    public ConsultaDslam(AbstractDslam dslam) {
+    public ConsultaDslamVivo2(AbstractDslam dslam) {
         this.dslam = dslam;
 
     }
 
     @Override
-    public void conectar() throws Exception{
+    public void conectar() throws Exception {
         this.dslam.conectar();
     }
 
@@ -43,10 +43,10 @@ public class ConsultaDslam implements Conector {
         String line;
         try {
             Integer i = 0;
-            while (i<5) {
+            while (i < 5) {
                 line = in.readLine();
-                System.out.println("line->"+line);
-                if(line == null){
+                System.out.println("line->" + line);
+                if (line == null) {
                     i++;
                 }
                 list.add(line);
@@ -66,6 +66,7 @@ public class ConsultaDslam implements Conector {
         }
     }
 
+    @Override
     public ComandoDslam consulta(ComandoDslam comando) throws Exception {
 
         try {

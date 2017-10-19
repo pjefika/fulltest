@@ -7,7 +7,7 @@ package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.gpon.DslamGpon;
+import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
@@ -29,7 +29,7 @@ import model.dslam.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public class HuaweiGponDslamVivo1  extends DslamGpon {
+public class HuaweiGponDslamVivo1  extends DslamVivo1 {
 
     public HuaweiGponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());

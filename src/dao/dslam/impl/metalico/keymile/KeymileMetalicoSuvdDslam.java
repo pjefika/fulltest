@@ -7,7 +7,7 @@ package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     public KeymileMetalicoSuvdDslam(String ipDslam) {
         super(ipDslam);
-        this.setCd(new ConsultaDslam(this));
+        this.setCd(new ConsultaDslamVivo2(this));
     }
 
     @Override

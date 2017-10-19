@@ -26,14 +26,14 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
     private final String ipDslam;
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
-    private ConsultaDslam cd;
+    private Conector cd;
     protected List<VelocidadeVendor> velsDown, velsUp;
 
     public AbstractDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         this.ipDslam = ipDslam;
         this.credencial = credencial;
         this.loginStrategy = loginStrategy;
-        this.cd = new ConsultaDslam(this);
+        this.cd = new ConsultaDslamVivo2(this);
         this.velsDown = new ArrayList<>();
         this.velsUp = new ArrayList<>();
     }
@@ -46,7 +46,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
     public void desconectar() {
         try {
             this.cd.close();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(AbstractDslam.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -113,11 +113,11 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
         this.loginStrategy = loginStrategy;
     }
 
-    public ConsultaDslam getCd() {
+    public Conector getCd() {
         return cd;
     }
 
-    public void setCd(ConsultaDslam cd) {
+    public void setCd(Conector cd) {
         this.cd = cd;
     }
 

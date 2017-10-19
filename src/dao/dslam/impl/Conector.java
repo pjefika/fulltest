@@ -15,4 +15,5 @@ public interface Conector {
 
     public void close() throws Exception;
 
+    public ComandoDslam consulta(ComandoDslam comando) throws Exception;
 }

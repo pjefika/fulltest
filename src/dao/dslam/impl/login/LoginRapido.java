@@ -5,7 +5,8 @@
  */
 package dao.dslam.impl.login;
 
-import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.Conector;
+import dao.dslam.impl.ConsultaDslamVivo2;
 import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -20,15 +21,16 @@ import java.net.Socket;
 public class LoginRapido implements LoginDslamStrategy {
 
     @Override
-    public void conectar(ConsultaDslam cs) throws Exception {
+    public void conectar(Conector cs) throws Exception {
 
-        cs.pingSocket = new Socket();
+        ConsultaDslamVivo2 css = (ConsultaDslamVivo2) cs;
+        css.pingSocket = new Socket();
         try {
-            cs.pingSocket.connect(new InetSocketAddress(cs.dslam.getIpDslam(), 23), 5000);
-            cs.out = new PrintWriter(cs.pingSocket.getOutputStream(), true);
-            cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
-            cs.out.println(cs.dslam.getCredencial().getLogin());
-            cs.out.println(cs.dslam.getCredencial().getPass());
+            css.pingSocket.connect(new InetSocketAddress(css.dslam.getIpDslam(), 23), 5000);
+            css.out = new PrintWriter(css.pingSocket.getOutputStream(), true);
+            css.in = new BufferedReader(new InputStreamReader(css.pingSocket.getInputStream()));
+            css.out.println(css.dslam.getCredencial().getLogin());
+            css.out.println(css.dslam.getCredencial().getPass());
         } catch (Exception e) {
             throw new SemGerenciaException();
         }

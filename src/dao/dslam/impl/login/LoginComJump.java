@@ -5,7 +5,8 @@
  */
 package dao.dslam.impl.login;
 
-import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.Conector;
+import dao.dslam.impl.ConsultaDslamVivo1;
 import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,22 +22,23 @@ import java.net.SocketAddress;
 public class LoginComJump implements LoginDslamStrategy {
 
     @Override
-    public void conectar(ConsultaDslam cs) throws Exception {
+    public void conectar(Conector cs) throws Exception {
 
-        cs.pingSocket = new Socket();
+        ConsultaDslamVivo1 css = (ConsultaDslamVivo1) cs;
+        css.pingSocket = new Socket();
 
         try {
             SocketAddress adr = new InetSocketAddress("10.18.81.96", 23);
 //            cs.pingSocket = new Socket("10.18.81.96", 22);
             
-            cs.pingSocket.connect(adr);
-            cs.out = new PrintWriter(cs.pingSocket.getOutputStream(), false);
-            cs.in = new BufferedReader(new InputStreamReader(cs.pingSocket.getInputStream()));
-            cs.out.println("incid");
-            cs.out.println("v!vo@incid");
-            cs.out.println("telnet " + cs.dslam.getIpDslam());
-            cs.out.println(cs.dslam.getCredencial().getLogin());
-            cs.out.println(cs.dslam.getCredencial().getPass());
+            css.pingSocket.connect(adr);
+            css.out = new PrintWriter(css.pingSocket.getOutputStream(), false);
+            css.in = new BufferedReader(new InputStreamReader(css.pingSocket.getInputStream()));
+            css.out.println("incid");
+            css.out.println("v!vo@incid");
+            css.out.println("telnet " + css.dslam.getIpDslam());
+            css.out.println(css.dslam.getCredencial().getLogin());
+            css.out.println(css.dslam.getCredencial().getPass());
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();

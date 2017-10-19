@@ -7,7 +7,7 @@ package dao.dslam.impl.metalico.zhone;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.ConsultaDslam;
+import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
@@ -34,7 +34,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     public ZhoneMetalicoMxkDslam(String ipDslam) {
         super(ipDslam, Credencial.ZHONE, new LoginLento());
-        this.setCd(new ConsultaDslam(this));
+        this.setCd(new ConsultaDslamVivo2(this));
 
     }
 
