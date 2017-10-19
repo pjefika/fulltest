@@ -86,11 +86,11 @@ public class KeymileGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus",500);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/main/AdministrativeStatus", 500);
     }
 
     protected ComandoDslam getComandoConsultaEstadoOperDaPorta(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus",500);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/main/OperationalStatus", 500);
     }
 
     @Override
@@ -170,7 +170,7 @@ public class KeymileGponDslam extends DslamGpon {
         EnumEstadoVlan state;
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
-        if (!leSrvc.contentEquals("no service connected")) {
+        if (!leSrvc.contentEquals("no service connected") && !leStatus.contains("Parâmetro não encontrado MACSRCFilter")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
@@ -199,6 +199,10 @@ public class KeymileGponDslam extends DslamGpon {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3/cfgm/macsourcefilteringmode");
     }
 
+    protected ComandoDslam getComandoConsultaStatusVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/cfgm/macsourcefilteringmode");
+    }
+
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanVod1(i)).getRetorno();
@@ -209,7 +213,7 @@ public class KeymileGponDslam extends DslamGpon {
         EnumEstadoVlan state;
         Integer cvlan = new Integer("0");
         Integer p100 = new Integer("0");
-        if (!leSrvc.contentEquals("no service connected")) {
+        if (!leSrvc.contentEquals("no service connected") && !leStatus.contains("Parâmetro não encontrado MACSRCFilter")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             p100 = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
@@ -234,17 +238,25 @@ public class KeymileGponDslam extends DslamGpon {
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoConsultaVlanMulticast1(i)).getRetorno();
+        List<String> pegaStatus = this.getCd().consulta(this.getComandoConsultaStatusVlanMulticast(i)).getRetorno();
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         VlanMulticast vlanMult = new VlanMulticast();
+        String leStatus = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         Integer cvlan = new Integer("0");
-        if (!leSrvc.contentEquals("no service connected")) {
+        if (!leSrvc.contentEquals("no service connected") && !leStatus.contains("Parâmetro não encontrado MACSRCFilter")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan2(leSrvc)).getRetorno();
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
-
+        EnumEstadoVlan state;
+        if (leStatus.equalsIgnoreCase("None")) {
+            state = EnumEstadoVlan.UP;
+        } else if (leStatus.equalsIgnoreCase("List")) {
+            state = EnumEstadoVlan.DOWN;
+        } else {
+            state = EnumEstadoVlan.FLOODINGPREVENTION;
+        }
         vlanMult.setSvlan(cvlan);
-
-        System.out.println(vlanMult.getSvlan());
+        vlanMult.setState(state);
 
         return vlanMult;
     }

@@ -52,10 +52,7 @@ public class HuaweiGponDslamVivo1  extends DslamVivo1 {
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
-        System.out.println("oi");
-        resp.forEach((t) -> {
-            System.out.println(t);
-        });
+       
         return null;
     }
 

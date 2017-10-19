@@ -107,10 +107,10 @@ public class HuaweiGponDslamVivo1IT {
             print.print(cmd + "\r");
             print.flush();
             Thread.sleep(3000);
-            print.print(Credencial.VIVO1.getLogin()+"\r");
+            print.print(Credencial.VIVO1.getLogin() + "\r");
             print.flush();
             Thread.sleep(1000);
-            print.print(Credencial.VIVO1.getPass()+"\r");
+            print.print(Credencial.VIVO1.getPass() + "\r");
             print.flush();
             Thread.sleep(1000);
             print.print("enable\r");
@@ -120,13 +120,20 @@ public class HuaweiGponDslamVivo1IT {
             print.flush();
             print.println();
             print.flush();
-            
+
             String l = "";
-            
-            Thread.sleep(5000);
-            channel.disconnect();
+
+            Thread.sleep(1000);
+//            channel.disconnect();
+            Integer o = 0;
             while ((l = in.readLine()) != null) {
                 System.out.println(l);
+                if(l.isEmpty()){
+                    o++;
+                }
+                if(o>10){
+                    break;
+                }
             }
 
 //            System.out.println(stdout2);

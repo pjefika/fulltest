@@ -5,15 +5,22 @@
  */
 package dao.dslam.impl.login;
 
+import com.jcraft.jsch.Channel;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import dao.dslam.impl.Conector;
 import dao.dslam.impl.ConsultaDslamVivo1;
+import exception.FalhaJumpAccessEsception;
 import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.net.SocketAddress;
+import java.security.Security;
+import java.util.Properties;
+import model.dslam.credencial.Credencial;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -21,24 +28,50 @@ import java.net.SocketAddress;
  */
 public class LoginComJump implements LoginDslamStrategy {
 
-    @Override
-    public void conectar(Conector cs) throws Exception {
+    private JSch jsch;
+    private Session session;
+    private ConsultaDslamVivo1 cs;
 
-        ConsultaDslamVivo1 css = (ConsultaDslamVivo1) cs;
-        css.pingSocket = new Socket();
+    @Override
+    public void conectar(Conector css) throws Exception {
+
+        this.cs = (ConsultaDslamVivo1) css;
+
+        Security.insertProviderAt(new BouncyCastleProvider(), 1);
+        try {
+            jsch = new JSch();
+            session = jsch.getSession("incid", "10.18.81.96", 22);
+            session.setPassword("v!vo@incid");
+
+            Properties config = new Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session.setConfig(config);
+
+            session.connect();
+        } catch (Exception e) {
+            throw new FalhaJumpAccessEsception();
+        }
 
         try {
-            SocketAddress adr = new InetSocketAddress("10.18.81.96", 23);
-//            cs.pingSocket = new Socket("10.18.81.96", 22);
-            
-            css.pingSocket.connect(adr);
-            css.out = new PrintWriter(css.pingSocket.getOutputStream(), false);
-            css.in = new BufferedReader(new InputStreamReader(css.pingSocket.getInputStream()));
-            css.out.println("incid");
-            css.out.println("v!vo@incid");
-            css.out.println("telnet " + css.dslam.getIpDslam());
-            css.out.println(css.dslam.getCredencial().getLogin());
-            css.out.println(css.dslam.getCredencial().getPass());
+            String telnet = "telnet " + cs.dslam.getIpDslam();
+
+            cs.channel = session.openChannel("shell");
+
+            cs.out = new PrintWriter(cs.channel.getOutputStream(), false);
+            cs.in = new BufferedReader(new InputStreamReader(cs.channel.getInputStream()));
+
+            cs.channel.connect();
+            Thread.sleep(1000);
+
+            cs.out.print(telnet + "\r");
+            cs.out.flush();
+            Thread.sleep(3000);
+            cs.out.print(Credencial.VIVO1.getLogin() + "\r");
+            cs.out.flush();
+            Thread.sleep(1000);
+            cs.out.print(Credencial.VIVO1.getPass() + "\r");
+            cs.out.flush();
+            Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();

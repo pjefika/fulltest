@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl;
 
+import dao.dslam.factory.ConsultaDslamFactory;
 import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
         this.ipDslam = ipDslam;
         this.credencial = credencial;
         this.loginStrategy = loginStrategy;
-        this.cd = new ConsultaDslamVivo2(this);
+        this.cd = ConsultaDslamFactory.create(this);
         this.velsDown = new ArrayList<>();
         this.velsUp = new ArrayList<>();
     }
