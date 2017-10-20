@@ -52,7 +52,7 @@ public class ZhoneMetalicoMxkDslamIT {
     @After
     public void tearDown() {
     }
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1932321188");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("8230279033");
     private static ZhoneMetalicoMxkDslam instance = new ZhoneMetalicoMxkDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -109,7 +109,7 @@ public class ZhoneMetalicoMxkDslamIT {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
         System.out.println(GsonUtil.serialize(result));
-        assertTrue(result.getCvlan()!=0);
+        assertTrue(result.getCvlan() != 0);
     }
 
     /**
@@ -192,10 +192,10 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        
+
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
-        
+
     }
 
     /**
@@ -280,15 +280,8 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
-        InventarioRede i = null;
-        Velocidades vDown = null;
-        Velocidades vUp = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+        GsonUtil.serialize(result);
     }
 
     /**

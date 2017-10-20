@@ -39,9 +39,7 @@ public class ConsultaDslamVivo1 implements Conector {
     public List<String> getRetorno() throws Exception {
 
         List<String> list = new ArrayList<>();
-
-        
-        
+        channel.disconnect();
         try {
             String line;
             Integer i = 0;
@@ -53,13 +51,13 @@ public class ConsultaDslamVivo1 implements Conector {
                     i++;
                     System.out.println("linhaSEMcoisa");
                     Thread.sleep(1000);
-                }else{
+                } else {
                     System.out.println("linhacomcoisa");
-                    i=0;
+                    i = 0;
                 }
                 if (i > 3) {
                     System.out.println("tonobreak");
-                    
+
                     return list;
                 }
                 System.out.println("finalLoop");
@@ -87,7 +85,7 @@ public class ConsultaDslamVivo1 implements Conector {
 
         try {
 
-            if (channel == null) {
+            if (channel == null || !channel.isConnected()) {
                 this.conectar();
             }
 
@@ -98,9 +96,11 @@ public class ConsultaDslamVivo1 implements Conector {
             if (comando.getSintaxAux2() != null) {
                 execComm(comando.getSintaxAux2(), comando.getSleepAux());
             }
-            Thread.sleep(1000);
-            
-            comando.setRetorno(this.getRetorno());
+
+            if (comando.getHasRetorno()) {
+                comando.setRetorno(this.getRetorno());
+            }
+
             return comando;
 
         } catch (Exception e) {

@@ -46,12 +46,15 @@ public class HuaweiGponDslamVivo1  extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i){
-        return new ComandoDslam("interface gpon 0/"+i.getSlot(), 1000, "display ont info "+i.getPorta()+" "+i.getLogica());
+        ComandoDslam comando = new ComandoDslam("interface gpon 0/"+i.getSlot(), 1000, "display ont info "+i.getPorta()+" "+i.getLogica());
+        comando.setHasRetorno(Boolean.TRUE);
+        return comando;
     }
     
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        getCd().consulta(getComandoGetEstadoDaPorta(i));
+//        List<String> resp = getCd().getRetorno();
        
         return null;
     }
