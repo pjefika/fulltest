@@ -161,13 +161,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        SerialOntGpon expResult = null;
         SerialOntGpon result = instance.getSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
