@@ -44,30 +44,21 @@ public class ConsultaDslamVivo1 implements Conector {
             String line;
             Integer i = 0;
             while ((line = in.readLine()) != null) {
-                System.out.println("comecoLoop");
+                System.out.println("line->"+line);
                 list.add(line);
-                System.out.println("line->" + line);
                 if (line.isEmpty()) {
                     i++;
-                    System.out.println("linhaSEMcoisa");
                     Thread.sleep(1000);
                 } else {
-                    System.out.println("linhacomcoisa");
                     i = 0;
                 }
                 if (i > 3) {
-                    System.out.println("tonobreak");
-
                     return list;
                 }
-                System.out.println("finalLoop");
-                System.out.println(in.ready());
             }
         } catch (Exception e) {
-            System.out.println("excecao");
             return list;
         }
-        System.out.println("cabo");
         return list;
     }
 

@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -42,21 +43,24 @@ public class HuaweiGponDslamVivo1  extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoEnableConfig(){
-        return new ComandoDslam("enable", 1000,"config");
+        return new ComandoDslam("enable", 500,"config");
     }
 
-    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i){
-        ComandoDslam comando = new ComandoDslam("interface gpon 0/"+i.getSlot(), 1000, "display ont info "+i.getPorta()+" "+i.getLogica());
-        comando.setHasRetorno(Boolean.TRUE);
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i, Boolean hasRetorno){
+        ComandoDslam comando = new ComandoDslam("interface gpon 0/"+i.getSlot(), 1000, "display ont info "+i.getPorta()+" "+i.getLogica(), 1000, " ");
+        comando.setHasRetorno(hasRetorno);
         return comando;
     }
     
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoGetEstadoDaPorta(i));
-//        List<String> resp = getCd().getRetorno();
-       
-        return null;
+        
+        List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i, true)).getRetorno();
+        EstadoDaPorta estado = new EstadoDaPorta();
+        estado.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
+        estado.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
+        
+        return estado;
     }
 
     @Override

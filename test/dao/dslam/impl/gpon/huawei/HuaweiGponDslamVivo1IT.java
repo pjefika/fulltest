@@ -39,6 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static sun.security.krb5.Confounder.bytes;
+import util.GsonUtil;
 
 /**
  *
@@ -151,7 +152,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**

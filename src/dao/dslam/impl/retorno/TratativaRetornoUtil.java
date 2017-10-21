@@ -139,6 +139,25 @@ public class TratativaRetornoUtil {
     public static String tratKeymile(List<String> list, String qqqro) {
         return tratKeymile(list, qqqro, 1);
     }
+
+    public static String tratHuawei(List<String> list, String qqqro, Integer o) {
+        Integer i = 1;
+        for (String leLine : list) {
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
+                    return leLine.substring(leLine.indexOf(":")+1, leLine.length()).trim();
+                }
+                i++;
+            }
+
+        }
+
+        return "Parâmetro não encontrado " + qqqro;
+    }
+
+    public static String tratHuawei(List<String> list, String qqqro) {
+        return tratHuawei(list, qqqro, 1);
+    }
     
     public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){
         List<String> leList = new ArrayList<>();
