@@ -36,15 +36,36 @@ public class ConsultaDslamVivo1 implements Conector {
         this.dslam.conectar();
     }
 
+    private String readLinha() throws IOException {
+        StringBuilder b = new StringBuilder();
+        while (in.ready()) {
+            int leRead = in.read();
+            if (leRead == -1) {
+                return b.toString();
+            }
+            b.appendCodePoint(leRead);
+            if (leRead == 13) {
+                int leReade = in.read();
+                if (leReade == 10) {
+                    return b.toString();
+                }else{
+                    b.appendCodePoint(leReade);
+                }
+            }
+        }
+        return null;
+    }
+
     public List<String> getRetorno() throws Exception {
 
         List<String> list = new ArrayList<>();
-        channel.disconnect();
+
+//        channel.disconnect();
         try {
             String line;
             Integer i = 0;
-            while ((line = in.readLine()) != null) {
-                System.out.println("line->"+line);
+            while ((line = readLinha()) != null) {
+                System.out.println("line->" + line);
                 list.add(line);
                 if (line.isEmpty()) {
                     i++;
