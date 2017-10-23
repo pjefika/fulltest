@@ -162,7 +162,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
         SerialOntGpon result = instance.getSerialOnt(i);
-//        System.out.println(GsonUtil.serialize(result));
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**

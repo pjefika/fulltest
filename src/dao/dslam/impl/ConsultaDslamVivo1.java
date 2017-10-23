@@ -48,7 +48,7 @@ public class ConsultaDslamVivo1 implements Conector {
                 int leReade = in.read();
                 if (leReade == 10) {
                     return b.toString();
-                }else{
+                } else {
                     b.appendCodePoint(leReade);
                 }
             }
@@ -60,18 +60,18 @@ public class ConsultaDslamVivo1 implements Conector {
 
         List<String> list = new ArrayList<>();
 
-//        channel.disconnect();
         try {
             String line;
             Integer i = 0;
             while ((line = readLinha()) != null) {
                 System.out.println("line->" + line);
-                list.add(line);
+                
                 if (line.isEmpty()) {
                     i++;
                     Thread.sleep(1000);
                 } else {
                     i = 0;
+                    list.add(line);
                 }
                 if (i > 3) {
                     return list;
@@ -109,9 +109,7 @@ public class ConsultaDslamVivo1 implements Conector {
                 execComm(comando.getSintaxAux2(), comando.getSleepAux());
             }
 
-            if (comando.getHasRetorno()) {
-                comando.setRetorno(this.getRetorno());
-            }
+            comando.setRetorno(this.getRetorno());
 
             return comando;
 

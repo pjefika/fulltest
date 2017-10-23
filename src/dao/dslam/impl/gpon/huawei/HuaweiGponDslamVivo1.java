@@ -39,6 +39,9 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient ServicePort spBanda;
     private transient ServicePort spVoip;
     private transient ServicePort spIptv;
+    private transient EstadoDaPorta estadoDaPorta;
+    private transient SerialOntGpon serial;
+    private transient String idOnt = "";
 
     public HuaweiGponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
@@ -54,7 +57,8 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         return new ComandoDslam("enable", 500, "config");
     }
 
-    protected void setServicePorts(InventarioRede i, List<String> retorno) {
+    protected void setServicePorts(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetServicePorts(i)).getRetorno();
         List<List<String>> tabServs = new ArrayList<>();
         int start = 0;
         int end = retorno.size();
@@ -73,51 +77,84 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                 while (m.find()) {
                     allMatches.add(m.group());
                 }
+
+                String[] porEspaco = retorno.get(n).split(" ");
+                allMatches.add(porEspaco[porEspaco.length - 1]);
                 tabServs.add(allMatches);
+
             }
         }
-        
+
         tabServs.forEach((t) -> {
-            for (int j = 0; j < t.size(); j++) {
-                System.out.println("leJ" + j + " t1->" + t.get(j));
+            if (t.get(6).equalsIgnoreCase("10")) {
+                spBanda = new ServicePort();
+                spBanda.setFlowPara(new Integer(t.get(6)));
+                spBanda.setIndex(new Integer(t.get(0)));
+                spBanda.setRx(new Integer(t.get(7)));
+                spBanda.setState(t.get(9).equalsIgnoreCase("up"));
+                spBanda.setTx(new Integer(t.get(8)));
+                spBanda.setVlanId(new Integer(t.get(1)));
+                spBanda.setVpi(new Integer(t.get(5)));
+            }
+            if (t.get(6).equalsIgnoreCase("20")) {
+                spIptv = new ServicePort();
+                spIptv.setFlowPara(new Integer(t.get(6)));
+                spIptv.setIndex(new Integer(t.get(0)));
+                spIptv.setRx(new Integer(t.get(7)));
+                spIptv.setState(t.get(9).equalsIgnoreCase("up"));
+                spIptv.setTx(new Integer(t.get(8)));
+                spIptv.setVlanId(new Integer(t.get(1)));
+                spIptv.setVpi(new Integer(t.get(5)));
+            }
+            if (t.get(6).equalsIgnoreCase("30")) {
+                spVoip = new ServicePort();
+                spVoip.setFlowPara(new Integer(t.get(6)));
+                spVoip.setIndex(new Integer(t.get(0)));
+                spVoip.setRx(new Integer(t.get(7)));
+                spVoip.setState(t.get(9).equalsIgnoreCase("up"));
+                spVoip.setTx(new Integer(t.get(8)));
+                spVoip.setVlanId(new Integer(t.get(1)));
+                spVoip.setVpi(new Integer(t.get(5)));
             }
         });
-
     }
 
-    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i, Boolean hasRetorno) {
-        ComandoDslam comando = new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
-        comando.setHasRetorno(hasRetorno);
-        return comando;
+    protected void tabelaEstadoDaPorta(InventarioRede i) throws Exception {
+        List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        estadoDaPorta = new EstadoDaPorta();
+        estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
+        estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
+        serial = new SerialOntGpon();
+        String[] pegaSerial = TratativaRetornoUtil.tratHuawei(resp, "SN ").split(" ");
+        serial.setSerial(pegaSerial[pegaSerial.length - 1].replace("(", "").replace(")", ""));
+        String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split(" ");
+        idOnt = pegaIdOnt[pegaIdOnt.length - 1].replace("(", "").replace(")", "");
+    }
+
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
     }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
 
-        List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i, true)).getRetorno();
-        EstadoDaPorta estado = new EstadoDaPorta();
-        estado.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
-        estado.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
+        if (estadoDaPorta == null) {
+            tabelaEstadoDaPorta(i);
+        }
 
-        return estado;
+        return estadoDaPorta;
     }
 
     protected ComandoDslam getComandoGetServicePorts(InventarioRede i) {
         return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 1000, " ");
     }
 
-    protected ComandoDslam makeRetorno() {
-        ComandoDslam comando = new ComandoDslam(" ", 100);
-        comando.setHasRetorno(Boolean.TRUE);
-        return comando;
-    }
-
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoGetServicePorts(i));
-        List<String> resp = getCd().consulta(makeRetorno()).getRetorno();
-        setServicePorts(i, resp);
-        return null;
+        if(serial == null){
+            tabelaEstadoDaPorta(i);;
+        }
+        return serial;
     }
 
     @Override
