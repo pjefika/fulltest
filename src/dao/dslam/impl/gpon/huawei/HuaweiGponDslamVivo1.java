@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.dslam.consulta.DeviceMAC;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
@@ -79,7 +80,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                 }
 
                 String[] porEspaco = retorno.get(n).split(" ");
-                allMatches.add(porEspaco[porEspaco.length - 1]);
+                allMatches.add(porEspaco[porEspaco.length - 1].trim());
                 tabServs.add(allMatches);
 
             }
@@ -151,20 +152,35 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        if(serial == null){
+        if (serial == null) {
             tabelaEstadoDaPorta(i);;
         }
         return serial;
     }
 
+    protected ComandoDslam getComandoGetParametros(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
+    }
+
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
+        TabelaParametrosGpon tab = new TabelaParametrosGpon();
+
+        tab.setPotOlt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx")));
+        tab.setPotOnt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical")));
+        return tab;
     }
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        if (spBanda == null) {
+            setServicePorts(i);
+        }
+        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+
+        return new VlanBanda(spBanda.getVpi(), spBanda.getVlanId(), state);
     }
 
     @Override

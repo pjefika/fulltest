@@ -176,7 +176,7 @@ public class CustomerMock {
 
         //116337850611805
         r.setIpDslam("BR_SNEHT_OLT01");
-        r.setModeloDslam("MA5600Tx1");
+        r.setModeloDslam("MA5600T_FV1");
 
         r.setSlot(15);
         r.setPorta(7);
