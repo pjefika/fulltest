@@ -55,7 +55,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoEnableConfig() {
-        return new ComandoDslam("enable", 500, "config");
+        return new ComandoDslam("enable", 500, "config", 500, "mmi-mode original-output");
     }
 
     protected void setServicePorts(InventarioRede i) throws Exception {
@@ -176,6 +176,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
 
         if (spBanda == null) {
+            spBanda = new ServicePort(false);
             setServicePorts(i);
         }
         EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
@@ -185,22 +186,43 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (spVoip == null) {
+            spVoip = new ServicePort(false);
+            setServicePorts(i);
+        }
+        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        return new VlanVoip(spVoip.getVpi(), spVoip.getVlanId(), state);
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (spIptv == null) {
+            spIptv = new ServicePort(false);
+            setServicePorts(i);
+        }
+        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        return new VlanVod(spIptv.getVpi(), spIptv.getVlanId(), state);
+    }
+
+    protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
+        return new ComandoDslam("display ont autofind all");
     }
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetOntsDisp(i)).getRetorno();
+        
+        return null;
     }
 
     @Override
@@ -282,11 +304,6 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 //    public Profile castProfile(Velocidades v) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    @Override
-    public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

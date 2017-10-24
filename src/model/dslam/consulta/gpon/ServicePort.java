@@ -18,6 +18,18 @@ public class ServicePort {
     public ServicePort() {
     }
 
+    public ServicePort(Boolean exists) {
+        if(!exists){
+            index = 0;
+            vlanId = 0;
+            vpi = 0;
+            flowPara = 0;
+            rx = 0;
+            tx = 0;
+            state = false;
+        }
+    }
+
     public Integer getIndex() {
         return index;
     }

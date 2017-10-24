@@ -206,13 +206,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.getVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -221,13 +216,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -236,13 +226,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        AlarmesGpon expResult = null;
         AlarmesGpon result = instance.getAlarmes(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
