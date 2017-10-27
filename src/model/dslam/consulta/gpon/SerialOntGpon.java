@@ -14,7 +14,7 @@ import model.dslam.consulta.Validavel;
  */
 public class SerialOntGpon implements Validavel {
 
-    private String serial, slot, porta;
+    private String serial, slot, porta, idOnt;
 
     public String getSlot() {
         return slot;
@@ -38,6 +38,14 @@ public class SerialOntGpon implements Validavel {
 
     public void setSerial(String serial) {
         this.serial = serial;
+    }
+
+    public String getIdOnt() {
+        return idOnt;
+    }
+
+    public void setIdOnt(String idOnt) {
+        this.idOnt = idOnt;
     }
 
     @Override

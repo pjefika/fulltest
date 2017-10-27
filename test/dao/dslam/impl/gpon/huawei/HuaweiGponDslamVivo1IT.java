@@ -39,6 +39,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static sun.security.krb5.Confounder.bytes;
+import util.GsonUtil;
 
 /**
  *
@@ -151,7 +152,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -160,13 +161,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        SerialOntGpon expResult = null;
         SerialOntGpon result = instance.getSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -175,13 +171,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        TabelaParametrosGpon expResult = null;
         TabelaParametrosGpon result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -190,13 +181,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -220,13 +206,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.getVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -235,13 +216,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -250,13 +226,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        AlarmesGpon expResult = null;
         AlarmesGpon result = instance.getAlarmes(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**

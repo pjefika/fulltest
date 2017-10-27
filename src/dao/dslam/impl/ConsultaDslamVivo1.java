@@ -36,38 +36,50 @@ public class ConsultaDslamVivo1 implements Conector {
         this.dslam.conectar();
     }
 
+    private String readLinha() throws IOException {
+        StringBuilder b = new StringBuilder();
+        while (in.ready()) {
+            int leRead = in.read();
+            if (leRead == -1) {
+                return b.toString();
+            }
+            b.appendCodePoint(leRead);
+            if (leRead == 13) {
+                int leReade = in.read();
+                if (leReade == 10) {
+                    return b.toString();
+                } else {
+                    b.appendCodePoint(leReade);
+                }
+            }
+        }
+        return null;
+    }
+
     public List<String> getRetorno() throws Exception {
 
         List<String> list = new ArrayList<>();
-        channel.disconnect();
+
         try {
             String line;
             Integer i = 0;
-            while ((line = in.readLine()) != null) {
-                System.out.println("comecoLoop");
-                list.add(line);
+            while ((line = readLinha()) != null) {
                 System.out.println("line->" + line);
+                
                 if (line.isEmpty()) {
                     i++;
-                    System.out.println("linhaSEMcoisa");
                     Thread.sleep(1000);
                 } else {
-                    System.out.println("linhacomcoisa");
                     i = 0;
+                    list.add(line);
                 }
                 if (i > 3) {
-                    System.out.println("tonobreak");
-
                     return list;
                 }
-                System.out.println("finalLoop");
-                System.out.println(in.ready());
             }
         } catch (Exception e) {
-            System.out.println("excecao");
             return list;
         }
-        System.out.println("cabo");
         return list;
     }
 
@@ -97,9 +109,7 @@ public class ConsultaDslamVivo1 implements Conector {
                 execComm(comando.getSintaxAux2(), comando.getSleepAux());
             }
 
-            if (comando.getHasRetorno()) {
-                comando.setRetorno(this.getRetorno());
-            }
+            comando.setRetorno(this.getRetorno());
 
             return comando;
 

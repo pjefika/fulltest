@@ -169,20 +169,20 @@ public class CustomerMock {
 
         return c;
     }
-    
-    public static EfikaCustomer gponHuaweiV1(){
+
+    public static EfikaCustomer gponHuaweiV1() {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
-        //1630145676
-        r.setIpDslam("BR_SPOAT_OLT03");
-        r.setModeloDslam("MA5600Tx1");
+        //116337850611805
+        r.setIpDslam("BR_SNEHT_OLT01");
+        r.setModeloDslam("MA5600T_FV1");
 
-        r.setSlot(6);
-        r.setPorta(0);
-        r.setCvLan(606);
-        r.setLogica(4);
-        r.setRin(179);
+        r.setSlot(15);
+        r.setPorta(7);
+        r.setLogica(42);
+        r.setCvLan(r.getLogica() + 128);
+        r.setRin(100);
 
         r.setVlanVoip(3004);
         r.setVlanVod(3001);
@@ -193,8 +193,8 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
-        s.setVelDown(51200l);
-        s.setVelUp(25600l);
+        s.setVelDown(102400l);
+        s.setVelUp(5120l);
 
         c.setServicos(s);
 
