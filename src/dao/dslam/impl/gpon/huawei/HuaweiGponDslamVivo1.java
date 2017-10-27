@@ -130,6 +130,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         serial.setSerial(pegaSerial[pegaSerial.length - 1].replace("(", "").replace(")", ""));
         String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split(" ");
         idOnt = pegaIdOnt[pegaIdOnt.length - 1].replace("(", "").replace(")", "");
+        serial.setIdOnt(idOnt);
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
@@ -221,9 +222,10 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetOntsDisp(i)).getRetorno();
-        
-        return null;
+        return null;        
     }
+    
+    
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
@@ -306,7 +308,13 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 //    }
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (velsUp.isEmpty()) {
+            Velocidades[] vels = Velocidades.values();
+            for (Velocidades vel : vels) {
+                
+            }
+        }
+        return velsUp;
     }
 
     @Override
