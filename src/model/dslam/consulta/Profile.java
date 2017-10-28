@@ -6,6 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.customer.OrigemPlanta;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -60,6 +61,11 @@ public class Profile extends ValidavelAbs implements Validavel {
 
     @Override
     public Boolean validar(EfikaCustomer ec) {
+        if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1) {
+            return (new Double(down.getValor()).compareTo(new Double(Velocidades.find(ec.getServicos().getVelDown()).getValor()))>=0
+                    && new Double(up.getValor()).compareTo(new Double(Velocidades.find(ec.getServicos().getVelUp()).getValor()))>=0);
+        }
+
         return (down == Velocidades.find(ec.getServicos().getVelDown())
                 && up == Velocidades.find(ec.getServicos().getVelUp()));
     }

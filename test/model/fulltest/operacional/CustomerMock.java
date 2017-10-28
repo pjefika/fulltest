@@ -8,6 +8,7 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
+import br.net.gvt.efika.customer.OrigemPlanta;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -187,6 +188,7 @@ public class CustomerMock {
         r.setVlanVoip(3004);
         r.setVlanVod(3001);
         r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
