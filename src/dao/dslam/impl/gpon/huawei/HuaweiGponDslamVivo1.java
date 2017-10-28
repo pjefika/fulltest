@@ -126,10 +126,10 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
         estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
-        String[] pegaSerial = TratativaRetornoUtil.tratHuawei(resp, "SN ").split(" ");
-        serial.setSerial(pegaSerial[pegaSerial.length - 1].replace("(", "").replace(")", ""));
-        String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split(" ");
-        idOnt = pegaIdOnt[pegaIdOnt.length - 1].replace("(", "").replace(")", "");
+        String[] pegaSerial = TratativaRetornoUtil.tratHuawei(resp, "SN ").split("\\(");
+        serial.setSerial(pegaSerial[pegaSerial.length - 1].replace(")", ""));
+        String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split("\\(");
+        idOnt = pegaIdOnt[pegaIdOnt.length-1].replace(")", "");
         serial.setIdOnt(idOnt);
     }
 
