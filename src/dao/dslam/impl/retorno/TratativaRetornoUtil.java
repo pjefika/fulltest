@@ -117,6 +117,23 @@ public class TratativaRetornoUtil {
         return allMatches;
     }
 
+    public static List<String> numberFromListMember(List<String> list, String qqqro, Integer o) {
+        Integer i = 0;
+        for(String t : list){
+            if(t.contains(qqqro)){
+                i++;
+                if(i==o){
+                    return numberFromString(t);
+                }
+            }
+        }
+        return null;
+    }
+    public static List<String> numberFromListMember(List<String> list, String qqqro) {
+        return numberFromListMember(list, qqqro, 1);
+    }
+    
+
     public static List<String> tratZhone(List<String> list, String qqqro, String regex) {
         return tratZhone(list, qqqro, regex, 1);
     }
@@ -157,6 +174,14 @@ public class TratativaRetornoUtil {
 
     public static String tratHuawei(List<String> list, String qqqro) {
         return tratHuawei(list, qqqro, 1);
+    }
+    
+    public static String valueFromParentesis(String str){
+        if(!str.contains("(")||!str.contains(")")){
+            return null;
+        }
+        String[] pegaVal = str.split("\\(");
+        return pegaVal[pegaVal.length - 1].replace(")", "");
     }
     
     public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){

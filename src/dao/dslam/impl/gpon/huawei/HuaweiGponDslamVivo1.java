@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
@@ -126,11 +127,8 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
         estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
-        String[] pegaSerial = TratativaRetornoUtil.tratHuawei(resp, "SN ").split("\\(");
-        serial.setSerial(pegaSerial[pegaSerial.length - 1].replace(")", ""));
-        String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split("\\(");
-        idOnt = pegaIdOnt[pegaIdOnt.length - 1].replace(")", "");
-        serial.setIdOnt(idOnt);
+        serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
+        serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
@@ -148,7 +146,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetServicePorts(InventarioRede i) {
-        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 3000, " ");
     }
 
     @Override
@@ -211,18 +209,30 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
-        return new ComandoDslam("display ont autofind all");
+        return new ComandoDslam("display ont autofind all",5000);
     }
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetOntsDisp(i)).getRetorno();
-        return null;
+        Integer quant = new Integer(TratativaRetornoUtil.numberFromListMember(retorno, "number of GPON autofind ONT").get(0));
+        List<SerialOntGpon> l = new ArrayList<>();
+        for (int j = 1; j <= quant; j++) {
+            SerialOntGpon s = new SerialOntGpon();
+            s.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(retorno, "Password", j)));
+            s.setSerial(TratativaRetornoUtil.tratHuawei(retorno, "VendorID", j)+"-"+TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).substring(TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).length()-8));
+            String[] pegaFsp = TratativaRetornoUtil.tratHuawei(retorno, "F/S/P", j).split("/");
+            s.setSlot(pegaFsp[1]);
+            s.setPorta(pegaFsp[2]);
+            l.add(s);
+        }
+        
+        return l;
     }
 
     @Override
@@ -241,7 +251,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
