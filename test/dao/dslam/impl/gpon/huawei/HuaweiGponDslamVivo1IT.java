@@ -332,15 +332,7 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
-        InventarioRede i = null;
-        Velocidades vDown = null;
-        Velocidades vUp = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
     }
 
     /**
@@ -394,11 +386,7 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
         instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

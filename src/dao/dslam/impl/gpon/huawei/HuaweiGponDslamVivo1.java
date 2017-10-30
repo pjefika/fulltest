@@ -304,14 +304,52 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-//    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
-//        return new ComandoDslam("");
-//    }
+
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("btv\n"
+                + "multicast-vlan "+i.getVlanMulticast()+"\n"
+                + "undo igmp multicast-vlan member service-port "+spIptv.getIndex()+"\n"
+                + "igmp user delete service-port "+spIptv.getIndex()+"\n"
+                + "y\n"
+                + "quit\n"
+                + "undo service-port "+spBanda.getIndex()+"\n"
+                + "interface gpon 0/"+i.getSlot()+"\n"
+                + "undo ont gemport mapping "+i.getPorta()+" "+i.getLogica()+" "+i.getCvLan()+"\n"
+                + "\n"
+                + "undo ont gemport mapping $port $id_cliente $gemport_iptv vlan 20\n"
+                + "\n"
+                + "undo ont gemport mapping $port $id_cliente $gemport_voip\n"
+                + "\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_bl\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_iptv\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_voip\n"
+                + "ont port native-vlan $port $id_cliente eth 1 vlan 1\n"
+                + "\n"
+                + "undo ont port vlan $port $id_cliente eth 10 1\n"
+                + "undo ont port vlan $port $id_cliente eth 20 1\n"
+                + "undo ont port vlan $port $id_cliente eth 20 2\n"
+                + "undo ont port vlan $port $id_cliente eth 20 3\n"
+                + "undo ont port vlan $port $id_cliente eth 20 4\n"
+                + "undo ont port vlan $port $id_cliente eth 30 1\n"
+                + "gemport delete $port gemportid $gemport_bl\n"
+                + "gemport delete $port gemportid $gemport_iptv\n"
+                + "gemport delete $port gemportid $gemport_voip\n"
+                + "undo tcont bind-profile $port $id_cliente 4\n"
+                + "undo tcont bind-profile $port $id_cliente 2\n"
+                + "undo tcont bind-profile $port $id_cliente 3\n"
+                + "\n"
+                + "undo ont port-bundle $port $id_cliente eth 0\n"
+                + "\n"
+                + "ont delete $port $id_cliente\n"
+                + "\n"
+                + "quit\n"
+                + "undo service-port $sp_iptv\n"
+                + "undo service-port $sp_voip",5000);
+    }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
     }
 
     @Override
