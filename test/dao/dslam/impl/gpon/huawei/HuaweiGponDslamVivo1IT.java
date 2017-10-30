@@ -129,10 +129,10 @@ public class HuaweiGponDslamVivo1IT {
             Integer o = 0;
             while ((l = in.readLine()) != null) {
                 System.out.println(l);
-                if(l.isEmpty()){
+                if (l.isEmpty()) {
                     o++;
                 }
-                if(o>10){
+                if (o > 10) {
                     break;
                 }
             }
@@ -227,7 +227,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
         AlarmesGpon result = instance.getAlarmes(i);
-        
+
     }
 
     /**
@@ -291,14 +291,10 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        HuaweiGponDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(true);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -452,7 +448,7 @@ public class HuaweiGponDslamVivo1IT {
         System.out.println("getSlotsAvailableOnts");
         List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
         System.out.println(GsonUtil.serialize(result));
-        
+
     }
 
     /**

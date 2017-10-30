@@ -209,7 +209,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
-        return new ComandoDslam("display ont autofind all",5000);
+        return new ComandoDslam("display ont autofind all", 5000);
     }
 
     @Override
@@ -225,13 +225,13 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         for (int j = 1; j <= quant; j++) {
             SerialOntGpon s = new SerialOntGpon();
             s.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(retorno, "Password", j)));
-            s.setSerial(TratativaRetornoUtil.tratHuawei(retorno, "VendorID", j)+"-"+TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).substring(TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).length()-8));
+            s.setSerial(TratativaRetornoUtil.tratHuawei(retorno, "VendorID", j) + "-" + TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).substring(TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).length() - 8));
             String[] pegaFsp = TratativaRetornoUtil.tratHuawei(retorno, "F/S/P", j).split("/");
             s.setSlot(pegaFsp[1]);
             s.setPorta(pegaFsp[2]);
             l.add(s);
         }
-        
+
         return l;
     }
 
@@ -264,9 +264,15 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
+        String leState = state ? "activate" : "deactivate";
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica());
+    }
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoSetEstadoDaPorta(i, e.getAdminState())).getRetorno();
+        return getEstadoDaPorta(i);
     }
 
     @Override
@@ -298,6 +304,10 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+//    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i){
+//        return new ComandoDslam("");
+//    }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
