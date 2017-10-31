@@ -44,6 +44,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient EstadoDaPorta estadoDaPorta;
     private transient SerialOntGpon serial;
     private transient String idOnt = "";
+    private Integer gemportBanda, gemportIptv, gemportVoip;
 
     public HuaweiGponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
@@ -60,6 +61,9 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected void setServicePorts(InventarioRede i) throws Exception {
+        gemportBanda = i.getLogica() + 128;
+        gemportIptv = i.getLogica() + 256;
+        gemportVoip = i.getLogica() + 384;
         List<String> retorno = getCd().consulta(getComandoGetServicePorts(i)).getRetorno();
         List<List<String>> tabServs = new ArrayList<>();
         int start = 0;
@@ -306,49 +310,57 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
+        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
+        String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
         return new ComandoDslam("btv\n"
-                + "multicast-vlan "+i.getVlanMulticast()+"\n"
-                + "undo igmp multicast-vlan member service-port "+spIptv.getIndex()+"\n"
-                + "igmp user delete service-port "+spIptv.getIndex()+"\n"
+                + "multicast-vlan " + i.getVlanMulticast() + "\n"
+                + "undo igmp multicast-vlan member service-port " + indexSpIptv + "\n"
+                + "quit\n"
+                + "btv\n"
+                + "igmp user delete service-port " + indexSpIptv + "\n"
                 + "y\n"
                 + "quit\n"
-                + "undo service-port "+spBanda.getIndex()+"\n"
-                + "interface gpon 0/"+i.getSlot()+"\n"
-                + "undo ont gemport mapping "+i.getPorta()+" "+i.getLogica()+" "+i.getCvLan()+"\n"
+                + "undo service-port " + indexSpBanda + "\n"
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
                 + "\n"
-                + "undo ont gemport mapping $port $id_cliente $gemport_iptv vlan 20\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
                 + "\n"
-                + "undo ont gemport mapping $port $id_cliente $gemport_voip\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
                 + "\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_bl\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_iptv\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_voip\n"
-                + "ont port native-vlan $port $id_cliente eth 1 vlan 1\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
+                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 1\n"
                 + "\n"
-                + "undo ont port vlan $port $id_cliente eth 10 1\n"
-                + "undo ont port vlan $port $id_cliente eth 20 1\n"
-                + "undo ont port vlan $port $id_cliente eth 20 2\n"
-                + "undo ont port vlan $port $id_cliente eth 20 3\n"
-                + "undo ont port vlan $port $id_cliente eth 20 4\n"
-                + "undo ont port vlan $port $id_cliente eth 30 1\n"
-                + "gemport delete $port gemportid $gemport_bl\n"
-                + "gemport delete $port gemportid $gemport_iptv\n"
-                + "gemport delete $port gemportid $gemport_voip\n"
-                + "undo tcont bind-profile $port $id_cliente 4\n"
-                + "undo tcont bind-profile $port $id_cliente 2\n"
-                + "undo tcont bind-profile $port $id_cliente 3\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 2\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 3\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 4\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportBanda + "\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
                 + "\n"
-                + "undo ont port-bundle $port $id_cliente eth 0\n"
+                + "undo ont port-bundle " + i.getPorta() + " " + i.getLogica() + " eth 0\n"
                 + "\n"
-                + "ont delete $port $id_cliente\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "\n"
+                + "ont delete " + i.getPorta() + " " + i.getLogica() + "\n"
                 + "\n"
                 + "quit\n"
-                + "undo service-port $sp_iptv\n"
-                + "undo service-port $sp_voip",5000);
+                + "undo service-port " + indexSpIptv + "\n"
+                + "undo service-port " + indexSpVoip + "\n", 25000);
     }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
+        if (spBanda == null) {
+            setServicePorts(i);
+        }
         List<String> retorno = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
     }
 
