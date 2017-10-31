@@ -175,21 +175,22 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
-        //115637829928505
-        r.setIpDslam("BR_SJCPT_OLT01");
+        //115027500879602 - 1334729066
+        r.setTerminal("115027500879602");
+        r.setIpDslam("BR_SPOPE_OLT03");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setSlot(7);
+        r.setSlot(3);
         r.setPorta(2);
-        r.setLogica(46);
-        r.setCvLan(r.getLogica() + 128);
-        r.setRin(517);
-        r.setVlanUsuario(747);
+        r.setLogica(56);
+        r.setCvLan(1719);
+        r.setRin(125);
 
         r.setVlanVoip(3004);
+        
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3001);
+        r.setVlanMulticast(3009);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
@@ -197,8 +198,8 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
-        s.setVelDown(102400l);
-        s.setVelUp(51200l);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
 
         c.setServicos(s);
 
