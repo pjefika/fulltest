@@ -6,6 +6,7 @@
 package model.dslam.consulta.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.customer.OrigemPlanta;
 import model.dslam.consulta.Validavel;
 
 /**
@@ -50,6 +51,9 @@ public class SerialOntGpon implements Validavel {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(e.getRede().getPlanta() == OrigemPlanta.VIVO1){
+            return (!this.serial.isEmpty()) && this.idOnt.equalsIgnoreCase(e.getRede().getIdOnt());
+        }
         return !this.serial.isEmpty();
     }
 

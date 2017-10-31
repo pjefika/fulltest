@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
@@ -126,11 +127,8 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
         estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
-        String[] pegaSerial = TratativaRetornoUtil.tratHuawei(resp, "SN ").split(" ");
-        serial.setSerial(pegaSerial[pegaSerial.length - 1].replace("(", "").replace(")", ""));
-        String[] pegaIdOnt = TratativaRetornoUtil.tratHuawei(resp, "Password").split(" ");
-        idOnt = pegaIdOnt[pegaIdOnt.length - 1].replace("(", "").replace(")", "");
-        serial.setIdOnt(idOnt);
+        serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
+        serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
@@ -148,7 +146,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetServicePorts(InventarioRede i) {
-        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 3000, " ");
     }
 
     @Override
@@ -211,30 +209,49 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
-        return new ComandoDslam("display ont autofind all");
+        return new ComandoDslam("display ont autofind all", 5000);
     }
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetOntsDisp(i)).getRetorno();
-        return null;        
+        Integer quant = new Integer(TratativaRetornoUtil.numberFromListMember(retorno, "number of GPON autofind ONT").get(0));
+        List<SerialOntGpon> l = new ArrayList<>();
+        for (int j = 1; j <= quant; j++) {
+            SerialOntGpon s = new SerialOntGpon();
+            s.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(retorno, "Password", j)));
+            s.setSerial(TratativaRetornoUtil.tratHuawei(retorno, "VendorID", j) + "-" + TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).substring(TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).length() - 8));
+            String[] pegaFsp = TratativaRetornoUtil.tratHuawei(retorno, "F/S/P", j).split("/");
+            s.setSlot(pegaFsp[1]);
+            s.setPorta(pegaFsp[2]);
+            l.add(s);
+        }
+
+        return l;
     }
-    
-    
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (spBanda == null) {
+            setServicePorts(i);
+        }
+        Profile p = new Profile();
+        p.setDown(compare(spBanda.getRx().toString(), Boolean.TRUE));
+        p.setUp(compare(spBanda.getTx().toString(), Boolean.FALSE));
+        p.setProfileDown(spBanda.getRx().toString());
+        p.setProfileUp(spBanda.getTx().toString());
+
+        return p;
     }
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -247,9 +264,15 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
+        String leState = state ? "activate" : "deactivate";
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica());
+    }
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoSetEstadoDaPorta(i, e.getAdminState())).getRetorno();
+        return getEstadoDaPorta(i);
     }
 
     @Override
@@ -282,9 +305,51 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("btv\n"
+                + "multicast-vlan "+i.getVlanMulticast()+"\n"
+                + "undo igmp multicast-vlan member service-port "+spIptv.getIndex()+"\n"
+                + "igmp user delete service-port "+spIptv.getIndex()+"\n"
+                + "y\n"
+                + "quit\n"
+                + "undo service-port "+spBanda.getIndex()+"\n"
+                + "interface gpon 0/"+i.getSlot()+"\n"
+                + "undo ont gemport mapping "+i.getPorta()+" "+i.getLogica()+" "+i.getCvLan()+"\n"
+                + "\n"
+                + "undo ont gemport mapping $port $id_cliente $gemport_iptv vlan 20\n"
+                + "\n"
+                + "undo ont gemport mapping $port $id_cliente $gemport_voip\n"
+                + "\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_bl\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_iptv\n"
+                + "undo ont gemport bind $port $id_cliente $gemport_voip\n"
+                + "ont port native-vlan $port $id_cliente eth 1 vlan 1\n"
+                + "\n"
+                + "undo ont port vlan $port $id_cliente eth 10 1\n"
+                + "undo ont port vlan $port $id_cliente eth 20 1\n"
+                + "undo ont port vlan $port $id_cliente eth 20 2\n"
+                + "undo ont port vlan $port $id_cliente eth 20 3\n"
+                + "undo ont port vlan $port $id_cliente eth 20 4\n"
+                + "undo ont port vlan $port $id_cliente eth 30 1\n"
+                + "gemport delete $port gemportid $gemport_bl\n"
+                + "gemport delete $port gemportid $gemport_iptv\n"
+                + "gemport delete $port gemportid $gemport_voip\n"
+                + "undo tcont bind-profile $port $id_cliente 4\n"
+                + "undo tcont bind-profile $port $id_cliente 2\n"
+                + "undo tcont bind-profile $port $id_cliente 3\n"
+                + "\n"
+                + "undo ont port-bundle $port $id_cliente eth 0\n"
+                + "\n"
+                + "ont delete $port $id_cliente\n"
+                + "\n"
+                + "quit\n"
+                + "undo service-port $sp_iptv\n"
+                + "undo service-port $sp_voip",5000);
+    }
+
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
     }
 
     @Override
@@ -308,18 +373,30 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 //    }
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        if (velsUp.isEmpty()) {
+        if (velsDown.isEmpty()) {
             Velocidades[] vels = Velocidades.values();
             for (Velocidades vel : vels) {
-                
+                if (new Double(vel.getValor()) <= 100) {
+                    velsDown.add(new VelocidadeVendor(vel, "43"));
+                } else {
+                    velsDown.add(new VelocidadeVendor(vel, "500"));
+                }
             }
         }
-        return velsUp;
+
+        return velsDown;
+
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (velsUp.isEmpty()) {
+            Velocidades[] vels = Velocidades.values();
+            for (Velocidades vel : vels) {
+                velsUp.add(new VelocidadeVendor(vel, "6"));
+            }
+        }
+        return velsUp;
     }
 
     @Override

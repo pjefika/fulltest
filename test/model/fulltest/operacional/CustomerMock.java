@@ -8,6 +8,7 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
+import br.net.gvt.efika.customer.OrigemPlanta;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -174,27 +175,31 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
-        //116337850611805
-        r.setIpDslam("BR_SNEHT_OLT01");
+        //115027500879602 - 1334729066
+        r.setTerminal("115027500879602");
+        r.setIpDslam("BR_SPOPE_OLT03");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setSlot(15);
-        r.setPorta(7);
-        r.setLogica(42);
-        r.setCvLan(r.getLogica() + 128);
-        r.setRin(100);
+        r.setSlot(3);
+        r.setPorta(2);
+        r.setLogica(56);
+        r.setCvLan(1719);
+        r.setRin(125);
 
         r.setVlanVoip(3004);
-        r.setVlanVod(3001);
-        r.setVlanMulticast(3001);
+        
+        //todo huawei utiliza 400
+        r.setVlanVod(400);
+        r.setVlanMulticast(3009);
+        r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
         s.setIsHib(Boolean.FALSE);
         s.setIsSip(Boolean.TRUE);
-        s.setVelDown(102400l);
-        s.setVelUp(5120l);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
 
         c.setServicos(s);
 
