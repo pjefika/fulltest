@@ -38,7 +38,7 @@ public class Alcatel7302GponDslamVivo1IT {
 
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
-     */    
+     */
     private static EfikaCustomer cust = CustomerMock.alcatel7302();
     private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
@@ -213,13 +213,8 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        TabelaParametrosGpon expResult = null;
         TabelaParametrosGpon result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**

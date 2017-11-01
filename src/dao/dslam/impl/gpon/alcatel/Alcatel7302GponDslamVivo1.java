@@ -11,12 +11,6 @@ import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
@@ -32,7 +26,6 @@ import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
 
 /**
  *
@@ -71,8 +64,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     @Override
-    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {       
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));  
+    public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name=\"admin-state\"]");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name=\"oper-state\"]");
         EstadoDaPorta state = new EstadoDaPorta();
@@ -116,9 +109,25 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoConsultarParametros(InventarioRede i) {
+        return new ComandoDslam("show equipment ont optics 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
+    }
+
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultarParametros(i)));
+        String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
+        String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
+        if (potOnt.equals("invalid") || potOnt.equals("unknown")) {
+            potOnt = "0";
+        }
+        if (potOlt.equals("invalid") || potOlt.equals("unknown")) {
+            potOlt = "0";
+        }
+        TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        tabParam.setPotOlt(new Double(potOlt));
+        tabParam.setPotOnt(new Double(potOnt));
+        return tabParam;
     }
 
     @Override
