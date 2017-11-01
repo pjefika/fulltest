@@ -42,7 +42,7 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1135300172");
+    private static EfikaCustomer cust = CustomerMock.gponAlcatel();
 //    private static EfikaCustomer cust = CustomerMock.gponAlcatel();
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();

@@ -51,12 +51,36 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (velsDown.isEmpty()) {
+            Velocidades[] vels = Velocidades.values();
+            for (Velocidades vel : vels) {
+                if (new Double(vel.getValor()) <= 100) {
+                    velsDown.add(new VelocidadeVendor(vel, "name:43"));
+                } else if (new Double(vel.getValor()) <= 500) {
+                    velsDown.add(new VelocidadeVendor(vel, "name:14"));
+                } else if (new Double(vel.getValor()) <= 1000) {
+                    velsDown.add(new VelocidadeVendor(vel, "name:100"));
+                }
+            }
+        }
+        return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (velsUp.isEmpty()) {
+            Velocidades[] vels = Velocidades.values();
+            for (Velocidades vel : vels) {
+                if (new Double(vel.getValor()) <= 100) {
+                    velsUp.add(new VelocidadeVendor(vel, "name:43"));
+                } else if (new Double(vel.getValor()) <= 500) {
+                    velsUp.add(new VelocidadeVendor(vel, "name:14"));
+                } else if (new Double(vel.getValor()) <= 1000) {
+                    velsUp.add(new VelocidadeVendor(vel, "name:100"));
+                }
+            }
+        }
+        return velsUp;
     }
 
     protected ComandoDslam getComandoEstadoDaPorta(InventarioRede i) {
@@ -79,9 +103,30 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoProfile(InventarioRede i, Boolean how) {
+        // True para Down | False para Up        
+        if (how) {
+            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 xml", 2000);
+        } else {
+            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 xml", 2000);
+        }
+    }
+
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        Document xmlDown = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, true)));
+        Document xmlUp = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, false)));
+
+        String down = TratativaRetornoUtil.getXmlParam(xmlDown, "//parameter[@name='shaper-profile']");
+        String up = TratativaRetornoUtil.getXmlParam(xmlUp, "//parameter[@name='bandwidth-profile']");
+
+        Profile p = new Profile();
+        p.setProfileDown(down);
+        p.setProfileUp(up);
+        p.setDown(compare(down, true));
+        p.setUp(compare(up, false));
+        return p;
     }
 
     @Override
