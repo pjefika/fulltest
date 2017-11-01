@@ -187,10 +187,44 @@ public class CustomerMock {
         r.setRin(125);
 
         r.setVlanVoip(3004);
-        
+
         //todo huawei utiliza 400
         r.setVlanVod(400);
         r.setVlanMulticast(3009);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setIsHib(Boolean.FALSE);
+        s.setIsSip(Boolean.TRUE);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer alcatel7302() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        // Achar cliente 
+        //110007570563807 - 1137587599
+        r.setTerminal("110007791360909");
+        r.setIpDslam("BR_SPORQ_OLT02");
+        r.setModeloDslam("ALCATEL7302/7360_V1");
+
+        r.setSlot(4);
+        r.setPorta(2);
+        r.setLogica(59); // Id cliente
+        r.setCvLan(1024); // Vlan usuario
+        r.setRin(58);
+
+        r.setVlanVoip(3004);
+        r.setVlanVod(3001);
+        r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);

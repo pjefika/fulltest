@@ -37,7 +37,7 @@ public class TratativaRetornoUtil {
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlStr)));
+            Document doc = builder.parse(new InputSource(new StringReader(xmlStr.trim())));
             return doc;
         } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
