@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.Locale;
 import model.dslam.consulta.VlanMulticast;
 
@@ -24,7 +25,7 @@ public class ValidacaoVlanMulticast extends ValidacaoValidavel {
     
     @Override
     protected void processar() {
-        if (getCust().getServicos().getIsHib()) {
+        if (getCust().getServicos().getTipoTv() == TecnologiaTv.HIBRIDA) {
             super.processar();
         } else {
             this.finalizar("Cliente sem TV Híbrida.", Boolean.TRUE);

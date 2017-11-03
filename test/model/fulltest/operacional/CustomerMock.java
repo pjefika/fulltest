@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
 import br.net.gvt.efika.customer.OrigemPlanta;
+import br.net.gvt.efika.enums.TecnologiaLinha;
+import br.net.gvt.efika.enums.TecnologiaTv;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -59,8 +61,8 @@ public class CustomerMock {
 
     public static InventarioServico sipVdsl() {
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
         return s;
@@ -129,8 +131,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.TRUE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(15360l);
         s.setVelUp(1024l);
 
@@ -161,8 +163,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 
@@ -196,8 +198,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 
@@ -226,13 +228,15 @@ public class CustomerMock {
         r.setVlanVoip(3008); // Vlan Voz
         r.setVlanVod(3005); // Vlan Multicast
         r.setVlanMulticast(3005); // Vlan Multicast
+        r.setIdOnt("0001897421");
+        r.setBhs(Boolean.TRUE);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 

@@ -139,7 +139,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanBanda(i));
         List<String> retorno = cmd.getRetorno();
         VlanBanda v = new VlanBanda();
-        if (!retorno.contains("Error : instance does not exist")) {
+        if (!retorno.contains("Error : specified lower-interface does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (vlan.isEmpty()) {
@@ -162,7 +162,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanMulticast(i));
         List<String> retorno = cmd.getRetorno();
         VlanMulticast vm = new VlanMulticast();
-        if (!retorno.contains("Error : instance does not exist")) {
+        if (!retorno.contains("Error : specified lower-interface does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (vlan.isEmpty()) {
@@ -186,7 +186,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandosVlanVoip(i));
         List<String> retorno = cmd.getRetorno();
         VlanVoip vvip = new VlanVoip();
-        if (!retorno.contains("Error : instance does not exist")) {
+        if (!retorno.contains("Error : specified lower-interface does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (vlan.isEmpty()) {
@@ -303,9 +303,37 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam createComandosVlanBanda(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvLan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvLan() + " in-qos-prof-name name:HSI\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
+                    + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
+                    + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvLan() + " tag single-tagged qos profile:20");
+        } else {
+            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvLan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvLan() + " in-qos-prof-name name:HSI\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO  desc1 " + i.getTerminal() + "\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
+                    + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
+                    + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:43\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:43\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id stacked:" + i.getRin() + ":" + i.getCvLan() + "\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvLan());
+        }
+    }
+
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getCd().consulta(this.createComandosVlanBanda(i));
+        return this.getVlanBanda(i);
     }
 
     @Override
@@ -323,9 +351,17 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam comandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 1500,
+                "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+    }
+
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
     }
 
     @Override
