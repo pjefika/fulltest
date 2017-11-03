@@ -12,6 +12,7 @@ import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
@@ -129,9 +130,27 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return p;
     }
 
+    protected ComandoDslam getComandoVlanBanda(InventarioRede i) {
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml");
+    }
+
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanBanda(i));
+        List<String> retorno = cmd.getRetorno();
+        VlanBanda v = new VlanBanda();
+        if (!retorno.contains("Error : instance does not exist")) {
+            Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
+            String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+            if (vlan.isEmpty()) {
+                vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            }
+            String[] split = vlan.split(":");
+            v.setCvlan(new Integer(split[1]));
+            v.setSvlan(new Integer(split[2]));
+            v.setState(EnumEstadoVlan.UP);
+        }
+        return v;
     }
 
     @Override
