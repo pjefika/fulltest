@@ -176,9 +176,28 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return vm;
     }
 
+    protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml");
+
+    }
+
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = this.getCd().consulta(this.getComandosVlanVoip(i));
+        List<String> retorno = cmd.getRetorno();
+        VlanVoip vvip = new VlanVoip();
+        if (!retorno.contains("Error : instance does not exist")) {
+            Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
+            String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+            if (vlan.isEmpty()) {
+                vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            }
+            if (!vlan.isEmpty()) {
+                vvip.setSvlan(new Integer(vlan));
+                vvip.setState(EnumEstadoVlan.UP);
+            }
+        }
+        return vvip;
     }
 
     @Override
