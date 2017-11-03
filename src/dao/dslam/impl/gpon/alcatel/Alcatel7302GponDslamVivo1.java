@@ -232,8 +232,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt(i)));
         String serial = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']");
-        SerialOntGpon sog = new SerialOntGpon();        
-        sog.setIdOnt(serial.replace(":", ""));        
+        SerialOntGpon sog = new SerialOntGpon();
+        sog.setIdOnt(serial.replace(":", ""));
         return sog;
     }
 
@@ -283,9 +283,14 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam setComandoEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString());
+    }
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        return this.getEstadoDaPorta(i);
     }
 
     @Override

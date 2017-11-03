@@ -268,14 +268,10 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.TRUE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
