@@ -153,9 +153,27 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return v;
     }
 
+    protected ComandoDslam getComandoVlanMulticast(InventarioRede i) {
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml");
+    }
+
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanMulticast(i));
+        List<String> retorno = cmd.getRetorno();
+        VlanMulticast vm = new VlanMulticast();
+        if (!retorno.contains("Error : instance does not exist")) {
+            Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
+            String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+            if (vlan.isEmpty()) {
+                vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            }
+            if (!vlan.isEmpty()) {
+                vm.setSvlan(new Integer(vlan));
+                vm.setState(EnumEstadoVlan.UP);
+            }
+        }
+        return vm;
     }
 
     @Override

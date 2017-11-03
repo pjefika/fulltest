@@ -32,7 +32,7 @@ import org.xml.sax.SAXException;
 public class TratativaRetornoUtil {
 
     private static Document convertStringToDocument(String xmlStr) {
-        //System.out.println(xmlStr);
+        System.out.println(xmlStr);
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;
         try {

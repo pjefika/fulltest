@@ -142,14 +142,9 @@ public class Alcatel7302GponDslamVivo1IT {
      */
     @Test
     public void testGetVlanMulticast() throws Exception {
-        System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        VlanMulticast expResult = null;
+        System.out.println("getVlanBanda");
         VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
