@@ -200,14 +200,41 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return vvip;
     }
 
+    protected ComandoDslam getComandoVlanVod(InventarioRede i) {
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml");
+    }
+
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanMulticast(i));
+        List<String> retorno = cmd.getRetorno();
+        VlanVod vvod = new VlanVod();
+        if (!retorno.contains("Error : instance does not exist")) {
+            Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
+            String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+            if (vlan.isEmpty()) {
+                vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            }
+            if (!vlan.isEmpty()) {
+                vvod.setSvlan(new Integer(vlan));
+                vvod.setState(EnumEstadoVlan.UP);
+            }
+        }
+        return vvod;
+
+    }
+
+    protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
     }
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt(i)));
+        String serial = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']");
+        SerialOntGpon sog = new SerialOntGpon();        
+        sog.setIdOnt(serial.replace(":", ""));        
+        return sog;
     }
 
     protected ComandoDslam getComandoConsultarParametros(InventarioRede i) {

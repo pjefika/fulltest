@@ -122,7 +122,7 @@ public class Alcatel7302GponDslamVivo1IT {
      */
     @Test
     public void testGetProfile() throws Exception {
-        System.out.println("testGetProfile");
+        System.out.println("getProfile");
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
     }
@@ -142,7 +142,7 @@ public class Alcatel7302GponDslamVivo1IT {
      */
     @Test
     public void testGetVlanMulticast() throws Exception {
-        System.out.println("getVlanBanda");
+        System.out.println("getVlanMulticast");
         VlanMulticast result = instance.getVlanMulticast(i);
         System.out.println(GsonUtil.serialize(result));
     }
@@ -152,7 +152,7 @@ public class Alcatel7302GponDslamVivo1IT {
      */
     @Test
     public void testGetVlanVoip() throws Exception {
-        System.out.println("getVlanBanda");
+        System.out.println("getVlanVoip");
         VlanVoip result = instance.getVlanVoip(i);
         System.out.println(GsonUtil.serialize(result));
     }
@@ -163,13 +163,8 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -178,13 +173,8 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        SerialOntGpon expResult = null;
         SerialOntGpon result = instance.getSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
