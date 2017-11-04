@@ -9,6 +9,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
 import br.net.gvt.efika.customer.OrigemPlanta;
+import br.net.gvt.efika.enums.TecnologiaLinha;
+import br.net.gvt.efika.enums.TecnologiaTv;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -59,8 +61,8 @@ public class CustomerMock {
 
     public static InventarioServico sipVdsl() {
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
         return s;
@@ -129,8 +131,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.TRUE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.HIBRIDA);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(15360l);
         s.setVelUp(1024l);
 
@@ -161,8 +163,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
+        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 
@@ -175,31 +177,32 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
-        //115027500879602 - 1334729066
-        r.setTerminal("115027500879602");
-        r.setIpDslam("BR_SPOPE_OLT03");
+        //110007820776500 - 1122732249
+        r.setTerminal("110007820776500");
+        r.setIpDslam("BR_SPOIP_OLT11");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setSlot(3);
-        r.setPorta(2);
-        r.setLogica(56);
-        r.setCvLan(1719);
-        r.setRin(125);
+        r.setSlot(2);
+        r.setPorta(14);
+        r.setLogica(54);
+        r.setCvLan(709);
+        r.setRin(1096);
+        r.setBhs(Boolean.TRUE);
 
         r.setVlanVoip(3004);
         
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3009);
+        r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setIsHib(Boolean.FALSE);
-        s.setIsSip(Boolean.TRUE);
-        s.setVelDown(51200l);
-        s.setVelUp(25600l);
+        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.SIP);
+        s.setVelDown(102400l);
+        s.setVelUp(51200l);
 
         c.setServicos(s);
 

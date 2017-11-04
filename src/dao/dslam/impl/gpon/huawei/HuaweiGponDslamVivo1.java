@@ -126,6 +126,9 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected void tabelaEstadoDaPorta(InventarioRede i) throws Exception {
+        gemportBanda = i.getLogica() + 128;
+        gemportIptv = i.getLogica() + 256;
+        gemportVoip = i.getLogica() + 384;
         List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
         estadoDaPorta = new EstadoDaPorta();
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
@@ -289,9 +292,69 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
+        return new ComandoDslam("display service-port next-free-index", 1000);
+    }
+
+    protected Integer getNextFreeIndex(InventarioRede i) throws Exception {
+        List<String> resp = getCd().consulta(getComandoGetNextFreeIndex(i)).getRetorno();
+        return new Integer(TratativaRetornoUtil.tratHuawei(resp, "Next valid free service virtual port ID"));
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Integer index) {
+        if (i.getBhs()) {
+            return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + serial.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvLan()
+                    + " manage-mode omci\n"
+                    + "\n"
+                    + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
+                    + "\n"
+                    + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
+                    + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                    + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                    + "\n"
+                    + "ont native-vlan " + i.getPorta() + " " + i.getLogica() + " unconcern\n"
+                    + "\n"
+                    + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                    + "\n"
+                    + "quit\n"
+                    + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
+                    + " translate-and-add inner-vlan " + i.getCvLan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
+        }
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth \"" + serial.getIdOnt() + "\" always-on"
+                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvLan() + "\" manage-mode omci\n"
+                + "\n"
+                + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
+                + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
+                + "\n"
+                + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
+                + "\n"
+                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 100\n"
+                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                + "\n"
+                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                + "\n"
+                + "ont port priority-policy " + i.getPorta() + " " + i.getLogica() + " eth 1 copy-cos\n"
+                + "ont port q-in-q " + i.getPorta() + " " + i.getLogica() + " eth 1 disable\n"
+                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 10 priority 0\n"
+                + "\n"
+                + "quit\n"
+                + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
+                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvLan() + " inner-priority 0 inbound traffic-table"
+                + " index 6 outbound traffic-table index 43\n"
+                + "stacking label service-port " + index + " " + i.getCvLan(), 15000);
+    }
+
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (gemportBanda == null || serial == null) {
+            tabelaEstadoDaPorta(i);
+        }
+        List<String> resp = getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i))).getRetorno();
+
+        return getVlanBanda(i);
     }
 
     @Override
@@ -352,8 +415,8 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                 + "ont delete " + i.getPorta() + " " + i.getLogica() + "\n"
                 + "\n"
                 + "quit\n"
-                + "undo service-port " + indexSpIptv + "\n"
-                + "undo service-port " + indexSpVoip + "\n", 25000);
+                + "undo service-port " + indexSpIptv + "\n\n"
+                + "undo service-port " + indexSpVoip + "\n\n", 25000);
     }
 
     @Override

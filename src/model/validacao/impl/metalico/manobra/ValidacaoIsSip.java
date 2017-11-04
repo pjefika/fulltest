@@ -7,6 +7,7 @@ package model.validacao.impl.metalico.manobra;
 
 import model.validacao.impl.both.Validacao;
 import br.net.gvt.efika.customer.InventarioServico;
+import br.net.gvt.efika.enums.TecnologiaLinha;
 import java.util.Locale;
 
 /**
@@ -29,7 +30,7 @@ public class ValidacaoIsSip extends Validacao {
 
     @Override
     public Boolean checar() {
-        return iS.getIsSip();
+        return iS.getTipoLinha() == TecnologiaLinha.SIP;
     }
 
     @Override

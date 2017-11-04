@@ -333,6 +333,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
         VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
