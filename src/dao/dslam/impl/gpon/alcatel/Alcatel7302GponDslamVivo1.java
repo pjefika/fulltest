@@ -332,6 +332,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         e.setAdminState(Boolean.FALSE);
         this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
         this.getCd().consulta(this.createComandosVlanBanda(i));
+        e.setAdminState(Boolean.TRUE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
         return this.getVlanBanda(i);
     }
 
@@ -359,7 +361,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        VlanMulticast vlanMulticast = new VlanMulticast();
+        return vlanMulticast;
     }
 
     protected ComandoDslam comandoDeleteVlanBanda(InventarioRede i) {
@@ -373,6 +376,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         e.setAdminState(Boolean.FALSE);
         this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
         this.getCd().consulta(this.comandoDeleteVlanBanda(i));
+        e.setAdminState(Boolean.TRUE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
     }
 
     protected ComandoDslam deleteComandoVlanVoip(InventarioRede i) {
@@ -392,11 +397,31 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         e.setAdminState(Boolean.FALSE);
         this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
         this.getCd().consulta(this.deleteComandoVlanVoip(i));
+        e.setAdminState(Boolean.TRUE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+
+    }
+
+    protected ComandoDslam comandoDeleteVlanVod(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure igmp no channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 no bandwidth-profile\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 shaper-profile none");
+        } else {
+            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+        }
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        this.getCd().consulta(this.comandoDeleteVlanVod(i));
+        e.setAdminState(Boolean.TRUE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
     }
 
     @Override
