@@ -457,13 +457,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetEstadoPortasProximas() throws Exception {
         System.out.println("getEstadoPortasProximas");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        List<Porta> expResult = null;
         List<Porta> result = instance.getEstadoPortasProximas(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
 }

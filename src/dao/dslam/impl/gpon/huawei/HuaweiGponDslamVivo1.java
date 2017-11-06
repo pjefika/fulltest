@@ -564,7 +564,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -595,9 +595,30 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         return velsUp;
     }
 
+    protected ComandoDslam getComandoGetEstadoPortasProximas(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "display ont info " + i.getPorta() + " all", 5000);
+    }
+
     @Override
     public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoGetEstadoPortasProximas(i)).getRetorno();
+        Integer countStringOccurrence = TratativaRetornoUtil.countStringOccurrence(retorno, "0/" + i.getSlot() + "/" + i.getPorta());
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < ((countStringOccurrence-1)/2); j++) {
+            Porta porta = new Porta();
+            EstadoDaPorta estado = new EstadoDaPorta();
+            List<String> linha = TratativaRetornoUtil.tratZhone(retorno, "0/" + i.getSlot() + "/" + i.getPorta(), "\\b\\w+\\b", j);
+            
+            estado.setAdminState(linha.get(5).equalsIgnoreCase("active"));
+            estado.setOperState(linha.get(6).equalsIgnoreCase("online"));
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(new Integer(linha.get(3)));
+            list.add(porta);
+        }
+        
+
+        return list;
     }
 
 }
