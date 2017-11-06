@@ -215,20 +215,21 @@ public class CustomerMock {
         // Achar cliente 
         //110007570563807 - 1137587599
         //115637212216107 - 1239112215
-        r.setTerminal("115637212216107");
-        r.setIpDslam("BR_SJCRH_OLT09");
+        //110007556549800 - 1127811121
+        r.setTerminal("110007556549800");
+        r.setIpDslam("BR_SPORR_OLT02");
         r.setModeloDslam("ALCATEL7302/7360_V1");
 
-        r.setSlot(18); // Slot
-        r.setPorta(4); // Porta Pon
-        r.setLogica(64); // Id cliente
-        r.setCvLan(1022); // Vlan usuario
-        r.setRin(463); // Vlan Rede
+        r.setSlot(3); // Slot
+        r.setPorta(8); // Porta Pon
+        r.setLogica(60); // Id cliente
+        r.setCvLan(675); // Vlan usuario
+        r.setRin(350); // Vlan Rede
 
         r.setVlanVoip(3008); // Vlan Voz
         r.setVlanVod(3005); // Vlan Multicast
         r.setVlanMulticast(3005); // Vlan Multicast
-        r.setIdOnt("0001897421");
+        r.setIdOnt("0002434107");
         r.setBhs(Boolean.TRUE);
         r.setPlanta(OrigemPlanta.VIVO1);
 

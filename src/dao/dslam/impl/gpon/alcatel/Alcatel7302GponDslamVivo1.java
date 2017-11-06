@@ -99,9 +99,17 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return state;
     }
 
+    protected ComandoDslam getComandosDeviceMac(InventarioRede i) {
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 xml");
+    }
+
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // MAC do ONT??
+        //res-id[@name='mac']
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandosDeviceMac(i)));
+        String mac = TratativaRetornoUtil.getXmlParam(xml, "//res-id[@name='mac']");
+        return new DeviceMAC(mac.toUpperCase());
     }
 
     protected ComandoDslam getComandoProfile(InventarioRede i, Boolean how) {
@@ -332,13 +340,28 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
         this.getCd().consulta(this.createComandosVlanBanda(i));
         return this.getVlanBanda(i);
     }
 
+    protected ComandoDslam createComandoVlanVoip(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30\n"
+                    + "configure qos interface 1/1/$slot/$port/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " 5 no bandwidth-profile\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 shaper-profile  none");
+        } else {
+            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+        }
+    }
+
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getCd().consulta(this.createComandoVlanVoip(i));
+        return this.getVlanVoip(i);
     }
 
     @Override
@@ -364,9 +387,23 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         this.getCd().consulta(this.comandoDeleteVlanBanda(i));
     }
 
+    protected ComandoDslam deleteComandoVlanVoip(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 no bandwidth-profile\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 shaper-profile none");
+        } else {
+            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+        }
+    }
+
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
+        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        this.getCd().consulta(this.deleteComandoVlanVoip(i));
     }
 
     @Override
