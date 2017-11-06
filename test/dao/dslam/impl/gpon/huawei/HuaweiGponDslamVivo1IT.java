@@ -342,13 +342,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testCreateVlanVoip() throws Exception {
         System.out.println("createVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.createVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -357,13 +352,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testCreateVlanVod() throws Exception {
         System.out.println("createVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.createVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -396,11 +386,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testDeleteVlanVoip() throws Exception {
         System.out.println("deleteVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
         instance.deleteVlanVoip(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -409,11 +396,7 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testDeleteVlanVod() throws Exception {
         System.out.println("deleteVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
         instance.deleteVlanVod(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
