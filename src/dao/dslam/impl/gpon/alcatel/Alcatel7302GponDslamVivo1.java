@@ -158,25 +158,13 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanMulticast(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml");
+        //Incompleto
+        return new ComandoDslam("");
     }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanMulticast(i));
-        List<String> retorno = cmd.getRetorno();
         VlanMulticast vm = new VlanMulticast();
-        if (!retorno.contains("Error : specified lower-interface does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
-            String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if (vlan.isEmpty()) {
-                vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
-            }
-            if (!vlan.isEmpty()) {
-                vm.setSvlan(new Integer(vlan));
-                vm.setState(EnumEstadoVlan.UP);
-            }
-        }
         return vm;
     }
 
@@ -205,6 +193,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanVod(InventarioRede i) {
+        //Incompleto
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml");
     }
 
@@ -225,7 +214,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
             }
         }
         return vvod;
-
     }
 
     protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
