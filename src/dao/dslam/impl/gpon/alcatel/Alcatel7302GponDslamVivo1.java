@@ -354,6 +354,28 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return this.getVlanVoip(i);
     }
 
+    protected ComandoDslam comandoCreateVlanVod(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 cac-profile name:42\n"
+                    + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 bandwidth-profile name:42\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 priority 4 shaper-profile  name:42\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21\n"
+                    + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS");
+        } else {
+            return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid $ont_id sw-dnload-version AUTO  desc1 $terminal\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
+                    + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
+                    + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:43\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:43\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id stacked:" + i.getRin() + ":" + i.getCvLan() + "\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvLan() + "");
+        }
+    }
+
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -409,7 +431,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 no bandwidth-profile\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 shaper-profile none");
         } else {
-            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+            return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
+                    + "configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
                     + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
         }
     }
