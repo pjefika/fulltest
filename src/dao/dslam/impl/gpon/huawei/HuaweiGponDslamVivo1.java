@@ -287,12 +287,16 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanBanda(i));
+        Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
+        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanBanda(i));
+        Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
+        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
     }
 
     protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
