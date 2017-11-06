@@ -34,8 +34,7 @@ import org.w3c.dom.Document;
  */
 public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
-    private transient EstadoDaPorta estadoDaPorta;
-
+    //private transient EstadoDaPorta estadoDaPorta;
     public Alcatel7302GponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
     }
@@ -123,13 +122,10 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-
         Document xmlDown = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, true)));
         Document xmlUp = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, false)));
-
         String down = TratativaRetornoUtil.getXmlParam(xmlDown, "//parameter[@name='shaper-profile']");
         String up = TratativaRetornoUtil.getXmlParam(xmlUp, "//parameter[@name='bandwidth-profile']");
-
         Profile p = new Profile();
         p.setProfileDown(down);
         p.setProfileUp(up);
@@ -303,12 +299,16 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Pendente PO?
+        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
+        this.getCd().consulta(this.createComandosVlanBanda(i));
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        // Pendente PO?
+        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
+        this.getCd().consulta(this.createComandosVlanBanda(i));
     }
 
     protected ComandoDslam createComandosVlanBanda(InventarioRede i) {
