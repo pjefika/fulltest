@@ -378,7 +378,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.getCd().consulta(this.comandoCreateVlanVod(i));
+        return this.getVlanVod(i);
     }
 
     @Override
