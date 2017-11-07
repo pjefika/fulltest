@@ -13,6 +13,7 @@ import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.dslam.consulta.DeviceMAC;
@@ -31,6 +32,7 @@ import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
+import util.GsonUtil;
 
 /**
  *
@@ -142,7 +144,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
@@ -168,16 +170,17 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
         TabelaParametrosGpon tab = new TabelaParametrosGpon();
-
-        tab.setPotOlt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx")));
-        tab.setPotOnt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical")));
+        Double potOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx"));
+        tab.setPotOlt(potOlt);
+        Double potOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical"));
+        tab.setPotOnt(potOnt);
         return tab;
     }
 
@@ -188,14 +191,15 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spBanda = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+//        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
-        return new VlanBanda(spBanda.getVpi(), spBanda.getVlanId(), state);
+        Integer cvlan = Objects.equals(spBanda.getVpi(), gemportBanda) ? i.getCvLan() : 0;
+        return new VlanBanda(cvlan, spBanda.getVlanId(), EnumEstadoVlan.UP);
     }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -204,8 +208,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spVoip = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
-        return new VlanVoip(spVoip.getVpi(), spVoip.getVlanId(), state);
+//        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+
+        Integer cvlan = Objects.equals(spVoip.getVpi(), gemportVoip) ? i.getCvLan() : 0;
+
+        return new VlanVoip(cvlan, spVoip.getVlanId(), EnumEstadoVlan.UP);
     }
 
     @Override
@@ -214,8 +221,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spIptv = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
-        return new VlanVod(spIptv.getVpi(), spIptv.getVlanId(), state);
+//        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+
+        Integer cvlan = Objects.equals(gemportIptv, spIptv.getVpi()) ? i.getCvLan() : 0;
+
+        return new VlanVod(cvlan, spIptv.getVlanId(), EnumEstadoVlan.UP);
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
@@ -224,7 +234,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -266,17 +276,24 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        deleteVlanBanda(i);
+        createVlanBanda(i, null, null);
+        if (i.getBhs()) {
+            createVlanVoip(i);
+        }
+        return getSerialOnt(i);
     }
 
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
+        //desassocia-se deletando vlan banda
+        //deleteVlanBanda(i);
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
         String leState = state ? "activate" : "deactivate";
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica());
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica() + "\nquit\n");
     }
 
     @Override
@@ -597,7 +614,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     protected ComandoDslam getComandoGetEstadoPortasProximas(InventarioRede i) {
         return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                + "display ont info " + i.getPorta() + " all", 5000);
+                + "display ont info " + i.getPorta() + " all\nquit\n", 5000);
     }
 
     @Override
@@ -605,18 +622,17 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         List<String> retorno = getCd().consulta(getComandoGetEstadoPortasProximas(i)).getRetorno();
         Integer countStringOccurrence = TratativaRetornoUtil.countStringOccurrence(retorno, "0/" + i.getSlot() + "/" + i.getPorta());
         List<Porta> list = new ArrayList<>();
-        for (int j = 1; j < ((countStringOccurrence-1)/2); j++) {
+        for (int j = 1; j < ((countStringOccurrence - 1) / 2); j++) {
             Porta porta = new Porta();
             EstadoDaPorta estado = new EstadoDaPorta();
             List<String> linha = TratativaRetornoUtil.tratZhone(retorno, "0/" + i.getSlot() + "/" + i.getPorta(), "\\b\\w+\\b", j);
-            
+
             estado.setAdminState(linha.get(5).equalsIgnoreCase("active"));
             estado.setOperState(linha.get(6).equalsIgnoreCase("online"));
             porta.setEstadoPorta(estado);
             porta.setNumPorta(new Integer(linha.get(3)));
             list.add(porta);
         }
-        
 
         return list;
     }
