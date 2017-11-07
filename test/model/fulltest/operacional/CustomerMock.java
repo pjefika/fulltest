@@ -195,8 +195,7 @@ public class CustomerMock {
 
         r.setVlanVoip(3004);
         
-        //todo huawei utiliza 400
-        r.setVlanVod(400);
+        r.setVlanVod(3001);
         r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
 

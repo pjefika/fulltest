@@ -223,8 +223,8 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 //        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
         Integer cvlan = Objects.equals(gemportIptv, spIptv.getVpi()) ? i.getCvLan() : 0;
-
-        return new VlanVod(cvlan, spIptv.getVlanId(), EnumEstadoVlan.UP);
+        Integer svlan = spIptv.getVlanId().compareTo(400)==0 ? i.getVlanVod() : 0;
+        return new VlanVod(cvlan, svlan, EnumEstadoVlan.UP);
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {

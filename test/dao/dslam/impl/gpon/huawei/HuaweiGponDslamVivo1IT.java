@@ -49,6 +49,7 @@ public class HuaweiGponDslamVivo1IT {
 
     @BeforeClass
     public static void setUpClass() {
+
     }
 
     @AfterClass
@@ -57,6 +58,9 @@ public class HuaweiGponDslamVivo1IT {
 
     @Before
     public void setUp() {
+        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
+//        Security.addProvider(bouncyCastleProvider);
+        Security.insertProviderAt(bouncyCastleProvider, 1);
     }
 
     @After
@@ -384,7 +388,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testDeleteVlanVoip() throws Exception {
         System.out.println("deleteVlanVoip");
         instance.deleteVlanVoip(i);
-        
+
     }
 
     /**
