@@ -208,6 +208,7 @@ public class CustomerMock {
         s.setVelDown(102400l);
         s.setVelUp(51200l);
 
+
         c.setServicos(s);
 
         return c;
