@@ -32,7 +32,6 @@ import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
-import util.GsonUtil;
 
 /**
  *

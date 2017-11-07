@@ -11,7 +11,6 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoVlanVoip;
-import model.validacao.impl.realtime.Corretor;
 
 /**
  *

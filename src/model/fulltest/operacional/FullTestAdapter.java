@@ -5,8 +5,8 @@
  */
 package model.fulltest.operacional;
 
-import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.entity.FulltestGenericEntity;
+import model.fulltest.operacional.facade.FullTestGenericFacade;
 import util.GsonUtil;
 
 /**

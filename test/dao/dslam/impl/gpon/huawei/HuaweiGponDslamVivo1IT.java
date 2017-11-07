@@ -9,8 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import com.jcraft.jsch.*;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.Security;
@@ -34,11 +32,10 @@ import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static sun.security.krb5.Confounder.bytes;
 import util.GsonUtil;
 
 /**

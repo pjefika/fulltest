@@ -8,7 +8,6 @@ package dao.dslam.impl;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -22,10 +21,10 @@ import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

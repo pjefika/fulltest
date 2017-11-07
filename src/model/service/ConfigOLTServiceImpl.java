@@ -19,9 +19,9 @@ import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
+import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
-import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 

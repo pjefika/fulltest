@@ -25,8 +25,8 @@ import model.manobra.analitcs.FinalizacaoManobraAdapter;
 import model.manobra.analitcs.MotivoManobraEnum;
 import model.manobra.asserts.facade.AssertsManobra;
 import model.manobra.asserts.facade.Assertter;
-import model.manobra.facade.AnalisadorManobraFacade;
 import model.manobra.facade.AnalisadorManobra;
+import model.manobra.facade.AnalisadorManobraFacade;
 import util.GsonUtil;
 
 /**

@@ -5,17 +5,15 @@
  */
 package model.fulltest.operacional;
 
-import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import model.fulltest.operacional.facade.FullTestCOFacade;
-import model.fulltest.operacional.facade.FullTestFacade;
-import model.fulltest.operacional.factory.FactoryFulltest;
+import model.fulltest.operacional.facade.FullTestInterface;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -48,10 +46,9 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            //zhone - 1630103256
-            //2135562376
+    
             FullTestInterface instance = new FullTestCOFacade();
-//            FullTestGponFacade instance = new FullTestFacade(CustomerMock.getCustomer("7932321318"));
+
             FullTest f = instance.executar(cust);
 
             f.getValids().forEach((valid) -> {
