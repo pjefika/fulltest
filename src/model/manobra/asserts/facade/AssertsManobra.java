@@ -26,6 +26,7 @@ import model.manobra.asserts.impl.AssertResync300;
 import model.manobra.asserts.impl.AssertResync5;
 import model.manobra.asserts.impl.AssertResync50;
 import model.validacao.impl.both.ValidacaoEstadoPortaOper;
+import model.validacao.impl.metalico.ValidacaoRedeConfiavel;
 import model.validacao.impl.metalico.manobra.ValidacaoAttainableDown;
 import model.validacao.impl.metalico.manobra.ValidacaoAttainableUp;
 import model.validacao.impl.metalico.manobra.ValidacaoIsSip;
@@ -34,7 +35,6 @@ import model.validacao.impl.metalico.manobra.ValidacaoPacotesUp;
 import model.validacao.impl.metalico.manobra.ValidacaoResync300;
 import model.validacao.impl.metalico.manobra.ValidacaoResync5;
 import model.validacao.impl.metalico.manobra.ValidacaoResync50;
-import model.validacao.impl.metalico.ValidacaoRedeConfiavel;
 
 /**
  *

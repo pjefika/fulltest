@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.both;
 
-import model.validacao.impl.realtime.Validator;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import model.validacao.impl.realtime.Validator;
 
 /**
  *

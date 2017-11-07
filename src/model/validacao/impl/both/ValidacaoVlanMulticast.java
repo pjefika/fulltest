@@ -29,7 +29,7 @@ public class ValidacaoVlanMulticast extends ValidacaoValidavel {
             if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
                 super.processar();
             } else {
-                this.finalizar("Cliente sem TV Híbrida.", Boolean.TRUE);
+                this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
             }
         } else {
             this.finalizar("Cliente sem TV.", Boolean.TRUE);
@@ -47,3 +47,4 @@ public class ValidacaoVlanMulticast extends ValidacaoValidavel {
     }
 
 }
+

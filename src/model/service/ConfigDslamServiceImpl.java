@@ -11,8 +11,6 @@ import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoDslam;
-import model.dslam.consulta.EstadoDaPorta;
-import model.validacao.impl.both.ValidacaoResult;
 
 public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDslam>, ConfigSetterMetalicoService {
 

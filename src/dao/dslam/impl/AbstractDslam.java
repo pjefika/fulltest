@@ -6,15 +6,14 @@
 package dao.dslam.impl;
 
 import dao.dslam.factory.ConsultaDslamFactory;
-import model.dslam.credencial.Credencial;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.config.VelocidadeViewModel;
 import model.dslam.config.velocidade.VelocidadeDTO;
+import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 

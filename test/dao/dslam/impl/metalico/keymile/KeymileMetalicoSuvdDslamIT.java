@@ -7,7 +7,6 @@ package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
 import java.util.List;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -21,10 +20,10 @@ import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.GsonUtil;
 
 /**

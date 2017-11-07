@@ -5,8 +5,8 @@
  */
 package model.fulltest.operacional.strategy;
 
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
 import model.validacao.impl.both.ValidacaoResult;
@@ -33,10 +33,13 @@ public class ForcedStrategy implements ExecutionStrategy {
                     ft.getValids().add(r);
                 }
             } catch (Exception ex) {
-                ft.setMensagem(ex.getMessage());
-                ft.setResultado(Boolean.FALSE);
-                if (ex instanceof SemGerenciaException) {
-                    throw ex;
+                if (ex instanceof FuncIndisponivelDslamException) {
+                } else {
+                    ft.setMensagem(ex.getMessage());
+                    ft.setResultado(Boolean.FALSE);
+                    if (ex instanceof SemGerenciaException) {
+                        throw ex;
+                    }
                 }
 
             }

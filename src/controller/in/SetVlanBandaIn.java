@@ -6,7 +6,6 @@
 package controller.in;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.consulta.VlanBanda;
 import model.log.AcaoEnum;
 import model.log.LogIn;
 

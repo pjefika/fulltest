@@ -5,21 +5,20 @@
  */
 package model.validacao.realtime.gpon.corretiva;
 
-import model.validacao.impl.realtime.CorretorVlanBanda;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
-import model.fulltest.operacional.FullTest;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Corretor;
+import model.validacao.impl.realtime.CorretorVlanBanda;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *

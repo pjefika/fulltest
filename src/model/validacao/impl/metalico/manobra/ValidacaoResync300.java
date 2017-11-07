@@ -6,8 +6,8 @@
 package model.validacao.impl.metalico.manobra;
 
 import java.util.Locale;
-import model.validacao.impl.both.Validacao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
+import model.validacao.impl.both.Validacao;
 
 /**
  *

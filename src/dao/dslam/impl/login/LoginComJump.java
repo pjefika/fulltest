@@ -5,7 +5,6 @@
  */
 package dao.dslam.impl.login;
 
-import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dao.dslam.impl.Conector;
@@ -15,12 +14,8 @@ import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.security.Security;
 import java.util.Properties;
 import model.dslam.credencial.Credencial;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -36,8 +31,7 @@ public class LoginComJump implements LoginDslamStrategy {
     public void conectar(Conector css) throws Exception {
 
         this.cs = (ConsultaDslamVivo1) css;
-
-        Security.insertProviderAt(new BouncyCastleProvider(), 1);
+        
         try {
             jsch = new JSch();
             session = jsch.getSession("incid", "10.18.81.96", 22);
@@ -49,6 +43,7 @@ public class LoginComJump implements LoginDslamStrategy {
 
             session.connect();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new FalhaJumpAccessEsception();
         }
 

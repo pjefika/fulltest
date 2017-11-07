@@ -11,8 +11,8 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.both.Validacao;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
