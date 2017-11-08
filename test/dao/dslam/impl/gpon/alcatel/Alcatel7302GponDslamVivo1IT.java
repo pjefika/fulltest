@@ -211,13 +211,8 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetEstadoPortasProximas() throws Exception {
         System.out.println("getEstadoPortasProximas");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        List<Porta> expResult = null;
         List<Porta> result = instance.getEstadoPortasProximas(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -382,6 +377,13 @@ public class Alcatel7302GponDslamVivo1IT {
         instance.deleteVlanMulticast(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    @Test
+    public void testFazcomando() throws Exception {
+        System.out.println("ComandosGenericos");
+        //List<StatusSlot> result = instance.fazcomando(i);
+        //System.out.println(GsonUtil.serialize(result));
     }
 
 }

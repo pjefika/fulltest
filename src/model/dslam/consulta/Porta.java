@@ -34,4 +34,8 @@ public class Porta {
         this.estadoPorta = estadoPorta;
     }
 
+    public void setEstadoPorta(String adminState, String operState) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
