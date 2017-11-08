@@ -261,7 +261,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
         List<Porta> lst = new ArrayList<>();
-        for (int j = 0; j < 5; j++) {
+        for (int j = 0; j < 32; j++) {
             Porta p = new Porta();
             EstadoDaPorta ep = new EstadoDaPorta();
             p.setNumPorta(j + 1);
@@ -280,10 +280,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
                 ep.setAdminState(adminState.equalsIgnoreCase("UP"));
                 ep.setOperState(operState.equalsIgnoreCase("UP"));
                 p.setEstadoPorta(ep);
-            } else {
-                p.setEstadoPorta(ep);
+                lst.add(p);
             }
-            lst.add(p);
         }
         return lst;
     }
@@ -465,7 +463,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     public void fazcomando(InventarioRede i) throws Exception {
-
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.comandoGetStatusDaPlaca(i)));
     }
 
 }
