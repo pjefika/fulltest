@@ -44,7 +44,6 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient ServicePort spIptv;
     private transient EstadoDaPorta estadoDaPorta;
     private transient SerialOntGpon serial;
-    private transient String idOnt = "";
     private Integer gemportBanda, gemportIptv, gemportVoip;
 
     public HuaweiGponDslamVivo1(String ipDslam) {
