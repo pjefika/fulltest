@@ -5,7 +5,10 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.impl.gpon.huawei.HuaweiGponDslamVivo1;
+import java.security.Security;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -20,6 +23,8 @@ import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
+import model.fulltest.operacional.CustomerMock;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -32,28 +37,36 @@ import static org.junit.Assert.*;
  * @author G0041775
  */
 public class Alcatel7342GponDslamVivo1IT {
-    
+
+    private static EfikaCustomer cust = CustomerMock.gponAlcatel7342v1();
+    private static Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
+    private static InventarioRede i = cust.getRede();
+
     public Alcatel7342GponDslamVivo1IT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
+        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
+//        Security.addProvider(bouncyCastleProvider);
+        Security.insertProviderAt(bouncyCastleProvider, 1);
     }
-    
+
     @After
     public void tearDown() {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class Alcatel7342GponDslamVivo1.
+     * Test of obterVelocidadesDownVendor method, of class
+     * Alcatel7342GponDslamVivo1.
      */
     @Test
     public void testObterVelocidadesDownVendor() {
@@ -67,7 +80,8 @@ public class Alcatel7342GponDslamVivo1IT {
     }
 
     /**
-     * Test of obterVelocidadesUpVendor method, of class Alcatel7342GponDslamVivo1.
+     * Test of obterVelocidadesUpVendor method, of class
+     * Alcatel7342GponDslamVivo1.
      */
     @Test
     public void testObterVelocidadesUpVendor() {
@@ -86,13 +100,7 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -246,7 +254,8 @@ public class Alcatel7342GponDslamVivo1IT {
     }
 
     /**
-     * Test of getEstadoPortasProximas method, of class Alcatel7342GponDslamVivo1.
+     * Test of getEstadoPortasProximas method, of class
+     * Alcatel7342GponDslamVivo1.
      */
     @Test
     public void testGetEstadoPortasProximas() throws Exception {
@@ -447,5 +456,5 @@ public class Alcatel7342GponDslamVivo1IT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

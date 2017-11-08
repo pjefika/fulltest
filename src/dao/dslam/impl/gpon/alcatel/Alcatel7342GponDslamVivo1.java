@@ -6,8 +6,9 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
-import dao.dslam.impl.login.LoginComJump;
+import dao.dslam.impl.login.Login1023ComJump;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
@@ -29,9 +30,19 @@ import model.dslam.velocidade.Velocidades;
  * @author G0041775
  */
 public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
-    
+
     public Alcatel7342GponDslamVivo1(String ipDslam) {
-        super(ipDslam, Credencial.VIVO1, new LoginComJump());
+        super(ipDslam, Credencial.ALCATEL7342, new Login1023ComJump());
+    }
+
+    @Override
+    public void conectar() throws Exception {
+        super.conectar();
+        getCd().consulta(this.getComandoPrepareEnvironment());
+    }
+    
+    protected ComandoDslam getComandoPrepareEnvironment(){
+        return new ComandoDslam("INH-MSG-ALL::ALL:010;",3000);
     }
 
     @Override
@@ -44,9 +55,14 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i){
+        return new ComandoDslam("RTRV-ONT::ONT-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+":;",3000);
+    }
+    
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        return null;
     }
 
     @Override

@@ -162,7 +162,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
         if (serial == null) {
-            tabelaEstadoDaPorta(i);;
+            tabelaEstadoDaPorta(i);
         }
         return serial;
     }

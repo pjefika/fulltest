@@ -213,4 +213,44 @@ public class CustomerMock {
         return c;
     }
 
+    public static EfikaCustomer gponAlcatel7342v1() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //115927870508606 - 1378705086
+        r.setTerminal("115927870508606");
+        r.setIpDslam("BR_STSPP_OLT04");
+        r.setModeloDslam("7342FTTU");
+
+        
+        r.setIdOnt("0002974424");
+        
+        r.setSlot(10);
+        r.setPorta(3);
+        r.setLogica(54);
+        r.setCvLan(875);
+        r.setRin(45);
+        r.setBhs(Boolean.TRUE);
+        
+
+        r.setVlanVoip(3008);
+        
+        r.setVlanVod(3005);
+        r.setVlanMulticast(3005);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.SIP);
+        s.setVelDown(102400l);
+        s.setVelUp(51200l);
+
+
+        c.setServicos(s);
+
+        return c;
+    }
+
 }

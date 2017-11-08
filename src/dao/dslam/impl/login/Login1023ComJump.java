@@ -20,7 +20,7 @@ import java.util.Properties;
  *
  * @author G0042204
  */
-public class LoginComJump implements LoginDslamStrategy {
+public class Login1023ComJump implements LoginDslamStrategy {
 
     private JSch jsch;
     private Session session;
@@ -47,7 +47,7 @@ public class LoginComJump implements LoginDslamStrategy {
         }
 
         try {
-            String telnet = "telnet " + cs.dslam.getIpDslam();
+            String telnet = "telnet " + cs.dslam.getIpDslam()+" 1023";
 
             cs.channel = session.openChannel("shell");
 
@@ -59,13 +59,15 @@ public class LoginComJump implements LoginDslamStrategy {
 
             cs.out.print(telnet + "\r");
             cs.out.flush();
-            Thread.sleep(3000);
+            Thread.sleep(6000);
+            cs.out.print("\rY\r");
+            cs.out.flush();
+            Thread.sleep(2000);
             cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
             cs.out.flush();
-            Thread.sleep(1000);
-            cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
+            cs.out.print(this.cs.dslam.getCredencial().getPass()+ "\r");
             cs.out.flush();
-            Thread.sleep(1000);
+            Thread.sleep(3500);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();
