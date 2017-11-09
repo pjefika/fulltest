@@ -7,7 +7,7 @@ package model.fulltest.operacional;
 
 import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.operacional.facade.FullTestFacade;
+import model.fulltest.operacional.facade.FullTestCOFacade;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("3131769345");
+    private final EfikaCustomer cust = CustomerMock.alcatel7302();
 
     public FullTestGponTest() {
     }
@@ -48,7 +48,7 @@ public class FullTestGponTest {
         try {
             //zhone - 1630103256
             //2135562376
-            FullTestInterface instance = new FullTestFacade();
+            FullTestInterface instance = new FullTestCOFacade();
 //            FullTestGponFacade instance = new FullTestFacade(CustomerMock.getCustomer("7932321318"));
             Boolean expResult = true;
             FullTest f = instance.executar(cust);
