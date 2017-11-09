@@ -35,14 +35,16 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         super(ipDslam, Credencial.ALCATEL7342, new Login1023ComJump());
     }
 
+    private transient EstadoDaPorta estadoPorta;
+
     @Override
     public void conectar() throws Exception {
         super.conectar();
         getCd().consulta(this.getComandoPrepareEnvironment());
     }
-    
-    protected ComandoDslam getComandoPrepareEnvironment(){
-        return new ComandoDslam("INH-MSG-ALL::ALL:010;",3000);
+
+    protected ComandoDslam getComandoPrepareEnvironment() {
+        return new ComandoDslam("INH-MSG-ALL::ALL:010;", 3000);
     }
 
     @Override
@@ -55,13 +57,18 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i){
-        return new ComandoDslam("RTRV-ONT::ONT-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+":;",3000);
+    protected void setTransients(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+//        Boolean oper = TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("");
     }
-    
+
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":;", 3000);
+    }
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        setTransients(i);
         return null;
     }
 
@@ -130,9 +137,15 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        String state = e.getAdminState() ? "IS" : "OOS";
+        return new ComandoDslam("ED-ONT::ONT-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+"::::" + state + "::;");
+    }
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        return getEstadoDaPorta(i);
     }
 
     @Override

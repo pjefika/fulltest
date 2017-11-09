@@ -217,26 +217,27 @@ public class CustomerMock {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
-        //115927870508606 - 1378705086
-        r.setTerminal("115927870508606");
-        r.setIpDslam("BR_STSPP_OLT04");
+        //110007790578404 - 1156416900 - 7302
+        //110007612130407 - 1122624939
+        r.setTerminal("110007612130407");
+        r.setIpDslam("BR_SPOTR_OLT01");
         r.setModeloDslam("7342FTTU");
 
         
-        r.setIdOnt("0002974424");
+        r.setIdOnt("0002596166");
         
-        r.setSlot(10);
-        r.setPorta(3);
-        r.setLogica(54);
-        r.setCvLan(875);
-        r.setRin(45);
+        r.setSlot(4);
+        r.setPorta(4);
+        r.setLogica(38);
+        r.setCvLan(2070);
+        r.setRin(115);
         r.setBhs(Boolean.TRUE);
         
 
-        r.setVlanVoip(3008);
+        r.setVlanVoip(3004);
         
-        r.setVlanVod(3005);
-        r.setVlanMulticast(3005);
+        r.setVlanVod(3001);
+        r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
@@ -244,8 +245,8 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
         s.setTipoTv(TecnologiaTv.DTH);
         s.setTipoLinha(TecnologiaLinha.SIP);
-        s.setVelDown(102400l);
-        s.setVelUp(51200l);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
 
 
         c.setServicos(s);

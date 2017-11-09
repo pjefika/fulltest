@@ -59,7 +59,7 @@ public class Login1023ComJump implements LoginDslamStrategy {
 
             cs.out.print(telnet + "\r");
             cs.out.flush();
-            Thread.sleep(3000);
+            Thread.sleep(6000);
             cs.out.print("\rY\r");
             cs.out.flush();
             Thread.sleep(2000);
@@ -67,7 +67,7 @@ public class Login1023ComJump implements LoginDslamStrategy {
             cs.out.flush();
             cs.out.print(this.cs.dslam.getCredencial().getPass()+ "\r");
             cs.out.flush();
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();

@@ -119,20 +119,20 @@ public class TratativaRetornoUtil {
 
     public static List<String> numberFromListMember(List<String> list, String qqqro, Integer o) {
         Integer i = 0;
-        for(String t : list){
-            if(t.contains(qqqro)){
+        for (String t : list) {
+            if (t.contains(qqqro)) {
                 i++;
-                if(i==o){
+                if (i == o) {
                     return numberFromString(t);
                 }
             }
         }
         return null;
     }
+
     public static List<String> numberFromListMember(List<String> list, String qqqro) {
         return numberFromListMember(list, qqqro, 1);
     }
-    
 
     public static List<String> tratZhone(List<String> list, String qqqro, String regex) {
         return tratZhone(list, qqqro, regex, 1);
@@ -162,7 +162,7 @@ public class TratativaRetornoUtil {
         for (String leLine : list) {
             if (leLine.contains(qqqro)) {
                 if (i.equals(o)) {
-                    return leLine.substring(leLine.indexOf(":")+1, leLine.length()).trim();
+                    return leLine.substring(leLine.indexOf(":") + 1, leLine.length()).trim();
                 }
                 i++;
             }
@@ -175,22 +175,47 @@ public class TratativaRetornoUtil {
     public static String tratHuawei(List<String> list, String qqqro) {
         return tratHuawei(list, qqqro, 1);
     }
-    
-    public static String valueFromParentesis(String str){
-        if(!str.contains("(")||!str.contains(")")){
+
+    public static String trat7342(List<String> list, String qqqro, Integer o) {
+        Integer i = 1;
+        for (String leLine : list) {
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
+                    String[] porvirgula = leLine.split(",");
+                    for (String string : porvirgula) {
+                        if (string.contains(qqqro)) {
+                            return leLine.substring(leLine.indexOf("=") + 1, leLine.length()).replace("\\\"", "").trim();
+                        }
+                    }
+
+                }
+                i++;
+            }
+
+        }
+
+        return "Parâmetro não encontrado " + qqqro;
+    }
+
+    public static String trat7342(List<String> list, String qqqro) {
+        return trat7342(list, qqqro, 1);
+    }
+
+    public static String valueFromParentesis(String str) {
+        if (!str.contains("(") || !str.contains(")")) {
             return null;
         }
         String[] pegaVal = str.split("\\(");
         return pegaVal[pegaVal.length - 1].replace(")", "");
     }
-    
-    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){
+
+    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot) {
         List<String> leList = new ArrayList<>();
         retornoDslam.forEach((t) -> {
             if (t.contains(tipoSlot)) {
                 Matcher line = Pattern.compile("\\d+").matcher(t);
                 List<String> l = new ArrayList<>();
-                while(line.find()){
+                while (line.find()) {
                     l.add(line.group());
                 }
                 leList.add(l.get(0));
