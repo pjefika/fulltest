@@ -105,8 +105,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        // MAC do ONT??
-        //res-id[@name='mac']
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandosDeviceMac(i)));
         String mac = TratativaRetornoUtil.getXmlParam(xml, "//res-id[@name='mac']");
         return new DeviceMAC(mac.toUpperCase());
@@ -164,15 +162,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         return v;
     }
 
-    protected ComandoDslam getComandoVlanMulticast(InventarioRede i) {
-        //Incompleto
-        return new ComandoDslam("");
-    }
-
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        VlanMulticast vm = new VlanMulticast();
-        return vm;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
@@ -279,7 +271,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        this.getCd().consulta(this.getComandosAlarmes());
+        //this.getCd().consulta(this.getComandosAlarmes());
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -433,8 +425,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        VlanMulticast vlanMulticast = new VlanMulticast();
-        return vlanMulticast;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     protected ComandoDslam comandoDeleteVlanBanda(InventarioRede i) {
