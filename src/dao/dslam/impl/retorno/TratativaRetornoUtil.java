@@ -175,6 +175,32 @@ public class TratativaRetornoUtil {
         return tratHuawei(list, qqqro, 1);
     }
 
+
+    public static String trat7342(List<String> list, String qqqro, Integer o) {
+        Integer i = 1;
+        for (String leLine : list) {
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
+                    String[] porvirgula = leLine.split(",");
+                    for (String string : porvirgula) {
+                        if (string.contains(qqqro)) {
+                            return leLine.substring(leLine.indexOf("=") + 1, leLine.length()).replace("\\\"", "").trim();
+                        }
+                    }
+
+                }
+                i++;
+            }
+
+        }
+
+        return "Parâmetro não encontrado " + qqqro;
+    }
+
+    public static String trat7342(List<String> list, String qqqro) {
+        return trat7342(list, qqqro, 1);
+    }
+
     public static String valueFromParentesis(String str) {
         if (!str.contains("(") || !str.contains(")")) {
             return null;

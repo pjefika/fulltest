@@ -44,7 +44,6 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient ServicePort spIptv;
     private transient EstadoDaPorta estadoDaPorta;
     private transient SerialOntGpon serial;
-    private transient String idOnt = "";
     private Integer gemportBanda, gemportIptv, gemportVoip;
 
     public HuaweiGponDslamVivo1(String ipDslam) {
@@ -163,7 +162,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
         if (serial == null) {
-            tabelaEstadoDaPorta(i);;
+            tabelaEstadoDaPorta(i);
         }
         return serial;
     }
