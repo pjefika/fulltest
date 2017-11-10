@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.alcatel7302();
+    private final EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
 
     public FullTestGponTest() {
     }
