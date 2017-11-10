@@ -559,7 +559,7 @@ public class KeymileGponDslam extends DslamGpon {
 //        return p;
 //    }
     protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i, String slot) {
-        return new ComandoDslam("/unit-" + slot + "/status/FlushOnuBlacklist", 3000, "get /unit-" + slot + "/status/onuBlackListTable");
+        return new ComandoDslam("/unit-" + slot + "/status/FlushOnuBlacklist", 3000, "get /unit-" + slot + "/status/onuBlackListTable", 5000);
     }
 
     @Override

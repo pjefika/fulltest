@@ -57,7 +57,7 @@ public class KeymileGponDslamTest {
 
 //    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
 //    InventarioRede i = CustomerMock.gponKeymile().getRede();
-    InventarioRede i = CustomerMock.getCustomer("5133077367").getRede();
+    InventarioRede i = CustomerMock.getCustomer("6239327446").getRede();
     KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
 
     /**
