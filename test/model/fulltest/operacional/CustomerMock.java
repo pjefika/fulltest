@@ -15,16 +15,15 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.impl.client.CloseableHttpClient;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 /**
  *
@@ -61,7 +60,7 @@ public class CustomerMock {
 
     public static InventarioServico sipVdsl() {
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
@@ -71,40 +70,49 @@ public class CustomerMock {
     public static EfikaCustomer getCustomer(String instancia) {
         try {
 
-            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-            cm.setMaxTotal(1);
-            cm.setDefaultMaxPerRoute(1);
-            HttpHost ip = new HttpHost("10.40.195.81", 8080);
-            cm.setMaxPerRoute(new HttpRoute(ip), 50);
+//            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+//            cm.setMaxTotal(1);
+//            cm.setDefaultMaxPerRoute(1);
+//            HttpHost ip = new HttpHost("10.40.195.81", 8080);
+//            cm.setMaxPerRoute(new HttpRoute(ip), 50);
+//
+//            // Cookies
+//            RequestConfig globalConfig = RequestConfig.custom()
+//                    .setCookieSpec(CookieSpecs.DEFAULT)
+//                    .build();
+//
+//            CloseableHttpClient httpclient = HttpClients.custom()
+//                    .setConnectionManager(cm)
+//                    .setDefaultRequestConfig(globalConfig)
+//                    .build();
+            HttpClient httpcliente = HttpClients.createDefault();
+            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI/oss/");
 
-            // Cookies
-            RequestConfig globalConfig = RequestConfig.custom()
-                    .setCookieSpec(CookieSpecs.DEFAULT)
-                    .build();
+            // Request parameters and other properties.
+            StringEntity param = new StringEntity("{\"instancia\":  \"" + instancia + "\", \"executor\": \"teste\"}");
+            httppost.addHeader("content-type", "application/json");
+            httppost.setEntity(param);
 
-            CloseableHttpClient httpclient = HttpClients.custom()
-                    .setConnectionManager(cm)
-                    .setDefaultRequestConfig(globalConfig)
-                    .build();
+            //Execute and get the response.
+            HttpResponse response = httpcliente.execute(httppost);
+            HttpEntity entity = response.getEntity();
 
-            HttpGet httpget = new HttpGet("http://10.40.195.81:8080/stealerAPI/oss/" + instancia);
-            httpget.setHeader(HttpHeaders.CONTENT_TYPE, "text/html");
-            CloseableHttpResponse response = httpclient.execute(httpget);
-            InputStream instream = response.getEntity().getContent();
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+            InputStream instream = entity.getContent();
+
+            BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
             StringBuffer result = new StringBuffer();
             String line = "";
             while ((line = rd.readLine()) != null) {
                 result.append(line);
             }
             instream.close();
-
+//            InputStream instream = response.getEntity().getContent();
             Gson g = new Gson();
-
             EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
 
             return ec;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -131,7 +139,8 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.HIBRIDA);
+        s.setTipoTv(TecnologiaTv.IPTV);
+
         s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(15360l);
         s.setVelUp(1024l);
@@ -163,7 +172,7 @@ public class CustomerMock {
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
@@ -194,18 +203,57 @@ public class CustomerMock {
         
 
         r.setVlanVoip(3004);
-        
-        r.setVlanVod(3001);
-        r.setVlanMulticast(3001);
+
+        //todo huawei utiliza 400
+        r.setVlanVod(400);
+        r.setVlanMulticast(3009);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
-        s.setVelDown(102400l);
-        s.setVelUp(51200l);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer alcatel7302() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        // Achar cliente 
+        //110007570563807 - 1137587599
+        //115637212216107 - 1239112215
+        //110007556549800 - 1127811121
+        r.setTerminal("111747672560806");
+        r.setIpDslam("BR_CMPMC_OLT01");
+        r.setModeloDslam("ALCATEL7302/7360_V1");
+
+        r.setSlot(5); // Slot
+        r.setPorta(16); // Porta Pon
+        r.setLogica(1); // Id cliente
+        r.setCvLan(130); // Vlan usuario
+        r.setRin(280); // Vlan Rede
+
+        r.setVlanVoip(3004); // Vlan Voz
+        r.setVlanVod(3001); // Vlan Multicast
+        r.setVlanMulticast(3001); // Vlan Multicast
+        r.setIdOnt("0002734019");
+        r.setBhs(Boolean.TRUE);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+        s.setTipoTv(TecnologiaTv.IPTV);
+        s.setTipoLinha(TecnologiaLinha.SIP);
+        s.setVelDown(51200l);
+        s.setVelUp(25600l);
 
 
         c.setServicos(s);

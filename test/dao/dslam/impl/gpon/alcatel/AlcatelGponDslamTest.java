@@ -42,10 +42,10 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1135300172");
-//    private static EfikaCustomer cust = CustomerMock.gponAlcatel();
+    private static EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
+
 
     public AlcatelGponDslamTest() {
     }
@@ -115,9 +115,10 @@ public class AlcatelGponDslamTest {
         System.out.println("getEstadoDaPorta");
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
-            System.out.println(GsonUtil.serialize(result));
+            System.out.println(GsonUtil.serialize(result.validar(cust)));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
 
@@ -480,13 +481,14 @@ public class AlcatelGponDslamTest {
         }
 
     }
+
     /**
      * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
      */
     @Test
     public void testGetEstadoPortasProximas() {
         System.out.println("getSlotsAvailableOnts");
-        
+
         try {
             List<Porta> result = instance.getEstadoPortasProximas(i);
             for (Porta porta : result) {

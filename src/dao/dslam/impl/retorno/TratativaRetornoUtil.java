@@ -37,17 +37,16 @@ public class TratativaRetornoUtil {
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlStr)));
+            Document doc = builder.parse(new InputSource(new StringReader(xmlStr.trim())));
             return doc;
         } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     public static Document stringXmlParse(ComandoDslam cd) {
-        Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
+        Integer xmlBegins = cd.getBlob().indexOf("<?xml");
         Integer xmlEnds = cd.getBlob().lastIndexOf('>') + 1;
         return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnds));
     }
@@ -175,6 +174,7 @@ public class TratativaRetornoUtil {
     public static String tratHuawei(List<String> list, String qqqro) {
         return tratHuawei(list, qqqro, 1);
     }
+
 
     public static String trat7342(List<String> list, String qqqro, Integer o) {
         Integer i = 1;

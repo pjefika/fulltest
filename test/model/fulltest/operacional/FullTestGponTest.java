@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.gponHuaweiV1();
+    private final EfikaCustomer cust = CustomerMock.getCustomer("8730240032");
 
     public FullTestGponTest() {
     }
@@ -46,8 +46,10 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-    
+            //zhone - 1630103256
+            //2135562376
             FullTestInterface instance = new FullTestCOFacade();
+            Boolean expResult = true;
 
             FullTest f = instance.executar(cust);
 
