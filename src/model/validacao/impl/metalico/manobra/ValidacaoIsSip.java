@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.metalico.manobra;
 
-import model.validacao.impl.both.Validacao;
 import br.net.gvt.efika.customer.InventarioServico;
 import br.net.gvt.efika.enums.TecnologiaLinha;
 import java.util.Locale;
+import model.validacao.impl.both.Validacao;
 
 /**
  *

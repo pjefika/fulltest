@@ -27,10 +27,10 @@ import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.GsonUtil;
 
 /**
@@ -43,9 +43,9 @@ public class AlcatelGponDslamTest {
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
     private static EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
-//    private static EfikaCustomer cust = CustomerMock.gponAlcatel();
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
+
 
     public AlcatelGponDslamTest() {
     }
@@ -481,13 +481,14 @@ public class AlcatelGponDslamTest {
         }
 
     }
+
     /**
      * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
      */
     @Test
     public void testGetEstadoPortasProximas() {
         System.out.println("getSlotsAvailableOnts");
-        
+
         try {
             List<Porta> result = instance.getEstadoPortasProximas(i);
             for (Porta porta : result) {

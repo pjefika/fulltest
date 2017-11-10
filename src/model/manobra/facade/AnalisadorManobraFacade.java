@@ -8,12 +8,12 @@ package model.manobra.facade;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
-import model.manobra.analitcs.MotivoManobraEnum;
 import model.manobra.analitcs.AnaliseMotivo;
 import model.manobra.analitcs.AnaliseMotivoGeneric;
 import model.manobra.analitcs.Analiser;
 import model.manobra.analitcs.ConclusaoManobraEnum;
 import model.manobra.analitcs.FinalizacaoManobra;
+import model.manobra.analitcs.MotivoManobraEnum;
 
 /**
  *

@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,13 +38,15 @@ public class CondicionalStrategy implements ExecutionStrategy {
                     }
                 }
             } catch (Exception e) {
-                LOG.log(Level.INFO, e.getMessage());
-                ft.setResultado(Boolean.FALSE);
-                ft.setMensagem(e.getMessage());
-                if (e instanceof SemGerenciaException) {
-                    throw e;
+                if (e instanceof FuncIndisponivelDslamException) {
+                } else {
+                    LOG.log(Level.INFO, e.getMessage());
+                    ft.setResultado(Boolean.FALSE);
+                    ft.setMensagem(e.getMessage());
+                    if (e instanceof SemGerenciaException) {
+                        throw e;
+                    }
                 }
-
             }
         }
 

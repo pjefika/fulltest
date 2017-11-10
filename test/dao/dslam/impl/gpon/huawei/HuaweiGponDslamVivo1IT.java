@@ -9,8 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import com.jcraft.jsch.*;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.Security;
@@ -34,11 +32,10 @@ import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static sun.security.krb5.Confounder.bytes;
 import util.GsonUtil;
 
 /**
@@ -52,6 +49,7 @@ public class HuaweiGponDslamVivo1IT {
 
     @BeforeClass
     public static void setUpClass() {
+
     }
 
     @AfterClass
@@ -60,6 +58,9 @@ public class HuaweiGponDslamVivo1IT {
 
     @Before
     public void setUp() {
+        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
+//        Security.addProvider(bouncyCastleProvider);
+        Security.insertProviderAt(bouncyCastleProvider, 1);
     }
 
     @After
@@ -333,6 +334,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
         VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -341,13 +343,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testCreateVlanVoip() throws Exception {
         System.out.println("createVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.createVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -356,13 +353,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testCreateVlanVod() throws Exception {
         System.out.println("createVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.createVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -395,11 +387,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testDeleteVlanVoip() throws Exception {
         System.out.println("deleteVlanVoip");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
         instance.deleteVlanVoip(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -408,11 +397,7 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testDeleteVlanVod() throws Exception {
         System.out.println("deleteVlanVod");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
         instance.deleteVlanVod(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -473,13 +458,8 @@ public class HuaweiGponDslamVivo1IT {
     @Test
     public void testGetEstadoPortasProximas() throws Exception {
         System.out.println("getEstadoPortasProximas");
-        InventarioRede i = null;
-        HuaweiGponDslamVivo1 instance = null;
-        List<Porta> expResult = null;
         List<Porta> result = instance.getEstadoPortasProximas(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
 }

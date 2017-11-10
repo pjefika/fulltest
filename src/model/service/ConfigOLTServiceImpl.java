@@ -13,15 +13,16 @@ import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ProfileGpon;
+import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
+import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
-import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
@@ -88,6 +89,7 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     @Override
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception {
         alteracao().setOntToOlt(getEc().getRede(), serial);
+        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
         return exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local));
     }
 

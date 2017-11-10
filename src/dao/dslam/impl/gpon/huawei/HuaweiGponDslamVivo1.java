@@ -13,6 +13,7 @@ import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.dslam.consulta.DeviceMAC;
@@ -44,6 +45,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient EstadoDaPorta estadoDaPorta;
     private transient SerialOntGpon serial;
     private transient String idOnt = "";
+    private Integer gemportBanda, gemportIptv, gemportVoip;
 
     public HuaweiGponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
@@ -60,6 +62,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected void setServicePorts(InventarioRede i) throws Exception {
+        setGemports(i);
         List<String> retorno = getCd().consulta(getComandoGetServicePorts(i)).getRetorno();
         List<List<String>> tabServs = new ArrayList<>();
         int start = 0;
@@ -121,7 +124,15 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         });
     }
 
+    protected void setGemports(InventarioRede i) {
+
+        gemportBanda = i.getLogica() + 128;
+        gemportIptv = i.getLogica() + 256;
+        gemportVoip = i.getLogica() + 384;
+    }
+
     protected void tabelaEstadoDaPorta(InventarioRede i) throws Exception {
+        setGemports(i);
         List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
         estadoDaPorta = new EstadoDaPorta();
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
@@ -132,7 +143,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
@@ -158,16 +169,17 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica(), 1000, " ");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
         TabelaParametrosGpon tab = new TabelaParametrosGpon();
-
-        tab.setPotOlt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx")));
-        tab.setPotOnt(new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical")));
+        Double potOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx"));
+        tab.setPotOlt(potOlt);
+        Double potOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical"));
+        tab.setPotOnt(potOnt);
         return tab;
     }
 
@@ -178,14 +190,15 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spBanda = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+//        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
-        return new VlanBanda(spBanda.getVpi(), spBanda.getVlanId(), state);
+        Integer cvlan = Objects.equals(spBanda.getVpi(), gemportBanda) ? i.getCvLan() : 0;
+        return new VlanBanda(cvlan, spBanda.getVlanId(), EnumEstadoVlan.UP);
     }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -194,8 +207,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spVoip = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
-        return new VlanVoip(spVoip.getVpi(), spVoip.getVlanId(), state);
+//        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+
+        Integer cvlan = Objects.equals(spVoip.getVpi(), gemportVoip) ? i.getCvLan() : 0;
+
+        return new VlanVoip(cvlan, spVoip.getVlanId(), EnumEstadoVlan.UP);
     }
 
     @Override
@@ -204,8 +220,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spIptv = new ServicePort(false);
             setServicePorts(i);
         }
-        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
-        return new VlanVod(spIptv.getVpi(), spIptv.getVlanId(), state);
+//        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+
+        Integer cvlan = Objects.equals(gemportIptv, spIptv.getVpi()) ? i.getCvLan() : 0;
+        Integer svlan = spIptv.getVlanId().compareTo(400)==0 ? i.getVlanVod() : 0;
+        return new VlanVod(cvlan, svlan, EnumEstadoVlan.UP);
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
@@ -214,7 +233,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -256,17 +275,24 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        deleteVlanBanda(i);
+        createVlanBanda(i, null, null);
+        if (i.getBhs()) {
+            createVlanVoip(i);
+        }
+        return getSerialOnt(i);
     }
 
     @Override
     public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
+        //desassocia-se deletando vlan banda
+        //deleteVlanBanda(i);
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
         String leState = state ? "activate" : "deactivate";
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica());
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica() + "\nquit\n");
     }
 
     @Override
@@ -277,100 +303,286 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanBanda(i));
+        Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
+        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanBanda(i));
+        Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
+        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
+    }
+
+    protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
+        return new ComandoDslam("display service-port next-free-index", 1000);
+    }
+
+    protected Integer getNextFreeIndex(InventarioRede i) throws Exception {
+        List<String> resp = getCd().consulta(getComandoGetNextFreeIndex(i)).getRetorno();
+        return new Integer(TratativaRetornoUtil.tratHuawei(resp, "Next valid free service virtual port ID"));
+    }
+
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Integer index) {
+        if (gemportBanda == null) {
+            setGemports(i);
+        }
+        if (i.getBhs()) {
+            return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvLan()
+                    + " manage-mode omci\n"
+                    + "\n"
+                    + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
+                    + "\n"
+                    + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
+                    + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                    + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                    + "\n"
+                    + "ont native-vlan " + i.getPorta() + " " + i.getLogica() + " unconcern\n"
+                    + "\n"
+                    + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                    + "\n"
+                    + "quit\n"
+                    + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
+                    + " translate-and-add inner-vlan " + i.getCvLan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
+        }
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth \"" + i.getIdOnt() + "\" always-on"
+                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvLan() + "\" manage-mode omci\n"
+                + "\n"
+                + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
+                + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
+                + "\n"
+                + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
+                + "\n"
+                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 100\n"
+                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                + "\n"
+                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                + "\n"
+                + "ont port priority-policy " + i.getPorta() + " " + i.getLogica() + " eth 1 copy-cos\n"
+                + "ont port q-in-q " + i.getPorta() + " " + i.getLogica() + " eth 1 disable\n"
+                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 10 priority 0\n"
+                + "\n"
+                + "quit\n"
+                + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
+                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvLan() + " inner-priority 0 inbound traffic-table"
+                + " index 6 outbound traffic-table index 43\n"
+                + "stacking label service-port " + index + " " + i.getCvLan(), 15000);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i)));
+
+        spBanda = null;
+        return getVlanBanda(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i, Integer index) {
+        if (gemportVoip == null) {
+            setGemports(i);
+        }
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3 profile-id 30\n"
+                + "\n"
+                + "gemport add " + i.getPorta() + " gemportid " + gemportVoip + " eth encrypt on\n"
+                + "\n"
+                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1 translation s-vlan 30\n"
+                + "\n"
+                + "\n"
+                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " 3 gemport-car 30\n"
+                + "\n"
+                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " vlan 30\n"
+                + "\n"
+                + "\n"
+                + "quit\n"
+                + "\n"
+                + "service-port " + index + " vlan " + i.getVlanVoip() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip
+                + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30", 9000);
+
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoCreateVlanVoip(i, getNextFreeIndex(i))).getRetorno();
+        spVoip = null;
+        return getVlanVoip(i);
+    }
+
+    protected ComandoDslam getComandoCreateVlanVod(InventarioRede i, Integer index) {
+        if (gemportIptv == null) {
+            setGemports(i);
+        }
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "gemport add " + i.getPorta() + " gemportid " + gemportIptv + " eth encrypt on\n"
+                + " \n"
+                + " \n"
+                + "tcont bind-profile " + i.getPorta() + "  " + i.getLogica() + " 2 profile-id 20\n"
+                + "ont gemport bind " + i.getPorta() + "  " + i.getLogica() + " " + gemportIptv + " 2 gemport-car 42\n"
+                + "ont gemport mapping " + i.getPorta() + "  " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
+                + " \n"
+                + " \n"
+                + "ont port vlan " + i.getPorta() + "  " + i.getLogica() + " eth 20 1 translation s-vlan 20\n"
+                + " \n"
+                + " \n"
+                + "ont multicast-forward " + i.getPorta() + "  " + i.getLogica() + " tag translation 20\n"
+                + "quit\n"
+                + "service-port " + index + " vlan 400 gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + " multi-service user-vlan 20 tag-transform translate inbound traffic-table index 42 outbound traffic-table index 42\n"
+                + "btv\n"
+                + "igmp user add service-port " + index + " no-auth max-program 32\n"
+                + " \n"
+                + " \n"
+                + "multicast-vlan " + i.getVlanMulticast() + "\n"
+                + "igmp multicast-vlan member service-port " + index + "\n"
+                + "quit", 15000);
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoCreateVlanVod(i, getNextFreeIndex(i)));
+        spIptv = null;
+        return getVlanVod(i);
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
-    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) throws Exception {
+        if (spBanda == null) {
+            setServicePorts(i);
+        }
+        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
+        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
+        String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
+
         return new ComandoDslam("btv\n"
-                + "multicast-vlan "+i.getVlanMulticast()+"\n"
-                + "undo igmp multicast-vlan member service-port "+spIptv.getIndex()+"\n"
-                + "igmp user delete service-port "+spIptv.getIndex()+"\n"
+                + "multicast-vlan " + i.getVlanMulticast() + "\n"
+                + "undo igmp multicast-vlan member service-port " + indexSpIptv + "\n"
+                + "quit\n"
+                + "btv\n"
+                + "igmp user delete service-port " + indexSpIptv + "\n"
                 + "y\n"
                 + "quit\n"
-                + "undo service-port "+spBanda.getIndex()+"\n"
-                + "interface gpon 0/"+i.getSlot()+"\n"
-                + "undo ont gemport mapping "+i.getPorta()+" "+i.getLogica()+" "+i.getCvLan()+"\n"
+                + "undo service-port " + indexSpBanda + "\n"
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
                 + "\n"
-                + "undo ont gemport mapping $port $id_cliente $gemport_iptv vlan 20\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
                 + "\n"
-                + "undo ont gemport mapping $port $id_cliente $gemport_voip\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
                 + "\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_bl\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_iptv\n"
-                + "undo ont gemport bind $port $id_cliente $gemport_voip\n"
-                + "ont port native-vlan $port $id_cliente eth 1 vlan 1\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
+                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 1\n"
                 + "\n"
-                + "undo ont port vlan $port $id_cliente eth 10 1\n"
-                + "undo ont port vlan $port $id_cliente eth 20 1\n"
-                + "undo ont port vlan $port $id_cliente eth 20 2\n"
-                + "undo ont port vlan $port $id_cliente eth 20 3\n"
-                + "undo ont port vlan $port $id_cliente eth 20 4\n"
-                + "undo ont port vlan $port $id_cliente eth 30 1\n"
-                + "gemport delete $port gemportid $gemport_bl\n"
-                + "gemport delete $port gemportid $gemport_iptv\n"
-                + "gemport delete $port gemportid $gemport_voip\n"
-                + "undo tcont bind-profile $port $id_cliente 4\n"
-                + "undo tcont bind-profile $port $id_cliente 2\n"
-                + "undo tcont bind-profile $port $id_cliente 3\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 2\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 3\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 4\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportBanda + "\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
                 + "\n"
-                + "undo ont port-bundle $port $id_cliente eth 0\n"
+                + "undo ont port-bundle " + i.getPorta() + " " + i.getLogica() + " eth 0\n"
                 + "\n"
-                + "ont delete $port $id_cliente\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "\n"
+                + "ont delete " + i.getPorta() + " " + i.getLogica() + "\n"
                 + "\n"
                 + "quit\n"
-                + "undo service-port $sp_iptv\n"
-                + "undo service-port $sp_voip",5000);
+                + "undo service-port " + indexSpIptv + "\n\n"
+                + "undo service-port " + indexSpVoip + "\n\n", 25000);
     }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
+
+        getCd().consulta(getComandoDeleteVlanBanda(i));
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) throws Exception {
+        if (spVoip == null) {
+            setServicePorts(i);
+        }
+        if (gemportVoip == null) {
+            setGemports(i);
+        }
+
+        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
+
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
+                + "\n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
+                + "\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
+                + "\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
+                + "\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
+                + "\n"
+                + "quit\n"
+                + "\n"
+                + "undo service-port " + indexSpVoip, 7500);
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanVoip(i));
+    }
+
+    protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) throws Exception {
+        if (spIptv == null) {
+            setServicePorts(i);
+        }
+        if (gemportIptv == null) {
+            setGemports(i);
+        }
+
+        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
+        return new ComandoDslam("btv\n"
+                + "multicast-vlan " + i.getVlanMulticast() + "\n"
+                + "undo igmp multicast-vlan member service-port " + indexSpIptv + "\n"
+                + "quit\n"
+                + "btv\n"
+                + "igmp user delete service-port " + indexSpIptv + "\n"
+                + "y\n"
+                + "quit\n"
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
+                + " \n"
+                + " \n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n"
+                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 2\n"
+                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 3\n"
+                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 4\n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "\n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2\n"
+                + "quit\n"
+                + "undo service-port " + indexSpIptv, 9000);
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getCd().consulta(getComandoDeleteVlanVod(i));
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
-//    @Override
-//    public Profile castProfile(Velocidades v) {
-//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//    }
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         if (velsDown.isEmpty()) {
@@ -399,9 +611,29 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         return velsUp;
     }
 
+    protected ComandoDslam getComandoGetEstadoPortasProximas(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "display ont info " + i.getPorta() + " all\nquit\n", 5000);
+    }
+
     @Override
     public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<String> retorno = getCd().consulta(getComandoGetEstadoPortasProximas(i)).getRetorno();
+        Integer countStringOccurrence = TratativaRetornoUtil.countStringOccurrence(retorno, "0/" + i.getSlot() + "/" + i.getPorta());
+        List<Porta> list = new ArrayList<>();
+        for (int j = 1; j < ((countStringOccurrence - 1) / 2); j++) {
+            Porta porta = new Porta();
+            EstadoDaPorta estado = new EstadoDaPorta();
+            List<String> linha = TratativaRetornoUtil.tratZhone(retorno, "0/" + i.getSlot() + "/" + i.getPorta(), "\\b\\w+\\b", j);
+
+            estado.setAdminState(linha.get(5).equalsIgnoreCase("active"));
+            estado.setOperState(linha.get(6).equalsIgnoreCase("online"));
+            porta.setEstadoPorta(estado);
+            porta.setNumPorta(new Integer(linha.get(3)));
+            list.add(porta);
+        }
+
+        return list;
     }
 
 }

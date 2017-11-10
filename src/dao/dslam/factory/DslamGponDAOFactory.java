@@ -5,9 +5,9 @@
  */
 package dao.dslam.factory;
 
-import dao.dslam.impl.AbstractDslam;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.gpon.alcatel.Alcatel7302GponDslamVivo1;
+import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
 import dao.dslam.impl.gpon.huawei.HuaweiGponDslamVivo1;
 import dao.dslam.impl.gpon.keymile.KeymileGponDslam;

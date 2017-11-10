@@ -41,5 +41,4 @@ public class ValidacaoVlanVoip extends ValidacaoValidavel {
     protected String fraseNegativa() {
         return "Vlan de VoIP configurado incorretamente.";
     }
-
 }

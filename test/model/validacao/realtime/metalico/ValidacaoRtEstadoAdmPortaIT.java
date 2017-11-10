@@ -5,18 +5,18 @@
  */
 package model.validacao.realtime.metalico;
 
-import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.Locale;
 import model.validacao.impl.both.ValidacaoResult;
+import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.Validator;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import tests.CustomerTest;
 
 /**
