@@ -39,12 +39,12 @@ public class ValidacaoVlanVod extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Vlan de VoD configurado corretamente.";
+        return "Vlan de VoD/IPTV configurado corretamente.";
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de VoD configurado incorretamente.";
+        return "Vlan de VoD/IPTV configurado incorretamente.";
     }
 
 }

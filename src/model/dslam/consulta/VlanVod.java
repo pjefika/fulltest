@@ -19,7 +19,7 @@ public class VlanVod extends VlanAbstract {
 
     @Override
     public String getNome() {
-        return "Vlan VoD";
+        return "Vlan VoD/IPTV";
     }
 
     public VlanVod(Integer cvlan, Integer svlan, EnumEstadoVlan est) {
