@@ -11,7 +11,6 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
@@ -66,13 +65,12 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     @Override
     void validar() throws Exception {
         this.exec.action(this);
-        Optional<ValidacaoResult> leValid = getValids().stream().filter((t) -> {
-            return !t.getResultado();
-        }).findFirst();
-        leValid.ifPresent((t) -> {
-            this.setResultado(Boolean.FALSE);
-            this.setMensagem(t.getMensagem());
-        });
+        for (ValidacaoResult valid : getValids()) {
+            if (!valid.getResultado()) {
+                this.setResultado(Boolean.FALSE);
+                this.setMensagem(valid.getMensagem());
+            }
+        }
     }
 
     public FullTest cast() {
@@ -81,7 +79,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     @Override
     protected void encerramento() {
-        
+
         if (mensagem == null) {
             mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";
         }

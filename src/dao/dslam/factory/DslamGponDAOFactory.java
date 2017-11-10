@@ -6,6 +6,7 @@
 package dao.dslam.factory;
 
 import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.impl.gpon.alcatel.Alcatel7302GponDslamVivo1;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
 import dao.dslam.impl.gpon.huawei.HuaweiGponDslamVivo1;
@@ -28,6 +29,8 @@ public class DslamGponDAOFactory {
             return new KeymileGponDslam(ip);
         } else if (modelo.trim().equalsIgnoreCase("MA5600T_FV1")) {
             return new HuaweiGponDslamVivo1(ip);
+        } else if (modelo.trim().equalsIgnoreCase("ALCATEL7302/7360_V1")) {
+            return new Alcatel7302GponDslamVivo1(ip);        
         } else {
             throw new DslamNaoImplException();
         }

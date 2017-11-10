@@ -37,17 +37,16 @@ public class TratativaRetornoUtil {
         DocumentBuilder builder;
         try {
             builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new InputSource(new StringReader(xmlStr)));
+            Document doc = builder.parse(new InputSource(new StringReader(xmlStr.trim())));
             return doc;
         } catch (IOException | ParserConfigurationException | SAXException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
     public static Document stringXmlParse(ComandoDslam cd) {
-        Integer xmlBegins = cd.getBlob().indexOf(cd.getSintax()) + cd.getSintax().length();
+        Integer xmlBegins = cd.getBlob().indexOf("<?xml");
         Integer xmlEnds = cd.getBlob().lastIndexOf('>') + 1;
         return convertStringToDocument(cd.getBlob().substring(xmlBegins, xmlEnds));
     }
@@ -119,20 +118,20 @@ public class TratativaRetornoUtil {
 
     public static List<String> numberFromListMember(List<String> list, String qqqro, Integer o) {
         Integer i = 0;
-        for(String t : list){
-            if(t.contains(qqqro)){
+        for (String t : list) {
+            if (t.contains(qqqro)) {
                 i++;
-                if(i==o){
+                if (i == o) {
                     return numberFromString(t);
                 }
             }
         }
         return null;
     }
+
     public static List<String> numberFromListMember(List<String> list, String qqqro) {
         return numberFromListMember(list, qqqro, 1);
     }
-    
 
     public static List<String> tratZhone(List<String> list, String qqqro, String regex) {
         return tratZhone(list, qqqro, regex, 1);
@@ -162,7 +161,7 @@ public class TratativaRetornoUtil {
         for (String leLine : list) {
             if (leLine.contains(qqqro)) {
                 if (i.equals(o)) {
-                    return leLine.substring(leLine.indexOf(":")+1, leLine.length()).trim();
+                    return leLine.substring(leLine.indexOf(":") + 1, leLine.length()).trim();
                 }
                 i++;
             }
@@ -175,22 +174,22 @@ public class TratativaRetornoUtil {
     public static String tratHuawei(List<String> list, String qqqro) {
         return tratHuawei(list, qqqro, 1);
     }
-    
-    public static String valueFromParentesis(String str){
-        if(!str.contains("(")||!str.contains(")")){
+
+    public static String valueFromParentesis(String str) {
+        if (!str.contains("(") || !str.contains(")")) {
             return null;
         }
         String[] pegaVal = str.split("\\(");
         return pegaVal[pegaVal.length - 1].replace(")", "");
     }
-    
-    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot){
+
+    public static List<String> listaSlotsKeymile(List<String> retornoDslam, String tipoSlot) {
         List<String> leList = new ArrayList<>();
         retornoDslam.forEach((t) -> {
             if (t.contains(tipoSlot)) {
                 Matcher line = Pattern.compile("\\d+").matcher(t);
                 List<String> l = new ArrayList<>();
-                while(line.find()){
+                while (line.find()) {
                     l.add(line.group());
                 }
                 leList.add(l.get(0));

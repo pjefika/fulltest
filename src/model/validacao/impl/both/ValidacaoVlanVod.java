@@ -25,6 +25,7 @@ public class ValidacaoVlanVod extends ValidacaoValidavel {
 
     @Override
     protected void processar() {
+
         if (getCust().getServicos().getTipoTv() != null) {
             if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
                 super.processar();

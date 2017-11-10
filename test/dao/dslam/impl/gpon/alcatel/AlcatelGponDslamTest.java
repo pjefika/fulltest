@@ -42,9 +42,10 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust;
-    private static AlcatelGponDslam instance;
-    private static InventarioRede i;
+    private static EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
+    private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
+    private static InventarioRede i = cust.getRede();
+
 
     public AlcatelGponDslamTest() {
     }
@@ -52,9 +53,6 @@ public class AlcatelGponDslamTest {
     @BeforeClass
     public static void setUpClass() {
         try {
-            cust = CustomerMock.getCustomer("4131464128");
-            instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
-            i = cust.getRede();
             instance.conectar();
         } catch (Exception ex) {
             Logger.getLogger(AlcatelGponDslamTest.class.getName()).log(Level.SEVERE, null, ex);
@@ -117,9 +115,10 @@ public class AlcatelGponDslamTest {
         System.out.println("getEstadoDaPorta");
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
-            System.out.println(GsonUtil.serialize(result));
+            System.out.println(GsonUtil.serialize(result.validar(cust)));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
+            e.printStackTrace();
             fail(e.getMessage());
         }
 
