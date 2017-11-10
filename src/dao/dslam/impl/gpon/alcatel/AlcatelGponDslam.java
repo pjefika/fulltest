@@ -10,6 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import exception.SemGerenciaException;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
@@ -44,7 +45,10 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void conectar() throws Exception {
         super.conectar();
-        this.getCd().consulta(this.getComandoInhibitAlarms());
+        
+        if(this.getCd().consulta(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")){
+            throw new SemGerenciaException();
+        }
         this.getCd().consulta(this.getComandoModeBatch());
         this.getCd().consulta(this.getComandoExit());
     }
