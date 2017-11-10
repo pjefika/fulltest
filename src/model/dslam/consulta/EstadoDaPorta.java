@@ -23,6 +23,13 @@ public class EstadoDaPorta extends ValidavelAbs implements Validavel {
         super(NOME);
     }
 
+    public EstadoDaPorta(Boolean adminState) {
+        super(NOME);
+        this.adminState = adminState;
+    }
+    
+    
+
     public Boolean getAdminState() {
         return adminState;
     }
