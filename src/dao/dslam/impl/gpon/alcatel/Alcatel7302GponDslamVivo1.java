@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
 import dao.dslam.impl.login.LoginComJump;
@@ -43,7 +44,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public void conectar() throws Exception {
         super.conectar();
-        this.getCd().consulta(this.getComandoEnableConfig());
+        if(this.getCd().consulta(this.getComandoEnableConfig()).getBlob().contains("Login incorrect")){
+            throw new FalhaLoginDslamException("Credenciais incorretas");
+        }
     }
 
     protected ComandoDslam getComandoEnableConfig() {
