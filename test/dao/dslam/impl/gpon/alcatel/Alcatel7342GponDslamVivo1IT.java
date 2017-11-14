@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
  */
 public class Alcatel7342GponDslamVivo1IT {
 
-    private static EfikaCustomer cust = CustomerMock.gponAlcatel7342v1();
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1932091537");
     private static Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 

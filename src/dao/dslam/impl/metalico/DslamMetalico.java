@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
@@ -27,7 +28,7 @@ public abstract class DslamMetalico extends AbstractDslam
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
 //    @Override
@@ -39,5 +40,4 @@ public abstract class DslamMetalico extends AbstractDslam
 //    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
 //        return null;
 //    }
-
 }
