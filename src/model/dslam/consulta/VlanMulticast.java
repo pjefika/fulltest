@@ -28,6 +28,9 @@ public class VlanMulticast extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(getSvlan() == null){
+            return false;
+        }
         return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP);
     }
 

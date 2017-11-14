@@ -311,13 +311,8 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testCreateVlanVod() throws Exception {
         System.out.println("createVlanVod");
-        InventarioRede i = null;
-        Alcatel7302GponDslamVivo1 instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.createVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**

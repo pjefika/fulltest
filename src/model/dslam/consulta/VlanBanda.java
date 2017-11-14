@@ -28,6 +28,9 @@ public class VlanBanda extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(getCvlan()==null || getSvlan() == null){
+            return false;
+        }
         return this.getSvlan().equals(e.getRede().getRin()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }

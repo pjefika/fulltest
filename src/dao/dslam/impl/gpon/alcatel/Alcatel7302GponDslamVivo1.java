@@ -137,7 +137,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanBanda(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml",3000);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml",3000);
 
     }
 
@@ -203,21 +203,17 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanVod(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml");
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml",3000);
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanVod(i));
-        List<String> retorno = cmd.getRetorno();
+//        List<String> retorno = cmd.getRetorno();
         VlanVod vvod = new VlanVod();
-        boolean docontain = false;
-        for (String string : retorno) {
-            if (string.contains("Error : instance does not exist")) {
-                docontain = true;
-            }
-        }
-        if (!docontain) {
+//        boolean docontain = false;
+ 
+        if (!cmd.getBlob().contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
             if (vlan.isEmpty()) {
@@ -413,8 +409,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
                     + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 bandwidth-profile name:42\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 priority 4 shaper-profile  name:42\n"
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21"
-                    + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS");
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21\n"
+                    + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS", 5000);
         } else {
             return this.createComandosVlanBanda(i);
         }
@@ -422,7 +418,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        //this.getCd().consulta(this.comandoCreateVlanVod(i));
+        this.getCd().consulta(this.comandoCreateVlanVod(i));
         return this.getVlanVod(i);
     }
 

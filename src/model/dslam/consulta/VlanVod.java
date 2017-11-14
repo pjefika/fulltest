@@ -28,6 +28,9 @@ public class VlanVod extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(getCvlan()==null || getSvlan() == null){
+            return false;
+        }
         return this.getSvlan().equals(e.getRede().getVlanVod()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }
