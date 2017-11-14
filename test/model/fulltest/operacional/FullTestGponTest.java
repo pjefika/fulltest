@@ -48,12 +48,12 @@ public class FullTestGponTest {
     @Test
     public void testValidar() {
         List<String> tests = new ArrayList<>();
-        tests.add("1334745152");
-        tests.add("1155369108");
-        tests.add("1147616755");
-        tests.add("1137748597");
-        tests.add("1147597975");
-        tests.add("1136545664");
+        tests.add("1137420301");
+//        tests.add("1155369108");
+//        tests.add("1147616755");
+//        tests.add("1137748597");
+//        tests.add("1147597975");
+//        tests.add("1136545664");
 
         for (String test : tests) {
             try {

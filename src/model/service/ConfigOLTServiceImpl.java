@@ -28,8 +28,6 @@ import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
 public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService, ConfigGetterGponService {
 
-    
-    
     public ConfigOLTServiceImpl(EfikaCustomer ec) {
         super(ec);
     }
@@ -49,16 +47,19 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
 
         olt.setProfile(pg);
-        
+
         olt.setSerial(this.exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local)));
-        if(!olt.getSerial().getResultado()){
+        if (!olt.getSerial().getResultado()) {
             olt.setSerialDisp(c.getSlotsAvailableOnts(i));
         }
         olt.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
         olt.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
         olt.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
-        olt.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
-
+        try {
+            olt.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
+        } catch (Exception e) {
+            olt.setVlanMulticast(null);
+        }
         return olt;
     }
 
@@ -98,5 +99,5 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     public List<Porta> getterEstadoPortasProximas() throws Exception {
         return consulta().getEstadoPortasProximas(getEc().getRede());
     }
-    
+
 }
