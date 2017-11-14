@@ -15,11 +15,8 @@ import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -86,7 +83,7 @@ public class CustomerMock {
 //                    .setDefaultRequestConfig(globalConfig)
 //                    .build();
             HttpClient httpcliente = HttpClients.createDefault();
-            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI/oss/");
+            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI_qa/oss/");
 
             // Request parameters and other properties.
             StringEntity param = new StringEntity("{\"instancia\":  \"" + instancia + "\", \"executor\": \"teste\"}");
@@ -230,20 +227,20 @@ public class CustomerMock {
         //110007570563807 - 1137587599
         //115637212216107 - 1239112215
         //110007556549800 - 1127811121
-        r.setTerminal("111747672560806");
-        r.setIpDslam("BR_CMPMC_OLT01");
-        r.setModeloDslam("ALCATEL7302/7360_V1");
+        r.setTerminal("110007810216308");
+        r.setIpDslam("10.58.237.94");
+        r.setModeloDslam("7302 ISAM FTTU");
 
-        r.setSlot(5); // Slot
-        r.setPorta(16); // Porta Pon
+        r.setSlot(12); // Slot
+        r.setPorta(1); // Porta Pon
         r.setLogica(1); // Id cliente
-        r.setCvLan(130); // Vlan usuario
-        r.setRin(280); // Vlan Rede
+        r.setCvLan(373); // Vlan usuario
+        r.setRin(41); // Vlan Rede
 
-        r.setVlanVoip(3004); // Vlan Voz
-        r.setVlanVod(3001); // Vlan Multicast
-        r.setVlanMulticast(3001); // Vlan Multicast
-        r.setIdOnt("0002734019");
+        r.setVlanVoip(3008); // Vlan Voz
+        r.setVlanVod(3005); // Vlan Multicast
+        r.setVlanMulticast(3005); // Vlan Multicast
+        r.setIdOnt("0002818097");
         r.setBhs(Boolean.TRUE);
         r.setPlanta(OrigemPlanta.VIVO1);
 

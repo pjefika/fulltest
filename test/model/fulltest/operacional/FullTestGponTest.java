@@ -21,7 +21,7 @@ import org.junit.Test;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("8730240032");
+    private final EfikaCustomer cust = CustomerMock.alcatel7302();
 
     public FullTestGponTest() {
     }
@@ -61,7 +61,7 @@ public class FullTestGponTest {
             
             System.out.println(f.getMensagem());
 
-            assertEquals(false, f.getResultado());
+            assertEquals(true, f.getResultado());
         } catch (Exception e) {
             System.out.println("ola");
             e.printStackTrace();
