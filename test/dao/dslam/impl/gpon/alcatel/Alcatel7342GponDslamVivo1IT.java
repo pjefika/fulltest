@@ -31,6 +31,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
@@ -101,6 +102,7 @@ public class Alcatel7342GponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -109,13 +111,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetDeviceMac() throws Exception {
         System.out.println("getDeviceMac");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        DeviceMAC expResult = null;
         DeviceMAC result = instance.getDeviceMac(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -124,13 +121,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        Profile expResult = null;
         Profile result = instance.getProfile(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -139,13 +131,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -154,12 +141,6 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        VlanMulticast expResult = null;
-        VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -169,13 +150,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.getVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -199,13 +175,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        SerialOntGpon expResult = null;
         SerialOntGpon result = instance.getSerialOnt(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -214,13 +185,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        TabelaParametrosGpon expResult = null;
         TabelaParametrosGpon result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
@@ -229,12 +195,6 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        AlarmesGpon expResult = null;
-        AlarmesGpon result = instance.getAlarmes(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -244,13 +204,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetSlotsAvailableOnts() throws Exception {
         System.out.println("getSlotsAvailableOnts");
-        InventarioRede i = null;
-        Alcatel7342GponDslamVivo1 instance = null;
-        List<SerialOntGpon> expResult = null;
         List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
