@@ -16,11 +16,21 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
+import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.routing.HttpRoute;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import util.GsonUtil;
 
 /**
  *
@@ -107,6 +117,44 @@ public class CustomerMock {
             Gson g = new Gson();
             EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
 
+            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1) {
+                PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+                cm.setMaxTotal(1);
+                cm.setDefaultMaxPerRoute(1);
+                HttpHost ip = new HttpHost("10.40.195.81", 8080);
+                cm.setMaxPerRoute(new HttpRoute(ip), 50);
+
+                // Cookies
+                RequestConfig globalConfig = RequestConfig.custom()
+                        .setCookieSpec(CookieSpecs.DEFAULT)
+                        .build();
+
+                CloseableHttpClient httpclient = HttpClients.custom()
+                        .setConnectionManager(cm)
+                        .setDefaultRequestConfig(globalConfig)
+                        .build();
+
+                HttpGet httpget = new HttpGet("http://10.40.195.81:8080/networkInventoryAPI/networkInventory/" + ec.getInstancia());
+                httpget.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
+                CloseableHttpResponse response1 = httpclient.execute(httpget);
+                InputStream instream1 = response1.getEntity().getContent();
+                BufferedReader rd1 = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
+                StringBuffer result1 = new StringBuffer();
+                String line1 = "";
+                while ((line1 = rd1.readLine()) != null) {
+                    result1.append(line1);
+                }
+                instream1.close();
+
+                Gson g1 = new Gson();
+
+                EfikaCustomer ec1 = g1.fromJson(result1.toString(), EfikaCustomer.class);
+//                System.out.println(GsonUtil.serialize(result1.toString()));
+                ec.setRede(ec1.getRede());
+
+            }
+
+//            System.out.println(GsonUtil.serialize(ec));
             return ec;
         } catch (Exception e) {
             e.printStackTrace();
@@ -188,16 +236,14 @@ public class CustomerMock {
         r.setIpDslam("BR_IDUDP_OLT01");
         r.setModeloDslam("MA5600T_FV1");
 
-        
         r.setIdOnt("0002817789");
-        
+
         r.setSlot(15);
         r.setPorta(4);
         r.setLogica(2);
         r.setCvLan(2382);
         r.setRin(407);
         r.setBhs(Boolean.TRUE);
-        
 
         r.setVlanVoip(3004);
 
@@ -252,7 +298,6 @@ public class CustomerMock {
         s.setVelDown(51200l);
         s.setVelUp(25600l);
 
-
         c.setServicos(s);
 
         return c;
@@ -268,19 +313,17 @@ public class CustomerMock {
         r.setIpDslam("BR_SPOTR_OLT01");
         r.setModeloDslam("7342FTTU");
 
-        
         r.setIdOnt("0002596166");
-        
+
         r.setSlot(4);
         r.setPorta(4);
         r.setLogica(38);
         r.setCvLan(2070);
         r.setRin(115);
         r.setBhs(Boolean.TRUE);
-        
 
         r.setVlanVoip(3004);
-        
+
         r.setVlanVod(3001);
         r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
@@ -292,7 +335,6 @@ public class CustomerMock {
         s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);
-
 
         c.setServicos(s);
 

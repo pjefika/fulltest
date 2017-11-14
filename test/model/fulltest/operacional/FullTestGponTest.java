@@ -6,6 +6,8 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.ArrayList;
+import java.util.List;
 import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 import org.junit.After;
@@ -14,6 +16,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import util.GsonUtil;
 
 /**
  *
@@ -21,7 +24,7 @@ import org.junit.Test;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.alcatel7302();
+    private EfikaCustomer cust = CustomerMock.getCustomer("1141635330");
 
     public FullTestGponTest() {
     }
@@ -44,29 +47,30 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
+        List<String> tests = new ArrayList<>();
+        tests.add("1334745152");
+        tests.add("1155369108");
+        tests.add("1147616755");
+        tests.add("1137748597");
+        tests.add("1147597975");
+        tests.add("1136545664");
 
-        try {
-            //zhone - 1630103256
-            //2135562376
-            FullTestInterface instance = new FullTestCOFacade();
-            Boolean expResult = true;
+        for (String test : tests) {
+            try {
+                cust = CustomerMock.getCustomer(test);
+                FullTestInterface instance = new FullTestCOFacade();
 
-            FullTest f = instance.executar(cust);
+                FullTest f = instance.executar(cust);
 
-            f.getValids().forEach((valid) -> {
-                System.out.println("Nome: " + valid.getNome() + " "
-                        + "|  Resultado: " + valid.getResultado() + " "
-                        + "|  Mensagem: " + valid.getMensagem());
-            });
-            
-            System.out.println(f.getMensagem());
-
-            assertEquals(true, f.getResultado());
-        } catch (Exception e) {
-            System.out.println("ola");
-            e.printStackTrace();
-            fail(e.getMessage());
+                System.out.println(GsonUtil.serialize(f));
+                System.out.println("_____________________________________________________________________\n\n");
+//                assertEquals(true, f.getResultado());
+            } catch (Exception e) {
+                e.printStackTrace();
+//                fail(e.getMessage());
+            }
         }
+
     }
 
 }
