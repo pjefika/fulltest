@@ -14,7 +14,9 @@ import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.security.Security;
 import java.util.Properties;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -29,9 +31,13 @@ public class LoginComJump implements LoginDslamStrategy {
     @Override
     public void conectar(Conector css) throws Exception {
 
+        Security.insertProviderAt(new BouncyCastleProvider(), 2);
+
         this.cs = (ConsultaDslamVivo1) css;
-        
+
         try {
+            BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
+            Security.insertProviderAt(bouncyCastleProvider, 2);
             jsch = new JSch();
             session = jsch.getSession("incid", "10.18.81.96", 22);
             session.setPassword("v!vo@incid");
@@ -63,7 +69,7 @@ public class LoginComJump implements LoginDslamStrategy {
             cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
             cs.out.flush();
             Thread.sleep(1000);
-            cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
+            cs.out.print(this.cs.dslam.getCredencial().getPass()+ "\r");
             cs.out.flush();
             Thread.sleep(1000);
         } catch (Exception e) {

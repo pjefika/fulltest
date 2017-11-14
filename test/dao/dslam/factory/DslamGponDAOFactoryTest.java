@@ -6,6 +6,7 @@
 package dao.dslam.factory;
 
 import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.gpon.alcatel.Alcatel7302GponDslamVivo1;
 import dao.dslam.impl.gpon.keymile.KeymileGponDslam;
 import dao.dslam.impl.gpon.zhone.ZhoneGponDslam;
 import org.junit.After;
@@ -59,6 +60,16 @@ public class DslamGponDAOFactoryTest {
         String ip = "10.200.35.66";
         DslamGponDAOFactory instance = new DslamGponDAOFactory();
         AbstractDslam expResult = new ZhoneGponDslam(ip);
+        AbstractDslam result = instance.getInstance(modelo, ip);
+        assertEquals(expResult.getClass(), result.getClass());
+    }
+
+    @Test
+    public void alcatel7302ISAMFTTU() throws Exception {
+        String modelo = "7302 ISAM FTTU";
+        String ip = "10.200.35.66";
+        DslamGponDAOFactory instance = new DslamGponDAOFactory();
+        AbstractDslam expResult = new Alcatel7302GponDslamVivo1(ip);
         AbstractDslam result = instance.getInstance(modelo, ip);
         assertEquals(expResult.getClass(), result.getClass());
     }

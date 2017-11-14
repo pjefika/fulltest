@@ -29,6 +29,9 @@ public class VlanVoip extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(getCvlan()==null || getSvlan() == null){
+            return false;
+        }
         return this.getSvlan().equals(e.getRede().getVlanVoip()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }
