@@ -39,7 +39,7 @@ public class Alcatel7302GponDslamVivo1IT {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.alcatel7302();
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1137420301");
     private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 

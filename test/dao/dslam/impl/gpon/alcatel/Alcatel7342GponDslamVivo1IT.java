@@ -43,6 +43,7 @@ public class Alcatel7342GponDslamVivo1IT {
     private Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
     private InventarioRede i = cust.getRede();
 
+
     public Alcatel7342GponDslamVivo1IT() {
     }
 

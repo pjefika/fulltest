@@ -137,7 +137,14 @@ public class CustomerMock {
                 HttpGet httpget = new HttpGet("http://10.40.195.81:8080/networkInventoryAPI/networkInventory/" + ec.getInstancia());
                 httpget.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
+                
+                if (response1.getStatusLine().getStatusCode() != 200) {
+                    throw new Exception("Cadastro não encontrado na networkInventory");
+                }
+                
                 InputStream instream1 = response1.getEntity().getContent();
+                
+                
                 BufferedReader rd1 = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
                 StringBuffer result1 = new StringBuffer();
                 String line1 = "";

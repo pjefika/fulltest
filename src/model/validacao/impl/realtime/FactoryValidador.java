@@ -6,6 +6,7 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.customer.TipoRede;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class FactoryValidador {
     public static List<Validator> manobra(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validator> bateria = new ArrayList<>();
         Locale local = new Locale("manobra", "CO");
-        
+
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new CorretorProfile(dslam, cust, local));
 
@@ -42,6 +43,32 @@ public class FactoryValidador {
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
 //        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
         bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+        bateria.add(new CorretorProfile(dslam, cust, local));
+        bateria.add(new CorretorVlanBanda(dslam, cust, local));
+        bateria.add(new CorretorVlanVoip(dslam, cust, local));
+        bateria.add(new CorretorVlanVod(dslam, cust, local));
+        bateria.add(new CorretorVlanMulticast(dslam, cust, local));
+        bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
+
+        return bateria;
+    }
+
+    public static List<Validator> co(AbstractDslam dslam, EfikaCustomer cust) {
+        List<Validator> bateria = new ArrayList<>();
+        Locale local = new Locale("manobra", "CO");
+
+        if (cust.getRede().getTipo() == TipoRede.GPON) {
+            bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
+        }
+
+        bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
+        bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
+
+        if (cust.getRede().getTipo() == TipoRede.GPON) {
+            bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+        }
+
         bateria.add(new CorretorProfile(dslam, cust, local));
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
         bateria.add(new CorretorVlanVoip(dslam, cust, local));

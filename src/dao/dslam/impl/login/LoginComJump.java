@@ -31,8 +31,6 @@ public class LoginComJump implements LoginDslamStrategy {
     @Override
     public void conectar(Conector css) throws Exception {
 
-        Security.insertProviderAt(new BouncyCastleProvider(), 2);
-
         this.cs = (ConsultaDslamVivo1) css;
 
         try {

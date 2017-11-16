@@ -44,7 +44,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public void conectar() throws Exception {
         super.conectar();
-        if(this.getCd().consulta(this.getComandoEnableConfig()).getBlob().contains("Login incorrect")){
+        if (this.getCd().consulta(this.getComandoEnableConfig()).getBlob().contains("Login incorrect")) {
             throw new FalhaLoginDslamException("Credenciais incorretas");
         }
     }
@@ -137,7 +137,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanBanda(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml",3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml", 3000);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml",3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml", 3000);
 
     }
 
@@ -203,7 +203,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoVlanVod(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml",3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml", 3000);
     }
 
     @Override
@@ -212,7 +212,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 //        List<String> retorno = cmd.getRetorno();
         VlanVod vvod = new VlanVod();
 //        boolean docontain = false;
- 
+
         if (!cmd.getBlob().contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
@@ -353,6 +353,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         if (i.getBhs()) {
             return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvLan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvLan() + " in-qos-prof-name name:HSI\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
+                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
                     + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"

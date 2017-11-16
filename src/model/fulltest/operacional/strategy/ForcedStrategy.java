@@ -33,7 +33,10 @@ public class ForcedStrategy implements ExecutionStrategy {
                     ft.getValids().add(r);
                 }
             } catch (Exception ex) {
+                System.out.println("Exec Exception -> " + ex.getMessage());
+                ex.printStackTrace();
                 if (ex instanceof FuncIndisponivelDslamException) {
+                    
                 } else {
                     ft.setMensagem(ex.getMessage());
                     ft.setResultado(Boolean.FALSE);
@@ -41,7 +44,6 @@ public class ForcedStrategy implements ExecutionStrategy {
                         throw ex;
                     }
                 }
-
             }
         }
 

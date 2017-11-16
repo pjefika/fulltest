@@ -32,10 +32,14 @@ public class DslamDAOFactory {
             return DslamMetalicoDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
         }
     }
-    
-    public static void validar(InventarioRede rede) throws Exception{
-        if(rede == null){
+
+    public static void validar(InventarioRede rede) throws Exception {
+        if (rede == null) {
             throw new FalhaInventarioRedeException();
+        } else {
+            if (rede.getIpDslam() == null || rede.getModeloDslam() == null) {
+                throw new FalhaInventarioRedeException();
+            }
         }
     }
 
