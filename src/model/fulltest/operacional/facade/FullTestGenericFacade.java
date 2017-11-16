@@ -66,7 +66,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     void validar() throws Exception {
         this.exec.action(this);
         for (ValidacaoResult valid : getValids()) {
-            if (!valid.getResultado()) {
+            if (!valid.getResultado() && this.mensagem == null) {
                 this.setResultado(Boolean.FALSE);
                 this.setMensagem(valid.getMensagem());
             }
