@@ -39,9 +39,9 @@ import util.GsonUtil;
  */
 public class Alcatel7342GponDslamVivo1IT {
 
-    private static EfikaCustomer cust = CustomerMock.gponAlcatel7342v1();
-    private static Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
-    private static InventarioRede i = cust.getRede();
+    private EfikaCustomer cust = CustomerMock.getCustomer("1334745709");
+    private Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
+    private InventarioRede i = cust.getRede();
 
     public Alcatel7342GponDslamVivo1IT() {
     }
@@ -59,6 +59,9 @@ public class Alcatel7342GponDslamVivo1IT {
         BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
 //        Security.addProvider(bouncyCastleProvider);
         Security.insertProviderAt(bouncyCastleProvider, 1);
+        cust = CustomerMock.getCustomer("1138589433");
+        instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
+        i = cust.getRede();
     }
 
     @After
@@ -141,7 +144,6 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -262,6 +264,7 @@ public class Alcatel7342GponDslamVivo1IT {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.TRUE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
+        System.out.println(GsonUtil.serialize(result));
     }
 
     /**
