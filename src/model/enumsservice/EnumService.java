@@ -9,7 +9,6 @@ import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.config.velocidade.VelocidadeDTO;
 import model.dslam.velocidade.Velocidades;
 
 /**

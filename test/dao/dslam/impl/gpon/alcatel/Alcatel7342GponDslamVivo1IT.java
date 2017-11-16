@@ -7,7 +7,6 @@ package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.impl.gpon.huawei.HuaweiGponDslamVivo1;
 import java.security.Security;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
@@ -15,22 +14,19 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.GsonUtil;
 
 /**
@@ -39,9 +35,9 @@ import util.GsonUtil;
  */
 public class Alcatel7342GponDslamVivo1IT {
 
-    private EfikaCustomer cust = CustomerMock.getCustomer("1334745709");
-    private Alcatel7342GponDslamVivo1 instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
-    private InventarioRede i = cust.getRede();
+    private EfikaCustomer cust;
+    private Alcatel7342GponDslamVivo1 instance;
+    private InventarioRede i;
 
 
     public Alcatel7342GponDslamVivo1IT() {
