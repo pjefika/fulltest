@@ -175,7 +175,6 @@ public class TratativaRetornoUtil {
         return tratHuawei(list, qqqro, 1);
     }
 
-
     public static String trat7342(List<String> list, String qqqro, Integer o) {
         Integer i = 1;
         for (String leLine : list) {
@@ -184,7 +183,7 @@ public class TratativaRetornoUtil {
                     String[] porvirgula = leLine.split(",");
                     for (String string : porvirgula) {
                         if (string.contains(qqqro)) {
-                            return leLine.substring(leLine.indexOf("=") + 1, leLine.length()).replace("\\\"", "").trim();
+                            return string.substring(string.indexOf("=") + 1, string.length()).replace("\\\"", "").trim();
                         }
                     }
 
@@ -199,6 +198,28 @@ public class TratativaRetornoUtil {
 
     public static String trat7342(List<String> list, String qqqro) {
         return trat7342(list, qqqro, 1);
+    }
+
+    public static String[] trat7342Virgula(List<String> list, String qqqro, Integer o) {
+        Integer i = 1;
+        for (String leLine : list) {
+            if (leLine.contains(qqqro)) {
+                if (i.equals(o)) {
+                    String[] porvirgula = leLine.split(",");
+
+                    return porvirgula;
+
+                }
+                i++;
+            }
+
+        }
+
+        return null;
+    }
+
+    public static String[] trat7342Virgula(List<String> list, String qqqro) {
+        return trat7342Virgula(list, qqqro, 1);
     }
 
     public static String valueFromParentesis(String str) {
