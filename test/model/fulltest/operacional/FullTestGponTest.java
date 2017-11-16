@@ -23,7 +23,7 @@ import util.GsonUtil;
  */
 public class FullTestGponTest {
 
-    private EfikaCustomer cust = CustomerMock.getCustomer("1141635330");
+    private EfikaCustomer cust;
 
     public FullTestGponTest() {
     }
@@ -47,12 +47,7 @@ public class FullTestGponTest {
     @Test
     public void testValidar() {
         List<String> tests = new ArrayList<>();
-        tests.add("1137420301");
-//        tests.add("1155369108");
-//        tests.add("1147616755");
-//        tests.add("1137748597");
-//        tests.add("1147597975");
-//        tests.add("1136545664");
+        tests.add("1138589433");
 
         for (String test : tests) {
             try {
@@ -63,10 +58,8 @@ public class FullTestGponTest {
 
                 System.out.println(GsonUtil.serialize(f));
                 System.out.println("_____________________________________________________________________\n\n");
-//                assertEquals(true, f.getResultado());
             } catch (Exception e) {
                 e.printStackTrace();
-//                fail(e.getMessage());
             }
         }
 

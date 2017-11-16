@@ -221,16 +221,18 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         TabelaParametrosGpon t = new TabelaParametrosGpon();
         if (cmd.getBlob().contains("ONT_RX_SIG")) {
             String[] ont = TratativaRetornoUtil.trat7342Virgula(retorno, "ONT_RX_SIG");
-            String leOnt = ont[ont.length - 1].replace("\\\"", "").trim().substring(0, 5);
+            String pegaOnt = ont[ont.length - 1].replace("\\\"", "").trim().substring(0, 5);
+            String leOnt = pegaOnt.equalsIgnoreCase("UNKNO") ? "0" : pegaOnt;
             t.setPotOnt(new Double(leOnt));
         }
         if (cmd.getBlob().contains("OLT_RX_SIG")) {
             String[] olt = TratativaRetornoUtil.trat7342Virgula(retorno, "OLT_RX_SIG");
-            String leOlt = olt[olt.length - 1].replace("\\\"", "").trim();
-            if (leOlt.contains("UNSUPPORTED")) {
+            String pegaOlt = olt[olt.length - 1].replace("\\\"", "").trim();
+            if (pegaOlt.contains("UNSUPPORTED")) {
                 t.setPotOlt(t.getPotOnt());
             } else {
-                t.setPotOlt(new Double(leOlt.substring(0, 5)));
+                String leOlt = pegaOlt.substring(0, 5).equalsIgnoreCase("UNKNO") ? "0" : pegaOlt.substring(0, 5);
+                t.setPotOlt(new Double(leOlt));
             }
 
         }
@@ -339,10 +341,10 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     }
 
     protected ComandoDslam getComandoCreateVlanVoD(InventarioRede i) {
-        return new ComandoDslam("ENT-SERVICE-PORTAL::PORTAL-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+"-2::::SVLAN=0,BWPROFUPID=42,BWPROFDNID=42:IS;"
-                + "ENT-SERVICE-FLOW::FLOW-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+"-1-1-2::::PORTAL=2,SVLAN=5,PQPROFID=42,UNISIDEVLAN=20,NETWORKSIDEVLAN=5,"
+        return new ComandoDslam("ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2::::SVLAN=0,BWPROFUPID=42,BWPROFDNID=42:IS;"
+                + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2::::PORTAL=2,SVLAN=5,PQPROFID=42,UNISIDEVLAN=20,NETWORKSIDEVLAN=5,"
                 + "NUMTAGS=SINGLE:IS;"
-                + "ENT-PONIGMPCHN::FLOW-1-1-"+i.getSlot()+"-"+i.getPorta()+"-"+i.getLogica()+"-1-1-2::::MAXTOTMCBITRATE=100000,MAXNUMGROUP=32,MAXMSGRATE=16,MAXNUMHOST=4,"
+                + "ENT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2::::MAXTOTMCBITRATE=100000,MAXNUMGROUP=32,MAXMSGRATE=16,MAXNUMHOST=4,"
                 + "USERCVLAN=20, USERPRI=3,DATACVLAN=20 ,DATAPRI=3;", 8000);
     }
 
