@@ -7,17 +7,16 @@ package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 
-public class VlanVodVivo1Huawei extends VlanVodVivo1 {
+public class VlanVoipVivo1Huawei extends VlanVoipVivo1 {
 
     private Integer gemport;
 
-    public VlanVodVivo1Huawei() {
-        super(400);
+    public VlanVoipVivo1Huawei() {
     }
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-        return super.validar(e) && getGemport().compareTo((e.getRede().getLogica()+256)) == 0;
+        return super.validar(e) && getGemport().compareTo((e.getRede().getLogica()+384)) == 0;
     }
 
     public Integer getGemport() {

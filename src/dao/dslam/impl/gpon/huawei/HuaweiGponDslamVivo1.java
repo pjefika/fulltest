@@ -22,10 +22,13 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanBandaVivo1Huawei;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVodVivo1Huawei;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.VlanVoipVivo1;
+import model.dslam.consulta.VlanVoipVivo1Huawei;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.ServicePort;
@@ -125,7 +128,6 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     }
 
     protected void setGemports(InventarioRede i) {
-
         gemportBanda = i.getLogica() + 128;
         gemportIptv = i.getLogica() + 256;
         gemportVoip = i.getLogica() + 384;
@@ -190,10 +192,12 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spBanda = new ServicePort(false);
             setServicePorts(i);
         }
-//        EnumEstadoVlan state = spBanda.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
-        Integer cvlan = Objects.equals(spBanda.getVpi(), gemportBanda) ? i.getCvLan() : 0;
-        return new VlanBanda(cvlan, spBanda.getVlanId(), EnumEstadoVlan.UP);
+        VlanBandaVivo1Huawei vlan = new VlanBandaVivo1Huawei();
+        vlan.setGemport(spBanda.getVpi());
+        vlan.setSvlan(spBanda.getVlanId());
+
+        return vlan;
     }
 
     @Override
@@ -207,15 +211,12 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spVoip = new ServicePort(false);
             setServicePorts(i);
         }
-        
-        VlanVoip vlan = new VlanVoipVivo1();
-        //vlan.
-        
-//        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
-        Integer cvlan = Objects.equals(spVoip.getVpi(), gemportVoip) ? i.getCvLan() : 0;
+        VlanVoipVivo1Huawei vlan = new VlanVoipVivo1Huawei();
+        vlan.setGemport(spVoip.getVpi());
+        vlan.setSvlan(spVoip.getVlanId());
 
-        return new VlanVoip(cvlan, spVoip.getVlanId(), EnumEstadoVlan.UP);
+        return vlan;
     }
 
     @Override
@@ -224,11 +225,12 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spIptv = new ServicePort(false);
             setServicePorts(i);
         }
-//        EnumEstadoVlan state = spIptv.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
-        Integer cvlan = Objects.equals(gemportIptv, spIptv.getVpi()) ? i.getCvLan() : 0;
-        Integer svlan = spIptv.getVlanId().compareTo(400)==0 ? i.getVlanVod() : 0;
-        return new VlanVod(cvlan, svlan, EnumEstadoVlan.UP);
+        VlanVodVivo1Huawei vlan = new VlanVodVivo1Huawei();
+        vlan.setGemport(spIptv.getVpi());
+        vlan.setSvlan(spIptv.getVlanId());
+
+        return vlan;
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {

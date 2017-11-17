@@ -21,7 +21,10 @@ import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVodVivo1;
+import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
@@ -177,11 +180,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 3));
         List<String> retorno = cmd.getRetorno();
-        VlanVoip v = new VlanVoip();
-        v.setState(EnumEstadoVlan.UP);
+        VlanVoip v = new VlanVoipVivo1();
         if (cmd.getBlob().contains("SVLAN")) {
             v.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN")));
-            v.setCvlan(i.getCvLan());
         }
 
         return v;
@@ -191,12 +192,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 2));
         List<String> retorno = cmd.getRetorno();
-        VlanVod v = new VlanVod();
-        v.setState(EnumEstadoVlan.UP);
+        VlanVod v = new VlanVodVivo1Alcatel();
         if (cmd.getBlob().contains("SVLAN")) {
-            Integer svlan = TratativaRetornoUtil.trat7342(retorno, "SVLAN").equalsIgnoreCase("5") ? i.getVlanVod() : 0;
-            v.setSvlan(svlan);
-            v.setCvlan(i.getCvLan());
+            v.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN")));
         }
 
         return v;
@@ -223,7 +221,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
             String[] ont = TratativaRetornoUtil.trat7342Virgula(retorno, "ONT_RX_SIG");
             String pegaOnt = ont[ont.length - 1].replace("\\\"", "").trim().substring(0, 5);
             String leOnt = pegaOnt.equalsIgnoreCase("UNKNO") ? "0" : pegaOnt;
-            t.setPotOnt(new Double(leOnt));
+            t.setPotOnt(new Double(new Float(leOnt)));
         }
         if (cmd.getBlob().contains("OLT_RX_SIG")) {
             String[] olt = TratativaRetornoUtil.trat7342Virgula(retorno, "OLT_RX_SIG");
@@ -232,7 +230,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
                 t.setPotOlt(t.getPotOnt());
             } else {
                 String leOlt = pegaOlt.substring(0, 5).equalsIgnoreCase("UNKNO") ? "0" : pegaOlt.substring(0, 5);
-                t.setPotOlt(new Double(leOlt));
+                t.setPotOlt(new Double(new Float(leOlt)));
             }
 
         }

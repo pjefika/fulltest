@@ -23,6 +23,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
@@ -180,7 +181,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandosVlanVoip(i));
         List<String> retorno = cmd.getRetorno();
-        VlanVoip vvip = new VlanVoip(0, 0, EnumEstadoVlan.UP);
+        VlanVoip vvip = new VlanVoipVivo1();
 
         boolean docontain = false;
         for (String string : retorno) {
@@ -196,8 +197,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
             }
             if (!vlan.isEmpty()) {
                 vvip.setSvlan(new Integer(vlan));
-                vvip.setCvlan(i.getCvLan());
-                vvip.setState(EnumEstadoVlan.UP);
             }
         }
         return vvip;
@@ -210,9 +209,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanVod(i));
-//        List<String> retorno = cmd.getRetorno();
         VlanVod vvod = new VlanVodVivo1Alcatel();
-//        boolean docontain = false;
 
         if (!cmd.getBlob().contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
@@ -222,7 +219,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
             }
             if (!vlan.isEmpty()) {
                 vvod.setSvlan(new Integer(vlan));
-                vvod.setState(EnumEstadoVlan.UP);
             }
         }
         return vvod;
