@@ -25,6 +25,9 @@ public class VlanVodVivo1 extends VlanVod {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if (getSvlan() == null) {
+            return false;
+        }
         return this.vlanFixo.compareTo(this.getSvlan()) == 0;
     }
 

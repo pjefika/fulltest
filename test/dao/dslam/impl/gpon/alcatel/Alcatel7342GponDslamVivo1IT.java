@@ -133,6 +133,7 @@ public class Alcatel7342GponDslamVivo1IT {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
         System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -151,6 +152,7 @@ public class Alcatel7342GponDslamVivo1IT {
         System.out.println("getVlanVoip");
         VlanVoip result = instance.getVlanVoip(i);
         System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -161,6 +163,7 @@ public class Alcatel7342GponDslamVivo1IT {
         System.out.println("getVlanVod");
         VlanVod result = instance.getVlanVod(i);
         System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**

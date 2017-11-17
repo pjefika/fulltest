@@ -131,8 +131,9 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        VlanMulticast result = instance.getVlanMulticast(i);
-        System.out.println(GsonUtil.serialize(result));
+//        VlanMulticast result = instance.getVlanMulticast(i);
+//        System.out.println(GsonUtil.serialize(result));
+//        assertTrue(result.validar(cust));
     }
 
     /**
@@ -143,6 +144,7 @@ public class Alcatel7302GponDslamVivo1IT {
         System.out.println("getVlanVoip");
         VlanVoip result = instance.getVlanVoip(i);
         System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**

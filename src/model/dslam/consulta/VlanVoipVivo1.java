@@ -14,6 +14,9 @@ public class VlanVoipVivo1 extends VlanVoip {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if (getSvlan() == null) {
+            return false;
+        }
         return this.getSvlan().compareTo(e.getRede().getVlanVoip()) == 0;
     }
 
