@@ -25,6 +25,7 @@ import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.ServicePort;
@@ -206,6 +207,10 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
             spVoip = new ServicePort(false);
             setServicePorts(i);
         }
+        
+        VlanVoip vlan = new VlanVoipVivo1();
+        //vlan.
+        
 //        EnumEstadoVlan state = spVoip.getState() ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
 
         Integer cvlan = Objects.equals(spVoip.getVpi(), gemportVoip) ? i.getCvLan() : 0;

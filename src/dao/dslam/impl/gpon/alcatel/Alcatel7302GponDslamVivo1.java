@@ -21,6 +21,7 @@ import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
@@ -210,7 +211,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanVod(i));
 //        List<String> retorno = cmd.getRetorno();
-        VlanVod vvod = new VlanVod();
+        VlanVod vvod = new VlanVodVivo1Alcatel();
 //        boolean docontain = false;
 
         if (!cmd.getBlob().contains("Error : instance does not exist")) {
@@ -221,7 +222,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
             }
             if (!vlan.isEmpty()) {
                 vvod.setSvlan(new Integer(vlan));
-                vvod.setCvlan(i.getCvLan());
                 vvod.setState(EnumEstadoVlan.UP);
             }
         }
