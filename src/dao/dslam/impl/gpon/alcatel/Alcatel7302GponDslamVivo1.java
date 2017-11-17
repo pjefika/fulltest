@@ -95,8 +95,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));
-        String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name=\"admin-state\"]");
-        String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name=\"oper-state\"]");
+        String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
+        String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
         EstadoDaPorta state = new EstadoDaPorta();
         state.setAdminState(adminState.equalsIgnoreCase("UP"));
         state.setOperState(operState.equalsIgnoreCase("UP"));
