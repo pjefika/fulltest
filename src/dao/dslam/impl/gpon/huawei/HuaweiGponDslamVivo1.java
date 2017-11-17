@@ -13,11 +13,9 @@ import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
@@ -27,7 +25,6 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVodVivo1Huawei;
 import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.VlanVoipVivo1Huawei;
 import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
@@ -178,9 +175,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
         TabelaParametrosGpon tab = new TabelaParametrosGpon();
-        Double potOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx"));
+        String leOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx");
+        Double potOlt = leOlt.equalsIgnoreCase("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
         tab.setPotOlt(potOlt);
-        Double potOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical").contains("Parâmetro não encontrado") ? 0d : new Double(TratativaRetornoUtil.tratHuawei(retorno, "Rx optical"));
+        String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
+        Double potOnt = leOnt.equalsIgnoreCase("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-")  ? 0d : new Double(leOnt);
         tab.setPotOnt(potOnt);
         return tab;
     }
