@@ -140,13 +140,13 @@ public class FactoryCriterio {
             case MUDA:
 
                 c = new CriterioMotivo();
-//                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.TRUE));
                 c.setConclusao(ConclusaoManobraEnum.PORTA_OK);
                 lst.add(c);
 
                 c = new CriterioMotivo();
-//                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
+                c.adicionarCriterio(new CustomerAssert(AssertsEnum.LINHA_MUDA, Boolean.TRUE));
                 c.adicionarCriterio(new CustomerAssert(AssertsEnum.ORIGINOU_CHAMADA_POS_ABERTURA_ORDEM, Boolean.FALSE));
                 c.setConclusao(ConclusaoManobraEnum.PORTA_NOK);
                 lst.add(c);
