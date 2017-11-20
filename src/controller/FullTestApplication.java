@@ -23,6 +23,8 @@ public class FullTestApplication extends Application {
         singletons.add(new FullTestController());
         singletons.add(new CrmController());
         singletons.add(new ManobraController());
+        singletons.add(new ConfigPortaController());
+        singletons.add(new ListEnumsController());
     }
 
     public Set<Object> getSingletons() {

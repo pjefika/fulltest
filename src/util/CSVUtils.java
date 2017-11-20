@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import model.entity.Diagnostico;
 import model.entity.TesteClienteGpon;
 import model.entity.ValidacaoGpon;
-import model.viewmodel.Diagnostico;
 
 /**
  *

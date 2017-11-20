@@ -5,10 +5,12 @@
  */
 package model.fulltest.operacional.strategy;
 
-import java.util.logging.Level;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import exception.SemGerenciaException;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
-import model.validacao.ValidacaoResult;
+import model.validacao.impl.both.ValidacaoResult;
+import model.validacao.impl.realtime.Validator;
 
 /**
  * Estratégia de execução que interrompe a execução caso encontre validações
@@ -18,22 +20,31 @@ import model.validacao.ValidacaoResult;
  */
 public class ForcedStrategy implements ExecutionStrategy {
 
+    private static final Logger LOG = Logger.getLogger(ForcedStrategy.class.getName());
+
     @Override
-    public void action(FullTestGenericFacade ft) {
-        try {
-            ft.getBateria().forEach((v) -> {
-                try {
-                    ValidacaoResult r = v.validar();
-                    if (r != null) {
-                        ft.getValids().add(r);
-                    }
-                } catch (Exception ex) {
-                    Logger.getLogger(ForcedStrategy.class.getName()).log(Level.SEVERE, null, ex);
+    public void action(FullTestGenericFacade ft) throws Exception {
+
+        for (Validator v : ft.getBateria()) {
+            System.out.println("Valid");
+            try {
+                ValidacaoResult r = v.validar();
+                if (r != null) {
+                    ft.getValids().add(r);
                 }
-            });
-        } catch (Exception e) {
-            ft.setMensagem(e.getMessage());
-            ft.setResultado(Boolean.FALSE);
+            } catch (Exception ex) {
+                System.out.println("Exec Exception -> " + ex.getMessage());
+                ex.printStackTrace();
+                if (ex instanceof FuncIndisponivelDslamException) {
+                    
+                } else {
+                    ft.setMensagem(ex.getMessage());
+                    ft.setResultado(Boolean.FALSE);
+                    if (ex instanceof SemGerenciaException) {
+                        throw ex;
+                    }
+                }
+            }
         }
 
     }

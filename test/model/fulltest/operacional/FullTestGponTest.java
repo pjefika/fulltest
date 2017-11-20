@@ -5,15 +5,17 @@
  */
 package model.fulltest.operacional;
 
-import model.fulltest.operacional.facade.FullTestInterface;
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.fulltest.operacional.facade.FullTestFacade;
+import java.util.ArrayList;
+import java.util.List;
+import model.fulltest.operacional.facade.FullTestCOFacade;
+import model.fulltest.operacional.facade.FullTestInterface;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
@@ -21,7 +23,7 @@ import static org.junit.Assert.*;
  */
 public class FullTestGponTest {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("3131769345");
+    private EfikaCustomer cust;
 
     public FullTestGponTest() {
     }
@@ -44,28 +46,23 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
+        List<String> tests = new ArrayList<>();
+        tests.add("1120930164");
 
-        try {
-            //zhone - 1630103256
-            //2135562376
-            FullTestInterface instance = new FullTestFacade();
-//            FullTestGponFacade instance = new FullTestFacade(CustomerMock.getCustomer("7932321318"));
-            Boolean expResult = true;
-            FullTest f = instance.executar(cust);
+        for (String test : tests) {
+            try {
+                cust = CustomerMock.getCustomer(test);
+                FullTestInterface instance = new FullTestCOFacade();
 
-            f.getValids().forEach((valid) -> {
-                System.out.println("Nome: " + valid.getNome() + " "
-                        + "|  Resultado: " + valid.getResultado() + " "
-                        + "|  Mensagem: " + valid.getMensagem());
-            });
-            
-            System.out.println(f.getMensagem());
+                FullTest f = instance.executar(cust);
 
-            assertEquals(expResult, f.getResultado());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
+                System.out.println(GsonUtil.serialize(f));
+                System.out.println("_____________________________________________________________________\n\n");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
 }

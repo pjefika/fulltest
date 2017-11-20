@@ -13,7 +13,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import model.fulltest.Status;
+import model.fulltest.massivo.Status;
 
 /**
  *

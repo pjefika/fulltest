@@ -10,10 +10,10 @@ import model.fulltest.operacional.CustomerMock;
 import model.fulltest.operacional.FullTest;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.PrintUtil;
 
 /**
@@ -22,7 +22,7 @@ import util.PrintUtil;
  */
 public class FullTestManobraFacadeIT {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("5530262971");
+    private final EfikaCustomer cust = CustomerMock.getCustomer("6239416181");
 
     public FullTestManobraFacadeIT() {
     }

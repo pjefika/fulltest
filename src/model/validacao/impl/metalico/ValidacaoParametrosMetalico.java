@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.metalico.TabelaParametrosAbstract;
-import model.validacao.impl.ValidacaoEfikaCustomer;
+import model.validacao.impl.both.ValidacaoEfikaCustomer;
 
 /**
  *
@@ -18,10 +19,15 @@ public class ValidacaoParametrosMetalico extends ValidacaoEfikaCustomer {
     private final transient TabelaParametrosAbstract tab;
     private final transient TabelaParametrosAbstract ideal;
 
-    public ValidacaoParametrosMetalico(TabelaParametrosAbstract tab, TabelaParametrosAbstract ideal, EfikaCustomer cust) {
-        super(cust, "Parâmetros");
+    public ValidacaoParametrosMetalico(TabelaParametrosAbstract tab, TabelaParametrosAbstract ideal, EfikaCustomer cust, Locale local) {
+        super(cust, "Parâmetros", local);
         this.tab = tab;
         this.ideal = ideal;
+    }
+
+    @Override
+    public Object getObject() {
+        return tab;
     }
 
     @Override

@@ -10,7 +10,7 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
-import model.validacao.factory.FactoryValidador;
+import model.validacao.impl.realtime.FactoryValidador;
 
 /**
  *

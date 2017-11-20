@@ -16,7 +16,7 @@ public class ComandoDslam {
     private String sintax;
 
     private Integer sleep = 1000;
-    
+
     private Integer sleepAux = 1000;
 
     private String sintaxAux;
@@ -24,6 +24,8 @@ public class ComandoDslam {
     private String sintaxAux2;
 
     private List<String> retorno;
+
+    private Boolean hasRetorno;
 
     public ComandoDslam(String sintax) {
         this.sintax = sintax;
@@ -109,6 +111,17 @@ public class ComandoDslam {
 
     public void setSintaxAux(String sintaxAux) {
         this.sintaxAux = sintaxAux;
+    }
+
+    public Boolean getHasRetorno() {
+        if(hasRetorno==null){
+            hasRetorno = false;
+        }
+        return hasRetorno;
+    }
+
+    public void setHasRetorno(Boolean hasRetorno) {
+        this.hasRetorno = hasRetorno;
     }
 
 }

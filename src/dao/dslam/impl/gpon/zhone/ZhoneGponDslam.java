@@ -11,12 +11,12 @@ import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.MetodoNaoImplementadoException;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import model.EnumEstadoVlan;
 import model.dslam.consulta.DeviceMAC;
+import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -26,6 +26,7 @@ import model.dslam.consulta.gpon.AlarmesGpon;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
@@ -65,11 +66,12 @@ public class ZhoneGponDslam extends DslamGpon {
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         if (leParams == null) {
-            List<String> leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+            leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
         }
         List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        Double potOlt = new Double(pegaParams.get(5));
-        Double potOnt = new Double(pegaParams.get(6));
+        
+        Double potOlt = pegaParams.size()<8 ? new Double(0) : new Double(pegaParams.get(5));
+        Double potOnt = pegaParams.size()<8 ? new Double(pegaParams.get(5)) : new Double(pegaParams.get(6));
 
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(potOlt);
@@ -121,12 +123,12 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
         List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
-        String operState = pegaOper.get(5);
+        String operState = pegaOper!=null ? pegaOper.get(5) : "DOWN";
 
         EstadoDaPorta estado = new EstadoDaPorta();
 
-        estado.setAdminState(adminState);
-        estado.setOperState(operState);
+        estado.setAdminState(adminState.equalsIgnoreCase("UP"));
+        estado.setOperState(operState.equalsIgnoreCase("UP"));
 
         System.out.println(estado.getAdminState());
         System.out.println(estado.getOperState());
@@ -296,10 +298,51 @@ public class ZhoneGponDslam extends DslamGpon {
         Profile prof = new Profile();
         prof.setProfileDown(profileDown);
         prof.setProfileUp(profileUp);
+        prof.setDown(compare(profileDown, true));
+        prof.setUp(compare(profileUp, false));
         System.out.println(prof.getProfileDown());
         System.out.println(prof.getProfileUp());
 
         return prof;
+    }
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "5"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "10"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "15"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "25"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "35"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "50"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_102400, "100"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_153600, "150"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_204800, "200"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_307200, "300"));
+        }
+
+        return velsDown;
+    }
+
+    @Override
+    public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "5000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_12800, "12500"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_25600, "25000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_51200, "50000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_76800, "75000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_102400, "100000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_153600, "150000"));
+        }
+
+        return velsUp;
     }
 
     @Override
@@ -337,7 +380,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("port " + e.getAdminState() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu");
+        return new ComandoDslam("port " + e.toString() + " 1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/gpononu");
     }
 
     @Override
@@ -351,8 +394,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
-                + "gtp " + castProfile(up).getProfileUp() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
-                + "epktrule " + castProfile(down).getProfileDown(), 5000);
+                + "gtp " + compare(up, false).getSintaxVel() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
+                + "epktrule " + compare(down, true).getSintaxVel(), 5000);
     }
 
     @Override
@@ -457,7 +500,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
         return new ComandoDslam("bridge modify 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "-gponport-"
-                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + castProfile(v).getProfileDown(), 1500);
+                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + compare(v, true).getSintaxVel(), 1500);
     }
 
     @Override
@@ -475,17 +518,22 @@ public class ZhoneGponDslam extends DslamGpon {
         createVlanBanda(i, vDown, vUp);
     }
 
-    @Override
-    public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
-        p.setProfileDown(v.getVel());
-        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
-        p.setProfileUp(leProfUp.toString());
-        return p;
+//    @Override
+//    public Profile castProfile(Velocidades v) {
+//        Profile p = new Profile();
+//        p.setProfileDown(v.getVel());
+//        Integer leProfUp = Math.round(new Float(v.getVel()) * 1000);
+//        p.setProfileUp(leProfUp.toString());
+//        return p;
+//    }
+    protected ComandoDslam getComandoGetSlotsAvailableOnts0() {
+        return new ComandoDslam("onu show");
     }
-
-    protected ComandoDslam getComandoGetSlotsAvailableOnts(InventarioRede i) {
-        return new ComandoDslam("onu show " + i.getSlot(), 1000, "Y", 5000, "A");
+    protected ComandoDslam getComandoGetSlotsAvailableOnts1() {
+        return new ComandoDslam("Y");
+    }
+    protected ComandoDslam getComandoGetSlotsAvailableOnts2() {
+        return new ComandoDslam("A", 15000);
     }
 
     private List<String> getSernum(List<String> listSerial) {
@@ -493,11 +541,7 @@ public class ZhoneGponDslam extends DslamGpon {
         for (String string : listSerial) {
 
             if (string.trim().length() > 5) {
-                System.out.println("oi" + string);
                 String[] leSer = string.split("\\b\\w+\\b");
-                for (String string1 : leSer) {
-                    System.out.println(string1 + "lele");
-                }
                 String serNum = leSer[1] + leSer[2];
                 leSernums.add(serNum);
             }
@@ -508,7 +552,12 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts(i)).getRetorno();
+        getCd().consulta(getComandoGetSlotsAvailableOnts0());
+        Thread.sleep(1000);
+        getCd().consulta(getComandoGetSlotsAvailableOnts1());
+        Thread.sleep(5000);
+        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts2()).getRetorno();
+        
         List<String> leSerns = TratativaRetornoUtil.linhasAbaixo(leResp, "sernoID");
         List<String> serials = getSernum(leSerns);
         List<SerialOntGpon> leSerialOnt = new ArrayList<>();
@@ -518,5 +567,11 @@ public class ZhoneGponDslam extends DslamGpon {
             leSerialOnt.add(s);
         }
         return leSerialOnt;
+
+    }
+
+    @Override
+    public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -6,7 +6,6 @@
 package model.entity.crm;
 
 import java.util.Calendar;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
@@ -21,7 +20,7 @@ import model.entity.AbstractEntity;
  * @author G0042204
  */
 @Entity
-@Table(name = "FULLTESTAPI_CRM")
+@Table(name = "FULLTESTAPI_CRM_LOG")
 public class LogCrm extends AbstractEntity {
 
     @NotNull(message = "Campo obrigatório")
@@ -32,11 +31,9 @@ public class LogCrm extends AbstractEntity {
     private Boolean cadastro, semBloqueio, fulltest;
 
     @Lob
-    @Column(length = 255555)
     private String customer;
 
     @Lob
-    @Column(length = 255555)
     private String valids;
 
     @Temporal(TemporalType.TIMESTAMP)

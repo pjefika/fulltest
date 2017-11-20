@@ -6,8 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.EnumEstadoVlan;
-import model.validacao.Validavel;
 
 /**
  *

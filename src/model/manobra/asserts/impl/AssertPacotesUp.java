@@ -8,7 +8,7 @@ package model.manobra.asserts.impl;
 import br.net.gvt.efika.asserts.AssertsEnum;
 import br.net.gvt.efika.asserts.EfikaAssertable;
 import br.net.gvt.efika.customer.CustomerAssert;
-import model.validacao.impl.manobra.ValidacaoPacotesUp;
+import model.validacao.impl.metalico.manobra.ValidacaoPacotesUp;
 
 /**
  *

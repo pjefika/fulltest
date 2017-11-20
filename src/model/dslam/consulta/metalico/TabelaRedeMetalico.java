@@ -7,7 +7,7 @@ package model.dslam.consulta.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.math.BigInteger;
-import model.validacao.Validavel;
+import model.dslam.consulta.Validavel;
 
 public class TabelaRedeMetalico implements Validavel {
 

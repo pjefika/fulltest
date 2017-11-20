@@ -6,7 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.EnumEstadoVlan;
 
 /**
  *
@@ -29,6 +28,9 @@ public class VlanMulticast extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
+        if(getSvlan() == null){
+            return false;
+        }
         return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP);
     }
 

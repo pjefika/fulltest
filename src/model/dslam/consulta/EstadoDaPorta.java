@@ -6,8 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.ValidavelAbs;
-import model.validacao.Validavel;
 
 /**
  *
@@ -15,9 +13,9 @@ import model.validacao.Validavel;
  */
 public class EstadoDaPorta extends ValidavelAbs implements Validavel {
 
-    private String adminState;
+    private Boolean adminState;
 
-    private String operState;
+    private Boolean operState;
 
     private static final String NOME = "Estado da Porta";
 
@@ -25,25 +23,39 @@ public class EstadoDaPorta extends ValidavelAbs implements Validavel {
         super(NOME);
     }
 
-    public String getAdminState() {
+    public EstadoDaPorta(Boolean adminState) {
+        super(NOME);
+        this.adminState = adminState;
+    }
+    
+    
+
+    public Boolean getAdminState() {
         return adminState;
     }
 
-    public void setAdminState(String adminState) {
+    public void setAdminState(Boolean adminState) {
         this.adminState = adminState;
     }
 
-    public String getOperState() {
+    public Boolean getOperState() {
         return operState;
     }
 
-    public void setOperState(String operState) {
+    public void setOperState(Boolean operState) {
         this.operState = operState;
     }
 
     @Override
+    public String toString() {
+        return adminState == true ? "up" : "down";
+    }
+    
+    
+
+    @Override
     public Boolean validar(EfikaCustomer e) {
-        return this.adminState.equalsIgnoreCase("UP") && this.operState.equalsIgnoreCase("UP");
+        return this.adminState && this.operState;
     }
 
 }

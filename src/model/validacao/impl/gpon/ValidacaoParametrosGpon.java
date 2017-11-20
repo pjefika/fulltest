@@ -6,8 +6,9 @@
 package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.Locale;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
-import model.validacao.impl.ValidacaoValidavel;
+import model.validacao.impl.both.ValidacaoValidavel;
 
 /**
  *
@@ -17,8 +18,8 @@ public class ValidacaoParametrosGpon extends ValidacaoValidavel {
 
     private final transient TabelaParametrosGpon t;
 
-    public ValidacaoParametrosGpon(TabelaParametrosGpon t, EfikaCustomer cust) {
-        super(cust, t);
+    public ValidacaoParametrosGpon(TabelaParametrosGpon t, EfikaCustomer cust, Locale local) {
+        super(cust, t, local);
         this.t = t;
     }
 

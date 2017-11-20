@@ -5,8 +5,6 @@
  */
 package model.dslam.consulta.metalico;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-
 /**
  *
  * @author G0042204

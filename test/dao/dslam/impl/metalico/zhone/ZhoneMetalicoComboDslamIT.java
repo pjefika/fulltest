@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.metalico.zhone;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -16,37 +17,42 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.Velocidades;
+import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
  * @author G0042204
  */
 public class ZhoneMetalicoComboDslamIT {
-    
+
     public ZhoneMetalicoComboDslamIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
+    private static EfikaCustomer cust = CustomerMock.getCustomer("6239416181");
+    private static ZhoneMetalicoComboDslam instance = new ZhoneMetalicoComboDslam(cust.getRede().getIpDslam());
+    private static InventarioRede i = cust.getRede();
 
     /**
      * Test of getTabelaParametros method, of class ZhoneMetalicoComboDslam.
@@ -84,13 +90,14 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        EstadoDaPorta expResult = null;
-        EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
+        try {
+            EstadoDaPorta result = instance.getEstadoDaPorta(i);
+            System.out.println(GsonUtil.serialize(result));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -99,13 +106,10 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.getCvlan() != 0);
+
     }
 
     /**
@@ -184,7 +188,8 @@ public class ZhoneMetalicoComboDslamIT {
     }
 
     /**
-     * Test of getTabelaParametrosIdeal method, of class ZhoneMetalicoComboDslam.
+     * Test of getTabelaParametrosIdeal method, of class
+     * ZhoneMetalicoComboDslam.
      */
     @Test
     public void testGetTabelaParametrosIdeal() throws Exception {
@@ -235,14 +240,10 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        ZhoneMetalicoComboDslam instance = null;
-        EstadoDaPorta expResult = null;
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -402,5 +403,5 @@ public class ZhoneMetalicoComboDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
