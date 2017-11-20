@@ -38,9 +38,9 @@ public class FactoryValidador {
     public static List<Validator> crm(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validator> bateria = new ArrayList<>();
         Locale local = new Locale("crm", "CRM");
-        bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+        bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
 //        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
         bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
         bateria.add(new CorretorProfile(dslam, cust, local));

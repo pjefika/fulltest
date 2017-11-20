@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
@@ -21,7 +22,6 @@ import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVodVivo1;
 import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.VlanVoipVivo1;
@@ -93,7 +93,11 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     protected void setTransients(InventarioRede i) throws Exception {
         estadoPorta = new EstadoDaPorta();
         serial = new SerialOntGpon();
-        List<String> retorno = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
+        List<String> retorno = cmd.getRetorno();
+        if(!cmd.getBlob().contains("SLIDVISIBILITY")){
+            throw new FalhaAoConsultarException();
+        }
         estadoPorta.setAdminState(!TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("OOS-AUMA"));
         estadoPorta.setOperState(!TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("OOS"));
         serial.setIdOnt(TratativaRetornoUtil.trat7342(retorno, "SUBSLOCID").replace("\\\"", ""));

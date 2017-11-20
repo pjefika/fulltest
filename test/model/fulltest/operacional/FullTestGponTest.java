@@ -45,9 +45,27 @@ public class FullTestGponTest {
     }
 
     @Test
+    public void testCustomerGetCustomer() {
+        List<String> tests = new ArrayList<>();
+        tests.add("1932566062");
+        tests.add("1335919033");
+        tests.add("1142275934");
+        tests.add("1532321686");
+        tests.add("1532373907");
+        for (String test : tests) {
+            try {
+                System.out.println(test + "->" + GsonUtil.serialize(CustomerMock.getCustomer(test)));
+            } catch (Exception e) {
+                System.out.println("Numtem -> " + test);
+            }
+
+        }
+    }
+
+    @Test
     public void testValidar() {
         List<String> tests = new ArrayList<>();
-        tests.add("1120930164");
+        tests.add("1932566062");
 
         for (String test : tests) {
             try {

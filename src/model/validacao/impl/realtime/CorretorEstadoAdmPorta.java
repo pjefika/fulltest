@@ -7,9 +7,11 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
+import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaAdm;
 
@@ -34,7 +36,9 @@ public class CorretorEstadoAdmPorta extends Corretor {
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
             ep.setAdminState(Boolean.TRUE);
-            ValidacaoEstadoPortaAdm v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep), bundle.getLocale());
+            ValidacaoEstadoPortaAdm v;
+            v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep), bundle.getLocale());
+            
             v.validar();
             this.setValid(v);
         } catch (Exception e) {
@@ -44,7 +48,21 @@ public class CorretorEstadoAdmPorta extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-        ep = consulta.getEstadoDaPorta(cust.getRede());
+
+        try {
+            ep = consulta.getEstadoDaPorta(cust.getRede());
+        } catch (Exception e) {
+            try {
+                System.out.println("criandoblan");
+                alter.createVlanBanda(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelDown()));
+                alter.createVlanVoip(cust.getRede());
+                throw new CorrecaoInterruptoraException("Foi necessária a criação da porta Lógica, por favor, teste novamente em instantes.");
+            } catch (Exception e1) {
+                System.out.println("faiocriandoblan");
+                throw e1;
+            }
+        }
+
         return new ValidacaoEstadoPortaAdm(ep, bundle.getLocale());
     }
 

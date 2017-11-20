@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
@@ -98,6 +99,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
+        if(adminState==null || operState==null){
+            throw new FalhaAoConsultarException();
+        }
         EstadoDaPorta state = new EstadoDaPorta();
         state.setAdminState(adminState.equalsIgnoreCase("UP"));
         state.setOperState(operState.equalsIgnoreCase("UP"));

@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamVivo1;
@@ -132,8 +133,12 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
 
     protected void tabelaEstadoDaPorta(InventarioRede i) throws Exception {
         setGemports(i);
-        List<String> resp = getCd().consulta(getComandoGetEstadoDaPorta(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
+        List<String> resp = cmd.getRetorno();
         estadoDaPorta = new EstadoDaPorta();
+        if(!cmd.getBlob().contains("Control flag")){
+            throw new FalhaAoConsultarException();
+        }
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
         estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
@@ -176,10 +181,10 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
         TabelaParametrosGpon tab = new TabelaParametrosGpon();
         String leOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx");
-        Double potOlt = leOlt.equalsIgnoreCase("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
+        Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
         tab.setPotOlt(potOlt);
         String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
-        Double potOnt = leOnt.equalsIgnoreCase("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-")  ? 0d : new Double(leOnt);
+        Double potOnt = leOnt.contains("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-")  ? 0d : new Double(leOnt);
         tab.setPotOnt(potOnt);
         return tab;
     }
