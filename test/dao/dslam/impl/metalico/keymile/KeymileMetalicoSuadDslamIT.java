@@ -146,13 +146,9 @@ public class KeymileMetalicoSuadDslamIT {
     @Test
     public void testGetModulacao() throws Exception {
         System.out.println("getModulacao");
-        InventarioRede i = null;
-        KeymileMetalicoSuadDslam instance = null;
-        Modulacao expResult = null;
         Modulacao result = instance.getModulacao(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**

@@ -23,6 +23,7 @@ import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Modulacoes;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
@@ -122,15 +123,15 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
 
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "adsl2plusmode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "adsl2plusmode"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "adsl2plusmode"));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode", Modulacoes.ADSL));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode", Modulacoes.ADSL));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "vdsl2mode", Modulacoes.VDSL));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "vdsl2mode", Modulacoes.VDSL));
+        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "vdsl2mode", Modulacoes.VDSL));
         return velsDown;
     }
 
@@ -204,6 +205,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         Modulacao m = new Modulacao();
         String modulacao = TratativaRetornoUtil.tratZhone(leModul, "transmit-mode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
         m.setModulacao(modulacao);
+        m.setModulEnum(compare(modulacao));
         return m;
     }
 

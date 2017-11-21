@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import model.dslam.config.VelocidadeViewModel;
 import model.dslam.config.velocidade.VelocidadeDTO;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Modulacoes;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
@@ -78,6 +79,16 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
         for (VelocidadeVendor v : vels) {
             if (v.getSintaxVel().equalsIgnoreCase(sintaxVendor)) {
                 return v.getVel();
+            }
+        }
+        return null;
+    }
+
+    protected Modulacoes compare(String sintaxVendor) {
+        List<VelocidadeVendor> vels = obterVelocidadesDownVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getSintaxMod().contains(sintaxVendor)) {
+                return v.getModul();
             }
         }
         return null;
