@@ -19,6 +19,7 @@ import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileVivo1;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -134,7 +135,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         Document xmlUp = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, false)));
         String down = TratativaRetornoUtil.getXmlParam(xmlDown, "//parameter[@name='shaper-profile']");
         String up = TratativaRetornoUtil.getXmlParam(xmlUp, "//parameter[@name='bandwidth-profile']");
-        Profile p = new Profile();
+        Profile p = new ProfileVivo1();
         p.setProfileDown(down);
         p.setProfileUp(up);
         p.setDown(compare(down, true));

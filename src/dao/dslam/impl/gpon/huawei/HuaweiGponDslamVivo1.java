@@ -20,6 +20,7 @@ import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileVivo1;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanBandaVivo1Huawei;
 import model.dslam.consulta.VlanMulticast;
@@ -269,7 +270,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         if (spBanda == null) {
             setServicePorts(i);
         }
-        Profile p = new Profile();
+        Profile p = new ProfileVivo1();
         p.setDown(compare(spBanda.getRx().toString(), Boolean.TRUE));
         p.setUp(compare(spBanda.getTx().toString(), Boolean.FALSE));
         p.setProfileDown(spBanda.getRx().toString());

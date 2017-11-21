@@ -112,7 +112,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
         Profile result = instance.getProfile(i);
-        System.out.println(GsonUtil.serialize(result));
+        System.out.println(GsonUtil.serialize(result.validar(cust)));
     }
 
     /**

@@ -19,6 +19,7 @@ import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileVivo1;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -143,7 +144,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetProfile(i)).getRetorno();
-        Profile p = new Profile();
+        Profile p = new ProfileVivo1();
         String down = TratativaRetornoUtil.trat7342(retorno, "BWPROFDNID");
         String up = TratativaRetornoUtil.trat7342(retorno, "BWPROFUPID");
         p.setProfileDown(down);
