@@ -67,6 +67,7 @@ public class FactoryValidador {
         } else {
             bateria.add(new ValidadorParametrosMetalico(dslam, cust, local));
             bateria.add(new CorretorModulacao(dslam, cust, local));
+            bateria.add(new CorretorTabelaRede(dslam, cust, local));
         }
 
         bateria.add(new CorretorProfile(dslam, cust, local));

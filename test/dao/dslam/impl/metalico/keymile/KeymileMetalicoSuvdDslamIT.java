@@ -15,6 +15,7 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
@@ -166,8 +167,7 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        cust.getServicos().setVelDown(51200l);
-        cust.getServicos().setVelUp(5120l);
+        
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
         assertTrue(result.validar(cust));
@@ -372,5 +372,25 @@ public class KeymileMetalicoSuvdDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
+    /**
+     * Test of getTabelaRede method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testGetTabelaRede() throws Exception{
+        System.out.println("getTabelaRede");
+        TabelaRedeMetalico result = instance.getTabelaRede(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+    }
+    
+    @Test
+    public void testResetTabelaRede() throws Exception{
+        System.out.println("resetTabelaRede");
+        instance.resetTabelaRede(i);
+        assertTrue(instance.getTabelaRede(i).validar(cust));
+    }
+    
+
 
 }

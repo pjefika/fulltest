@@ -27,7 +27,7 @@ public class TabelaRedeMetalico implements Validavel {
 
     @Override
     public String getNome() {
-        return "Rede Confiável";
+        return "Confiabilidade de Rede";
     }
 
     public BigInteger getResync() {

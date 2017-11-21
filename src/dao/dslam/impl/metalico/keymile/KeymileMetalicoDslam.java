@@ -67,6 +67,15 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         return getEstadoDaPorta(i);
     }
 
+    @Override
+    public void resetTabelaRede(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetTabelaRede(i));
+    }
+    
+    protected ComandoDslam getComandoResetTabelaRede(InventarioRede i){
+        return new ComandoDslam("cd /unit-"+i.getSlot()+"/port-"+i.getPorta()+"/pm\nusercounterreset");
+    }
+
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/main/administrativestatus " + e.toString());
     }

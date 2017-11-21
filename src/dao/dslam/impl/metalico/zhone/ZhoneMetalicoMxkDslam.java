@@ -436,4 +436,13 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         return p;
     }
 
+    @Override
+    public void resetTabelaRede(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetTabelaRede(i));
+    }
+
+    protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("dslstat clear 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl");
+    }
+
 }

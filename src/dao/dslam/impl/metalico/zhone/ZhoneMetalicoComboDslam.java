@@ -61,18 +61,18 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         List<String> leRedes = this.getCd().consulta(this.getParams(i)).getRetorno();
         TabelaRedeMetalico tab = new TabelaRedeMetalico();
 
-//        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-//        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
-//        tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-//        tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
         tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-//        tab.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tab.setCrcDown(BigInteger.ZERO);
-        tab.setCrcUp(BigInteger.ZERO);
-        tab.setFecDown(BigInteger.ZERO);
-        tab.setFecUp(BigInteger.ZERO);
-        tab.setResync(BigInteger.ZERO);
+        tab.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leRedes, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+//        tab.setCrcDown(BigInteger.ZERO);
+//        tab.setCrcUp(BigInteger.ZERO);
+//        tab.setFecDown(BigInteger.ZERO);
+//        tab.setFecUp(BigInteger.ZERO);
+//        tab.setResync(BigInteger.ZERO);
 
         return tab;
     }
@@ -396,6 +396,15 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
 
         return p;
+    }
+
+    @Override
+    public void resetTabelaRede(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetTabelaRede(i));
+    }
+
+    protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("dslstat clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl");
     }
 
 }
