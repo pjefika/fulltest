@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
+import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class ForcedStrategy implements ExecutionStrategy {
     public void action(FullTestGenericFacade ft) throws Exception {
 
         for (Validator v : ft.getBateria()) {
-            System.out.println("Valid");
+            System.out.println("Valid _> "+v.getClass().getSimpleName());
             try {
                 ValidacaoResult r = v.validar();
                 if (r != null) {
@@ -42,6 +43,9 @@ public class ForcedStrategy implements ExecutionStrategy {
                     ft.setResultado(Boolean.FALSE);
                     if (ex instanceof SemGerenciaException) {
                         throw ex;
+                    }
+                    if (ex instanceof CorrecaoInterruptoraException) {
+                        return;
                     }
                 }
             }

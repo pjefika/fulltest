@@ -59,7 +59,6 @@ public class HuaweiGponDslamVivo1IT {
     @Before
     public void setUp() {
         BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
-//        Security.addProvider(bouncyCastleProvider);
         Security.insertProviderAt(bouncyCastleProvider, 1);
     }
 
@@ -67,7 +66,7 @@ public class HuaweiGponDslamVivo1IT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.gponHuaweiV1();
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1932566062");
     private static HuaweiGponDslamVivo1 instance = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 

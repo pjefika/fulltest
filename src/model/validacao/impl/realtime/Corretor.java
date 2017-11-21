@@ -6,6 +6,7 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
@@ -43,7 +44,7 @@ public abstract class Corretor extends Validador {
     }
 
     @Override
-    public ValidacaoResult validar() {
+    public ValidacaoResult validar() throws Exception{
         try {
             iniciar();
             this.valid = consultar();
@@ -59,6 +60,9 @@ public abstract class Corretor extends Validador {
                 }
             }
         } catch (Exception ex) {
+            if(ex instanceof CorrecaoInterruptoraException){
+                throw ex;
+            }
             ex.printStackTrace();
             return null;
         }
