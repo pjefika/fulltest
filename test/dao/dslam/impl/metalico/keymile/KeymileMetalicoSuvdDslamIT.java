@@ -31,32 +31,33 @@ import util.GsonUtil;
  * @author G0041775
  */
 public class KeymileMetalicoSuvdDslamIT {
-    
+
     public KeymileMetalicoSuvdDslamIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4131543457");
+
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4834328748");
     private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
     /**
-     * Test of obterVelocidadesUpVendor method, of class KeymileMetalicoSuvdDslam.
+     * Test of obterVelocidadesUpVendor method, of class
+     * KeymileMetalicoSuvdDslam.
      */
     @Test
     public void testObterVelocidadesUpVendor() {
@@ -70,7 +71,8 @@ public class KeymileMetalicoSuvdDslamIT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class KeymileMetalicoSuvdDslam.
+     * Test of obterVelocidadesDownVendor method, of class
+     * KeymileMetalicoSuvdDslam.
      */
     @Test
     public void testObterVelocidadesDownVendor() {
@@ -164,9 +166,11 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
+        cust.getServicos().setVelDown(51200l);
+        cust.getServicos().setVelUp(5120l);
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
-        assertTrue(result!=null);
+        assertTrue(result.validar(cust));
     }
 
     /**

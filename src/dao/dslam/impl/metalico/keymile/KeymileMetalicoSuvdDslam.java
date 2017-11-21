@@ -297,7 +297,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        setProfileDown(i, vUp);
+        setProfileDown(i, vDown);
     }
 
     @Override
@@ -528,7 +528,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getProf(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile",3000);
     }
 
 //    @Override

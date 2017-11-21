@@ -47,11 +47,11 @@ public class FullTestGponTest {
     @Test
     public void testCustomerGetCustomer() {
         List<String> tests = new ArrayList<>();
-        tests.add("8230236256");
-        tests.add("8230225126");
-        tests.add("8230279744");
-        tests.add("8230288978");
-//        tests.add("5130640125");
+        tests.add("1126693426");
+        tests.add("6232235072");
+        tests.add("2125565139");
+        tests.add("6240187732");
+        tests.add("6235673503");
         for (String test : tests) {
             try {
                 System.out.println(test + "->" + GsonUtil.serialize(CustomerMock.getCustomer(test)));
@@ -65,11 +65,12 @@ public class FullTestGponTest {
     @Test
     public void testValidar() {
         List<String> tests = new ArrayList<>();
-        tests.add("1124088283");
+        tests.add("6235673503");
 
         for (String test : tests) {
             try {
                 cust = CustomerMock.getCustomer(test);
+
                 FullTestInterface instance = new FullTestCOFacade();
 
                 FullTest f = instance.executar(cust);

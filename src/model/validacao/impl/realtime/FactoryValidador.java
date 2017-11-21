@@ -60,20 +60,16 @@ public class FactoryValidador {
 
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
-//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
+
         if (cust.getRede().getTipo() == TipoRede.GPON) {
             bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
-        }
-        if (cust.getRede().getTipo() == TipoRede.GPON) {
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
         } else {
             bateria.add(new ValidadorParametrosMetalico(dslam, cust, local));
+            bateria.add(new CorretorModulacao(dslam, cust, local));
         }
 
         bateria.add(new CorretorProfile(dslam, cust, local));
-        if (cust.getRede().getTipo() == TipoRede.METALICA) {
-            bateria.add(new CorretorProfile(dslam, cust, local));
-        }
 
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
         bateria.add(new CorretorVlanVoip(dslam, cust, local));

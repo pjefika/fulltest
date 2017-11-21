@@ -26,7 +26,7 @@ public class FullTestCOFacade extends FullTestGenericFacade implements FullTestI
     void iniciar(EfikaCustomer e) throws Exception {
         super.iniciar(e);
         this.exec = FactoryExecutionStrategy.forced();
-        this.setBateria(FactoryValidador.crm(dslam, cl));
+        this.setBateria(FactoryValidador.co(dslam, cl));
     }
 
 
