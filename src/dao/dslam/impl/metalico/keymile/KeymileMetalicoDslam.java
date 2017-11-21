@@ -11,6 +11,7 @@ import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
@@ -59,6 +60,13 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     @Override
+    public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetHistTabelaRede(i)).getRetorno();
+        List<TabelaRedeMetalico> l = new ArrayList<>();
+        return l;
+    }
+
+    @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
         List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
         for (String string : leResp) {
@@ -71,9 +79,13 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public void resetTabelaRede(InventarioRede i) throws Exception {
         getCd().consulta(getComandoResetTabelaRede(i));
     }
-    
-    protected ComandoDslam getComandoResetTabelaRede(InventarioRede i){
-        return new ComandoDslam("cd /unit-"+i.getSlot()+"/port-"+i.getPorta()+"/pm\nusercounterreset");
+
+    protected ComandoDslam getComandoGetHistTabelaRede(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm\nget History24hTable",3000);
+    }
+
+    protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm\nusercounterreset");
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {

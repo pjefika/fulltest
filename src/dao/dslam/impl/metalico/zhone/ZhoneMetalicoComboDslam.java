@@ -407,4 +407,9 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         return new ComandoDslam("dslstat clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl");
     }
 
+    @Override
+    public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

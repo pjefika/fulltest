@@ -442,7 +442,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {
-        return new ComandoDslam("dslstat clear 1-"+i.getSlot()+"-"+i.getPorta()+"-0/vdsl");
+        return new ComandoDslam("dslstat clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl");
+    }
+
+    @Override
+    public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
