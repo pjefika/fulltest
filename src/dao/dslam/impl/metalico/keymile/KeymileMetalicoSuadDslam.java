@@ -191,7 +191,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
         Modulacao m = new Modulacao();
         m.setModulacao(modul);
-        m.setModulEnum(compare(modul.substring(0, modul.length()-2)));
+        m.setModulEnum(compare(modul));
 
         return m;
     }
