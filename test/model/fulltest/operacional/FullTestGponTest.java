@@ -65,7 +65,7 @@ public class FullTestGponTest {
     @Test
     public void testValidar() {
         List<String> tests = new ArrayList<>();
-        tests.add("6235673503");
+        tests.add("4130886762");
 
         for (String test : tests) {
             try {

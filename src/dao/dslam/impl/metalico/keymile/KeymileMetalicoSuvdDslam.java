@@ -255,17 +255,17 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     @Override
     public Modulacao getModulacao(InventarioRede ir) throws Exception {
         List<String> pegaModul = this.getCd().consulta(this.getModul(ir)).getRetorno();
-        String modul = null;
+        String modul = "";
         Integer i;
         for (i = 0; i < pegaModul.size(); i++) {
             if (pegaModul.get(i).contains("true")) {
                 modul = pegaModul.get(i + 1).replaceAll("\\ # Name", "").replaceAll("\\\\", "").trim();
             }
         }
-
+        
         Modulacao m = new Modulacao();
         m.setModulacao(modul);
-        m.setModulEnum(compare(modul));
+        m.setModulEnum(compare(modul.substring(0, modul.length()-2)));
 
         return m;
     }

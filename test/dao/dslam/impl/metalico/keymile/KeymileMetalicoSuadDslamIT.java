@@ -35,7 +35,7 @@ public class KeymileMetalicoSuadDslamIT {
     public KeymileMetalicoSuadDslamIT() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4436311355");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4130886762");
     private static KeymileMetalicoSuadDslam instance = new KeymileMetalicoSuad3(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
