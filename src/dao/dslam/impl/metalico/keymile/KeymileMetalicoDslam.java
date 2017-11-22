@@ -14,6 +14,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
 
@@ -26,6 +27,8 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public KeymileMetalicoDslam(String ipDslam) {
         super(ipDslam, Credencial.KEYMILE, new LoginRapido());
     }
+
+    private TabelaRedeMetalico tabelaRede;
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
@@ -46,17 +49,17 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
         List<String> lTabs = this.getCd().consulta(this.getTabRede(i)).getRetorno();
 
-        TabelaRedeMetalico tab = new TabelaRedeMetalico();
+        tabelaRede = new TabelaRedeMetalico();
 
-        tab.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
-        tab.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
-        tab.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
-        tab.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
-        tab.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
-        tab.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
-        tab.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
+        tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
+        tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
+        tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
+        tabelaRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
+        tabelaRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
+        tabelaRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
+        tabelaRede.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
 
-        return tab;
+        return tabelaRede;
     }
 
     @Override
@@ -80,8 +83,17 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         getCd().consulta(getComandoResetTabelaRede(i));
     }
 
+    @Override
+    public ReConexao getReconexoes(InventarioRede i) throws Exception {
+        if (tabelaRede == null) {
+            getTabelaRede(i);
+        }
+
+        return new ReConexao(tabelaRede.getResync());
+    }
+
     protected ComandoDslam getComandoGetHistTabelaRede(InventarioRede i) {
-        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm\nget History24hTable",3000);
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm\nget History24hTable", 3000);
     }
 
     protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {

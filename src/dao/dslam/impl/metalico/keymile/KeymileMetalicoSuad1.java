@@ -5,11 +5,8 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
-import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.util.List;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.Velocidades;
 
 /**

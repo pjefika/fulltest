@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -44,8 +45,8 @@ public class KeymileMetalicoDslamIT {
     public void tearDown() {
     }
     
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4436311355");
-    private static KeymileMetalicoSuadDslam instance = new KeymileMetalicoSuad3(cust.getRede().getIpDslam());
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4130886762");
+    private static KeymileMetalicoSuadDslam instance = new KeymileMetalicoSuad1(cust.getRede().getIpDslam());
 //    private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -117,6 +118,18 @@ public class KeymileMetalicoDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getReconexoes method, of class KeymileMetalicoDslam.
+     */
+    @Test
+    public void testGetReconexoes() throws Exception {
+        System.out.println("getReconexoes");
+        ReConexao result = instance.getReconexoes(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+    }
+
 
     
 }

@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -33,6 +34,8 @@ public interface ConsultaClienteInter {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception;
 
     public VlanVod getVlanVod(InventarioRede i) throws Exception;
+
+    public ReConexao getReconexoes(InventarioRede i) throws Exception;
 
     public void desconectar();
 

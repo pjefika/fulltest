@@ -17,6 +17,7 @@ import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -600,5 +601,12 @@ public class KeymileGponDslam extends DslamGpon {
         }
         return list;
     }
+
+    @Override
+    public ReConexao getReconexoes(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
 
 }

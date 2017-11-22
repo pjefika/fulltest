@@ -27,5 +27,5 @@ public interface ConsultaMetalicoDefault extends ConsultaClienteInter {
     public Modulacao getModulacao(InventarioRede i) throws Exception;
 
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception;
-
+    
 }

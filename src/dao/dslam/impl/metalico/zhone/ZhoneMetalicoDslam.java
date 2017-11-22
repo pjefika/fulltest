@@ -12,6 +12,7 @@ import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.consulta.EstadoDaPorta;
+import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.credencial.Credencial;
 import model.dslam.velocidade.Velocidades;
@@ -59,6 +60,11 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         t.setAtnDown(1d);
         t.setAtnUp(2d);
         return t;
+    }
+
+    @Override
+    public ReConexao getReconexoes(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
    
 }
