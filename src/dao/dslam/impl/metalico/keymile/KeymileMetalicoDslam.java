@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.metalico.DslamMetalico;
@@ -24,11 +25,19 @@ import model.dslam.credencial.Credencial;
  */
 public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
+    private TabelaRedeMetalico tabelaRede;
+
     public KeymileMetalicoDslam(String ipDslam) {
         super(ipDslam, Credencial.KEYMILE, new LoginRapido());
     }
 
-    private TabelaRedeMetalico tabelaRede;
+    @Override
+    public void conectar() throws Exception {
+        super.conectar();
+        if(getCd().consulta(new ComandoDslam("")).getBlob().contains("Login failure")){
+            throw new FalhaLoginDslamException();
+        }
+    }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {

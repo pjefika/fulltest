@@ -11,6 +11,7 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import model.validacao.impl.both.ValidacaoReConexao;
 import model.validacao.impl.realtime.gpon.ValidadorDeviceMAC;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
@@ -64,12 +65,12 @@ public class FactoryValidador {
         if (cust.getRede().getTipo() == TipoRede.GPON) {
             bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+//            bateria.add(new ValidadorReConexao(dslam, cust, local));
         } else {
             bateria.add(new ValidadorParametrosMetalico(dslam, cust, local));
-            bateria.add(new CorretorModulacao(dslam, cust, local));
             bateria.add(new CorretorTabelaRede(dslam, cust, local));
+            bateria.add(new CorretorModulacao(dslam, cust, local));
         }
-
         bateria.add(new CorretorProfile(dslam, cust, local));
 
         bateria.add(new CorretorVlanBanda(dslam, cust, local));

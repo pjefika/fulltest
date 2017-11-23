@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileMetalico;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -239,7 +240,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
 
-        Profile prof = new Profile();
+        Profile prof = new ProfileMetalico();
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
 

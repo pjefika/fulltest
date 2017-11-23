@@ -22,7 +22,7 @@ public class TabelaRedeMetalico implements Validavel {
      */
     @Override
     public Boolean validar(EfikaCustomer cust) {
-        return isCrcOk();
+        return isCrcOk() && resync5();
     }
 
     @Override

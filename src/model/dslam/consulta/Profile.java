@@ -6,7 +6,6 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.OrigemPlanta;
 import model.dslam.velocidade.Velocidades;
 
 /**

@@ -52,7 +52,7 @@ public class KeymileMetalicoSuvdDslamIT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4834328748");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("2131762016");
     private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -170,6 +170,7 @@ public class KeymileMetalicoSuvdDslamIT {
         
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
+        System.out.println(GsonUtil.serialize(cust));
         assertTrue(result.validar(cust));
     }
 

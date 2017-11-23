@@ -15,6 +15,7 @@ import java.util.List;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileMetalico;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
@@ -188,7 +189,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leProfDown = this.getCd().consulta(this.getProfDown(i)).getRetorno();
         List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
 
-        Profile p = new Profile();
+        Profile p = new ProfileMetalico();
         String profDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
         p.setProfileDown(profDown);
         String profUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
@@ -398,7 +399,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
 //    @Override
     public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
+        Profile p = new ProfileMetalico();
 
         switch (v.getVel()) {
             case "3":
