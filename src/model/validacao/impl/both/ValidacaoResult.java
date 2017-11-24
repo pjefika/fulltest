@@ -17,15 +17,18 @@ public class ValidacaoResult {
 
     private Boolean resultado;
 
+    private Boolean foiCorrigido;
+
     private Object result;
 
     public ValidacaoResult() {
     }
 
-    public ValidacaoResult(String nome, String mensagem, Boolean resultado) {
+    public ValidacaoResult(String nome, String mensagem, Boolean resultado, Boolean foiCorrigido) {
         this.nome = nome;
         this.mensagem = mensagem;
         this.resultado = resultado;
+        this.foiCorrigido = foiCorrigido;
     }
 
     public ValidacaoResult(String nome, String mensagem, Boolean resultado, Object result) {
@@ -65,6 +68,14 @@ public class ValidacaoResult {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public Boolean getFoiCorrigido() {
+        return foiCorrigido;
+    }
+
+    public void setFoiCorrigido(Boolean foiCorrigido) {
+        this.foiCorrigido = foiCorrigido;
     }
 
 }

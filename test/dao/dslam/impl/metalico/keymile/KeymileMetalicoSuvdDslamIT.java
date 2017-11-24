@@ -52,7 +52,7 @@ public class KeymileMetalicoSuvdDslamIT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.getCustomer("2131762016");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("2122429633");
     private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -191,12 +191,10 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        instance.setProfileDown(i, v);
+//        Velocidades v = Velocidades.VEL_15360;
+//        instance.setProfileDown(i, v);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(instance.getProfile(i).validar(cust));
     }
 
     /**
