@@ -46,7 +46,7 @@ public abstract class Validador extends ValidFlow implements Validator {
         iniciar();
         this.valid = consultar();
         processar();
-        return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject());
+        return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject(), null);
     }
 
     @Override

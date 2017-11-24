@@ -31,11 +31,12 @@ public class ValidacaoResult {
         this.foiCorrigido = foiCorrigido;
     }
 
-    public ValidacaoResult(String nome, String mensagem, Boolean resultado, Object result) {
+    public ValidacaoResult(String nome, String mensagem, Boolean resultado, Object result, Boolean foiCorrigido) {
         this.nome = nome;
         this.mensagem = mensagem;
         this.resultado = resultado;
         this.result = result;
+        this.foiCorrigido = foiCorrigido;
     }
 
     public String getNome() {
