@@ -79,13 +79,13 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
             return FactoryService.createConfigDslamService(this.getEc()).consultar();
         }
     }
-    
+
     @Override
-    public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception{
+    public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception {
         alteracao().setEstadoDaPorta(getEc().getRede(), est);
         return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local));
     }
-    
+
     @Override
     public ProfileGpon setterProfile(Profile profile) throws Exception {
         ProfileGpon pg = new ProfileGpon();
@@ -94,7 +94,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
         pg.setDownValues(this.getDslam().listarVelocidadesDown());
         pg.setUpValues(this.getDslam().listarVelocidadesUp());
-        
+
         return pg;
     }
 
@@ -125,7 +125,5 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         alteracao().createVlanMulticast(getEc().getRede());
         return exec(new ValidadorVlanMulticast(getDslam(), getEc(), local));
     }
-    
-    
 
 }

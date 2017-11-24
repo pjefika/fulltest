@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.service;
-
-import model.dslam.config.ConfiguracaoPorta;
+package model.dslam.config;
 
 /**
  *
  * @author G0042204
  */
-public interface ConfigDslamService {
-
-    public ConfiguracaoPorta consultar() throws Exception;
-
+public class ConfiguracaoDSLAM extends ConfiguracaoPorta{
+    
 }
