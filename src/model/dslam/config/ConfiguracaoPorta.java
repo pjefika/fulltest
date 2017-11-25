@@ -15,8 +15,6 @@ public abstract class ConfiguracaoPorta {
 
     private ValidacaoResult estadoPorta;
 
-    private ProfileGpon profile;
-
     private ValidacaoResult vlanBanda;
 
     private ValidacaoResult vlanVoip;
@@ -24,6 +22,8 @@ public abstract class ConfiguracaoPorta {
     private ValidacaoResult vlanVod;
 
     private ValidacaoResult vlanMulticast;
+
+    private ValidacaoResult parametros;
 
     public ConfiguracaoPorta() {
     }
@@ -68,12 +68,12 @@ public abstract class ConfiguracaoPorta {
         this.vlanMulticast = vlanMulticast;
     }
 
-    public ProfileGpon getProfile() {
-        return profile;
+    public ValidacaoResult getParametros() {
+        return parametros;
     }
 
-    public void setProfile(ProfileGpon profile) {
-        this.profile = profile;
+    public void setParametros(ValidacaoResult parametros) {
+        this.parametros = parametros;
     }
 
 }
