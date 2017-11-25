@@ -29,7 +29,7 @@ public class ValidacaoTabelaRede extends ValidacaoValidavel {
     @Override
     protected String fraseNegativa() {
         tab = (TabelaRedeMetalico) getObject();
-        if(!tab.enoughPcks()){
+        if(!tab.isPctSuficiente()){
             return "Quantidade de pacotes insuficiente para determinar a confiabilidade da rede.";
         }
         return "Rede não confiável.";

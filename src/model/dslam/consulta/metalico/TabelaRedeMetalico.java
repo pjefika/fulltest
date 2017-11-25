@@ -23,7 +23,7 @@ public class TabelaRedeMetalico implements Validavel {
     @Override
     public Boolean validar(EfikaCustomer cust) {
         if (isCrcOk() && resync5()) {
-            return enoughPcks();
+            return isPctSuficiente();
         }
         return false;
     }
@@ -183,7 +183,7 @@ public class TabelaRedeMetalico implements Validavel {
      *
      * @return
      */
-    public Boolean enoughPcks() {
+    public Boolean isPctSuficiente() {
         return pctDown() && pctUp();
     }
 

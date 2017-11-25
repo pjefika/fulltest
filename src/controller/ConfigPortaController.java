@@ -7,6 +7,8 @@ package controller;
 
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.GetEstadoPortasProximasIn;
+import controller.in.GetConfiabilidadeRedeIn;
+import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
 import controller.in.SetOntToOltIn;
 import controller.in.SetProfileIn;
@@ -29,7 +31,9 @@ import model.dslam.consulta.Porta;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.entity.LogEntity;
 import model.service.ConfigGetterGponService;
+import model.service.ConfigGetterMetalicoService;
 import model.service.ConfigSetterGponService;
+import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
 import model.service.FactoryService;
 import model.validacao.impl.both.ValidacaoResult;
@@ -60,8 +64,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setAdminState")
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,8 +85,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setProfile")
     @Produces(MediaType.APPLICATION_JSON)
@@ -104,8 +106,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/unsetOntFromOlt")
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,8 +127,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setOntToOlt")
     @Produces(MediaType.APPLICATION_JSON)
@@ -148,8 +148,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setVlanBanda")
     @Produces(MediaType.APPLICATION_JSON)
@@ -170,8 +169,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setVlanVoip")
     @Produces(MediaType.APPLICATION_JSON)
@@ -192,8 +190,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setVlanVod")
     @Produces(MediaType.APPLICATION_JSON)
@@ -214,8 +211,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/setVlanMulticast")
     @Produces(MediaType.APPLICATION_JSON)
@@ -236,8 +232,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
-    
+
     @POST
     @Path("/getEstadoPortasProximas")
     @Produces(MediaType.APPLICATION_JSON)
@@ -258,6 +253,57 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
-    
+
+    @POST
+    @Path("/getConfiabilidadeRede")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getConfiabilidadeRede(GetConfiabilidadeRedeIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigGetterMetalicoService config = FactoryService.createConfigGetterMetalicoService(in.getCust());
+            ValidacaoResult result = config.getterTabelaRede();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+
+    /**
+     * Discutir melhor estratégia para retorno!!!
+     * 
+     * @param in
+     * @return String success || Exception.getMessage()
+     * @throws Exception
+     */
+    @POST
+    @Path("/resetTabelaRede")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response resetTabelaRede(ResetTabelaRedeIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterMetalicoService config = FactoryService.createConfigSetterMetalicoService(in.getCust());
+            config.resetTabelaRede();
+            ConfigGetterMetalicoService config1 = FactoryService.createConfigGetterMetalicoService(in.getCust());
+            ValidacaoResult result = config1.getterTabelaRede();
+            //a ser melhorado -- discutir com @henmerlin
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
 
 }

@@ -36,6 +36,10 @@ public class FactoryService {
         return new ConfigDslamServiceImpl(ec);
     }
 
+    public static ConfigGetterMetalicoService createConfigGetterMetalicoService(EfikaCustomer ec) {
+        return new ConfigDslamServiceImpl(ec);
+    }
+
     public static ConfigPortaService<ConfiguracaoDSLAM> createConfigDslamService(EfikaCustomer ec) {
         return new ConfigDslamServiceImpl(ec);
     }

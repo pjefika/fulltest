@@ -41,7 +41,7 @@ public class ConfigOLTServiceImplIT {
     public void tearDown() {
     }
     
-    private static EfikaCustomer cust = CustomerMock.gponHuaweiV1();
+    private static EfikaCustomer cust = CustomerMock.gponKeymile();
 
     /**
      * Test of consultar method, of class ConfigOLTServiceImpl.

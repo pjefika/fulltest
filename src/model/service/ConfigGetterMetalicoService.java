@@ -5,14 +5,14 @@
  */
 package model.service;
 
-import java.util.List;
-import model.dslam.consulta.Porta;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
  * @author G0041775
  */
-public interface ConfigGetterGponService extends ConfigGetterService {
-
-    public List<Porta> getterEstadoPortasProximas() throws Exception;
+public interface ConfigGetterMetalicoService extends ConfigGetterService{
+    
+    public ValidacaoResult getterTabelaRede() throws Exception;
+    
 }

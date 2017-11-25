@@ -14,7 +14,6 @@ import java.util.List;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.ProfileMetalico;
-import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;

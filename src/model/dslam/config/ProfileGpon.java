@@ -13,31 +13,11 @@ import model.validacao.impl.both.ValidacaoResult;
  *
  * @author G0042204
  */
-public class ProfileGpon {
-
-    private ValidacaoResult atual;
-
-    private List<VelocidadeDTO> downValues;
+public class ProfileGpon extends ProfileConfig {
 
     private List<VelocidadeDTO> upValues;
 
     public ProfileGpon() {
-    }
-
-    public ValidacaoResult getAtual() {
-        return atual;
-    }
-
-    public void setAtual(ValidacaoResult atual) {
-        this.atual = atual;
-    }
-
-    public List<VelocidadeDTO> getDownValues() {
-        return downValues;
-    }
-
-    public void setDownValues(List<VelocidadeDTO> downValues) {
-        this.downValues = downValues;
     }
 
     public List<VelocidadeDTO> getUpValues() {

@@ -25,6 +25,8 @@ public abstract class ConfiguracaoPorta {
 
     private ValidacaoResult parametros;
 
+    private ProfileConfig profile;
+
     public ConfiguracaoPorta() {
     }
 
@@ -74,6 +76,14 @@ public abstract class ConfiguracaoPorta {
 
     public void setParametros(ValidacaoResult parametros) {
         this.parametros = parametros;
+    }
+
+    public ProfileConfig getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileConfig profile) {
+        this.profile = profile;
     }
 
 }

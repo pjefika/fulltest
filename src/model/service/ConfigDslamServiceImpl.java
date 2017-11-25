@@ -7,18 +7,19 @@ package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoDSLAM;
+import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
+import model.validacao.impl.realtime.ValidadorTabelaRede;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
-public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>, ConfigSetterMetalicoService {
+public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>, ConfigSetterMetalicoService, ConfigGetterMetalicoService {
 
     public ConfigDslamServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -30,6 +31,7 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
 
         config.setEstadoPorta(this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local)));
         config.setParametros(this.exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local)));
+        config.setTabRede(this.exec(new ValidadorTabelaRede(getDslam(), getEc(), local)));
         config.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
         config.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
         config.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
@@ -52,12 +54,22 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
     }
 
     @Override
-    public AlteracaoClienteInter alteracao() throws Exception {
+    public AlteracaoMetalicoDefault alteracao() throws Exception {
         try {
             return (AlteracaoMetalicoDefault) getDslam();
         } catch (ClassCastException e) {
             throw new FuncIndisponivelDslamException();
         }
+    }
+
+    @Override
+    public void resetTabelaRede() throws Exception {
+        this.alteracao().resetTabelaRede(getEc().getRede());
+    }
+
+    @Override
+    public ValidacaoResult getterTabelaRede() throws Exception {
+        return this.exec(new ValidadorTabelaRede(getDslam(), getEc(), local));
     }
 
 }
