@@ -33,7 +33,7 @@ public class CorretorTabelaRede extends CorretorMetalico {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Tabela de Rede resetada, por favor, teste novamente após a execução de um teste de velocidade.";
+        return "Tabela de Rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
     }
 
     @Override

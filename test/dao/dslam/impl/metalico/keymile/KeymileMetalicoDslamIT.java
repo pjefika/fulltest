@@ -25,27 +25,27 @@ import util.GsonUtil;
  * @author G0041775
  */
 public class KeymileMetalicoDslamIT {
-    
+
     public KeymileMetalicoDslamIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4130886762");
+
+    private static EfikaCustomer cust = CustomerMock.getCustomer("2139705185");
     private static KeymileMetalicoSuadDslam instance = new KeymileMetalicoSuad1(cust.getRede().getIpDslam());
 //    private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
@@ -71,13 +71,9 @@ public class KeymileMetalicoDslamIT {
     @Test
     public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
-        InventarioRede i = null;
-        KeymileMetalicoDslam instance = null;
-        TabelaRedeMetalico expResult = null;
         TabelaRedeMetalico result = instance.getTabelaRede(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -130,6 +126,4 @@ public class KeymileMetalicoDslamIT {
         assertTrue(result.validar(cust));
     }
 
-
-    
 }
