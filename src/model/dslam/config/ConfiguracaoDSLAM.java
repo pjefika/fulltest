@@ -5,10 +5,26 @@
  */
 package model.dslam.config;
 
+import model.validacao.impl.both.ValidacaoResult;
+
 /**
  *
  * @author G0042204
  */
-public class ConfiguracaoDSLAM extends ConfiguracaoPorta{
+public class ConfiguracaoDSLAM extends ConfiguracaoPorta {
+
+    private ValidacaoResult tabRede;
     
+   
+    public ConfiguracaoDSLAM() {
+    }
+
+    public ValidacaoResult getTabRede() {
+        return tabRede;
+    }
+
+    public void setTabRede(ValidacaoResult tabRede) {
+        this.tabRede = tabRede;
+    }
+
 }
