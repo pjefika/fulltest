@@ -8,6 +8,7 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -52,7 +53,7 @@ public class KeymileMetalicoSuvdDslamIT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.getCustomer("2122429633");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4133335556");
     private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -389,6 +390,19 @@ public class KeymileMetalicoSuvdDslamIT {
         instance.resetTabelaRede(i);
         assertTrue(instance.getTabelaRede(i).validar(cust));
     }
+
+    /**
+     * Test of getDeviceMac method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        DeviceMAC result = instance.getDeviceMac(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+        
+    }
+
     
 
 

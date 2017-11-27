@@ -11,6 +11,7 @@ import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.ProfileMetalico;
@@ -332,6 +333,22 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         for (String string : leResp) {
             System.out.println(string);
         }
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetDeviceMAC(i)).getRetorno();
+        String macValue = TratativaRetornoUtil.tratKeymile(retorno, "MacAddress");
+        String comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
+                + ":" + macValue.substring(8, 10) + ":" + macValue.substring(10, 12);
+
+        return new DeviceMAC(comDoisPontos);
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode floodingprevention", 10000,
+                "get unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
+                "set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode none");
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {

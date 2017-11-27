@@ -8,6 +8,7 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -369,6 +370,18 @@ public class KeymileMetalicoSuadDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of getDeviceMac method, of class KeymileMetalicoSuadDslam.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        DeviceMAC result = instance.getDeviceMac(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+    }
+
 
 
 }

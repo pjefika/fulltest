@@ -116,7 +116,7 @@ public class CustomerMock {
             Gson g = new Gson();
             EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
 
-            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1) {
+            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1 || ec.getRede().getTipo()==null) {
                 PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
                 cm.setMaxTotal(1);
                 cm.setDefaultMaxPerRoute(1);
