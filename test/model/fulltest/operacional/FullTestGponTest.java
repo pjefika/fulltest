@@ -61,7 +61,7 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
-        String testes = "5134777014\n";
+        String testes = "8230233642\n";
         String[] tests = testes.split("\\n");
         
         for (String test : tests) {

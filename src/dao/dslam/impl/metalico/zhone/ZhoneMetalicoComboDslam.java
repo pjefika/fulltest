@@ -408,6 +408,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     @Override
     public void resetTabelaRede(InventarioRede i) throws Exception {
         getCd().consulta(getComandoResetTabelaRede(i));
+        tabRede = null;
     }
 
     protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {

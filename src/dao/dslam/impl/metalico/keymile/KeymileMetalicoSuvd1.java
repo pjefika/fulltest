@@ -30,7 +30,7 @@ public class KeymileMetalicoSuvd1 extends KeymileMetalicoSuvdDslam {
         Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
         if (isAdsl) {
             TabelaParametrosMetalico t = new TabelaParametrosMetalico();
-            t.setAtnDown(2d);
+            t.setAtnDown(0d);
             t.setAtnUp(0d);
             t.setSnrDown(2d);
             t.setSnrUp(5d);
@@ -41,7 +41,7 @@ public class KeymileMetalicoSuvd1 extends KeymileMetalicoSuvdDslam {
             return t;
         } else {
             TabelaParametrosMetalicoVdsl t = new TabelaParametrosMetalicoVdsl();
-            t.setAtnDown(2d);
+            t.setAtnDown(0d);
             t.setAtnDown1(7d);
             t.setAtnDown2(12d);
             t.setAtnUp(0d);

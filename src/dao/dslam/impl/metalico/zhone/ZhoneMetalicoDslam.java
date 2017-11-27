@@ -57,8 +57,8 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
         t.setSnrDown(6d);
         t.setSnrUp(5d);
-        t.setAtnDown(1d);
-        t.setAtnUp(2d);
+        t.setAtnDown(0d);
+        t.setAtnUp(0d);
         return t;
     }
 
