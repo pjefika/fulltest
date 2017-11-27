@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import model.dslam.config.ConfiguracaoMETALICO;
+import model.dslam.config.ConfiguracaoDSLAM;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorTabelaRede;
@@ -19,15 +19,15 @@ import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
-public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoMETALICO>, ConfigSetterMetalicoService, ConfigGetterMetalicoService {
+public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>, ConfigSetterMetalicoService, ConfigGetterMetalicoService {
 
     public ConfigDslamServiceImpl(EfikaCustomer ec) {
         super(ec);
     }
 
     @Override
-    public ConfiguracaoMETALICO consultar() throws Exception {
-        ConfiguracaoMETALICO config = new ConfiguracaoMETALICO();
+    public ConfiguracaoDSLAM consultar() throws Exception {
+        ConfiguracaoDSLAM config = new ConfiguracaoDSLAM();
 
         config.setEstadoPorta(this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local)));
         config.setParametros(this.exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local)));

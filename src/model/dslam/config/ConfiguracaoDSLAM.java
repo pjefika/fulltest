@@ -11,12 +11,12 @@ import model.validacao.impl.both.ValidacaoResult;
  *
  * @author G0042204
  */
-public class ConfiguracaoMETALICO extends ConfiguracaoPorta {
+public class ConfiguracaoDSLAM extends ConfiguracaoPorta {
 
     private ValidacaoResult tabRede;
     
    
-    public ConfiguracaoMETALICO() {
+    public ConfiguracaoDSLAM() {
     }
 
     public ValidacaoResult getTabRede() {
