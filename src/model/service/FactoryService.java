@@ -6,7 +6,7 @@
 package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.config.ConfiguracaoDSLAM;
+import model.dslam.config.ConfiguracaoDSLAMS;
 import model.dslam.config.ConfiguracaoOLT;
 import model.dslam.config.ConfiguracaoPorta;
 
@@ -40,7 +40,7 @@ public class FactoryService {
         return new ConfigDslamServiceImpl(ec);
     }
 
-    public static ConfigPortaService<ConfiguracaoDSLAM> createConfigDslamService(EfikaCustomer ec) {
+    public static ConfigPortaService<ConfiguracaoDSLAMS> createConfigDslamService(EfikaCustomer ec) {
         return new ConfigDslamServiceImpl(ec);
     }
 
