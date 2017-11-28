@@ -20,6 +20,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
@@ -45,7 +46,6 @@ public class AlcatelGponDslamTest {
     private static EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
-
 
     public AlcatelGponDslamTest() {
     }
@@ -121,7 +121,19 @@ public class AlcatelGponDslamTest {
             e.printStackTrace();
             fail(e.getMessage());
         }
+    }
 
+    @Test
+    public void testGetPortaPON() {
+        System.out.println("testGetPortaPON");
+        try {
+            PortaPON result = instance.getPortaPON(i);
+            System.out.println(GsonUtil.serialize(result.validar(cust)));
+            assertTrue(result.validar(null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 
     /**

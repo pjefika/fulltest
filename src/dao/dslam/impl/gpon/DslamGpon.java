@@ -5,10 +5,12 @@
  */
 package dao.dslam.impl.gpon;
 
+import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.credencial.Credencial;
 
 public abstract class DslamGpon extends AbstractDslam
@@ -18,5 +20,12 @@ public abstract class DslamGpon extends AbstractDslam
     public DslamGpon(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
     }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 
 }

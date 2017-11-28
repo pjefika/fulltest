@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.keymile;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import java.util.List;
@@ -17,10 +18,12 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
+import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -33,22 +36,31 @@ import org.junit.Test;
  * @author G0041775
  */
 public class KeymileGponDslamIT {
-    
+
+    private KeymileGponDslam instance;
+
+    private EfikaCustomer ec;
+
+    private InventarioRede i;
+
     public KeymileGponDslamIT() {
+        ec = CustomerMock.getCustomer("2730191082");
+        i = ec.getRede();
+        instance = new KeymileGponDslam(i.getIpDslam());
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -59,8 +71,6 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoPotOlt() {
         System.out.println("getComandoPotOlt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoPotOlt(i);
         assertEquals(expResult, result);
@@ -74,8 +84,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoPotOnt() {
         System.out.println("getComandoPotOnt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoPotOnt(i);
         assertEquals(expResult, result);
@@ -89,8 +98,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         TabelaParametrosGpon expResult = null;
         TabelaParametrosGpon result = instance.getTabelaParametros(i);
         assertEquals(expResult, result);
@@ -104,8 +112,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoSerialOnt() {
         System.out.println("getComandoSerialOnt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoSerialOnt(i);
         assertEquals(expResult, result);
@@ -119,8 +126,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoListaShelf() {
         System.out.println("getComandoListaShelf");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoListaShelf(i);
         assertEquals(expResult, result);
@@ -134,8 +140,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         SerialOntGpon expResult = null;
         SerialOntGpon result = instance.getSerialOnt(i);
         assertEquals(expResult, result);
@@ -144,13 +149,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaEstadoAdminDaPorta method, of class KeymileGponDslam.
+     * Test of getComandoConsultaEstadoAdminDaPorta method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaEstadoAdminDaPorta() {
         System.out.println("getComandoConsultaEstadoAdminDaPorta");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaEstadoAdminDaPorta(i);
         assertEquals(expResult, result);
@@ -159,13 +164,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaEstadoOperDaPorta method, of class KeymileGponDslam.
+     * Test of getComandoConsultaEstadoOperDaPorta method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaEstadoOperDaPorta() {
         System.out.println("getComandoConsultaEstadoOperDaPorta");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaEstadoOperDaPorta(i);
         assertEquals(expResult, result);
@@ -179,8 +184,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         EstadoDaPorta expResult = null;
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
         assertEquals(expResult, result);
@@ -194,8 +198,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaVlanBanda1() {
         System.out.println("getComandoConsultaVlanBanda1");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaVlanBanda1(i);
         assertEquals(expResult, result);
@@ -204,13 +207,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaStatusVlanBanda method, of class KeymileGponDslam.
+     * Test of getComandoConsultaStatusVlanBanda method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaStatusVlanBanda() {
         System.out.println("getComandoConsultaStatusVlanBanda");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaStatusVlanBanda(i);
         assertEquals(expResult, result);
@@ -225,7 +228,7 @@ public class KeymileGponDslamIT {
     public void testGetComandoConsultaVlan2() {
         System.out.println("getComandoConsultaVlan2");
         String srvc = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaVlan2(srvc);
         assertEquals(expResult, result);
@@ -239,8 +242,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
         assertEquals(expResult, result);
@@ -254,8 +256,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaVlanVoip1() {
         System.out.println("getComandoConsultaVlanVoip1");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaVlanVoip1(i);
         assertEquals(expResult, result);
@@ -264,13 +265,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaStatusVlanVoip method, of class KeymileGponDslam.
+     * Test of getComandoConsultaStatusVlanVoip method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaStatusVlanVoip() {
         System.out.println("getComandoConsultaStatusVlanVoip");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaStatusVlanVoip(i);
         assertEquals(expResult, result);
@@ -284,8 +285,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanVoip expResult = null;
         VlanVoip result = instance.getVlanVoip(i);
         assertEquals(expResult, result);
@@ -299,8 +299,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaVlanVod1() {
         System.out.println("getComandoConsultaVlanVod1");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaVlanVod1(i);
         assertEquals(expResult, result);
@@ -309,13 +308,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaStatusVlanVod method, of class KeymileGponDslam.
+     * Test of getComandoConsultaStatusVlanVod method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaStatusVlanVod() {
         System.out.println("getComandoConsultaStatusVlanVod");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaStatusVlanVod(i);
         assertEquals(expResult, result);
@@ -329,8 +328,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
         assertEquals(expResult, result);
@@ -339,13 +337,13 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoConsultaVlanMulticast1 method, of class KeymileGponDslam.
+     * Test of getComandoConsultaVlanMulticast1 method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoConsultaVlanMulticast1() {
         System.out.println("getComandoConsultaVlanMulticast1");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaVlanMulticast1(i);
         assertEquals(expResult, result);
@@ -359,8 +357,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanMulticast expResult = null;
         VlanMulticast result = instance.getVlanMulticast(i);
         assertEquals(expResult, result);
@@ -374,8 +371,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaAlarmes() {
         System.out.println("getComandoConsultaAlarmes");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaAlarmes(i);
         assertEquals(expResult, result);
@@ -389,8 +385,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetAlarmes() throws Exception {
         System.out.println("getAlarmes");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         AlarmesGpon expResult = null;
         AlarmesGpon result = instance.getAlarmes(i);
         assertEquals(expResult, result);
@@ -404,8 +399,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaProfileUp() {
         System.out.println("getComandoConsultaProfileUp");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaProfileUp(i);
         assertEquals(expResult, result);
@@ -419,8 +413,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaProfileDown() {
         System.out.println("getComandoConsultaProfileDown");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaProfileDown(i);
         assertEquals(expResult, result);
@@ -434,8 +427,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         Profile expResult = null;
         Profile result = instance.getProfile(i);
         assertEquals(expResult, result);
@@ -449,7 +441,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testObterVelocidadesDownVendor() {
         System.out.println("obterVelocidadesDownVendor");
-        KeymileGponDslam instance = null;
+
         List<VelocidadeVendor> expResult = null;
         List<VelocidadeVendor> result = instance.obterVelocidadesDownVendor();
         assertEquals(expResult, result);
@@ -463,7 +455,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testObterVelocidadesUpVendor() {
         System.out.println("obterVelocidadesUpVendor");
-        KeymileGponDslam instance = null;
+
         List<VelocidadeVendor> expResult = null;
         List<VelocidadeVendor> result = instance.obterVelocidadesUpVendor();
         assertEquals(expResult, result);
@@ -477,8 +469,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoConsultaOnuTable() {
         System.out.println("getComandoConsultaOnuTable");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoConsultaOnuTable(i);
         assertEquals(expResult, result);
@@ -492,8 +483,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetDeviceMac() throws Exception {
         System.out.println("getDeviceMac");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         DeviceMAC expResult = null;
         DeviceMAC result = instance.getDeviceMac(i);
         assertEquals(expResult, result);
@@ -507,10 +497,10 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoSetOntToOlt() {
         System.out.println("getComandoSetOntToOlt");
-        InventarioRede i = null;
+
         SerialOntGpon s = null;
         Velocidades vUp = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoSetOntToOlt(i, s, vUp);
         assertEquals(expResult, result);
@@ -524,9 +514,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testSetOntToOlt() throws Exception {
         System.out.println("setOntToOlt");
-        InventarioRede i = null;
+
         SerialOntGpon s = null;
-        KeymileGponDslam instance = null;
+
         SerialOntGpon expResult = null;
         SerialOntGpon result = instance.setOntToOlt(i, s);
         assertEquals(expResult, result);
@@ -540,9 +530,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoSetEstadoDaPorta() {
         System.out.println("getComandoSetEstadoDaPorta");
-        InventarioRede i = null;
+
         EstadoDaPorta e = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoSetEstadoDaPorta(i, e);
         assertEquals(expResult, result);
@@ -556,9 +546,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
+
         EstadoDaPorta e = null;
-        KeymileGponDslam instance = null;
+
         EstadoDaPorta expResult = null;
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
         assertEquals(expResult, result);
@@ -567,15 +557,16 @@ public class KeymileGponDslamIT {
     }
 
     /**
-     * Test of getComandoSetMacSourceFilteringMode method, of class KeymileGponDslam.
+     * Test of getComandoSetMacSourceFilteringMode method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoSetMacSourceFilteringMode() {
         System.out.println("getComandoSetMacSourceFilteringMode");
-        InventarioRede i = null;
+
         String intrf = "";
         String mode = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoSetMacSourceFilteringMode(i, intrf, mode);
         assertEquals(expResult, result);
@@ -589,8 +580,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoCreateVlanBanda() {
         System.out.println("getComandoCreateVlanBanda");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoCreateVlanBanda(i);
         assertEquals(expResult, result);
@@ -604,10 +594,10 @@ public class KeymileGponDslamIT {
     @Test
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
-        InventarioRede i = null;
+
         Velocidades vDown = null;
         Velocidades vUp = null;
-        KeymileGponDslam instance = null;
+
         VlanBanda expResult = null;
         VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
         assertEquals(expResult, result);
@@ -621,8 +611,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoCreateVlanVoip() {
         System.out.println("getComandoCreateVlanVoip");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoCreateVlanVoip(i);
         assertEquals(expResult, result);
@@ -636,8 +625,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testCreateVlanVoip() throws Exception {
         System.out.println("createVlanVoip");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanVoip expResult = null;
         VlanVoip result = instance.createVlanVoip(i);
         assertEquals(expResult, result);
@@ -651,8 +639,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoCreateVlanVod() {
         System.out.println("getComandoCreateVlanVod");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoCreateVlanVod(i);
         assertEquals(expResult, result);
@@ -666,8 +653,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testCreateVlanVod() throws Exception {
         System.out.println("createVlanVod");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanVod expResult = null;
         VlanVod result = instance.createVlanVod(i);
         assertEquals(expResult, result);
@@ -681,8 +667,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoCreateVlanMulticast() {
         System.out.println("getComandoCreateVlanMulticast");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoCreateVlanMulticast(i);
         assertEquals(expResult, result);
@@ -696,8 +681,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testCreateVlanMulticast() throws Exception {
         System.out.println("createVlanMulticast");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         VlanMulticast expResult = null;
         VlanMulticast result = instance.createVlanMulticast(i);
         assertEquals(expResult, result);
@@ -711,8 +695,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoUnsetOntFromOlt() {
         System.out.println("getComandoUnsetOntFromOlt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoUnsetOntFromOlt(i);
         assertEquals(expResult, result);
@@ -726,8 +709,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testUnsetOntFromOlt() throws Exception {
         System.out.println("unsetOntFromOlt");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         instance.unsetOntFromOlt(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -739,9 +721,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoGetSrvc() {
         System.out.println("getComandoGetSrvc");
-        InventarioRede i = null;
+
         String intrf = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoGetSrvc(i, intrf);
         assertEquals(expResult, result);
@@ -756,7 +738,7 @@ public class KeymileGponDslamIT {
     public void testGetComandoDeleteVlan() {
         System.out.println("getComandoDeleteVlan");
         String srvc = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoDeleteVlan(srvc);
         assertEquals(expResult, result);
@@ -771,7 +753,7 @@ public class KeymileGponDslamIT {
     public void testGetComandoDeleteMulticast() {
         System.out.println("getComandoDeleteMulticast");
         String srvc = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoDeleteMulticast(srvc);
         assertEquals(expResult, result);
@@ -785,8 +767,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         instance.deleteVlanBanda(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -798,8 +779,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testDeleteVlanVoip() throws Exception {
         System.out.println("deleteVlanVoip");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         instance.deleteVlanVoip(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -811,8 +791,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testDeleteVlanVod() throws Exception {
         System.out.println("deleteVlanVod");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         instance.deleteVlanVod(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -824,8 +803,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testDeleteVlanMulticast() throws Exception {
         System.out.println("deleteVlanMulticast");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         instance.deleteVlanMulticast(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -837,9 +815,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetComandoSetProfileDown() {
         System.out.println("getComandoSetProfileDown");
-        InventarioRede i = null;
+
         Velocidades v = null;
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoSetProfileDown(i, v);
         assertEquals(expResult, result);
@@ -853,9 +831,9 @@ public class KeymileGponDslamIT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
+
         Velocidades v = null;
-        KeymileGponDslam instance = null;
+
         instance.setProfileDown(i, v);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -867,24 +845,25 @@ public class KeymileGponDslamIT {
     @Test
     public void testSetProfileUp() throws Exception {
         System.out.println("setProfileUp");
-        InventarioRede i = null;
+
         Velocidades vDown = null;
         Velocidades vUp = null;
-        KeymileGponDslam instance = null;
+
         instance.setProfileUp(i, vDown, vUp);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getComandoGetSlotsAvailableOnts method, of class KeymileGponDslam.
+     * Test of getComandoGetSlotsAvailableOnts method, of class
+     * KeymileGponDslam.
      */
     @Test
     public void testGetComandoGetSlotsAvailableOnts() {
         System.out.println("getComandoGetSlotsAvailableOnts");
-        InventarioRede i = null;
+
         String slot = "";
-        KeymileGponDslam instance = null;
+
         ComandoDslam expResult = null;
         ComandoDslam result = instance.getComandoGetSlotsAvailableOnts(i, slot);
         assertEquals(expResult, result);
@@ -898,8 +877,7 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetSlotsAvailableOnts() throws Exception {
         System.out.println("getSlotsAvailableOnts");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         List<SerialOntGpon> expResult = null;
         List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
         assertEquals(expResult, result);
@@ -913,13 +891,25 @@ public class KeymileGponDslamIT {
     @Test
     public void testGetEstadoPortasProximas() throws Exception {
         System.out.println("getEstadoPortasProximas");
-        InventarioRede i = null;
-        KeymileGponDslam instance = null;
+
         List<Porta> expResult = null;
         List<Porta> result = instance.getEstadoPortasProximas(i);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
+    @Test
+    public void testGetPortaPON() throws Exception {
+        try {
+            System.out.println("getPortaPON");
+            PortaPON result = instance.getPortaPON(i);
+            assertTrue(result.validar(ec));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
+    }
+
 }
