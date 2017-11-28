@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
@@ -23,9 +24,7 @@ public abstract class DslamGpon extends AbstractDslam
 
     @Override
     public PortaPON getPortaPON(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
-    
-    
 
 }
