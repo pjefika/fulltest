@@ -45,7 +45,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     private VlanVod vlanVod;
 
-    private DeviceMAC mac;
+    private DeviceMAC mac = new DeviceMAC();
 
     public ZhoneMetalicoMxkDslam(String ipDslam) {
         super(ipDslam, Credencial.ZHONE, new LoginLento());
@@ -81,10 +81,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         List<String> pegaMac = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
 
-        if (pegaMac != null) {
-            mac = new DeviceMAC(pegaMac.get(0));
-        }else{
-//            mac = new DeviceMAC("");
+        try {
+            mac.setMac(pegaMac.get(0));
+        } catch (Exception e) {
         }
 
         Integer cvlanBanda = null;
@@ -472,7 +471,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        if (mac == null) {
+        if (mac.getMac().isEmpty()) {
             setVlans(i);
         }
         return mac;

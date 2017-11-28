@@ -444,8 +444,12 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetDeviceMAC(i)).getRetorno();
         String macValue = TratativaRetornoUtil.tratKeymile(retorno, "MacAddress");
-        String comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
-                + ":" + macValue.substring(8, 10) + ":" + macValue.substring(10, 12);
+        String comDoisPontos = "";
+        try {
+            comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
+                    + ":" + macValue.substring(8, 10) + ":" + macValue.substring(10, 12);
+        } catch (Exception e) {
+        }
 
         return new DeviceMAC(comDoisPontos);
     }
@@ -546,7 +550,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getProf(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile",3000);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile", 3000);
     }
 
 //    @Override

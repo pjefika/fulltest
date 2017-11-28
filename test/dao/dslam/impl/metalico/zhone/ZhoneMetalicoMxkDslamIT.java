@@ -53,7 +53,7 @@ public class ZhoneMetalicoMxkDslamIT {
     @After
     public void tearDown() {
     }
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1124088283");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("8330334302");
     private static ZhoneMetalicoMxkDslam instance = new ZhoneMetalicoMxkDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -78,13 +78,9 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        TabelaRedeMetalico expResult = null;
         TabelaRedeMetalico result = instance.getTabelaRede(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -332,11 +328,7 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
         instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
