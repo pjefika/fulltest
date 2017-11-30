@@ -76,21 +76,6 @@ public class CustomerMock {
     public static EfikaCustomer getCustomer(String instancia) {
         try {
 
-//            PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-//            cm.setMaxTotal(1);
-//            cm.setDefaultMaxPerRoute(1);
-//            HttpHost ip = new HttpHost("10.40.195.81", 8080);
-//            cm.setMaxPerRoute(new HttpRoute(ip), 50);
-//
-//            // Cookies
-//            RequestConfig globalConfig = RequestConfig.custom()
-//                    .setCookieSpec(CookieSpecs.DEFAULT)
-//                    .build();
-//
-//            CloseableHttpClient httpclient = HttpClients.custom()
-//                    .setConnectionManager(cm)
-//                    .setDefaultRequestConfig(globalConfig)
-//                    .build();
             HttpClient httpcliente = HttpClients.createDefault();
             HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI_qa/oss/");
 
@@ -112,7 +97,6 @@ public class CustomerMock {
                 result.append(line);
             }
             instream.close();
-//            InputStream instream = response.getEntity().getContent();
             Gson g = new Gson();
             EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
 
@@ -155,7 +139,6 @@ public class CustomerMock {
                 Gson g1 = new Gson();
 
                 EfikaCustomer ec1 = g1.fromJson(result1.toString(), EfikaCustomer.class);
-//                System.out.println(GsonUtil.serialize(result1.toString()));
                 ec.setRede(ec1.getRede());
 
             }
