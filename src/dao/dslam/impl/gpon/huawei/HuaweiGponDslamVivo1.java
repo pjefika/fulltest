@@ -30,6 +30,7 @@ import model.dslam.consulta.VlanVodVivo1Huawei;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.VlanVoipVivo1Huawei;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.ServicePort;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
@@ -38,6 +39,7 @@ import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
 /**
+ * MA5600T
  *
  * @author G0041775
  */
@@ -138,7 +140,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> resp = cmd.getRetorno();
         estadoDaPorta = new EstadoDaPorta();
-        if(!cmd.getBlob().contains("Control flag")){
+        if (!cmd.getBlob().contains("Control flag")) {
             throw new FalhaAoConsultarException();
         }
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
@@ -174,6 +176,20 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         return serial;
     }
 
+    protected ComandoDslam getComandoPortaPON(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display port state  " + i.getPorta(), 1000, "quit\n");
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        PortaPON p = new PortaPON();
+        ComandoDslam cmd = getCd().consulta(getComandoPortaPON(i));
+        String moduleStatus = TratativaRetornoUtil.tratHuawei(cmd.getRetorno(), "Optical Module status");
+        String portStatus = TratativaRetornoUtil.tratHuawei(cmd.getRetorno(), "Port state");
+        p.setOperState(moduleStatus.contains("Online") && portStatus.contains("Online"));
+        return p;
+    }
+
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
         return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
@@ -186,7 +202,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
         tab.setPotOlt(potOlt);
         String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
-        Double potOnt = leOnt.contains("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-")  ? 0d : new Double(leOnt);
+        Double potOnt = leOnt.contains("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-") ? 0d : new Double(leOnt);
         tab.setPotOnt(potOnt);
         return tab;
     }

@@ -23,6 +23,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -172,6 +173,14 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
         TabelaParametrosGpon result = instance.getTabelaParametros(i);
+        System.out.println(GsonUtil.serialize(result));
+    }
+
+    @Test
+    public void testGetPortaPON() throws Exception {
+        System.out.println("getPortaPON");
+        PortaPON result = instance.getPortaPON(i);
+        assertTrue(result.validar(null));
         System.out.println(GsonUtil.serialize(result));
     }
 

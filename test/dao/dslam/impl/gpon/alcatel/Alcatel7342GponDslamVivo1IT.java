@@ -14,8 +14,10 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Porta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
+import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
@@ -38,7 +40,6 @@ public class Alcatel7342GponDslamVivo1IT {
     private EfikaCustomer cust;
     private Alcatel7342GponDslamVivo1 instance;
     private InventarioRede i;
-
 
     public Alcatel7342GponDslamVivo1IT() {
     }
@@ -63,6 +64,7 @@ public class Alcatel7342GponDslamVivo1IT {
 
     @After
     public void tearDown() {
+        instance.desconectar();
     }
 
     /**
@@ -102,6 +104,15 @@ public class Alcatel7342GponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
+        assertTrue(result.validar(null));
+        System.out.println(GsonUtil.serialize(result));
+    }
+
+    @Test
+    public void testGetPortaPON() throws Exception {
+        System.out.println("getPortaPON");
+        PortaPON result = instance.getPortaPON(i);
+        assertTrue(result.validar(null));
         System.out.println(GsonUtil.serialize(result));
     }
 
@@ -142,6 +153,9 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
+        VlanMulticast result = instance.getVlanMulticast(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
