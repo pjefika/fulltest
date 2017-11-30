@@ -146,28 +146,31 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
+        }
 
         return velsUp;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "vdsl2mode", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "vdsl2mode", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "vdsl2mode", Modulacoes.VDSL));
+        }
 
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "vdsl2mode", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "vdsl2mode", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "vdsl2mode", Modulacoes.VDSL));
         return velsDown;
     }
 

@@ -39,26 +39,31 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "HSI_25Mb_2Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_35Mb_3Mb_SUV"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_50Mb_5Mb_SUV"));
+        }
 
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "HSI_25Mb_2Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_35Mb_3Mb_SUV"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_50Mb_5Mb_SUV"));
         return velsUp;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25Mb_2Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35Mb_3Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50Mb_5Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb_SUV", "ADSL2PLUS_AUTO_SUV", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb_SUV", "ADSL2PLUS_ONLY_SUV", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "HSI_25Mb_2Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "HSI_35Mb_3Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "HSI_50Mb_5Mb_SUV", "VDSL_17A_B8_12_SUV", Modulacoes.VDSL));
+        }
+
         return velsDown;
     }
 

@@ -449,19 +449,25 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
+        }
+
         return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        }
+
         return velsUp;
     }
 

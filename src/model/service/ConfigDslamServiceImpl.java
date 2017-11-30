@@ -23,7 +23,9 @@ import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
-public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>, ConfigSetterMetalicoService, ConfigGetterMetalicoService {
+public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>,
+        ConfigSetterMetalicoService,
+        ConfigGetterMetalicoService {
 
     public ConfigDslamServiceImpl(EfikaCustomer ec) {
         super(ec);

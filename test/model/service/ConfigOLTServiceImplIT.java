@@ -41,7 +41,7 @@ public class ConfigOLTServiceImplIT {
     public void tearDown() {
     }
     
-    private static EfikaCustomer cust = CustomerMock.gponKeymile();
+    private static EfikaCustomer cust = CustomerMock.getCustomer("3125211148");
 
     /**
      * Test of consultar method, of class ConfigOLTServiceImpl.
