@@ -9,21 +9,18 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
-import model.validacao.impl.both.ValidacaoTabelaRede;
+import model.validacao.impl.both.ValidacaoPortaPON;
 
-/**
- *
- * @author G0041775
- */
-public class ValidadorTabelaRede extends ValidadorMetalico {
+public class ValidadorVizinhanca extends ValidadorGpon {
 
-    public ValidadorTabelaRede(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+    public ValidadorVizinhanca(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
     }
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoTabelaRede(metalico.getTabelaRede(cust.getRede()), cust, bundle.getLocale());
+        ValidacaoPortaPON valid = new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale());
+        return null;
     }
 
 }
