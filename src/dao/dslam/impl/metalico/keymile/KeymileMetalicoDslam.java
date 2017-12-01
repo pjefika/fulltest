@@ -21,6 +21,9 @@ import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.ReConexao;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
+import model.dslam.velocidade.Modulacoes;
+import model.dslam.velocidade.VelocidadeVendor;
+import model.dslam.velocidade.Velocidades;
 
 /**
  *
@@ -109,6 +112,39 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         }
         
         return new ReConexao(tabelaRede.getResync());
+    }
+    
+    @Override
+    protected Velocidades compare(String sintaxVendor, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getSintaxVel().contains(sintaxVendor)|| sintaxVendor.contains(v.getSintaxVel())) {
+                return v.getVel();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected Modulacoes compare(String sintaxVendor) {
+        List<VelocidadeVendor> vels = obterVelocidadesDownVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getSintaxMod().contains(sintaxVendor) || sintaxVendor.contains(v.getSintaxMod())) {
+                return v.getModul();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected VelocidadeVendor compare(Velocidades vel, Boolean isDown) {
+        List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
+        for (VelocidadeVendor v : vels) {
+            if (v.getVel() == vel) {
+                return v;
+            }
+        }
+        return null;
     }
     
     protected ComandoDslam getComandoGetHistTabelaRede(InventarioRede i) {
