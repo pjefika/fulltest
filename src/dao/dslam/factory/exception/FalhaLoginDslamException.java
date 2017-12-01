@@ -15,8 +15,8 @@ public class FalhaLoginDslamException extends Exception {
         super("Falha ao realizar login no DSLAM.");
     }
 
-    public FalhaLoginDslamException(String mensagem) {
-        super("Falha ao realizar login no DSLAM, causa: " + mensagem + ".");
+    public FalhaLoginDslamException(String mensagemCausa) {
+        super("Falha ao realizar login no DSLAM, causa: " + mensagemCausa + ".");
     }
 
 }

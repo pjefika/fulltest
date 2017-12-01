@@ -47,11 +47,8 @@ public class FullTestGponTest {
     @Test
     public void testCustomerGetCustomer() {
         List<String> tests = new ArrayList<>();
-        tests.add("1932566062");
-        tests.add("1335919033");
-        tests.add("1142275934");
-        tests.add("1532321686");
-        tests.add("1532373907");
+        tests.add("5134777014");
+        tests.add("5132242735");
         for (String test : tests) {
             try {
                 System.out.println(test + "->" + GsonUtil.serialize(CustomerMock.getCustomer(test)));
@@ -64,12 +61,13 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
-        List<String> tests = new ArrayList<>();
-        tests.add("1932566062");
-
+        String testes = "4130825270\n";
+        String[] tests = testes.split("\\n");
+        
         for (String test : tests) {
             try {
                 cust = CustomerMock.getCustomer(test);
+
                 FullTestInterface instance = new FullTestCOFacade();
 
                 FullTest f = instance.executar(cust);
@@ -78,6 +76,7 @@ public class FullTestGponTest {
                 System.out.println("_____________________________________________________________________\n\n");
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("ERRO->" + test + "->" + e.getLocalizedMessage());
             }
         }
 

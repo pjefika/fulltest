@@ -17,10 +17,19 @@ public class VelocidadeVendor {
 
     private String sintaxMod;
 
+    private Modulacoes modul;
+
     public VelocidadeVendor(Velocidades vel, String sintaxVel, String sintaxMod) {
         this.vel = vel;
         this.sintaxVel = sintaxVel;
         this.sintaxMod = sintaxMod;
+    }
+
+    public VelocidadeVendor(Velocidades vel, String sintaxVel, String sintaxMod, Modulacoes modul) {
+        this.vel = vel;
+        this.sintaxVel = sintaxVel;
+        this.sintaxMod = sintaxMod;
+        this.modul = modul;
     }
 
     public VelocidadeVendor(Velocidades vel, String sintaxVel) {
@@ -50,6 +59,14 @@ public class VelocidadeVendor {
 
     public void setSintaxMod(String sintaxMod) {
         this.sintaxMod = sintaxMod;
+    }
+
+    public Modulacoes getModul() {
+        return modul;
+    }
+
+    public void setModul(Modulacoes modul) {
+        this.modul = modul;
     }
 
 }

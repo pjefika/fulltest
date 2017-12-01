@@ -8,6 +8,7 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
@@ -15,6 +16,7 @@ import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
@@ -31,32 +33,33 @@ import util.GsonUtil;
  * @author G0041775
  */
 public class KeymileMetalicoSuvdDslamIT {
-    
+
     public KeymileMetalicoSuvdDslamIT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
-    private static EfikaCustomer cust = CustomerMock.getCustomer("4131543457");
+
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4133335556");
     private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
     /**
-     * Test of obterVelocidadesUpVendor method, of class KeymileMetalicoSuvdDslam.
+     * Test of obterVelocidadesUpVendor method, of class
+     * KeymileMetalicoSuvdDslam.
      */
     @Test
     public void testObterVelocidadesUpVendor() {
@@ -70,7 +73,8 @@ public class KeymileMetalicoSuvdDslamIT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class KeymileMetalicoSuvdDslam.
+     * Test of obterVelocidadesDownVendor method, of class
+     * KeymileMetalicoSuvdDslam.
      */
     @Test
     public void testObterVelocidadesDownVendor() {
@@ -164,9 +168,11 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
+        
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
-        assertTrue(result!=null);
+        System.out.println(GsonUtil.serialize(cust));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -175,13 +181,9 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetModulacao() throws Exception {
         System.out.println("getModulacao");
-        InventarioRede ir = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        Modulacao expResult = null;
-        Modulacao result = instance.getModulacao(ir);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Modulacao result = instance.getModulacao(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -190,12 +192,10 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        instance.setProfileDown(i, v);
+//        Velocidades v = Velocidades.VEL_15360;
+//        instance.setProfileDown(i, v);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertTrue(instance.getProfile(i).validar(cust));
     }
 
     /**
@@ -372,5 +372,38 @@ public class KeymileMetalicoSuvdDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
+    /**
+     * Test of getTabelaRede method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testGetTabelaRede() throws Exception{
+        System.out.println("getTabelaRede");
+        TabelaRedeMetalico result = instance.getTabelaRede(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+    }
+    
+    @Test
+    public void testResetTabelaRede() throws Exception{
+        System.out.println("resetTabelaRede");
+        instance.resetTabelaRede(i);
+        assertTrue(instance.getTabelaRede(i).validar(cust));
+    }
+
+    /**
+     * Test of getDeviceMac method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        DeviceMAC result = instance.getDeviceMac(i);
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
+        
+    }
+
+    
+
 
 }

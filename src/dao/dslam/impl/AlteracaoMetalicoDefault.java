@@ -17,4 +17,6 @@ public interface AlteracaoMetalicoDefault extends AlteracaoClienteInter {
     
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception;
     
+    public void resetTabelaRede(InventarioRede i) throws Exception;
+    
 }

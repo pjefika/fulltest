@@ -11,7 +11,7 @@ import model.dslam.consulta.Validavel;
 
 public class TabelaRedeMetalico implements Validavel {
 
-    private BigInteger pctDown, pctUp, crcDown, crcUp, fecDown, fecUp, resync;
+    private BigInteger pctDown, pctUp, crcDown, crcUp, fecDown, fecUp, resync, tempoMedicao;
 
     /**
      * *
@@ -22,12 +22,15 @@ public class TabelaRedeMetalico implements Validavel {
      */
     @Override
     public Boolean validar(EfikaCustomer cust) {
-        return isCrcOk();
+        if (isCrcOk() && resync5()) {
+            return isPctSuficiente();
+        }
+        return false;
     }
 
     @Override
     public String getNome() {
-        return "Rede Confiável";
+        return "Confiabilidade de Rede";
     }
 
     public BigInteger getResync() {
@@ -86,6 +89,14 @@ public class TabelaRedeMetalico implements Validavel {
         this.fecUp = fecUp;
     }
 
+    public BigInteger getTempoMedicao() {
+        return tempoMedicao;
+    }
+
+    public void setTempoMedicao(BigInteger time) {
+        this.tempoMedicao = time;
+    }
+
     public Boolean isCrcOk() {
         BigInteger maxCrcDown = this.getPctDown().divide(new BigInteger("6000"));
         BigInteger maxCrcUp = this.getPctUp().divide(new BigInteger("5000"));
@@ -102,6 +113,15 @@ public class TabelaRedeMetalico implements Validavel {
      */
     public Boolean resync300() {
         return this.getResync().compareTo(new BigInteger("300")) < 0;
+    }
+
+    /**
+     * True para tempoMedicao maior que 5 minutos
+     *
+     * @return
+     */
+    public Boolean cincoMin() {
+        return this.getTempoMedicao().compareTo(BigInteger.valueOf(300l)) > 0;
     }
 
     /**
@@ -123,6 +143,15 @@ public class TabelaRedeMetalico implements Validavel {
     }
 
     /**
+     * True para resync 0
+     *
+     * @return
+     */
+    public Boolean resync0() {
+        return this.getResync().compareTo(new BigInteger("0")) == 0;
+    }
+
+    /**
      * True para pacotes down E up menor que 50
      *
      * @return
@@ -141,12 +170,21 @@ public class TabelaRedeMetalico implements Validavel {
     }
 
     /**
-     * True para pacotes up >= 4000
+     * True para pacotes up >= 5000
      *
      * @return
      */
     public Boolean pctUp() {
-        return this.getPctDown().compareTo(new BigInteger("4000")) >= 0;
+        return this.getPctDown().compareTo(new BigInteger("5000")) >= 0;
+    }
+
+    /**
+     * True para pacotes up >= 5000
+     *
+     * @return
+     */
+    public Boolean isPctSuficiente() {
+        return pctDown() && pctUp();
     }
 
     /**

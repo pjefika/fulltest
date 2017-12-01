@@ -8,6 +8,7 @@ package dao.dslam.impl.metalico.zhone;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -52,7 +53,7 @@ public class ZhoneMetalicoMxkDslamIT {
     @After
     public void tearDown() {
     }
-    private static EfikaCustomer cust = CustomerMock.getCustomer("8230279033");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("8330334302");
     private static ZhoneMetalicoMxkDslam instance = new ZhoneMetalicoMxkDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -77,13 +78,9 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        TabelaRedeMetalico expResult = null;
         TabelaRedeMetalico result = instance.getTabelaRede(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -204,13 +201,9 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetModulacao() throws Exception {
         System.out.println("getModulacao");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        Modulacao expResult = null;
         Modulacao result = instance.getModulacao(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -335,11 +328,7 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
         instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -406,6 +395,49 @@ public class ZhoneMetalicoMxkDslamIT {
         ZhoneMetalicoMxkDslam instance = null;
         Profile expResult = null;
         Profile result = instance.castProfile(v);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of resetTabelaRede method, of class ZhoneMetalicoMxkDslam.
+     */
+    @Test
+    public void testResetTabelaRede() throws Exception {
+        System.out.println("resetTabelaRede");
+        InventarioRede i = null;
+        ZhoneMetalicoMxkDslam instance = null;
+        instance.resetTabelaRede(i);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getHistoricoTabelaRede method, of class ZhoneMetalicoMxkDslam.
+     */
+    @Test
+    public void testGetHistoricoTabelaRede() throws Exception {
+        System.out.println("getHistoricoTabelaRede");
+        InventarioRede i = null;
+        ZhoneMetalicoMxkDslam instance = null;
+        List<TabelaRedeMetalico> expResult = null;
+        List<TabelaRedeMetalico> result = instance.getHistoricoTabelaRede(i);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDeviceMac method, of class ZhoneMetalicoMxkDslam.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        InventarioRede i = null;
+        ZhoneMetalicoMxkDslam instance = null;
+        DeviceMAC expResult = null;
+        DeviceMAC result = instance.getDeviceMac(i);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

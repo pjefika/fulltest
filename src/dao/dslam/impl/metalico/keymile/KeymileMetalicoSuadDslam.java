@@ -11,14 +11,17 @@ import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EnumEstadoVlan;
 import model.dslam.consulta.Profile;
+import model.dslam.consulta.ProfileMetalico;
 import model.dslam.consulta.VlanBanda;
 import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
+import model.dslam.velocidade.Modulacoes;
 import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 
@@ -173,7 +176,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
 
-        Profile prof = new Profile();
+        Profile prof = new ProfileMetalico();
         prof.setProfileDown(leProf.get(0));
         prof.setProfileUp(leProf.get(1));
 
@@ -190,6 +193,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
         Modulacao m = new Modulacao();
         m.setModulacao(modul);
+        m.setModulEnum(compare(modul));
 
         return m;
     }
@@ -331,6 +335,26 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         }
     }
 
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        List<String> retorno = getCd().consulta(getComandoGetDeviceMAC(i)).getRetorno();
+        String macValue = TratativaRetornoUtil.tratKeymile(retorno, "MacAddress");
+        String comDoisPontos = "";
+        try {
+            comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
+                    + ":" + macValue.substring(8, 10) + ":" + macValue.substring(10, 12);
+        } catch (Exception e) {
+        }
+
+        return new DeviceMAC(comDoisPontos);
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode floodingprevention", 10000,
+                "get unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
+                "set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode none");
+    }
+
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/profilename " + compare(vDown, Boolean.TRUE).getSintaxVel());
     }
@@ -425,25 +449,31 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD"));
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "HSI_3Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "HSI_5Mb_1Mb", "ADSL2PLUS_AUTO_SUAD", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "HSI_10Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "HSI_15Mb_1Mb", "ADSL2PLUS_ONLY_SUAD", Modulacoes.ADSL));
+        }
+
         return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_3Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_5Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_10Mb_1Mb"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "HSI_15Mb_1Mb"));
+        }
+
         return velsUp;
     }
 
 //    @Override
     public Profile castProfile(Velocidades v) {
-        Profile p = new Profile();
+        Profile p = new ProfileMetalico();
         p.setProfileDown("HSI_" + v.getVel() + "Mb_1Mb");
         p.setProfileUp("HSI_" + v.getVel() + "Mb_1Mb_SUAD1");
         return p;

@@ -7,7 +7,7 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.Profile;
+import model.dslam.consulta.metalico.Modulacao;
 
 /**
  *
@@ -15,18 +15,18 @@ import model.dslam.consulta.Profile;
  */
 public class ValidacaoModulacao extends ValidacaoValidavel {
 
-    public ValidacaoModulacao(Profile profile, EfikaCustomer cust, Locale local) {
-        super(cust, profile, local);
+    public ValidacaoModulacao(Modulacao modul, EfikaCustomer cust, Locale local) {
+        super(cust, modul, local);
     }
 
     @Override
     protected String frasePositiva() {
-        return "Profile configurado corretamente.";
+        return "Modulação configurada corretamente.";
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Profile divergente da velocidade contratada.";
+        return "Modulação divergente da velocidade contratada.";
     }
 
 }

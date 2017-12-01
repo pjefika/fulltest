@@ -6,6 +6,7 @@
 package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import java.util.List;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
@@ -20,9 +21,11 @@ public interface ConsultaMetalicoDefault extends ConsultaClienteInter {
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception;
 
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception;
+    
+    public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception;
 
     public Modulacao getModulacao(InventarioRede i) throws Exception;
 
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception;
-
+    
 }

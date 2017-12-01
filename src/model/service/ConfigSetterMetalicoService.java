@@ -10,5 +10,7 @@ package model.service;
  * @author G0041775
  */
 public interface ConfigSetterMetalicoService {
-    
+
+    public void resetTabelaRede() throws Exception;
+
 }

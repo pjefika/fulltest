@@ -18,10 +18,20 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
     private ValidacaoResult serial;
 
     private List<SerialOntGpon> serialDisp;
-
-    private ValidacaoResult parametros;
+    
+    private ProfileGpon profileG;
 
     public ConfiguracaoOLT() {
+    }
+
+    @Override
+    public ProfileGpon getProfile() {
+        return profileG;
+    }
+
+    @Override
+    public void setProfile(ProfileConfig profile) {
+        this.profileG = (ProfileGpon) profile;
     }
 
     public List<SerialOntGpon> getSerialDisp() {
@@ -38,14 +48,6 @@ public class ConfiguracaoOLT extends ConfiguracaoPorta {
 
     public void setSerial(ValidacaoResult serial) {
         this.serial = serial;
-    }
-
-    public ValidacaoResult getParametros() {
-        return parametros;
-    }
-
-    public void setParametros(ValidacaoResult parametros) {
-        this.parametros = parametros;
     }
 
 }

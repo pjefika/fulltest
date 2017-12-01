@@ -5,14 +5,14 @@
  */
 package model.service;
 
-import model.dslam.config.ConfiguracaoDslam;
+import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public interface ConfigDslamService {
-
-    public ConfiguracaoDslam consultar() throws Exception;
-
+public interface ConfigGetterMetalicoService extends ConfigGetterService{
+    
+    public ValidacaoResult getterTabelaRede() throws Exception;
+    
 }

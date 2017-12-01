@@ -15,7 +15,7 @@ import model.validacao.impl.both.ValidacaoVlanMulticast;
  *
  * @author G0042204
  */
-public class ValidadorVlanMulticast extends ValidadorGpon {
+public class ValidadorVlanMulticast extends Validador {
 
     public ValidadorVlanMulticast(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
@@ -23,7 +23,7 @@ public class ValidadorVlanMulticast extends ValidadorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoVlanMulticast(cg.getVlanMulticast(cust.getRede()), cust, bundle.getLocale());
+        return new ValidacaoVlanMulticast(consulta.getVlanMulticast(cust.getRede()), cust, bundle.getLocale());
     }
 
     

@@ -38,9 +38,9 @@ public abstract class Validacao implements Validator {
         try {
             iniciar();
             processar();
-            return new ValidacaoResult(nome, mensagem, resultado);
+            return new ValidacaoResult(nome, mensagem, resultado, Boolean.FALSE);
         } catch (FuncIndisponivelDslamException e) {
-            return new ValidacaoResult(nome, e.getMessage(), Boolean.TRUE);
+            return new ValidacaoResult(nome, e.getMessage(), Boolean.TRUE, Boolean.FALSE);
         }
     }
 

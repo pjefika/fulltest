@@ -46,7 +46,7 @@ public abstract class Validador extends ValidFlow implements Validator {
         iniciar();
         this.valid = consultar();
         processar();
-        return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject());
+        return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject(), null);
     }
 
     @Override
@@ -69,7 +69,7 @@ public abstract class Validador extends ValidFlow implements Validator {
     }
 
     protected ValidacaoResult finalizar(String mensagem, Boolean resultado) {
-        return new ValidacaoResult(valid.getNome(), valid.getNome(), valid.getResultado());
+        return new ValidacaoResult(valid.getNome(), valid.getNome(), valid.getResultado(), Boolean.FALSE);
     }
 
     protected abstract Validacao consultar() throws Exception;
