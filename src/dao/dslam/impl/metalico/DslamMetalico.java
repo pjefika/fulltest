@@ -31,13 +31,9 @@ public abstract class DslamMetalico extends AbstractDslam
         throw new FuncIndisponivelDslamException();
     }
 
-//    @Override
-//    protected List<VelocidadeVendor> obterVelocidadesUpVendor() {
-//        return null;
-//    }
-//
-//    @Override
-//    protected List<VelocidadeVendor> obterVelocidadesDownVendor() {
-//        return null;
-//    }
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        throw new FuncIndisponivelDslamException();
+    }
+
 }

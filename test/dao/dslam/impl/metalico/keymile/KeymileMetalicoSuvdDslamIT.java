@@ -396,4 +396,14 @@ public class KeymileMetalicoSuvdDslamIT {
 
     }
 
+    /**
+     * Test of resetIptvStatistics method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testResetIptvStatistics() throws Exception {
+        System.out.println("resetIptvStatistics");
+        instance.resetIptvStatistics(i);
+    }
+
+    
 }

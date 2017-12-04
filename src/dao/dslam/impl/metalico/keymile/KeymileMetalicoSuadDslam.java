@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
@@ -122,6 +123,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcVod(i)).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 3)).getRetorno();
+        List<String> pegaStatistics = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
+
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer sVlan = new Integer("0");
@@ -141,6 +144,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
         VlanVod vlanVod = new VlanVod(cVlan, sVlan, state);
+        vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
+        vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
 
         return vlanVod;
     }
@@ -149,6 +154,9 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getSrvcMult(i)).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4)).getRetorno();
+        List<String> pegaStatistics = this.getCd().consulta(this.getComandoGetVlanMulticastPm(i)).getRetorno();
+        List<String> pegaIpIgmp = this.getCd().consulta(this.getComandoGetIpIgmp()).getRetorno();
+
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer svlan = new Integer("0");
@@ -166,6 +174,9 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         }
 
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, state);
+        vlanMult.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
+        vlanMult.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
+        vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
 
         return vlanMult;
     }
@@ -445,6 +456,22 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoDeleteMulticast(String srvc) {
         return new ComandoDslam("cd /services/packet/mcast/cfgm/", 500, "deleteservice " + srvc);
+    }
+
+    protected ComandoDslam getComandoGetVlanVodPm(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-3/pm/usercountertable", 3000);
+    }
+
+    protected ComandoDslam getComandoGetVlanMulticastPm(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-4/pm/usercountertable", 3000);
+    }
+
+    protected ComandoDslam getComandoResetVodStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-3/pm\nusercounterreset");
+    }
+
+    protected ComandoDslam getComandoResetMulticastStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-4/pm\nusercounterreset");
     }
 
     @Override

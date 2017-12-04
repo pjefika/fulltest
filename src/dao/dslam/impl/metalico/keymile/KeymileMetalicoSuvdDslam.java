@@ -217,10 +217,6 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
         return vlanVod;
     }
-    
-    protected ComandoDslam getComandoGetIpIgmp(){
-        return new ComandoDslam("get /multicast/cfgm/LocalIPAddressForIGMPGeneration");
-    }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
@@ -369,6 +365,12 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
         return getVlanMulticast(i);
 
+    }
+
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetMulticastStatistics(i));
+        getCd().consulta(getComandoResetVodStatistics(i));
     }
 
     @Override
@@ -578,6 +580,14 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoGetVlanMulticastPm(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/pm/usercountertable", 3000);
+    }
+
+    protected ComandoDslam getComandoResetVodStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/pm\nusercounterreset");
+    }
+
+    protected ComandoDslam getComandoResetMulticastStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/pm\nusercounterreset");
     }
 //    @Override
 
