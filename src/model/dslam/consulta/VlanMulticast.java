@@ -39,7 +39,7 @@ public class VlanMulticast extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-        if (getSvlan() == null || getIpIgmp() == null) {
+        if (getSvlan() == null) {
             return false;
         }
         if (getPctDown() != null && getPctUp() != null && getIpIgmp() != null) {
