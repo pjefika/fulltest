@@ -6,6 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.math.BigInteger;
 
 /**
  *
@@ -41,8 +42,14 @@ public class VlanMulticast extends VlanAbstract {
         if (getSvlan() == null || getIpIgmp() == null) {
             return false;
         }
-        return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP) &&
-                getIpIgmp().equalsIgnoreCase(e.getRede().getIpMulticast());
+        if (getPctDown() != null && getPctUp() != null && getIpIgmp() != null) {
+            return getSvlan().equals(e.getRede().getVlanMulticast())
+                    && getState().equals(EnumEstadoVlan.UP)
+                    && getIpIgmp().equalsIgnoreCase(e.getRede().getIpMulticast())
+                    && this.getPctDown().compareTo(BigInteger.ZERO) > 0
+                    && this.getPctUp().compareTo(BigInteger.ZERO) > 0;
+        }
+        return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP);
     }
 
 }

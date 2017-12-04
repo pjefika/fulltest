@@ -29,11 +29,15 @@ public class VlanVod extends VlanAbstract {
 
     @Override
     public Boolean validar(EfikaCustomer e) {
-        if(getCvlan()==null || getSvlan() == null){
+        if (getCvlan() == null || getSvlan() == null) {
             return false;
         }
-        return this.getSvlan().equals(e.getRede().getVlanVod()) && this.getCvlan().equals(e.getRede().getCvLan()) &&
-                this.getState().equals(EnumEstadoVlan.UP) && this.getPctDown().compareTo(BigInteger.ZERO)>0 && 
-                this.getPctUp().compareTo(BigInteger.ZERO)>0;
+        if (getPctDown() != null && getPctUp() != null) {
+            return this.getSvlan().equals(e.getRede().getVlanVod()) && this.getCvlan().equals(e.getRede().getCvLan())
+                    && this.getState().equals(EnumEstadoVlan.UP) && this.getPctDown().compareTo(BigInteger.ZERO) > 0
+                    && this.getPctUp().compareTo(BigInteger.ZERO) > 0;
+        }
+        return this.getSvlan().equals(e.getRede().getVlanVod()) && this.getCvlan().equals(e.getRede().getCvLan())
+                && this.getState().equals(EnumEstadoVlan.UP);
     }
 }
