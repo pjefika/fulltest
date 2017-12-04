@@ -13,6 +13,8 @@ import br.net.gvt.efika.customer.EfikaCustomer;
  */
 public class VlanMulticast extends VlanAbstract {
 
+    private String ipIgmp;
+
     public VlanMulticast() {
         super(null, null);
     }
@@ -26,12 +28,21 @@ public class VlanMulticast extends VlanAbstract {
         super(cvlan, svlan, estado);
     }
 
+    public String getIpIgmp() {
+        return ipIgmp;
+    }
+
+    public void setIpIgmp(String ipIgmp) {
+        this.ipIgmp = ipIgmp;
+    }
+
     @Override
     public Boolean validar(EfikaCustomer e) {
-        if(getSvlan() == null){
+        if (getSvlan() == null || getIpIgmp() == null) {
             return false;
         }
-        return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP);
+        return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP) &&
+                getIpIgmp().equalsIgnoreCase(e.getRede().getIpMulticast());
     }
 
 }

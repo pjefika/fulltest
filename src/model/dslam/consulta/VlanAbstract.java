@@ -6,6 +6,7 @@
 package model.dslam.consulta;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.math.BigInteger;
 
 /**
  *
@@ -16,6 +17,8 @@ public abstract class VlanAbstract implements Validavel {
     private Integer cvlan;
 
     private Integer svlan;
+
+    private BigInteger pctDown, pctUp;
 
     private EnumEstadoVlan state;
 
@@ -54,6 +57,22 @@ public abstract class VlanAbstract implements Validavel {
 
     public void setSvlan(Integer svlan) {
         this.svlan = svlan;
+    }
+
+    public BigInteger getPctDown() {
+        return pctDown;
+    }
+
+    public void setPctDown(BigInteger pctDown) {
+        this.pctDown = pctDown;
+    }
+
+    public BigInteger getPctUp() {
+        return pctUp;
+    }
+
+    public void setPctUp(BigInteger pctUp) {
+        this.pctUp = pctUp;
     }
 
     @Override
