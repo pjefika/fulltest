@@ -149,6 +149,7 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
+        i.setIpMulticast("172.18.0.8");
         VlanMulticast result = instance.getVlanMulticast(i);
         System.out.println(GsonUtil.serialize(result));
         assertTrue(result.validar(cust));

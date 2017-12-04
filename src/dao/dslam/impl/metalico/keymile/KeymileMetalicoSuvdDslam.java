@@ -217,12 +217,17 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
         return vlanVod;
     }
+    
+    protected ComandoDslam getComandoGetIpIgmp(){
+        return new ComandoDslam("get /multicast/cfgm/LocalIPAddressForIGMPGeneration");
+    }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4)).getRetorno();
         List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
+        List<String> pegaIpIgmp = this.getCd().consulta(this.getComandoGetIpIgmp()).getRetorno();
 
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
@@ -245,7 +250,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, state);
         vlanMult.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
         vlanMult.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
-        
+        vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
         return vlanMult;
     }
 
