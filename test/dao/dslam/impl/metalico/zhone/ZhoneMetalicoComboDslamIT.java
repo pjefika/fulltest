@@ -7,6 +7,8 @@ package dao.dslam.impl.metalico.zhone;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import java.util.List;
+import model.dslam.consulta.DeviceMAC;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
 import model.dslam.consulta.VlanBanda;
@@ -16,6 +18,7 @@ import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.metalico.Modulacao;
 import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.consulta.metalico.TabelaRedeMetalico;
+import model.dslam.velocidade.VelocidadeVendor;
 import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -384,6 +387,86 @@ public class ZhoneMetalicoComboDslamIT {
         ZhoneMetalicoComboDslam instance = null;
         Modulacao expResult = null;
         Modulacao result = instance.castModulacao(v);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of resetIptvStatistics method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testResetIptvStatistics() throws Exception {
+        System.out.println("resetIptvStatistics");
+        instance.resetIptvStatistics(i);
+    }
+
+    /**
+     * Test of obterVelocidadesUpVendor method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testObterVelocidadesUpVendor() {
+        System.out.println("obterVelocidadesUpVendor");
+        ZhoneMetalicoComboDslam instance = null;
+        List<VelocidadeVendor> expResult = null;
+        List<VelocidadeVendor> result = instance.obterVelocidadesUpVendor();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of obterVelocidadesDownVendor method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testObterVelocidadesDownVendor() {
+        System.out.println("obterVelocidadesDownVendor");
+        ZhoneMetalicoComboDslam instance = null;
+        List<VelocidadeVendor> expResult = null;
+        List<VelocidadeVendor> result = instance.obterVelocidadesDownVendor();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of resetTabelaRede method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testResetTabelaRede() throws Exception {
+        System.out.println("resetTabelaRede");
+        InventarioRede i = null;
+        ZhoneMetalicoComboDslam instance = null;
+        instance.resetTabelaRede(i);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getHistoricoTabelaRede method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testGetHistoricoTabelaRede() throws Exception {
+        System.out.println("getHistoricoTabelaRede");
+        InventarioRede i = null;
+        ZhoneMetalicoComboDslam instance = null;
+        List<TabelaRedeMetalico> expResult = null;
+        List<TabelaRedeMetalico> result = instance.getHistoricoTabelaRede(i);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDeviceMac method, of class ZhoneMetalicoComboDslam.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        InventarioRede i = null;
+        ZhoneMetalicoComboDslam instance = null;
+        DeviceMAC expResult = null;
+        DeviceMAC result = instance.getDeviceMac(i);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

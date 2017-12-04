@@ -66,5 +66,9 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-   
+
+    protected ComandoDslam getComandoGetIpIgmp() {
+        return new ComandoDslam("bridge-path show ethernet2-4000/bridge");
+    }
+
 }

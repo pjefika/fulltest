@@ -78,7 +78,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     private void setVlans(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> vodStatistics = getCd().consulta(getComandoGetVodStatistics(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVodStatistics = TratativaRetornoUtil.tratZhone(vodStatistics, "0-vdsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
         List<String> pegaMac = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
 
         try {
@@ -111,7 +113,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             cvlanVod = new Integer(leVlanVod.get(1));
         }
         vlanVod = new VlanVod(cvlanVod, svlanVod, EnumEstadoVlan.UP);
-
+        try {
+            vlanVod.setPctDown(new BigInteger(leVodStatistics.get(8)));
+            vlanVod.setPctUp(new BigInteger(leVodStatistics.get(11)));
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -194,14 +200,46 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?(\\d+((\\.|,| )\\d+)?)");
+        List<String> multStatistics = getCd().consulta(getComandoGetMulticastStatistics(i)).getRetorno();
+        List<String> leMultStatistics = TratativaRetornoUtil.tratZhone(multStatistics, "0-vdsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
+        List<String> pegaIpIgmp = getCd().consulta(getComandoGetIpIgmp()).getRetorno();
+        List<String> lePegaIpIgmp = TratativaRetornoUtil.tratZhone(pegaIpIgmp, "Custom IP", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b");
         Integer svlan = null;
 
         if (leVlanMult != null) {
             svlan = new Integer(leVlanMult.get(0));
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
-
+        try {
+            vlanMult.setPctDown(new BigInteger(leMultStatistics.get(8)));
+            vlanMult.setPctUp(new BigInteger(leMultStatistics.get(11)));
+            vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
+        } catch (Exception e) {
+        }
+        
         return vlanMult;
+    }
+
+    protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvLan()+"/bridge");
+    }
+
+    protected ComandoDslam getComandoGetMulticastStatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-38-4000/bridge");
+    }
+
+    protected ComandoDslam getComandoResetVodtatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvLan()+"/bridge");
+    }
+
+    protected ComandoDslam getComandoResetMultitatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-38-4000/bridge");
+    }
+
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetVodtatistics(i));
+        getCd().consulta(getComandoResetMultitatistics(i));
     }
 
     @Override

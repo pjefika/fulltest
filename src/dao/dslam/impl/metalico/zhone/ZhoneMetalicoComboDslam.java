@@ -81,9 +81,19 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     protected ComandoDslam getComandoGetMulticastStatistics(InventarioRede i) {
         return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-adsl-0-38/bridge");
     }
-    
-    protected ComandoDslam getComandoGetIpIgmp(){
-        return new ComandoDslam("bridge-path show ethernet2-4000/bridge");
+
+    protected ComandoDslam getComandoResetVodtatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-adsl-0-37/bridge");
+    }
+
+    protected ComandoDslam getComandoResetMultitatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-adsl-0-38/bridge");
+    }
+
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetVodtatistics(i));
+        getCd().consulta(getComandoResetMultitatistics(i));
     }
 
     private void setVlans(InventarioRede i) throws Exception {

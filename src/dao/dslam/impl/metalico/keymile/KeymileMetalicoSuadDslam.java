@@ -182,6 +182,12 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetMulticastStatistics(i));
+        getCd().consulta(getComandoResetVodStatistics(i));
+    }
+
+    @Override
     public Profile getProfile(InventarioRede i) throws Exception {
         List<String> pegaProfile = this.getCd().consulta(this.getProf(i)).getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
