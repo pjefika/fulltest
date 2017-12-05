@@ -212,8 +212,11 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
         VlanVod vlanVod = new VlanVod(cvlan, svlan, state);
-        vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
-        vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+        try {
+            vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+            vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+        } catch (Exception e) {
+        }
 
         return vlanVod;
     }
@@ -222,7 +225,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4)).getRetorno();
-        List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
+        List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanMulticastPm(i)).getRetorno();
         List<String> pegaIpIgmp = this.getCd().consulta(this.getComandoGetIpIgmp()).getRetorno();
 
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
