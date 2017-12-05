@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.consulta.DeviceMAC;
@@ -189,6 +190,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "3")).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 3)).getRetorno();
+        List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
+
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
@@ -209,6 +212,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
         VlanVod vlanVod = new VlanVod(cvlan, svlan, state);
+        vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+        vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
 
         return vlanVod;
     }
@@ -217,6 +222,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
         List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4)).getRetorno();
+        List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
+        List<String> pegaIpIgmp = this.getCd().consulta(this.getComandoGetIpIgmp()).getRetorno();
+
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
@@ -236,7 +244,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         }
 
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, state);
-
+        vlanMult.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+        vlanMult.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+        vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
         return vlanMult;
     }
 
@@ -355,6 +365,12 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
         return getVlanMulticast(i);
 
+    }
+
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetMulticastStatistics(i));
+        getCd().consulta(getComandoResetVodStatistics(i));
     }
 
     @Override
@@ -558,7 +574,23 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/cfgm/chanprofile", 3000);
     }
 
+    protected ComandoDslam getComandoGetVlanVodPm(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/pm/usercountertable", 3000);
+    }
+
+    protected ComandoDslam getComandoGetVlanMulticastPm(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/pm/usercountertable", 3000);
+    }
+
+    protected ComandoDslam getComandoResetVodStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3/pm\nusercounterreset");
+    }
+
+    protected ComandoDslam getComandoResetMulticastStatistics(InventarioRede i) {
+        return new ComandoDslam("cd /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-4/pm\nusercounterreset");
+    }
 //    @Override
+
     public Profile castProfile(Velocidades v) {
         Profile p = new Profile();
         Double leVel = new Double(v.getVel());

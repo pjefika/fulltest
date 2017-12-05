@@ -40,7 +40,8 @@ public interface AlteracaoClienteInter extends ConsultaClienteInter {
     public void deleteVlanVod(InventarioRede i) throws Exception;
     
     public void deleteVlanMulticast(InventarioRede i) throws Exception;
-
+    
+    public void resetIptvStatistics(InventarioRede i) throws Exception;
     
     public void desconectar();
 

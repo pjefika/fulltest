@@ -107,13 +107,9 @@ public class KeymileMetalicoSuadDslamIT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        KeymileMetalicoSuadDslam instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -122,13 +118,9 @@ public class KeymileMetalicoSuadDslamIT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        KeymileMetalicoSuadDslam instance = null;
-        VlanMulticast expResult = null;
         VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -381,7 +373,5 @@ public class KeymileMetalicoSuadDslamIT {
         System.out.println(GsonUtil.serialize(result));
         assertTrue(result.validar(cust));
     }
-
-
 
 }

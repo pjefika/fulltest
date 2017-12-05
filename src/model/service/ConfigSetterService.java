@@ -5,6 +5,7 @@
  */
 package model.service;
 
+import java.util.List;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
 import model.dslam.consulta.Profile;
@@ -17,15 +18,19 @@ import model.validacao.impl.both.ValidacaoResult;
 public interface ConfigSetterService {
 
     public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception;
-    
+
     public ProfileGpon setterProfile(Profile profile) throws Exception;
-    
+
     public ValidacaoResult setterVlanBanda() throws Exception;
-    
+
     public ValidacaoResult setterVlanVoip() throws Exception;
-    
+
     public ValidacaoResult setterVlanVod() throws Exception;
-    
+
     public ValidacaoResult setterVlanMulticast() throws Exception;
+
+    public void resetIptvStatistics() throws Exception;
+    
+    public List<ValidacaoResult> getIptvVlans() throws Exception;
 
 }

@@ -14,6 +14,8 @@ import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import java.util.ArrayList;
+import java.util.List;
 import model.dslam.config.ConfiguracaoPorta;
 import model.dslam.config.ProfileGpon;
 import model.dslam.consulta.EstadoDaPorta;
@@ -124,6 +126,19 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         alteracao().deleteVlanMulticast(getEc().getRede());
         alteracao().createVlanMulticast(getEc().getRede());
         return exec(new ValidadorVlanMulticast(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public void resetIptvStatistics() throws Exception {
+        alteracao().resetIptvStatistics(getEc().getRede());
+    }
+
+    @Override
+    public List<ValidacaoResult> getIptvVlans() throws Exception {
+        List<ValidacaoResult> l = new ArrayList<>();
+        l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+        l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
+        return l;
     }
 
 }
