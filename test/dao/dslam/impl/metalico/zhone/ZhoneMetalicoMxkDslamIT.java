@@ -159,13 +159,9 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -174,13 +170,9 @@ public class ZhoneMetalicoMxkDslamIT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        ZhoneMetalicoMxkDslam instance = null;
-        VlanMulticast expResult = null;
         VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -441,6 +433,15 @@ public class ZhoneMetalicoMxkDslamIT {
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of resetIptvStatistics method, of class ZhoneMetalicoMxkDslam.
+     */
+    @Test
+    public void testResetIptvStatistics() throws Exception {
+        System.out.println("resetIptvStatistics");
+        instance.resetIptvStatistics(i);
     }
 
 }
