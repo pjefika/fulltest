@@ -480,8 +480,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode floodingprevention", 10000,
-                "get unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
-                "set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode none");
+                "get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
+                "set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode none");
     }
 
     protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
@@ -517,27 +517,27 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoSetModulacaoAdsl(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+        return new ComandoDslam("set/unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
                 + "false default 0 false default 0 false default 0 true " + compare(v, Boolean.TRUE).getSintaxMod() + " priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoAdsl1(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+        return new ComandoDslam("set/unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
                 + "false default 0 false default 0 false default 0 true ADSL2PLUS_SUVD11 priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoVdsl(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+        return new ComandoDslam("set/unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
                 + "true " + compare(v, Boolean.TRUE).getSintaxMod() + " 0 false default 0 false default 0 false default priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoVdsl1(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+        return new ComandoDslam("set/unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
                 + "true " + compare(v, Boolean.TRUE).getSintaxMod() + "D1 0 false default 0 false default 0 false default priority");
     }
 
     protected ComandoDslam getComandoSetModulacaoVdsl11(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
+        return new ComandoDslam("set/unit-" + i.getSlot() + "/port-" + i.getPorta() + "/cfgm/portprofiles "
                 + "true " + compare(v, Boolean.TRUE).getSintaxMod() + "D11 0 false default 0 false default 0 false default priority");
     }
 

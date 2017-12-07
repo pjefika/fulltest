@@ -368,8 +368,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
         return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode floodingprevention", 10000,
-                "get unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
-                "set unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode none");
+                "get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
+                "set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1/cfgm/macsourcefilteringmode none");
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {
