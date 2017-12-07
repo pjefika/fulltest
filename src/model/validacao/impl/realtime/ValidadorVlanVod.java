@@ -27,10 +27,14 @@ public class ValidadorVlanVod extends Validador {
 
     @Override
     protected Validacao consultar() throws Exception {
-        if (getCust().getServicos().getTipoTv() != null && getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust, bundle.getLocale());
+        if (getCust().getServicos().getTipoTv() != null) {
+            if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+                return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust, bundle.getLocale());
+            } else {
+                return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.");
+            }
         } else {
-            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem VoIP.");
+            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV.");
         }
     }
 }

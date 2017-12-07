@@ -22,11 +22,16 @@ public class ValidacaoVlanMulticast extends ValidacaoValidavel {
 
     @Override
     protected void processar() {
-        if (getCust().getServicos().getTipoTv() != null || getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            super.processar();
+        if (getCust().getServicos().getTipoTv() != null) {
+            if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+                super.processar();
+            } else {
+                this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
+            }
         } else {
-            this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
+            this.finalizar("Cliente sem TV.", Boolean.TRUE);
         }
+
     }
 
     @Override

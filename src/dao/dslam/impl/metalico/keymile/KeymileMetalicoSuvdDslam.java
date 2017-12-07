@@ -566,11 +566,11 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoGetSrvc(InventarioRede i, String intrf) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus",3000);
     }
 
     protected ComandoDslam getComandoGetSrvcStatus(InventarioRede i, Integer intrf) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode",3000);
     }
 
     protected ComandoDslam getProf(InventarioRede i) {

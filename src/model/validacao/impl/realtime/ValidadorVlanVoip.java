@@ -30,7 +30,7 @@ public class ValidadorVlanVoip extends Validador {
         if (getCust().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
             return new ValidacaoVlanVoip(consulta.getVlanVoip(cust.getRede()), cust, bundle.getLocale());
         } else {
-            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.");
+            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.");
         }
     }
 

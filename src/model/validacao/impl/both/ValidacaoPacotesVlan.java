@@ -31,20 +31,24 @@ public abstract class ValidacaoPacotesVlan extends ValidacaoValidavel {
 
     @Override
     protected void processar() {
-        if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH
-                && getCust().getServicos().getTipoTv() != null || getCust().getServicos().getTipoTv() != null) {
-            if (super.checar()) {
-                if (validarPacotes()) {
-                    this.finalizar("Vlan configurado e identificada troca de pacotes.", Boolean.TRUE);
+        if (getCust().getServicos().getTipoTv() != null) {
+            if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+                if (super.checar()) {
+                    if (validarPacotes()) {
+                        this.finalizar("Vlan configurado e identificada troca de pacotes.", Boolean.TRUE);
+                    } else {
+                        this.finalizar("Não identificada troca de pacotes.", Boolean.FALSE);
+                    }
                 } else {
-                    this.finalizar("Não identificada troca de pacotes.", Boolean.FALSE);
+                    this.finalizar(this.fraseNegativa(), Boolean.FALSE);
                 }
             } else {
-                this.finalizar(this.fraseNegativa(), Boolean.FALSE);
+                this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
             }
         } else {
-            this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
+            this.finalizar("Cliente sem TV.", Boolean.TRUE);
         }
+
     }
 
 }
