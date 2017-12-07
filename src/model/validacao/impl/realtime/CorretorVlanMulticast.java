@@ -11,6 +11,7 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoVlanMulticast;
+import model.validacao.impl.both.ValidacaoVlanMulticastComPacotes;
 
 /**
  *

@@ -44,12 +44,19 @@ public class VlanMulticast extends VlanAbstract {
         }
         if (getPctDown() != null && getPctUp() != null && getIpIgmp() != null) {
             return getSvlan().equals(e.getRede().getVlanMulticast())
-                    && getState().equals(EnumEstadoVlan.UP)
-                    && getIpIgmp().equalsIgnoreCase(e.getRede().getIpMulticast())
-                    && this.getPctDown().compareTo(BigInteger.ZERO) > 0
-                    && this.getPctUp().compareTo(BigInteger.ZERO) > 0;
+                    && EnumEstadoVlan.UP == getState();
+                    /**
+                     * Etapa de validação suprimida devido inexistencia de parametro para comparação via Cadastro
+                     * Pendente Implementação TBS
+                     */
+                    // && getIpIgmp().equalsIgnoreCase(e.getRede().getIpMulticast())
+                    /**
+                     * Validação será levada para ValidaçãoMulticast devido a necessidade de fraselogia customizada
+                     */
+//                    && this.getPctDown().compareTo(BigInteger.ZERO) > 0
+//                    && this.getPctUp().compareTo(BigInteger.ZERO) > 0;
         }
-        return getSvlan().equals(e.getRede().getVlanMulticast()) && getState().equals(EnumEstadoVlan.UP);
+        return getSvlan().equals(e.getRede().getVlanMulticast()) && EnumEstadoVlan.UP == getState();
     }
 
 }

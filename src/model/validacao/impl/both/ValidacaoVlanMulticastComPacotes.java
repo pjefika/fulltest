@@ -6,7 +6,6 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.Locale;
 import model.dslam.consulta.VlanAbstract;
 
@@ -14,19 +13,10 @@ import model.dslam.consulta.VlanAbstract;
  *
  * @author G0042204
  */
-public class ValidacaoVlanMulticast extends ValidacaoValidavel {
+public class ValidacaoVlanMulticastComPacotes extends ValidacaoPacotesVlan {
 
-    public ValidacaoVlanMulticast(VlanAbstract v, EfikaCustomer cust, Locale local) {
-        super(cust, v, local);
-    }
-
-    @Override
-    protected void processar() {
-        if (getCust().getServicos().getTipoTv() != null || getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            super.processar();
-        } else {
-            this.finalizar("Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
-        }
+    public ValidacaoVlanMulticastComPacotes(VlanAbstract v, EfikaCustomer cust, Locale local) {
+        super(v, cust, local);
     }
 
     @Override
