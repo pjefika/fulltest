@@ -47,9 +47,10 @@ public class ValidadorVlanMulticastIT {
         try {
             System.out.println("consultar");
             EfikaCustomer cust = CustomerMock.getCustomer("4130497359");
-            cust.getServicos().setTipoTv(TecnologiaTv.HIBRIDA);
+            //cust.getServicos().setTipoTv(TecnologiaTv.HIBRIDA);
             ValidadorVlanMulticast instance = new ValidadorVlanMulticast(DslamDAOFactory.getInstance(cust.getRede()), cust, new Locale("manobra", "CO"));;
             ValidacaoResult result = instance.validar();
+            System.out.println(GsonUtil.serialize(cust));
             System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getResultado());
         } catch (Exception e) {
