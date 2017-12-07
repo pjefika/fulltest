@@ -26,11 +26,16 @@ public class ValidadorVlanMulticast extends Validador {
 
     @Override
     protected Validacao consultar() throws Exception {
-        if (getCust().getServicos().getTipoTv() != null && getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            return new ValidacaoVlanMulticast(consulta.getVlanMulticast(cust.getRede()), cust, bundle.getLocale());
+        if (getCust().getServicos().getTipoTv() != null) {
+            if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+                return new ValidacaoVlanMulticast(consulta.getVlanMulticast(cust.getRede()), cust, bundle.getLocale());
+            } else {
+                return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.");
+            }
         } else {
-            return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.");
+            return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV.");
         }
+
     }
 
 }
