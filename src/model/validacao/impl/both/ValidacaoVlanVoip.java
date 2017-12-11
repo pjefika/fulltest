@@ -24,15 +24,6 @@ public class ValidacaoVlanVoip extends ValidacaoValidavel {
     }
 
     @Override
-    protected void processar() {
-        if (getCust().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
-            super.processar();
-        } else {
-            this.finalizar("Cliente sem VoIP.", Boolean.TRUE);
-        }
-    }
-
-    @Override
     protected String frasePositiva() {
         return "Vlan de VoIP configurado corretamente.";
     }

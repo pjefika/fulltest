@@ -27,12 +27,15 @@ public abstract class Validador extends ValidFlow implements Validator {
     protected EfikaCustomer cust;
 
     protected ConsultaClienteInter consulta;
-    
+
     protected ResourceBundle bundle;
+
+    protected Locale locale;
 
     public Validador(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         this.dslam = dslam;
         this.cust = cust;
+        this.locale = local;
         this.bundle = ResourceBundle.getBundle("messages", local);
     }
 

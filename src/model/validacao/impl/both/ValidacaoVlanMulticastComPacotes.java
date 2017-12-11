@@ -6,31 +6,27 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.Locale;
-import model.dslam.consulta.VlanVod;
+import model.dslam.consulta.VlanAbstract;
 
 /**
  *
  * @author G0042204
  */
-public class ValidacaoVlanVod extends ValidacaoValidavel {
+public class ValidacaoVlanMulticastComPacotes extends ValidacaoPacotesVlan {
 
-    private final transient VlanVod vlan;
-
-    public ValidacaoVlanVod(VlanVod v, EfikaCustomer cust, Locale local) {
-        super(cust, v, local);
-        this.vlan = v;
+    public ValidacaoVlanMulticastComPacotes(VlanAbstract v, EfikaCustomer cust, Locale local) {
+        super(v, cust, local);
     }
 
     @Override
     protected String frasePositiva() {
-        return "Vlan de VoD/IPTV configurado corretamente.";
+        return "Vlan de Multicast configurado corretamente.";
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de VoD/IPTV configurado incorretamente.";
+        return "Vlan de Multicast configurado incorretamente.";
     }
 
 }

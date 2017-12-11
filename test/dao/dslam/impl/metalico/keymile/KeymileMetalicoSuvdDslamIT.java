@@ -53,8 +53,8 @@ public class KeymileMetalicoSuvdDslamIT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.getCustomer("2122881843");
-    private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4133335556");
+    private static KeymileMetalicoSuvd3 instance = new KeymileMetalicoSuvd3(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
     /**
@@ -108,13 +108,9 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
