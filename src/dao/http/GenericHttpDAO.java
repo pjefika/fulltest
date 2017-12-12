@@ -27,7 +27,7 @@ public abstract class GenericHttpDAO<T> {
 
     public T jsonPost(Object data) throws Exception {
         HttpClient httpcliente = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("http://10.40.195.81:8080/networkInventoryAPI/networkInventoryGpon/vizinhos");
+        HttpPost httppost = new HttpPost("http://10.200.35.67:80/networkInventoryAPI/networkInventoryGpon/vizinhos");
 
         // Request parameters and other properties.
         StringEntity param = new StringEntity(new Gson().toJson(data));

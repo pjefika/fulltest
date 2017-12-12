@@ -6,7 +6,6 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
@@ -14,7 +13,7 @@ import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoPortaPON;
 
 public class ValidadorVizinhanca extends ValidadorGpon {
-    
+
     private String nome = "Teste de Vizinhança";
 
     public ValidadorVizinhanca(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
@@ -23,14 +22,14 @@ public class ValidadorVizinhanca extends ValidadorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        if (!consulta.getEstadoDaPorta(cust.getRede()).validar(cust)) {
-            if(new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale()).validar().getResultado()){
-                
+        if (!consulta.getEstadoDaPorta(cust.getRede()).getOperState()) {
+            if (new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale()).validar().getResultado()) {
+
+            } else {
+                return new ValidacaoFake(nome, locale, "Identificado falha massiva.", Boolean.FALSE);
             }
-        } else {
-            return new ValidacaoFake(nome, locale, "", Boolean.FALSE);
         }
-        return null;
+        return new ValidacaoFake(nome, locale, "Não foi identificado falha massiva.", Boolean.TRUE);
     }
 
 }
