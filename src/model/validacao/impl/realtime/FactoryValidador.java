@@ -43,7 +43,7 @@ public class FactoryValidador {
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
         bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
 
-        bateria.add(new ValidadorVizinhanca(dslam, cust, local));
+        //bateria.add(new ValidadorVizinhanca(dslam, cust, local));
 
         bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
         bateria.add(new CorretorProfile(dslam, cust, local));
