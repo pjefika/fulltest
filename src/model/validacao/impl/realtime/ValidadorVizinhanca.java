@@ -10,9 +10,12 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
+import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoPortaPON;
 
 public class ValidadorVizinhanca extends ValidadorGpon {
+    
+    private String nome = "Teste de Vizinhança";
 
     public ValidadorVizinhanca(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
@@ -21,10 +24,13 @@ public class ValidadorVizinhanca extends ValidadorGpon {
     @Override
     protected Validacao consultar() throws Exception {
         if (!consulta.getEstadoDaPorta(cust.getRede()).validar(cust)) {
-            return new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale());
+            if(new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale()).validar().getResultado()){
+                
+            }
         } else {
-            throw new FuncIndisponivelDslamException();
+            return new ValidacaoFake(nome, locale, "", Boolean.FALSE);
         }
+        return null;
     }
 
 }

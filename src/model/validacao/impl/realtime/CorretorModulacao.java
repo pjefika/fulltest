@@ -12,7 +12,6 @@ import java.util.Locale;
 import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoModulacao;
-import model.validacao.impl.both.ValidacaoProfile;
 
 /**
  *

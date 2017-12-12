@@ -31,10 +31,10 @@ public class ValidadorVlanVod extends Validador {
             if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
                 return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust, bundle.getLocale());
             } else {
-                return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.");
+                return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.",  Boolean.TRUE);
             }
         } else {
-            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV.");
+            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV.",  Boolean.TRUE);
         }
     }
 }
