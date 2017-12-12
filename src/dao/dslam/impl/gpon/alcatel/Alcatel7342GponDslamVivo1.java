@@ -28,6 +28,7 @@ import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -54,8 +55,35 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         getCd().consulta(this.getComandoPrepareEnvironment());
     }
 
+    @Override
+    public void desconectar() {
+        try {
+            ComandoDslam consulta = getCd().consulta(this.getComandoLogoff());
+            System.out.println("desconectar:" + consulta.getBlob());
+        } catch (Exception e) {
+        } finally {
+            super.desconectar(); //To change body of generated methods, choose Tools | Templates.
+        }
+    }
+
+    protected ComandoDslam getComandoLogoff() {
+        return new ComandoDslam("LOGOFF:;");
+    }
+
     protected ComandoDslam getComandoPrepareEnvironment() {
         return new ComandoDslam("INH-MSG-ALL::ALL:010;", 3000);
+    }
+
+    protected ComandoDslam getComandoPortaPON(InventarioRede i) {
+        return new ComandoDslam("RTRV-PON::PON-1-1-" + i.getSlot() + "-" + i.getPorta() + "::;", 5000);
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        PortaPON p = new PortaPON();
+        ComandoDslam cmd = getCd().consulta(getComandoPortaPON(i));
+        p.setOperState(TratativaRetornoUtil.trat7342(cmd.getRetorno(), "BKGDROGUEONT").contains("IS-NR"));
+        return p;
     }
 
     @Override
@@ -97,7 +125,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
         serial = new SerialOntGpon();
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> retorno = cmd.getRetorno();
-        if(!cmd.getBlob().contains("SLIDVISIBILITY")){
+        if (!cmd.getBlob().contains("SLIDVISIBILITY")) {
             throw new FalhaAoConsultarException();
         }
         estadoPorta.setAdminState(!TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("OOS-AUMA"));

@@ -24,6 +24,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -46,8 +47,8 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void conectar() throws Exception {
         super.conectar();
-        
-        if(this.getCd().consulta(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")){
+
+        if (this.getCd().consulta(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")) {
             throw new SemGerenciaException();
         }
         this.getCd().consulta(this.getComandoModeBatch());
@@ -70,6 +71,19 @@ public class AlcatelGponDslam extends DslamGpon {
         return new ComandoDslam("show equipment ont operational-data detail xml");
     }
 
+    protected ComandoDslam getComandoPortaPON(InventarioRede i) {
+        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 3000);
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        PortaPON porta = new PortaPON();
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoPortaPON(i)));
+        String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-status']");
+        porta.setOperState(operStatus.equalsIgnoreCase("enabled"));
+        return porta;
+    }
+
     /**
      * Função utilizada para demonstração (
      *
@@ -89,8 +103,7 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
 
-        Document xml;
-        xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros(i)));
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros(i)));
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
         String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
         if (potOnt.equals("invalid") || potOnt.equals("unknown")) {
@@ -581,7 +594,7 @@ public class AlcatelGponDslam extends DslamGpon {
             Node node = nodeList.item(e);
 
             if (node.getTextContent().contains("1/1/")) {
-                String[] slotPorta = node.getTextContent().split("/");                
+                String[] slotPorta = node.getTextContent().split("/");
                 SerialOntGpon s = new SerialOntGpon();
                 s.setSerial(node.getNextSibling().getNextSibling().getTextContent());
                 s.setPorta(slotPorta[3]);
@@ -612,6 +625,5 @@ public class AlcatelGponDslam extends DslamGpon {
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
 
 }

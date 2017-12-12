@@ -25,6 +25,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -49,6 +50,26 @@ public class KeymileGponDslam extends DslamGpon {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/status/ont", 3000);
     }
 
+    protected ComandoDslam getComandoOperPortaPON(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/main/OperationalStatus", 3000);
+    }
+
+    protected ComandoDslam getComandoAdminPortaPON(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/main/AdministrativeStatus", 3000);
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        List<String> admin = this.getCd().consulta(this.getComandoAdminPortaPON(i)).getRetorno();
+        List<String> oper = this.getCd().consulta(this.getComandoOperPortaPON(i)).getRetorno();
+        String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
+        String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
+        PortaPON portState = new PortaPON();
+        portState.setAdminState(adminState.equalsIgnoreCase("UP"));
+        portState.setOperState(operState.equalsIgnoreCase("UP"));
+        return portState;
+    }
+
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retOlt = this.getCd().consulta(this.getComandoPotOlt(i)).getRetorno();
@@ -57,9 +78,6 @@ public class KeymileGponDslam extends DslamGpon {
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(new Double(TratativaRetornoUtil.tratKeymile(retOlt, "rxInputPower")));
         tabParam.setPotOnt(new Double(TratativaRetornoUtil.tratKeymile(retOnt, "rxInputPower")));
-
-        System.out.println(tabParam.getPotOlt());
-        System.out.println(tabParam.getPotOnt());
 
         return tabParam;
     }

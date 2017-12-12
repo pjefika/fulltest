@@ -11,6 +11,7 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.credencial.Credencial;
 
 public abstract class DslamGpon extends AbstractDslam
@@ -21,7 +22,7 @@ public abstract class DslamGpon extends AbstractDslam
         super(ipDslam, credencial, loginStrategy);
     }
 
-    @Override
+
     public void resetIptvStatistics(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }

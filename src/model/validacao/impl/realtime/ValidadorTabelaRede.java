@@ -9,7 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
-import model.validacao.impl.both.ValidacaoModulacao;
 import model.validacao.impl.both.ValidacaoTabelaRede;
 
 /**

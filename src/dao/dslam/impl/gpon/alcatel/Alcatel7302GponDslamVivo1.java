@@ -28,6 +28,7 @@ import model.dslam.consulta.VlanVodVivo1Alcatel;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.VlanVoipVivo1;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -56,6 +57,19 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     protected ComandoDslam getComandoEnableConfig() {
         return new ComandoDslam("environment inhibit-alarms", 500, "environment mode batch", 500, "exit");
+    }
+
+    protected ComandoDslam getComandoPortaPON(InventarioRede i) {
+        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 3000);
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+        PortaPON porta = new PortaPON();
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoPortaPON(i)));
+        String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-status']");
+        porta.setOperState(operStatus.equalsIgnoreCase("enabled"));
+        return porta;
     }
 
     @Override
@@ -101,7 +115,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
-        if(adminState==null || operState==null){
+        if (adminState == null || operState == null) {
             throw new FalhaAoConsultarException();
         }
         EstadoDaPorta state = new EstadoDaPorta();
