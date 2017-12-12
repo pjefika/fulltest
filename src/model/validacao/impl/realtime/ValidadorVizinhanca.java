@@ -6,6 +6,7 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
@@ -19,8 +20,11 @@ public class ValidadorVizinhanca extends ValidadorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        ValidacaoPortaPON valid = new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale());
-        return null;
+        if (!consulta.getEstadoDaPorta(cust.getRede()).validar(cust)) {
+            return new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale());
+        } else {
+            throw new FuncIndisponivelDslamException();
+        }
     }
 
 }
