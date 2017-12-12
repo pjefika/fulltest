@@ -6,12 +6,16 @@
 package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.enums.TecnologiaLinha;
+import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.dslam.config.ConfiguracaoDSLAM;
+import model.dslam.config.ProfileConfig;
 import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
+import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorTabelaRede;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
@@ -19,7 +23,9 @@ import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
-public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>, ConfigSetterMetalicoService, ConfigGetterMetalicoService {
+public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>,
+        ConfigSetterMetalicoService,
+        ConfigGetterMetalicoService {
 
     public ConfigDslamServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -33,12 +39,17 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
         config.setParametros(this.exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local)));
         config.setTabRede(this.exec(new ValidadorTabelaRede(getDslam(), getEc(), local)));
         config.setVlanBanda(this.exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
-        config.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
-        config.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
-        try {
-            config.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
-        } catch (Exception e) {
-            config.setVlanMulticast(null);
+        config.setProfile(new ProfileConfig(this.exec(new ValidadorProfile(getDslam(), getEc(), local)),
+                this.getDslam().listarVelocidadesDown()));
+
+        if (getEc().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
+            config.setVlanVoip(this.exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+        }
+        if (getEc().getServicos().getTipoTv() != null) {
+            if (getEc().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+                config.setVlanVod(this.exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+                config.setVlanMulticast(this.exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
+            }
         }
 
         return config;

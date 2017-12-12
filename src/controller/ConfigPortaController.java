@@ -8,6 +8,7 @@ package controller;
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.GetEstadoPortasProximasIn;
 import controller.in.GetConfiabilidadeRedeIn;
+import controller.in.ResetIptvStatisticsIn;
 import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
 import controller.in.SetOntToOltIn;
@@ -277,7 +278,7 @@ public class ConfigPortaController extends RestJaxAbstract {
 
     /**
      * Discutir melhor estratégia para retorno!!!
-     * 
+     *
      * @param in
      * @return String success || Exception.getMessage()
      * @throws Exception
@@ -295,6 +296,29 @@ public class ConfigPortaController extends RestJaxAbstract {
             ConfigGetterMetalicoService config1 = FactoryService.createConfigGetterMetalicoService(in.getCust());
             ValidacaoResult result = config1.getterTabelaRede();
             //a ser melhorado -- discutir com @henmerlin
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().cadastrar(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/resetIptvStatistics")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response resetIptvStatistics(ResetIptvStatisticsIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            config.resetIptvStatistics();
+
+            List<ValidacaoResult> result = config.getIptvVlans();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

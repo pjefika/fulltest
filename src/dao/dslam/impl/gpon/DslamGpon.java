@@ -22,8 +22,8 @@ public abstract class DslamGpon extends AbstractDslam
         super(ipDslam, credencial, loginStrategy);
     }
 
-    @Override
-    public PortaPON getPortaPON(InventarioRede i) throws Exception {
+
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 

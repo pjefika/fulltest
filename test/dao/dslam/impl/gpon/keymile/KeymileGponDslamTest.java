@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.gpon.keymile;
 
+import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +57,8 @@ public class KeymileGponDslamTest {
     }
 
 //    KeymileGponDslam instance = new KeymileGponDslam(CustomerMock.gponKeymile().getRede().getIpDslam());
-//    InventarioRede i = CustomerMock.gponKeymile().getRede();
-    InventarioRede i = CustomerMock.getCustomer("6239327446").getRede();
+    EfikaCustomer cust = CustomerMock.getCustomer("6239327446");
+    InventarioRede i = cust.getRede();
     KeymileGponDslam instance = new KeymileGponDslam(i.getIpDslam());
 
     /**
@@ -146,7 +147,8 @@ public class KeymileGponDslamTest {
         System.out.println("getVlanVod");
         try {
             VlanVod result = instance.getVlanVod(i);
-            assertTrue(result.getSvlan() != null);
+            System.out.println(GsonUtil.serialize(result));
+            assertTrue(result.validar(cust));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -161,7 +163,22 @@ public class KeymileGponDslamTest {
         System.out.println("getVlanMulticast");
         try {
             VlanMulticast result = instance.getVlanMulticast(i);
-            assertTrue(result.getSvlan() != null);
+            System.out.println(GsonUtil.serialize(result));
+            assertTrue(result.validar(cust));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    /**
+     * Test of ResetIptvStatistics method, of class KeymileGponDslam.
+     */
+    @Test
+    public void testResetIptvStatistics() throws Exception {
+        System.out.println("ResetIptvStatistics");
+        try {
+            instance.resetIptvStatistics(i);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

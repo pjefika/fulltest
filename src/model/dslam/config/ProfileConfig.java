@@ -22,6 +22,11 @@ public class ProfileConfig {
     public ProfileConfig() {
     }
 
+    public ProfileConfig(ValidacaoResult atual, List<VelocidadeDTO> downValues) {
+        this.atual = atual;
+        this.downValues = downValues;
+    }
+
     public ValidacaoResult getAtual() {
         return atual;
     }
@@ -37,6 +42,5 @@ public class ProfileConfig {
     public void setDownValues(List<VelocidadeDTO> downValues) {
         this.downValues = downValues;
     }
-
 
 }

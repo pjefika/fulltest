@@ -54,7 +54,7 @@ public class KeymileMetalicoSuvdDslamIT {
     }
 
     private static EfikaCustomer cust = CustomerMock.getCustomer("4133335556");
-    private static KeymileMetalicoSuvd11 instance = new KeymileMetalicoSuvd11(cust.getRede().getIpDslam());
+    private static KeymileMetalicoSuvd3 instance = new KeymileMetalicoSuvd3(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
     /**
@@ -108,13 +108,9 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        VlanBanda expResult = null;
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -138,13 +134,9 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
-        InventarioRede i = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        VlanVod expResult = null;
         VlanVod result = instance.getVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -153,13 +145,10 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetVlanMulticast() throws Exception {
         System.out.println("getVlanMulticast");
-        InventarioRede i = null;
-        KeymileMetalicoSuvdDslam instance = null;
-        VlanMulticast expResult = null;
+        i.setIpMulticast("172.18.0.8");
         VlanMulticast result = instance.getVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(GsonUtil.serialize(result));
+        assertTrue(result.validar(cust));
     }
 
     /**
@@ -168,7 +157,7 @@ public class KeymileMetalicoSuvdDslamIT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        
+
         Profile result = instance.getProfile(i);
         System.out.println(GsonUtil.serialize(result));
         System.out.println(GsonUtil.serialize(cust));
@@ -372,20 +361,20 @@ public class KeymileMetalicoSuvdDslamIT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
     /**
      * Test of getTabelaRede method, of class KeymileMetalicoSuvdDslam.
      */
     @Test
-    public void testGetTabelaRede() throws Exception{
+    public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
         TabelaRedeMetalico result = instance.getTabelaRede(i);
         System.out.println(GsonUtil.serialize(result));
         assertTrue(result.validar(cust));
     }
-    
+
     @Test
-    public void testResetTabelaRede() throws Exception{
+    public void testResetTabelaRede() throws Exception {
         System.out.println("resetTabelaRede");
         instance.resetTabelaRede(i);
         assertTrue(instance.getTabelaRede(i).validar(cust));
@@ -400,10 +389,17 @@ public class KeymileMetalicoSuvdDslamIT {
         DeviceMAC result = instance.getDeviceMac(i);
         System.out.println(GsonUtil.serialize(result));
         assertTrue(result.validar(cust));
-        
+
+    }
+
+    /**
+     * Test of resetIptvStatistics method, of class KeymileMetalicoSuvdDslam.
+     */
+    @Test
+    public void testResetIptvStatistics() throws Exception {
+        System.out.println("resetIptvStatistics");
+        instance.resetIptvStatistics(i);
     }
 
     
-
-
 }

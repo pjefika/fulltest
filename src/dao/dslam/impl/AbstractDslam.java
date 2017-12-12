@@ -77,7 +77,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
     protected Velocidades compare(String sintaxVendor, Boolean isDown) {
         List<VelocidadeVendor> vels = isDown ? obterVelocidadesDownVendor() : obterVelocidadesUpVendor();
         for (VelocidadeVendor v : vels) {
-            if (v.getSintaxVel().contains(sintaxVendor)|| sintaxVendor.contains(v.getSintaxVel())) {
+            if (v.getSintaxVel().equalsIgnoreCase(sintaxVendor)) {
                 return v.getVel();
             }
         }

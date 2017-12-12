@@ -78,7 +78,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     private void setVlans(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        List<String> vodStatistics = getCd().consulta(getComandoGetVodStatistics(i)).getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        List<String> leVodStatistics = TratativaRetornoUtil.tratZhone(vodStatistics, "0-vdsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
         List<String> pegaMac = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
 
         try {
@@ -111,7 +113,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             cvlanVod = new Integer(leVlanVod.get(1));
         }
         vlanVod = new VlanVod(cvlanVod, svlanVod, EnumEstadoVlan.UP);
-
+        try {
+            vlanVod.setPctDown(new BigInteger(leVodStatistics.get(8)));
+            vlanVod.setPctUp(new BigInteger(leVodStatistics.get(11)));
+        } catch (Exception e) {
+        }
     }
 
     @Override
@@ -146,28 +152,31 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
-        velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
+        }
 
         return velsUp;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode", Modulacoes.ADSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "vdsl2mode", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "vdsl2mode", Modulacoes.VDSL));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "vdsl2mode", Modulacoes.VDSL));
+        }
 
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "7680", "autonegotiatemode", Modulacoes.AUTO_NEGOTIATE));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12800", "adsl2plusmode", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_15360, "17664", "adsl2plusmode", Modulacoes.ADSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_25600, "27500", "vdsl2mode", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_35840, "38000", "vdsl2mode", Modulacoes.VDSL));
-        velsDown.add(new VelocidadeVendor(Velocidades.VEL_51200, "55000", "vdsl2mode", Modulacoes.VDSL));
         return velsDown;
     }
 
@@ -191,14 +200,46 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
         List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?(\\d+((\\.|,| )\\d+)?)");
+        List<String> multStatistics = getCd().consulta(getComandoGetMulticastStatistics(i)).getRetorno();
+        List<String> leMultStatistics = TratativaRetornoUtil.tratZhone(multStatistics, "0-vdsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
+        List<String> pegaIpIgmp = getCd().consulta(getComandoGetIpIgmp()).getRetorno();
+        List<String> lePegaIpIgmp = TratativaRetornoUtil.tratZhone(pegaIpIgmp, "Custom IP", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b");
         Integer svlan = null;
 
         if (leVlanMult != null) {
             svlan = new Integer(leVlanMult.get(0));
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
-
+        try {
+            vlanMult.setPctDown(new BigInteger(leMultStatistics.get(8)));
+            vlanMult.setPctUp(new BigInteger(leMultStatistics.get(11)));
+            vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
+        } catch (Exception e) {
+        }
+        
         return vlanMult;
+    }
+
+    protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvLan()+"/bridge");
+    }
+
+    protected ComandoDslam getComandoGetMulticastStatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-38-4000/bridge");
+    }
+
+    protected ComandoDslam getComandoResetVodtatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvLan()+"/bridge");
+    }
+
+    protected ComandoDslam getComandoResetMultitatistics(InventarioRede i) {
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-38-4000/bridge");
+    }
+
+    @Override
+    public void resetIptvStatistics(InventarioRede i) throws Exception {
+        getCd().consulta(getComandoResetVodtatistics(i));
+        getCd().consulta(getComandoResetMultitatistics(i));
     }
 
     @Override
