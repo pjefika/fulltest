@@ -19,6 +19,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -29,7 +30,7 @@ import model.dslam.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public class HuaweiGponDslam  extends DslamGpon {
+public class HuaweiGponDslam extends DslamGpon {
 
     public HuaweiGponDslam(String ipDslam, Credencial credencial, LoginDslamStrategy loginStrategy) {
         super(ipDslam, credencial, loginStrategy);
@@ -154,7 +155,6 @@ public class HuaweiGponDslam  extends DslamGpon {
 //    public Profile castProfile(Velocidades v) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -177,6 +177,11 @@ public class HuaweiGponDslam  extends DslamGpon {
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
