@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Locale;
 import model.validacao.filter.ValidacaoResultResultFalseFilter;
 import model.validacao.impl.both.Validacao;
-
 import model.validacao.impl.both.ValidacaoEstadoPortaOper;
+import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoPortaPON;
 import model.validacao.impl.both.ValidacaoResult;
 
@@ -44,21 +44,20 @@ public class ValidadorVizinhanca extends ValidadorGpon {
                     } catch (Exception e) {
                     }
                 });
-                if (vizinhos.size() == new ValidacaoResultResultFalseFilter().filter(rst).size()) {
 
-                }else{
-                    
+                if (vizinhos.size() == new ValidacaoResultResultFalseFilter().filter(rst).size()) {
+                    return null;
+                } else {
+                    return null;
                 }
             } else {
                 // PortaPON OFF
                 //return ValidacaoFake();
                 return null;
             }
-            return null;
         } else {
-            throw new FuncIndisponivelDslamException();
+            return new ValidacaoFake(null, locale, "Não foi identificado falha massiva.", Boolean.TRUE);
         }
-        return new ValidacaoFake(nome, locale, "Não foi identificado falha massiva.", Boolean.TRUE);
     }
 
 }
