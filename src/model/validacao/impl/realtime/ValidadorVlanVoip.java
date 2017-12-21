@@ -7,7 +7,6 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.dslam.consulta.VlanVoip;
@@ -30,7 +29,7 @@ public class ValidadorVlanVoip extends Validador {
         if (getCust().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
             return new ValidacaoVlanVoip(consulta.getVlanVoip(cust.getRede()), cust, bundle.getLocale());
         } else {
-            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.");
+            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.", Boolean.TRUE);
         }
     }
 

@@ -588,5 +588,4 @@ public class ZhoneGponDslam extends DslamGpon {
     public PortaPON getPortaPON(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import model.validacao.filter.ValidacaoResultResultFalseFilter;
 import model.validacao.impl.both.Validacao;
+
 import model.validacao.impl.both.ValidacaoEstadoPortaOper;
 import model.validacao.impl.both.ValidacaoPortaPON;
 import model.validacao.impl.both.ValidacaoResult;
@@ -57,6 +58,7 @@ public class ValidadorVizinhanca extends ValidadorGpon {
         } else {
             throw new FuncIndisponivelDslamException();
         }
+        return new ValidacaoFake(nome, locale, "Não foi identificado falha massiva.", Boolean.TRUE);
     }
 
 }
