@@ -5,6 +5,8 @@
  */
 package dao;
 
+import dao.customer.NetworkInventoryDAO;
+import dao.customer.NetworkInventoryDAOImpl;
 import dao.fulltest.FulltestGenericDAO;
 import dao.log.LogCrmDAO;
 import dao.log.LogEntityDAO;
@@ -34,6 +36,10 @@ public class FactoryDAO {
 
     public static InterfaceDAO<FulltestGenericEntity> createFtDAO() {
         return new FulltestGenericDAO();
+    }
+    
+    public static NetworkInventoryDAO createNetworkInventoryDAO() {
+        return new NetworkInventoryDAOImpl();
     }
 
 }
