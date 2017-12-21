@@ -13,6 +13,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import util.GsonUtil;
 
 /**
  *
@@ -48,7 +49,7 @@ public class NetworkInventoryDAOImplIT {
             Integer qtde = 5;
             NetworkInventoryDAOImpl instance = new NetworkInventoryDAOImpl();
             result = instance.consultarVizinhos(ec, qtde);
-            System.out.println("end");
+            System.out.println(GsonUtil.serialize(result));
             assertTrue(!result.isEmpty());
         } catch (Exception e) {
             e.printStackTrace();

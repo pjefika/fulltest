@@ -6,6 +6,7 @@
 package dao.customer;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import java.util.List;
 
 /**
  *
@@ -13,33 +14,17 @@ import br.net.gvt.efika.customer.EfikaCustomer;
  */
 public class ClientesVizinhosResponse {
 
-    private EfikaCustomer ec;
-
-    private Integer qtde;
-
-    public ClientesVizinhosResponse(EfikaCustomer ec, Integer qtde) {
-        this.ec = ec;
-        this.qtde = qtde;
-    }
+    private List<EfikaCustomer> vizinhos;
 
     public ClientesVizinhosResponse() {
-        this.qtde = 5;
     }
 
-    public EfikaCustomer getEc() {
-        return ec;
+    public List<EfikaCustomer> getVizinhos() {
+        return vizinhos;
     }
 
-    public void setEc(EfikaCustomer ec) {
-        this.ec = ec;
-    }
-
-    public Integer getQtde() {
-        return qtde;
-    }
-
-    public void setQtde(Integer qtde) {
-        this.qtde = qtde;
+    public void setVizinhos(List<EfikaCustomer> vizinhos) {
+        this.vizinhos = vizinhos;
     }
 
 }

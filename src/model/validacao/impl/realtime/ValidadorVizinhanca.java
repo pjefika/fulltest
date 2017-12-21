@@ -6,13 +6,23 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import dao.FactoryDAO;
+import dao.customer.NetworkInventoryDAO;
+import dao.customer.NetworkInventoryDAOImpl;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import model.validacao.filter.ValidacaoResultResultFalseFilter;
 import model.validacao.impl.both.Validacao;
+import model.validacao.impl.both.ValidacaoEstadoPortaOper;
 import model.validacao.impl.both.ValidacaoPortaPON;
+import model.validacao.impl.both.ValidacaoResult;
 
 public class ValidadorVizinhanca extends ValidadorGpon {
+
+    private NetworkInventoryDAO dao = new NetworkInventoryDAOImpl();
 
     public ValidadorVizinhanca(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
@@ -21,7 +31,29 @@ public class ValidadorVizinhanca extends ValidadorGpon {
     @Override
     protected Validacao consultar() throws Exception {
         if (!consulta.getEstadoDaPorta(cust.getRede()).validar(cust)) {
-            return new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale());
+            if (new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale()).validar().getResultado()) {
+                // Validação Vizinhança
+                dao = FactoryDAO.createNetworkInventoryDAO();
+
+                List<ValidacaoResult> rst = new ArrayList<>();
+                List<EfikaCustomer> vizinhos = dao.consultarVizinhos(cust, 5);
+                vizinhos.forEach((t) -> {
+                    try {
+                        rst.add(new ValidacaoEstadoPortaOper(cg.getEstadoDaPorta(t.getRede()), bundle.getLocale()).validar());
+                    } catch (Exception e) {
+                    }
+                });
+                if (vizinhos.size() == new ValidacaoResultResultFalseFilter().filter(rst).size()) {
+
+                }else{
+                    
+                }
+            } else {
+                // PortaPON OFF
+                //return ValidacaoFake();
+                return null;
+            }
+            return null;
         } else {
             throw new FuncIndisponivelDslamException();
         }
