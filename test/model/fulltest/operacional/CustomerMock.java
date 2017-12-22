@@ -77,7 +77,7 @@ public class CustomerMock {
         try {
 
             HttpClient httpcliente = HttpClients.createDefault();
-            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI_qa/oss/");
+            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI/oss/");
 
             // Request parameters and other properties.
             StringEntity param = new StringEntity("{\"instancia\":  \"" + instancia + "\", \"executor\": \"teste\"}");

@@ -48,7 +48,7 @@ public class ValidadorVizinhancaIT {
     public void testValidar() {
         try {
             System.out.println("validar");
-            EfikaCustomer cust = CustomerMock.getCustomer("1138468335");
+            EfikaCustomer cust = CustomerMock.getCustomer("1532933532");
             AbstractDslam dslam = DslamDAOFactory.getInstance(cust.getRede());
             ValidadorVizinhanca instance = new ValidadorVizinhanca(dslam, cust, LocaleFactory.co());
             ValidacaoResult result = instance.validar();

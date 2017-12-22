@@ -46,11 +46,11 @@ public class ValidadorVizinhanca extends ValidadorGpon {
                 if (perc > 0.49) {
                     return new ValidacaoFake("Afetação Vizinhança", locale, "Não foi identificada falha massiva.", Boolean.TRUE);
                 } else {
-                    return new ValidacaoFake("Afetação Vizinhança", locale, "{{Orientação abertura massiva}}, vizinhança.", Boolean.FALSE);
+                    return new ValidacaoFake("Afetação Vizinhança", locale, "Identificada suspeita de massiva, favor transferir chamada ao CO utilizando o fluxo com o problema/sintoma informado pelo cliente.", Boolean.FALSE);
                 }
             } else {
                 // PortaPON OFF
-                return new ValidacaoFake("Afetação Vizinhança", locale, "{{Orientação abertura massiva}}, Porta PON.", Boolean.FALSE);
+                return new ValidacaoFake("Afetação Vizinhança", locale, "Identificada suspeita de massiva, favor transferir chamada ao CO utilizando o fluxo com o problema/sintoma informado pelo cliente.", Boolean.FALSE);
             }
         } else {
             return new ValidacaoFake("Afetação Vizinhança", locale, "Não foi identificada falha massiva.", Boolean.TRUE);
