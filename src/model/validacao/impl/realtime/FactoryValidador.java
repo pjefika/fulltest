@@ -41,10 +41,8 @@ public class FactoryValidador {
         Locale local = new Locale("crm", "CRM");
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+        bateria.add(new ValidadorVizinhanca(dslam, cust, local));
         bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
-
-        //bateria.add(new ValidadorVizinhanca(dslam, cust, local));
-
         bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
         bateria.add(new CorretorProfile(dslam, cust, local));
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
@@ -64,6 +62,7 @@ public class FactoryValidador {
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
 
         if (cust.getRede().getTipo() == TipoRede.GPON) {
+            bateria.add(new ValidadorVizinhanca(dslam, cust, local));
             bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
 //            bateria.add(new ValidadorReConexao(dslam, cust, local));
@@ -82,23 +81,23 @@ public class FactoryValidador {
 
         return bateria;
     }
-
-    public static List<Validator> link(AbstractDslam dslam, EfikaCustomer cust) {
-        List<Validator> bateria = new ArrayList<>();
-        Locale local = new Locale("co", "CO");
-        bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
-        bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
-        bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
-//        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
-        bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
-        bateria.add(new CorretorProfile(dslam, cust, local));
-        bateria.add(new CorretorVlanBanda(dslam, cust, local));
-        bateria.add(new CorretorVlanVoip(dslam, cust, local));
-        bateria.add(new CorretorVlanVod(dslam, cust, local));
-        bateria.add(new CorretorVlanMulticast(dslam, cust, local));
-        bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
-
-        return bateria;
-    }
+//
+//    public static List<Validator> link(AbstractDslam dslam, EfikaCustomer cust) {
+//        List<Validator> bateria = new ArrayList<>();
+//        Locale local = new Locale("co", "CO");
+//        bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
+//        bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
+//        bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+////        bateria.add(new ValidacaoRtAlarmes(dslam, cl));
+//        bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+//        bateria.add(new CorretorProfile(dslam, cust, local));
+//        bateria.add(new CorretorVlanBanda(dslam, cust, local));
+//        bateria.add(new CorretorVlanVoip(dslam, cust, local));
+//        bateria.add(new CorretorVlanVod(dslam, cust, local));
+//        bateria.add(new CorretorVlanMulticast(dslam, cust, local));
+//        bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
+//
+//        return bateria;
+//    }
 
 }
