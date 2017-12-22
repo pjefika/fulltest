@@ -25,7 +25,7 @@ public class NetworkInventoryDAOImpl extends GenericHttpDAO<List<EfikaCustomer>>
     public List<EfikaCustomer> consultarVizinhos(EfikaCustomer ec, Integer qtde) throws Exception {
 
         HttpClient httpcliente = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost("http://10.40.195.81:8080/networkInventoryAPI/networkInventoryGpon/vizinhos");
+        HttpPost httppost = new HttpPost("http://10.200.35.67:80/networkInventoryAPI/networkInventoryGpon/vizinhos");
 
         // Request parameters and other properties.
         StringEntity param = new StringEntity(new Gson().toJson(new ClientesVizinhosRequest(ec, qtde)));
