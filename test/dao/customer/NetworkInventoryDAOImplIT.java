@@ -45,7 +45,7 @@ public class NetworkInventoryDAOImplIT {
     public void testConsultarVizinhos() throws Exception {
         try {
             System.out.println("consultarVizinhos");
-            EfikaCustomer ec = CustomerMock.getCustomer("1121297095");
+            EfikaCustomer ec = CustomerMock.getCustomer("1138468335");
             Integer qtde = 5;
             NetworkInventoryDAOImpl instance = new NetworkInventoryDAOImpl();
             result = instance.consultarVizinhos(ec, qtde);

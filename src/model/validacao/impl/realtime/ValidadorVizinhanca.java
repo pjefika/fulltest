@@ -9,7 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.FactoryDAO;
 import dao.customer.NetworkInventoryDAO;
 import dao.customer.NetworkInventoryDAOImpl;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,6 @@ public class ValidadorVizinhanca extends ValidadorGpon {
             if (new ValidacaoPortaPON(cg.getPortaPON(cust.getRede()), cust, bundle.getLocale()).validar().getResultado()) {
                 // Validação Vizinhança
                 dao = FactoryDAO.createNetworkInventoryDAO();
-
                 List<ValidacaoResult> rst = new ArrayList<>();
                 List<EfikaCustomer> vizinhos = dao.consultarVizinhos(cust, 5);
                 vizinhos.forEach((t) -> {
@@ -44,19 +42,18 @@ public class ValidadorVizinhanca extends ValidadorGpon {
                     } catch (Exception e) {
                     }
                 });
-
-                if (vizinhos.size() == new ValidacaoResultResultFalseFilter().filter(rst).size()) {
-                    return null;
+                double perc = 1 - (double) (vizinhos.size() / new ValidacaoResultResultFalseFilter().filter(rst).size());
+                if (perc > 0.49) {
+                    return new ValidacaoFake("Afetação Vizinhança", locale, "Não foi identificada falha massiva.", Boolean.TRUE);
                 } else {
-                    return null;
+                    return new ValidacaoFake("Afetação Vizinhança", locale, "{{Orientação abertura massiva}}, vizinhança.", Boolean.FALSE);
                 }
             } else {
                 // PortaPON OFF
-                //return ValidacaoFake();
-                return null;
+                return new ValidacaoFake("Afetação Vizinhança", locale, "{{Orientação abertura massiva}}, Porta PON.", Boolean.FALSE);
             }
         } else {
-            return new ValidacaoFake(null, locale, "Não foi identificado falha massiva.", Boolean.TRUE);
+            return new ValidacaoFake("Afetação Vizinhança", locale, "Não foi identificada falha massiva.", Boolean.TRUE);
         }
     }
 
