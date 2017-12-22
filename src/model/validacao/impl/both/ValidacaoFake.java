@@ -11,9 +11,12 @@ public class ValidacaoFake extends Validacao {
 
     private String saida;
 
-    public ValidacaoFake(String nome, Locale local, String saida) {
+    private Boolean resultado;
+
+    public ValidacaoFake(String nome, Locale local, String saida, Boolean resultado) {
         super(nome, local);
         this.saida = saida;
+        this.resultado = resultado;
     }
 
     @Override
@@ -28,7 +31,7 @@ public class ValidacaoFake extends Validacao {
 
     @Override
     public Boolean checar() {
-        return true;
+        return this.resultado;
     }
 
     @Override

@@ -17,6 +17,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.velocidade.VelocidadeVendor;
@@ -39,7 +40,7 @@ public class Alcatel7302GponDslamVivo1IT {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1120280246");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1137221691");
     private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -383,6 +384,19 @@ public class Alcatel7302GponDslamVivo1IT {
         System.out.println("ComandosGenericos");
         //List<StatusSlot> result = instance.fazcomando(i);
         //System.out.println(GsonUtil.serialize(result));
+    }
+
+    @Test
+    public void testGetPortaPON() {
+        System.out.println("testGetPortaPON");
+        try {
+            PortaPON result = instance.getPortaPON(i);
+            System.out.println(GsonUtil.serialize(result.validar(cust)));
+            assertTrue(result.validar(null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
     }
 
 }

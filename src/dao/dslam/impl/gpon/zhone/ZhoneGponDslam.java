@@ -24,6 +24,7 @@ import model.dslam.consulta.VlanMulticast;
 import model.dslam.consulta.VlanVod;
 import model.dslam.consulta.VlanVoip;
 import model.dslam.consulta.gpon.AlarmesGpon;
+import model.dslam.consulta.gpon.PortaPON;
 import model.dslam.consulta.gpon.SerialOntGpon;
 import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
@@ -70,9 +71,9 @@ public class ZhoneGponDslam extends DslamGpon {
             leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
         }
         List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        
-        Double potOlt = pegaParams.size()<8 ? new Double(0) : new Double(pegaParams.get(5));
-        Double potOnt = pegaParams.size()<8 ? new Double(pegaParams.get(5)) : new Double(pegaParams.get(6));
+
+        Double potOlt = pegaParams.size() < 8 ? new Double(0) : new Double(pegaParams.get(5));
+        Double potOnt = pegaParams.size() < 8 ? new Double(pegaParams.get(5)) : new Double(pegaParams.get(6));
 
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(potOlt);
@@ -124,7 +125,7 @@ public class ZhoneGponDslam extends DslamGpon {
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
         List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
-        String operState = pegaOper!=null ? pegaOper.get(5) : "DOWN";
+        String operState = pegaOper != null ? pegaOper.get(5) : "DOWN";
 
         EstadoDaPorta estado = new EstadoDaPorta();
 
@@ -530,9 +531,11 @@ public class ZhoneGponDslam extends DslamGpon {
     protected ComandoDslam getComandoGetSlotsAvailableOnts0() {
         return new ComandoDslam("onu show");
     }
+
     protected ComandoDslam getComandoGetSlotsAvailableOnts1() {
         return new ComandoDslam("Y");
     }
+
     protected ComandoDslam getComandoGetSlotsAvailableOnts2() {
         return new ComandoDslam("A", 15000);
     }
@@ -558,7 +561,7 @@ public class ZhoneGponDslam extends DslamGpon {
         getCd().consulta(getComandoGetSlotsAvailableOnts1());
         Thread.sleep(5000);
         List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts2()).getRetorno();
-        
+
         List<String> leSerns = TratativaRetornoUtil.linhasAbaixo(leResp, "sernoID");
         List<String> serials = getSernum(leSerns);
         List<SerialOntGpon> leSerialOnt = new ArrayList<>();
@@ -578,6 +581,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public PortaPON getPortaPON(InventarioRede i) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

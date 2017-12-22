@@ -466,22 +466,37 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetDeviceMAC(i)).getRetorno();
-        String macValue = TratativaRetornoUtil.tratKeymile(retorno, "MacAddress");
+        getCd().consulta(getComandoGetDeviceMAC(i));
+        String macValue = "";
+        for (int j = 0; j < 5; j++) {
+            Thread.sleep(3000);
+            macValue = TratativaRetornoUtil.tratKeymile(getCd().consulta(getComandoGetDeviceMAC1(i)).getRetorno(), "MacAddress");
+            if(!macValue.contains("Parâmetro não encontrado")){
+                getCd().consulta(getComandoGetDeviceMAC2(i));
+                break;
+            }
+        }
+
         String comDoisPontos = "";
         try {
             comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
                     + ":" + macValue.substring(8, 10) + ":" + macValue.substring(10, 12);
         } catch (Exception e) {
         }
-
-        return new DeviceMAC(comDoisPontos);
+        String leMac = comDoisPontos.isEmpty() ? macValue : comDoisPontos;
+        return new DeviceMAC(leMac);
     }
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
-        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode floodingprevention", 10000,
-                "get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 1000,
-                "set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode none");
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode floodingprevention");
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC1(InventarioRede i) {
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 3000);
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC2(InventarioRede i) {
+        return new ComandoDslam("set /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1/cfgm/macsourcefilteringmode none");
     }
 
     protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
@@ -566,11 +581,11 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoGetSrvc(InventarioRede i, String intrf) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus",3000);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/status/ServiceStatus", 3000);
     }
 
     protected ComandoDslam getComandoGetSrvcStatus(InventarioRede i, Integer intrf) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode",3000);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-" + intrf + "/cfgm/macsourcefilteringmode", 3000);
     }
 
     protected ComandoDslam getProf(InventarioRede i) {

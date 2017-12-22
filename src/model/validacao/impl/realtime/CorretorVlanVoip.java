@@ -58,7 +58,7 @@ public class CorretorVlanVoip extends Corretor {
         if (getCust().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
             return new ValidacaoVlanVoip(consulta.getVlanVoip(cust.getRede()), cust, bundle.getLocale());
         } else {
-            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.");
+            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.",  Boolean.TRUE);
         }
     }
 }
