@@ -50,7 +50,7 @@ public class CustomerMock {
         r.setSlot(21);
         r.setPorta(1);
         r.setSequencial(2023);
-        r.setCvLan(2123);
+        r.setCvlan(2123);
         r.setLogica(23);
         r.setRin(111);
 
@@ -162,7 +162,7 @@ public class CustomerMock {
         r.setSlot(5);
         r.setPorta(2);
         r.setSequencial(135);
-        r.setCvLan(235);
+        r.setCvlan(235);
         r.setLogica(11);
         r.setRin(121);
 
@@ -230,7 +230,7 @@ public class CustomerMock {
         r.setSlot(15);
         r.setPorta(4);
         r.setLogica(2);
-        r.setCvLan(2382);
+        r.setCvlan(2382);
         r.setRin(407);
         r.setBhs(Boolean.TRUE);
 
@@ -269,7 +269,7 @@ public class CustomerMock {
         r.setSlot(12); // Slot
         r.setPorta(1); // Porta Pon
         r.setLogica(1); // Id cliente
-        r.setCvLan(373); // Vlan usuario
+        r.setCvlan(373); // Vlan usuario
         r.setRin(41); // Vlan Rede
 
         r.setVlanVoip(3008); // Vlan Voz
@@ -307,7 +307,7 @@ public class CustomerMock {
         r.setSlot(4);
         r.setPorta(4);
         r.setLogica(38);
-        r.setCvLan(2070);
+        r.setCvlan(2070);
         r.setRin(115);
         r.setBhs(Boolean.TRUE);
 

@@ -31,6 +31,6 @@ public class VlanBanda extends VlanAbstract {
         if(getCvlan()==null || getSvlan() == null){
             return false;
         }
-        return this.getSvlan().equals(e.getRede().getRin()) && this.getCvlan().equals(e.getRede().getCvLan()) && this.getState().equals(EnumEstadoVlan.UP);
+        return this.getSvlan().equals(e.getRede().getRin()) && this.getCvlan().equals(e.getRede().getCvlan()) && this.getState().equals(EnumEstadoVlan.UP);
     }
 }

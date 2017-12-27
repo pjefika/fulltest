@@ -57,7 +57,7 @@ public class Alcatel7342GponDslamVivo1IT {
         BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
 //        Security.addProvider(bouncyCastleProvider);
         Security.insertProviderAt(bouncyCastleProvider, 1);
-        cust = CustomerMock.getCustomer("1138589433");
+        cust = CustomerMock.getCustomer("1143622905");
         instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
         i = cust.getRede();
     }

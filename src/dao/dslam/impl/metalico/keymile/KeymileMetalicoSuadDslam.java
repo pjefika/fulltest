@@ -73,12 +73,12 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer sVlan = new Integer("0");
-        Integer cVlan = new Integer("0");
+        Integer Cvlan = new Integer("0");
         EnumEstadoVlan state;
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             sVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            cVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            Cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         if (statusVlan.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
@@ -88,7 +88,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
 
-        VlanBanda vlanBanda = new VlanBanda(cVlan, sVlan, state);
+        VlanBanda vlanBanda = new VlanBanda(Cvlan, sVlan, state);
 
         return vlanBanda;
     }
@@ -100,12 +100,12 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer sVlan = new Integer("0");
-        Integer cVlan = new Integer("0");
+        Integer Cvlan = new Integer("0");
         EnumEstadoVlan state;
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             sVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            cVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            Cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         if (statusVlan.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
@@ -114,7 +114,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        VlanVoip vlanVoip = new VlanVoip(cVlan, sVlan, state);
+        VlanVoip vlanVoip = new VlanVoip(Cvlan, sVlan, state);
 
         return vlanVoip;
     }
@@ -128,13 +128,13 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer sVlan = new Integer("0");
-        Integer cVlan = new Integer("0");
+        Integer Cvlan = new Integer("0");
         EnumEstadoVlan state;
 
         if (!leSrvc.contentEquals("no service connected")) {
             List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
             sVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
-            cVlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
+            Cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
         if (statusVlan.equalsIgnoreCase("None")) {
             state = EnumEstadoVlan.UP;
@@ -143,7 +143,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         } else {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
-        VlanVod vlanVod = new VlanVod(cVlan, sVlan, state);
+        VlanVod vlanVod = new VlanVod(Cvlan, sVlan, state);
         vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
         vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
 
@@ -445,17 +445,17 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1 " + i.getCvLan() + " cos0 " + i.getRin() + " cos0 add");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-1 " + i.getCvlan() + " cos0 " + i.getRin() + " cos0 add");
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-2 " + i.getCvLan() + " cos5 " + i.getVlanVoip() + " cos5 add");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-2 " + i.getCvlan() + " cos5 " + i.getVlanVoip() + " cos5 add");
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-3 " + i.getCvLan() + " cos3 " + i.getVlanVod() + " cos3 add");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/vcc-3 " + i.getCvlan() + " cos3 " + i.getVlanVod() + " cos3 add");
     }
 
     protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {

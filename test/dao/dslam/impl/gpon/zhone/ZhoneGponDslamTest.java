@@ -412,7 +412,7 @@ public class ZhoneGponDslamTest {
         System.out.println(ec.getRede().getSlot());
         System.out.println(ec.getRede().getPorta());
         System.out.println(ec.getRede().getLogica());
-        System.out.println(ec.getRede().getCvLan());
+        System.out.println(ec.getRede().getCvlan());
         System.out.println(ec.getServicos().getVelDown());
         System.out.println(ec.getServicos().getVelUp());
         Gson g = new Gson();

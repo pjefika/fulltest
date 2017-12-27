@@ -358,7 +358,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         }
         if (i.getBhs()) {
             return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvLan()
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvlan()
                     + " manage-mode omci\n"
                     + "\n"
                     + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
@@ -373,11 +373,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                     + "\n"
                     + "quit\n"
                     + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
-                    + " translate-and-add inner-vlan " + i.getCvLan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
+                    + " translate-and-add inner-vlan " + i.getCvlan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
         }
         return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
                 + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth \"" + i.getIdOnt() + "\" always-on"
-                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvLan() + "\" manage-mode omci\n"
+                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvlan() + "\" manage-mode omci\n"
                 + "\n"
                 + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
                 + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
@@ -396,9 +396,9 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                 + "\n"
                 + "quit\n"
                 + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
-                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvLan() + " inner-priority 0 inbound traffic-table"
+                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvlan() + " inner-priority 0 inbound traffic-table"
                 + " index 6 outbound traffic-table index 43\n"
-                + "stacking label service-port " + index + " " + i.getCvLan(), 15000);
+                + "stacking label service-port " + index + " " + i.getCvlan(), 15000);
     }
 
     @Override
