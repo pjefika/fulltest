@@ -8,7 +8,7 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.customer.InventarioServico;
-import br.net.gvt.efika.customer.OrigemPlanta;
+import br.net.gvt.efika.enums.OrigemPlanta;
 import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import com.google.gson.Gson;

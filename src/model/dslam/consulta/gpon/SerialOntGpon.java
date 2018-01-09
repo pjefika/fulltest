@@ -6,7 +6,7 @@
 package model.dslam.consulta.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.OrigemPlanta;
+import br.net.gvt.efika.enums.OrigemPlanta;
 import model.dslam.consulta.Validavel;
 
 /**
