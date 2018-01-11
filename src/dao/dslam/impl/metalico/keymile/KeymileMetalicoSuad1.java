@@ -6,14 +6,14 @@
 package dao.dslam.impl.metalico.keymile;
 
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.velocidade.Velocidades;
 
 /**
  *
  * @author G0041775
  */
-public class KeymileMetalicoSuad1 extends KeymileMetalicoSuadDslam{
+public class KeymileMetalicoSuad1 extends KeymileMetalicoSuadDslam {
 
     public KeymileMetalicoSuad1(String ipDslam) {
         super(ipDslam);
@@ -30,9 +30,8 @@ public class KeymileMetalicoSuad1 extends KeymileMetalicoSuadDslam{
         t.setVelSincUp(TratativaRetornoUtil.velocidadeMinima(v).get(1));
         t.setVelMaxDown(TratativaRetornoUtil.velocidadeMinima(v).get(2));
         t.setVelMaxUp(TratativaRetornoUtil.velocidadeMinima(v).get(3));
-        
+
         return t;
     }
 
-    
 }

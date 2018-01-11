@@ -6,9 +6,8 @@
 package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaLinha;
 import java.util.Locale;
-import model.dslam.consulta.VlanVoip;
+import telecom.properties.VlanVoip;
 
 /**
  *

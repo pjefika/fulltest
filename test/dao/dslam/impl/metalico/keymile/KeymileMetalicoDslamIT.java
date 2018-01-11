@@ -8,16 +8,16 @@ package dao.dslam.impl.metalico.keymile;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.ReConexao;
+import telecom.properties.metalico.TabelaRedeMetalico;
 import util.GsonUtil;
 
 /**

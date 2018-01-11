@@ -12,9 +12,6 @@ import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.dslam.velocidade.VelocidadesUtil;
 import model.manobra.asserts.impl.AssertAttainableDown;
 import model.manobra.asserts.impl.AssertAttainableUp;
 import model.manobra.asserts.impl.AssertHasSync;
@@ -35,6 +32,9 @@ import model.validacao.impl.metalico.manobra.ValidacaoPacotesUp;
 import model.validacao.impl.metalico.manobra.ValidacaoResync300;
 import model.validacao.impl.metalico.manobra.ValidacaoResync5;
 import model.validacao.impl.metalico.manobra.ValidacaoResync50;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaRedeMetalico;
+import telecom.velocidade.VelocidadesUtil;
 
 /**
  *
@@ -45,7 +45,7 @@ public class AssertsManobra extends AbstractAssertFacade {
     private final EfikaCustomer cust;
 
     private AbstractDslam dslam;
-    
+
     protected transient Locale local = new Locale("manobra", "CO");
 
     public AssertsManobra(EfikaCustomer cust) {

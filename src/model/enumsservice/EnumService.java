@@ -9,7 +9,7 @@ import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.velocidade.Velocidades;
+import telecom.velocidade.Velocidades;
 
 /**
  *

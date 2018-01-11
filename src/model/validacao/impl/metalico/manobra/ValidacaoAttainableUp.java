@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico.manobra;
 
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.validacao.impl.both.Validacao;
+import telecom.properties.ValidavelAbs;
+import telecom.properties.metalico.TabelaParametrosMetalico;
 
 /**
  *
@@ -16,7 +17,7 @@ import model.validacao.impl.both.Validacao;
 public class ValidacaoAttainableUp extends Validacao {
 
     private final TabelaParametrosMetalico tab;
-    
+
     private final TabelaParametrosMetalico ideal;
 
     public ValidacaoAttainableUp(TabelaParametrosMetalico tab, TabelaParametrosMetalico ideal, Locale local) {
@@ -24,13 +25,12 @@ public class ValidacaoAttainableUp extends Validacao {
         this.tab = tab;
         this.ideal = ideal;
     }
-    
+
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return tab;
     }
 
-   
     @Override
     public Boolean checar() {
         return tab.validarAttainableUp(ideal);

@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico.manobra;
 
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.validacao.impl.both.Validacao;
+import telecom.properties.ValidavelAbs;
+import telecom.properties.metalico.TabelaRedeMetalico;
 
 /**
  *
@@ -23,7 +24,7 @@ public class ValidacaoResync300 extends Validacao {
     }
     
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return tab;
     }
 

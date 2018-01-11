@@ -7,8 +7,8 @@ package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.validacao.impl.both.ValidacaoValidavel;
+import telecom.properties.metalico.TabelaRedeMetalico;
 
 /**
  *

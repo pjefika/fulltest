@@ -6,14 +6,15 @@
 package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Profile;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+
 
 /**
  *

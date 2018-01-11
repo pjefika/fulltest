@@ -9,10 +9,10 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.enums.TecnologiaLinha;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.consulta.VlanVoip;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoVlanVoip;
+import telecom.properties.VlanVoip;
 
 /**
  *

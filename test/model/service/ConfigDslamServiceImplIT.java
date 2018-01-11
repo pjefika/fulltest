@@ -12,15 +12,15 @@ import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import model.dslam.config.ConfiguracaoDSLAM;
+import fulltest.ValidacaoResult;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.impl.both.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import telecom.config.ConfiguracaoDSLAM;
 import util.GsonUtil;
 
 /**
@@ -68,7 +68,7 @@ public class ConfigDslamServiceImplIT {
         System.out.println("consultar");
         s.setTipoTv(TecnologiaTv.HIBRIDA);
         s.setTipoLinha(TecnologiaLinha.SIP);
-        
+
         try {
             System.out.println(GsonUtil.serialize(ec));
             ConfiguracaoDSLAM result = instance.consultar();
@@ -77,7 +77,6 @@ public class ConfigDslamServiceImplIT {
             e.printStackTrace();
         }
 
-        
     }
 
     /**

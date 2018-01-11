@@ -8,7 +8,7 @@ package model.validacao.impl.both;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import java.util.Locale;
-import model.dslam.consulta.VlanAbstract;
+import telecom.properties.VlanAbstract;
 
 /**
  *

@@ -6,7 +6,8 @@
 package model.validacao.impl.both;
 
 import java.util.Locale;
-import model.dslam.consulta.EstadoDaPorta;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ValidacaoEstadoPortaOper extends Validacao {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return ep;
     }
 

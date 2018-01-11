@@ -6,9 +6,9 @@
 package dao.dslam.impl.metalico.keymile;
 
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaParametrosMetalicoVdsl;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -57,6 +57,5 @@ public class KeymileMetalicoSuvd3 extends KeymileMetalicoSuvdDslam {
         }
 
     }
-
 
 }

@@ -10,17 +10,6 @@ import br.net.gvt.efika.customer.InventarioRede;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,6 +17,17 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Profile;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 import util.GsonUtil;
 
 /**
@@ -100,7 +100,7 @@ public class ZhoneGponDslamTest {
         System.out.println("getEstadoDaPorta");
         try {
             EstadoDaPorta result = instance.getEstadoDaPorta(i);
-            
+
             System.out.println(GsonUtil.serialize(result));
             assertTrue(result.getAdminState() != null);
         } catch (Exception e) {
@@ -397,7 +397,7 @@ public class ZhoneGponDslamTest {
     public void testUnsetOntFromOlt() throws Exception {
         System.out.println("unsetOntFromOlt");
         instance.unsetOntFromOlt(i);
-        
+
         System.out.println(GsonUtil.serialize(instance.getSerialOnt(i)));
         assertTrue(true);
     }

@@ -10,10 +10,10 @@ import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.consulta.VlanMulticast;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoVlanMulticast;
+import telecom.properties.VlanMulticast;
 
 /**
  *
@@ -62,7 +62,7 @@ public class CorretorVlanMulticast extends Corretor {
                 return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
             }
         } else {
-            return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV.",  Boolean.TRUE);
+            return new ValidacaoFake(new VlanMulticast().getNome(), this.locale, "Cliente sem TV.", Boolean.TRUE);
         }
 
     }

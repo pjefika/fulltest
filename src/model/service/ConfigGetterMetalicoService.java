@@ -5,14 +5,14 @@
  */
 package model.service;
 
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 
 /**
  *
  * @author G0041775
  */
-public interface ConfigGetterMetalicoService extends ConfigGetterService{
-    
+public interface ConfigGetterMetalicoService extends ConfigGetterService {
+
     public ValidacaoResult getterTabelaRede() throws Exception;
-    
+
 }

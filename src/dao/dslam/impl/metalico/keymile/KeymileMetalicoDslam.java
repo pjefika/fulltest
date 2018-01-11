@@ -14,13 +14,13 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.Modulacoes;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.ReConexao;
+import telecom.properties.metalico.TabelaRedeMetalico;
+import telecom.velocidade.Modulacoes;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *

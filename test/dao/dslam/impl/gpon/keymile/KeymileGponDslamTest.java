@@ -9,18 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
-import model.dslam.velocidade.VelocidadeVendor;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,6 +16,18 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
 import util.GsonUtil;
 
 /**
@@ -82,7 +82,7 @@ public class KeymileGponDslamTest {
     @Test
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
-        System.out.println(i.getSlot()+" "+i.getPorta());
+        System.out.println(i.getSlot() + " " + i.getPorta());
         try {
             SerialOntGpon result = instance.getSerialOnt(i);
             System.out.println(result.getSerial());
@@ -453,7 +453,7 @@ public class KeymileGponDslamTest {
     @Test
     public void testGetSlotsAvailableOnts() {
         System.out.println("getSlotsAvailableOnts");
-        
+
         try {
             List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
             for (SerialOntGpon serialOntGpon : result) {
@@ -465,13 +465,14 @@ public class KeymileGponDslamTest {
             fail();
         }
     }
+
     /**
      * Test of getEstadoPortasProximas method, of class KeymileGponDslam.
      */
     @Test
     public void testGetEstadoPortasProximas() {
         System.out.println("getSlotsAvailableOnts");
-        
+
         try {
             List<Porta> result = instance.getEstadoPortasProximas(i);
             for (Porta porta : result) {

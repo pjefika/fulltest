@@ -6,9 +6,9 @@
 package model.service;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.dslam.config.ConfiguracaoDSLAM;
-import model.dslam.config.ConfiguracaoOLT;
-import model.dslam.config.ConfiguracaoPorta;
+import telecom.config.ConfiguracaoDSLAM;
+import telecom.config.ConfiguracaoOLT;
+import telecom.config.ConfiguracaoPorta;
 
 /**
  *

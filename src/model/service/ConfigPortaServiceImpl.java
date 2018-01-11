@@ -14,20 +14,20 @@ import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
+import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.config.ConfiguracaoPorta;
-import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
-import model.dslam.velocidade.Velocidades;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
+import telecom.config.ConfiguracaoPorta;
+import telecom.config.ProfileGpon;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Profile;
+import telecom.velocidade.Velocidades;
 
 /**
  *

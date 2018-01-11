@@ -10,13 +10,8 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
+import fulltest.ValidacaoResult;
 import java.util.List;
-import model.dslam.config.ConfiguracaoOLT;
-import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -25,6 +20,11 @@ import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
+import telecom.config.ConfiguracaoOLT;
+import telecom.config.ProfileGpon;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.gpon.SerialOntGpon;
 
 public class ConfigOLTServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoOLT>, ConfigSetterGponService, ConfigGetterGponService {
 

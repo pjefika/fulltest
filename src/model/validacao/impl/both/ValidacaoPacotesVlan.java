@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import java.math.BigInteger;
 import java.util.Locale;
-import model.dslam.consulta.VlanAbstract;
+import telecom.properties.VlanAbstract;
 
 /**
  *

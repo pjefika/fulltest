@@ -7,8 +7,8 @@ package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.gpon.SerialOntGpon;
 import model.validacao.impl.both.ValidacaoValidavel;
+import telecom.properties.gpon.SerialOntGpon;
 
 /**
  *

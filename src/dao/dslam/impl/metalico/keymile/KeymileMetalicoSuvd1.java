@@ -9,10 +9,10 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.metalico.Modulacao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaParametrosMetalicoVdsl;
+import telecom.velocidade.Velocidades;
 
 /**
  *

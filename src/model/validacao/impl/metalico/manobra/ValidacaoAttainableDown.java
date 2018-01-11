@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico.manobra;
 
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.validacao.impl.both.Validacao;
+import telecom.properties.ValidavelAbs;
+import telecom.properties.metalico.TabelaParametrosMetalico;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ValidacaoAttainableDown extends Validacao {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return tab;
     }
 

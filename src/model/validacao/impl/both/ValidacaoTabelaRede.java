@@ -7,14 +7,14 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
+import telecom.properties.metalico.TabelaRedeMetalico;
 
 /**
  *
  * @author G0042204
  */
 public class ValidacaoTabelaRede extends ValidacaoValidavel {
-    
+
     private transient TabelaRedeMetalico tab;
 
     public ValidacaoTabelaRede(TabelaRedeMetalico tab, EfikaCustomer cust, Locale local) {
@@ -29,7 +29,7 @@ public class ValidacaoTabelaRede extends ValidacaoValidavel {
     @Override
     protected String fraseNegativa() {
         tab = (TabelaRedeMetalico) getObject();
-        if(!tab.isPctSuficiente()){
+        if (!tab.isPctSuficiente()) {
             return "Quantidade de pacotes insuficiente para determinar a confiabilidade da rede.";
         }
         return "Rede não confiável.";

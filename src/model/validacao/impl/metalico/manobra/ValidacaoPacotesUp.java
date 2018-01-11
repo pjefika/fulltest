@@ -6,8 +6,9 @@
 package model.validacao.impl.metalico.manobra;
 
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.validacao.impl.both.Validacao;
+import telecom.properties.ValidavelAbs;
+import telecom.properties.metalico.TabelaRedeMetalico;
 
 /**
  *
@@ -21,9 +22,9 @@ public class ValidacaoPacotesUp extends Validacao {
         super("Pacotes de UP > 4000?", local);
         this.tab = tab;
     }
-    
+
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return tab;
     }
 

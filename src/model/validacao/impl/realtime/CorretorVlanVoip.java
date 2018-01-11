@@ -10,10 +10,10 @@ import br.net.gvt.efika.enums.TecnologiaLinha;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.consulta.VlanVoip;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoVlanVoip;
+import telecom.properties.VlanVoip;
 
 /**
  *
@@ -58,7 +58,7 @@ public class CorretorVlanVoip extends Corretor {
         if (getCust().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
             return new ValidacaoVlanVoip(consulta.getVlanVoip(cust.getRede()), cust, bundle.getLocale());
         } else {
-            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.",  Boolean.TRUE);
+            return new ValidacaoFake(new VlanVoip().getNome(), this.locale, "Cliente sem VoIP.", Boolean.TRUE);
         }
     }
 }

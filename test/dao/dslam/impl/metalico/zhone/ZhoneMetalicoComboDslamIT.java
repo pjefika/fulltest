@@ -8,18 +8,6 @@ package dao.dslam.impl.metalico.zhone;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,6 +15,18 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Profile;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.metalico.Modulacao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaRedeMetalico;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 import util.GsonUtil;
 
 /**
@@ -402,7 +402,8 @@ public class ZhoneMetalicoComboDslamIT {
     }
 
     /**
-     * Test of obterVelocidadesUpVendor method, of class ZhoneMetalicoComboDslam.
+     * Test of obterVelocidadesUpVendor method, of class
+     * ZhoneMetalicoComboDslam.
      */
     @Test
     public void testObterVelocidadesUpVendor() {
@@ -416,7 +417,8 @@ public class ZhoneMetalicoComboDslamIT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class ZhoneMetalicoComboDslam.
+     * Test of obterVelocidadesDownVendor method, of class
+     * ZhoneMetalicoComboDslam.
      */
     @Test
     public void testObterVelocidadesDownVendor() {

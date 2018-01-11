@@ -11,9 +11,7 @@ import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import model.dslam.config.ConfiguracaoDSLAM;
-import model.dslam.config.ProfileConfig;
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorTabelaRede;
@@ -22,6 +20,8 @@ import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
+import telecom.config.ConfiguracaoDSLAM;
+import telecom.config.ProfileConfig;
 
 public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>,
         ConfigSetterMetalicoService,

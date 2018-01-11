@@ -11,11 +11,11 @@ import dao.dslam.impl.login.LoginDslamStrategy;
 import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.ReConexao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.velocidade.Velocidades;
 
 /**
  *

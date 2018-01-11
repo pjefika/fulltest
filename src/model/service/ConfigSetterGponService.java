@@ -5,9 +5,9 @@
  */
 package model.service;
 
+import fulltest.ValidacaoResult;
 import java.util.List;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.validacao.impl.both.ValidacaoResult;
+import telecom.properties.gpon.SerialOntGpon;
 
 /**
  *
@@ -16,7 +16,7 @@ import model.validacao.impl.both.ValidacaoResult;
 public interface ConfigSetterGponService {
 
     public List<SerialOntGpon> unsetterOntFromOlt() throws Exception;
-    
+
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception;
 
 }

@@ -8,7 +8,7 @@ package model.validacao.realtime.metalico;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.Locale;
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.Validator;
 import org.junit.After;

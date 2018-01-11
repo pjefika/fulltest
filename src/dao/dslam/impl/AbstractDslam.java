@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import model.dslam.config.VelocidadeViewModel;
-import model.dslam.config.velocidade.VelocidadeDTO;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.Modulacoes;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.config.VelocidadeViewModel;
+import telecom.config.velocidade.VelocidadeDTO;
+import telecom.velocidade.Modulacoes;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
