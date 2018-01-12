@@ -15,7 +15,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import util.GsonUtil;
+import util.JacksonMapper;
 
 /**
  *
@@ -51,7 +51,7 @@ public class FullTestGponTest {
 //        tests.add("5132242735");
         for (String test : tests) {
             try {
-                System.out.println(test + "->" + GsonUtil.serialize(CustomerMock.getCustomer(test)));
+//                System.out.println(test + "->" + GsonUtil.serialize(CustomerMock.getCustomer(test)));
             } catch (Exception e) {
                 System.out.println("Numtem -> " + test);
             }
@@ -61,7 +61,7 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
-        String testes = "4133335556\n";
+        String testes = "4130157784\n";
         String[] tests = testes.split("\\n");
         
         for (String test : tests) {
@@ -72,7 +72,7 @@ public class FullTestGponTest {
 
                 FullTest f = instance.executar(cust);
 
-                System.out.println(GsonUtil.serialize(f));
+                System.out.println(new JacksonMapper(FullTest.class).serialize(f));
                 System.out.println("_____________________________________________________________________\n\n");
             } catch (Exception e) {
                 e.printStackTrace();

@@ -30,6 +30,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import util.JacksonMapper;
 
 /**
  *
@@ -97,10 +98,10 @@ public class CustomerMock {
                 result.append(line);
             }
             instream.close();
-            Gson g = new Gson();
-            EfikaCustomer ec = g.fromJson(result.toString(), EfikaCustomer.class);
+            JacksonMapper<EfikaCustomer> mapper = new JacksonMapper(EfikaCustomer.class);
+            EfikaCustomer ec = (EfikaCustomer) mapper.deserialize(result.toString());
 
-            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1 || ec.getRede().getTipo()==null) {
+            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1 || ec.getRede().getTipo() == null) {
                 PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
                 cm.setMaxTotal(1);
                 cm.setDefaultMaxPerRoute(1);
@@ -120,14 +121,13 @@ public class CustomerMock {
                 HttpGet httpget = new HttpGet("http://10.40.195.81:8080/networkInventoryAPI/networkInventory/" + ec.getInstancia());
                 httpget.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
-                
+
                 if (response1.getStatusLine().getStatusCode() != 200) {
                     throw new Exception("Cadastro não encontrado na networkInventory");
                 }
-                
+
                 InputStream instream1 = response1.getEntity().getContent();
-                
-                
+
                 BufferedReader rd1 = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
                 StringBuffer result1 = new StringBuffer();
                 String line1 = "";
@@ -138,7 +138,7 @@ public class CustomerMock {
 
                 Gson g1 = new Gson();
 
-                EfikaCustomer ec1 = g1.fromJson(result1.toString(), EfikaCustomer.class);
+                EfikaCustomer ec1 = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(result1.toString());
                 ec.setRede(ec1.getRede());
 
             }
