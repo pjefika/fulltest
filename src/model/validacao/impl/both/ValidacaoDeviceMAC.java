@@ -24,7 +24,7 @@ public class ValidacaoDeviceMAC extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Mac identificado " + mac.getMac() + ".";
+        return "Mac identificado " + mac.getMac().toUpperCase() + ".";
     }
 
     @Override
