@@ -10,7 +10,6 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.credencial.Credencial;
@@ -253,8 +252,8 @@ public class KeymileGponDslam extends DslamGpon {
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
         try {
-            vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
-            vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+            vlanVod.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+            vlanVod.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         } catch (Exception e) {
         }
         return vlanVod;

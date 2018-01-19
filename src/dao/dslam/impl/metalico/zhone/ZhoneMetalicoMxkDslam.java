@@ -10,7 +10,6 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import telecom.properties.DeviceMAC;
@@ -69,11 +68,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
         tabRede = new TabelaRedeMetalico();
 
-        tabRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setResync(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
 
     }
 
@@ -115,8 +114,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
         vlanVod = new VlanVod(cvlanVod, svlanVod, EnumEstadoVlan.UP);
         try {
-            vlanVod.setPctDown(new BigInteger(leVodStatistics.get(8)));
-            vlanVod.setPctUp(new BigInteger(leVodStatistics.get(11)));
+            vlanVod.setPctDown(new Integer(leVodStatistics.get(8)));
+            vlanVod.setPctUp(new Integer(leVodStatistics.get(11)));
         } catch (Exception e) {
         }
     }
@@ -212,8 +211,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
         try {
-            vlanMult.setPctDown(new BigInteger(leMultStatistics.get(8)));
-            vlanMult.setPctUp(new BigInteger(leMultStatistics.get(11)));
+            vlanMult.setPctDown(new Integer(leMultStatistics.get(8)));
+            vlanMult.setPctUp(new Integer(leMultStatistics.get(11)));
             vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
         } catch (Exception e) {
         }

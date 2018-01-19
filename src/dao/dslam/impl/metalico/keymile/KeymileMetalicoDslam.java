@@ -11,7 +11,6 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.credencial.Credencial;
@@ -63,20 +62,24 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
         tabelaRede = new TabelaRedeMetalico();
 
-        tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
-        tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
-        tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
-        tabelaRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
-        tabelaRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
-        tabelaRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
-        tabelaRede.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
+        tabelaRede.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
+        tabelaRede.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
+        tabelaRede.setCrcDown(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
+        tabelaRede.setCrcUp(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
+        tabelaRede.setFecDown(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
+        tabelaRede.setFecUp(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
+        tabelaRede.setResync(new Integer(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
         String[] tempoContando = TratativaRetornoUtil.tratKeymile(lTabs, "Value", 2).replace("T", " ").split(" ");
-        BigInteger daysToSecs = new BigInteger(tempoContando[0]).multiply(BigInteger.valueOf(86400l));
+        Integer daysToSecs = new Integer(tempoContando[0]) * 86400;
         String[] separaTempo = tempoContando[1].split(":");
-        BigInteger hoursToSecs = new BigInteger(separaTempo[0]).multiply(BigInteger.valueOf(3600l));
-        BigInteger minutesToSecs = new BigInteger(separaTempo[1]).multiply(BigInteger.valueOf(60l));
-        BigInteger secs = new BigInteger(separaTempo[2]);
-        tabelaRede.setTempoMedicao(daysToSecs.add(hoursToSecs).add(minutesToSecs).add(secs));
+        Integer hoursToSecs = new Integer(separaTempo[0]) * 3600;
+        Integer minutesToSecs = new Integer(separaTempo[1]) * 60;
+        Integer secs = new Integer(separaTempo[2]);
+        
+        daysToSecs =+ hoursToSecs;
+        daysToSecs =+ minutesToSecs;
+        daysToSecs =+ secs;
+        tabelaRede.setTempoMedicao(daysToSecs);
 
         return tabelaRede;
     }
