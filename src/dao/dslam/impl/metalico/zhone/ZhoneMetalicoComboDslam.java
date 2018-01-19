@@ -10,7 +10,7 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
+
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import telecom.properties.DeviceMAC;
@@ -65,13 +65,13 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
 
         tabRede = new TabelaRedeMetalico();
-        tabRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
-        tabRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
-        tabRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tabRede.setFecDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setFecUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tabRede.setPctDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setResync(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
     }
 
     protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
@@ -135,8 +135,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         vlanVod = new VlanVod(cvlanVod, p100Vod, EnumEstadoVlan.UP);
         try {
-            vlanVod.setPctDown(new BigInteger(leVodStatistics.get(7)));
-            vlanVod.setPctUp(new BigInteger(leVodStatistics.get(10)));
+            vlanVod.setPctDown(new Integer(leVodStatistics.get(7)));
+            vlanVod.setPctUp(new Integer(leVodStatistics.get(10)));
         } catch (Exception e) {
         }
 
@@ -203,8 +203,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
         try {
-            vlanMult.setPctDown(new BigInteger(leMultStatistics.get(7)));
-            vlanMult.setPctUp(new BigInteger(leMultStatistics.get(10)));
+            vlanMult.setPctDown(new Integer(leMultStatistics.get(7)));
+            vlanMult.setPctUp(new Integer(leMultStatistics.get(10)));
             vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
         } catch (Exception e) {
         }

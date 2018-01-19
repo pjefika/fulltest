@@ -9,7 +9,6 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import telecom.properties.DeviceMAC;
@@ -144,8 +143,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             state = EnumEstadoVlan.FLOODINGPREVENTION;
         }
         VlanVod vlanVod = new VlanVod(Cvlan, sVlan, state);
-        vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
-        vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
+        vlanVod.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
+        vlanVod.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
 
         return vlanVod;
     }
@@ -174,8 +173,8 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
         }
 
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, state);
-        vlanMult.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
-        vlanMult.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
+        vlanMult.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 3)));
+        vlanMult.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaStatistics, "Value", 5)));
         vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
 
         return vlanMult;
