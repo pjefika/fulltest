@@ -359,11 +359,11 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             Thread.sleep(3000);
             macValue = TratativaRetornoUtil.tratKeymile(getCd().consulta(getComandoGetDeviceMAC1(i)).getRetorno(), "MacAddress");
             if (!macValue.contains("Parâmetro não encontrado")) {
-                getCd().consulta(getComandoGetDeviceMAC2(i));
+
                 break;
             }
         }
-
+        getCd().consulta(getComandoGetDeviceMAC2(i));
         String comDoisPontos = "";
         try {
             comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
@@ -379,7 +379,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
     }
 
     protected ComandoDslam getComandoGetDeviceMAC1(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist");
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/status/one2onemacforwardinglist", 3000);
     }
 
     protected ComandoDslam getComandoGetDeviceMAC2(InventarioRede i) {

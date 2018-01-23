@@ -471,11 +471,10 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             Thread.sleep(3000);
             macValue = TratativaRetornoUtil.tratKeymile(getCd().consulta(getComandoGetDeviceMAC1(i)).getRetorno(), "MacAddress");
             if (!macValue.contains("Parâmetro não encontrado")) {
-                getCd().consulta(getComandoGetDeviceMAC2(i));
                 break;
             }
         }
-
+        getCd().consulta(getComandoGetDeviceMAC2(i));
         String comDoisPontos = "";
         try {
             comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
