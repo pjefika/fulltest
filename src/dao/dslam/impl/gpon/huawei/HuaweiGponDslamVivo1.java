@@ -16,27 +16,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ProfileVivo1;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanBandaVivo1Huawei;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVodVivo1Huawei;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.VlanVoipVivo1Huawei;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.ServicePort;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.ProfileVivo1;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanBandaVivo1Huawei;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVodVivo1Huawei;
+import telecom.properties.VlanVoip;
+import telecom.properties.VlanVoipVivo1Huawei;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.ServicePort;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  * MA5600T
@@ -358,7 +358,7 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
         }
         if (i.getBhs()) {
             return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvLan()
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvlan()
                     + " manage-mode omci\n"
                     + "\n"
                     + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
@@ -373,11 +373,11 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                     + "\n"
                     + "quit\n"
                     + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
-                    + " translate-and-add inner-vlan " + i.getCvLan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
+                    + " translate-and-add inner-vlan " + i.getCvlan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
         }
         return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
                 + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth \"" + i.getIdOnt() + "\" always-on"
-                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvLan() + "\" manage-mode omci\n"
+                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvlan() + "\" manage-mode omci\n"
                 + "\n"
                 + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
                 + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
@@ -396,9 +396,9 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
                 + "\n"
                 + "quit\n"
                 + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
-                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvLan() + " inner-priority 0 inbound traffic-table"
+                + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvlan() + " inner-priority 0 inbound traffic-table"
                 + " index 6 outbound traffic-table index 43\n"
-                + "stacking label service-port " + index + " " + i.getCvLan(), 15000);
+                + "stacking label service-port " + index + " " + i.getCvlan(), 15000);
     }
 
     @Override

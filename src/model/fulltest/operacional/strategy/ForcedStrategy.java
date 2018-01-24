@@ -8,10 +8,10 @@ package model.fulltest.operacional.strategy;
 import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
+import fulltest.ValidacaoResult;
 import java.net.SocketException;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 
 /**

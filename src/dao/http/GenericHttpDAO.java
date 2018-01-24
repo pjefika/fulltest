@@ -5,12 +5,10 @@
  */
 package dao.http;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;

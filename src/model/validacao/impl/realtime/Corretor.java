@@ -11,8 +11,9 @@ import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
+import fulltest.ValidacaoResult;
 import java.util.Locale;
-import model.validacao.impl.both.ValidacaoResult;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -29,7 +30,7 @@ public abstract class Corretor extends Validador {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return validador.getObject();
     }
 
@@ -44,7 +45,7 @@ public abstract class Corretor extends Validador {
     }
 
     @Override
-    public ValidacaoResult validar() throws Exception{
+    public ValidacaoResult validar() throws Exception {
         try {
             iniciar();
             this.valid = consultar();
@@ -60,7 +61,7 @@ public abstract class Corretor extends Validador {
                 }
             }
         } catch (Exception ex) {
-            if(ex instanceof CorrecaoInterruptoraException){
+            if (ex instanceof CorrecaoInterruptoraException) {
                 throw ex;
             }
             ex.printStackTrace();

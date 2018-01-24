@@ -6,14 +6,13 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.consulta.VlanVod;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoVlanVod;
+import telecom.properties.VlanVod;
 
 /**
  *
@@ -31,10 +30,10 @@ public class ValidadorVlanVod extends Validador {
             if (getCust().getServicos().getTipoTv() != TecnologiaTv.DTH) {
                 return new ValidacaoVlanVod(consulta.getVlanVod(cust.getRede()), cust, bundle.getLocale());
             } else {
-                return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.",  Boolean.TRUE);
+                return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV Híbrida/IPTV.", Boolean.TRUE);
             }
         } else {
-            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV.",  Boolean.TRUE);
+            return new ValidacaoFake(new VlanVod().getNome(), this.locale, "Cliente sem TV.", Boolean.TRUE);
         }
     }
 }

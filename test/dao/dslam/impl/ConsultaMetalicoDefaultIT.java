@@ -9,15 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.metalico.DslamMetalico;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
-import model.dslam.velocidade.Velocidades;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,6 +16,15 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import telecom.properties.Profile;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.metalico.Modulacao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaRedeMetalico;
+import telecom.velocidade.Velocidades;
 
 /**
  *

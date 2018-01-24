@@ -7,7 +7,7 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.DeviceMAC;
+import telecom.properties.DeviceMAC;
 
 /**
  *
@@ -21,12 +21,10 @@ public class ValidacaoDeviceMAC extends ValidacaoValidavel {
         super(cust, mac, local);
         this.mac = mac;
     }
-    
-    
 
     @Override
     protected String frasePositiva() {
-        return "Mac identificado " + mac.getMac() + ".";
+        return "Mac identificado " + mac.getMac().toUpperCase() + ".";
     }
 
     @Override

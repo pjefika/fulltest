@@ -6,9 +6,9 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
+import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.List;
-import model.validacao.impl.both.ValidacaoResult;
 
 /**
  *

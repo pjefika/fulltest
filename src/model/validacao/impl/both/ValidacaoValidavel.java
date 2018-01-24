@@ -7,7 +7,8 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.Validavel;
+import telecom.properties.Validavel;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -28,8 +29,8 @@ public abstract class ValidacaoValidavel extends ValidacaoEfikaCustomer {
     }
 
     @Override
-    public Object getObject() {
-        return v;
+    public ValidavelAbs getObject() {
+        return (ValidavelAbs) v;
     }
 
 }

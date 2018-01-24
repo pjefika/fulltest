@@ -9,23 +9,22 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ProfileMetalico;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaParametrosMetalicoVdsl;
-import model.dslam.velocidade.Modulacoes;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.Profile;
+import telecom.properties.ProfileMetalico;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.metalico.Modulacao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaParametrosMetalicoVdsl;
+import telecom.velocidade.Modulacoes;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -213,8 +212,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         }
         VlanVod vlanVod = new VlanVod(cvlan, svlan, state);
         try {
-            vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
-            vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+            vlanVod.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+            vlanVod.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         } catch (Exception e) {
         }
 
@@ -247,8 +246,8 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         }
 
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, state);
-        vlanMult.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
-        vlanMult.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+        vlanMult.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+        vlanMult.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
         return vlanMult;
     }
@@ -471,12 +470,11 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         for (int j = 0; j < 5; j++) {
             Thread.sleep(3000);
             macValue = TratativaRetornoUtil.tratKeymile(getCd().consulta(getComandoGetDeviceMAC1(i)).getRetorno(), "MacAddress");
-            if(!macValue.contains("Parâmetro não encontrado")){
-                getCd().consulta(getComandoGetDeviceMAC2(i));
+            if (!macValue.contains("Parâmetro não encontrado")) {
                 break;
             }
         }
-
+        getCd().consulta(getComandoGetDeviceMAC2(i));
         String comDoisPontos = "";
         try {
             comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
@@ -506,12 +504,12 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod() + " cos5 swap");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-3 " + i.getCvlan() + " cos5 " + i.getVlanVod() + " cos5 swap");
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-2 " + i.getCvlan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
     }
 
     protected ComandoDslam getComandoDeleteMulticast(String srvc) {
@@ -524,7 +522,7 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1 " + i.getCvLan() + " cos0 " + i.getRin() + " cos0 swap");
+                "createservice /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/chan-1/interface-1 " + i.getCvlan() + " cos0 " + i.getRin() + " cos0 swap");
     }
 
     protected ComandoDslam getComandoDeleteVlan(String srvc) {

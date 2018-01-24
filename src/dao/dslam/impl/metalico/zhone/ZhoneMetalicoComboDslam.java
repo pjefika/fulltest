@@ -10,24 +10,24 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
+
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ProfileMetalico;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.consulta.metalico.TabelaParametrosMetalico;
-import model.dslam.consulta.metalico.TabelaRedeMetalico;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.Modulacoes;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Profile;
+import telecom.properties.ProfileMetalico;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.metalico.Modulacao;
+import telecom.properties.metalico.TabelaParametrosMetalico;
+import telecom.properties.metalico.TabelaRedeMetalico;
+import telecom.velocidade.Modulacoes;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -65,13 +65,13 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         tabParam.setAtnUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "AdslAtucCurrLineAtn", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 10);
 
         tabRede = new TabelaRedeMetalico();
-        tabRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
-        tabRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
-        tabRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tabRede.setFecDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setFecUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "FEC corrected errors on fast buffer", "-?(\\d+((\\.|,| )\\d+)?)", 2).get(0)));
+        tabRede.setPctDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setResync(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
     }
 
     protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
@@ -135,8 +135,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         vlanVod = new VlanVod(cvlanVod, p100Vod, EnumEstadoVlan.UP);
         try {
-            vlanVod.setPctDown(new BigInteger(leVodStatistics.get(7)));
-            vlanVod.setPctUp(new BigInteger(leVodStatistics.get(10)));
+            vlanVod.setPctDown(new Integer(leVodStatistics.get(7)));
+            vlanVod.setPctUp(new Integer(leVodStatistics.get(10)));
         } catch (Exception e) {
         }
 
@@ -203,8 +203,8 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
         try {
-            vlanMult.setPctDown(new BigInteger(leMultStatistics.get(7)));
-            vlanMult.setPctUp(new BigInteger(leMultStatistics.get(10)));
+            vlanMult.setPctDown(new Integer(leMultStatistics.get(7)));
+            vlanMult.setPctUp(new Integer(leMultStatistics.get(10)));
             vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
         } catch (Exception e) {
         }
@@ -328,7 +328,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35 td 20 downlink vlan " + i.getCvLan() + " slan " + i.getRin());
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35 td 20 downlink vlan " + i.getCvlan() + " slan " + i.getRin());
     }
 
     @Override
@@ -339,7 +339,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36 td 23 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " cos 5 outcosall 5 scos 5 soutcosall 5");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36 td 23 downlink vlan " + i.getCvlan() + " slan " + i.getVlanVoip() + " cos 5 outcosall 5 scos 5 soutcosall 5");
     }
 
     @Override
@@ -350,7 +350,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37 td 21 downlink vlan " + i.getCvLan() + " slan " + i.getVlanVod() + " cos 3 outcosall 3 scos 3 soutcosall 3");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37 td 21 downlink vlan " + i.getCvlan() + " slan " + i.getVlanVod() + " cos 3 outcosall 3 scos 3 soutcosall 3");
     }
 
     @Override

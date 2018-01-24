@@ -11,8 +11,8 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import model.dslam.consulta.DeviceMAC;
 import model.dslam.credencial.Credencial;
+import telecom.properties.DeviceMAC;
 
 /**
  *

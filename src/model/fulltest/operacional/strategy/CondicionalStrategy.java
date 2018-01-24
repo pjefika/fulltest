@@ -7,10 +7,10 @@ package model.fulltest.operacional.strategy;
 
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
+import fulltest.ValidacaoResult;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 
 /**

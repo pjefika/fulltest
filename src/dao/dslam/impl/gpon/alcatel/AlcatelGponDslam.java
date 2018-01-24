@@ -13,26 +13,26 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.SemGerenciaException;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -459,7 +459,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
-        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 tag single-tagged network-vlan stacked:" + i.getRin() + ":" + i.getCvLan() + " vlan-scope local");
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 600 tag single-tagged network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " vlan-scope local");
     }
 
     @Override
@@ -472,7 +472,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
-        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 tag single-tagged network-vlan stacked:" + i.getVlanVoip() + ":" + i.getCvLan() + " vlan-scope local qos profile:14");
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 tag single-tagged network-vlan stacked:" + i.getVlanVoip() + ":" + i.getCvlan() + " vlan-scope local qos profile:14");
     }
 
     @Override
@@ -485,7 +485,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
-        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 tag single-tagged network-vlan stacked:" + i.getVlanVod() + ":" + i.getCvLan() + " vlan-scope local qos profile:12");
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 tag single-tagged network-vlan stacked:" + i.getVlanVod() + ":" + i.getCvlan() + " vlan-scope local qos profile:12");
     }
 
     @Override

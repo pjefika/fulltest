@@ -7,7 +7,7 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.gpon.PortaPON;
+import telecom.properties.gpon.PortaPON;
 
 /**
  *

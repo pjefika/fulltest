@@ -9,6 +9,7 @@ import br.net.gvt.efika.customer.InventarioServico;
 import br.net.gvt.efika.enums.TecnologiaLinha;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -24,8 +25,8 @@ public class ValidacaoIsSip extends Validacao {
     }
 
     @Override
-    public Object getObject() {
-        return iS;
+    public ValidavelAbs getObject() {
+        return null;
     }
 
     @Override

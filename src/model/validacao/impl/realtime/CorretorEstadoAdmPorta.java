@@ -6,14 +6,15 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.factory.exception.CorrecaoInterruptoraException;
+import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaAdm;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.ValidavelAbs;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -28,7 +29,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return ep;
     }
 
@@ -38,7 +39,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
             ep.setAdminState(Boolean.TRUE);
             ValidacaoEstadoPortaAdm v;
             v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep), bundle.getLocale());
-            
+
             v.validar();
             this.setValid(v);
         } catch (Exception e) {

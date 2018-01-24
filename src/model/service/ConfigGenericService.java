@@ -10,8 +10,8 @@ import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.ConsultaClienteInter;
+import fulltest.ValidacaoResult;
 import java.util.Locale;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.Validator;
 
 /**

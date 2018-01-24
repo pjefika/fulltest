@@ -5,7 +5,8 @@
  */
 package model.validacao.impl.realtime;
 
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -15,6 +16,6 @@ public interface Validator {
 
     public ValidacaoResult validar() throws Exception;
 
-    public Object getObject();
+    public ValidavelAbs getObject();
 
 }

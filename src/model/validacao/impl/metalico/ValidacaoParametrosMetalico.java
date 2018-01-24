@@ -7,8 +7,9 @@ package model.validacao.impl.metalico;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.metalico.TabelaParametrosAbstract;
 import model.validacao.impl.both.ValidacaoEfikaCustomer;
+import telecom.properties.ValidavelAbs;
+import telecom.properties.metalico.TabelaParametrosAbstract;
 
 /**
  *
@@ -26,7 +27,7 @@ public class ValidacaoParametrosMetalico extends ValidacaoEfikaCustomer {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return tab;
     }
 

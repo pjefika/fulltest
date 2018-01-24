@@ -10,6 +10,7 @@ import dao.FactoryDAO;
 import dao.customer.NetworkInventoryDAO;
 import dao.customer.NetworkInventoryDAOImpl;
 import dao.dslam.impl.AbstractDslam;
+import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -18,7 +19,6 @@ import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaOper;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoPortaPON;
-import model.validacao.impl.both.ValidacaoResult;
 
 public class ValidadorVizinhanca extends ValidadorGpon {
 

@@ -8,15 +8,13 @@ package model.validacao.impl.realtime;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
-import java.util.Locale;
+import fulltest.ValidacaoResult;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.impl.both.Validacao;
-import model.validacao.impl.both.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.GsonUtil;
 import util.LocaleFactory;
 

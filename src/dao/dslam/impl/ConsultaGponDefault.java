@@ -7,11 +7,12 @@ package dao.dslam.impl;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import java.util.List;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
+import telecom.properties.Porta;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+
 
 /**
  *

@@ -6,7 +6,7 @@
 package model.service;
 
 import java.util.List;
-import model.dslam.consulta.Porta;
+import telecom.properties.Porta;
 
 /**
  *

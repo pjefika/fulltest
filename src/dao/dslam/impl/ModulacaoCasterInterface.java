@@ -5,15 +5,15 @@
  */
 package dao.dslam.impl;
 
-import model.dslam.consulta.metalico.Modulacao;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.metalico.Modulacao;
+import telecom.velocidade.Velocidades;
 
 /**
  *
  * @author G0041775
  */
 public interface ModulacaoCasterInterface {
- 
+
     public Modulacao castModulacao(Velocidades v);
-    
+
 }

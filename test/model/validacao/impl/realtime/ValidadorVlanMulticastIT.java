@@ -6,16 +6,15 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaTv;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import util.GsonUtil;
 
 /**

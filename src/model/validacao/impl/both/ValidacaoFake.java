@@ -6,6 +6,7 @@
 package model.validacao.impl.both;
 
 import java.util.Locale;
+import telecom.properties.ValidavelAbs;
 
 public class ValidacaoFake extends Validacao {
 
@@ -35,7 +36,7 @@ public class ValidacaoFake extends Validacao {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return null;
     }
 

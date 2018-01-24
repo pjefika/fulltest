@@ -9,10 +9,11 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
+import fulltest.ValidacaoResult;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import model.validacao.impl.both.Validacao;
-import model.validacao.impl.both.ValidacaoResult;
+import telecom.properties.ValidavelAbs;
 
 /**
  *
@@ -40,7 +41,7 @@ public abstract class Validador extends ValidFlow implements Validator {
     }
 
     @Override
-    public Object getObject() {
+    public ValidavelAbs getObject() {
         return valid.getObject();
     }
 

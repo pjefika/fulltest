@@ -7,9 +7,8 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.enums.TecnologiaTv;
-import java.math.BigInteger;
 import java.util.Locale;
-import model.dslam.consulta.VlanAbstract;
+import telecom.properties.VlanAbstract;
 
 /**
  *
@@ -25,8 +24,8 @@ public abstract class ValidacaoPacotesVlan extends ValidacaoValidavel {
     }
 
     public Boolean validarPacotes() {
-        return vlan.getPctDown().compareTo(BigInteger.ZERO) == 1
-                && vlan.getPctUp().compareTo(BigInteger.ZERO) == 1;
+        return vlan.getPctDown().compareTo(0) == 1
+                && vlan.getPctUp().compareTo(0) == 1;
     }
 
     @Override

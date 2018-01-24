@@ -10,7 +10,7 @@ import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 import model.validacao.impl.realtime.Corretor;
 import model.validacao.impl.realtime.CorretorVlanBanda;
 import org.junit.After;

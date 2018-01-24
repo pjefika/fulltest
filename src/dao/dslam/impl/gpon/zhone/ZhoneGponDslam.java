@@ -13,23 +13,23 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.MetodoNaoImplementadoException;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -139,7 +139,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaVlan(InventarioRede i) {
-        return new ComandoDslam("bridge show vlan " + i.getCvLan(), 5000);
+        return new ComandoDslam("bridge show vlan " + i.getCvlan(), 5000);
     }
 
     @Override
@@ -273,7 +273,7 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     public ComandoDslam getComandoConsultaProfileDown(InventarioRede i) {
-        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + i.getCvLan() + "-" + i.getRin() + "/bridge", 3000);
+        return new ComandoDslam("get bridge-interface-record 1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()) + "-gponport-" + i.getCvlan() + "-" + i.getRin() + "/bridge", 3000);
     }
 
     public ComandoDslam getComandoConsultaProfileUp(InventarioRede i) {
@@ -396,7 +396,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "/gponport "
-                + "gtp " + compare(up, false).getSintaxVel() + " downlink vlan " + i.getCvLan() + " slan " + i.getRin() + " stagged "
+                + "gtp " + compare(up, false).getSintaxVel() + " downlink vlan " + i.getCvlan() + " slan " + i.getRin() + " stagged "
                 + "epktrule " + compare(down, true).getSintaxVel(), 5000);
     }
 
@@ -412,7 +412,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVoip(InventarioRede i) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL700(i.getLogica()) + "/gponport gtp 2 "
-                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVoip() + " stagged cos 5 outcosall 5 "
+                + "downlink vlan " + i.getCvlan() + " slan " + i.getVlanVoip() + " stagged cos 5 outcosall 5 "
                 + "scos 5 soutcosall 5 epktrule 2", 3000);
     }
 
@@ -428,7 +428,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
         return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL900(i.getLogica()) + "/gponport gtp 1 "
-                + "downlink vlan " + i.getCvLan() + " slan " + i.getVlanVod() + " stagged cos 3 "
+                + "downlink vlan " + i.getCvlan() + " slan " + i.getVlanVod() + " stagged cos 3 "
                 + "outcosall 3 scos 3 soutcosall 3", 3000);
     }
 
@@ -502,7 +502,7 @@ public class ZhoneGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
         return new ComandoDslam("bridge modify 1-" + i.getSlot() + "-" + i.getPorta() + "-" + getL500(i.getLogica()) + "-gponport-"
-                + i.getCvLan() + "-" + i.getRin() + "/bridge epktrule " + compare(v, true).getSintaxVel(), 1500);
+                + i.getCvlan() + "-" + i.getRin() + "/bridge epktrule " + compare(v, true).getSintaxVel(), 1500);
     }
 
     @Override

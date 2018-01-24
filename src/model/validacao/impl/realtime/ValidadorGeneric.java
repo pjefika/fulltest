@@ -6,7 +6,7 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
-import model.validacao.impl.both.ValidacaoResult;
+import fulltest.ValidacaoResult;
 
 /**
  *
@@ -21,7 +21,7 @@ abstract class ValidadorGeneric extends ValidadorCustomer {
     protected abstract ValidacaoResult concluir();
 
     protected abstract String mensagemOk();
-    
+
     protected abstract String mensagemNok();
 
 }

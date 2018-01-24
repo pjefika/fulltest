@@ -7,7 +7,7 @@ package model.validacao.impl.both;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import java.util.Locale;
-import model.dslam.consulta.metalico.Modulacao;
+import telecom.properties.metalico.Modulacao;
 
 /**
  *

@@ -14,27 +14,27 @@ import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ProfileVivo1;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVodVivo1Alcatel;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.VlanVoipVivo1;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
 import org.w3c.dom.Document;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.ProfileVivo1;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVodVivo1Alcatel;
+import telecom.properties.VlanVoip;
+import telecom.properties.VlanVoipVivo1;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -367,7 +367,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
 
     protected ComandoDslam createComandosVlanBanda(InventarioRede i) {
         if (i.getBhs()) {
-            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvLan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvLan() + " in-qos-prof-name name:HSI\n"
+            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
@@ -377,9 +377,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvLan() + " tag single-tagged qos profile:20");
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " tag single-tagged qos profile:20");
         } else {
-            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvLan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvLan() + " in-qos-prof-name name:HSI\n"
+            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO  desc1 " + i.getTerminal() + "\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
@@ -388,8 +388,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:43\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:43\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id stacked:" + i.getRin() + ":" + i.getCvLan() + "\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvLan());
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id stacked:" + i.getRin() + ":" + i.getCvlan() + "\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvlan());
         }
     }
 

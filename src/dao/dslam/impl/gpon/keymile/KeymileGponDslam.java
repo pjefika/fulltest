@@ -6,31 +6,29 @@
 package dao.dslam.impl.gpon.keymile;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import model.dslam.consulta.DeviceMAC;
-import model.dslam.consulta.EnumEstadoVlan;
-import model.dslam.consulta.EstadoDaPorta;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.Profile;
-import model.dslam.consulta.ReConexao;
-import model.dslam.consulta.VlanBanda;
-import model.dslam.consulta.VlanMulticast;
-import model.dslam.consulta.VlanVod;
-import model.dslam.consulta.VlanVoip;
-import model.dslam.consulta.gpon.AlarmesGpon;
-import model.dslam.consulta.gpon.PortaPON;
-import model.dslam.consulta.gpon.SerialOntGpon;
-import model.dslam.consulta.gpon.TabelaParametrosGpon;
 import model.dslam.credencial.Credencial;
-import model.dslam.velocidade.VelocidadeVendor;
-import model.dslam.velocidade.Velocidades;
+import telecom.properties.DeviceMAC;
+import telecom.properties.EnumEstadoVlan;
+import telecom.properties.EstadoDaPorta;
+import telecom.properties.Porta;
+import telecom.properties.Profile;
+import telecom.properties.ReConexao;
+import telecom.properties.VlanBanda;
+import telecom.properties.VlanMulticast;
+import telecom.properties.VlanVod;
+import telecom.properties.VlanVoip;
+import telecom.properties.gpon.AlarmesGpon;
+import telecom.properties.gpon.PortaPON;
+import telecom.properties.gpon.SerialOntGpon;
+import telecom.properties.gpon.TabelaParametrosGpon;
+import telecom.velocidade.VelocidadeVendor;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -223,7 +221,7 @@ public class KeymileGponDslam extends DslamGpon {
     protected ComandoDslam getComandoConsultaStatusVlanMulticast(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/cfgm/macsourcefilteringmode");
     }
-    
+
     protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3/pm/usercountertable");
     }
@@ -254,8 +252,8 @@ public class KeymileGponDslam extends DslamGpon {
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
         try {
-            vlanVod.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
-            vlanVod.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
+            vlanVod.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
+            vlanVod.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         } catch (Exception e) {
         }
         return vlanVod;
@@ -264,11 +262,11 @@ public class KeymileGponDslam extends DslamGpon {
     protected ComandoDslam getComandoConsultaVlanMulticast1(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/status/ServiceStatus");
     }
-    
+
     protected ComandoDslam getComandoGetIpIgmp() {
         return new ComandoDslam("get /multicast/cfgm/LocalIPAddressForIGMPGeneration");
     }
-    
+
     protected ComandoDslam getComandoGetMulticastStatistics(InventarioRede i) {
         return new ComandoDslam("get /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-4/pm/usercountertable");
     }
@@ -440,7 +438,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1 " + i.getCvLan() + " cos0 " + i.getRin() + " cos0 swap");
+                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-1 " + i.getCvlan() + " cos0 " + i.getRin() + " cos0 swap");
     }
 
     @Override
@@ -458,7 +456,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2 " + i.getCvLan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
+                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-2 " + i.getCvlan() + " cos3 " + i.getVlanVoip() + " cos3 swap");
     }
 
     @Override
@@ -473,7 +471,7 @@ public class KeymileGponDslam extends DslamGpon {
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
         return new ComandoDslam("cd /services/packet/1to1doubletag/cfgm", 1000,
-                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3 " + i.getCvLan() + " cos5 " + i.getVlanVod() + " cos5 swap");
+                "createservice /unit-" + i.getSlot() + "/odn-" + i.getPorta() + "/ont-" + i.getLogica() + "/port-1/interface-3 " + i.getCvlan() + " cos5 " + i.getVlanVod() + " cos5 swap");
     }
 
     @Override

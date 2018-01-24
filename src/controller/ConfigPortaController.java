@@ -6,8 +6,8 @@
 package controller;
 
 import controller.in.ConsultaConfigPortaIn;
-import controller.in.GetEstadoPortasProximasIn;
 import controller.in.GetConfiabilidadeRedeIn;
+import controller.in.GetEstadoPortasProximasIn;
 import controller.in.ResetIptvStatisticsIn;
 import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
@@ -19,6 +19,7 @@ import controller.in.SetVlanVodIn;
 import controller.in.SetVlanVoipIn;
 import controller.in.UnsetOntFromOltIn;
 import dao.FactoryDAO;
+import fulltest.ValidacaoResult;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -26,10 +27,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import model.dslam.config.ConfiguracaoPorta;
-import model.dslam.config.ProfileGpon;
-import model.dslam.consulta.Porta;
-import model.dslam.consulta.gpon.SerialOntGpon;
 import model.entity.LogEntity;
 import model.service.ConfigGetterGponService;
 import model.service.ConfigGetterMetalicoService;
@@ -37,7 +34,10 @@ import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
 import model.service.FactoryService;
-import model.validacao.impl.both.ValidacaoResult;
+import telecom.config.ConfiguracaoPorta;
+import telecom.config.ProfileGpon;
+import telecom.properties.Porta;
+import telecom.properties.gpon.SerialOntGpon;
 
 /**
  *

@@ -8,10 +8,10 @@ package model.validacao.impl.realtime.metalico;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
-import model.dslam.velocidade.Velocidades;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.metalico.ValidacaoParametrosMetalico;
 import model.validacao.impl.realtime.ValidadorMetalico;
+import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -25,8 +25,8 @@ public class ValidadorParametrosMetalico extends ValidadorMetalico {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidacaoParametrosMetalico(metalico.getTabelaParametros(cust.getRede()), 
-                metalico.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown())), 
+        return new ValidacaoParametrosMetalico(metalico.getTabelaParametros(cust.getRede()),
+                metalico.getTabelaParametrosIdeal(Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown())),
                 cust, bundle.getLocale());
     }
 

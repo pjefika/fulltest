@@ -8,6 +8,7 @@ package model.fulltest.operacional.facade;
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
+import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -15,7 +16,6 @@ import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
-import model.validacao.impl.both.ValidacaoResult;
 import model.validacao.impl.realtime.FactoryValidador;
 import model.validacao.impl.realtime.Validator;
 
