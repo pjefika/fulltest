@@ -10,6 +10,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import telecom.properties.DeviceMAC;
@@ -27,7 +28,6 @@ import telecom.properties.metalico.TabelaRedeMetalico;
 import telecom.velocidade.Modulacoes;
 import telecom.velocidade.VelocidadeVendor;
 import telecom.velocidade.Velocidades;
-
 
 /**
  *
@@ -68,11 +68,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
         tabRede = new TabelaRedeMetalico();
 
-        tabRede.setCrcDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setCrcUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setResync(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctDown(new Integer(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
-        tabRede.setPctUp(new Integer(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "In Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
+        tabRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Out Pkts/Cells/Frags", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
 
     }
 
@@ -216,12 +216,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             vlanMult.setIpIgmp(lePegaIpIgmp.get(0));
         } catch (Exception e) {
         }
-        
+
         return vlanMult;
     }
 
     protected ComandoDslam getComandoGetVodStatistics(InventarioRede i) {
-        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvlan()+"/bridge");
+        return new ComandoDslam("bridge stats 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-" + i.getCvlan() + "/bridge");
     }
 
     protected ComandoDslam getComandoGetMulticastStatistics(InventarioRede i) {
@@ -229,7 +229,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoResetVodtatistics(InventarioRede i) {
-        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-"+i.getCvlan()+"/bridge");
+        return new ComandoDslam("bridge stats clear 1-" + i.getSlot() + "-" + i.getPorta() + "-0-vdsl-0-37-" + i.getCvlan() + "/bridge");
     }
 
     protected ComandoDslam getComandoResetMultitatistics(InventarioRede i) {
