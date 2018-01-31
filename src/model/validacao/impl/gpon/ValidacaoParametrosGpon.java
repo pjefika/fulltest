@@ -25,12 +25,12 @@ public class ValidacaoParametrosGpon extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Parâmetros dentro do padrão (entre -8 e -30).";
+        return "Parâmetros dentro do padrão (entre -8 e -28).";
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Parâmetros fora do padrão (entre -8 e -30). Pot. OLT: " + t.getPotOlt() + ". "
+        return "Parâmetros fora do padrão (entre -8 e -28). Pot. OLT: " + t.getPotOlt() + ". "
                 + "Pot. ONT: " + t.getPotOnt() + ". Seguir o fluxo com o problema/sintoma informado pelo cliente.";
     }
 
