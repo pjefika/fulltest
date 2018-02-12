@@ -26,7 +26,7 @@
     </dependencyManagement>
 
     <build>
-        <finalName>customerAPI</finalName>
+        <finalName>fulltestAPI</finalName>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
