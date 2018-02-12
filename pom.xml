@@ -26,6 +26,7 @@
     </dependencyManagement>
 
     <build>
+        <finalName>customerAPI</finalName>
         <plugins>
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
@@ -36,12 +37,15 @@
                         <goals>
                             <goal>package</goal>
                         </goals>
-<!--                        <configuration>
-                            
-                        </configuration>-->
                     </execution>
                     
                 </executions>
+                
+                <configuration>
+                    <properties>
+                        <swarm.http.port>7172</swarm.http.port>
+                    </properties>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
