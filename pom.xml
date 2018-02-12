@@ -101,8 +101,8 @@
         <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15 -->
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15</artifactId>
-            <version>1.46</version>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.59</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mongodb.morphia/morphia -->
         <dependency>
