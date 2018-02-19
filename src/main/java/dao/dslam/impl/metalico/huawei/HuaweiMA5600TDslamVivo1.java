@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.dslam.impl.gpon.huawei;
+package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
@@ -43,7 +43,7 @@ import telecom.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public class HuaweiGponDslamVivo1 extends DslamVivo1 {
+public class HuaweiMA5600TDslamVivo1 extends DslamVivo1 {
 
     private transient ServicePort spBanda;
     private transient ServicePort spVoip;
@@ -52,18 +52,19 @@ public class HuaweiGponDslamVivo1 extends DslamVivo1 {
     private transient SerialOntGpon serial;
     private Integer gemportBanda, gemportIptv, gemportVoip;
 
-    public HuaweiGponDslamVivo1(String ipDslam) {
+    public HuaweiMA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
     }
 
     @Override
     public void conectar() throws Exception {
         super.conectar();
+        this.getCd().consulta(this.getComandoEnableConfig());
     }
-
+    
     @Override
     public void enableCommandsInDslam() throws Exception {
-        this.getCd().consulta(this.getComandoEnableConfig());
+        
     }
 
     protected ComandoDslam getComandoEnableConfig() {

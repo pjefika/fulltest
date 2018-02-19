@@ -35,7 +35,6 @@ import telecom.properties.gpon.TabelaParametrosGpon;
 import telecom.velocidade.VelocidadeVendor;
 import telecom.velocidade.Velocidades;
 
-
 /**
  *
  * @author G0041775
@@ -53,6 +52,10 @@ public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
     @Override
     public void conectar() throws Exception {
         super.conectar();
+    }
+
+    @Override
+    public void enableCommandsInDslam() throws Exception {
         getCd().consulta(this.getComandoPrepareEnvironment());
     }
 

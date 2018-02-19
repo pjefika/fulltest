@@ -50,6 +50,10 @@ public class Alcatel7302GponDslamVivo1 extends DslamVivo1 {
     @Override
     public void conectar() throws Exception {
         super.conectar();
+    }
+
+    @Override
+    public void enableCommandsInDslam() throws Exception {
         if (this.getCd().consulta(this.getComandoEnableConfig()).getBlob().contains("Login incorrect")) {
             throw new FalhaLoginDslamException("Credenciais incorretas");
         }

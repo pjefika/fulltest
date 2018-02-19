@@ -47,7 +47,10 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public void conectar() throws Exception {
         super.conectar();
+    }
 
+    @Override
+    public void enableCommandsInDslam() throws Exception {
         if (this.getCd().consulta(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")) {
             throw new SemGerenciaException();
         }

@@ -41,6 +41,11 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
 
     public void conectar() throws Exception {
         this.loginStrategy.conectar(this.getCd());
+        this.enableCommandsInDslam();
+    }
+
+    public void enableCommandsInDslam() throws Exception {
+
     }
 
     @Override

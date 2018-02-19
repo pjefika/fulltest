@@ -7,6 +7,7 @@ package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.util.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -39,7 +40,7 @@ public class Alcatel7302GponDslamVivo1IT {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1137221691");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1732270283");
     private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -91,7 +92,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        //System.out.println(GsonUtil.serialize(result));
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
         assertTrue(result.validar(cust));
     }
 

@@ -11,6 +11,8 @@ import br.net.gvt.efika.customer.InventarioServico;
 import br.net.gvt.efika.enums.OrigemPlanta;
 import br.net.gvt.efika.enums.TecnologiaLinha;
 import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.util.dao.http.HttpDAO;
+import br.net.gvt.efika.util.dao.http.HttpDAOGenericImpl;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -73,75 +75,47 @@ public class CustomerMock {
         return s;
     }
 
+    public static class CustomerRequest {
+
+        private String executor;
+
+        private String parameter;
+
+        public CustomerRequest() {
+        }
+
+        public CustomerRequest(String instancia) {
+            this.parameter = instancia;
+            this.executor = "TESTE";
+        }
+
+        public String getExecutor() {
+            return executor;
+        }
+
+        public void setExecutor(String executor) {
+            this.executor = executor;
+        }
+
+        public String getParameter() {
+            return parameter;
+        }
+
+        public void setParameter(String parameter) {
+            this.parameter = parameter;
+        }
+    };
+
     public static EfikaCustomer getCustomer(String instancia) {
         try {
 
-            HttpClient httpcliente = HttpClients.createDefault();
-            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI/oss/");
+            HttpDAO dao = new HttpDAOGenericImpl<EfikaCustomer>(EfikaCustomer.class) {
+            };
 
-            // Request parameters and other properties.
-            StringEntity param = new StringEntity("{\"instancia\":  \"" + instancia + "\", \"executor\": \"teste\"}");
-            httppost.addHeader("content-type", "application/json");
-            httppost.setEntity(param);
+            CustomerRequest req = new CustomerRequest(instancia);
 
-            //Execute and get the response.
-            HttpResponse response = httpcliente.execute(httppost);
-            HttpEntity entity = response.getEntity();
-
-            InputStream instream = entity.getContent();
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            instream.close();
-            JacksonMapper<EfikaCustomer> mapper = new JacksonMapper(EfikaCustomer.class);
-            EfikaCustomer ec = (EfikaCustomer) mapper.deserialize(result.toString());
-
-            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1 || ec.getRede().getTipo() == null) {
-                PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-                cm.setMaxTotal(1);
-                cm.setDefaultMaxPerRoute(1);
-                HttpHost ip = new HttpHost("10.40.195.81", 8080);
-                cm.setMaxPerRoute(new HttpRoute(ip), 50);
-
-                // Cookies
-                RequestConfig globalConfig = RequestConfig.custom()
-                        .setCookieSpec(CookieSpecs.DEFAULT)
-                        .build();
-
-                CloseableHttpClient httpclient = HttpClients.custom()
-                        .setConnectionManager(cm)
-                        .setDefaultRequestConfig(globalConfig)
-                        .build();
-
-                HttpGet httpget = new HttpGet("http://10.40.195.81:8080/networkInventoryAPI/networkInventory/" + ec.getInstancia());
-                httpget.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-                if (response1.getStatusLine().getStatusCode() != 200) {
-                    throw new Exception("Cadastro não encontrado na networkInventory");
-                }
-
-                InputStream instream1 = response1.getEntity().getContent();
-
-                BufferedReader rd1 = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
-                StringBuffer result1 = new StringBuffer();
-                String line1 = "";
-                while ((line1 = rd1.readLine()) != null) {
-                    result1.append(line1);
-                }
-                instream1.close();
-
-//                Gson g1 = new Gson();
-//
-//                EfikaCustomer ec1 = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(result1.toString());
-//                ec.setRede(ec1.getRede());
-
-            }
-
+            EfikaCustomer ec = (EfikaCustomer) dao.post("http://10.40.198.168:7171/customerAPI/customer/findByParameter",
+                    req);
 
             return ec;
         } catch (Exception e) {
