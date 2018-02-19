@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
+import dao.dslam.factory.exception.FalhaAoIdentificarPlacaException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJump;
@@ -32,6 +33,8 @@ import telecom.velocidade.Velocidades;
  */
 public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
+    private HuaweiMA5600TDslamVivo1 itself;
+
     public HuaweiMA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJump());
     }
@@ -44,9 +47,24 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public void enableCommandsInDslam() throws Exception {
         getCd().consulta(getComandoEnableConfig());
-        if(getCd().consulta(getComandoSmartAlarmOutput()).getBlob().contains("please retry to log on")){
+        if (getCd().consulta(getComandoSmartAlarmOutput()).getBlob().contains("please retry to log on")) {
             throw new FalhaLoginDslamException();
         }
+
+    }
+
+    protected void checkPlaca() throws Exception {
+        if (itself == null) {
+            if (getCd().consulta(getComandoGetTipoPlaca()).getBlob().contains("VD")) {
+                itself = new HuaweiMA5600V(getIpDslam());
+            } else {
+                itself = new HuaweiMA5600A(getIpDslam());
+            }
+        }
+    }
+
+    protected ComandoDslam getComandoGetTipoPlaca() {
+        return new ComandoDslam("display board 0/0",2000);
     }
 
     protected ComandoDslam getComandoEnableConfig() {
@@ -67,9 +85,17 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("");
+    }
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca();
+        getCd().consulta(itself.getComandoGetEstadoDaPorta(i)).getRetorno().forEach((t) -> {
+            System.out.println("lele->"+t);
+        });
+        return null;
     }
 
     @Override

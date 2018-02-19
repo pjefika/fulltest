@@ -7,6 +7,7 @@ package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.util.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -66,17 +67,6 @@ public class HuaweiMA5600TDslamVivo1IT {
         instance.conectar();
     }
 
-    /**
-     * Test of enableCommandsInDslam method, of class HuaweiMA5600TDslamVivo1.
-     */
-    @Test
-    public void testEnableCommandsInDslam() throws Exception {
-        System.out.println("enableCommandsInDslam");
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.enableCommandsInDslam();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of obterVelocidadesDownVendor method, of class
@@ -114,13 +104,8 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
     /**
