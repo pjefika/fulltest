@@ -44,7 +44,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
         this.enableCommandsInDslam();
     }
 
-    public void enableCommandsInDslam() throws Exception {
+    protected void enableCommandsInDslam() throws Exception {
 
     }
 

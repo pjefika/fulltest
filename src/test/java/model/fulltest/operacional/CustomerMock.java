@@ -303,4 +303,40 @@ public class CustomerMock {
         return c;
     }
 
+    public static EfikaCustomer metalicoHuawei5600t() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1120414633");
+        r.setIpDslam("10.58.150.74");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+
+        r.setSlot(15);
+        r.setPorta(3);
+//        r.setLogica(38);
+        r.setCvlan(951);
+        r.setRin(103);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2048l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
 }

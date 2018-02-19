@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.gpon.DslamVivo1;
+import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ import telecom.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public class HuaweiGponDslamVivo1 extends DslamVivo1 {
+public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     private transient ServicePort spBanda;
     private transient ServicePort spVoip;

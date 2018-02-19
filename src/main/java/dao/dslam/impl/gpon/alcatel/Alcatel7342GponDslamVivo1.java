@@ -9,7 +9,7 @@ import br.net.gvt.efika.customer.InventarioRede;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.gpon.DslamVivo1;
+import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.Login1023ComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import telecom.velocidade.Velocidades;
  *
  * @author G0041775
  */
-public class Alcatel7342GponDslamVivo1 extends DslamVivo1 {
+public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     public Alcatel7342GponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.ALCATEL7342, new Login1023ComJump());
