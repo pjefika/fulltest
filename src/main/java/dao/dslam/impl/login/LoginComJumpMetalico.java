@@ -16,13 +16,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.security.Security;
 import java.util.Properties;
+import model.dslam.credencial.Credencial;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public class LoginComJump implements LoginDslamStrategy {
+public class LoginComJumpMetalico implements LoginDslamStrategy {
 
     private JSch jsch;
     private Session session;
@@ -70,10 +71,20 @@ public class LoginComJump implements LoginDslamStrategy {
             cs.out.print(this.cs.dslam.getCredencial().getPass() + "\r");
             cs.out.flush();
             Thread.sleep(2000);
+            for (String string : cs.getRetorno()) {
+                if (string.contains("Username or password invalid")) {
+                    cs.out.print(Credencial.VIVO1.getLogin() + "\r");
+                    cs.out.flush();
+                    Thread.sleep(2500);
+                    cs.out.print(Credencial.VIVO1.getPass() + "\r");
+                    cs.out.flush();
+                    Thread.sleep(2000);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();
         }
-    }
 
+    }
 }

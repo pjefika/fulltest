@@ -303,7 +303,75 @@ public class CustomerMock {
         return c;
     }
 
-    public static EfikaCustomer metalicoHuawei5600t() {
+    public static EfikaCustomer metalicoHuawei5600tMS() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1120414633");
+        r.setIpDslam("10.219.17.86");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(6);
+        r.setPorta(3);
+//        r.setLogica(38);
+        r.setCvlan(242);
+        r.setRin(681);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(1024l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5600tV() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1334581115");
+        r.setIpDslam("10.58.139.74");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(17);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(1011);
+        r.setRin(71);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(1024l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5600tA() {
         EfikaCustomer c = new EfikaCustomer();
         InventarioRede r = new InventarioRede();
 
@@ -312,7 +380,6 @@ public class CustomerMock {
         r.setModeloDslam("MA5600T");
 
 //        r.setIdOnt("0002596166");
-
         r.setSlot(15);
         r.setPorta(3);
 //        r.setLogica(38);
@@ -321,7 +388,6 @@ public class CustomerMock {
         r.setBhs(Boolean.FALSE);
 
 //        r.setVlanVoip(3004);
-
 //        r.setVlanVod(3001);
 //        r.setVlanMulticast(3001);
         r.setPlanta(OrigemPlanta.VIVO1);
@@ -338,5 +404,4 @@ public class CustomerMock {
 
         return c;
     }
-
 }

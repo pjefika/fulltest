@@ -5,7 +5,6 @@
  */
 package dao.dslam.impl.metalico.huawei;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import br.net.gvt.efika.util.util.json.JacksonMapper;
 import java.util.List;
@@ -35,10 +34,6 @@ import telecom.velocidade.Velocidades;
  */
 public class HuaweiMA5600TDslamVivo1IT {
 
-    private static EfikaCustomer cust = CustomerMock.metalicoHuawei5600t();
-    private static HuaweiMA5600TDslamVivo1 instance = new HuaweiMA5600TDslamVivo1(cust.getRede().getIpDslam());
-    private static InventarioRede i = cust.getRede();
-
     public HuaweiMA5600TDslamVivo1IT() {
     }
 
@@ -57,7 +52,13 @@ public class HuaweiMA5600TDslamVivo1IT {
     @After
     public void tearDown() {
     }
-
+    
+    private static HuaweiMA5600TDslamVivo1 instance = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tA().getRede().getIpDslam());
+    private static InventarioRede i = CustomerMock.metalicoHuawei5600tA().getRede();
+    private static HuaweiMA5600TDslamVivo1 instanceMS = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tMS().getRede().getIpDslam());
+    private static InventarioRede iMS = CustomerMock.metalicoHuawei5600tMS().getRede();
+    private static HuaweiMA5600TDslamVivo1 instanceV = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tV().getRede().getIpDslam());
+    private static InventarioRede iV = CustomerMock.metalicoHuawei5600tV().getRede();
     /**
      * Test of conectar method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -65,8 +66,8 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testConectar() throws Exception {
         System.out.println("conectar");
         instance.conectar();
-    }
 
+    }
 
     /**
      * Test of obterVelocidadesDownVendor method, of class
@@ -104,7 +105,8 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        EstadoDaPorta result = instance.getEstadoDaPorta(i);
+        EstadoDaPorta result = instanceV.getEstadoDaPorta(iV);
+        
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 

@@ -6,11 +6,12 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.customer.InventarioRede;
-import dao.dslam.factory.exception.FalhaAoIdentificarPlacaException;
+import dao.dslam.factory.exception.FalhaAoExecutarComandoException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
-import dao.dslam.impl.login.LoginComJump;
+import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import telecom.properties.EstadoDaPorta;
@@ -36,7 +37,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     private HuaweiMA5600TDslamVivo1 itself;
 
     public HuaweiMA5600TDslamVivo1(String ipDslam) {
-        super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJump());
+        super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
     }
 
     @Override
@@ -53,18 +54,18 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     }
 
-    protected void checkPlaca() throws Exception {
+    protected void checkPlaca(InventarioRede i) throws Exception {
         if (itself == null) {
-            if (getCd().consulta(getComandoGetTipoPlaca()).getBlob().contains("VD")) {
-                itself = new HuaweiMA5600V(getIpDslam());
-            } else {
+            if (execCommBlob(getComandoGetTipoPlaca(i)).contains("ADSL")) {
                 itself = new HuaweiMA5600A(getIpDslam());
+            } else {
+                itself = new HuaweiMA5600V(getIpDslam());
             }
         }
     }
 
-    protected ComandoDslam getComandoGetTipoPlaca() {
-        return new ComandoDslam("display board 0/0",2000);
+    protected ComandoDslam getComandoGetTipoPlaca(InventarioRede i) {
+        return new ComandoDslam("display board 0/" + i.getSlot(), 3000);
     }
 
     protected ComandoDslam getComandoEnableConfig() {
@@ -89,13 +90,41 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return new ComandoDslam("");
     }
 
+    protected String execCommBlob(ComandoDslam command) throws Exception {
+        String blob = getCd().consulta(command).getBlob();
+        if (blob.contains("is busy")) {
+            Thread.sleep(7500);
+            blob = getCd().consulta(command).getBlob();
+            if (blob.contains("is busy")) {
+                throw new FalhaAoExecutarComandoException();
+            }
+        }
+        return blob;
+    }
+
+    protected List<String> execCommList(ComandoDslam command) throws Exception {
+        List<String> list = getCd().consulta(command).getRetorno();
+        for (String string : list) {
+            if (string.contains("is busy")) {
+                Thread.sleep(7500);
+                list = getCd().consulta(command).getRetorno();
+                for (String string1 : list) {
+                    if (string1.contains("is busy")) {
+                        throw new FalhaAoExecutarComandoException();
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret){return null;}
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        checkPlaca();
-        getCd().consulta(itself.getComandoGetEstadoDaPorta(i)).getRetorno().forEach((t) -> {
-            System.out.println("lele->"+t);
-        });
-        return null;
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetEstadoDaPorta(i));
+        return itself.tratGetEstadoDaPorta(ret);
     }
 
     @Override
@@ -174,12 +203,14 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+    public void setProfileUp(InventarioRede i, Velocidades vDown,
+            Velocidades vUp) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+    public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown,
+            Velocidades vUp) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
