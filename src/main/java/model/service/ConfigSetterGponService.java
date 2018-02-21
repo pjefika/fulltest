@@ -5,9 +5,9 @@
  */
 package model.service;
 
-import fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import java.util.List;
-import telecom.properties.gpon.SerialOntGpon;
 
 /**
  *

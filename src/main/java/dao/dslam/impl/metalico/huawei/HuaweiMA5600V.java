@@ -5,11 +5,11 @@
  */
 package dao.dslam.impl.metalico.huawei;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
-import telecom.properties.EstadoDaPorta;
 
 /**
  *

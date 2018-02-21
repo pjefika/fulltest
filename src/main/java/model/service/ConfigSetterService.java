@@ -5,11 +5,11 @@
  */
 package model.service;
 
-import fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import java.util.List;
-import telecom.config.ProfileGpon;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Profile;
 
 /**
  *

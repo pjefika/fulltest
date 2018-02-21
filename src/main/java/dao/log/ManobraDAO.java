@@ -5,7 +5,7 @@
  */
 package dao.log;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import dao.InterfaceDAO;
 import java.util.List;
 import model.entity.manobra.LogManobra;

@@ -5,13 +5,15 @@
  */
 package model.service;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import fulltest.ValidacaoResult;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorTabelaRede;
@@ -20,8 +22,6 @@ import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
 import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
-import telecom.config.ConfiguracaoDSLAM;
-import telecom.config.ProfileConfig;
 
 public class ConfigDslamServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoDSLAM>,
         ConfigSetterMetalicoService,

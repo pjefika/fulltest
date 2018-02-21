@@ -5,7 +5,7 @@
  */
 package dao.customer;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.util.dao.http.HttpDAO;
 import br.net.gvt.efika.util.dao.http.HttpDAOGenericImpl;
 import java.util.List;

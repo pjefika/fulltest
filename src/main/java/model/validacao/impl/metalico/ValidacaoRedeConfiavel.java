@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.metalico;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import java.util.Locale;
 import model.validacao.impl.both.ValidacaoValidavel;
-import telecom.properties.metalico.TabelaRedeMetalico;
 
 /**
  *

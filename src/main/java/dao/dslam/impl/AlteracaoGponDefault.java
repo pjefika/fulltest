@@ -5,8 +5,8 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.customer.InventarioRede;
-import telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 
 /**
  *

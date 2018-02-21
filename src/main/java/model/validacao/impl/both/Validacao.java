@@ -5,8 +5,8 @@
  */
 package model.validacao.impl.both;
 
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import fulltest.ValidacaoResult;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import model.validacao.impl.realtime.Validator;

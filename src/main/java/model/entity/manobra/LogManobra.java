@@ -5,7 +5,7 @@
  */
 package model.entity.manobra;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.Calendar;
 import javax.persistence.Basic;
 import javax.persistence.Column;

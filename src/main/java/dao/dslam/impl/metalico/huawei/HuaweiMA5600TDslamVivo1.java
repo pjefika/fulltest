@@ -5,27 +5,28 @@
  */
 package dao.dslam.impl.metalico.huawei;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoExecutarComandoException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.dslam.credencial.Credencial;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Profile;
-import telecom.properties.ReConexao;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVoip;
-import telecom.properties.metalico.Modulacao;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.properties.metalico.TabelaRedeMetalico;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  * MA5600T
@@ -64,8 +65,22 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         }
     }
 
+    protected void checkPlaca() throws Exception {
+        if (itself == null) {
+            if (execCommBlob(getComandoGetTipoPlaca()).contains("ADSL")) {
+                itself = new HuaweiMA5600A(getIpDslam());
+            } else {
+                itself = new HuaweiMA5600V(getIpDslam());
+            }
+        }
+    }
+
     protected ComandoDslam getComandoGetTipoPlaca(InventarioRede i) {
         return new ComandoDslam("display board 0/" + i.getSlot(), 3000);
+    }
+
+    protected ComandoDslam getComandoGetTipoPlaca() {
+        return new ComandoDslam("display board 0/0", 3000);
     }
 
     protected ComandoDslam getComandoEnableConfig() {
@@ -78,12 +93,22 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            checkPlaca();
+        } catch (Exception ex) {
+            Logger.getLogger(HuaweiMA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return itself.obterVelocidadesDownVendor();
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            checkPlaca();
+        } catch (Exception ex) {
+            Logger.getLogger(HuaweiMA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return itself.obterVelocidadesUpVendor();
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
@@ -118,7 +143,9 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return list;
     }
 
-    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret){return null;}
+    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+        return null;
+    }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {

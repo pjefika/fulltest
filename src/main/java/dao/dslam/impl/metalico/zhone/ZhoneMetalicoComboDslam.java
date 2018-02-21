@@ -11,7 +11,6 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
-
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import telecom.properties.DeviceMAC;

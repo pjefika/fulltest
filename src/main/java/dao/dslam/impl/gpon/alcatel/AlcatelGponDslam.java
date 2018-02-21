@@ -5,7 +5,23 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
@@ -17,22 +33,6 @@ import model.dslam.credencial.Credencial;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import telecom.properties.DeviceMAC;
-import telecom.properties.EnumEstadoVlan;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Porta;
-import telecom.properties.Profile;
-import telecom.properties.ReConexao;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVoip;
-import telecom.properties.gpon.AlarmesGpon;
-import telecom.properties.gpon.PortaPON;
-import telecom.properties.gpon.SerialOntGpon;
-import telecom.properties.gpon.TabelaParametrosGpon;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -600,8 +600,8 @@ public class AlcatelGponDslam extends DslamGpon {
                 String[] slotPorta = node.getTextContent().split("/");
                 SerialOntGpon s = new SerialOntGpon();
                 s.setSerial(node.getNextSibling().getNextSibling().getTextContent());
-                s.setPorta(slotPorta[3]);
-                s.setSlot(slotPorta[2]);
+                s.setPorta(new Integer(slotPorta[3]));
+                s.setSlot(new Integer(slotPorta[2]));
                 serialList.add(s);
             }
 

@@ -5,7 +5,6 @@
  */
 package controller;
 
-import controller.RestJaxAbstract;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
 import javax.ws.rs.Consumes;

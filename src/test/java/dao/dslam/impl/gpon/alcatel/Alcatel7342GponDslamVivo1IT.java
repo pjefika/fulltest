@@ -9,7 +9,6 @@ import br.net.gvt.efika.customer.EfikaCustomer;
 import br.net.gvt.efika.customer.InventarioRede;
 import java.security.Security;
 import java.util.List;
-
 import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;

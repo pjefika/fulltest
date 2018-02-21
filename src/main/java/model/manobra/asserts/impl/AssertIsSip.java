@@ -5,9 +5,9 @@
  */
 package model.manobra.asserts.impl;
 
-import br.net.gvt.efika.asserts.AssertsEnum;
-import br.net.gvt.efika.asserts.EfikaAssertable;
-import br.net.gvt.efika.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.AssertsEnum;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.EfikaAssertable;
 import model.validacao.impl.metalico.manobra.ValidacaoIsSip;
 
 /**

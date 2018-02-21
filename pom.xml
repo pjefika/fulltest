@@ -74,7 +74,7 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>customer-lib</artifactId>
+            <artifactId>customer</artifactId>
             <version>1.0.0</version>
         </dependency>
         
@@ -92,8 +92,9 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>fulltest-lib</artifactId>
-            <version>1.0.0</version>
+            <artifactId>fulltest</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
         </dependency>
         
         <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->

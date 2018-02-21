@@ -5,7 +5,7 @@
  */
 package model.service;
 
-import fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 
 /**
  *

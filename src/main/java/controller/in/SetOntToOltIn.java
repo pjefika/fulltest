@@ -5,10 +5,10 @@
  */
 package controller.in;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import model.log.AcaoEnum;
 import model.log.LogIn;
-import telecom.properties.gpon.SerialOntGpon;
 
 /**
  *

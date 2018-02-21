@@ -5,33 +5,14 @@
  */
 package model.fulltest.operacional;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioRede;
-import br.net.gvt.efika.customer.InventarioServico;
-import br.net.gvt.efika.enums.OrigemPlanta;
-import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
 import br.net.gvt.efika.util.dao.http.HttpDAO;
 import br.net.gvt.efika.util.dao.http.HttpDAOGenericImpl;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import util.JacksonMapper;
 
 /**
  *

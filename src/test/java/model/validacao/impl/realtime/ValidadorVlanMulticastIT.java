@@ -7,9 +7,9 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
+import fulltest.ValidacaoResult;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
-import fulltest.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;

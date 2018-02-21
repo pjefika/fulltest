@@ -5,14 +5,14 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoFake;
 import model.validacao.impl.both.ValidacaoVlanVoip;
-import telecom.properties.VlanVoip;
 
 /**
  *

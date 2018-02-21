@@ -5,7 +5,11 @@
  */
 package controller;
 
-import controller.RestJaxAbstract;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
@@ -20,7 +24,6 @@ import controller.in.SetVlanVodIn;
 import controller.in.SetVlanVoipIn;
 import controller.in.UnsetOntFromOltIn;
 import dao.FactoryDAO;
-import fulltest.ValidacaoResult;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -35,10 +38,7 @@ import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
 import model.service.FactoryService;
-import telecom.config.ConfiguracaoPorta;
-import telecom.config.ProfileGpon;
-import telecom.properties.Porta;
-import telecom.properties.gpon.SerialOntGpon;
+
 
 /**
  *

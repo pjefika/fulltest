@@ -5,7 +5,27 @@
  */
 package dao.dslam.impl.gpon.huawei;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1Huawei;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVodVivo1Huawei;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoipVivo1Huawei;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.ServicePort;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
@@ -17,26 +37,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import model.dslam.credencial.Credencial;
-import telecom.properties.DeviceMAC;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Porta;
-import telecom.properties.Profile;
-import telecom.properties.ProfileVivo1;
-import telecom.properties.ReConexao;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanBandaVivo1Huawei;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVodVivo1Huawei;
-import telecom.properties.VlanVoip;
-import telecom.properties.VlanVoipVivo1Huawei;
-import telecom.properties.gpon.AlarmesGpon;
-import telecom.properties.gpon.PortaPON;
-import telecom.properties.gpon.SerialOntGpon;
-import telecom.properties.gpon.ServicePort;
-import telecom.properties.gpon.TabelaParametrosGpon;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  * MA5600T
@@ -278,8 +278,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             s.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(retorno, "Password", j)));
             s.setSerial(TratativaRetornoUtil.tratHuawei(retorno, "VendorID", j) + "-" + TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).substring(TratativaRetornoUtil.tratHuawei(retorno, "Ont SN", j).length() - 8));
             String[] pegaFsp = TratativaRetornoUtil.tratHuawei(retorno, "F/S/P", j).split("/");
-            s.setSlot(pegaFsp[1]);
-            s.setPorta(pegaFsp[2]);
+            s.setSlot(new Integer(pegaFsp[1]));
+            s.setPorta(new Integer(pegaFsp[2]));
             l.add(s);
         }
 

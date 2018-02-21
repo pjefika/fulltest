@@ -5,7 +5,26 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVodVivo1Alcatel;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoipVivo1;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
@@ -15,25 +34,6 @@ import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.credencial.Credencial;
-import telecom.properties.DeviceMAC;
-import telecom.properties.EnumEstadoVlan;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Porta;
-import telecom.properties.Profile;
-import telecom.properties.ProfileVivo1;
-import telecom.properties.ReConexao;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVodVivo1Alcatel;
-import telecom.properties.VlanVoip;
-import telecom.properties.VlanVoipVivo1;
-import telecom.properties.gpon.AlarmesGpon;
-import telecom.properties.gpon.PortaPON;
-import telecom.properties.gpon.SerialOntGpon;
-import telecom.properties.gpon.TabelaParametrosGpon;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -293,8 +293,8 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
             SerialOntGpon s = new SerialOntGpon();
             String[] porvirgula = TratativaRetornoUtil.trat7342Virgula(retorno, "PON-1-1", j);
             String[] porhifen = porvirgula[0].split("-");
-            s.setSlot(porhifen[3]);
-            s.setPorta(porhifen[4]);
+            s.setSlot(new Integer(porhifen[3]));
+            s.setPorta(new Integer(porhifen[4]));
             s.setSerial(TratativaRetornoUtil.trat7342(retorno, "SERNUM", j).substring(0, 4) + "-" + TratativaRetornoUtil.trat7342(retorno, "SERNUM", j).substring(4));
             s.setIdOnt(TratativaRetornoUtil.trat7342(retorno, "SLID", j));
             l.add(s);

@@ -5,8 +5,7 @@
  */
 package controller;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import controller.RestJaxAbstract;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import controller.in.FulltestCOIn;
 import controller.in.FulltestCRMIn;
 import controller.in.FulltestManobraIn;

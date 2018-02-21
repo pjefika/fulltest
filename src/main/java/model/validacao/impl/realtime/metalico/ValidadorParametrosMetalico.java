@@ -5,13 +5,13 @@
  */
 package model.validacao.impl.realtime.metalico;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.metalico.ValidacaoParametrosMetalico;
 import model.validacao.impl.realtime.ValidadorMetalico;
-import telecom.velocidade.Velocidades;
 
 /**
  *

@@ -5,9 +5,7 @@
  */
 package dao.log;
 
-import dao.AbstractHibernateDAO;
 import dao.AbstractMongoDAO;
-import dao.InterfaceDAO;
 import model.entity.LogEntity;
 
 /**

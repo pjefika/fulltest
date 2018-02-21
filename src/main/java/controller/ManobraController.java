@@ -5,8 +5,8 @@
  */
 package controller;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import controller.RestJaxAbstract;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.util.json.JacksonMapper;
 import controller.in.AnaliticoIn;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
@@ -28,7 +28,6 @@ import model.manobra.asserts.facade.AssertsManobra;
 import model.manobra.asserts.facade.Assertter;
 import model.manobra.facade.AnalisadorManobra;
 import model.manobra.facade.AnalisadorManobraFacade;
-import util.JacksonMapper;
 
 /**
  *

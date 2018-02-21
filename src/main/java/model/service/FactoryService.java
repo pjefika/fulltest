@@ -5,10 +5,10 @@
  */
 package model.service;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import telecom.config.ConfiguracaoDSLAM;
-import telecom.config.ConfiguracaoOLT;
-import telecom.config.ConfiguracaoPorta;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 
 /**
  *

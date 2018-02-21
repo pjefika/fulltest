@@ -5,21 +5,8 @@
  */
 package dao.customer;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import java.io.BufferedReader;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 /**
  *

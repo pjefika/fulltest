@@ -5,15 +5,15 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
-import fulltest.ValidacaoResult;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import model.validacao.impl.both.Validacao;
-import telecom.properties.ValidavelAbs;
 
 /**
  *

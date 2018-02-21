@@ -5,7 +5,7 @@
  */
 package dao.dslam.factory;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.factory.exception.FalhaInventarioRedeException;
 import dao.dslam.impl.AbstractDslam;
