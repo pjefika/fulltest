@@ -5,7 +5,7 @@
  */
 package dao.log;
 
-import dao.AbstractMongoDAO;
+import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
 import model.entity.LogEntity;
 
 /**

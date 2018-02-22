@@ -21,7 +21,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import br.net.gvt.efika.util.util.json.JacksonMapper;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;

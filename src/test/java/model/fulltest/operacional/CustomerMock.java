@@ -176,29 +176,29 @@ public class CustomerMock {
 
         //112757790674006 - 1977906740
         r.setTerminal("112757790674006");
-        r.setIpDslam("BR_IDUDP_OLT01");
+        r.setIpDslam("BR_SPOPL_OLT09");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setIdOnt("0002817789");
+        r.setIdOnt("0003273934");
 
-        r.setSlot(15);
-        r.setPorta(4);
-        r.setLogica(2);
-        r.setCvlan(2382);
-        r.setRin(407);
+        r.setSlot(5);
+        r.setPorta(10);
+        r.setLogica(34);
+        r.setCvlan(1142);
+        r.setRin(1093);
         r.setBhs(Boolean.TRUE);
 
-        r.setVlanVoip(3004);
+        r.setVlanVoip(3020);
 
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3009);
+        r.setVlanMulticast(3017);
         r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.IPTV);
+//        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
         s.setVelDown(51200l);
         s.setVelUp(25600l);

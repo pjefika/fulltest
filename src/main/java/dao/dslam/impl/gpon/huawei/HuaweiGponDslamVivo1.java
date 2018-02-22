@@ -305,14 +305,21 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
+    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + i.getIdOnt() + "", 5000, "quit\n");
+    }
+
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        deleteVlanBanda(i);
-        createVlanBanda(i, null, null);
-        if (i.getBhs()) {
-            createVlanVoip(i);
-        }
-        return getSerialOnt(i);
+        this.getCd().consulta(this.getCmdSetOntToOlt(i));
+        this.serial = null;
+        return this.getSerialOnt(i);
+        //        deleteVlanBanda(i);
+        //        createVlanBanda(i, null, null);
+        //        if (i.getBhs()) {
+        //            createVlanVoip(i);
+        //        }
+        //        return getSerialOnt(i);
     }
 
     @Override
@@ -482,7 +489,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) throws Exception {
@@ -612,7 +619,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -670,7 +677,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }

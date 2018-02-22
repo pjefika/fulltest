@@ -12,7 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
  *
  * @author G0042204
  */
-public interface AlteracaoGponDefault extends AlteracaoClienteInter {
+public interface AlteracaoGponDefault extends AlteracaoClienteInter, ConsultaGponDefault {
 
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception;
     

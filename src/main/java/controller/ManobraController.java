@@ -6,7 +6,7 @@
 package controller;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.util.util.json.JacksonMapper;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import controller.in.AnaliticoIn;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
