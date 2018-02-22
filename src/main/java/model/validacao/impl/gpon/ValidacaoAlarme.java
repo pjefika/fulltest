@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.gpon;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import java.util.Locale;
 import model.validacao.impl.both.ValidacaoValidavel;
-import telecom.properties.gpon.AlarmesGpon;
 
 /**
  *

@@ -5,8 +5,8 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.TipoRede;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;

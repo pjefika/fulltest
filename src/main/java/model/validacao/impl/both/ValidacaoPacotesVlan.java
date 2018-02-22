@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.both;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanAbstract;
 import java.util.Locale;
-import telecom.properties.VlanAbstract;
 
 /**
  *

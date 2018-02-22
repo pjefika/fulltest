@@ -5,7 +5,7 @@
  */
 package model.validacao.realtime.metalico;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.Locale;
 import model.validacao.impl.realtime.ValidadorDeviceMAC;

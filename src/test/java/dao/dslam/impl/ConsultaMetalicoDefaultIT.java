@@ -5,8 +5,17 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.CustomerMock;
@@ -16,15 +25,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import telecom.properties.Profile;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVoip;
-import telecom.properties.metalico.Modulacao;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.properties.metalico.TabelaRedeMetalico;
-import telecom.velocidade.Velocidades;
 
 /**
  *

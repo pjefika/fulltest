@@ -5,7 +5,7 @@
  */
 package model.fulltest.operacional;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.ArrayList;
 import java.util.List;
 import model.fulltest.operacional.facade.FullTestCOFacade;

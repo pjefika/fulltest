@@ -5,10 +5,10 @@
  */
 package model.fulltest.operacional.strategy;
 
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
-import fulltest.ValidacaoResult;
 import java.net.SocketException;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;

@@ -5,14 +5,15 @@
  */
 package model.service;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioRede;
-import br.net.gvt.efika.customer.InventarioServico;
-import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import fulltest.ValidacaoResult;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,7 +21,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import telecom.config.ConfiguracaoDSLAM;
 
 
 /**

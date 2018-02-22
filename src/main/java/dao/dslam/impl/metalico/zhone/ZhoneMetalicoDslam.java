@@ -5,17 +5,17 @@
  */
 package dao.dslam.impl.metalico.zhone;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.credencial.Credencial;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.ReConexao;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.velocidade.Velocidades;
 
 /**
  *

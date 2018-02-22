@@ -5,9 +5,9 @@
  */
 package model.manobra.facade;
 
-import br.net.gvt.efika.asserts.AssertsEnum;
-import br.net.gvt.efika.customer.CustomerAssert;
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.AssertsEnum;
 import java.util.ArrayList;
 import java.util.List;
 import model.manobra.analitcs.AnaliseMotivo;

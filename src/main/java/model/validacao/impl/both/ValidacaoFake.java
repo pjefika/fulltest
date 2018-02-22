@@ -5,8 +5,8 @@
  */
 package model.validacao.impl.both;
 
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import java.util.Locale;
-import telecom.properties.ValidavelAbs;
 
 public class ValidacaoFake extends Validacao {
 

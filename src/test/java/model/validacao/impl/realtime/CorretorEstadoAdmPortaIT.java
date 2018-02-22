@@ -5,7 +5,7 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import dao.dslam.impl.metalico.zhone.ZhoneMetalicoComboDslam;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;

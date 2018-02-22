@@ -5,7 +5,7 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;

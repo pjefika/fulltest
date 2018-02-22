@@ -5,9 +5,9 @@
  */
 package model.validacao.realtime.gpon.corretiva;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.DslamDAOFactory;
-import fulltest.ValidacaoResult;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;

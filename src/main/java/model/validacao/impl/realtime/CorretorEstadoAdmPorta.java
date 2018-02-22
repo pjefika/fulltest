@@ -5,16 +5,16 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.both.ValidacaoEstadoPortaAdm;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.ValidavelAbs;
-import telecom.velocidade.Velocidades;
 
 /**
  *
