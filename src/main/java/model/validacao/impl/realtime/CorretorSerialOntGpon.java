@@ -6,12 +6,14 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
+import model.validacao.impl.gpon.ValidacaoAssociacaoOnt;
 import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
 /**
@@ -34,7 +36,9 @@ public class CorretorSerialOntGpon extends CorretorGpon {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            this.ag.setOntToOlt(cust.getRede(), new SerialOntGpon(cust.getRede().getIdOnt()));
+            SerialOntGpon s1 = new SerialOntGpon();
+            s1.setIdOnt(cust.getRede().getIdOnt());
+            this.ag.setOntToOlt(cust.getRede(), s1);
         } catch (Exception e) {
             throw new FalhaAoCorrigirException();
         }
@@ -42,7 +46,8 @@ public class CorretorSerialOntGpon extends CorretorGpon {
 
     @Override
     protected Validacao consultar() throws Exception {
-        return new ValidadorSerialOntGpon(this.getDslam(), cust, bundle.getLocale()).getValid();
+        serial = this.ag.getSerialOnt(cust.getRede());
+        return new ValidacaoAssociacaoOnt(serial, cust, bundle.getLocale());
     }
 
     @Override

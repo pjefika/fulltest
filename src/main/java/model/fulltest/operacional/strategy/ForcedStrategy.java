@@ -36,10 +36,11 @@ public class ForcedStrategy implements ExecutionStrategy {
                 }
             } catch (Exception ex) {
                 System.out.println("Exec Exception -> " + ex.getMessage());
-                ex.printStackTrace();
+//                ex.printStackTrace();
                 if (ex instanceof FuncIndisponivelDslamException) {
                     
                 } else {
+                    ex.printStackTrace();
                     ft.setMensagem(ex.getMessage());
                     ft.setResultado(Boolean.FALSE);
                     if (ex instanceof SemGerenciaException) {

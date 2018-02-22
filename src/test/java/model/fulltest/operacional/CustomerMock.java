@@ -11,6 +11,7 @@ import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
 import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.util.dao.http.HttpDAO;
 import br.net.gvt.efika.util.dao.http.HttpDAOGenericImpl;
 
@@ -175,25 +176,26 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //112757790674006 - 1977906740
-        r.setTerminal("112757790674006");
-        r.setIpDslam("BR_SPOPL_OLT09");
+        r.setTerminal("1979677837");
+        r.setIpDslam("BR_IDUDP_OLT01");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setIdOnt("0003273934");
+        r.setIdOnt("0003294873");
 
-        r.setSlot(5);
-        r.setPorta(10);
-        r.setLogica(34);
-        r.setCvlan(1142);
-        r.setRin(1093);
+        r.setSlot(4);
+        r.setPorta(0);
+        r.setLogica(58);
+        r.setCvlan(2701);
+        r.setRin(407);
         r.setBhs(Boolean.TRUE);
+        r.setTipo(TipoRede.GPON);
+        r.setPlanta(OrigemPlanta.VIVO1);
 
-        r.setVlanVoip(3020);
+        r.setVlanVoip(3004);
 
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3017);
-        r.setPlanta(OrigemPlanta.VIVO1);
+        r.setVlanMulticast(3001);
 
         c.setRede(r);
 

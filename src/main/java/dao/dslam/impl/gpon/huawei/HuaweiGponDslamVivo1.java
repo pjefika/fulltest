@@ -152,6 +152,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         serial = new SerialOntGpon();
         serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
         serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
+        System.out.println("");
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
