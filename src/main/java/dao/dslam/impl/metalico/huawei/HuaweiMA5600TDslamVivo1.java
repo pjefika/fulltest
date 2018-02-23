@@ -23,6 +23,7 @@ import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

@@ -41,7 +41,14 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
 
     @Override
     public Profile tratGetProfile(List<String> ret) {
-        return null;
+        String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-template").split(" ");
+        Profile p = new Profile();
+        p.setProfileDown(profz[profz.length - 1]);
+        p.setProfileUp(profz[profz.length - 1]);
+
+        p.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
+        p.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
+        return p;
     }
 
     @Override

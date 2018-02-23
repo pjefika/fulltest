@@ -87,7 +87,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
         
-        Profile result = instance.getProfile(i);
+        Profile result = instanceMS.getProfile(iMS);
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 

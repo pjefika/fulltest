@@ -13,6 +13,7 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.ConsultaDslamFactory;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,6 +87,52 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
                 return v.getVel();
             }
         }
+        return null;
+    }
+
+    protected Velocidades compareV1Metalico(String sintaxVendor, Boolean isDown) {
+        String wichone = isDown ? "D" : "U";
+        String checkType = isDown ? "D_" : "U_";
+        if (sintaxVendor.contains(checkType)) {
+            String[] leprof = sintaxVendor.split("_");
+            Double profVendor = 0d;
+
+            for (int i = 0; i < leprof.length; i++) {
+                if (leprof[i].contains(wichone)) {
+                    profVendor = new Double(leprof[i - 1]) / 1000;
+                    System.out.println("profVendor->" + profVendor);
+                }
+            }
+            Velocidades[] vels = Velocidades.values();
+            for (int i = 0; i < vels.length; i++) {
+                Double leVel = new Double(vels[i].getValor());
+                System.out.println("leVel->" + leVel);
+                if (leVel.compareTo(profVendor) > 0) {
+                    return vels[i - 1];
+                }
+            }
+        } else {
+            String[] leprof = sintaxVendor.replaceAll("[a-z]?[A-Z]", "").split("_");
+            List<Integer> vals = new ArrayList<>();
+            for (String string : leprof) {
+                if (!string.isEmpty()) {
+                    vals.add(new Integer(string));
+                }
+            }
+            Collections.sort(vals);
+            Integer qual = isDown ? vals.get(vals.size()-1) : vals.get(vals.size()-2);
+            Double profVendor = new Double(qual) / 1000;
+            System.out.println("profVendor->"+profVendor);
+            Velocidades[] vels = Velocidades.values();
+            for (int i = 0; i < vels.length; i++) {
+                Double leVel = new Double(vels[i].getValor());
+                System.out.println("leVel->" + leVel);
+                if (leVel.compareTo(profVendor) > 0) {
+                    return vels[i - 1];
+                }
+            }
+        }
+
         return null;
     }
 

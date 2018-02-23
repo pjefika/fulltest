@@ -8,7 +8,6 @@ package dao.dslam.impl.metalico.huawei;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
-import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
@@ -44,37 +43,13 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     public Profile tratGetProfile(List<String> ret) {
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
         String[] leprof = profz[profz.length - 1].split("_");
-        Double ledown = 0d;
-        Double leup = 0d;
-        for (int i = 0; i < leprof.length; i++) {
-            if (leprof[i].contains("D")) {
-                ledown = new Double(leprof[i - 1]) / 1000;
-                System.out.println("down->"+ledown);
-            }
-            if (leprof[i].contains("U")) {
-                leup = new Double(leprof[i - 1]) / 1000;
-                System.out.println("up->"+leup);
-            }
-        }
         Profile p = new Profile();
-        Velocidades[] vels = Velocidades.values();
-        for (int i = 0; i < vels.length; i++) {
-
-            Double leVel = new Double(vels[i].getValor());
-            System.out.println("leVel->" + leVel);
-            if (leVel.compareTo(ledown) > 0) {
-                p.setDown(vels[i - 1]);
-            }
-            if (leVel.compareTo(leup) > 0) {
-                p.setUp(vels[i - 1]);
-            }
-            if (p.getDown() != null && p.getUp() != null) {
-                break;
-            }
-        }
-
         p.setProfileDown(profz[profz.length - 1]);
         p.setProfileUp(profz[profz.length - 1]);
+
+        p.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
+        p.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
+
         return p;
     }
 
