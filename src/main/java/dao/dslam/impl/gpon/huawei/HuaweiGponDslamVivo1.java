@@ -24,6 +24,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.ServicePort;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
@@ -200,16 +201,27 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+    public TabelaParametrosGponBasic getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
-        TabelaParametrosGpon tab = new TabelaParametrosGpon();
         String leOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx");
-        Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
-        tab.setPotOlt(potOlt);
         String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
+
+        Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
         Double potOnt = leOnt.contains("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-") ? 0d : new Double(leOnt);
-        tab.setPotOnt(potOnt);
-        return tab;
+
+        /**
+         * Tratativa gambeta para OLT's sem medição de Pot OLT
+         */
+        if (potOlt.compareTo(0d) == 0 && ! (potOnt.compareTo(0d) == 0)) {
+            TabelaParametrosGponBasic tab = new TabelaParametrosGponBasic();
+            tab.setPotOnt(potOnt);
+            return tab;
+        } else {
+            TabelaParametrosGpon tab = new TabelaParametrosGpon();
+            tab.setPotOlt(potOlt);
+            tab.setPotOnt(potOnt);
+            return tab;
+        }
     }
 
     @Override
