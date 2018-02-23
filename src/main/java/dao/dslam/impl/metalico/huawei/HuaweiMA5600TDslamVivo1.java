@@ -37,6 +37,9 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     private HuaweiMA5600TDslamVivo1 itself;
 
+    private EstadoDaPorta estadoPorta;
+    private Profile profile;
+
     public HuaweiMA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
     }
@@ -143,20 +146,35 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return list;
     }
 
+    protected void checkConfs(InventarioRede i) throws Exception {
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetEstadoDaPorta(i));
+        estadoPorta = itself.tratGetEstadoDaPorta(ret);
+        profile = itself.tratGetProfile(ret);
+    }
+
     public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         return null;
     }
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        checkPlaca(i);
-        List<String> ret = execCommList(itself.getComandoGetEstadoDaPorta(i));
-        return itself.tratGetEstadoDaPorta(ret);
+        if (estadoPorta == null) {
+            checkConfs(i);
+        }
+        return estadoPorta;
+    }
+
+    public Profile tratGetProfile(List<String> ret) {
+        return null;
     }
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (profile == null) {
+            checkConfs(i);
+        }
+        return profile;
     }
 
     @Override

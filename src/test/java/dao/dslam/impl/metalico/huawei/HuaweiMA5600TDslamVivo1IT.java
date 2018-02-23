@@ -70,36 +70,6 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class
-     * HuaweiMA5600TDslamVivo1.
-     */
-    @Test
-    public void testObterVelocidadesDownVendor() {
-        System.out.println("obterVelocidadesDownVendor");
-        HuaweiMA5600TDslamVivo1 instance = null;
-        List<VelocidadeVendor> expResult = null;
-        List<VelocidadeVendor> result = instance.obterVelocidadesDownVendor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of obterVelocidadesUpVendor method, of class
-     * HuaweiMA5600TDslamVivo1.
-     */
-    @Test
-    public void testObterVelocidadesUpVendor() {
-        System.out.println("obterVelocidadesUpVendor");
-        HuaweiMA5600TDslamVivo1 instance = null;
-        List<VelocidadeVendor> expResult = null;
-        List<VelocidadeVendor> result = instance.obterVelocidadesUpVendor();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getEstadoDaPorta method, of class HuaweiMA5600TDslamVivo1.
      */
     @Test
@@ -116,13 +86,9 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        Profile expResult = null;
+        
         Profile result = instance.getProfile(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**
