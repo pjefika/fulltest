@@ -8,11 +8,15 @@ package dao.dslam.impl.metalico.huawei;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -30,7 +34,7 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
-    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         EstadoDaPorta est = new EstadoDaPorta();
         String adm = TratativaRetornoUtil.tratHuawei(ret, "adsl", 2);
         String oper = TratativaRetornoUtil.tratHuawei(ret, "ADSL");
@@ -40,7 +44,7 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
-    public Profile tratGetProfile(List<String> ret) {
+    protected Profile tratGetProfile(List<String> ret) {
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
         String[] leprof = profz[profz.length - 1].split("_");
         Profile p = new Profile();
@@ -51,6 +55,25 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
         p.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
 
         return p;
+    }
+
+    @Override
+    protected ComandoDslam getComandoGetVlans(InventarioRede i) {
+        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta());
+    }
+
+    @Override
+    protected VlanBanda tratGetVlanBanda(List<String> ret) {
+
+        Matcher line = Pattern.compile("\\d+").matcher(TratativaRetornoUtil.tratHuawei(ret, "adl"));
+        List<Integer> l = new ArrayList<>();
+        while (line.find()) {
+            l.add(new Integer(line.group()));
+        }
+        VlanBanda v = new VlanBanda();
+        v.setCvlan(Integer.SIZE);
+
+        return null;
     }
 
     @Override

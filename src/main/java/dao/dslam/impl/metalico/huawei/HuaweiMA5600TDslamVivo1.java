@@ -9,10 +9,13 @@ import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanAbstract;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1Huawei;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.ServicePort;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
@@ -23,7 +26,6 @@ import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
-import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,10 +38,9 @@ import model.dslam.credencial.Credencial;
  */
 public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
-    private HuaweiMA5600TDslamVivo1 itself;
-
-    private EstadoDaPorta estadoPorta;
-    private Profile profile;
+    private transient HuaweiMA5600TDslamVivo1 itself;
+    private transient EstadoDaPorta estadoPorta;
+    private transient Profile profile;
 
     public HuaweiMA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
@@ -154,7 +155,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         profile = itself.tratGetProfile(ret);
     }
 
-    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         return null;
     }
 
@@ -166,7 +167,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return estadoPorta;
     }
 
-    public Profile tratGetProfile(List<String> ret) {
+    protected Profile tratGetProfile(List<String> ret) {
         return null;
     }
 
@@ -178,9 +179,19 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return profile;
     }
 
+    protected ComandoDslam getComandoGetVlans(InventarioRede i) {
+        return null;
+    }
+
+    protected VlanBanda tratGetVlanBanda(List<String> ret) {
+        return null;
+    }
+
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetVlans(i));
+        return itself.tratGetVlanBanda(ret);
     }
 
     @Override

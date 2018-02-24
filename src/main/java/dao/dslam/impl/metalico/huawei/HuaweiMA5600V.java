@@ -30,7 +30,7 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
-    public EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         String adm = TratativaRetornoUtil.tratHuawei(ret, "VDSL");
         String oper = TratativaRetornoUtil.tratHuawei(ret, "VDSL", 2);
         EstadoDaPorta est = new EstadoDaPorta();
@@ -40,7 +40,7 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
-    public Profile tratGetProfile(List<String> ret) {
+    protected Profile tratGetProfile(List<String> ret) {
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-template").split(" ");
         Profile p = new Profile();
         p.setProfileDown(profz[profz.length - 1]);
