@@ -245,6 +245,19 @@ public class TratativaRetornoUtil {
         return leList;
     }
 
+    public static List<Integer> listIntegersFromString(String str) {
+        List<Integer> l = new ArrayList();
+        Matcher line = Pattern.compile("\\d+").matcher(str);
+        while (line.find()) {
+            try {
+                l.add(new Integer(line.group()));
+            } catch (Exception e) {
+            }
+        }
+        return l;
+    }
+    
+
     public static Integer countStringOccurrence(List<String> list, String qqqro) {
         Integer count = 0;
         for (String string : list) {

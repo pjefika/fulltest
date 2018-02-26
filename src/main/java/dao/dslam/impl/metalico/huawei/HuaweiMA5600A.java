@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
@@ -65,15 +66,16 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     @Override
     protected VlanBanda tratGetVlanBanda(List<String> ret) {
 
-        Matcher line = Pattern.compile("\\d+").matcher(TratativaRetornoUtil.tratHuawei(ret, "adl"));
-        List<Integer> l = new ArrayList<>();
-        while (line.find()) {
-            l.add(new Integer(line.group()));
-        }
+        List<Integer> l = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "adl"));
+        
+        Integer cvlan = TratativaRetornoUtil.tratHuawei(ret, "PRI").contains("não") ? l.get(l.size()-1) : l.get(l.size()-2);
+        Integer svlan = l.get(0);
         VlanBanda v = new VlanBanda();
-        v.setCvlan(Integer.SIZE);
+        v.setCvlan(cvlan);
+        v.setSvlan(svlan);
+        v.setState(EnumEstadoVlan.UP);
 
-        return null;
+        return v;
     }
 
     @Override

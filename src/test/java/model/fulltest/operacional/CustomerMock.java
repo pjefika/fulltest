@@ -362,7 +362,7 @@ public class CustomerMock {
 
 //        r.setIdOnt("0002596166");
         r.setSlot(15);
-        r.setPorta(3);
+        r.setPorta(8);
 //        r.setLogica(38);
         r.setCvlan(951);
         r.setRin(103);

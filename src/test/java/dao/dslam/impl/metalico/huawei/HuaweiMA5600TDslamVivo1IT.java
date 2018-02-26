@@ -99,7 +99,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         
-        VlanBanda result = instance.getVlanBanda(i);
+        VlanBanda result = instanceMS.getVlanBanda(iMS);
         System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
         
     }

@@ -6,13 +6,18 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -49,6 +54,27 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
         p.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
         p.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
         return p;
+    }
+
+    @Override
+    protected ComandoDslam getComandoGetVlans(InventarioRede i) {
+        return new ComandoDslam("display current-configuration port 0/" + i.getSlot() + "/" + i.getPorta(),3000);
+    }
+
+    @Override
+    protected VlanBanda tratGetVlanBanda(List<String> ret) {
+
+        List<Integer> l1 = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "vlan"));
+        List<Integer> l = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "inner-vlan"));
+
+        Integer cvlan = l.get(0);
+        Integer svlan = l1.get(1);
+        VlanBanda v = new VlanBanda();
+        v.setCvlan(cvlan);
+        v.setSvlan(svlan);
+        v.setState(EnumEstadoVlan.UP);
+
+        return v;
     }
 
     @Override
