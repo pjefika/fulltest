@@ -10,6 +10,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
@@ -58,7 +59,7 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
 
     @Override
     protected ComandoDslam getComandoGetVlans(InventarioRede i) {
-        return new ComandoDslam("display current-configuration port 0/" + i.getSlot() + "/" + i.getPorta(),3000);
+        return new ComandoDslam("display current-configuration port 0/" + i.getSlot() + "/" + i.getPorta(), 3000);
     }
 
     @Override
@@ -75,6 +76,27 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
         v.setState(EnumEstadoVlan.UP);
 
         return v;
+    }
+
+    @Override
+    protected ComandoDslam getComandoGetParametros(InventarioRede i) {
+        return new ComandoDslam("display vdsl line operation port 0/"+i.getSlot()+"/"+i.getPorta(),3000);
+    }
+
+    @Override
+    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) {
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Actual line rate downstream")));
+        t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Maximum attainable rate downstream")));
+        t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line SNR margin downstream")));
+        t.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line attenuation downstream")));
+        
+        t.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Actual line rate upstream")));
+        t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Maximum attainable rate upstream")));
+        t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line SNR margin upstream")));
+        t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line attenuation upstream")));
+        
+        return t;
     }
 
     @Override

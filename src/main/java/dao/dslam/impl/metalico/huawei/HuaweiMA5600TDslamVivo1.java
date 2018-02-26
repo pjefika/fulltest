@@ -23,6 +23,7 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoExecutarComandoException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
@@ -196,27 +197,37 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
+    }
+
+    protected ComandoDslam getComandoGetParametros(InventarioRede i) {
+        return null;
+    }
+
+    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) {
+        return null;
     }
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetParametros(i));
+        return itself.tratGetTabelaParametros(ret);
     }
 
     @Override
