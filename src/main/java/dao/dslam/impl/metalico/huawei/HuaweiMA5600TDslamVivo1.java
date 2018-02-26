@@ -278,11 +278,11 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     public void resetTabelaRede(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
-    
-    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e){
+
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
         return new ComandoDslam("");
     }
-    
+
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
         checkPlaca(i);
@@ -291,15 +291,20 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return this.getEstadoDaPorta(i);
     }
 
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
+        return null;
+    }
+
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca(i);
+        execCommBlob(itself.getComandoSetProfile(i, v));
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        setProfileDown(i, vDown);
     }
 
     @Override

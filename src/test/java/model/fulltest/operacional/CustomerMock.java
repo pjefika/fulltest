@@ -344,7 +344,7 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
 //        s.setTipoTv(TecnologiaTv.DTH);
         s.setTipoLinha(TecnologiaLinha.TDM);
-        s.setVelDown(1024l);
+        s.setVelDown(8651l);
         s.setVelUp(1024l);
 
         c.setServicos(s);

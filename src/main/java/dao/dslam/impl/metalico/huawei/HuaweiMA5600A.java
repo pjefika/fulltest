@@ -128,6 +128,15 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + "deactivate " + i.getPorta(), 1000,
+                "activate " + i.getPorta() + " profile-name\n"
+                + compare(v, Boolean.TRUE).getSintaxVel() + "\n"
+                + "quit", 1000);
+    }
+
+    @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         if (velsDown.isEmpty()) {
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_256, "352D_128U_I_A"));
@@ -140,8 +149,10 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_833, "1184_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_889, "1184_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_1137, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1184_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_1333, "1184_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_1730, "2304_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2304_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_2247, "2304_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_3245, "4608_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_4326, "4608_128D_704_64U_I_A"));

@@ -108,6 +108,14 @@ public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
     }
 
     @Override
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("interface vdsl 0/" + i.getSlot() + "\n"
+                + "deactivate " + i.getPorta(), 1000,
+                "activate " + i.getPorta() + " template-name " + compare(v, Boolean.TRUE).getSintaxVel() + "\n"
+                + "quit", 1000);
+    }
+
+    @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         if (velsDown.isEmpty()) {
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_256, "352D_128U_I_A"));

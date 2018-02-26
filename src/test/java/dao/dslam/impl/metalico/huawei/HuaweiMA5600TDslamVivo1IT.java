@@ -254,7 +254,7 @@ public class HuaweiMA5600TDslamVivo1IT {
         
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.TRUE);
-        EstadoDaPorta result = instanceMS.setEstadoDaPorta(iMS, e);
+        EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
@@ -264,12 +264,10 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.setProfileDown(i, v);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Velocidades v = Velocidades.find(CustomerMock.metalicoHuawei5600tA().getServicos().getVelDown());
+        instanceV.setProfileDown(iV, v);
+        Profile result = instanceV.getProfile(iV);
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**
