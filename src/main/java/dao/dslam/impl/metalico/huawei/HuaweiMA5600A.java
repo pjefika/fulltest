@@ -11,14 +11,13 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import java.util.ArrayList;
+import java.math.BigInteger;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -83,7 +82,7 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + "display line operation " + i.getPorta() + "\n"
-                + "y",3000);
+                + "y", 3000);
     }
 
     @Override
@@ -97,6 +96,26 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
         t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream max. attainable rate")));
         t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel SNR margin")));
         t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel attenuation")));
+        return t;
+    }
+
+    @Override
+    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + "display statistics performance " + i.getPorta() + " current-15minutes", 3000);
+    }
+
+    @Override
+    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) {
+        TabelaRedeMetalico t = new TabelaRedeMetalico();
+        t.setPctDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted")));
+        t.setPctUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted", 2)));
+        t.setCrcDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors")));
+        t.setCrcUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors", 2)));
+        t.setFecDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors")));
+        t.setFecUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors", 2)));
+        t.setTempoMedicao(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Total elapsed seconds in this interval")));
+
         return t;
     }
 

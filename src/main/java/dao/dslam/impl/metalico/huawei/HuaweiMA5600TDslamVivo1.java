@@ -168,8 +168,8 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return estadoPorta;
     }
 
-    protected Profile tratGetProfile(List<String> ret) {
-        return null;
+    protected Profile tratGetProfile(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -184,7 +184,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return null;
     }
 
-    protected VlanBanda tratGetVlanBanda(List<String> ret) {
+    protected VlanBanda tratGetVlanBanda(List<String> ret) throws Exception {
         return null;
     }
 
@@ -219,8 +219,8 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return null;
     }
 
-    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) {
-        return null;
+    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -230,9 +230,19 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return itself.tratGetTabelaParametros(ret);
     }
 
+    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("");
+    }
+
+    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
+    }
+
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetTabelaRede(i));
+        return itself.tratGetTabelaRede(ret);
     }
 
     @Override
