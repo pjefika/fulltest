@@ -423,5 +423,114 @@ public class TratativaRetornoUtil {
         return l;
 
     }
+    
+    public static List<Double> velocidadeMinimaVivo1(Velocidades v) {
+        List<Double> l = new ArrayList<>();
+        switch (v.getVel()) {
+            case "0.2":
+                l.add(191d);
+                l.add(191d);
+                
+
+                break;
+            case "0.25":
+                l.add(238d);
+                l.add(191d);
+                
+                break;
+            case "0.3":
+                l.add(334d);
+                l.add(191d);
+                
+                break;
+            case "0.35":
+                l.add(334d);
+                l.add(191d);
+                
+                break;
+            case "0.5":
+                l.add(477d);
+                l.add(191d);
+                
+                break;
+            case "0.55":
+                l.add(477d);
+                l.add(191d);
+                
+                break;
+            case "0.6":
+                l.add(580d);
+                l.add(191d);
+                
+                break;
+//            case "0.8":
+//                l.add(763d);
+//                l.add(191d);
+//                
+//                break;
+            case "1":
+                l.add(954d);
+                l.add(191d);
+                
+                break;
+            case "1.5":
+                l.add(1465d);
+                l.add(191d);
+                
+                break;
+            case "2":
+                l.add(1908d);
+                l.add(286d);
+                
+                break;
+            case "3":
+                l.add(2862d);
+                l.add(191d);
+                
+                break;
+            case "4":
+                l.add(3815d);
+                l.add(572d);
+                
+                break;
+//            case "5":
+//                l.add(4364d);
+//                l.add(572d);
+//                break;
+//            case "6":
+//                l.add(4364d);
+//                l.add(572d);
+//                break;
+            case "8":
+                l.add(7631d);
+                l.add(572d);
+                
+                break;
+            case "10":
+                l.add(9538d);
+                l.add(572d);
+                
+                break;
+            case "15":
+                l.add(13965d);
+                l.add(873d);
+                
+                break;
+            case "25":
+                l.add(21820d);
+                l.add(1746d);
+                
+                break;
+            case "50":
+                l.add(43641d);
+                l.add(4364d);
+                
+                break;
+            default:
+                break;
+        }
+        return l;
+
+    }
 
 }

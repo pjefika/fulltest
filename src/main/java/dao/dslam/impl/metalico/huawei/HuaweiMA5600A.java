@@ -37,7 +37,7 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     @Override
     protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         EstadoDaPorta est = new EstadoDaPorta();
-        String adm = TratativaRetornoUtil.tratHuawei(ret, "adsl", 2);
+        String adm = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
         String oper = TratativaRetornoUtil.tratHuawei(ret, "ADSL");
         est.setAdminState(adm.contains("up"));
         est.setOperState(oper.contains("active") || oper.contains("activated"));
@@ -117,6 +117,14 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
         t.setTempoMedicao(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Total elapsed seconds in this interval")));
 
         return t;
+    }
+
+    @Override
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        String state = e.getAdminState() ? "activate" : "deactivate";
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + state + " " + i.getPorta() + "\n"
+                + "quit");
     }
 
     @Override

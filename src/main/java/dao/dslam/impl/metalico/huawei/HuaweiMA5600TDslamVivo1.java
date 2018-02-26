@@ -27,6 +27,7 @@ import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -247,32 +248,47 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public Modulacao getModulacao(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setAtnDown(0d);
+        t.setAtnUp(0d);
+        t.setSnrDown(11d);
+        t.setSnrUp(11d);
+        t.setVelSincDown(TratativaRetornoUtil.velocidadeMinimaVivo1(v).get(0));
+        t.setVelSincUp(TratativaRetornoUtil.velocidadeMinimaVivo1(v).get(1));
+
+        return t;
     }
 
     @Override
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public void resetTabelaRede(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
-
+    
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e){
+        return new ComandoDslam("");
+    }
+    
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        checkPlaca(i);
+        execCommBlob(itself.getComandoSetEstadoDaPorta(i, e));
+        estadoPorta = null;
+        return this.getEstadoDaPorta(i);
     }
 
     @Override
@@ -289,42 +305,42 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public void deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public void deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }
