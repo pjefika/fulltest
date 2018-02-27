@@ -6,10 +6,12 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1HuaweiMA5300;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
@@ -26,8 +28,6 @@ import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.dslam.credencial.Credencial;
 
 /**
@@ -39,6 +39,7 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
 
     private transient EstadoDaPorta estadoPorta;
     private transient Profile profile;
+    private transient VlanBandaVivo1HuaweiMA5300 vlanBanda;
 
     public HuaweiMA5300DslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
@@ -165,6 +166,14 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         profile.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
         profile.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
 
+        try {
+            vlanBanda = new VlanBandaVivo1HuaweiMA5300();
+            vlanBanda.setCvlan(new Integer(TratativaRetornoUtil.tratHuawei(ret, "Untagged VLAN ID")));
+            vlanBanda.setState(EnumEstadoVlan.UP);
+        } catch (Exception e) {
+            vlanBanda = null;
+        }
+
     }
 
     @Override
@@ -183,13 +192,12 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         return profile;
     }
 
-    protected ComandoDslam getComandoGetVlans(InventarioRede i) {
-        return null;
-    }
-
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        return null;
+        if (vlanBanda == null) {
+            checkConfs(i);
+        }
+        return vlanBanda;
     }
 
     @Override

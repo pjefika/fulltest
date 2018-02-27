@@ -134,13 +134,9 @@ public class HuaweiMA5300DslamVivo1IT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        HuaweiMA5300DslamVivo1 instance = null;
-        VlanBanda expResult = null;
+ 
         VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
