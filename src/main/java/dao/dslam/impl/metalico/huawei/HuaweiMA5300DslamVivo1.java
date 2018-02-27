@@ -35,13 +35,12 @@ import model.dslam.credencial.Credencial;
  *
  * @author G0041775
  */
-public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
+public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
 
-    private transient HuaweiMA5600TDslamVivo1 itself;
     private transient EstadoDaPorta estadoPorta;
     private transient Profile profile;
 
-    public HuaweiMA5600TDslamVivo1(String ipDslam) {
+    public HuaweiMA5300DslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
     }
 
@@ -52,71 +51,72 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public void enableCommandsInDslam() throws Exception {
-        getCd().consulta(getComandoEnableConfig());
-        if (getCd().consulta(getComandoSmartAlarmOutput()).getBlob().contains("please retry to log on")) {
+        if (getCd().consulta(getComandoEnableConfig()).getBlob().contains("please retry to log on")) {
             throw new FalhaLoginDslamException();
         }
 
     }
 
-    protected void checkPlaca(InventarioRede i) throws Exception {
-        if (itself == null) {
-            if (execCommBlob(getComandoGetTipoPlaca(i)).contains("ADSL")) {
-                itself = new HuaweiMA5600A(getIpDslam());
-            } else {
-                itself = new HuaweiMA5600V(getIpDslam());
-            }
-        }
-    }
-
-    protected void checkPlaca() throws Exception {
-        if (itself == null) {
-            if (execCommBlob(getComandoGetTipoPlaca()).contains("ADSL")) {
-                itself = new HuaweiMA5600A(getIpDslam());
-            } else {
-                itself = new HuaweiMA5600V(getIpDslam());
-            }
-        }
-    }
-
-    protected ComandoDslam getComandoGetTipoPlaca(InventarioRede i) {
-        return new ComandoDslam("display board 0/" + i.getSlot(), 3000);
-    }
-
-    protected ComandoDslam getComandoGetTipoPlaca() {
-        return new ComandoDslam("display board 0/0", 3000);
-    }
-
     protected ComandoDslam getComandoEnableConfig() {
-        return new ComandoDslam("enable", 500, "config", 500);
-    }
-
-    protected ComandoDslam getComandoSmartAlarmOutput() {
-        return new ComandoDslam("undo smart", 500, "undo alarm output all", 500, "scroll 500");
+        return new ComandoDslam("enable\n"
+                + "no smart\n"
+                + "no alarm output all\n"
+                + "configure terminal\n"
+                + "line vty 0 3\n"
+                + "length 0\n"
+                + "exit", 3000);
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        try {
-            checkPlaca();
-        } catch (Exception ex) {
-            Logger.getLogger(HuaweiMA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
+        if (velsDown.isEmpty()) {
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_256, "352D_128U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_285, "352D_128U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_390, "352D_128U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_569, "608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_611, "608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_667, "608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_667, "608_64D_352_64U_I_A_2L"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_833, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_889, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1137, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1333, "1184_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1730, "2304_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2304_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2247, "2304_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3245, "4608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_4326, "4608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_6489, "6144_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_8651, "9216_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_8192, "9216_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10813, "12416_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_11370, "12416_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_16220, "18464_128D_1184_128U_I_A_A_V8"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_17302, "18464_128D_1184_128U_I_A_A_V8"));
         }
-        return itself.obterVelocidadesDownVendor();
+        return velsDown;
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        try {
-            checkPlaca();
-        } catch (Exception ex) {
-            Logger.getLogger(HuaweiMA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
+        if (velsUp.isEmpty()) {
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_128, "352D_128U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_200, "352_64D_352_64U_I_A_2L"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_300, "352_64D_352_64U_I_A_2L"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_300, "608_64D_352_64U_I_A_2L"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_500, "608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "1184_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "2304_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "4608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "6144_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "9216_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "12416_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "18464_128D_1184_128U_I_A_A_V8"));
         }
-        return itself.obterVelocidadesUpVendor();
-    }
 
-    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("");
+        return velsUp;
     }
 
     protected String execCommBlob(ComandoDslam command) throws Exception {
@@ -147,15 +147,24 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return list;
     }
 
-    protected void checkConfs(InventarioRede i) throws Exception {
-        checkPlaca(i);
-        List<String> ret = execCommList(itself.getComandoGetEstadoDaPorta(i));
-        estadoPorta = itself.tratGetEstadoDaPorta(ret);
-        profile = itself.tratGetProfile(ret);
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("show adsl port state adsl " + i.getSlot() + "/0/" + i.getPorta() + "\n\n", 7500);
     }
 
-    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
-        return null;
+    protected void checkConfs(InventarioRede i) throws Exception {
+        List<String> ret = execCommList(getComandoGetEstadoDaPorta(i));
+
+        estadoPorta = new EstadoDaPorta();
+        estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "dsl", 2).contains("up"));
+        estadoPorta.setAdminState(TratativaRetornoUtil.tratHuawei(ret, "ADSL").contains("active"));
+
+        profile = new Profile();
+        String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
+        profile.setProfileDown(profz[profz.length - 1]);
+        profile.setProfileUp(profz[profz.length - 1]);
+        profile.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
+        profile.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
+
     }
 
     @Override
@@ -164,10 +173,6 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
             checkConfs(i);
         }
         return estadoPorta;
-    }
-
-    protected Profile tratGetProfile(List<String> ret) throws Exception {
-        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -182,15 +187,9 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
         return null;
     }
 
-    protected VlanBanda tratGetVlanBanda(List<String> ret) throws Exception {
-        return null;
-    }
-
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        checkPlaca(i);
-        List<String> ret = execCommList(itself.getComandoGetVlans(i));
-        return itself.tratGetVlanBanda(ret);
+        return null;
     }
 
     @Override
@@ -223,9 +222,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        checkPlaca(i);
-        List<String> ret = execCommList(itself.getComandoGetParametros(i));
-        return itself.tratGetTabelaParametros(ret);
+        return null;
     }
 
     protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
@@ -238,9 +235,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        checkPlaca(i);
-        List<String> ret = execCommList(itself.getComandoGetTabelaRede(i));
-        return itself.tratGetTabelaRede(ret);
+        return null;
     }
 
     @Override
@@ -282,10 +277,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        checkPlaca(i);
-        execCommBlob(itself.getComandoSetEstadoDaPorta(i, e));
-        estadoPorta = null;
-        return this.getEstadoDaPorta(i);
+        return null;
     }
 
     protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
@@ -294,8 +286,7 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        checkPlaca(i);
-        execCommBlob(itself.getComandoSetProfile(i, v));
+
     }
 
     @Override

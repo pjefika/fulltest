@@ -288,115 +288,115 @@ public class HuaweiMA5600TDslamVivo1IT {
     /**
      * Test of createVlanBanda method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testCreateVlanBanda() throws Exception {
-        System.out.println("createVlanBanda");
-        InventarioRede i = null;
-        Velocidades vDown = null;
-        Velocidades vUp = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testCreateVlanBanda() throws Exception {
+//        System.out.println("createVlanBanda");
+//        InventarioRede i = null;
+//        Velocidades vDown = null;
+//        Velocidades vUp = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        VlanBanda expResult = null;
+//        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of createVlanVoip method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testCreateVlanVoip() throws Exception {
-        System.out.println("createVlanVoip");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        VlanVoip expResult = null;
-        VlanVoip result = instance.createVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testCreateVlanVoip() throws Exception {
+//        System.out.println("createVlanVoip");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        VlanVoip expResult = null;
+//        VlanVoip result = instance.createVlanVoip(i);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of createVlanVod method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testCreateVlanVod() throws Exception {
-        System.out.println("createVlanVod");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        VlanVod expResult = null;
-        VlanVod result = instance.createVlanVod(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testCreateVlanVod() throws Exception {
+//        System.out.println("createVlanVod");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        VlanVod expResult = null;
+//        VlanVod result = instance.createVlanVod(i);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of createVlanMulticast method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testCreateVlanMulticast() throws Exception {
-        System.out.println("createVlanMulticast");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        VlanMulticast expResult = null;
-        VlanMulticast result = instance.createVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testCreateVlanMulticast() throws Exception {
+//        System.out.println("createVlanMulticast");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        VlanMulticast expResult = null;
+//        VlanMulticast result = instance.createVlanMulticast(i);
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of deleteVlanBanda method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testDeleteVlanBanda() throws Exception {
-        System.out.println("deleteVlanBanda");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.deleteVlanBanda(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testDeleteVlanBanda() throws Exception {
+//        System.out.println("deleteVlanBanda");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        instance.deleteVlanBanda(i);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of deleteVlanVoip method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testDeleteVlanVoip() throws Exception {
-        System.out.println("deleteVlanVoip");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.deleteVlanVoip(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testDeleteVlanVoip() throws Exception {
+//        System.out.println("deleteVlanVoip");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        instance.deleteVlanVoip(i);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of deleteVlanVod method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testDeleteVlanVod() throws Exception {
-        System.out.println("deleteVlanVod");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.deleteVlanVod(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testDeleteVlanVod() throws Exception {
+//        System.out.println("deleteVlanVod");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        instance.deleteVlanVod(i);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
 
     /**
      * Test of deleteVlanMulticast method, of class HuaweiMA5600TDslamVivo1.
      */
-    @Test
-    public void testDeleteVlanMulticast() throws Exception {
-        System.out.println("deleteVlanMulticast");
-        InventarioRede i = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
-        instance.deleteVlanMulticast(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testDeleteVlanMulticast() throws Exception {
+//        System.out.println("deleteVlanMulticast");
+//        InventarioRede i = null;
+//        HuaweiMA5600TDslamVivo1 instance = null;
+//        instance.deleteVlanMulticast(i);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
+//    }
     
 }
