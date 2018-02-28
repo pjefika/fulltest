@@ -240,17 +240,15 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         return t;
     }
 
-    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
-        return new ComandoDslam("");
-    }
-
-    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
-        throw new FuncIndisponivelDslamException();
-    }
-
+//    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
+//        return new ComandoDslam("");
+//    }
+//    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
+//        throw new FuncIndisponivelDslamException();
+//    }
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -287,12 +285,17 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("");
+        String state = e.getAdminState() ? "activate" : "deactivate";
+        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
+                + state + " " + i.getPorta() + ""
+                + "exit");
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        return null;
+        execCommList(getComandoSetEstadoDaPorta(i, e));
+        estadoPorta = null;
+        return getEstadoDaPorta(i);
     }
 
     protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
