@@ -5,10 +5,10 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalicoVdsl;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.properties.metalico.TabelaParametrosMetalicoVdsl;
-import telecom.velocidade.Velocidades;
 
 /**
  *

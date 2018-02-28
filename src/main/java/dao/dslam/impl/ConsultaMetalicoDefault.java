@@ -5,12 +5,12 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import java.util.List;
-import telecom.properties.metalico.Modulacao;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.properties.metalico.TabelaRedeMetalico;
-import telecom.velocidade.Velocidades;
 
 /**
  *

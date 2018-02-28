@@ -5,31 +5,15 @@
  */
 package model.fulltest.operacional;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioRede;
-import br.net.gvt.efika.customer.InventarioServico;
-import br.net.gvt.efika.enums.OrigemPlanta;
-import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.config.CookieSpecs;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.routing.HttpRoute;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import util.JacksonMapper;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
+import br.net.gvt.efika.util.dao.http.HttpDAO;
+import br.net.gvt.efika.util.dao.http.HttpDAOGenericImpl;
 
 /**
  *
@@ -73,75 +57,47 @@ public class CustomerMock {
         return s;
     }
 
+    public static class CustomerRequest {
+
+        private String executor;
+
+        private String parameter;
+
+        public CustomerRequest() {
+        }
+
+        public CustomerRequest(String instancia) {
+            this.parameter = instancia;
+            this.executor = "TESTE";
+        }
+
+        public String getExecutor() {
+            return executor;
+        }
+
+        public void setExecutor(String executor) {
+            this.executor = executor;
+        }
+
+        public String getParameter() {
+            return parameter;
+        }
+
+        public void setParameter(String parameter) {
+            this.parameter = parameter;
+        }
+    };
+
     public static EfikaCustomer getCustomer(String instancia) {
         try {
 
-            HttpClient httpcliente = HttpClients.createDefault();
-            HttpPost httppost = new HttpPost("http://10.40.195.81:8080/stealerAPI/oss/");
+            HttpDAO dao = new HttpDAOGenericImpl<EfikaCustomer>(EfikaCustomer.class) {
+            };
 
-            // Request parameters and other properties.
-            StringEntity param = new StringEntity("{\"instancia\":  \"" + instancia + "\", \"executor\": \"teste\"}");
-            httppost.addHeader("content-type", "application/json");
-            httppost.setEntity(param);
+            CustomerRequest req = new CustomerRequest(instancia);
 
-            //Execute and get the response.
-            HttpResponse response = httpcliente.execute(httppost);
-            HttpEntity entity = response.getEntity();
-
-            InputStream instream = entity.getContent();
-
-            BufferedReader rd = new BufferedReader(new InputStreamReader(entity.getContent()));
-            StringBuffer result = new StringBuffer();
-            String line = "";
-            while ((line = rd.readLine()) != null) {
-                result.append(line);
-            }
-            instream.close();
-            JacksonMapper<EfikaCustomer> mapper = new JacksonMapper(EfikaCustomer.class);
-            EfikaCustomer ec = (EfikaCustomer) mapper.deserialize(result.toString());
-
-            if (ec.getRede().getPlanta() == OrigemPlanta.VIVO1 || ec.getRede().getTipo() == null) {
-                PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
-                cm.setMaxTotal(1);
-                cm.setDefaultMaxPerRoute(1);
-                HttpHost ip = new HttpHost("10.40.195.81", 8080);
-                cm.setMaxPerRoute(new HttpRoute(ip), 50);
-
-                // Cookies
-                RequestConfig globalConfig = RequestConfig.custom()
-                        .setCookieSpec(CookieSpecs.DEFAULT)
-                        .build();
-
-                CloseableHttpClient httpclient = HttpClients.custom()
-                        .setConnectionManager(cm)
-                        .setDefaultRequestConfig(globalConfig)
-                        .build();
-
-                HttpGet httpget = new HttpGet("http://10.40.195.81:8080/networkInventoryAPI/networkInventory/" + ec.getInstancia());
-                httpget.setHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-                if (response1.getStatusLine().getStatusCode() != 200) {
-                    throw new Exception("Cadastro não encontrado na networkInventory");
-                }
-
-                InputStream instream1 = response1.getEntity().getContent();
-
-                BufferedReader rd1 = new BufferedReader(new InputStreamReader(response1.getEntity().getContent()));
-                StringBuffer result1 = new StringBuffer();
-                String line1 = "";
-                while ((line1 = rd1.readLine()) != null) {
-                    result1.append(line1);
-                }
-                instream1.close();
-
-//                Gson g1 = new Gson();
-//
-//                EfikaCustomer ec1 = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(result1.toString());
-//                ec.setRede(ec1.getRede());
-
-            }
-
+            EfikaCustomer ec = (EfikaCustomer) dao.post("http://10.40.198.168:7171/customerAPI/customer/findByParameter",
+                    req);
 
             return ec;
         } catch (Exception e) {
@@ -220,33 +176,34 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //112757790674006 - 1977906740
-        r.setTerminal("112757790674006");
-        r.setIpDslam("BR_IDUDP_OLT01");
+        r.setTerminal("110006157990106");
+        r.setIpDslam("BR_SPOJD_OLT04");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setIdOnt("0002817789");
+        r.setIdOnt("0003295327");
 
-        r.setSlot(15);
-        r.setPorta(4);
-        r.setLogica(2);
-        r.setCvlan(2382);
-        r.setRin(407);
+        r.setSlot(3);
+        r.setPorta(0);
+        r.setLogica(53);
+        r.setCvlan(2169);
+        r.setRin(17);
         r.setBhs(Boolean.TRUE);
+        r.setTipo(TipoRede.GPON);
+        r.setPlanta(OrigemPlanta.VIVO1);
 
-        r.setVlanVoip(3004);
+        r.setVlanVoip(3012);
 
         //todo huawei utiliza 400
         r.setVlanVod(400);
         r.setVlanMulticast(3009);
-        r.setPlanta(OrigemPlanta.VIVO1);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
-        s.setTipoTv(TecnologiaTv.IPTV);
+//        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
-        s.setVelDown(51200l);
-        s.setVelUp(25600l);
+        s.setVelDown(25600l);
+        s.setVelUp(5120l);
 
         c.setServicos(s);
 
@@ -329,4 +286,105 @@ public class CustomerMock {
         return c;
     }
 
+    public static EfikaCustomer metalicoHuawei5600tMS() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1120414633");
+        r.setIpDslam("10.219.17.86");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(6);
+        r.setPorta(3);
+//        r.setLogica(38);
+        r.setCvlan(242);
+        r.setRin(681);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(1024l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5600tV() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1334581115");
+        r.setIpDslam("10.58.139.74");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(17);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(1011);
+        r.setRin(71);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(1024l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5600tA() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1120414633");
+        r.setIpDslam("10.58.150.74");
+        r.setModeloDslam("MA5600T");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(15);
+        r.setPorta(3);
+//        r.setLogica(38);
+        r.setCvlan(951);
+        r.setRin(103);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2048l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 }

@@ -5,8 +5,8 @@
  */
 package model.validacao.impl.realtime;
 
-import fulltest.ValidacaoResult;
-import telecom.properties.ValidavelAbs;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 
 /**
  *

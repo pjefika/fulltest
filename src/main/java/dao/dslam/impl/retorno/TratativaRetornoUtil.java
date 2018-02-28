@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.retorno;
 
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.ComandoDslam;
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,7 +24,6 @@ import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import telecom.velocidade.Velocidades;
 
 /**
  *

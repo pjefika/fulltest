@@ -5,8 +5,8 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.TipoRede;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class FactoryValidador {
 
         if (cust.getRede().getTipo() == TipoRede.GPON) {
             bateria.add(new ValidadorVizinhanca(dslam, cust, local));
-            bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
+            bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
 //            bateria.add(new ValidadorReConexao(dslam, cust, local));
         } else {

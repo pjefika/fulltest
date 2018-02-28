@@ -5,9 +5,9 @@
  */
 package model.entity.manobra;
 
-import br.net.gvt.efika.asserts.AssertsEnum;
-import br.net.gvt.efika.customer.CustomerAssert;
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.AssertsEnum;
 import controller.in.AnaliticoIn;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;

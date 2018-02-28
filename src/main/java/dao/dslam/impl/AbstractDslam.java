@@ -5,6 +5,11 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.VelocidadeViewModel;
+import br.net.gvt.efika.fulltest.model.telecom.config.velocidade.VelocidadeDTO;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.ConsultaDslamFactory;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.util.ArrayList;
@@ -12,11 +17,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.credencial.Credencial;
-import telecom.config.VelocidadeViewModel;
-import telecom.config.velocidade.VelocidadeDTO;
-import telecom.velocidade.Modulacoes;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -41,6 +41,11 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
 
     public void conectar() throws Exception {
         this.loginStrategy.conectar(this.getCd());
+        this.enableCommandsInDslam();
+    }
+
+    protected void enableCommandsInDslam() throws Exception {
+
     }
 
     @Override

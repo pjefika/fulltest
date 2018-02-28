@@ -5,8 +5,14 @@
  */
 package model.service;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.TipoRede;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoGponDefault;
@@ -14,7 +20,6 @@ import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaClienteInter;
 import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
-import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.List;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
@@ -23,11 +28,6 @@ import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
-import telecom.config.ConfiguracaoPorta;
-import telecom.config.ProfileGpon;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Profile;
-import telecom.velocidade.Velocidades;
 
 /**
  *

@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.gpon;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import java.util.Locale;
 import model.validacao.impl.both.ValidacaoValidavel;
-import telecom.properties.gpon.TabelaParametrosGpon;
 
 /**
  *
@@ -16,9 +16,9 @@ import telecom.properties.gpon.TabelaParametrosGpon;
  */
 public class ValidacaoParametrosGpon extends ValidacaoValidavel {
 
-    private final transient TabelaParametrosGpon t;
+    private final transient TabelaParametrosGponBasic t;
 
-    public ValidacaoParametrosGpon(TabelaParametrosGpon t, EfikaCustomer cust, Locale local) {
+    public ValidacaoParametrosGpon(TabelaParametrosGponBasic t, EfikaCustomer cust, Locale local) {
         super(cust, t, local);
         this.t = t;
     }
@@ -30,8 +30,9 @@ public class ValidacaoParametrosGpon extends ValidacaoValidavel {
 
     @Override
     protected String fraseNegativa() {
-        return "Parâmetros fora do padrão (entre -8 e -28). Pot. OLT: " + t.getPotOlt() + ". "
-                + "Pot. ONT: " + t.getPotOnt() + ". Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+//        return "Parâmetros fora do padrão (entre -8 e -28). Pot. OLT: " + t.getPotOlt() + ". "
+//                + "Pot. ONT: " + t.getPotOnt() + ". Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return "Parâmetros fora do padrão (entre -8 e -28).";
     }
 
 }

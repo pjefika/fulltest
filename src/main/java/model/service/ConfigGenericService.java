@@ -5,12 +5,12 @@
  */
 package model.service;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.ConsultaClienteInter;
-import fulltest.ValidacaoResult;
 import java.util.Locale;
 import model.validacao.impl.realtime.Validator;
 

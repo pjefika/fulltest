@@ -5,10 +5,10 @@
  */
 package model.fulltest.operacional.strategy;
 
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.exception.CorrecaoInterruptoraException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import exception.SemGerenciaException;
-import fulltest.ValidacaoResult;
 import java.net.SocketException;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
@@ -36,10 +36,11 @@ public class ForcedStrategy implements ExecutionStrategy {
                 }
             } catch (Exception ex) {
                 System.out.println("Exec Exception -> " + ex.getMessage());
-                ex.printStackTrace();
+//                ex.printStackTrace();
                 if (ex instanceof FuncIndisponivelDslamException) {
                     
                 } else {
+                    ex.printStackTrace();
                     ft.setMensagem(ex.getMessage());
                     ft.setResultado(Boolean.FALSE);
                     if (ex instanceof SemGerenciaException) {

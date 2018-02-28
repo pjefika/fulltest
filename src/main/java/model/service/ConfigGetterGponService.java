@@ -5,8 +5,8 @@
  */
 package model.service;
 
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import java.util.List;
-import telecom.properties.Porta;
 
 /**
  *

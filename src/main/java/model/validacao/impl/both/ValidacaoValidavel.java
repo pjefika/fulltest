@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.both;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Validavel;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import java.util.Locale;
-import telecom.properties.Validavel;
-import telecom.properties.ValidavelAbs;
 
 /**
  *

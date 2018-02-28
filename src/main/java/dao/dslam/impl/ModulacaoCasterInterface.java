@@ -5,8 +5,8 @@
  */
 package dao.dslam.impl;
 
-import telecom.properties.metalico.Modulacao;
-import telecom.velocidade.Velocidades;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 
 /**
  *

@@ -5,11 +5,11 @@
  */
 package model.enumsservice;
 
-import br.net.gvt.efika.enums.TecnologiaLinha;
-import br.net.gvt.efika.enums.TecnologiaTv;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import java.util.ArrayList;
 import java.util.List;
-import telecom.velocidade.Velocidades;
 
 /**
  *

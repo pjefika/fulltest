@@ -5,8 +5,11 @@
  */
 package model.manobra.asserts.facade;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioServico;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadesUtil;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
@@ -32,9 +35,6 @@ import model.validacao.impl.metalico.manobra.ValidacaoPacotesUp;
 import model.validacao.impl.metalico.manobra.ValidacaoResync300;
 import model.validacao.impl.metalico.manobra.ValidacaoResync5;
 import model.validacao.impl.metalico.manobra.ValidacaoResync50;
-import telecom.properties.metalico.TabelaParametrosMetalico;
-import telecom.properties.metalico.TabelaRedeMetalico;
-import telecom.velocidade.VelocidadesUtil;
 
 /**
  *

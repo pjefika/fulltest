@@ -5,14 +5,14 @@
  */
 package dao.dslam.impl.metalico;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import model.dslam.credencial.Credencial;
-import telecom.properties.DeviceMAC;
 
 /**
  *

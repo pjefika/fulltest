@@ -5,13 +5,13 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.customer.InventarioRede;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVoip;
-import telecom.velocidade.Velocidades;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 
 /**
  *

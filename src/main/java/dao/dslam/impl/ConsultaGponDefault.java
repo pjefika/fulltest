@@ -5,13 +5,13 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import java.util.List;
-import telecom.properties.Porta;
-import telecom.properties.gpon.AlarmesGpon;
-import telecom.properties.gpon.PortaPON;
-import telecom.properties.gpon.SerialOntGpon;
-import telecom.properties.gpon.TabelaParametrosGpon;
 
 
 /**
@@ -24,7 +24,7 @@ public interface ConsultaGponDefault extends ConsultaClienteInter {
 
     public PortaPON getPortaPON(InventarioRede i) throws Exception;
 
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception;
+    public TabelaParametrosGponBasic getTabelaParametros(InventarioRede i) throws Exception;
 
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
 

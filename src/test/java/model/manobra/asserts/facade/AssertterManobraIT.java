@@ -5,8 +5,8 @@
  */
 package model.manobra.asserts.facade;
 
-import br.net.gvt.efika.customer.CustomerAssert;
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;

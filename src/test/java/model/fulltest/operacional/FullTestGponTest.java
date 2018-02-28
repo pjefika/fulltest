@@ -5,7 +5,8 @@
  */
 package model.fulltest.operacional;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.ArrayList;
 import java.util.List;
 import model.fulltest.operacional.facade.FullTestCOFacade;
@@ -15,7 +16,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import util.JacksonMapper;
 
 /**
  *
@@ -66,7 +66,7 @@ public class FullTestGponTest {
         
         for (String test : tests) {
             try {
-                cust = CustomerMock.getCustomer(test);
+                cust = CustomerMock.gponHuaweiV1();
 
                 FullTestInterface instance = new FullTestCOFacade();
 

@@ -5,10 +5,10 @@
  */
 package model.validacao.impl.metalico.manobra;
 
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
-import telecom.properties.ValidavelAbs;
-import telecom.properties.metalico.TabelaParametrosMetalico;
 
 /**
  *

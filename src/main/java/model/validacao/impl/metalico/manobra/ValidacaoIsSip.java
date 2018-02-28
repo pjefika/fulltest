@@ -5,11 +5,11 @@
  */
 package model.validacao.impl.metalico.manobra;
 
-import br.net.gvt.efika.customer.InventarioServico;
-import br.net.gvt.efika.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioServico;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
-import telecom.properties.ValidavelAbs;
 
 /**
  *

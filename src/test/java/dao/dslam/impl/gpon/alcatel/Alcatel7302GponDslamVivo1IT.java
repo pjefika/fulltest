@@ -5,8 +5,23 @@
  */
 package dao.dslam.impl.gpon.alcatel;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -15,20 +30,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import telecom.properties.DeviceMAC;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.Porta;
-import telecom.properties.Profile;
-import telecom.properties.VlanBanda;
-import telecom.properties.VlanMulticast;
-import telecom.properties.VlanVod;
-import telecom.properties.VlanVoip;
-import telecom.properties.gpon.AlarmesGpon;
-import telecom.properties.gpon.PortaPON;
-import telecom.properties.gpon.SerialOntGpon;
-import telecom.properties.gpon.TabelaParametrosGpon;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  *
@@ -39,7 +40,7 @@ public class Alcatel7302GponDslamVivo1IT {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1137221691");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("1732270283");
     private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -91,7 +92,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        //System.out.println(GsonUtil.serialize(result));
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
         assertTrue(result.validar(cust));
     }
 

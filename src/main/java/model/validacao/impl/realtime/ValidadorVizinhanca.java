@@ -5,12 +5,12 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.FactoryDAO;
 import dao.customer.NetworkInventoryDAO;
 import dao.customer.NetworkInventoryDAOImpl;
 import dao.dslam.impl.AbstractDslam;
-import fulltest.ValidacaoResult;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

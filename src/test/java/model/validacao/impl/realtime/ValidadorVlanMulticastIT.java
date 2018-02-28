@@ -5,11 +5,11 @@
  */
 package model.validacao.impl.realtime;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import dao.dslam.factory.DslamDAOFactory;
 import java.util.Locale;
 import model.fulltest.operacional.CustomerMock;
-import fulltest.ValidacaoResult;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;

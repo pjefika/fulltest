@@ -5,7 +5,8 @@
  */
 package model.fulltest.operacional.facade;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import model.fulltest.operacional.CustomerMock;
 import model.fulltest.operacional.FullTest;
 import org.junit.After;
@@ -22,7 +23,7 @@ import org.junit.Test;
  */
 public class FullTestCOFacadeIT {
 
-    private final EfikaCustomer cust = CustomerMock.getCustomer("4131543457");
+    private final EfikaCustomer cust = CustomerMock.gponHuaweiV1();
 
     public FullTestCOFacadeIT() {
     }
@@ -52,8 +53,7 @@ public class FullTestCOFacadeIT {
             System.out.println("executar");
             FullTestInterface instance = new FullTestCOFacade();
             FullTest result = instance.executar(cust);
-            System.out.println("end");
-
+            System.out.println("end: " + new JacksonMapper<>(FullTest.class).serialize(result));
             assertTrue(result.getResultado());
         } catch (Exception e) {
             e.printStackTrace();

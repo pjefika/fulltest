@@ -5,11 +5,11 @@
  */
 package model.fulltest.operacional;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
 import model.entity.FulltestGenericEntity;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
-import util.JacksonMapper;
 
 /**
  *

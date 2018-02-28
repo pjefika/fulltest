@@ -61,6 +61,24 @@
     <dependencies>
         <!-- Java EE 7 dependency -->
         <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <scope>test</scope>
+            <version>2.44.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.opera</groupId>
+            <artifactId>operadriver</artifactId>
+            <scope>test</scope>
+            <version>1.5</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-remote-driver</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
@@ -74,7 +92,7 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>customer-lib</artifactId>
+            <artifactId>customer</artifactId>
             <version>1.0.0</version>
         </dependency>
         
@@ -86,14 +104,15 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>efika-util</artifactId>
+            <artifactId>util</artifactId>
             <version>1.0.0</version>
         </dependency>
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>fulltest-lib</artifactId>
-            <version>1.0.0</version>
+            <artifactId>fulltest</artifactId>
+            <version>1.0.1</version>
+            <type>jar</type>
         </dependency>
         
         <!-- https://mvnrepository.com/artifact/com.jcraft/jsch -->

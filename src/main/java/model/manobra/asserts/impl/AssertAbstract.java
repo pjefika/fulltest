@@ -5,8 +5,8 @@
  */
 package model.manobra.asserts.impl;
 
-import br.net.gvt.efika.asserts.AssertsEnum;
-import br.net.gvt.efika.asserts.EfikaAssertable;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.AssertsEnum;
+import br.net.gvt.efika.efika_customer.model.customer.asserts.EfikaAssertable;
 
 /**
  *

@@ -5,7 +5,7 @@
  */
 package dao.log;
 
-import br.net.gvt.efika.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import dao.AbstractHibernateDAO;
 import java.util.List;
 import javax.persistence.Query;

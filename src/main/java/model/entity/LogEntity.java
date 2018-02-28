@@ -5,6 +5,7 @@
  */
 package model.entity;
 
+import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.util.Calendar;

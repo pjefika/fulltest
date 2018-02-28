@@ -5,7 +5,13 @@
  */
 package dao.dslam.impl.metalico.keymile;
 
-import br.net.gvt.efika.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
+import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginRapido;
@@ -15,12 +21,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import model.dslam.credencial.Credencial;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.ReConexao;
-import telecom.properties.metalico.TabelaRedeMetalico;
-import telecom.velocidade.Modulacoes;
-import telecom.velocidade.VelocidadeVendor;
-import telecom.velocidade.Velocidades;
 
 /**
  *

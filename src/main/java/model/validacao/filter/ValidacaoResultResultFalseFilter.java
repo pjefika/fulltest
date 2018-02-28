@@ -5,7 +5,7 @@
  */
 package model.validacao.filter;
 
-import fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 
 /**
  *

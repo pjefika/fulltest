@@ -5,9 +5,9 @@
  */
 package model.validacao.impl.both;
 
+import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import java.util.Locale;
-import telecom.properties.EstadoDaPorta;
-import telecom.properties.ValidavelAbs;
 
 /**
  *

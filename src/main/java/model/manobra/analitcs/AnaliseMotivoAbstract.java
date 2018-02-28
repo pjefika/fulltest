@@ -5,7 +5,7 @@
  */
 package model.manobra.analitcs;
 
-import br.net.gvt.efika.customer.CustomerAssert;
+import br.net.gvt.efika.efika_customer.model.customer.CustomerAssert;
 import java.util.List;
 
 /**

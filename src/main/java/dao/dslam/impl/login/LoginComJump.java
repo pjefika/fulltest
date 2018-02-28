@@ -66,10 +66,10 @@ public class LoginComJump implements LoginDslamStrategy {
             Thread.sleep(3000);
             cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
             cs.out.flush();
-            Thread.sleep(1000);
-            cs.out.print(this.cs.dslam.getCredencial().getPass()+ "\r");
+            Thread.sleep(2500);
+            cs.out.print(this.cs.dslam.getCredencial().getPass() + "\r");
             cs.out.flush();
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();
