@@ -6,20 +6,14 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
-import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
-import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
-import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
-import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
-import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
-import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import br.net.gvt.efika.util.util.json.JacksonMapper;
-import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -33,26 +27,26 @@ import org.junit.Test;
  * @author G0041775
  */
 public class HuaweiMA5600TDslamVivo1IT {
-    
+
     public HuaweiMA5600TDslamVivo1IT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     private static HuaweiMA5600TDslamVivo1 instance = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tA().getRede().getIpDslam());
     private static InventarioRede i = CustomerMock.metalicoHuawei5600tA().getRede();
     private static HuaweiMA5600TDslamVivo1 instanceMS = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tMS().getRede().getIpDslam());
@@ -67,7 +61,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testConectar() throws Exception {
         System.out.println("conectar");
         instance.conectar();
-        
+
     }
 
     /**
@@ -77,7 +71,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        
+
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
@@ -87,7 +81,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        
+
         Profile result = instanceMS.getProfile(iMS);
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
@@ -98,10 +92,10 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        
+
         VlanBanda result = instance.getVlanBanda(i);
         System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
-        
+
     }
 
 //    /**
@@ -162,7 +156,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        
+
         TabelaParametrosMetalico result = instanceMS.getTabelaParametros(iMS);
         System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
     }
@@ -173,7 +167,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
-        
+
         TabelaRedeMetalico result = instanceV.getTabelaRede(iV);
         System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
@@ -251,7 +245,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        
+
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.TRUE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
@@ -301,7 +295,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of createVlanVoip method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -316,7 +309,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of createVlanVod method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -331,7 +323,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of createVlanMulticast method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -346,7 +337,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of deleteVlanBanda method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -359,7 +349,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of deleteVlanVoip method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -372,7 +361,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of deleteVlanVod method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -385,7 +373,6 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
     /**
      * Test of deleteVlanMulticast method, of class HuaweiMA5600TDslamVivo1.
      */
@@ -399,4 +386,14 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        fail("The test case is a prototype.");
 //    }
     
+    /**
+     * Test of getDeviceMac method, of class HuaweiMA5600TDslamVivo1.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+       
+        DeviceMAC result = instanceMS.getDeviceMac(iMS);
+        System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
+    }
 }

@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
@@ -25,6 +26,8 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -302,6 +305,38 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     public void setProfileUp(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
         setProfileDown(i, vDown);
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("display mac-address port 0/" + i.getSlot() + "/" + i.getPorta(), 2000);
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        List<String> ret = execCommList(getComandoGetDeviceMAC(i));
+        DeviceMAC m = new DeviceMAC();
+        String mac = "";
+        try {
+            List<String> line = TratativaRetornoUtil.listStringFromStringByRegexGroup(
+                    TratativaRetornoUtil.tratHuawei(ret, "dl"),
+                    "\\w{4}[-|:]\\w{4}[-|:]\\w{4}");
+            String lemac = line.get(0).replaceAll("-", "");
+            List<String> macz = TratativaRetornoUtil.listStringFromStringByRegexGroup(
+                    lemac,
+                    ".{2}");
+
+            for (int j = 1; j < macz.size(); j++) {
+                mac = mac.concat(macz.get(j));
+                if (j != (int) macz.size() - 1) {
+                    mac = mac.concat(":");
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        m.setMac(mac);
+
+        return m;
     }
 
     @Override

@@ -221,16 +221,23 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return null;
-    }
-
-    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
+                + "show line state " + i.getPorta(), 3000, "exit");
     }
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        return null;
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        List<String> ret = execCommList(getComandoGetParametros(i));
+        t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate")));
+        t.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate", 2)));
+        t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate")));
+        t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate", 2)));
+        t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin")));
+        t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin", 2)));
+        t.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation")));
+        t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation", 2)));
+        return t;
     }
 
     protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {

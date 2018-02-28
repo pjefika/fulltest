@@ -205,13 +205,8 @@ public class HuaweiMA5300DslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        HuaweiMA5300DslamVivo1 instance = null;
-        TabelaParametrosMetalico expResult = null;
         TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
     }
 
     /**
