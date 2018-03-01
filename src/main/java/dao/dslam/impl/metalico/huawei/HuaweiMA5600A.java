@@ -39,10 +39,10 @@ public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
     @Override
     protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
         EstadoDaPorta est = new EstadoDaPorta();
-        String adm = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
-        String oper = TratativaRetornoUtil.tratHuawei(ret, "ADSL");
-        est.setAdminState(adm.contains("up"));
-        est.setOperState(oper.contains("active") || oper.contains("activated"));
+        String oper = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
+        String adm = TratativaRetornoUtil.tratHuawei(ret, "ADSL");
+        est.setAdminState(!adm.contains("deactivated"));
+        est.setOperState(oper.contains("up"));
         return est;
     }
 

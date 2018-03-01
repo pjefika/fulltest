@@ -299,12 +299,14 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         checkPlaca(i);
         execCommBlob(itself.getComandoSetProfile(i, v));
+        profile = null;
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
         setProfileDown(i, vDown);
+        profile = null;
     }
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
@@ -325,8 +327,8 @@ public class HuaweiMA5600TDslamVivo1 extends DslamMetalicoVivo1 {
                     lemac,
                     ".{2}");
 
-            for (int j = 1; j < macz.size(); j++) {
-                mac = mac.concat(macz.get(j));
+            for (int j = 0; j < macz.size(); j++) {
+                mac = mac.concat(macz.get(j).toUpperCase());
                 if (j != (int) macz.size() - 1) {
                     mac = mac.concat(":");
                 }

@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -156,7 +157,7 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         List<String> ret = execCommList(getComandoGetEstadoDaPorta(i));
 
         estadoPorta = new EstadoDaPorta();
-        estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "dsl", 2).contains("up"));
+        estadoPorta.setOperState(!TratativaRetornoUtil.tratHuawei(ret, "dsl", 2).contains("admin"));
         estadoPorta.setAdminState(TratativaRetornoUtil.tratHuawei(ret, "ADSL").contains("active"));
 
         profile = new Profile();
@@ -287,8 +288,8 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
         String state = e.getAdminState() ? "activate" : "deactivate";
         return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + state + " " + i.getPorta() + ""
-                + "exit");
+                + state + " " + i.getPorta() + "\n"
+                + "exit", 3000);
     }
 
     @Override
@@ -299,18 +300,53 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
-        return null;
+        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
+                + "deactivate " + i.getPorta() + "\n"
+                + "activate " + i.getPorta() + " name " + compare(v, Boolean.TRUE).getSintaxVel() + "\n"
+                + "exit", 3000);
     }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-
+        execCommList(getComandoSetProfile(i, v));
+        profile = null;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown,
-            Velocidades vUp) throws Exception {
+    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         setProfileDown(i, vDown);
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("show mac-address-table dynamic interface adsl " + i.getSlot() + "/0/" + i.getPorta() + "\n\n", 6000);
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+        DeviceMAC m = new DeviceMAC();
+        List<String> ret = execCommList(getComandoGetDeviceMAC(i));
+        String mac = "";
+        try {
+            String s = TratativaRetornoUtil.tratHuawei(ret, "dsl",2);
+            List<String> line = TratativaRetornoUtil.listStringFromStringByRegexGroup(
+                    s,
+                    "\\w{4}[-|:|.]\\w{4}[-|:|.]\\w{4}");
+            String lemac = line.get(0).replaceAll("[-|:|.]", "");
+            List<String> macz = TratativaRetornoUtil.listStringFromStringByRegexGroup(
+                    lemac,
+                    ".{2}");
+
+            for (int j = 0; j < macz.size(); j++) {
+                mac = mac.concat(macz.get(j).toUpperCase());
+                if (j != (int) macz.size() - 1) {
+                    mac = mac.concat(":");
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        m.setMac(mac);
+        return m;
     }
 
     @Override

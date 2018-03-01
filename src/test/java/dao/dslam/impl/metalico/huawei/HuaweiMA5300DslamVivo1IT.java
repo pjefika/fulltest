@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
@@ -315,12 +316,11 @@ public class HuaweiMA5300DslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        HuaweiMA5300DslamVivo1 instance = null;
+        
+        Velocidades v = Velocidades.find(CustomerMock.metalicoHuawei5300().getServicos().getVelDown());
+        
         instance.setProfileDown(i, v);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(Profile.class).serialize(instance.getProfile(i)));
     }
 
     /**
@@ -450,6 +450,17 @@ public class HuaweiMA5300DslamVivo1IT {
         instance.deleteVlanMulticast(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDeviceMac method, of class HuaweiMA5300DslamVivo1.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        
+        DeviceMAC result = instance.getDeviceMac(i);
+        System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
     }
 
 }

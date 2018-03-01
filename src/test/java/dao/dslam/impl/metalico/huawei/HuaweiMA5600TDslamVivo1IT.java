@@ -248,7 +248,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.TRUE);
-        EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
+        EstadoDaPorta result = instanceMS.setEstadoDaPorta(iMS, e);
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
@@ -393,7 +393,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void testGetDeviceMac() throws Exception {
         System.out.println("getDeviceMac");
        
-        DeviceMAC result = instanceMS.getDeviceMac(iMS);
+        DeviceMAC result = instance.getDeviceMac(i);
         System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
     }
 }
