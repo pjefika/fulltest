@@ -27,6 +27,7 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 
@@ -262,9 +263,27 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return parametros;
     }
 
+    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + "show statistics performance " + i.getPorta() + " current-15minutes\n"
+                + "quit", 3000);
+    }
+
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        List<String> ret = execCommList(getComandoGetTabelaRede(i));
+        TabelaRedeMetalico t = new TabelaRedeMetalico();
+        t.setPctDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted")));
+        t.setFecDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors")));
+        t.setCrcDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors")));
+
+        t.setPctUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted", 2)));
+        t.setFecUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors", 2)));
+        t.setCrcUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors", 2)));
+        
+        t.setTempoMedicao(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Total elapsed seconds in this interval")));
+
+        return t;
     }
 
     @Override
