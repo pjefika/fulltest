@@ -157,7 +157,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         List<String> ret = execCommList(getComandoGetEstadoDaPorta(i));
         estadoPorta = new EstadoDaPorta();
 
-        estadoPorta.setAdminState(!TratativaRetornoUtil.tratHuawei(ret, "tiv", 2).contains("Deactivated"));
+        estadoPorta.setAdminState(!TratativaRetornoUtil.tratHuawei(ret, "tiv").contains("Deactivated"));
         estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "Port " + i.getPorta() + " is not active").contains("encontrado"));
 
         parametros = new TabelaParametrosMetalico();
@@ -266,7 +266,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
     protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + "show statistics performance " + i.getPorta() + " current-15minutes\n"
-                + "quit", 3000);
+                + "exit", 3000);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         t.setPctUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted", 2)));
         t.setFecUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors", 2)));
         t.setCrcUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors", 2)));
-        
+
         t.setTempoMedicao(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Total elapsed seconds in this interval")));
 
         return t;
@@ -321,9 +321,9 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
         String state = e.getAdminState() ? "activate" : "deactivate";
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + state + " " + i.getPorta() + "\n"
-                + "exit", 3000);
+                + "exit",2000);
     }
 
     @Override

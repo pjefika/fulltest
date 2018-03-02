@@ -116,7 +116,7 @@ public class HuaweiMA5100DslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
 
-        EstadoDaPorta result = instance3.getEstadoDaPorta(i3);
+        EstadoDaPorta result = instance.getEstadoDaPorta(i);
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
@@ -301,14 +301,8 @@ public class HuaweiMA5100DslamVivo1IT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        HuaweiMA5100DslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
-        EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EstadoDaPorta result = instance.setEstadoDaPorta(i, new EstadoDaPorta(Boolean.TRUE));
+        System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
 
     /**
