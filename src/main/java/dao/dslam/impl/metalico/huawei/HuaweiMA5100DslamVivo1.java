@@ -37,7 +37,7 @@ import model.dslam.credencial.Credencial;
 public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     private transient EstadoDaPorta estadoPorta;
-    private transient Profile profile;
+    private transient TabelaParametrosMetalico parametros;
 
     public HuaweiMA5100DslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
@@ -158,12 +158,17 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         estadoPorta.setAdminState(!TratativaRetornoUtil.tratHuawei(ret, "tiv", 2).contains("Deactivated"));
         estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "Port " + i.getPorta() + " is not active").contains("encontrado"));
 
-//        profile = new Profile();
-//        String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
-//        profile.setProfileDown(profz[profz.length - 1]);
-//        profile.setProfileUp(profz[profz.length - 1]);
-//        profile.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
-//        profile.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
+        parametros = new TabelaParametrosMetalico();
+        parametros.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
+        parametros.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));
+        parametros.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel SNR margin")));
+        parametros.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel attenuation")));
+
+        parametros.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel rate")));
+        parametros.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream max. attainable rate")));
+        parametros.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel SNR margin")));
+        parametros.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel attenuation")));
+
     }
 
     @Override
@@ -175,12 +180,22 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return estadoPorta;
     }
 
+    protected ComandoDslam getComandoGetProfile(InventarioRede i) {
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + "show parameter " + i.getPorta() + "\n"
+                + "quit\n",4000);
+    }
+
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        if (profile == null) {
-            checkConfs(i);
-        }
-        return profile;
+        List<String> ret = execCommList(getComandoGetProfile(i));
+        Profile p = new Profile();
+        String prof = TratativaRetornoUtil.tratHuawei(ret, "Profile index");
+        p.setProfileDown(prof);
+        p.setProfileUp(prof);
+        p.setDown(compareV1Metalico(prof, Boolean.TRUE));
+        p.setUp(compareV1Metalico(prof, Boolean.FALSE));
+        return p;
     }
 
     @Override
@@ -296,7 +311,6 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         execCommList(getComandoSetProfile(i, v));
-        profile = null;
     }
 
     @Override

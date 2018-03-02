@@ -161,7 +161,7 @@ public class TratativaRetornoUtil {
         for (String leLine : list) {
             if (leLine.contains(qqqro)) {
                 if (i.equals(o)) {
-                    return leLine.substring(leLine.indexOf(":") + 1, leLine.length()).trim();
+                    return leLine.substring(leLine.lastIndexOf(":") + 1, leLine.length()).trim();
                 }
                 i++;
             }
