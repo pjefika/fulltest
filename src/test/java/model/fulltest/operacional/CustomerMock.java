@@ -419,4 +419,75 @@ public class CustomerMock {
 
         return c;
     }
+
+    public static EfikaCustomer metalicoHuawei5100() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1144853650 - MA5100
+        r.setTerminal("1144853650");
+        r.setIpDslam("10.18.87.253");
+        r.setModeloDslam("MA5100");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(6);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(196);
+        r.setRin(244);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2048l);
+        s.setVelUp(300l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5103() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1147461013 - MA5103
+        //1934511136 - MA5103
+        r.setTerminal("1934511136");
+        r.setIpDslam("10.18.86.227");
+        r.setModeloDslam("MA5103");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(4);
+        r.setPorta(18);
+//        r.setLogica(38);
+        r.setCvlan(146);
+        r.setRin(245);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2247l);
+        s.setVelUp(600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 }
