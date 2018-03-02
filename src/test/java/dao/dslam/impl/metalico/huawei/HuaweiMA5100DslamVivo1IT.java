@@ -34,26 +34,26 @@ import static org.junit.Assert.*;
  * @author G0041775
  */
 public class HuaweiMA5100DslamVivo1IT {
-    
+
     public HuaweiMA5100DslamVivo1IT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     private static HuaweiMA5100DslamVivo1 instance = new HuaweiMA5100DslamVivo1(CustomerMock.metalicoHuawei5100().getRede().getIpDslam());
     private static InventarioRede i = CustomerMock.metalicoHuawei5100().getRede();
     private static HuaweiMA5100DslamVivo1 instance3 = new HuaweiMA5100DslamVivo1(CustomerMock.metalicoHuawei5103().getRede().getIpDslam());
@@ -81,7 +81,8 @@ public class HuaweiMA5100DslamVivo1IT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class HuaweiMA5100DslamVivo1.
+     * Test of obterVelocidadesDownVendor method, of class
+     * HuaweiMA5100DslamVivo1.
      */
     @Test
     public void testObterVelocidadesDownVendor() {
@@ -114,7 +115,7 @@ public class HuaweiMA5100DslamVivo1IT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-       
+
         EstadoDaPorta result = instance3.getEstadoDaPorta(i3);
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
@@ -135,13 +136,8 @@ public class HuaweiMA5100DslamVivo1IT {
     @Test
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
-        InventarioRede i = null;
-        HuaweiMA5100DslamVivo1 instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.getVlanBanda(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        VlanBanda result = instance3.getVlanBanda(i3);
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
@@ -210,13 +206,9 @@ public class HuaweiMA5100DslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        HuaweiMA5100DslamVivo1 instance = null;
-        TabelaParametrosMetalico expResult = null;
-        TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        TabelaParametrosMetalico result = instance3.getTabelaParametros(i3);
+        System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
     }
 
     /**
@@ -481,5 +473,5 @@ public class HuaweiMA5100DslamVivo1IT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

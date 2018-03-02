@@ -7,6 +7,7 @@ package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
@@ -159,15 +160,26 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "Port " + i.getPorta() + " is not active").contains("encontrado"));
 
         parametros = new TabelaParametrosMetalico();
-        parametros.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
-        parametros.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));
-        parametros.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel SNR margin")));
-        parametros.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel attenuation")));
+        try {
+            parametros.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
+            parametros.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));
+            parametros.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel SNR margin")));
+            parametros.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel attenuation")));
 
-        parametros.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel rate")));
-        parametros.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream max. attainable rate")));
-        parametros.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel SNR margin")));
-        parametros.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel attenuation")));
+            parametros.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel rate")));
+            parametros.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream max. attainable rate")));
+            parametros.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel SNR margin")));
+            parametros.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Upstream channel attenuation")));
+        } catch (Exception e) {
+            parametros.setVelSincDown(0d);
+            parametros.setVelMaxDown(0d);
+            parametros.setSnrDown(0d);
+            parametros.setAtnDown(0d);
+            parametros.setVelSincUp(0d);
+            parametros.setVelMaxUp(0d);
+            parametros.setSnrUp(0d);
+            parametros.setAtnUp(0d);
+        }
 
     }
 
@@ -183,7 +195,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
     protected ComandoDslam getComandoGetProfile(InventarioRede i) {
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + "show parameter " + i.getPorta() + "\n"
-                + "quit\n",4000);
+                + "quit\n", 4000);
     }
 
     @Override
@@ -198,9 +210,28 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return p;
     }
 
+    protected ComandoDslam getComandoGetVlanBanda(InventarioRede i) {
+        return new ComandoDslam("show pvc 0/" + i.getSlot() + "/" + i.getPorta(), 3000);
+    }
+
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        return null;
+        List<String> ret = execCommList(getComandoGetVlanBanda(i));
+        VlanBanda v = new VlanBanda();
+        v.setCvlan(0);
+        v.setSvlan(0);
+        v.setState(EnumEstadoVlan.DOWN);
+        try {
+            List<Integer> li = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "dl"));
+            List<String> ls = TratativaRetornoUtil.listStringFromStringByRegexGroup(TratativaRetornoUtil.tratHuawei(ret, "dl"), "\\w+");
+            EnumEstadoVlan st = ls.get(ls.size() - 1).equalsIgnoreCase("up") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+            v.setCvlan(li.get(li.size() - 2));
+            v.setSvlan(li.get(li.size() - 3));
+            v.setState(st);
+        } catch (Exception e) {
+        }
+
+        return v;
     }
 
     @Override
@@ -223,32 +254,14 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
-    protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + "show line state " + i.getPorta(), 3000, "exit");
-    }
-
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
-        List<String> ret = execCommList(getComandoGetParametros(i));
-        t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate")));
-        t.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate", 2)));
-        t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate")));
-        t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate", 2)));
-        t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin")));
-        t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin", 2)));
-        t.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation")));
-        t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation", 2)));
-        return t;
+        if (parametros == null) {
+            checkConfs(i);
+        }
+        return parametros;
     }
 
-//    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
-//        return new ComandoDslam("");
-//    }
-//    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
-//        throw new FuncIndisponivelDslamException();
-//    }
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
