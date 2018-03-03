@@ -26,9 +26,9 @@ import org.junit.Test;
  *
  * @author G0041775
  */
-public class HuaweiMA5600TDslamVivo1IT {
+public class MA5600TDslamVivo1IT {
 
-    public HuaweiMA5600TDslamVivo1IT() {
+    public MA5600TDslamVivo1IT() {
     }
 
     @BeforeClass
@@ -47,15 +47,15 @@ public class HuaweiMA5600TDslamVivo1IT {
     public void tearDown() {
     }
 
-    private static HuaweiMA5600TDslamVivo1 instance = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tA().getRede().getIpDslam());
+    private static MA5600TDslamVivo1 instance = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tA().getRede().getIpDslam());
     private static InventarioRede i = CustomerMock.metalicoHuawei5600tA().getRede();
-    private static HuaweiMA5600TDslamVivo1 instanceMS = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tMS().getRede().getIpDslam());
+    private static MA5600TDslamVivo1 instanceMS = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tMS().getRede().getIpDslam());
     private static InventarioRede iMS = CustomerMock.metalicoHuawei5600tMS().getRede();
-    private static HuaweiMA5600TDslamVivo1 instanceV = new HuaweiMA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tV().getRede().getIpDslam());
+    private static MA5600TDslamVivo1 instanceV = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tV().getRede().getIpDslam());
     private static InventarioRede iV = CustomerMock.metalicoHuawei5600tV().getRede();
 
     /**
-     * Test of conectar method, of class HuaweiMA5600TDslamVivo1.
+     * Test of conectar method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testConectar() throws Exception {
@@ -65,7 +65,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of getEstadoDaPorta method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getEstadoDaPorta method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetEstadoDaPorta() throws Exception {
@@ -76,7 +76,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of getProfile method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getProfile method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetProfile() throws Exception {
@@ -87,7 +87,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of getVlanBanda method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getVlanBanda method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetVlanBanda() throws Exception {
@@ -99,7 +99,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
 //    /**
-//     * Test of getVlanMulticast method, of class HuaweiMA5600TDslamVivo1.
+//     * Test of getVlanMulticast method, of class MA5600TDslamVivo1.
 //     */
 //    @Test
 //    public void testGetVlanMulticast() throws Exception {
@@ -115,7 +115,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testGetVlanVoip() throws Exception {
 //        System.out.println("getVlanVoip");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanVoip expResult = null;
 //        VlanVoip result = instance.getVlanVoip(i);
 //        assertEquals(expResult, result);
@@ -129,7 +129,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testGetVlanVod() throws Exception {
 //        System.out.println("getVlanVod");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanVod expResult = null;
 //        VlanVod result = instance.getVlanVod(i);
 //        assertEquals(expResult, result);
@@ -143,7 +143,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testGetReconexoes() throws Exception {
 //        System.out.println("getReconexoes");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        ReConexao expResult = null;
 //        ReConexao result = instance.getReconexoes(i);
 //        assertEquals(expResult, result);
@@ -151,7 +151,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        fail("The test case is a prototype.");
 //    }
     /**
-     * Test of getTabelaParametros method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getTabelaParametros method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetTabelaParametros() throws Exception {
@@ -162,7 +162,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of getTabelaRede method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getTabelaRede method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetTabelaRede() throws Exception {
@@ -179,7 +179,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testGetHistoricoTabelaRede() throws Exception {
 //        System.out.println("getHistoricoTabelaRede");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        List<TabelaRedeMetalico> expResult = null;
 //        List<TabelaRedeMetalico> result = instance.getHistoricoTabelaRede(i);
 //        assertEquals(expResult, result);
@@ -193,7 +193,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testGetModulacao() throws Exception {
 //        System.out.println("getModulacao");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        Modulacao expResult = null;
 //        Modulacao result = instance.getModulacao(i);
 //        assertEquals(expResult, result);
@@ -202,7 +202,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    }
     /**
      * Test of getTabelaParametrosIdeal method, of class
-     * HuaweiMA5600TDslamVivo1.
+ MA5600TDslamVivo1.
      */
     @Test
     public void testGetTabelaParametrosIdeal() throws Exception {
@@ -220,7 +220,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        System.out.println("setModulacao");
 //        InventarioRede i = null;
 //        Velocidades v = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        Modulacao expResult = null;
 //        Modulacao result = instance.setModulacao(i, v);
 //        assertEquals(expResult, result);
@@ -234,13 +234,13 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testResetTabelaRede() throws Exception {
 //        System.out.println("resetTabelaRede");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        instance.resetTabelaRede(i);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
     /**
-     * Test of setEstadoDaPorta method, of class HuaweiMA5600TDslamVivo1.
+     * Test of setEstadoDaPorta method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testSetEstadoDaPorta() throws Exception {
@@ -253,7 +253,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of setProfileDown method, of class HuaweiMA5600TDslamVivo1.
+     * Test of setProfileDown method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testSetProfileDown() throws Exception {
@@ -265,7 +265,7 @@ public class HuaweiMA5600TDslamVivo1IT {
     }
 
     /**
-     * Test of setProfileUp method, of class HuaweiMA5600TDslamVivo1.
+     * Test of setProfileUp method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testSetProfileUp() throws Exception {
@@ -273,7 +273,7 @@ public class HuaweiMA5600TDslamVivo1IT {
         InventarioRede i = null;
         Velocidades vDown = null;
         Velocidades vUp = null;
-        HuaweiMA5600TDslamVivo1 instance = null;
+        MA5600TDslamVivo1 instance = null;
         instance.setProfileUp(i, vDown, vUp);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -288,7 +288,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //        InventarioRede i = null;
 //        Velocidades vDown = null;
 //        Velocidades vUp = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanBanda expResult = null;
 //        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
 //        assertEquals(expResult, result);
@@ -302,7 +302,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testCreateVlanVoip() throws Exception {
 //        System.out.println("createVlanVoip");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanVoip expResult = null;
 //        VlanVoip result = instance.createVlanVoip(i);
 //        assertEquals(expResult, result);
@@ -316,7 +316,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testCreateVlanVod() throws Exception {
 //        System.out.println("createVlanVod");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanVod expResult = null;
 //        VlanVod result = instance.createVlanVod(i);
 //        assertEquals(expResult, result);
@@ -330,7 +330,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testCreateVlanMulticast() throws Exception {
 //        System.out.println("createVlanMulticast");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        VlanMulticast expResult = null;
 //        VlanMulticast result = instance.createVlanMulticast(i);
 //        assertEquals(expResult, result);
@@ -344,7 +344,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testDeleteVlanBanda() throws Exception {
 //        System.out.println("deleteVlanBanda");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        instance.deleteVlanBanda(i);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -356,7 +356,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testDeleteVlanVoip() throws Exception {
 //        System.out.println("deleteVlanVoip");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        instance.deleteVlanVoip(i);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -368,7 +368,7 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testDeleteVlanVod() throws Exception {
 //        System.out.println("deleteVlanVod");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        instance.deleteVlanVod(i);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
@@ -380,14 +380,14 @@ public class HuaweiMA5600TDslamVivo1IT {
 //    public void testDeleteVlanMulticast() throws Exception {
 //        System.out.println("deleteVlanMulticast");
 //        InventarioRede i = null;
-//        HuaweiMA5600TDslamVivo1 instance = null;
+//        MA5600TDslamVivo1 instance = null;
 //        instance.deleteVlanMulticast(i);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
     
     /**
-     * Test of getDeviceMac method, of class HuaweiMA5600TDslamVivo1.
+     * Test of getDeviceMac method, of class MA5600TDslamVivo1.
      */
     @Test
     public void testGetDeviceMac() throws Exception {

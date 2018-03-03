@@ -36,12 +36,12 @@ import model.dslam.credencial.Credencial;
  *
  * @author G0041775
  */
-public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
+public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     private transient EstadoDaPorta estadoPorta;
     private transient TabelaParametrosMetalico parametros;
 
-    public HuaweiMA5100DslamVivo1(String ipDslam) {
+    public MA5100DslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
     }
 

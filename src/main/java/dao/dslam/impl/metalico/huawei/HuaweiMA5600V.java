@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  *
  * @author G0041775
  */
-public class HuaweiMA5600V extends HuaweiMA5600TDslamVivo1 {
+public class HuaweiMA5600V extends MA5600TDslamVivo1 {
 
     public HuaweiMA5600V(String ipDslam) {
         super(ipDslam);

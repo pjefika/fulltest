@@ -17,6 +17,7 @@ public enum Credencial {
     VIVO1("s_efika_cf", "@Ef1k@!"),
     ALCATEL7342("SUPERUSER", "ANS#150"),
     HUAWEI_METALICOV1("root", "br-hu4we1"),
+    ALCATEL_METALICOV1("isadmin", "ANS#150"),
     KEYMILE("manager", "");
 
     private String login;

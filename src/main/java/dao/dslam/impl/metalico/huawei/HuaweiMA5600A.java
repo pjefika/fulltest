@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author G0041775
  */
-public class HuaweiMA5600A extends HuaweiMA5600TDslamVivo1 {
+public class HuaweiMA5600A extends MA5600TDslamVivo1 {
 
     public HuaweiMA5600A(String ipDslam) {
         super(ipDslam);

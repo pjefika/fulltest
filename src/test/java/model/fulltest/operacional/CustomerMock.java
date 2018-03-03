@@ -490,4 +490,40 @@ public class CustomerMock {
 
         return c;
     }
+
+    public static EfikaCustomer metalicoAlcatelNfxsAFd() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1147461013 - MA5103
+        //1934511136 - MA5103
+            r.setTerminal("1159345254");
+        r.setIpDslam("10.18.50.38");
+        r.setModeloDslam("NFXS-A FD");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(14);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(2898);
+        r.setRin(665);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(4096l);
+        s.setVelUp(600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 }

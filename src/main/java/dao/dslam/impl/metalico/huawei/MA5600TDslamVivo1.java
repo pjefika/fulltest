@@ -7,12 +7,10 @@ package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
-import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
-import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1HuaweiMA5300;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
@@ -28,7 +26,11 @@ import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.dslam.credencial.Credencial;
 
 /**
@@ -36,13 +38,13 @@ import model.dslam.credencial.Credencial;
  *
  * @author G0041775
  */
-public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
+public class MA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
+    private transient MA5600TDslamVivo1 itself;
     private transient EstadoDaPorta estadoPorta;
     private transient Profile profile;
-    private transient VlanBandaVivo1HuaweiMA5300 vlanBanda;
 
-    public HuaweiMA5300DslamVivo1(String ipDslam) {
+    public MA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
     }
 
@@ -53,72 +55,71 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public void enableCommandsInDslam() throws Exception {
-        if (getCd().consulta(getComandoEnableConfig()).getBlob().contains("please retry to log on")) {
+        getCd().consulta(getComandoEnableConfig());
+        if (getCd().consulta(getComandoSmartAlarmOutput()).getBlob().contains("please retry to log on")) {
             throw new FalhaLoginDslamException();
         }
 
     }
 
+    protected void checkPlaca(InventarioRede i) throws Exception {
+        if (itself == null) {
+            if (execCommBlob(getComandoGetTipoPlaca(i)).contains("ADSL")) {
+                itself = new HuaweiMA5600A(getIpDslam());
+            } else {
+                itself = new HuaweiMA5600V(getIpDslam());
+            }
+        }
+    }
+
+    protected void checkPlaca() throws Exception {
+        if (itself == null) {
+            if (execCommBlob(getComandoGetTipoPlaca()).contains("ADSL")) {
+                itself = new HuaweiMA5600A(getIpDslam());
+            } else {
+                itself = new HuaweiMA5600V(getIpDslam());
+            }
+        }
+    }
+
+    protected ComandoDslam getComandoGetTipoPlaca(InventarioRede i) {
+        return new ComandoDslam("display board 0/" + i.getSlot(), 3000);
+    }
+
+    protected ComandoDslam getComandoGetTipoPlaca() {
+        return new ComandoDslam("display board 0/0", 3000);
+    }
+
     protected ComandoDslam getComandoEnableConfig() {
-        return new ComandoDslam("enable\n"
-                + "no smart\n"
-                + "no alarm output all\n"
-                + "configure terminal\n"
-                + "line vty 0 3\n"
-                + "length 0\n"
-                + "exit", 3000);
+        return new ComandoDslam("enable", 500, "config", 500);
+    }
+
+    protected ComandoDslam getComandoSmartAlarmOutput() {
+        return new ComandoDslam("undo smart", 500, "undo alarm output all", 500, "scroll 500");
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
-        if (velsDown.isEmpty()) {
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_256, "352D_128U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_285, "352D_128U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_390, "352D_128U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_569, "608_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_611, "608_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_667, "608_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_667, "608_64D_352_64U_I_A_2L"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_833, "1184_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_889, "1184_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1137, "1184_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1024, "1184_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1333, "1184_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_1730, "2304_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2048, "2304_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_2247, "2304_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_3245, "4608_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_4326, "4608_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_6489, "6144_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_8651, "9216_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_8192, "9216_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_10813, "12416_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_11370, "12416_128D_704_64U_I_A"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_16220, "18464_128D_1184_128U_I_A_A_V8"));
-            velsDown.add(new VelocidadeVendor(Velocidades.VEL_17302, "18464_128D_1184_128U_I_A_A_V8"));
+        try {
+            checkPlaca();
+        } catch (Exception ex) {
+            Logger.getLogger(MA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return velsDown;
+        return itself.obterVelocidadesDownVendor();
     }
 
     @Override
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
-        if (velsUp.isEmpty()) {
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_128, "352D_128U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_200, "352_64D_352_64U_I_A_2L"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_300, "352_64D_352_64U_I_A_2L"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_300, "608_64D_352_64U_I_A_2L"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_500, "608_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "608_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "1184_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "2304_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "4608_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "6144_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "9216_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "12416_128D_704_64U_I_A"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "18464_128D_1184_128U_I_A_A_V8"));
+        try {
+            checkPlaca();
+        } catch (Exception ex) {
+            Logger.getLogger(MA5600TDslamVivo1.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return itself.obterVelocidadesUpVendor();
+    }
 
-        return velsUp;
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("");
     }
 
     protected String execCommBlob(ComandoDslam command) throws Exception {
@@ -149,32 +150,15 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         return list;
     }
 
-    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("show adsl port state adsl " + i.getSlot() + "/0/" + i.getPorta() + "\n\n", 7500);
+    protected void checkConfs(InventarioRede i) throws Exception {
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetEstadoDaPorta(i));
+        estadoPorta = itself.tratGetEstadoDaPorta(ret);
+        profile = itself.tratGetProfile(ret);
     }
 
-    protected void checkConfs(InventarioRede i) throws Exception {
-        List<String> ret = execCommList(getComandoGetEstadoDaPorta(i));
-
-        estadoPorta = new EstadoDaPorta();
-        estadoPorta.setOperState(!TratativaRetornoUtil.tratHuawei(ret, "dsl", 2).contains("admin"));
-        estadoPorta.setAdminState(TratativaRetornoUtil.tratHuawei(ret, "ADSL").contains("active"));
-
-        profile = new Profile();
-        String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
-        profile.setProfileDown(profz[profz.length - 1]);
-        profile.setProfileUp(profz[profz.length - 1]);
-        profile.setDown(compareV1Metalico(profz[profz.length - 1], Boolean.TRUE));
-        profile.setUp(compareV1Metalico(profz[profz.length - 1], Boolean.FALSE));
-
-        try {
-            vlanBanda = new VlanBandaVivo1HuaweiMA5300();
-            vlanBanda.setCvlan(new Integer(TratativaRetornoUtil.tratHuawei(ret, "Untagged VLAN ID")));
-            vlanBanda.setState(EnumEstadoVlan.UP);
-        } catch (Exception e) {
-            vlanBanda = null;
-        }
-
+    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+        return null;
     }
 
     @Override
@@ -185,6 +169,10 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         return estadoPorta;
     }
 
+    protected Profile tratGetProfile(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
+    }
+
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
         if (profile == null) {
@@ -193,12 +181,19 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         return profile;
     }
 
+    protected ComandoDslam getComandoGetVlans(InventarioRede i) {
+        return null;
+    }
+
+    protected VlanBanda tratGetVlanBanda(List<String> ret) throws Exception {
+        return null;
+    }
+
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        if (vlanBanda == null) {
-            checkConfs(i);
-        }
-        return vlanBanda;
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetVlans(i));
+        return itself.tratGetVlanBanda(ret);
     }
 
     @Override
@@ -222,34 +217,33 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + "show line state " + i.getPorta(), 3000, "exit");
+        return null;
+    }
+
+    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
-        List<String> ret = execCommList(getComandoGetParametros(i));
-        t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate")));
-        t.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Channel Current tx-Rate", 2)));
-        t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate")));
-        t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Attainable Rate", 2)));
-        t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin")));
-        t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, " Current Snr Margin", 2)));
-        t.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation")));
-        t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Current Chan Attenuation", 2)));
-        return t;
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetParametros(i));
+        return itself.tratGetTabelaParametros(ret);
     }
 
-//    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
-//        return new ComandoDslam("");
-//    }
-//    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
-//        throw new FuncIndisponivelDslamException();
-//    }
+    protected ComandoDslam getComandoGetTabelaRede(InventarioRede i) {
+        return new ComandoDslam("");
+    }
+
+    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) throws Exception {
+        throw new FuncIndisponivelDslamException();
+    }
+
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        checkPlaca(i);
+        List<String> ret = execCommList(itself.getComandoGetTabelaRede(i));
+        return itself.tratGetTabelaRede(ret);
     }
 
     @Override
@@ -286,52 +280,49 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        String state = e.getAdminState() ? "activate" : "deactivate";
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + state + " " + i.getPorta() + "\n"
-                + "exit", 3000);
+        return new ComandoDslam("");
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        execCommList(getComandoSetEstadoDaPorta(i, e));
+        checkPlaca(i);
+        execCommBlob(itself.getComandoSetEstadoDaPorta(i, e));
         estadoPorta = null;
-        return getEstadoDaPorta(i);
+        return this.getEstadoDaPorta(i);
     }
 
     protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + "deactivate " + i.getPorta() + "\n"
-                + "activate " + i.getPorta() + " name " + compare(v, Boolean.TRUE).getSintaxVel() + "\n"
-                + "exit", 3000);
+        return null;
     }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        execCommList(getComandoSetProfile(i, v));
+        checkPlaca(i);
+        execCommBlob(itself.getComandoSetProfile(i, v));
         profile = null;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+    public void setProfileUp(InventarioRede i, Velocidades vDown,
+            Velocidades vUp) throws Exception {
         setProfileDown(i, vDown);
+        profile = null;
     }
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
-        return new ComandoDslam("show mac-address-table dynamic interface adsl " + i.getSlot() + "/0/" + i.getPorta() + "\n\n", 6000);
+        return new ComandoDslam("display mac-address port 0/" + i.getSlot() + "/" + i.getPorta(), 2000);
     }
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        DeviceMAC m = new DeviceMAC();
         List<String> ret = execCommList(getComandoGetDeviceMAC(i));
+        DeviceMAC m = new DeviceMAC();
         String mac = "";
         try {
-            String s = TratativaRetornoUtil.tratHuawei(ret, "dsl",2);
             List<String> line = TratativaRetornoUtil.listStringFromStringByRegexGroup(
-                    s,
-                    "\\w{4}[-|:|.]\\w{4}[-|:|.]\\w{4}");
-            String lemac = line.get(0).replaceAll("[-|:|.]", "");
+                    TratativaRetornoUtil.tratHuawei(ret, "dl"),
+                    "\\w{4}[-|:]\\w{4}[-|:]\\w{4}");
+            String lemac = line.get(0).replaceAll("-", "");
             List<String> macz = TratativaRetornoUtil.listStringFromStringByRegexGroup(
                     lemac,
                     ".{2}");
@@ -346,6 +337,7 @@ public class HuaweiMA5300DslamVivo1 extends DslamMetalicoVivo1 {
         }
 
         m.setMac(mac);
+
         return m;
     }
 
