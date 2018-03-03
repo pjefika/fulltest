@@ -18,7 +18,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.impl.metalico.huawei.MA5100DslamVivo1;
+import br.net.gvt.efika.util.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -33,26 +33,26 @@ import static org.junit.Assert.*;
  * @author G0041775
  */
 public class NfxsAFdDslamVivo1IT {
-    
+
     public NfxsAFdDslamVivo1IT() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     private static NfxsAFdDslamVivo1 instance = new NfxsAFdDslamVivo1(CustomerMock.metalicoAlcatelNfxsAFd().getRede().getIpDslam());
     private static InventarioRede i = CustomerMock.metalicoAlcatelNfxsAFd().getRede();
 
@@ -99,13 +99,8 @@ public class NfxsAFdDslamVivo1IT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        InventarioRede i = null;
-        NfxsAFdDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
     /**
@@ -460,5 +455,5 @@ public class NfxsAFdDslamVivo1IT {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

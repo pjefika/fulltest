@@ -18,10 +18,13 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.List;
 import model.dslam.credencial.Credencial;
+import org.w3c.dom.Document;
 
 /**
  * MA5600T
@@ -30,6 +33,9 @@ import model.dslam.credencial.Credencial;
  */
 public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
 
+    private transient EstadoDaPorta estadoPorta;
+    private transient TabelaParametrosMetalico parametros;
+    
     public NfxsAFdDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.ALCATEL_METALICOV1, new LoginComJumpMetalico());
     }
@@ -91,9 +97,20 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
         return velsUp;
     }
 
+    protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("show xdsl operational-data line 1/1/" + i.getSlot() + "/" + i.getPorta() + " detail xml");
+    }
+
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetEstadoDaPorta(i)));
+        String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='opr-state/tx-rate-ds']");
+        String adminStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='adm-state']");
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setOperState(operStatus.contains("up"));
+        e.setAdminState(adminStatus.equalsIgnoreCase("up"));
+        
+        return e;
     }
 
     @Override
