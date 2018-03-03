@@ -35,7 +35,7 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
 
     private transient EstadoDaPorta estadoPorta;
     private transient TabelaParametrosMetalico parametros;
-    
+
     public NfxsAFdDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.ALCATEL_METALICOV1, new LoginComJumpMetalico());
     }
@@ -109,13 +109,24 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setOperState(operStatus.contains("up"));
         e.setAdminState(adminStatus.equalsIgnoreCase("up"));
-        
+
         return e;
+    }
+
+    protected ComandoDslam getComandoGetProfile(InventarioRede i) {
+        return new ComandoDslam("info configure xdsl line 1/1/" + i.getSlot() + "/" + i.getPorta() + " detail xml");
     }
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetProfile(i)));
+        String profile = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='service-profile-name']");
+        Profile p = new Profile();
+        p.setProfileDown(profile);
+        p.setProfileUp(profile);
+        p.setDown(compareV1Metalico(profile, Boolean.TRUE));
+        p.setUp(compareV1Metalico(profile, Boolean.FALSE));
+        return p;
     }
 
     @Override

@@ -109,13 +109,8 @@ public class NfxsAFdDslamVivo1IT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
-        InventarioRede i = null;
-        NfxsAFdDslamVivo1 instance = null;
-        Profile expResult = null;
         Profile result = instance.getProfile(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**
