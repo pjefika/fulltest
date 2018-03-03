@@ -461,16 +461,16 @@ public class CustomerMock {
 
         //1147461013 - MA5103
         //1934511136 - MA5103
-        r.setTerminal("1934511136");
-        r.setIpDslam("10.18.86.227");
+            r.setTerminal("1146141820");
+        r.setIpDslam("10.18.65.241");
         r.setModeloDslam("MA5103");
 
 //        r.setIdOnt("0002596166");
-        r.setSlot(4);
-        r.setPorta(18);
+        r.setSlot(3);
+        r.setPorta(27);
 //        r.setLogica(38);
-        r.setCvlan(146);
-        r.setRin(245);
+        r.setCvlan(123);
+        r.setRin(249);
         r.setBhs(Boolean.FALSE);
 
 //        r.setVlanVoip(3004);
@@ -483,7 +483,7 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
 //        s.setTipoTv(TecnologiaTv.DTH);
         s.setTipoLinha(TecnologiaLinha.TDM);
-        s.setVelDown(2247l);
+        s.setVelDown(2048l);
         s.setVelUp(600l);
 
         c.setServicos(s);

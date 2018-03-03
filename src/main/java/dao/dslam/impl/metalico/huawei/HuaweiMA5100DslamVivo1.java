@@ -323,7 +323,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         String state = e.getAdminState() ? "activate" : "deactivate";
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + state + " " + i.getPorta() + "\n"
-                + "exit",2000);
+                + "exit", 2000);
     }
 
     @Override
@@ -333,16 +333,25 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return getEstadoDaPorta(i);
     }
 
-    protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
-        return new ComandoDslam("board-adsl " + i.getSlot() + "\n"
-                + "deactivate " + i.getPorta() + "\n"
-                + "activate " + i.getPorta() + " name " + compare(v, Boolean.TRUE).getSintaxVel() + "\n"
-                + "exit", 3000);
+    protected ComandoDslam getComandoGetIndexProfile() {
+        return new ComandoDslam("show adsl line-profile");
+    }
+
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, String indexProfile) {
+        return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
+                + "deactivate " + i.getPorta() + "\n", 3000,
+                "activate " + i.getPorta() + " " + indexProfile, 3000);
     }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        execCommList(getComandoSetProfile(i, v));
+        List<String> ret0 = execCommList(getComandoGetIndexProfile());
+        List<Integer> profz = TratativaRetornoUtil.listIntegersFromString(compare(v, Boolean.TRUE).getSintaxVel());
+        String vel = profz.get(0).toString();
+        String indexProfile = TratativaRetornoUtil.listIntegersFromString(
+                TratativaRetornoUtil.tratHuawei(ret0, vel)
+        ).get(0).toString();
+        execCommList(getComandoSetProfile(i, indexProfile));
     }
 
     @Override
