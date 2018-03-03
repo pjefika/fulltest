@@ -7,6 +7,10 @@ package dao.dslam.factory;
 
 import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.metalico.alcatel.NfxsAFdDslamVivo1;
+import dao.dslam.impl.metalico.huawei.MA5100DslamVivo1;
+import dao.dslam.impl.metalico.huawei.MA5300DslamVivo1;
+import dao.dslam.impl.metalico.huawei.MA5600TDslamVivo1;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuad1;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuad3;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuad5;
@@ -47,6 +51,18 @@ public class DslamMetalicoDAOFactory {
             return new KeymileMetalicoSuad3(ip);
         } else if (modelo.equalsIgnoreCase("SUAD5")) {
             return new KeymileMetalicoSuad5(ip);
+        } else if (modelo.equalsIgnoreCase("MA5600T")) {
+            return new MA5600TDslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("MA5600")) {
+            return new MA5600TDslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("MA5300")) {
+            return new MA5300DslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("MA5100")) {
+            return new MA5100DslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("MA5103")) {
+            return new MA5100DslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("NFXS-A FD")) {
+            return new NfxsAFdDslamVivo1(ip);
         } else {
             throw new DslamNaoImplException();
         }

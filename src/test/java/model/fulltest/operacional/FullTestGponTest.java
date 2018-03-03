@@ -66,8 +66,7 @@ public class FullTestGponTest {
         
         for (String test : tests) {
             try {
-                cust = CustomerMock.gponHuaweiV1();
-
+                cust = CustomerMock.metalicoAlcatelNfxsAFd();
                 FullTestInterface instance = new FullTestCOFacade();
 
                 FullTest f = instance.executar(cust);
