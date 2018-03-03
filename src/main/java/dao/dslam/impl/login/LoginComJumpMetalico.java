@@ -9,6 +9,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dao.dslam.impl.Conector;
 import dao.dslam.impl.ConsultaDslamVivo1;
+import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import exception.FalhaJumpAccessEsception;
 import exception.SemGerenciaException;
 import java.io.BufferedReader;
@@ -65,22 +66,28 @@ public class LoginComJumpMetalico implements LoginDslamStrategy {
             cs.out.print(telnet + "\r");
             cs.out.flush();
             Thread.sleep(3000);
+            if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("enc")) {
+                Thread.sleep(5000);
+                if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("enc")) {
+                    throw new SemGerenciaException();
+                }
+            }
             cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
             cs.out.flush();
             Thread.sleep(2500);
             cs.out.print(this.cs.dslam.getCredencial().getPass() + "\r");
             cs.out.flush();
             Thread.sleep(2000);
-            for (String string : cs.getRetorno()) {
-                if (string.contains("Username or password invalid")) {
-                    cs.out.print(Credencial.VIVO1.getLogin() + "\r");
-                    cs.out.flush();
-                    Thread.sleep(2500);
-                    cs.out.print(Credencial.VIVO1.getPass() + "\r");
-                    cs.out.flush();
-                    Thread.sleep(2000);
-                }
+
+            if (!TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Username or password invalid").contains("enc")) {
+                cs.out.print(Credencial.VIVO1.getLogin() + "\r");
+                cs.out.flush();
+                Thread.sleep(2500);
+                cs.out.print(Credencial.VIVO1.getPass() + "\r");
+                cs.out.flush();
+                Thread.sleep(2000);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             throw new SemGerenciaException();

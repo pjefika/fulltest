@@ -346,7 +346,7 @@ public class CustomerMock {
         InventarioServico s = new InventarioServico();
 //        s.setTipoTv(TecnologiaTv.DTH);
         s.setTipoLinha(TecnologiaLinha.TDM);
-        s.setVelDown(1024l);
+        s.setVelDown(8651l);
         s.setVelUp(1024l);
 
         c.setServicos(s);
@@ -364,7 +364,7 @@ public class CustomerMock {
 
 //        r.setIdOnt("0002596166");
         r.setSlot(15);
-        r.setPorta(3);
+        r.setPorta(8);
 //        r.setLogica(38);
         r.setCvlan(951);
         r.setRin(103);
@@ -382,6 +382,147 @@ public class CustomerMock {
         s.setTipoLinha(TecnologiaLinha.TDM);
         s.setVelDown(2048l);
         s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5300() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1120871262");
+        r.setIpDslam("10.18.203.114");
+        r.setModeloDslam("MA5300");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(4);
+        r.setPorta(38);
+//        r.setLogica(38);
+        r.setCvlan(341);
+        r.setRin(20);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(8192l);
+        s.setVelUp(600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5100() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1144853650 - MA5100
+        r.setTerminal("1144853650");
+        r.setIpDslam("10.18.87.253");
+        r.setModeloDslam("MA5100");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(6);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(196);
+        r.setRin(244);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2048l);
+        s.setVelUp(300l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoHuawei5103() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1147461013 - MA5103
+        //1934511136 - MA5103
+            r.setTerminal("1146141820");
+        r.setIpDslam("10.18.65.241");
+        r.setModeloDslam("MA5103");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(3);
+        r.setPorta(27);
+//        r.setLogica(38);
+        r.setCvlan(123);
+        r.setRin(249);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(2048l);
+        s.setVelUp(600l);
+
+        c.setServicos(s);
+
+        return c;
+    }
+
+    public static EfikaCustomer metalicoAlcatelNfxsAFd() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        //1147461013 - MA5103
+        //1934511136 - MA5103
+            r.setTerminal("1159345254");
+        r.setIpDslam("10.18.50.38");
+        r.setModeloDslam("NFXS-A FD");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(14);
+        r.setPorta(4);
+//        r.setLogica(38);
+        r.setCvlan(2898);
+        r.setRin(665);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(4096l);
+        s.setVelUp(600l);
 
         c.setServicos(s);
 
