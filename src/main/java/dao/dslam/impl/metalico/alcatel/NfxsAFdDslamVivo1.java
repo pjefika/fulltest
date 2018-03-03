@@ -299,15 +299,13 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
-        return new ComandoDslam("show vlan bridge-port-fdb 1/1/"+i.getSlot()+"/"+i.getPorta()+":8:35");
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/"+i.getSlot()+"/"+i.getPorta()+":8:35 xml");
     }
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-
         Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetDeviceMAC(i)));
-
-        return new DeviceMAC("");
+        return new DeviceMAC(TratativaRetornoUtil.getXmlParam(xml, "//res-id[@name='mac']").toUpperCase());
     }
 
 }
