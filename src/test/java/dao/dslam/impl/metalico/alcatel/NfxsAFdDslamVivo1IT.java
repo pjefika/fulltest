@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.alcatel;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
@@ -288,14 +289,8 @@ public class NfxsAFdDslamVivo1IT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        InventarioRede i = null;
-        EstadoDaPorta e = null;
-        NfxsAFdDslamVivo1 instance = null;
-        EstadoDaPorta expResult = null;
-        EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        EstadoDaPorta result = instance.setEstadoDaPorta(i, new EstadoDaPorta(Boolean.TRUE));
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
     /**
@@ -304,12 +299,9 @@ public class NfxsAFdDslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        NfxsAFdDslamVivo1 instance = null;
-        instance.setProfileDown(i, v);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.setProfileDown(i, Velocidades.find(CustomerMock.metalicoAlcatelNfxsAFd().getServicos().getVelDown()));
+        Profile result = instance.getProfile(i);
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**
@@ -439,6 +431,16 @@ public class NfxsAFdDslamVivo1IT {
         instance.deleteVlanMulticast(i);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDeviceMac method, of class NfxsAFdDslamVivo1.
+     */
+    @Test
+    public void testGetDeviceMac() throws Exception {
+        System.out.println("getDeviceMac");
+        DeviceMAC result = instance.getDeviceMac(i);
+        System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
     }
 
 }

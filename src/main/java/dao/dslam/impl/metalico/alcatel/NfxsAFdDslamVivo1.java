@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.alcatel;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -67,6 +68,7 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_2247, "2304_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_3245, "4608_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_4326, "4608_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_4096, "4608_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_6489, "6144_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_8651, "9216_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_8192, "9216_128D_704_64U_I_A"));
@@ -177,7 +179,7 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetTabelaParametros(i)));
         Document xml1 = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetEstadoDaPorta(i)));
-        
+
         TabelaParametrosMetalico t = new TabelaParametrosMetalico();
         t.setVelSincDown(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='act-bitrate-down']")));
         t.setVelMaxDown(new Double(TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='max-tx-rate-ds']")));
@@ -230,23 +232,30 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
-    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("show xdsl linkup-record 1/1/" + i.getSlot() + "/" + i.getPorta() + " detail xml");
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
+        String state = e.getAdminState() ? "" : "no";
+        return new ComandoDslam("configure xdsl line 1/1/" + i.getSlot() + "/" + i.getPorta() + " " + state + " admin-up");
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        return getEstadoDaPorta(i);
+    }
+
+    protected ComandoDslam getComandoSetProfile(InventarioRede i, Velocidades v) {
+        return new ComandoDslam("configure xdsl line 1/1/" + i.getSlot() + "/" + i.getPorta() + " service-profile name:"
+                + compare(v, Boolean.TRUE).getSintaxVel());
     }
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        getCd().consulta(getComandoSetProfile(i, v));
     }
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        setProfileDown(i, vDown);
     }
 
     @Override
@@ -287,6 +296,18 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
+    }
+
+    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/"+i.getSlot()+"/"+i.getPorta()+":8:35");
+    }
+
+    @Override
+    public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
+
+        Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetDeviceMAC(i)));
+
+        return new DeviceMAC("");
     }
 
 }
