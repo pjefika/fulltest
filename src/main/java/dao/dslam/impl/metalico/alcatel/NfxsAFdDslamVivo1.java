@@ -176,8 +176,19 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
         Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetTabelaParametros(i)));
+        Document xml1 = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetEstadoDaPorta(i)));
         
         TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setVelSincDown(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='act-bitrate-down']")));
+        t.setVelMaxDown(new Double(TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='max-tx-rate-ds']")));
+        t.setSnrDown(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='act-noise-margin-down']")) / 10);
+        t.setAtnDown(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='attenuation-down']")) / 10);
+
+        t.setVelSincUp(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='act-bitrate-up']")));
+        t.setVelMaxUp(new Double(TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='max-tx-rate-us']")));
+        t.setSnrUp(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='act-noise-margin-up']")) / 10);
+        t.setAtnUp(new Double(TratativaRetornoUtil.getXmlParam(xml, "//info[@name='attenuation-up']")) / 10);
+
         return t;
     }
 
@@ -198,7 +209,15 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametrosIdeal(Velocidades v) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+        t.setAtnDown(0d);
+        t.setAtnUp(0d);
+        t.setSnrDown(11d);
+        t.setSnrUp(11d);
+        t.setVelSincDown(TratativaRetornoUtil.velocidadeMinimaVivo1(v).get(0));
+        t.setVelSincUp(TratativaRetornoUtil.velocidadeMinimaVivo1(v).get(1));
+
+        return t;
     }
 
     @Override
@@ -209,6 +228,10 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public void resetTabelaRede(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
+    }
+
+    protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i) {
+        return new ComandoDslam("show xdsl linkup-record 1/1/" + i.getSlot() + "/" + i.getPorta() + " detail xml");
     }
 
     @Override

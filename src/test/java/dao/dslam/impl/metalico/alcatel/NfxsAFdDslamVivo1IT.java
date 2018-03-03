@@ -189,13 +189,8 @@ public class NfxsAFdDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        NfxsAFdDslamVivo1 instance = null;
-        TabelaParametrosMetalico expResult = null;
         TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
