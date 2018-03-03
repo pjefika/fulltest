@@ -24,6 +24,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.ServicePort;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
@@ -152,6 +153,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         serial = new SerialOntGpon();
         serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
         serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
+        System.out.println("");
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
@@ -199,16 +201,27 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+    public TabelaParametrosGponBasic getTabelaParametros(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
-        TabelaParametrosGpon tab = new TabelaParametrosGpon();
         String leOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx");
-        Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
-        tab.setPotOlt(potOlt);
         String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
+
+        Double potOlt = leOlt.contains("Parâmetro não encontrado") || leOlt.equalsIgnoreCase("-") ? 0d : new Double(leOlt);
         Double potOnt = leOnt.contains("Parâmetro não encontrado") || leOnt.equalsIgnoreCase("-") ? 0d : new Double(leOnt);
-        tab.setPotOnt(potOnt);
-        return tab;
+
+        /**
+         * Tratativa gambeta para OLT's sem medição de Pot OLT
+         */
+        if (potOlt.compareTo(0d) == 0 && ! (potOnt.compareTo(0d) == 0)) {
+            TabelaParametrosGponBasic tab = new TabelaParametrosGponBasic();
+            tab.setPotOnt(potOnt);
+            return tab;
+        } else {
+            TabelaParametrosGpon tab = new TabelaParametrosGpon();
+            tab.setPotOlt(potOlt);
+            tab.setPotOnt(potOnt);
+            return tab;
+        }
     }
 
     @Override
@@ -305,14 +318,21 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
+    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + i.getIdOnt() + "", 5000, "quit\n");
+    }
+
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        deleteVlanBanda(i);
-        createVlanBanda(i, null, null);
-        if (i.getBhs()) {
-            createVlanVoip(i);
-        }
-        return getSerialOnt(i);
+        this.getCd().consulta(this.getCmdSetOntToOlt(i));
+        this.serial = null;
+        return this.getSerialOnt(i);
+        //        deleteVlanBanda(i);
+        //        createVlanBanda(i, null, null);
+        //        if (i.getBhs()) {
+        //            createVlanVoip(i);
+        //        }
+        //        return getSerialOnt(i);
     }
 
     @Override
@@ -482,7 +502,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        return null;
+        throw new FuncIndisponivelDslamException();
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) throws Exception {
@@ -612,7 +632,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public void deleteVlanMulticast(InventarioRede i) throws Exception {
-
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
@@ -670,7 +690,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }

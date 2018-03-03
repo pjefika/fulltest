@@ -63,7 +63,7 @@ public class FactoryValidador {
 
         if (cust.getRede().getTipo() == TipoRede.GPON) {
             bateria.add(new ValidadorVizinhanca(dslam, cust, local));
-            bateria.add(new ValidadorSerialOntGpon(dslam, cust, local));
+            bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
 //            bateria.add(new ValidadorReConexao(dslam, cust, local));
         } else {

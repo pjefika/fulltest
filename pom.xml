@@ -104,7 +104,7 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
-            <artifactId>efika-util</artifactId>
+            <artifactId>util</artifactId>
             <version>1.0.0</version>
         </dependency>
         

@@ -10,7 +10,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import java.util.List;
 
 
@@ -24,7 +24,7 @@ public interface ConsultaGponDefault extends ConsultaClienteInter {
 
     public PortaPON getPortaPON(InventarioRede i) throws Exception;
 
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception;
+    public TabelaParametrosGponBasic getTabelaParametros(InventarioRede i) throws Exception;
 
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception;
 

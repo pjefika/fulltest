@@ -18,6 +18,7 @@ import java.util.Locale;
 public abstract class CorretorGpon extends Corretor {
 
     protected AlteracaoGponDefault ag;
+    
 
     public CorretorGpon(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
