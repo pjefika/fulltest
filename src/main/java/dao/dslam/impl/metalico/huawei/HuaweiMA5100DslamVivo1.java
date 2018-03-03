@@ -62,7 +62,7 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return new ComandoDslam("enable\n"
                 + "no smart\n"
                 + "no alarm output all\n"
-                + "scroll\n\n"
+                + "scroll\n"
                 + "configure terminal\n", 3000);
     }
 
@@ -359,42 +359,21 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         setProfileDown(i, vDown);
     }
 
-    protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {
-        return new ComandoDslam("show mac-address-table dynamic interface adsl " + i.getSlot() + "/0/" + i.getPorta() + "\n\n", 6000);
-    }
-
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        DeviceMAC m = new DeviceMAC();
-        List<String> ret = execCommList(getComandoGetDeviceMAC(i));
-        String mac = "";
-        try {
-            String s = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
-            List<String> line = TratativaRetornoUtil.listStringFromStringByRegexGroup(
-                    s,
-                    "\\w{4}[-|:|.]\\w{4}[-|:|.]\\w{4}");
-            String lemac = line.get(0).replaceAll("[-|:|.]", "");
-            List<String> macz = TratativaRetornoUtil.listStringFromStringByRegexGroup(
-                    lemac,
-                    ".{2}");
+        throw new FuncIndisponivelDslamException();
+    }
 
-            for (int j = 0; j < macz.size(); j++) {
-                mac = mac.concat(macz.get(j).toUpperCase());
-                if (j != (int) macz.size() - 1) {
-                    mac = mac.concat(":");
-                }
-            }
-        } catch (Exception e) {
-        }
-
-        m.setMac(mac);
-        return m;
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("pvc adsl 0/" + i.getSlot() + "/" + i.getPorta() + " vpi 8 vci 35 "
+                + "atm 0/7/0 vpi " + i.getRin() + " vci " + i.getCvlan() + " rx-cttr 2 upc off tx-cttr 2 upc off",3000);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        execCommList(getComandoCreateVlanBanda(i));
+        return getVlanBanda(i);
     }
 
     @Override
@@ -412,9 +391,14 @@ public class HuaweiMA5100DslamVivo1 extends DslamMetalicoVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("no pvc 0/" + i.getSlot() + "/" + i.getPorta() + "\n"
+                + "y");
+    }
+
     @Override
     public void deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        execCommList(getComandoDeleteVlanBanda(i));
     }
 
     @Override
