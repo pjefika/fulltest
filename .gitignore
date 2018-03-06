@@ -23,3 +23,5 @@ nbproject/*
 *.DS_Store
 *.lock
 /WebContent/resources/nbproject/private/
+/target/
+/bin/
