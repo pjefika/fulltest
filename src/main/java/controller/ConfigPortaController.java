@@ -5,8 +5,10 @@
  */
 package controller;
 
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
@@ -37,8 +39,8 @@ import model.service.ConfigGetterMetalicoService;
 import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
+import model.service.ConfigSetterSpecific;
 import model.service.FactoryService;
-
 
 /**
  *
@@ -96,8 +98,10 @@ public class ConfigPortaController extends RestJaxAbstract {
         Response r;
         LogEntity log = cs.create();
         try {
-            ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
-            ProfileGpon result = config.setterProfile(cs.getProfile());
+            ConfigSetterSpecific config = FactoryService.createConfigSpecificSetterService(cs.getCust());
+
+            ProfileConfig result = config.setterProfile(cs.getProfile());
+
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
