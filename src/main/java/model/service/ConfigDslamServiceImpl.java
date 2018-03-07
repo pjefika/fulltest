@@ -11,6 +11,8 @@ import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
@@ -81,6 +83,17 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
     @Override
     public ValidacaoResult getterTabelaRede() throws Exception {
         return this.exec(new ValidadorTabelaRede(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public ProfileConfig setterProfile(Profile profile) throws Exception {
+        ProfileGpon pg = new ProfileGpon();
+        alteracao().setProfileDown(getEc().getRede(), profile.getDown());
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
+        pg.setDownValues(this.getDslam().listarVelocidadesDown());
+        pg.setUpValues(this.getDslam().listarVelocidadesUp());
+
+        return pg;
     }
 
 }

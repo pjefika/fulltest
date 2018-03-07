@@ -6,6 +6,7 @@
 package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
@@ -30,6 +31,15 @@ public class FactoryService {
 
     public static ConfigSetterService createConfigSetterService(EfikaCustomer ec) {
         return new ConfigPortaServiceImpl(ec);
+    }
+
+    public static ConfigSetterSpecific createConfigSpecificSetterService(EfikaCustomer ec) {
+        if (ec.getRede().getTipo() == TipoRede.GPON) {
+            return new ConfigOLTServiceImpl(ec);
+        } else {
+            return new ConfigDslamServiceImpl(ec);
+        }
+
     }
 
     public static ConfigSetterMetalicoService createConfigSetterMetalicoService(EfikaCustomer ec) {

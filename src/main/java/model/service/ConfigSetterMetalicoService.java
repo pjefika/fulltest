@@ -9,7 +9,7 @@ package model.service;
  *
  * @author G0041775
  */
-public interface ConfigSetterMetalicoService {
+public interface ConfigSetterMetalicoService extends ConfigSetterSpecific{
 
     public void resetTabelaRede() throws Exception;
 
