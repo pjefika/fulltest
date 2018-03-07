@@ -21,6 +21,7 @@ public interface ConfigSetterGponService extends ConfigSetterSpecific {
 
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception;
 
+    @Override
     public ProfileGpon setterProfile(Profile p) throws Exception;
 
 }
