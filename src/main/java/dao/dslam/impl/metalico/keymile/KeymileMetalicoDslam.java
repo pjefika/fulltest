@@ -13,6 +13,7 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.metalico.DslamMetalico;
@@ -89,7 +90,9 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
         List<String> retorno = getCd().consulta(getComandoGetHistTabelaRede(i)).getRetorno();
         List<TabelaRedeMetalico> l = new ArrayList<>();
-        return l;
+
+//        return l;
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override

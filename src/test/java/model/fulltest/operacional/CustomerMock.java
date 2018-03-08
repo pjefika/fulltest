@@ -528,4 +528,38 @@ public class CustomerMock {
 
         return c;
     }
+
+    public static EfikaCustomer metalicoKeymile2510() {
+        EfikaCustomer c = new EfikaCustomer();
+        InventarioRede r = new InventarioRede();
+
+        r.setTerminal("1143454942");
+        r.setIpDslam("10.54.97.130");
+        r.setModeloDslam("MILEGATE 2510");
+
+//        r.setIdOnt("0002596166");
+        r.setSlot(6);
+        r.setPorta(8);
+//        r.setLogica(38);
+        r.setCvlan(214);
+        r.setRin(459);
+        r.setBhs(Boolean.FALSE);
+
+//        r.setVlanVoip(3004);
+//        r.setVlanVod(3001);
+//        r.setVlanMulticast(3001);
+        r.setPlanta(OrigemPlanta.VIVO1);
+
+        c.setRede(r);
+
+        InventarioServico s = new InventarioServico();
+//        s.setTipoTv(TecnologiaTv.DTH);
+        s.setTipoLinha(TecnologiaLinha.TDM);
+        s.setVelDown(10240l);
+        s.setVelUp(1024l);
+
+        c.setServicos(s);
+
+        return c;
+    }
 }
