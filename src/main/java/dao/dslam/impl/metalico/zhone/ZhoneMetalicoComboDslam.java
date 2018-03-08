@@ -308,10 +308,9 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+        getCd().consulta(getComandoSetProfileDown(i, v));
+        setProfileUp(i, v, Velocidades.VEL_1024);
+
     }
 
     protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
@@ -321,10 +320,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, vUp)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+        getCd().consulta(getComandoSetProfileUp(i, vUp));
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
