@@ -6,6 +6,7 @@
 package dao.log;
 
 import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
+import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
 import model.entity.LogEntity;
 
 /**
@@ -15,7 +16,7 @@ import model.entity.LogEntity;
 public class LogEntityDAO extends AbstractMongoDAO<LogEntity> {
 
     public LogEntityDAO() {
-        super("10.200.35.67", "fulltestAPI", LogEntity.class);
+        super(MongoEndpointEnum.MONGO.getIp(), "fulltestAPI", LogEntity.class);
     }
 
 }
