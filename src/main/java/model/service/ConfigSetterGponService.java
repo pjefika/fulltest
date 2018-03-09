@@ -6,6 +6,8 @@
 package model.service;
 
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import java.util.List;
 
@@ -13,10 +15,13 @@ import java.util.List;
  *
  * @author G0041775
  */
-public interface ConfigSetterGponService {
+public interface ConfigSetterGponService extends ConfigSetterSpecific {
 
     public List<SerialOntGpon> unsetterOntFromOlt() throws Exception;
 
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception;
+
+    @Override
+    public ProfileGpon setterProfile(Profile p) throws Exception;
 
 }

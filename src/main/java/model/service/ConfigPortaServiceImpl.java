@@ -89,18 +89,6 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     }
 
     @Override
-    public ProfileGpon setterProfile(Profile profile) throws Exception {
-        ProfileGpon pg = new ProfileGpon();
-        alteracao().setProfileDown(getEc().getRede(), profile.getDown());
-        alteracao().setProfileUp(getEc().getRede(), profile.getDown(), profile.getUp());
-        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
-        pg.setDownValues(this.getDslam().listarVelocidadesDown());
-        pg.setUpValues(this.getDslam().listarVelocidadesUp());
-
-        return pg;
-    }
-
-    @Override
     public ValidacaoResult setterVlanBanda() throws Exception {
         alteracao().deleteVlanBanda(getEc().getRede());
         alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));

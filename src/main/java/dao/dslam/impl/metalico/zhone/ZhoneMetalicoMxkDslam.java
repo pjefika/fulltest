@@ -154,9 +154,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         if (velsUp.isEmpty()) {
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1280"));
-            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "2600"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "4000"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_3072, "3840"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_5120, "6000"));
         }
 
@@ -320,10 +320,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+        getCd().consulta(getComandoSetProfileDown(i, v));
+        setProfileUp(i, v, v);
     }
 
     protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
@@ -332,10 +330,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, vDown)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+        getCd().consulta(getComandoSetProfileUp(i, vUp));
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {

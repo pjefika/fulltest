@@ -5,7 +5,6 @@
  */
 package model.service;
 
-
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -13,6 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
@@ -99,6 +99,18 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     @Override
     public List<Porta> getterEstadoPortasProximas() throws Exception {
         return consulta().getEstadoPortasProximas(getEc().getRede());
+    }
+
+    @Override
+    public ProfileGpon setterProfile(Profile p) throws Exception {
+        ProfileGpon pg = new ProfileGpon();
+        alteracao().setProfileDown(getEc().getRede(), p.getDown());
+        alteracao().setProfileUp(getEc().getRede(), p.getDown(), p.getUp());
+        pg.setAtual(this.exec(new ValidadorProfile(getDslam(), getEc(), local)));
+        pg.setDownValues(this.getDslam().listarVelocidadesDown());
+        pg.setUpValues(this.getDslam().listarVelocidadesUp());
+
+        return pg;
     }
 
 }
