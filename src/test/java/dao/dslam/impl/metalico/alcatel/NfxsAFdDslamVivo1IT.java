@@ -121,6 +121,8 @@ public class NfxsAFdDslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
+
+        assertTrue(result.validar(CustomerMock.metalicoAlcatelNfxsAFd()));
         System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 

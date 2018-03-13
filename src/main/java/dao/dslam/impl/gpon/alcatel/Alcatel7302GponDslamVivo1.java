@@ -32,6 +32,8 @@ import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 import org.w3c.dom.Document;
@@ -80,6 +82,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         if (velsDown.isEmpty()) {
             Velocidades[] vels = Velocidades.values();
+            Arrays.sort(vels, Collections.reverseOrder());
             for (Velocidades vel : vels) {
                 if (new Double(vel.getValor()) <= 100) {
                     velsDown.add(new VelocidadeVendor(vel, "name:43"));
@@ -97,6 +100,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         if (velsUp.isEmpty()) {
             Velocidades[] vels = Velocidades.values();
+            Arrays.sort(vels, Collections.reverseOrder());
             for (Velocidades vel : vels) {
                 if (new Double(vel.getValor()) <= 100) {
                     velsUp.add(new VelocidadeVendor(vel, "name:43"));
