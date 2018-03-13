@@ -176,34 +176,34 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //112757790674006 - 1977906740
-        r.setTerminal("110006157990106");
-        r.setIpDslam("BR_SPOJD_OLT04");
+        r.setTerminal("110007964479007");
+        r.setIpDslam("BR_SPOFO_OLT02");
         r.setModeloDslam("MA5600T_FV1");
 
-        r.setIdOnt("0003295327");
+        r.setIdOnt("0003237985");
 
-        r.setSlot(3);
-        r.setPorta(0);
-        r.setLogica(53);
-        r.setCvlan(2169);
-        r.setRin(17);
+        r.setSlot(17);
+        r.setPorta(3);
+        r.setLogica(39);
+        r.setCvlan(1226);
+        r.setRin(367);
         r.setBhs(Boolean.TRUE);
         r.setTipo(TipoRede.GPON);
         r.setPlanta(OrigemPlanta.VIVO1);
 
-        r.setVlanVoip(3012);
+        r.setVlanVoip(3008);
 
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3009);
+        r.setVlanMulticast(3005);
 
         c.setRede(r);
 
         InventarioServico s = new InventarioServico();
 //        s.setTipoTv(TecnologiaTv.IPTV);
         s.setTipoLinha(TecnologiaLinha.SIP);
-        s.setVelDown(25600l);
-        s.setVelUp(5120l);
+        s.setVelDown(102400l);
+        s.setVelUp(51200l);
 
         c.setServicos(s);
 

@@ -61,23 +61,18 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
-        String testes = "1332321512\n";
-        String[] tests = testes.split("\\n");
-        
-        for (String test : tests) {
+       
             try {
-                cust = CustomerMock.metalicoAlcatelNfxsAFd();
+                cust = CustomerMock.gponHuaweiV1();
                 FullTestInterface instance = new FullTestCOFacade();
-
                 FullTest f = instance.executar(cust);
 
                 System.out.println(new JacksonMapper(FullTest.class).serialize(f));
                 System.out.println("_____________________________________________________________________\n\n");
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("ERRO->" + test + "->" + e.getLocalizedMessage());
             }
-        }
+       
 
     }
 

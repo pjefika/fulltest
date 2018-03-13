@@ -34,6 +34,8 @@ import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -212,7 +214,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         /**
          * Tratativa gambeta para OLT's sem medição de Pot OLT
          */
-        if (potOlt.compareTo(0d) == 0 && ! (potOnt.compareTo(0d) == 0)) {
+        if (potOlt.compareTo(0d) == 0 && !(potOnt.compareTo(0d) == 0)) {
             TabelaParametrosGponBasic tab = new TabelaParametrosGponBasic();
             tab.setPotOnt(potOnt);
             return tab;
@@ -381,48 +383,13 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setGemports(i);
         }
         if (i.getBhs()) {
-            return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvlan()
-                    + " manage-mode omci\n"
-                    + "\n"
-                    + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
-                    + "\n"
-                    + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
-                    + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
-                    + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
-                    + "\n"
-                    + "ont native-vlan " + i.getPorta() + " " + i.getLogica() + " unconcern\n"
-                    + "\n"
-                    + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
-                    + "\n"
-                    + "quit\n"
-                    + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
-                    + " translate-and-add inner-vlan " + i.getCvlan() + " inbound traffic-table index 6 outbound traffic-table index 500", 15000);
+            return new ComandoDslam("service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform"
+                    + " translate-and-add inner-vlan " + i.getCvlan() + " inbound traffic-table index 6 outbound traffic-table index 500", 5000);
         }
-        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth \"" + i.getIdOnt() + "\" always-on"
-                + " profile-id 7 desc \"Term-" + i.getTerminal() + "/VlanUsu-" + i.getCvlan() + "\" manage-mode omci\n"
-                + "\n"
-                + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
-                + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
-                + "\n"
-                + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on\n"
-                + "\n"
-                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 100\n"
-                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
-                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
-                + "\n"
-                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
-                + "\n"
-                + "ont port priority-policy " + i.getPorta() + " " + i.getLogica() + " eth 1 copy-cos\n"
-                + "ont port q-in-q " + i.getPorta() + " " + i.getLogica() + " eth 1 disable\n"
-                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 10 priority 0\n"
-                + "\n"
-                + "quit\n"
-                + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
+        return new ComandoDslam("service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getPorta() + "/" + i.getLogica() + " gemport " + gemportBanda + ""
                 + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvlan() + " inner-priority 0 inbound traffic-table"
                 + " index 6 outbound traffic-table index 43\n"
-                + "stacking label service-port " + index + " " + i.getCvlan(), 15000);
+                + "stacking label service-port " + index + " " + i.getCvlan(), 5000);
     }
 
     @Override
@@ -438,22 +405,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (gemportVoip == null) {
             setGemports(i);
         }
-        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3 profile-id 30\n"
-                + "\n"
-                + "gemport add " + i.getPorta() + " gemportid " + gemportVoip + " eth encrypt on\n"
-                + "\n"
-                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1 translation s-vlan 30\n"
-                + "\n"
-                + "\n"
-                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " 3 gemport-car 30\n"
-                + "\n"
-                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " vlan 30\n"
-                + "\n"
-                + "\n"
-                + "quit\n"
-                + "\n"
-                + "service-port " + index + " vlan " + i.getVlanVoip() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip
+        return new ComandoDslam("service-port " + index + " vlan " + i.getVlanVoip() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip
                 + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30", 9000);
 
     }
@@ -469,21 +421,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (gemportIptv == null) {
             setGemports(i);
         }
-        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                + "gemport add " + i.getPorta() + " gemportid " + gemportIptv + " eth encrypt on\n"
-                + " \n"
-                + " \n"
-                + "tcont bind-profile " + i.getPorta() + "  " + i.getLogica() + " 2 profile-id 20\n"
-                + "ont gemport bind " + i.getPorta() + "  " + i.getLogica() + " " + gemportIptv + " 2 gemport-car 42\n"
-                + "ont gemport mapping " + i.getPorta() + "  " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
-                + " \n"
-                + " \n"
-                + "ont port vlan " + i.getPorta() + "  " + i.getLogica() + " eth 20 1 translation s-vlan 20\n"
-                + " \n"
-                + " \n"
-                + "ont multicast-forward " + i.getPorta() + "  " + i.getLogica() + " tag translation 20\n"
-                + "quit\n"
-                + "service-port " + index + " vlan 400 gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + " multi-service user-vlan 20 tag-transform translate inbound traffic-table index 42 outbound traffic-table index 42\n"
+        return new ComandoDslam("service-port " + index + " vlan 400 gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + " multi-service user-vlan 20 tag-transform translate inbound traffic-table index 42 outbound traffic-table index 42\n"
                 + "btv\n"
                 + "igmp user add service-port " + index + " no-auth max-program 32\n"
                 + " \n"
@@ -509,51 +447,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (spBanda == null) {
             setServicePorts(i);
         }
-        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
-        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
+//        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
+//        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
         String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
 
-        return new ComandoDslam("btv\n"
-                + "multicast-vlan " + i.getVlanMulticast() + "\n"
-                + "undo igmp multicast-vlan member service-port " + indexSpIptv + "\n"
-                + "quit\n"
-                + "btv\n"
-                + "igmp user delete service-port " + indexSpIptv + "\n"
-                + "y\n"
-                + "quit\n"
-                + "undo service-port " + indexSpBanda + "\n"
-                + "interface gpon 0/" + i.getSlot() + "\n"
-                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
-                + "\n"
-                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
-                + "\n"
-                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
-                + "\n"
-                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n"
-                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n"
-                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
-                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 1\n"
-                + "\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 2\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 3\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 4\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
-                + "gemport delete " + i.getPorta() + " gemportid " + gemportBanda + "\n"
-                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
-                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4\n"
-                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2\n"
-                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
-                + "\n"
-                + "undo ont port-bundle " + i.getPorta() + " " + i.getLogica() + " eth 0\n"
-                + "\n"
-                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "\n"
-                + "ont delete " + i.getPorta() + " " + i.getLogica() + "\n"
-                + "\n"
-                + "quit\n"
-                + "undo service-port " + indexSpIptv + "\n\n"
-                + "undo service-port " + indexSpVoip + "\n\n", 25000);
+        return new ComandoDslam("undo service-port " + indexSpBanda + "\n", 5000);
     }
 
     @Override
@@ -572,20 +470,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
         String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
 
-        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
-                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
-                + "\n"
-                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
-                + "\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
-                + "\n"
-                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
-                + "\n"
-                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
-                + "\n"
-                + "quit\n"
-                + "\n"
-                + "undo service-port " + indexSpVoip, 7500);
+        return new ComandoDslam("undo service-port " + indexSpVoip, 7500);
     }
 
     @Override
@@ -610,18 +495,6 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 + "igmp user delete service-port " + indexSpIptv + "\n"
                 + "y\n"
                 + "quit\n"
-                + "interface gpon 0/" + i.getSlot() + "\n"
-                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
-                + " \n"
-                + " \n"
-                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n"
-                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 1\n"
-                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 2\n"
-                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 3\n"
-                + "undo ont port vlan " + i.getPorta() + " " + gemportIptv + " eth 20 4\n"
-                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "\n"
-                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2\n"
-                + "quit\n"
                 + "undo service-port " + indexSpIptv, 9000);
     }
 
@@ -639,6 +512,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     public List<VelocidadeVendor> obterVelocidadesDownVendor() {
         if (velsDown.isEmpty()) {
             Velocidades[] vels = Velocidades.values();
+            Arrays.sort(vels, Collections.reverseOrder());
             for (Velocidades vel : vels) {
                 if (new Double(vel.getValor()) <= 100) {
                     velsDown.add(new VelocidadeVendor(vel, "43"));
@@ -656,6 +530,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     public List<VelocidadeVendor> obterVelocidadesUpVendor() {
         if (velsUp.isEmpty()) {
             Velocidades[] vels = Velocidades.values();
+            Arrays.sort(vels, Collections.reverseOrder());
             for (Velocidades vel : vels) {
                 velsUp.add(new VelocidadeVendor(vel, "6"));
             }
