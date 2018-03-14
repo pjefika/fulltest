@@ -5,7 +5,9 @@
  */
 package dao.dslam.impl;
 
+import dao.FactoryDAO;
 import dao.dslam.impl.login.LoginDslamStrategy;
+import dao.log.ComandoDslamDAO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +31,6 @@ public class ConsultaDslamVivo2 implements Conector {
 
     public ConsultaDslamVivo2(AbstractDslam dslam) {
         this.dslam = dslam;
-
     }
 
     @Override
@@ -89,6 +90,9 @@ public class ConsultaDslamVivo2 implements Conector {
             }
 
             comando.setRetorno(this.getRetorno());
+
+            FactoryDAO.createComandoDslamDAO().save(comando);
+
             return comando;
 
         } catch (IOException e) {

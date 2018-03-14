@@ -5,13 +5,16 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.List;
+import org.mongodb.morphia.annotations.PrePersist;
+import org.mongodb.morphia.annotations.Transient;
 
 /**
  *
  * @author G0042204
  */
-public class ComandoDslam {
+public class ComandoDslam extends AbstractMongoEntity {
 
     private String sintax;
 
@@ -23,9 +26,17 @@ public class ComandoDslam {
 
     private String sintaxAux2;
 
+    private String resposta;
+
+    @Transient
     private List<String> retorno;
 
     private Boolean hasRetorno;
+
+    @PrePersist
+    void prePersist() {
+        this.getResposta();
+    }
 
     public ComandoDslam(String sintax) {
         this.sintax = sintax;
@@ -114,7 +125,7 @@ public class ComandoDslam {
     }
 
     public Boolean getHasRetorno() {
-        if(hasRetorno==null){
+        if (hasRetorno == null) {
             hasRetorno = false;
         }
         return hasRetorno;
@@ -122,6 +133,21 @@ public class ComandoDslam {
 
     public void setHasRetorno(Boolean hasRetorno) {
         this.hasRetorno = hasRetorno;
+    }
+
+    public String getResposta() {
+        if (resposta == null) {
+            StringBuilder resp = new StringBuilder();
+            for (String string : retorno) {
+                resp.append(string).append("\n");
+            }
+            resposta = resp.toString();
+        }
+        return resposta;
+    }
+
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
     }
 
 }

@@ -52,12 +52,12 @@ public class CorretorSerialOntGpon extends CorretorGpon {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return bundle.getString("correcaoEstadoAdm_ok");
+        return bundle.getString("validacaoSerialOnt_ok") + serial.getSerial() + ".";
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return bundle.getString("correcaoEstadoAdm_nok");
+        return bundle.getString("validacaoSerialOnt_nok");
     }
 
 }

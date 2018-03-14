@@ -6,6 +6,7 @@
 package dao.dslam.impl;
 
 import com.jcraft.jsch.Channel;
+import dao.FactoryDAO;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -65,7 +66,7 @@ public class ConsultaDslamVivo1 implements Conector {
             Integer i = 0;
             while ((line = readLinha()) != null) {
                 System.out.println("line->" + line);
-                
+
                 if (line.isEmpty()) {
                     i++;
                     Thread.sleep(1000);
@@ -110,7 +111,8 @@ public class ConsultaDslamVivo1 implements Conector {
             }
 
             comando.setRetorno(this.getRetorno());
-
+            
+            FactoryDAO.createComandoDslamDAO().save(comando);
             return comando;
 
         } catch (Exception e) {

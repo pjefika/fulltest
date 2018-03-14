@@ -28,6 +28,7 @@ public class FactoryValidador {
 
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new CorretorProfile(dslam, cust, local));
+        bateria.add(new CorretorModulacao(dslam, cust, local));
 
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
         bateria.add(new CorretorVlanVoip(dslam, cust, local));
