@@ -49,22 +49,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
 
     @Override
     protected Validacao consultar() throws Exception {
-
-        try {
-            ep = consulta.getEstadoDaPorta(cust.getRede());
-        } catch (Exception e) {
-            try {
-                System.out.println("criandoblan");
-                alter.createVlanBanda(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelDown()));
-                alter.createVlanVoip(cust.getRede());
-                throw new CorrecaoInterruptoraException("Foi necessária a criação da porta Lógica, por favor, teste novamente em instantes.");
-            } catch (Exception e1) {
-                System.out.println("faiocriandoblan");
-                throw e1;
-            }
-        }
-
-        return new ValidacaoEstadoPortaAdm(ep, bundle.getLocale());
+        return new ValidacaoEstadoPortaAdm(consulta.getEstadoDaPorta(cust.getRede()), bundle.getLocale());
     }
 
     @Override
