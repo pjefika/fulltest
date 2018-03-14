@@ -7,6 +7,7 @@ package dao;
 
 import dao.customer.NetworkInventoryDAO;
 import dao.customer.NetworkInventoryDAOImpl;
+import dao.log.ComandoDslamDAO;
 import dao.log.LogCrmDAO;
 import dao.log.LogEntityDAO;
 import dao.log.LogManobraDAO;
@@ -25,6 +26,10 @@ public class FactoryDAO {
 
     public static LogEntityDAO createLogEntityDAO() {
         return new LogEntityDAO();
+    }
+
+    public static ComandoDslamDAO createComandoDslamDAO() {
+        return new ComandoDslamDAO();
     }
 
     public static ManobraDAO create() {
