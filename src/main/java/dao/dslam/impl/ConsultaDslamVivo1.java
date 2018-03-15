@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import model.log.InteracaoDslam;
 
 /**
  *
@@ -112,7 +113,7 @@ public class ConsultaDslamVivo1 implements Conector {
 
             comando.setRetorno(this.getRetorno());
             
-            FactoryDAO.createComandoDslamDAO().save(comando);
+            FactoryDAO.createInteracaoDslamDAO().save(new InteracaoDslam(comando, dslam));
             return comando;
 
         } catch (Exception e) {

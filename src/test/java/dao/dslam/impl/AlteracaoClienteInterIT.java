@@ -38,7 +38,7 @@ public class AlteracaoClienteInterIT {
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.gponAlcatel();
+        ec = CustomerMock.getCustomer("4133721441");
         i = ec.getRede();
         try {
             instance = (DslamGpon) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
@@ -70,7 +70,7 @@ public class AlteracaoClienteInterIT {
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState(Boolean.TRUE);
+        e.setAdminState(Boolean.FALSE);
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
             assertTrue(result.getAdminState());

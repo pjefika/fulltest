@@ -407,10 +407,7 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        List<String> oi = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
-        for (String string : oi) {
-            System.out.println(string);
-        }
+        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
         return getEstadoDaPorta(i);
     }
 

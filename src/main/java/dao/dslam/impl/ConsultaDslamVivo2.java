@@ -7,13 +7,14 @@ package dao.dslam.impl;
 
 import dao.FactoryDAO;
 import dao.dslam.impl.login.LoginDslamStrategy;
-import dao.log.ComandoDslamDAO;
+import dao.log.InteracaoDslamDAO;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import model.log.InteracaoDslam;
 
 /**
  *
@@ -91,7 +92,7 @@ public class ConsultaDslamVivo2 implements Conector {
 
             comando.setRetorno(this.getRetorno());
 
-            FactoryDAO.createComandoDslamDAO().save(comando);
+            FactoryDAO.createInteracaoDslamDAO().save(new InteracaoDslam(comando, dslam));
 
             return comando;
 

@@ -14,7 +14,7 @@ import org.mongodb.morphia.annotations.Transient;
  *
  * @author G0042204
  */
-public class ComandoDslam extends AbstractMongoEntity {
+public class ComandoDslam {
 
     private String sintax;
 

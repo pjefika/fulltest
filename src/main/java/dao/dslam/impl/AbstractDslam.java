@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.dslam.credencial.Credencial;
+import org.mongodb.morphia.annotations.Transient;
 
 /**
  *
@@ -28,6 +29,7 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
     private final String ipDslam;
     private Credencial credencial;
     public LoginDslamStrategy loginStrategy;
+    @Transient
     private Conector cd;
     protected List<VelocidadeVendor> velsDown, velsUp;
 

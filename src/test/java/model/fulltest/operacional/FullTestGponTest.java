@@ -61,18 +61,18 @@ public class FullTestGponTest {
 
     @Test
     public void testValidar() {
-       
-            try {
-                cust = CustomerMock.getCustomer("1630145676");
-                FullTestInterface instance = new FullTestCOFacade();
-                FullTest f = instance.executar(cust);
 
-                System.out.println(new JacksonMapper(FullTest.class).serialize(f));
-                System.out.println("_____________________________________________________________________\n\n");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-       
+        try {
+            cust = CustomerMock.getCustomer("6130427889");
+            FullTestInterface instance = new FullTestCOFacade();
+            FullTest f = instance.executar(cust);
+
+            System.out.println("_____________________________________________________________________\n\n");
+            System.out.println(new JacksonMapper(FullTest.class).serialize(f));
+            System.out.println("_____________________________________________________________________\n\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
