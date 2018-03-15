@@ -63,7 +63,7 @@ public class FullTestGponTest {
     public void testValidar() {
        
             try {
-                cust = CustomerMock.gponHuaweiV1();
+                cust = CustomerMock.getCustomer("1630145676");
                 FullTestInterface instance = new FullTestCOFacade();
                 FullTest f = instance.executar(cust);
 

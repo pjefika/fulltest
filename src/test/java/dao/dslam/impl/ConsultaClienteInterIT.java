@@ -33,7 +33,7 @@ public class ConsultaClienteInterIT {
 
     private static DslamGpon instance;
 //    private static EfikaCustomer ec = CustomerMock.getCustomer("4430405872");
-    private static EfikaCustomer ec = CustomerMock.gponHuaweiV1();
+    private static EfikaCustomer ec = CustomerMock.gponAlcatel();
 
     private static InventarioRede i = ec.getRede();
 
