@@ -98,6 +98,12 @@
         
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
+            <artifactId>network_inventory</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>br.net.gvt.efika</groupId>
             <artifactId>mongo</artifactId>
             <version>1.0.0</version>
         </dependency>
