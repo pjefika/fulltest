@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -20,7 +21,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.ConsultaDslamVivo2;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;

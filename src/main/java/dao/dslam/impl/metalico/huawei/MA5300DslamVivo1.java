@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -24,7 +25,6 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoExecutarComandoException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;

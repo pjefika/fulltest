@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import com.jcraft.jsch.Channel;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.BufferedReader;

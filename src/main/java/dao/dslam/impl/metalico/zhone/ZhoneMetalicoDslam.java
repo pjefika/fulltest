@@ -6,11 +6,11 @@
 package dao.dslam.impl.metalico.zhone;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import dao.dslam.impl.metalico.DslamMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;

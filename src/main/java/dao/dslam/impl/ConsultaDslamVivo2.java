@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;

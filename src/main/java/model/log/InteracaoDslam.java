@@ -5,12 +5,9 @@
  */
 package model.log;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import dao.dslam.impl.AbstractDslam;
-import dao.dslam.impl.ComandoDslam;
-import java.util.Calendar;
-import java.util.Date;
-import org.mongodb.morphia.annotations.PrePersist;
 
 /**
  *

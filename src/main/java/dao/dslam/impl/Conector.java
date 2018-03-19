@@ -5,6 +5,8 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
+
 /**
  *
  * @author G0042204
