@@ -72,7 +72,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public PortaPON getPortaPON(InventarioRede i) throws Exception {
         PortaPON porta = new PortaPON();
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoPortaPON(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoPortaPON(i));
+        porta.addInteracao(cmd);
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-status']");
         porta.setOperState(operStatus.equalsIgnoreCase("enabled"));
         return porta;
