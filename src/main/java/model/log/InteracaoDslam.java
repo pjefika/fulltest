@@ -22,13 +22,6 @@ public class InteracaoDslam extends AbstractMongoEntity {
 
     private AbstractDslam dslam;
 
-    private Date data;
-
-    @PrePersist
-    void prePersist() {
-        this.getData();
-    }
-
     public InteracaoDslam() {
     }
 
@@ -51,17 +44,6 @@ public class InteracaoDslam extends AbstractMongoEntity {
 
     public void setDslam(AbstractDslam dslam) {
         this.dslam = dslam;
-    }
-
-    public Date getData() {
-        if (data == null) {
-            data = Calendar.getInstance().getTime();
-        }
-        return data;
-    }
-
-    public void setData(Date data) {
-        this.data = data;
     }
 
 }

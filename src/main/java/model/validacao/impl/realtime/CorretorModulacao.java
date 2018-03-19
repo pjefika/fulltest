@@ -26,7 +26,9 @@ public class CorretorModulacao extends CorretorMetalico {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            am.setModulacao(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()));
+            ValidacaoModulacao v = new ValidacaoModulacao(am.setModulacao(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown())), cust, bundle.getLocale());
+            v.validar();
+            this.setValid(v);
         } catch (Exception ex) {
             throw new FalhaAoCorrigirException();
         }

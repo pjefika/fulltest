@@ -5,40 +5,24 @@
  */
 package dao.dslam.impl;
 
-import dao.FactoryDAO;
-import dao.dslam.impl.login.LoginDslamStrategy;
-import dao.log.InteracaoDslamDAO;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import model.log.InteracaoDslam;
 
 /**
  *
  * @author G0042204
  */
-public class ConsultaDslamVivo2 implements Conector {
+public class ConsultaDslamVivo2 extends ConsultaDslam {
 
     public Socket pingSocket;
-    public PrintWriter out;
-    public BufferedReader in;
-
-    public AbstractDslam dslam;
-
-    public LoginDslamStrategy styLogin;
 
     public ConsultaDslamVivo2(AbstractDslam dslam) {
-        this.dslam = dslam;
+        super(dslam);
     }
 
     @Override
-    public void conectar() throws Exception {
-        this.dslam.conectar();
-    }
-
     public List<String> getRetorno() throws IOException {
 
         List<String> list = new ArrayList<>();
@@ -91,8 +75,6 @@ public class ConsultaDslamVivo2 implements Conector {
             }
 
             comando.setRetorno(this.getRetorno());
-
-            FactoryDAO.createInteracaoDslamDAO().save(new InteracaoDslam(comando, dslam));
 
             return comando;
 

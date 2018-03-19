@@ -53,11 +53,12 @@ public abstract class Corretor extends Validador {
             if (this.valid.getResultado()) {
                 return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), valid.getObject(), Boolean.FALSE);
             } else {
+                ValidavelAbs preresult = valid.getObject();
                 try {
                     corrigir();
-                    return new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE);
+                    return new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE, preresult);
                 } catch (FalhaAoCorrigirException e) {
-                    return new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE);
+                    return new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE, preresult);
                 }
             }
         } catch (Exception ex) {

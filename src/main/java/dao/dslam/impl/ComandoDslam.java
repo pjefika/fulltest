@@ -5,9 +5,7 @@
  */
 package dao.dslam.impl;
 
-import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.List;
-import org.mongodb.morphia.annotations.PrePersist;
 import org.mongodb.morphia.annotations.Transient;
 
 /**
@@ -32,11 +30,6 @@ public class ComandoDslam {
     private List<String> retorno;
 
     private Boolean hasRetorno;
-
-    @PrePersist
-    void prePersist() {
-        this.getResposta();
-    }
 
     public ComandoDslam(String sintax) {
         this.sintax = sintax;
@@ -106,6 +99,11 @@ public class ComandoDslam {
 
     public void setRetorno(List<String> retorno) {
         this.retorno = retorno;
+        StringBuilder resp = new StringBuilder();
+        for (String string : retorno) {
+            resp.append(string).append("\n");
+        }
+        setResposta(resp.toString());
     }
 
     public Integer getSleep() {
@@ -136,13 +134,6 @@ public class ComandoDslam {
     }
 
     public String getResposta() {
-        if (resposta == null) {
-            StringBuilder resp = new StringBuilder();
-            for (String string : retorno) {
-                resp.append(string).append("\n");
-            }
-            resposta = resp.toString();
-        }
         return resposta;
     }
 

@@ -6,20 +6,18 @@
 package dao.dslam.impl;
 
 import com.jcraft.jsch.Channel;
-import dao.FactoryDAO;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import model.log.InteracaoDslam;
 
 /**
  *
  * @author G0042204
  */
-public class ConsultaDslamVivo1 implements Conector {
+public class ConsultaDslamVivo1 extends ConsultaDslam {
 
     public Channel channel;
     public PrintWriter out;
@@ -30,7 +28,7 @@ public class ConsultaDslamVivo1 implements Conector {
     public LoginDslamStrategy styLogin;
 
     public ConsultaDslamVivo1(AbstractDslam dslam) {
-        this.dslam = dslam;
+        super(dslam);
     }
 
     @Override
@@ -58,6 +56,7 @@ public class ConsultaDslamVivo1 implements Conector {
         return null;
     }
 
+    @Override
     public List<String> getRetorno() throws Exception {
 
         List<String> list = new ArrayList<>();
@@ -112,8 +111,7 @@ public class ConsultaDslamVivo1 implements Conector {
             }
 
             comando.setRetorno(this.getRetorno());
-            
-            FactoryDAO.createInteracaoDslamDAO().save(new InteracaoDslam(comando, dslam));
+
             return comando;
 
         } catch (Exception e) {

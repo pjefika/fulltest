@@ -171,7 +171,7 @@ public class AlcatelGponDslam extends DslamGpon {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanBanda(i));
         List<String> leResp = consulta.getRetorno();
-
+        
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;

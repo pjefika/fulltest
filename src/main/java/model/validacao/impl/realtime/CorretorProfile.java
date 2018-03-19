@@ -28,6 +28,9 @@ public class CorretorProfile extends Corretor {
         try {
             alter.setProfileDown(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()));
             alter.setProfileUp(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+            ValidacaoProfile v = (ValidacaoProfile) this.consultar();
+            v.validar();
+            this.setValid(v);
         } catch (Exception ex) {
             throw new FalhaAoCorrigirException();
         }
