@@ -12,6 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
@@ -36,7 +37,7 @@ import model.dslam.credencial.Credencial;
  *
  * @author G0041775
  */
-public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
+public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     private transient EstadoDaPorta estadoPorta;
     private transient TabelaParametrosMetalico parametros;
@@ -120,34 +121,6 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
         return velsUp;
     }
 
-    protected String execCommBlob(ComandoDslam command) throws Exception {
-        String blob = getCd().consulta(command).getBlob();
-        if (blob.contains("is busy")) {
-            Thread.sleep(7500);
-            blob = getCd().consulta(command).getBlob();
-            if (blob.contains("is busy")) {
-                throw new FalhaAoExecutarComandoException();
-            }
-        }
-        return blob;
-    }
-
-    protected List<String> execCommList(ComandoDslam command) throws Exception {
-        List<String> list = getCd().consulta(command).getRetorno();
-        for (String string : list) {
-            if (string.contains("is busy")) {
-                Thread.sleep(7500);
-                list = getCd().consulta(command).getRetorno();
-                for (String string1 : list) {
-                    if (string1.contains("is busy")) {
-                        throw new FalhaAoExecutarComandoException();
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + "show port state " + i.getPorta() + "\n"
@@ -156,13 +129,12 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     protected void checkConfs(InventarioRede i) throws Exception {
-        List<String> ret = execCommList(getComandoGetEstadoDaPorta(i));
-        estadoPorta = new EstadoDaPorta();
-
+        estadoPorta = (EstadoDaPorta) execComm(getComandoGetEstadoDaPorta(i), new EstadoDaPorta());
+        List<String> ret = estadoPorta.getInteracoes().get(estadoPorta.getInteracoes().size() - 1).getRetorno();
         estadoPorta.setAdminState(!TratativaRetornoUtil.tratHuawei(ret, "tiv").contains("Deactivated"));
         estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "Port " + i.getPorta() + " is not active").contains("encontrado"));
 
-        parametros = new TabelaParametrosMetalico();
+        parametros = (TabelaParametrosMetalico) execComm(getComandoGetEstadoDaPorta(i), new TabelaParametrosMetalico());
         try {
             parametros.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
             parametros.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));
@@ -203,8 +175,8 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        List<String> ret = execCommList(getComandoGetProfile(i));
-        Profile p = new Profile();
+        Profile p = (Profile) execComm(getComandoGetProfile(i), new Profile());
+        List<String> ret = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         String prof = TratativaRetornoUtil.tratHuawei(ret, "Profile index");
         p.setProfileDown(prof);
         p.setProfileUp(prof);
@@ -219,11 +191,12 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> ret = execCommList(getComandoGetVlanBanda(i));
-        VlanBanda v = new VlanBanda();
+        VlanBanda v = (VlanBanda) execComm(getComandoGetVlanBanda(i), new VlanBanda());
+        List<String> ret = v.getInteracoes().get(v.getInteracoes().size() - 1).getRetorno();
         v.setCvlan(0);
         v.setSvlan(0);
         v.setState(EnumEstadoVlan.DOWN);
+
         try {
             List<Integer> li = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "dl"));
             List<String> ls = TratativaRetornoUtil.listStringFromStringByRegexGroup(TratativaRetornoUtil.tratHuawei(ret, "dl"), "\\w+");
@@ -273,8 +246,8 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        List<String> ret = execCommList(getComandoGetTabelaRede(i));
-        TabelaRedeMetalico t = new TabelaRedeMetalico();
+        TabelaRedeMetalico t = (TabelaRedeMetalico) execComm(getComandoGetTabelaRede(i), new TabelaRedeMetalico());
+        List<String> ret = t.getInteracoes().get(t.getInteracoes().size() - 1).getRetorno();
         t.setPctDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted")));
         t.setFecDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with correctable errors")));
         t.setCrcDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors")));
@@ -317,7 +290,7 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     @Override
-    public void resetTabelaRede(InventarioRede i) throws Exception {
+    public TabelaRedeMetalico resetTabelaRede(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
@@ -330,9 +303,15 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        execCommList(getComandoSetEstadoDaPorta(i, e));
-        estadoPorta = null;
-        return getEstadoDaPorta(i);
+        EstadoDaPorta es = (EstadoDaPorta) execComm(getComandoSetEstadoDaPorta(i, e), new EstadoDaPorta());
+
+        checkConfs(i);
+
+        for (int j = es.getInteracoes().size() - 1; j >= 0; j--) {
+            estadoPorta.getInteracoes().add(0, es.getInteracoes().get(j));
+        }
+
+        return estadoPorta;
     }
 
     protected ComandoDslam getComandoGetIndexProfile() {
@@ -346,19 +325,23 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        List<String> ret0 = execCommList(getComandoGetIndexProfile());
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        Profile p = (Profile) execComm(getComandoGetIndexProfile(), new Profile());
+        List<String> ret0 = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         List<Integer> profz = TratativaRetornoUtil.listIntegersFromString(compare(v, Boolean.TRUE).getSintaxVel());
         String vel = profz.get(0).toString();
         String indexProfile = TratativaRetornoUtil.listIntegersFromString(
                 TratativaRetornoUtil.tratHuawei(ret0, vel)
         ).get(0).toString();
-        execCommList(getComandoSetProfile(i, indexProfile));
+        p = (Profile) execComm(getComandoSetProfile(i, indexProfile), p);
+        Profile prof = getProfile(i);
+        prof.getInteracoes().forEach(p::addInteracao);
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        setProfileDown(i, vDown);
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        return setProfileDown(i, vDown);
     }
 
     @Override
@@ -368,14 +351,16 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
         return new ComandoDslam("pvc adsl 0/" + i.getSlot() + "/" + i.getPorta() + " vpi 8 vci 35 "
-                + "atm 0/7/0 vpi " + i.getRin() + " vci " + i.getCvlan() + " rx-cttr 2 upc off tx-cttr 2 upc off",3000);
+                + "atm 0/7/0 vpi " + i.getRin() + " vci " + i.getCvlan() + " rx-cttr 2 upc off tx-cttr 2 upc off", 3000);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown,
             Velocidades vUp) throws Exception {
-        execCommList(getComandoCreateVlanBanda(i));
-        return getVlanBanda(i);
+        VlanBanda v = (VlanBanda) execComm(getComandoCreateVlanBanda(i), new VlanBanda());
+        VlanBanda vl = getVlanBanda(i);
+        vl.getInteracoes().forEach(v::addInteracao);
+        return v;
     }
 
     @Override
@@ -399,22 +384,25 @@ public class MA5100DslamVivo1 extends DslamMetalicoVivo1 {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-        execCommList(getComandoDeleteVlanBanda(i));
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        VlanBanda v = (VlanBanda) execComm(getComandoDeleteVlanBanda(i), new VlanBanda());
+        VlanBanda vl = getVlanBanda(i);
+        vl.getInteracoes().forEach(v::addInteracao);
+        return v;
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
     @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
