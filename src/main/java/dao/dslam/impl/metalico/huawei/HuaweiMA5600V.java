@@ -33,19 +33,19 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
+    protected EstadoDaPorta tratGetEstadoDaPorta(EstadoDaPorta estadoPorta) {
+        List<String> ret = estadoPorta.getInteracoes().get(estadoPorta.getInteracoes().size() - 1).getRetorno();
         String oper = TratativaRetornoUtil.tratHuawei(ret, "VDSL");
         String adm = TratativaRetornoUtil.tratHuawei(ret, "VDSL", 2);
-        EstadoDaPorta est = new EstadoDaPorta();
-        est.setAdminState(!adm.contains("deactivated"));
-        est.setOperState(oper.contains("up"));
-        return est;
+        estadoPorta.setAdminState(!adm.contains("deactivated"));
+        estadoPorta.setOperState(oper.contains("up"));
+        return estadoPorta;
     }
 
     @Override
-    protected Profile tratGetProfile(List<String> ret) {
+    protected Profile tratGetProfile(Profile p) {
+        List<String> ret = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-template").split(" ");
-        Profile p = new Profile();
         p.setProfileDown(profz[profz.length - 1]);
         p.setProfileUp(profz[profz.length - 1]);
 
@@ -60,14 +60,14 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected VlanBanda tratGetVlanBanda(List<String> ret) {
-
+    protected VlanBanda tratGetVlanBanda(VlanBanda v) {
+        List<String> ret = v.getInteracoes().get(v.getInteracoes().size() - 1).getRetorno();
         List<Integer> l1 = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "vlan"));
         List<Integer> l = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "inner-vlan"));
 
         Integer cvlan = l.get(0);
         Integer svlan = l1.get(1);
-        VlanBanda v = new VlanBanda();
+
         v.setCvlan(cvlan);
         v.setSvlan(svlan);
         v.setState(EnumEstadoVlan.UP);
@@ -77,22 +77,22 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
 
     @Override
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("display vdsl line operation port 0/"+i.getSlot()+"/"+i.getPorta(),3000);
+        return new ComandoDslam("display vdsl line operation port 0/" + i.getSlot() + "/" + i.getPorta(), 3000);
     }
 
     @Override
-    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) {
-        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+    protected TabelaParametrosMetalico tratGetTabelaParametros(TabelaParametrosMetalico t) {
+        List<String> ret = t.getInteracoes().get(t.getInteracoes().size() - 1).getRetorno();
         t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Actual line rate downstream")));
         t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Maximum attainable rate downstream")));
         t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line SNR margin downstream")));
         t.setAtnDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line attenuation downstream")));
-        
+
         t.setVelSincUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Actual line rate upstream")));
         t.setVelMaxUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Maximum attainable rate upstream")));
         t.setSnrUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line SNR margin upstream")));
         t.setAtnUp(new Double(TratativaRetornoUtil.tratHuawei(ret, "Line attenuation upstream")));
-        
+
         return t;
     }
 
