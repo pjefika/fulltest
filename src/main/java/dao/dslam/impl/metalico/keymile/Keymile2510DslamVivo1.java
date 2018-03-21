@@ -126,8 +126,10 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i)).getRetorno();
-        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i));
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i));
+        List<String> admin = cmd.getRetorno();
+        List<String> oper = cmd1.getRetorno();
 
         String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
@@ -135,6 +137,8 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         EstadoDaPorta portState = new EstadoDaPorta();
         portState.setAdminState(adminState.equalsIgnoreCase("UP"));
         portState.setOperState(operState.equalsIgnoreCase("UP"));
+        portState.addInteracao(cmd);
+        portState.addInteracao(cmd1);
 
         return portState;
     }
@@ -145,7 +149,8 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        List<String> pegaProfile = this.getCd().consulta(this.getProf(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getProf(i));
+        List<String> pegaProfile = cmd.getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         Profile prof = new ProfileMetalico();
         prof.setProfileDown(first);
@@ -153,6 +158,7 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
         prof.setDown(compare(first, Boolean.TRUE));
         prof.setUp(compare(first, Boolean.FALSE));
+        prof.addInteracao(cmd);
 
         return prof;
     }
@@ -171,17 +177,20 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "1")).getRetorno();
-        List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 1)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "1"));
+        List<String> pegaSrvc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvc(i, "1"));
+        List<String> pegaStatus = cmd1.getRetorno();
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
-
+        ComandoDslam cmd2 = null;
         if (!leSrvc.contentEquals("no service connected")) {
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
+            cmd2 = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc));
+            List<String> pegaVlan = cmd2.getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -194,6 +203,10 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         }
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
+
+        vlanBanda.addInteracao(cmd);
+        vlanBanda.addInteracao(cmd1);
+        vlanBanda.addInteracao(cmd2);
 
         return vlanBanda;
     }
@@ -218,8 +231,9 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         if (tabelaRede == null) {
             getTabelaRede(i);
         }
-
-        return new ReConexao(tabelaRede.getResync().intValue());
+        ReConexao r = new ReConexao(tabelaRede.getResync().intValue());
+        tabelaRede.getInteracoes().forEach(r::addInteracao);
+        return r;
     }
 
     protected ComandoDslam getVelSinc(InventarioRede i) {
@@ -296,7 +310,8 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        List<String> lTabs = this.getCd().consulta(this.getTabRede(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getTabRede(i));
+        List<String> lTabs = cmd.getRetorno();
 
         tabelaRede = new TabelaRedeMetalico();
 
