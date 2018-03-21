@@ -28,7 +28,7 @@ public class CorretorVlanVoip extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            alter.deleteVlanVoip(cust.getRede());
+            getPreresults().add(alter.deleteVlanVoip(cust.getRede()));
             try {
                 valid = new ValidacaoVlanVoip(alter.createVlanVoip(cust.getRede()), cust, bundle.getLocale());
             } catch (Exception e) {

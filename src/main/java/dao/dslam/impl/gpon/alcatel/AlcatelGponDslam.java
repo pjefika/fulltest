@@ -23,6 +23,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginRapido;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -81,9 +82,11 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public PortaPON getPortaPON(InventarioRede i) throws Exception {
         PortaPON porta = new PortaPON();
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoPortaPON(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoPortaPON(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-status']");
         porta.setOperState(operStatus.equalsIgnoreCase("enabled"));
+        porta.addInteracao(cmd);
         return porta;
     }
 
@@ -105,8 +108,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoTabelaParametros(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoTabelaParametros(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
         String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
         if (potOnt.equals("invalid") || potOnt.equals("unknown")) {
@@ -118,7 +121,7 @@ public class AlcatelGponDslam extends DslamGpon {
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(new Double(potOlt));
         tabParam.setPotOnt(new Double(potOnt));
-        System.out.println(potOnt + " | " + potOlt);
+        tabParam.addInteracao(cmd);
 
         return tabParam;
     }
@@ -129,15 +132,15 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        ComandoDslam cd = this.getCd().consulta(this.getComandoSerialOnt(i));
-        Document xml = TratativaRetornoUtil.stringXmlConfigData(cd);
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoSerialOnt(i));
+        Document xml = TratativaRetornoUtil.stringXmlConfigData(cmd);
         String sernum = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']").replace(":", "");
         if (sernum.contains("ALCL00")) {
             sernum = "";
         }
         SerialOntGpon ont = new SerialOntGpon();
         ont.setSerial(sernum);
-        System.out.println(sernum);
+        ont.addInteracao(cmd);
 
         return ont;
     }
@@ -152,13 +155,15 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaEstadoDaPortaV2(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaEstadoDaPortaV2(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
 
         EstadoDaPorta state = new EstadoDaPorta();
         state.setAdminState(adminState.equalsIgnoreCase("UP"));
         state.setOperState(operState.equalsIgnoreCase("UP"));
+        state.addInteracao(cmd);
 
         return state;
     }
@@ -171,7 +176,7 @@ public class AlcatelGponDslam extends DslamGpon {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam consulta = this.getCd().consulta(this.getComandoConsultaVlanBanda(i));
         List<String> leResp = consulta.getRetorno();
-        
+
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
@@ -189,7 +194,7 @@ public class AlcatelGponDslam extends DslamGpon {
         }
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
-
+        vlanBanda.addInteracao(consulta);
 //        System.out.println(svlan);
 //        System.out.println(cvlan);
         return vlanBanda;
@@ -218,7 +223,7 @@ public class AlcatelGponDslam extends DslamGpon {
             state = EnumEstadoVlan.UP;
         }
         VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
-
+        vlanVoip.addInteracao(consulta);
 //        System.out.println(cvlan);
 //        System.out.println(p100);
         return vlanVoip;
@@ -248,6 +253,7 @@ public class AlcatelGponDslam extends DslamGpon {
         }
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
+        vlanVod.addInteracao(consulta);
 //
 //        System.out.println(cvlan);
 //        System.out.println(p100);
@@ -281,6 +287,7 @@ public class AlcatelGponDslam extends DslamGpon {
         VlanMulticast multz = new VlanMulticast();
         multz.setSvlan(svlan);
         multz.setState(state);
+        multz.addInteracao(consulta);
 
 //        System.out.println(svlan);
         return multz;
@@ -292,7 +299,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaAlarmes(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaAlarmes(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         NodeList nodeList = xml.getElementsByTagName("info");
         AlarmesGpon alarmes = new AlarmesGpon();
 
@@ -307,6 +315,7 @@ public class AlcatelGponDslam extends DslamGpon {
             }
 
         }
+        alarmes.addInteracao(cmd);
 //        System.out.println(alarmes.getListAlarmes());
 
         return alarmes;
@@ -318,7 +327,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaProfile(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaProfile(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
 
         String leProfileDown = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='shaper-profile']");
         String profileDown = leProfileDown.substring(5, leProfileDown.length());
@@ -333,6 +343,7 @@ public class AlcatelGponDslam extends DslamGpon {
         prof.setProfileUp(profileUp);
         prof.setDown(compare(profileDown, true));
         prof.setUp(compare(profileUp, false));
+        prof.addInteracao(cmd);
 
 //        System.out.println(prof.getDown());
 //        System.out.println(prof.getUp());
@@ -383,7 +394,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultaDeviceMAC(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaDeviceMAC(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         NodeList nodeList = xml.getElementsByTagName("instance");
         Integer e;
         String leMac = "";
@@ -398,7 +410,9 @@ public class AlcatelGponDslam extends DslamGpon {
                 }
             }
         }
-        return new DeviceMAC(leMac.toUpperCase());
+        DeviceMAC m = new DeviceMAC(leMac.toUpperCase());
+        m.addInteracao(cmd);
+        return m;
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
@@ -407,8 +421,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     protected ComandoDslam getComandoSetOntToOlt(InventarioRede i, SerialOntGpon s) {
@@ -425,11 +441,14 @@ public class AlcatelGponDslam extends DslamGpon {
             s.setSerial(first + ":" + second);
             System.out.println(s.getSerial());
         }
-        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, s)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoSetOntToOlt(i, s));
+        List<String> leResp = cmd.getRetorno();
         for (String string : leResp) {
             System.out.println(string);
         }
-        return getSerialOnt(i);
+        SerialOntGpon se = getSerialOnt(i);
+        se.getInteracoes().add(0, cmd);
+        return se;
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
@@ -441,21 +460,20 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-//        return getProfile(i);
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoSetProfileDown(i, v));
+//        List<String> leResp = cmd.getRetorno();
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd);
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileUp(i, vUp)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-//        return getProfile(i);
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoSetProfileUp(i, vUp));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd);
+        return p;
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
@@ -464,11 +482,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanBanda(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
@@ -477,11 +494,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanVoip(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoip(i));
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
@@ -490,11 +506,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanVod(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i));
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
@@ -503,11 +518,10 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanMulticast(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanMulticast(i));
+        VlanMulticast v = getVlanMulticast(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoUnsetOntFromOlt(InventarioRede i) {
@@ -515,13 +529,18 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void unsetOntFromOlt(InventarioRede i) throws Exception {
+    public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.FALSE);
-        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
-        getCd().consulta(getComandoUnsetOntFromOlt(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        ComandoDslam cmd1 = getCd().consulta(getComandoUnsetOntFromOlt(i));
         e.setAdminState(Boolean.TRUE);
-        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        ComandoDslam cmd2 = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        SerialOntGpon s = getSerialOnt(i);
+        s.getInteracoes().add(0,cmd2);
+        s.getInteracoes().add(0,cmd1);
+        s.getInteracoes().add(0,cmd0);
+        return s;
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
@@ -529,11 +548,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
@@ -541,11 +560,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVoip(i));
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
@@ -553,11 +572,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVod(i));
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
@@ -565,11 +584,11 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanMulticast(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanMulticast(i));
+        VlanMulticast v = getVlanMulticast(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
 //    @Override
@@ -587,7 +606,8 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoListaOntPorSlot()));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoListaOntPorSlot());
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         NodeList nodeList = xml.getElementsByTagName("info");
         List<SerialOntGpon> serialList = new ArrayList<>();
         for (int e = 0; e < nodeList.getLength(); e++) {
@@ -602,6 +622,13 @@ public class AlcatelGponDslam extends DslamGpon {
                 serialList.add(s);
             }
 
+        }
+        if (serialList.size() > 0) {
+            serialList.get(0).addInteracao(cmd);
+        } else {
+            SerialOntGpon s = new SerialOntGpon();
+            s.addInteracao(cmd);
+            serialList.add(s);
         }
         return serialList;
     }
@@ -623,7 +650,7 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }

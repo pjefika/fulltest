@@ -7,6 +7,7 @@ package dao.dslam.impl;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.Modulacao;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 
 /**
@@ -17,6 +18,6 @@ public interface AlteracaoMetalicoDefault extends AlteracaoClienteInter {
 
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception;
 
-    public void resetTabelaRede(InventarioRede i) throws Exception;
+    public TabelaRedeMetalico resetTabelaRede(InventarioRede i) throws Exception;
 
 }

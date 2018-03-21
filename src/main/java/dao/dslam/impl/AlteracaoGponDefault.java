@@ -16,6 +16,6 @@ public interface AlteracaoGponDefault extends AlteracaoClienteInter, ConsultaGpo
 
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception;
     
-    public void unsetOntFromOlt(InventarioRede i) throws Exception;
+    public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception;
     
 }

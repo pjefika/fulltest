@@ -28,6 +28,7 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.exception.FalhaAoConsultarException;
 import dao.dslam.factory.exception.FalhaLoginDslamException;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -122,13 +123,15 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoEstadoDaPorta(i)));
+        EstadoDaPorta state = new EstadoDaPorta();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoEstadoDaPorta(i));
+        state.addInteracao(cmd);
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String adminState = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='admin-state']");
         String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-state']");
         if (adminState == null || operState == null) {
             throw new FalhaAoConsultarException();
         }
-        EstadoDaPorta state = new EstadoDaPorta();
         state.setAdminState(adminState.equalsIgnoreCase("UP"));
         state.setOperState(operState.equalsIgnoreCase("UP"));
         return state;
@@ -140,9 +143,13 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandosDeviceMac(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandosDeviceMac(i));
+        DeviceMAC m = new DeviceMAC();
+        m.addInteracao(cmd);
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String mac = TratativaRetornoUtil.getXmlParam(xml, "//res-id[@name='mac']");
-        return new DeviceMAC(mac.toUpperCase());
+        m.setMac(mac);
+        return m;
     }
 
     protected ComandoDslam getComandoProfile(InventarioRede i, Boolean how) {
@@ -156,11 +163,15 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        Document xmlDown = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, true)));
-        Document xmlUp = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoProfile(i, false)));
+        ComandoDslam cDown = this.getCd().consulta(this.getComandoProfile(i, true));
+        ComandoDslam cUp = this.getCd().consulta(this.getComandoProfile(i, false));
+        Document xmlDown = TratativaRetornoUtil.stringXmlParse(cDown);
+        Document xmlUp = TratativaRetornoUtil.stringXmlParse(cUp);
         String down = TratativaRetornoUtil.getXmlParam(xmlDown, "//parameter[@name='shaper-profile']");
         String up = TratativaRetornoUtil.getXmlParam(xmlUp, "//parameter[@name='bandwidth-profile']");
         Profile p = new ProfileVivo1();
+        p.addInteracao(cDown);
+        p.addInteracao(cUp);
         p.setProfileDown(down);
         p.setProfileUp(up);
         p.setDown(compare(down, true));
@@ -177,6 +188,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanBanda(i));
         List<String> retorno = cmd.getRetorno();
         VlanBanda v = new VlanBanda();
+        v.addInteracao(cmd);
         boolean docontain = false;
         for (String string : retorno) {
             if (string.contains("Error : instance does not exist")) {
@@ -204,7 +216,6 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
         return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml", 3000);
-
     }
 
     @Override
@@ -212,6 +223,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandosVlanVoip(i));
         List<String> retorno = cmd.getRetorno();
         VlanVoip vvip = new VlanVoipVivo1();
+        vvip.addInteracao(cmd);
 
         boolean docontain = false;
         for (String string : retorno) {
@@ -241,6 +253,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoVlanVod(i));
         VlanVod vvod = new VlanVodVivo1Alcatel();
 
+        vvod.addInteracao(cmd);
+
         if (!cmd.getBlob().contains("Error : instance does not exist")) {
             Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
             String vlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
@@ -260,10 +274,12 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoSerialOnt(i)));
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoSerialOnt(i));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String serial = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='sernum']");
         String idont = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='subslocid']");
         SerialOntGpon sog = new SerialOntGpon();
+        sog.addInteracao(cmd);
         sog.setIdOnt(idont);
         sog.setSerial(serial.replace(":", "-"));
         return sog;
@@ -275,7 +291,8 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.getComandoConsultarParametros(i)));
+        ComandoDslam cmd = this.getComandoConsultarParametros(i);
+        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(cmd));
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
         String potOlt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='olt-rx-sig-level']");
         if (potOnt.equals("invalid") || potOnt.equals("unknown")) {
@@ -285,6 +302,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
             potOlt = "0";
         }
         TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        tabParam.addInteracao(cmd);
         tabParam.setPotOlt(new Double(potOlt));
         tabParam.setPotOnt(new Double(potOnt));
         return tabParam;
@@ -334,6 +352,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
                 String operState = TratativaRetornoUtil.getXmlParam(xml, "//info[@name=\"oper-state\"]");
                 ep.setAdminState(adminState.equalsIgnoreCase("UP"));
                 ep.setOperState(operState.equalsIgnoreCase("UP"));
+                ep.addInteracao(cmd);
                 p.setEstadoPorta(ep);
                 lst.add(p);
             }
@@ -343,12 +362,21 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd0 = getCd().consulta(comandoDeleteVlanBanda(i));
+        ComandoDslam cmd1 = getCd().consulta(createComandosVlanBanda(i));
+        SerialOntGpon se = getSerialOnt(i);
+        se.getInteracoes().add(0, cmd1);
+        se.getInteracoes().add(0, cmd0);
+        return se;
     }
 
     @Override
-    public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(comandoDeleteVlanBanda(i));
+
+        SerialOntGpon s = new SerialOntGpon();
+        s.addInteracao(cmd);
+        return s;
     }
 
     protected ComandoDslam setComandoEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
@@ -357,22 +385,26 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        return this.getEstadoDaPorta(i);
+        ComandoDslam cmd = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        EstadoDaPorta es = this.getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         // Pendente PO?
-        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
-        this.getCd().consulta(this.createComandosVlanBanda(i));
+        ComandoDslam cmd0 = this.getCd().consulta(this.comandoDeleteVlanBanda(i));
+        ComandoDslam cmd1 = this.getCd().consulta(this.createComandosVlanBanda(i));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd0);
+        p.getInteracoes().add(1, cmd1);
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        // Pendente PO?
-        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
-        this.getCd().consulta(this.createComandosVlanBanda(i));
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        return setProfileDown(i, vDown);
     }
 
     protected ComandoDslam createComandosVlanBanda(InventarioRede i) {
@@ -407,11 +439,15 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.FALSE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        this.getCd().consulta(this.createComandosVlanBanda(i));
+        ComandoDslam cmd0 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        ComandoDslam cmd1 = this.getCd().consulta(this.createComandosVlanBanda(i));
         e.setAdminState(Boolean.TRUE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        return this.getVlanBanda(i);
+        ComandoDslam cmd2 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd2);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd0);
+        return v;
     }
 
     protected ComandoDslam createComandoVlanVoip(InventarioRede i) {
@@ -426,8 +462,10 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        this.getCd().consulta(this.createComandoVlanVoip(i));
-        return this.getVlanVoip(i);
+        ComandoDslam cmd = this.getCd().consulta(this.createComandoVlanVoip(i));
+        VlanVoip v = this.getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam comandoCreateVlanVod(InventarioRede i) {
@@ -445,8 +483,10 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        this.getCd().consulta(this.comandoCreateVlanVod(i));
-        return this.getVlanVod(i);
+        ComandoDslam cmd = this.getCd().consulta(this.comandoCreateVlanVod(i));
+        VlanVod v = this.getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
@@ -460,13 +500,18 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.FALSE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        this.getCd().consulta(this.comandoDeleteVlanBanda(i));
+        ComandoDslam cmd0 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        ComandoDslam cmd1 = this.getCd().consulta(this.comandoDeleteVlanBanda(i));
         e.setAdminState(Boolean.TRUE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        ComandoDslam cmd2 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd2);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd0);
+        return v;
     }
 
     protected ComandoDslam deleteComandoVlanVoip(InventarioRede i) {
@@ -476,41 +521,55 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 shaper-profile none", 3500);
         } else {
             return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3500);
+        }
+    }
+
+    @Override
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        EstadoDaPorta e = new EstadoDaPorta();
+        e.setAdminState(Boolean.FALSE);
+        ComandoDslam cmd0 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        ComandoDslam cmd1 = this.getCd().consulta(this.deleteComandoVlanVoip(i));
+        e.setAdminState(Boolean.TRUE);
+        ComandoDslam cmd2 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd2);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd0);
+        return v;
+    }
+
+    protected ComandoDslam comandoDeleteVlanVod(InventarioRede i) {
+        if (i.getBhs()) {
+            return new ComandoDslam("configure igmp no channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 no bandwidth-profile\n"
+                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 shaper-profile none", 3500);
+        } else {
+            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
                     + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
         }
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.FALSE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        this.getCd().consulta(this.deleteComandoVlanVoip(i));
+        ComandoDslam cmd0 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        ComandoDslam cmd1 = this.getCd().consulta(this.comandoDeleteVlanVod(i));
         e.setAdminState(Boolean.TRUE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-    }
-
-    protected ComandoDslam comandoDeleteVlanVod(InventarioRede i) {
-        if (i.getBhs()) {
-            return new ComandoDslam("");
-        } else {
-            return new ComandoDslam("");
-        }
+        ComandoDslam cmd2 = this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd2);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd0);
+        return v;
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState(Boolean.FALSE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-        //this.getCd().consulta(this.comandoDeleteVlanVod(i));
-        e.setAdminState(Boolean.TRUE);
-        this.getCd().consulta(this.setComandoEstadoDaPorta(i, e));
-    }
-
-    @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
+        throw new FuncIndisponivelDslamException();
     }
 
     protected ComandoDslam comandoGetStatusDaPlaca(InventarioRede i) throws Exception {
@@ -521,13 +580,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         return new ComandoDslam("show equipment slot");
     }
 
-    public void fazcomando(InventarioRede i) throws Exception {
-        Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(this.comandoGetStatusDaPlaca(i)));
-    }
-
     @Override
     public ReConexao getReconexoes(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }

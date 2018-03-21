@@ -53,7 +53,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     private transient ServicePort spIptv;
     private transient EstadoDaPorta estadoDaPorta;
     private transient SerialOntGpon serial;
-    private Integer gemportBanda, gemportIptv, gemportVoip;
+    private transient Integer gemportBanda, gemportIptv, gemportVoip;
+    private transient VlanBandaVivo1Huawei vlanBanda;
+    private transient VlanVoipVivo1Huawei vlanVoip;
+    private transient VlanVodVivo1Huawei vlanVod;
+    private transient Profile profile;
 
     public HuaweiGponDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.VIVO1, new LoginComJump());
@@ -75,7 +79,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     protected void setServicePorts(InventarioRede i) throws Exception {
         setGemports(i);
-        List<String> retorno = getCd().consulta(getComandoGetServicePorts(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetServicePorts(i));
+        List<String> retorno = cmd.getRetorno();
         List<List<String>> tabServs = new ArrayList<>();
         int start = 0;
         int end = retorno.size();
@@ -112,6 +117,17 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 spBanda.setTx(new Integer(t.get(8)));
                 spBanda.setVlanId(new Integer(t.get(1)));
                 spBanda.setVpi(new Integer(t.get(5)));
+                vlanBanda = new VlanBandaVivo1Huawei();
+                vlanBanda.addInteracao(cmd);
+                vlanBanda.setGemport(spBanda.getVpi());
+                vlanBanda.setSvlan(spBanda.getVlanId());
+
+                profile = new ProfileVivo1();
+                profile.setDown(compare(spBanda.getRx().toString(), Boolean.TRUE));
+                profile.setUp(compare(spBanda.getTx().toString(), Boolean.FALSE));
+                profile.setProfileDown(spBanda.getRx().toString());
+                profile.setProfileUp(spBanda.getTx().toString());
+                profile.addInteracao(cmd);
             }
             if (t.get(6).equalsIgnoreCase("20")) {
                 spIptv = new ServicePort();
@@ -122,6 +138,10 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 spIptv.setTx(new Integer(t.get(8)));
                 spIptv.setVlanId(new Integer(t.get(1)));
                 spIptv.setVpi(new Integer(t.get(5)));
+                vlanVod = new VlanVodVivo1Huawei();
+                vlanVod.setGemport(spIptv.getVpi());
+                vlanVod.setSvlan(spIptv.getVlanId());
+                vlanVod.addInteracao(cmd);
             }
             if (t.get(6).equalsIgnoreCase("30")) {
                 spVoip = new ServicePort();
@@ -132,6 +152,10 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 spVoip.setTx(new Integer(t.get(8)));
                 spVoip.setVlanId(new Integer(t.get(1)));
                 spVoip.setVpi(new Integer(t.get(5)));
+                vlanVoip = new VlanVoipVivo1Huawei();
+                vlanVoip.setGemport(spVoip.getVpi());
+                vlanVoip.setSvlan(spVoip.getVlanId());
+                vlanVoip.addInteracao(cmd);
             }
         });
     }
@@ -234,11 +258,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setServicePorts(i);
         }
 
-        VlanBandaVivo1Huawei vlan = new VlanBandaVivo1Huawei();
-        vlan.setGemport(spBanda.getVpi());
-        vlan.setSvlan(spBanda.getVlanId());
-
-        return vlan;
+        return vlanBanda;
     }
 
     @Override
@@ -253,11 +273,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setServicePorts(i);
         }
 
-        VlanVoipVivo1Huawei vlan = new VlanVoipVivo1Huawei();
-        vlan.setGemport(spVoip.getVpi());
-        vlan.setSvlan(spVoip.getVlanId());
-
-        return vlan;
+        return vlanVoip;
     }
 
     @Override
@@ -267,11 +283,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setServicePorts(i);
         }
 
-        VlanVodVivo1Huawei vlan = new VlanVodVivo1Huawei();
-        vlan.setGemport(spIptv.getVpi());
-        vlan.setSvlan(spIptv.getVlanId());
-
-        return vlan;
+        return vlanVod;
     }
 
     protected ComandoDslam getComandoGetOntsDisp(InventarioRede i) {
@@ -285,7 +297,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetOntsDisp(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetOntsDisp(i));
+        List<String> retorno = cmd.getRetorno();
         Integer quant = new Integer(TratativaRetornoUtil.numberFromListMember(retorno, "number of GPON autofind ONT").get(0));
         List<SerialOntGpon> l = new ArrayList<>();
         for (int j = 1; j <= quant; j++) {
@@ -297,6 +310,13 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             s.setPorta(new Integer(pegaFsp[2]));
             l.add(s);
         }
+        if (l.size() > 0) {
+            l.get(0).addInteracao(cmd);
+        } else {
+            SerialOntGpon s = new SerialOntGpon();
+            s.addInteracao(cmd);
+            l.add(s);
+        }
 
         return l;
     }
@@ -306,13 +326,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (spBanda == null) {
             setServicePorts(i);
         }
-        Profile p = new ProfileVivo1();
-        p.setDown(compare(spBanda.getRx().toString(), Boolean.TRUE));
-        p.setUp(compare(spBanda.getTx().toString(), Boolean.FALSE));
-        p.setProfileDown(spBanda.getRx().toString());
-        p.setProfileUp(spBanda.getTx().toString());
-
-        return p;
+        return profile;
     }
 
     @Override
@@ -324,24 +338,25 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + i.getIdOnt() + "", 5000, "quit\n");
     }
 
-    @Override
-    public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        this.getCd().consulta(this.getCmdSetOntToOlt(i));
-        this.serial = null;
-        return this.getSerialOnt(i);
-        //        deleteVlanBanda(i);
-        //        createVlanBanda(i, null, null);
-        //        if (i.getBhs()) {
-        //            createVlanVoip(i);
-        //        }
-        //        return getSerialOnt(i);
+    protected ComandoDslam getCmdUnSetOntToOlt(InventarioRede i) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password 000000", 5000, "quit\n");
     }
 
     @Override
-    public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        throw new FuncIndisponivelDslamException();
-        //desassocia-se deletando vlan banda
-        //deleteVlanBanda(i);
+    public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
+        ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i));
+        this.serial = null;
+        SerialOntGpon se = this.getSerialOnt(i);
+        se.getInteracoes().add(0, cmd);
+        return se;
+    }
+
+    @Override
+    public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception {
+        ComandoDslam cmd = this.getCd().consulta(this.getCmdUnSetOntToOlt(i));
+        SerialOntGpon se = this.getSerialOnt(i);
+        se.getInteracoes().add(0, cmd);
+        return se;
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
@@ -351,22 +366,34 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoSetEstadoDaPorta(i, e.getAdminState())).getRetorno();
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e.getAdminState()));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        getCd().consulta(getComandoDeleteVlanBanda(i));
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        ComandoDslam cmd0 = getCd().consulta(getComandoDeleteVlanBanda(i));
         Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
-        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
+        ComandoDslam cmd1 = getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd1);
+        p.getInteracoes().add(0, cmd0);
+
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        getCd().consulta(getComandoDeleteVlanBanda(i));
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        ComandoDslam cmd0 = getCd().consulta(getComandoDeleteVlanBanda(i));
         Integer leIndex = spBanda.getIndex() == null ? getNextFreeIndex(i) : spBanda.getIndex();
-        getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
+        ComandoDslam cmd1 = getCd().consulta(getComandoCreateVlanBanda(i, leIndex));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd1);
+        p.getInteracoes().add(0, cmd0);
+
+        return p;
     }
 
     protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
@@ -394,10 +421,10 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-
-        getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i)));
-
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i)));
         spBanda = null;
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
         return getVlanBanda(i);
     }
 
@@ -412,9 +439,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoCreateVlanVoip(i, getNextFreeIndex(i))).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoip(i, getNextFreeIndex(i)));
         spVoip = null;
-        return getVlanVoip(i);
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i, Integer index) {
@@ -433,9 +462,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoCreateVlanVod(i, getNextFreeIndex(i)));
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i, getNextFreeIndex(i)));
         spIptv = null;
-        return getVlanVod(i);
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
@@ -455,9 +486,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-
-        getCd().consulta(getComandoDeleteVlanBanda(i));
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) throws Exception {
@@ -474,8 +507,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoDeleteVlanVoip(i));
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVoip(i));
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) throws Exception {
@@ -499,12 +535,15 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoDeleteVlanVod(i));
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVod(i));
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
@@ -545,7 +584,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public List<Porta> getEstadoPortasProximas(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetEstadoPortasProximas(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetEstadoPortasProximas(i));
+        List<String> retorno = cmd.getRetorno();
         Integer countStringOccurrence = TratativaRetornoUtil.countStringOccurrence(retorno, "0/" + i.getSlot() + "/" + i.getPorta());
         List<Porta> list = new ArrayList<>();
         for (int j = 1; j < ((countStringOccurrence - 1) / 2); j++) {
@@ -555,11 +595,12 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
             estado.setAdminState(linha.get(5).equalsIgnoreCase("active"));
             estado.setOperState(linha.get(6).equalsIgnoreCase("online"));
+            estado.addInteracao(cmd);
             porta.setEstadoPorta(estado);
             porta.setNumPorta(new Integer(linha.get(3)));
             list.add(porta);
         }
-
+     
         return list;
     }
 
