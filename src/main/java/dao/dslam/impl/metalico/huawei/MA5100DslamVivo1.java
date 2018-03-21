@@ -134,7 +134,8 @@ public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         estadoPorta.setAdminState(!TratativaRetornoUtil.tratHuawei(ret, "tiv").contains("Deactivated"));
         estadoPorta.setOperState(TratativaRetornoUtil.tratHuawei(ret, "Port " + i.getPorta() + " is not active").contains("encontrado"));
 
-        parametros = (TabelaParametrosMetalico) execComm(getComandoGetEstadoDaPorta(i), new TabelaParametrosMetalico());
+        parametros = new TabelaParametrosMetalico();
+        estadoPorta.getInteracoes().forEach(parametros::addInteracao);
         try {
             parametros.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
             parametros.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));

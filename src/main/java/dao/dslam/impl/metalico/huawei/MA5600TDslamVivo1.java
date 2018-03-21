@@ -37,7 +37,7 @@ import model.dslam.credencial.Credencial;
  *
  * @author G0041775
  */
-public class MA5600TDslamVivo1 extends DslamMetalicoVivo1 {
+public class MA5600TDslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     private transient MA5600TDslamVivo1 itself;
     private transient EstadoDaPorta estadoPorta;
@@ -59,18 +59,6 @@ public class MA5600TDslamVivo1 extends DslamMetalicoVivo1 {
             throw new FalhaLoginDslamException();
         }
 
-    }
-
-    protected String getCommBlob(ComandoDslam command) throws Exception {
-        String blob = getCd().consulta(command).getBlob();
-        if (blob.contains("is busy")) {
-            Thread.sleep(7500);
-            blob = getCd().consulta(command).getBlob();
-            if (blob.contains("is busy")) {
-                throw new FalhaAoExecutarComandoException();
-            }
-        }
-        return blob;
     }
 
     protected void checkPlaca(InventarioRede i) throws Exception {
@@ -131,22 +119,6 @@ public class MA5600TDslamVivo1 extends DslamMetalicoVivo1 {
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
         return new ComandoDslam("");
-    }
-
-    protected ValidavelAbs execComm(ComandoDslam command, ValidavelAbs v) throws Exception {
-        ComandoDslam cmd = getCd().consulta(command);
-        v.addInteracao(cmd);
-        String blob = cmd.getBlob();
-        if (blob.contains("is busy")) {
-            Thread.sleep(7500);
-            cmd = getCd().consulta(command);
-            v.addInteracao(cmd);
-            blob = cmd.getBlob();
-            if (blob.contains("is busy")) {
-                throw new FalhaAoExecutarComandoException();
-            }
-        }
-        return v;
     }
 
     protected void checkConfs(InventarioRede i) throws Exception {
