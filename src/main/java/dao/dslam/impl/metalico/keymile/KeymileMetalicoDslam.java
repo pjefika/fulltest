@@ -45,8 +45,10 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> admin = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i)).getRetorno();
-        List<String> oper = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaEstadoAdminDaPorta(i));
+        List<String> admin = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoConsultaEstadoOperDaPorta(i));
+        List<String> oper = cmd1.getRetorno();
 
         String adminState = TratativaRetornoUtil.tratKeymile(admin, "State");
         String operState = TratativaRetornoUtil.tratKeymile(oper, "State");
@@ -54,16 +56,19 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         EstadoDaPorta portState = new EstadoDaPorta();
         portState.setAdminState(adminState.equalsIgnoreCase("UP"));
         portState.setOperState(operState.equalsIgnoreCase("UP"));
-
+        portState.addInteracao(cmd);
+        portState.addInteracao(cmd1);
         return portState;
     }
 
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        List<String> lTabs = this.getCd().consulta(this.getTabRede(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getTabRede(i));
+        List<String> lTabs = cmd.getRetorno();
 
         tabelaRede = new TabelaRedeMetalico();
-
+        tabelaRede.addInteracao(cmd);
+        
         tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
         tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
         tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
@@ -88,8 +93,8 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     @Override
     public List<TabelaRedeMetalico> getHistoricoTabelaRede(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetHistTabelaRede(i)).getRetorno();
-        List<TabelaRedeMetalico> l = new ArrayList<>();
+//        List<String> retorno = getCd().consulta(getComandoGetHistTabelaRede(i)).getRetorno();
+//        List<TabelaRedeMetalico> l = new ArrayList<>();
 
 //        return l;
         throw new FuncIndisponivelDslamException();
@@ -97,16 +102,18 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     @Override
-    public void resetTabelaRede(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoResetTabelaRede(i));
+    public TabelaRedeMetalico resetTabelaRede(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoResetTabelaRede(i));
+        TabelaRedeMetalico t = getTabelaRede(i);
+        t.getInteracoes().add(0, cmd);
+        return t;
     }
 
     @Override
@@ -114,8 +121,9 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
         if (tabelaRede == null) {
             getTabelaRede(i);
         }
-
-        return new ReConexao(tabelaRede.getResync().intValue());
+        ReConexao r = new ReConexao(tabelaRede.getResync().intValue());
+        tabelaRede.getInteracoes().forEach(r::addInteracao);
+        return r;
     }
 
     @Override
