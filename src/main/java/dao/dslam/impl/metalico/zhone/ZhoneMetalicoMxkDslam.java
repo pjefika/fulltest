@@ -319,7 +319,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoSetModulacao(i, v));
         Modulacao m = getModulacao(i);
-        m.addInteracao(cmd);
+        m.getInteracoes().add(0, cmd);
         return m;
     }
 
@@ -359,7 +359,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 downlink vlan 600 xlate-to " + i.getCvlan() + " slan " + i.getRin() + " tagged");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 downlink vlan 600 xlate-to " + i.getCvlan() + " slan " + i.getRin() + " tagged",3000);
     }
 
     @Override
@@ -537,7 +537,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        if (mac.getMac().isEmpty()) {
+        if (mac==null || mac.getMac().isEmpty()) {
             setVlans(i);
         }
         return mac;

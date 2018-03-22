@@ -19,6 +19,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
@@ -27,7 +28,6 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  *
@@ -53,7 +53,7 @@ public class ZhoneMetalicoComboDslamIT {
     @After
     public void tearDown() {
     }
-    private static EfikaCustomer cust = CustomerMock.getCustomer("5134777014");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("4130157784");
     private static ZhoneMetalicoComboDslam instance = new ZhoneMetalicoComboDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -63,13 +63,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        TabelaParametrosMetalico expResult = null;
         TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
     }
 
     /**
@@ -93,14 +88,10 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
-        try {
-            EstadoDaPorta result = instance.getEstadoDaPorta(i);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        EstadoDaPorta result = instance.getEstadoDaPorta(i);
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
 
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -110,8 +101,7 @@ public class ZhoneMetalicoComboDslamIT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
-
-        assertTrue(result.validar(cust));
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
 
     }
 
@@ -232,9 +222,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testSetEstadoDaPorta() throws Exception {
         System.out.println("setEstadoDaPorta");
-        EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState(Boolean.FALSE);
+        EstadoDaPorta e = new EstadoDaPorta(true);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
         // TODO review the generated test code and remove the default call to fail.
     }
 

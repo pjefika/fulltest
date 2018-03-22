@@ -507,7 +507,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        if (mac.getMac().isEmpty()) {
+        if (mac==null || mac.getMac().isEmpty()) {
             setVlans(i);
         }
         return mac;
