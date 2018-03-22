@@ -273,7 +273,7 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
             cmds.add(cmd1);
         }
 
-        Profile p = new Profile();
+        Profile p = getProfile(i);
         for (int j = cmds.size() - 1; j >= 0; j--) {
             p.getInteracoes().add(0, cmds.get(j));
         }
