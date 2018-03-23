@@ -91,7 +91,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
         mac = new DeviceMAC();
         mac.addInteracao(cmd);
         try {
-            mac.setMac(pegaMac.get(0));
+            mac.setMac(pegaMac.get(0).toUpperCase());
         } catch (Exception e) {
         }
 

@@ -73,13 +73,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetTabelaRede() throws Exception {
         System.out.println("getTabelaRede");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        TabelaRedeMetalico expResult = null;
         TabelaRedeMetalico result = instance.getTabelaRede(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
 
     /**
@@ -111,13 +106,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        VlanVoip expResult = null;
         VlanVoip result = instance.getVlanVoip(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        System.out.println(new JacksonMapper(VlanVoip.class).serialize(result));
     }
 
     /**
@@ -139,7 +130,7 @@ public class ZhoneMetalicoComboDslamIT {
         System.out.println("getVlanMulticast");
         VlanMulticast result = instance.getVlanMulticast(i);
 
-        assertTrue(result.validar(cust));
+        System.out.println(new JacksonMapper(VlanMulticast.class).serialize(result));
 
     }
 
@@ -206,14 +197,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testSetModulacao() throws Exception {
         System.out.println("setModulacao");
-        InventarioRede i = null;
-        Velocidades v = null;
-        ZhoneMetalicoComboDslam instance = null;
-        Modulacao expResult = null;
-        Modulacao result = instance.setModulacao(i, v);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Modulacao result = instance.setModulacao(i, Velocidades.find(cust.getServicos().getVelDown()));
+        System.out.println(new JacksonMapper(Modulacao.class).serialize(result));
+        
     }
 
     /**
@@ -234,12 +220,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        InventarioRede i = null;
-        Velocidades v = null;
-        ZhoneMetalicoComboDslam instance = null;
-        instance.setProfileDown(i, v);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Profile result = instance.setProfileDown(i, Velocidades.find(cust.getServicos().getVelDown()));
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**
@@ -263,15 +245,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
-        InventarioRede i = null;
-        Velocidades vDown = null;
-        Velocidades vUp = null;
-        ZhoneMetalicoComboDslam instance = null;
-        VlanBanda expResult = null;
-        VlanBanda result = instance.createVlanBanda(i, vDown, vUp);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
@@ -310,13 +285,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testCreateVlanMulticast() throws Exception {
         System.out.println("createVlanMulticast");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        VlanMulticast expResult = null;
         VlanMulticast result = instance.createVlanMulticast(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(VlanMulticast.class).serialize(result));
+        
     }
 
     /**
@@ -325,7 +296,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        instance.deleteVlanBanda(i);
+        VlanBanda result = instance.deleteVlanBanda(i);
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
@@ -360,11 +332,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testDeleteVlanMulticast() throws Exception {
         System.out.println("deleteVlanMulticast");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        instance.deleteVlanMulticast(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        VlanMulticast result = instance.deleteVlanMulticast(i);
+        
+        System.out.println(new JacksonMapper(VlanMulticast.class).serialize(result));
     }
 
     /**
@@ -427,11 +397,8 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testResetTabelaRede() throws Exception {
         System.out.println("resetTabelaRede");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        instance.resetTabelaRede(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        TabelaRedeMetalico result = instance.resetTabelaRede(i);
+        System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
 
     /**
@@ -455,13 +422,9 @@ public class ZhoneMetalicoComboDslamIT {
     @Test
     public void testGetDeviceMac() throws Exception {
         System.out.println("getDeviceMac");
-        InventarioRede i = null;
-        ZhoneMetalicoComboDslam instance = null;
-        DeviceMAC expResult = null;
         DeviceMAC result = instance.getDeviceMac(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
+        
     }
 
 }

@@ -107,7 +107,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         mac.addInteracao(cmd);
         mac.addInteracao(cmd1);
         try {
-            mac.setMac(pegaMac.get(0));
+            mac.setMac(pegaMac.get(0).toUpperCase());
         } catch (Exception e) {
         }
 
@@ -119,7 +119,6 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         vlanBanda = new VlanBanda(cvlanBanda, p100Banda, EnumEstadoVlan.UP);
         vlanBanda.addInteracao(cmd);
-        vlanBanda.addInteracao(cmd1);
 
         List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-36", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Integer cvlanVoip = null;
@@ -130,7 +129,6 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
         }
         vlanVoip = new VlanVoip(cvlanVoip, p100Voip, EnumEstadoVlan.UP);
         vlanVoip.addInteracao(cmd);
-        vlanVoip.addInteracao(cmd1);
 
         List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "0-adsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
@@ -402,7 +400,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
-        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35");
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/35",2000);
     }
 
     @Override
@@ -416,7 +414,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
-        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36");
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/36",2000);
     }
 
     @Override
@@ -429,7 +427,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
-        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37");
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/37",2000);
     }
 
     @Override
@@ -442,7 +440,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     }
 
     protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
-        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/38");
+        return new ComandoDslam("bridge delete 1-" + i.getSlot() + "-" + i.getPorta() + "-0/adsl vc 0/38",2000);
     }
 
     @Override
@@ -492,6 +490,7 @@ public class ZhoneMetalicoComboDslam extends ZhoneMetalicoDslam {
     public TabelaRedeMetalico resetTabelaRede(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoResetTabelaRede(i));
         tabRede = null;
+        getTabelaRede(i);
         tabRede.getInteracoes().add(0, cmd);
         return tabRede;
     }
