@@ -351,16 +351,15 @@ public abstract class KeymileMetalicoSuadDslam extends KeymileMetalicoDslam {
          * Try adicionado para casos em que o vlan não exista
          */
         List<ComandoDslam> cmds = new ArrayList<>();
-        try {
-            ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "1"));
-            cmds.add(cmd);
-            List<String> pegaSrvc = cmd.getRetorno();
-            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+
+        ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "1"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        if (leSrvc.size() > 0) {
             String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
             ComandoDslam cmd1 = getCd().consulta(getComandoDeleteVlan(srvc));
             cmds.add(cmd1);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         VlanBanda v = getVlanBanda(i);
         for (int j = cmds.size() - 1; j >= 0; j--) {
