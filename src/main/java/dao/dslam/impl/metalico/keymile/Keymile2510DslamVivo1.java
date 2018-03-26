@@ -180,7 +180,7 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "1"));
         List<String> pegaSrvc = cmd.getRetorno();
-        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvc(i, "1"));
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 1));
         List<String> pegaStatus = cmd1.getRetorno();
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
 
@@ -257,11 +257,12 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         List<String> atnSnr = cmd1.getRetorno();
         ComandoDslam cmd2 = getCd().consulta(getAttainableRate(i));
         List<String> att = cmd2.getRetorno();
-        TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
-        tab.addInteracao(cmd);
-        tab.addInteracao(cmd1);
-        tab.addInteracao(cmd2);
+
         try {
+            TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
+            tab.addInteracao(cmd);
+            tab.addInteracao(cmd1);
+            tab.addInteracao(cmd2);
             tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
             tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
             tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
@@ -278,22 +279,32 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
             tab.setSnrDown1(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 5)));
             tab.setAtnDown2(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 6)));
             tab.setSnrDown2(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 6)));
-
+            return tab;
         } catch (Exception e) {
 
-//            TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
-            tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
-            tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
-            tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
-            tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
-            tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
-            tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
-            tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
-            tab.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 2)));
-
+            try {
+                TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
+                tab.addInteracao(cmd);
+                tab.addInteracao(cmd1);
+                tab.addInteracao(cmd2);
+                tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
+                tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
+                tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
+                tab.setVelMaxUp(new Double(TratativaRetornoUtil.tratKeymile(att, "Upstream")));
+                tab.setAtnUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation")));
+                tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
+                tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
+                tab.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 2)));
+                return tab;
+            } catch (Exception ex) {
+                TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
+                tab.addInteracao(cmd);
+                tab.addInteracao(cmd1);
+                tab.addInteracao(cmd2);
+                return tab;
+            }
         }
 
-        return tab;
     }
 
     protected ComandoDslam getTabRede(InventarioRede i) {
@@ -363,8 +374,10 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        getCd().consulta(getComandoSetEstadoDaPorta(i, e));
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     protected ComandoDslam getComandoSetProfileDefault(InventarioRede i, Velocidades vDown) {

@@ -316,13 +316,13 @@ public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
     }
 
     protected ComandoDslam getComandoGetIndexProfile() {
-        return new ComandoDslam("show adsl line-profile");
+        return new ComandoDslam("show adsl line-profile",3000);
     }
 
     protected ComandoDslam getComandoSetProfile(InventarioRede i, String indexProfile) {
         return new ComandoDslam("interface adsl 0/" + i.getSlot() + "\n"
                 + "deactivate " + i.getPorta() + "\n", 3000,
-                "activate " + i.getPorta() + " " + indexProfile, 3000);
+                "activate " + i.getPorta() + " " + indexProfile, 3000, "exit");
     }
 
     @Override
@@ -336,8 +336,10 @@ public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         ).get(0).toString();
         p = (Profile) execComm(getComandoSetProfile(i, indexProfile), p);
         Profile prof = getProfile(i);
-        prof.getInteracoes().forEach(p::addInteracao);
-        return p;
+        for (int j = p.getInteracoes().size() - 1; j >= 0; j--) {
+            prof.getInteracoes().add(0, p.getInteracoes().get(j));
+        }
+        return prof;
     }
 
     @Override

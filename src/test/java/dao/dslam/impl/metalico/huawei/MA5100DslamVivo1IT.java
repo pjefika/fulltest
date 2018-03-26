@@ -81,8 +81,7 @@ public class MA5100DslamVivo1IT {
     }
 
     /**
-     * Test of obterVelocidadesDownVendor method, of class
- MA5100DslamVivo1.
+     * Test of obterVelocidadesDownVendor method, of class MA5100DslamVivo1.
      */
     @Test
     public void testObterVelocidadesDownVendor() {
@@ -206,7 +205,7 @@ public class MA5100DslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        
+
         TabelaParametrosMetalico result = instance3.getTabelaParametros(i3);
         System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
     }
@@ -288,11 +287,8 @@ public class MA5100DslamVivo1IT {
     @Test
     public void testResetTabelaRede() throws Exception {
         System.out.println("resetTabelaRede");
-        InventarioRede i = null;
-        MA5100DslamVivo1 instance = null;
-        instance.resetTabelaRede(i);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        TabelaRedeMetalico result = instance.resetTabelaRede(i);
+        System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
 
     /**
@@ -311,11 +307,10 @@ public class MA5100DslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        
-        instance3.setProfileDown(i3, Velocidades.find(CustomerMock.metalicoHuawei5103().getServicos().getVelDown()));
-        Profile result = instance3.getProfile(i3);
+
+        Profile result = instance3.setProfileDown(i3, Velocidades.find(CustomerMock.metalicoHuawei5103().getServicos().getVelDown()));
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
-        
+
     }
 
     /**
