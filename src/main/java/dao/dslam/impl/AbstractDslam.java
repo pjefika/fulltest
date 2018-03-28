@@ -101,14 +101,12 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
 
             for (int i = 0; i < leprof.length; i++) {
                 if (leprof[i].contains(wichone)) {
-//                    try {
-                    profVendor = new Double(leprof[i].replaceAll("[a-z]?[A-Z]", "")) / 1000;
-                    if (profVendor.compareTo(0.1d) < 0) {
-                        profVendor = new Double(leprof[i-1].replaceAll("[a-z]?[A-Z]", "")) / 1000;
+                    try {
+                    profVendor = new Double(leprof[i - 1]) / 1000;
+
+                    } catch (Exception e) {
+                        profVendor = new Double(leprof[i]) / 1000;
                     }
-//                    } catch (Exception e) {
-//                        profVendor = new Double(leprof[i]) / 1000;
-//                    }
 
                     System.out.println("profVendor->" + profVendor);
                 }

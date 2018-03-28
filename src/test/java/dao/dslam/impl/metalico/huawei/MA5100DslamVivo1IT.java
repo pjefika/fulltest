@@ -56,7 +56,7 @@ public class MA5100DslamVivo1IT {
 
     private static MA5100DslamVivo1 instance = new MA5100DslamVivo1(CustomerMock.metalicoHuawei5100().getRede().getIpDslam());
     private static InventarioRede i = CustomerMock.metalicoHuawei5100().getRede();
-    private static MA5100DslamVivo1 instance3 = new MA5100DslamVivo1(CustomerMock.metalicoHuawei5103().getRede().getIpDslam());
+    private static MA5103DslamVivo1 instance3 = new MA5103DslamVivo1(CustomerMock.metalicoHuawei5103().getRede().getIpDslam());
     private static InventarioRede i3 = CustomerMock.metalicoHuawei5103().getRede();
 
     /**
@@ -125,6 +125,9 @@ public class MA5100DslamVivo1IT {
     @Test
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
+        Profile result3 = instance3.getProfile(i3);
+        System.out.println(new JacksonMapper(Profile.class).serialize(result3));
+                
         Profile result = instance.getProfile(i);
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
@@ -310,6 +313,9 @@ public class MA5100DslamVivo1IT {
 
         Profile result = instance3.setProfileDown(i3, Velocidades.find(CustomerMock.metalicoHuawei5103().getServicos().getVelDown()));
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
+
+        Profile result1 = instance.setProfileDown(i, Velocidades.find(CustomerMock.metalicoHuawei5100().getServicos().getVelDown()));
+        System.out.println(new JacksonMapper(Profile.class).serialize(result1));
 
     }
 

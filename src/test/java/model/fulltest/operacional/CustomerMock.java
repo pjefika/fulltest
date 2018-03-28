@@ -466,16 +466,16 @@ public class CustomerMock {
 
         //1147461013 - MA5103
         //1934511136 - MA5103
-        r.setTerminal("1146141820");
-        r.setIpDslam("10.18.65.241");
+        r.setTerminal("1147461013");
+        r.setIpDslam("10.18.193.54");
         r.setModeloDslam("MA5103");
 
 //        r.setIdOnt("0002596166");
-        r.setSlot(3);
-        r.setPorta(27);
+        r.setSlot(1);
+        r.setPorta(3);
 //        r.setLogica(38);
-        r.setCvlan(123);
-        r.setRin(249);
+        r.setCvlan(1164);
+        r.setRin(91);
         r.setBhs(Boolean.FALSE);
 
 //        r.setVlanVoip(3004);
