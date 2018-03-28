@@ -31,8 +31,10 @@ public abstract class ZhoneMetalicoDslam extends DslamMetalico {
         return new ComandoDslam("bridge show vlan " + i.getCvlan(), 5000);
     }
 
-    public EstadoDaPorta getEstadoDaPorta(List<String> r) throws Exception {
+    public EstadoDaPorta getEstadoDaPorta(ComandoDslam cmd) throws Exception {
         EstadoDaPorta e = new EstadoDaPorta();
+        e.addInteracao(cmd);
+        List<String> r = cmd.getRetorno();
         String admState = TratativaRetornoUtil.tratZhone(r, "AdminStatus", "\\b\\w+\\b").get(1);
         String operState = TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b") == null ? "down" : TratativaRetornoUtil.tratZhone(r, "LineStatus", "\\b\\w+\\b").get(1);
 

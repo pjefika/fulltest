@@ -7,6 +7,7 @@ package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -22,7 +23,6 @@ import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
-import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,11 +36,16 @@ import static org.junit.Assert.*;
  */
 public class Keymile2510DslamVivo1IT {
 
+    private static final EfikaCustomer cust = CustomerMock.metalicoKeymile2510();
+    private static final Keymile2510DslamVivo1 instance = new Keymile2510DslamVivo1(cust.getRede().getIpDslam());
+    private static final InventarioRede i = cust.getRede();
+
     public Keymile2510DslamVivo1IT() {
     }
 
     @BeforeClass
     public static void setUpClass() {
+
     }
 
     @AfterClass
@@ -55,20 +60,13 @@ public class Keymile2510DslamVivo1IT {
     public void tearDown() {
     }
 
-    private static EfikaCustomer cust = CustomerMock.metalicoKeymile2510();
-    private static Keymile2510DslamVivo1 instance = new Keymile2510DslamVivo1(cust.getRede().getIpDslam());
-    private static InventarioRede i = cust.getRede();
-
     /**
      * Test of conectar method, of class Keymile2510DslamVivo1.
      */
     @Test
     public void testConectar() throws Exception {
         System.out.println("conectar");
-        Keymile2510DslamVivo1 instance = null;
         instance.conectar();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -132,7 +130,8 @@ public class Keymile2510DslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
         Profile result = instance.getProfile(i);
-        System.out.println(new JacksonMapper(Profile.class).serialize(result));
+        System.out.println(new JacksonMapper(Profile.class
+        ).serialize(result));
     }
 
     /**
@@ -142,7 +141,8 @@ public class Keymile2510DslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
-        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
+        System.out.println(new JacksonMapper(VlanBanda.class
+        ).serialize(result));
     }
 
     /**
@@ -197,7 +197,8 @@ public class Keymile2510DslamVivo1IT {
     public void testGetReconexoes() throws Exception {
         System.out.println("getReconexoes");
         ReConexao result = instance.getReconexoes(i);
-        System.out.println(new JacksonMapper(ReConexao.class).serialize(result));
+        System.out.println(new JacksonMapper(ReConexao.class
+        ).serialize(result));
     }
 
     /**
@@ -207,7 +208,8 @@ public class Keymile2510DslamVivo1IT {
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
         TabelaParametrosMetalico result = instance.getTabelaParametros(i);
-        System.out.println(new JacksonMapper(TabelaParametrosMetalico.class).serialize(result));
+        System.out.println(new JacksonMapper(TabelaParametrosMetalico.class
+        ).serialize(result));
     }
 
     /**
@@ -272,7 +274,8 @@ public class Keymile2510DslamVivo1IT {
     @Test
     public void testResetTabelaRede() throws Exception {
         System.out.println("resetTabelaRede");
-        instance.resetTabelaRede(i);
+        TabelaRedeMetalico result = instance.resetTabelaRede(i);
+        System.out.println(new JacksonMapper(TabelaRedeMetalico.class).serialize(result));
     }
 
     /**
@@ -291,8 +294,9 @@ public class Keymile2510DslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        instance.setProfileDown(i, Velocidades.find(CustomerMock.metalicoKeymile2510().getServicos().getVelDown()));
-        System.out.println(new JacksonMapper(Profile.class).serialize(instance.getProfile(i)));
+        Profile result = instance.setProfileDown(i, Velocidades.find(CustomerMock.metalicoKeymile2510().getServicos().getVelDown()));
+        System.out.println(new JacksonMapper(Profile.class
+        ).serialize(result));
     }
 
     /**
@@ -302,7 +306,8 @@ public class Keymile2510DslamVivo1IT {
     public void testSetProfileUp() throws Exception {
         System.out.println("setProfileUp");
         instance.setProfileUp(i, Velocidades.find(CustomerMock.metalicoKeymile2510().getServicos().getVelDown()), null);
-        System.out.println(new JacksonMapper(Profile.class).serialize(instance.getProfile(i)));
+        System.out.println(new JacksonMapper(Profile.class
+        ).serialize(instance.getProfile(i)));
     }
 
     /**
@@ -312,7 +317,8 @@ public class Keymile2510DslamVivo1IT {
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
         VlanBanda result = instance.createVlanBanda(i, null, null);
-        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
+        System.out.println(new JacksonMapper(VlanBanda.class
+        ).serialize(result));
     }
 
     /**
@@ -366,7 +372,9 @@ public class Keymile2510DslamVivo1IT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        instance.deleteVlanBanda(i);
+        VlanBanda result = instance.deleteVlanBanda(i);
+        System.out.println(new JacksonMapper(VlanBanda.class
+        ).serialize(result));
     }
 
     /**
@@ -415,7 +423,8 @@ public class Keymile2510DslamVivo1IT {
     public void testGetDeviceMac() throws Exception {
         System.out.println("getDeviceMac");
         DeviceMAC result = instance.getDeviceMac(i);
-        System.out.println(new JacksonMapper(DeviceMAC.class).serialize(result));
+        System.out.println(new JacksonMapper(DeviceMAC.class
+        ).serialize(result));
     }
 
 }

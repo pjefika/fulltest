@@ -101,7 +101,13 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
 
             for (int i = 0; i < leprof.length; i++) {
                 if (leprof[i].contains(wichone)) {
+                    try {
                     profVendor = new Double(leprof[i - 1]) / 1000;
+
+                    } catch (Exception e) {
+                        profVendor = new Double(leprof[i]) / 1000;
+                    }
+
                     System.out.println("profVendor->" + profVendor);
                 }
             }
@@ -122,9 +128,9 @@ public abstract class AbstractDslam implements ConsultaClienteInter, VelocidadeV
                 }
             }
             Collections.sort(vals);
-            Integer qual = isDown ? vals.get(vals.size()-1) : vals.get(vals.size()-2);
+            Integer qual = isDown ? vals.get(vals.size() - 1) : vals.get(vals.size() - 2);
             Double profVendor = new Double(qual) / 1000;
-            System.out.println("profVendor->"+profVendor);
+            System.out.println("profVendor->" + profVendor);
             Velocidades[] vels = Velocidades.values();
             for (int i = 0; i < vels.length; i++) {
                 Double leVel = new Double(vels[i].getValor());

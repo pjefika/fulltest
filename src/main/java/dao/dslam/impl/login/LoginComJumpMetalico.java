@@ -66,9 +66,9 @@ public class LoginComJumpMetalico implements LoginDslamStrategy {
             cs.out.print(telnet + "\r");
             cs.out.flush();
             Thread.sleep(3000);
-            if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("enc")) {
+            if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("Parâmetro não encontrado")) {
                 Thread.sleep(5000);
-                if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("enc")) {
+                if (TratativaRetornoUtil.tratHuawei(cs.getRetorno(), "Connected").contains("Parâmetro não encontrado")) {
                     throw new SemGerenciaException();
                 }
             }

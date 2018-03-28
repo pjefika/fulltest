@@ -38,7 +38,7 @@ public class CorretorSerialOntGpon extends CorretorGpon {
         try {
             SerialOntGpon s1 = new SerialOntGpon();
             s1.setIdOnt(cust.getRede().getIdOnt());
-            this.ag.setOntToOlt(cust.getRede(), s1);
+            getPreresults().add(this.ag.setOntToOlt(cust.getRede(), s1));
             ValidacaoAssociacaoOnt v = (ValidacaoAssociacaoOnt) this.consultar();
             v.validar();
             this.setValid(v);

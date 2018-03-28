@@ -73,12 +73,18 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
 
     @Override
     public TabelaParametrosMetalico getTabelaParametros(InventarioRede i) throws Exception {
-        List<String> velSinc = this.getCd().consulta(this.getVelSinc(i)).getRetorno();
-        List<String> atnSnr = this.getCd().consulta(this.getSnrAtn(i)).getRetorno();
-        List<String> att = getCd().consulta(getAttainableRate(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getVelSinc(i));
+        List<String> velSinc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getSnrAtn(i));
+        List<String> atnSnr = cmd1.getRetorno();
+        ComandoDslam cmd2 = this.getCd().consulta(getAttainableRate(i));
+        List<String> att = cmd2.getRetorno();
 
         try {
             TabelaParametrosMetalicoVdsl tab = new TabelaParametrosMetalicoVdsl();
+            tab.addInteracao(cmd);
+            tab.addInteracao(cmd1);
+            tab.addInteracao(cmd2);
 
             tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
             tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
@@ -98,12 +104,13 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             tab.setSnrDown2(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 6)));
 
             return tab;
-
         } catch (Exception e) {
 
-            TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
-
             try {
+                TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
+                tab.addInteracao(cmd);
+                tab.addInteracao(cmd1);
+                tab.addInteracao(cmd2);
                 tab.setVelSincDown(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate")));
                 tab.setVelSincUp(new Double(TratativaRetornoUtil.tratKeymile(velSinc, "CurrentRate", 2)));
                 tab.setVelMaxDown(new Double(TratativaRetornoUtil.tratKeymile(att, "Downstream")));
@@ -112,26 +119,26 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
                 tab.setSnrUp(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin")));
                 tab.setAtnDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrAttenuation", 2)));
                 tab.setSnrDown(new Double(TratativaRetornoUtil.tratKeymile(atnSnr, "CurrSnrMargin", 2)));
-
                 return tab;
             } catch (Exception ex) {
-                tab.setVelSincDown(new Double("0"));
-                tab.setVelSincUp(new Double("0"));
-                tab.setAtnUp(new Double("0"));
-                tab.setSnrUp(new Double("0"));
-                tab.setAtnDown(new Double("0"));
-                tab.setSnrDown(new Double("0"));
-
+                TabelaParametrosMetalico tab = new TabelaParametrosMetalico();
+                tab.addInteracao(cmd);
+                tab.addInteracao(cmd1);
+                tab.addInteracao(cmd2);
                 return tab;
             }
         }
-
     }
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "1")).getRetorno();
-        List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 1)).getRetorno();
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "1"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 1));
+        cmds.add(cmd1);
+        List<String> pegaStatus = cmd1.getRetorno();
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
@@ -140,7 +147,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         EnumEstadoVlan state;
 
         if (!leSrvc.contentEquals("no service connected")) {
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
+            ComandoDslam cmd2 = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc));
+            cmds.add(cmd2);
+            List<String> pegaVlan = cmd2.getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -153,14 +162,20 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         }
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
+        cmds.forEach(vlanBanda::addInteracao);
 
         return vlanBanda;
     }
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "2")).getRetorno();
-        List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 2)).getRetorno();
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "2"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 2));
+        cmds.add(cmd1);
+        List<String> pegaStatus = cmd1.getRetorno();
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
 
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
@@ -168,7 +183,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
         if (!leSrvc.contentEquals("no service connected")) {
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
+            ComandoDslam cmd2 = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc));
+            cmds.add(cmd2);
+            List<String> pegaVlan = cmd2.getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -181,14 +198,19 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         }
 
         VlanVoip vlanVoip = new VlanVoip(cvlan, svlan, state);
-
+        cmds.forEach(vlanVoip::addInteracao);
         return vlanVoip;
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "3")).getRetorno();
-        List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 3)).getRetorno();
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "3"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 3));
+        cmds.add(cmd1);
+        List<String> pegaStatus = cmd1.getRetorno();
         List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanVodPm(i)).getRetorno();
 
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
@@ -199,7 +221,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         EnumEstadoVlan state;
 
         if (!leSrvc.contentEquals("no service connected")) {
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
+            ComandoDslam cmd2 = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc));
+            cmds.add(cmd2);
+            List<String> pegaVlan = cmd2.getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "Svid"));
             cvlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "CVID"));
         }
@@ -216,25 +240,37 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
             vlanVod.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         } catch (Exception e) {
         }
+        cmds.forEach(vlanVod::addInteracao);
 
         return vlanVod;
     }
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> pegaSrvc = this.getCd().consulta(this.getComandoGetSrvc(i, "4")).getRetorno();
-        List<String> pegaStatus = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4)).getRetorno();
-        List<String> pegaDetails = this.getCd().consulta(this.getComandoGetVlanMulticastPm(i)).getRetorno();
-        List<String> pegaIpIgmp = this.getCd().consulta(this.getComandoGetIpIgmp()).getRetorno();
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoGetSrvc(i, "4"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoGetSrvcStatus(i, 4));
+        cmds.add(cmd1);
+        List<String> pegaStatus = cmd1.getRetorno();
+        ComandoDslam cmd2 = this.getCd().consulta(this.getComandoGetVlanMulticastPm(i));
+        cmds.add(cmd2);
+        List<String> pegaDetails = cmd2.getRetorno();
+        ComandoDslam cmd3 = this.getCd().consulta(this.getComandoGetIpIgmp());
+        cmds.add(cmd3);
+        List<String> pegaIpIgmp = cmd3.getRetorno();
 
         String statusVlan = TratativaRetornoUtil.tratKeymile(pegaStatus, "MACSRCFilter");
         String leSrvc = TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected").replace("\"", "").replace(";", "");
 
         Integer svlan = new Integer("0");
-        Integer cvlan = new Integer("0");
+//        Integer cvlan = new Integer("0");
         EnumEstadoVlan state;
         if (!leSrvc.contentEquals("no service connected")) {
-            List<String> pegaVlan = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc)).getRetorno();
+            ComandoDslam cmd4 = this.getCd().consulta(this.getComandoConsultaVlan(leSrvc));
+            cmds.add(cmd4);
+            List<String> pegaVlan = cmd4.getRetorno();
             svlan = new Integer(TratativaRetornoUtil.tratKeymile(pegaVlan, "McastVID"));
         }
         if (statusVlan.equalsIgnoreCase("None")) {
@@ -249,12 +285,14 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         vlanMult.setPctDown(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 3)));
         vlanMult.setPctUp(new Integer(TratativaRetornoUtil.tratKeymile(pegaDetails, "Value", 5)));
         vlanMult.setIpIgmp(TratativaRetornoUtil.tratKeymile(pegaIpIgmp, "LocalIpAddressForIgmpGeneration"));
+        cmds.forEach(vlanMult::addInteracao);
         return vlanMult;
     }
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        List<String> pegaProfile = this.getCd().consulta(this.getProf(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getProf(i));
+        List<String> pegaProfile = cmd.getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
         List<String> leProf = TratativaRetornoUtil.numberFromString(first);
 
@@ -268,12 +306,15 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         prof.setDown(compare(leprofz, Boolean.TRUE));
         prof.setUp(compare(leprofz, Boolean.FALSE));
 
+        prof.addInteracao(cmd);
+
         return prof;
     }
 
     @Override
     public Modulacao getModulacao(InventarioRede ir) throws Exception {
-        List<String> pegaModul = this.getCd().consulta(this.getModul(ir)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getModul(ir));
+        List<String> pegaModul = cmd.getRetorno();
         String modul = "";
         Integer i;
         for (i = 0; i < pegaModul.size(); i++) {
@@ -285,88 +326,77 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         Modulacao m = new Modulacao();
         m.setModulacao(modul);
         m.setModulEnum(compare(modul));
+        m.addInteracao(cmd);
 
         return m;
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        String leSet = getCd().consulta(getComandoSetProfileDefault(i, v)).getBlob();
-        List<String> leResp = new ArrayList<>();
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = getCd().consulta(getComandoSetProfileDefault(i, v));
+        cmds.add(cmd);
+        String leSet = cmd.getBlob();
         if (leSet.contains("previously") || leSet.contains("is not compatible")) {
-            leSet = getCd().consulta(getComandoSetProfileSeco(i, v)).getBlob();
+            ComandoDslam cmd1 = getCd().consulta(getComandoSetProfileSeco(i, v));
+            cmds.add(cmd1);
+            leSet = cmd1.getBlob();
             if (leSet.contains("previously") || leSet.contains("is not compatible")) {
-                leResp = getCd().consulta(getComandoSetProfileSUVD1(i, v)).getRetorno();
-            } else {
-                String[] parser = leSet.split("\\n");
-                for (String string : parser) {
-                    leResp.add(string);
-                }
-            }
-        } else {
-            String[] parser = leSet.split("\\n");
-            for (String string : parser) {
-                leResp.add(string);
+                ComandoDslam cmd2 = getCd().consulta(getComandoSetProfileSUVD1(i, v));
+                cmds.add(cmd2);
             }
         }
-        for (String string : leResp) {
-            System.out.println(string);
+        Profile p = getProfile(i);
+        for (int j = cmds.size() - 1; j >= 0; j--) {
+            p.getInteracoes().add(0, cmds.get(j));
         }
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        setProfileDown(i, vDown);
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        return setProfileDown(i, vDown);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "1", "none")).getRetorno();
-        for (String string : leResp1) {
-            System.out.println(string);
-        }
-        return getVlanBanda(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "1", "none"));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "2", "none")).getRetorno();
-        for (String string : leResp1) {
-            System.out.println(string);
-        }
-        return getVlanVoip(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoip(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "2", "none"));
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        List<String> leResp1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "3", "none")).getRetorno();
-        for (String string : leResp1) {
-            System.out.println(string);
-        }
-        return getVlanVod(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "3", "none"));
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
-        return getVlanMulticast(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanMulticast(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetMacSourceFilteringMode(i, "4", "none"));
+        VlanMulticast v = getVlanMulticast(i);
+        v.getInteracoes().add(0, cmd1);
+        v.getInteracoes().add(0, cmd);
 
+        return v;
     }
 
     @Override
@@ -376,105 +406,142 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-        try {
-            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "1")).getRetorno();
-            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
+        ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "1"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        if (leSrvc.size() > 0) {
             String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-            for (String string : leResp) {
-                System.out.println(string);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            cmds.add(getCd().consulta(getComandoDeleteVlan(srvc)));
         }
+
+        VlanBanda v = getVlanBanda(i);
+
+        for (int j = cmds.size() - 1;
+                j >= 0; j--) {
+            System.out.println("oi");
+            v.getInteracoes().add(0, cmds.get(j));
+        }
+        return v;
+    }
+
+    @Override
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
+
+        ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "2"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        if (leSrvc.size() > 0) {
+            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
+            cmds.add(getCd().consulta(getComandoDeleteVlan(srvc)));
+        }
+
+        VlanVoip v = getVlanVoip(i);
+        for (int j = cmds.size() - 1; j >= 0; j--) {
+            v.getInteracoes().add(0, cmds.get(j));
+        }
+        return v;
 
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
-        try {
-            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "2")).getRetorno();
-            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
+
+        ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "3"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        if (leSrvc.size() > 0) {
             String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-            for (String string : leResp) {
-                System.out.println(string);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            cmds.add(getCd().consulta(getComandoDeleteVlan(srvc)));
         }
 
+        VlanVod v = getVlanVod(i);
+        for (int j = cmds.size() - 1; j >= 0; j--) {
+            v.getInteracoes().add(0, cmds.get(j));
+        }
+        return v;
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        try {
-            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "3")).getRetorno();
-            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
+
+        ComandoDslam cmd = getCd().consulta(getComandoGetSrvc(i, "4"));
+        cmds.add(cmd);
+        List<String> pegaSrvc = cmd.getRetorno();
+        List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
+        if (leSrvc.size() > 0) {
             String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-            List<String> leResp = getCd().consulta(getComandoDeleteVlan(srvc)).getRetorno();
-            for (String string : leResp) {
-                System.out.println(string);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            cmds.add(getCd().consulta(getComandoDeleteMulticast(srvc)));
         }
 
-    }
-
-    @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        try {
-            List<String> pegaSrvc = getCd().consulta(getComandoGetSrvc(i, "4")).getRetorno();
-            List<String> leSrvc = TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratKeymile(pegaSrvc, "ServicesCurrentConnected"));
-            String srvc = leSrvc.get(leSrvc.size() - 1).replace("-", "");
-            List<String> leResp = getCd().consulta(getComandoDeleteMulticast(srvc)).getRetorno();
-            for (String string : leResp) {
-                System.out.println(string);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        VlanMulticast v = getVlanMulticast(i);
+        for (int j = cmds.size() - 1; j >= 0; j--) {
+            v.getInteracoes().add(0, cmds.get(j));
         }
-
+        return v;
     }
 
     @Override
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
+        List<ComandoDslam> cmds = new ArrayList<>();
         String leResp = "";
         Boolean isAdsl = new Double(v.getVel()).compareTo(20d) <= 0;
         if (isAdsl) {
-            leResp = getCd().consulta(getComandoSetModulacaoAdsl(i, v)).getBlob();
+            ComandoDslam cmd = getCd().consulta(getComandoSetModulacaoAdsl(i, v));
+            cmds.add(cmd);
+            leResp = cmd.getBlob();
             if (leResp.contains("previously") || leResp.contains("is not compatible")) {
-                leResp = getCd().consulta(getComandoSetModulacaoAdsl1(i, v)).getBlob();
+                ComandoDslam cmd1 = getCd().consulta(getComandoSetModulacaoAdsl1(i, v));
+                cmds.add(cmd1);
+                leResp = cmd1.getBlob();
             }
         } else {
-            leResp = getCd().consulta(getComandoSetModulacaoVdsl(i, v)).getBlob();
+            ComandoDslam cmd = getCd().consulta(getComandoSetModulacaoVdsl(i, v));
+            cmds.add(cmd);
+            leResp = cmd.getBlob();
             if (leResp.contains("previously") || leResp.contains("is not compatible")) {
-                leResp = getCd().consulta(getComandoSetModulacaoVdsl1(i, v)).getBlob();
+                ComandoDslam cmd1 = getCd().consulta(getComandoSetModulacaoVdsl1(i, v));
+                cmds.add(cmd1);
+                leResp = cmd1.getBlob();
                 if (leResp.contains("previously") || leResp.contains("is not compatible")) {
-                    leResp = getCd().consulta(getComandoSetModulacaoVdsl11(i, v)).getBlob();
+                    ComandoDslam cmd2 = getCd().consulta(getComandoSetModulacaoVdsl11(i, v));
+                    cmds.add(cmd2);
+                    leResp = cmd2.getBlob();
                 }
             }
         }
 
-        System.out.println(leResp);
+        Modulacao m = getModulacao(i);
+        for (int j = cmds.size() - 1; j >= 0; j--) {
+            m.getInteracoes().add(0, cmds.get(j));
+        }
 
-        return getModulacao(i);
+        return m;
     }
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoGetDeviceMAC(i));
+        List<ComandoDslam> cmds = new ArrayList<>();
+        cmds.add(getCd().consulta(getComandoGetDeviceMAC(i)));
         String macValue = "";
         for (int j = 0; j < 5; j++) {
             Thread.sleep(3000);
-            macValue = TratativaRetornoUtil.tratKeymile(getCd().consulta(getComandoGetDeviceMAC1(i)).getRetorno(), "MacAddress");
+            ComandoDslam cmd = getCd().consulta(getComandoGetDeviceMAC1(i));
+            cmds.add(cmd);
+            macValue = TratativaRetornoUtil.tratKeymile(cmd.getRetorno(), "MacAddress");
             if (!macValue.contains("Parâmetro não encontrado")) {
                 break;
             }
         }
-        getCd().consulta(getComandoGetDeviceMAC2(i));
+        cmds.add(getCd().consulta(getComandoGetDeviceMAC2(i)));
         String comDoisPontos = "";
         try {
             comDoisPontos = macValue.substring(0, 2) + ":" + macValue.substring(2, 4) + ":" + macValue.substring(4, 6) + ":" + macValue.substring(6, 8)
@@ -482,7 +549,9 @@ public abstract class KeymileMetalicoSuvdDslam extends KeymileMetalicoDslam {
         } catch (Exception e) {
         }
         String leMac = comDoisPontos.isEmpty() ? macValue : comDoisPontos;
-        return new DeviceMAC(leMac);
+        DeviceMAC m = new DeviceMAC(leMac);
+        cmds.forEach(m::addInteracao);
+        return m;
     }
 
     protected ComandoDslam getComandoGetDeviceMAC(InventarioRede i) {

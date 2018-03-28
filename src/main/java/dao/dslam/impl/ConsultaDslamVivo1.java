@@ -20,14 +20,6 @@ import java.util.List;
  */
 public class ConsultaDslamVivo1 extends ConsultaDslam {
 
-    public Channel channel;
-    public PrintWriter out;
-    public BufferedReader in;
-
-    public AbstractDslam dslam;
-
-    public LoginDslamStrategy styLogin;
-
     public ConsultaDslamVivo1(AbstractDslam dslam) {
         super(dslam);
     }

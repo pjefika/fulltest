@@ -45,7 +45,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     private VlanVod vlanVod;
 
-    private DeviceMAC mac = new DeviceMAC();
+    private DeviceMAC mac;
 
     public ZhoneMetalicoMxkDslam(String ipDslam) {
         super(ipDslam, Credencial.ZHONE, new LoginLento());
@@ -54,9 +54,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     private void setTabelaParamRede(InventarioRede i) throws Exception {
-        List<String> leParams = this.getCd().consulta(this.getParams(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getParams(i));
+        List<String> leParams = cmd.getRetorno();
 
         tabParam = new TabelaParametrosMetalico();
+        tabParam.addInteracao(cmd);
         tabParam.setVelSincDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tabParam.setVelSincUp(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslUpLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
         tabParam.setVelMaxDown(new Double(TratativaRetornoUtil.tratZhone(leParams, "DslMaxAttainableDownLineRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0)) / 1000);
@@ -68,6 +70,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
         tabRede = new TabelaRedeMetalico();
 
+        tabRede.addInteracao(cmd);
         tabRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tabRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "CRC Errors", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
         tabRede.setResync(new BigInteger(TratativaRetornoUtil.tratZhone(leParams, "Inits", "-?(\\d+((\\.|,| )\\d+)?)").get(0)));
@@ -77,14 +80,18 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     private void setVlans(InventarioRede i) throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
-        List<String> vodStatistics = getCd().consulta(getComandoGetVodStatistics(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaVlan(i));
+        List<String> leVlans = cmd.getRetorno();
+        ComandoDslam cmd1 = getCd().consulta(getComandoGetVodStatistics(i));
+        List<String> vodStatistics = cmd1.getRetorno();
         List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         List<String> leVodStatistics = TratativaRetornoUtil.tratZhone(vodStatistics, "0-vdsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
         List<String> pegaMac = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-35", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
 
+        mac = new DeviceMAC();
+        mac.addInteracao(cmd);
         try {
-            mac.setMac(pegaMac.get(0));
+            mac.setMac(pegaMac.get(0).toUpperCase());
         } catch (Exception e) {
         }
 
@@ -95,7 +102,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             cvlanBanda = new Integer(leVlanBanda.get(1));
         }
         vlanBanda = new VlanBanda(cvlanBanda, svlanBanda, EnumEstadoVlan.UP);
-
+        vlanBanda.addInteracao(cmd);
         List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-36", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Integer svlanVoip = null;
         Integer cvlanVoip = null;
@@ -104,6 +111,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             cvlanVoip = new Integer(leVlanVoip.get(1));
         }
         vlanVoip = new VlanVoip(cvlanVoip, svlanVoip, EnumEstadoVlan.UP);
+        vlanVoip.addInteracao(cmd);
 
         List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-37", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         Integer svlanVod = null;
@@ -113,6 +121,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             cvlanVod = new Integer(leVlanVod.get(1));
         }
         vlanVod = new VlanVod(cvlanVod, svlanVod, EnumEstadoVlan.UP);
+        vlanVod.addInteracao(cmd);
         try {
             vlanVod.setPctDown(new Integer(leVodStatistics.get(8)));
             vlanVod.setPctUp(new Integer(leVodStatistics.get(11)));
@@ -138,8 +147,8 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> leEst = this.getCd().consulta(this.getParams(i)).getRetorno();
-        return super.getEstadoDaPorta(leEst);
+        ComandoDslam cmd = this.getCd().consulta(this.getParams(i));
+        return super.getEstadoDaPorta(cmd);
     }
 
     @Override
@@ -198,11 +207,14 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanMulticast getVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leVlans = this.getCd().consulta(this.getMult(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getMult(i));
+        List<String> leVlans = cmd.getRetorno();
         List<String> leVlanMult = TratativaRetornoUtil.tratZhone(leVlans, "0-vdsl-0-38", "-?(\\d+((\\.|,| )\\d+)?)");
-        List<String> multStatistics = getCd().consulta(getComandoGetMulticastStatistics(i)).getRetorno();
+        ComandoDslam cmd1 = getCd().consulta(getComandoGetMulticastStatistics(i));
+        List<String> multStatistics = cmd1.getRetorno();
         List<String> leMultStatistics = TratativaRetornoUtil.tratZhone(multStatistics, "0-vdsl-0-38", "-?\\.?(\\d+((\\.|,| )\\d+)?)", 2);
-        List<String> pegaIpIgmp = getCd().consulta(getComandoGetIpIgmp()).getRetorno();
+        ComandoDslam cmd2 = getCd().consulta(getComandoGetIpIgmp());
+        List<String> pegaIpIgmp = cmd2.getRetorno();
         List<String> lePegaIpIgmp = TratativaRetornoUtil.tratZhone(pegaIpIgmp, "Custom IP", "\\b(?:(?:2(?:[0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9])\\.){3}(?:(?:2([0-4][0-9]|5[0-5])|[0-1]?[0-9]?[0-9]))\\b");
         Integer svlan = null;
 
@@ -210,6 +222,9 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
             svlan = new Integer(leVlanMult.get(0));
         }
         VlanMulticast vlanMult = new VlanMulticast(0, svlan, EnumEstadoVlan.UP);
+        vlanMult.addInteracao(cmd);
+        vlanMult.addInteracao(cmd1);
+        vlanMult.addInteracao(cmd2);
         try {
             vlanMult.setPctDown(new Integer(leMultStatistics.get(8)));
             vlanMult.setPctUp(new Integer(leMultStatistics.get(11)));
@@ -244,10 +259,15 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        List<String> leProfDown = this.getCd().consulta(this.getProfDown(i)).getRetorno();
-        List<String> leProfUp = this.getCd().consulta(this.getProfUp(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getProfDown(i));
+        ComandoDslam cmd1 = this.getCd().consulta(this.getProfUp(i));
+        List<String> leProfDown = cmd.getRetorno();
+        List<String> leProfUp = cmd1.getRetorno();
 
         Profile p = new ProfileMetalico();
+        p.addInteracao(cmd);
+        p.addInteracao(cmd1);
+
         String profDown = TratativaRetornoUtil.tratZhone(leProfDown, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
         p.setProfileDown(profDown);
         String profUp = TratativaRetornoUtil.tratZhone(leProfUp, "fastMaxTxRate", "-?(\\d+((\\.|,| )\\d+)?)").get(0);
@@ -260,11 +280,14 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public Modulacao getModulacao(InventarioRede i) throws Exception {
-        List<String> leModul = this.getCd().consulta(this.getModul(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getModul(i));
+        List<String> leModul = cmd.getRetorno();
         Modulacao m = new Modulacao();
         String modulacao = TratativaRetornoUtil.tratZhone(leModul, "transmit-mode", "\\{([^\\[\\]]+|(R))*\\}").get(0).replace("{", "").replace("}", "");
         m.setModulacao(modulacao);
         m.setModulEnum(compare(modulacao));
+        m.addInteracao(cmd);
+
         return m;
     }
 
@@ -294,11 +317,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public Modulacao setModulacao(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetModulacao(i, v)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getModulacao(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetModulacao(i, v));
+        Modulacao m = getModulacao(i);
+        m.getInteracoes().add(0, cmd);
+        return m;
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
@@ -307,11 +329,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
@@ -319,9 +340,13 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        getCd().consulta(getComandoSetProfileDown(i, v));
-        setProfileUp(i, v, v);
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoSetProfileDown(i, v));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetProfileUp(i, v));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd1);
+        p.getInteracoes().add(0, cmd);
+        return p;
     }
 
     protected ComandoDslam getComandoSetProfileUp(InventarioRede i, Velocidades v) {
@@ -329,21 +354,21 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        getCd().consulta(getComandoSetProfileUp(i, vUp));
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        return setProfileDown(i, vDown);
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
-        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 downlink vlan 600 xlate-to " + i.getCvlan() + " slan " + i.getRin() + " tagged");
+        return new ComandoDslam("bridge add 1-" + i.getSlot() + "-" + i.getPorta() + "-0/vdsl vc 0/35 downlink vlan 600 xlate-to " + i.getCvlan() + " slan " + i.getRin() + " tagged",3000);
     }
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanBanda(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i));
+        vlanBanda = null;
+        getVlanBanda(i);
+        vlanBanda.getInteracoes().add(0, cmd);
+        return vlanBanda;
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i) {
@@ -352,11 +377,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanVoip(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoip(i));
+        vlanVoip = null;
+        getVlanVoip(i);
+        vlanVoip.getInteracoes().add(0, cmd);
+        return vlanVoip;
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
@@ -365,11 +390,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanVod(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i));
+        vlanVod = null;
+        getVlanVod(i);
+        vlanVod.getInteracoes().add(0, cmd);
+        return vlanVod;
     }
 
     protected ComandoDslam getComandoCreateVlanMulticast(InventarioRede i) {
@@ -378,11 +403,10 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanMulticast(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getVlanMulticast(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanMulticast(i));
+        VlanMulticast v = getVlanMulticast(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
@@ -390,11 +414,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        vlanBanda = null;
+        getVlanBanda(i);
+        vlanBanda.getInteracoes().add(0, cmd);
+        return vlanBanda;
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
@@ -402,11 +427,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVoip(i));
+        vlanVoip = null;
+        getVlanVoip(i);
+        vlanVoip.getInteracoes().add(0, cmd);
+        return vlanVoip;
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
@@ -414,11 +440,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVod(i));
+        vlanVod = null;
+        getVlanVod(i);
+        vlanVod.getInteracoes().add(0, cmd);
+        return vlanVod;
     }
 
     protected ComandoDslam getComandoDeleteVlanMulticast(InventarioRede i) {
@@ -426,11 +453,11 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanMulticast(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanMulticast(i));
+        VlanMulticast v = getVlanMulticast(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
 //    @Override
@@ -491,9 +518,12 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
     }
 
     @Override
-    public void resetTabelaRede(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoResetTabelaRede(i));
+    public TabelaRedeMetalico resetTabelaRede(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoResetTabelaRede(i));
         tabRede = null;
+        getTabelaRede(i);
+        tabRede.getInteracoes().add(0, cmd);
+        return tabRede;
     }
 
     protected ComandoDslam getComandoResetTabelaRede(InventarioRede i) {
@@ -507,7 +537,7 @@ public class ZhoneMetalicoMxkDslam extends ZhoneMetalicoDslam {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        if (mac.getMac().isEmpty()) {
+        if (mac==null || mac.getMac().isEmpty()) {
             setVlans(i);
         }
         return mac;
