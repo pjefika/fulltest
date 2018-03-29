@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.zhone;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -22,7 +23,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.impl.ComandoDslam;
+import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -57,31 +58,88 @@ public class ZhoneGponDslam extends DslamGpon {
         return logica + 1100;
     }
 
-    private List<String> leParams;
-
-    private List<String> leVlans;
+    private transient TabelaParametrosGpon tabParam;
+    private transient EstadoDaPorta estado;
+    private transient VlanBanda vlanBanda;
+    private transient VlanVoip vlanVoip;
+    private transient VlanVod vlanVod;
+    private transient DeviceMAC mac;
 
     public ComandoDslam getComandoTabelaParametros(InventarioRede i) {
         return new ComandoDslam("onu status " + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 5000);
     }
 
-    @Override
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
-        if (leParams == null) {
-            leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
-        }
+    private void getParams(InventarioRede i) throws Exception {
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoTabelaParametros(i));
+        List<String> leParams = cmd.getRetorno();
         List<String> pegaParams = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
 
         Double potOlt = pegaParams.size() < 8 ? new Double(0) : new Double(pegaParams.get(5));
         Double potOnt = pegaParams.size() < 8 ? new Double(pegaParams.get(5)) : new Double(pegaParams.get(6));
 
-        TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        tabParam = new TabelaParametrosGpon();
         tabParam.setPotOlt(potOlt);
         tabParam.setPotOnt(potOnt);
+        tabParam.addInteracao(cmd);
 
-        System.out.println(tabParam.getPotOlt());
-        System.out.println(tabParam.getPotOnt());
+        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
+        String operState = pegaOper != null ? pegaOper.get(5) : "DOWN";
+        estado = new EstadoDaPorta();
+        estado.addInteracao(cmd);
+        estado.setOperState(operState.equalsIgnoreCase("UP"));
+    }
 
+    private void getVlans(InventarioRede i) throws Exception {
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaVlan(i));
+        List<String> leVlans = cmd.getRetorno();
+        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        Integer bandap100 = null;
+        Integer bandacvlan = null;
+        try {
+            bandap100 = new Integer(leVlanBanda.get(1));
+            bandacvlan = new Integer(leVlanBanda.get(0));
+        } catch (Exception e) {
+        }
+
+        vlanBanda = new VlanBanda(bandacvlan, bandap100, EnumEstadoVlan.UP);
+        vlanBanda.addInteracao(cmd);
+
+        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        Integer voipp100 = null;
+        Integer voipcvlan = null;
+        try {
+            voipp100 = new Integer(leVlanVoip.get(1));
+            voipcvlan = new Integer(leVlanVoip.get(0));
+        } catch (Exception e) {
+        }
+        vlanVoip = new VlanVoip(voipcvlan, voipp100, EnumEstadoVlan.UP);
+        vlanVoip.addInteracao(cmd);
+
+        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
+        Integer vodp100 = null;
+        Integer vodcvlan = null;
+        try {
+            vodp100 = new Integer(leVlanVod.get(1));
+            vodcvlan = new Integer(leVlanVod.get(0));
+        } catch (Exception e) {
+        }
+        vlanVod = new VlanVod(vodcvlan, vodp100, EnumEstadoVlan.UP);
+        vlanVod.addInteracao(cmd);
+
+        List<String> leVlanBandaMAC = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
+        mac = new DeviceMAC();
+        if (leVlanBandaMAC.size() > 0) {
+            mac.setMac(leVlanBandaMAC.get(0).toUpperCase());
+        }
+        mac.addInteracao(cmd);
+
+    }
+
+    @Override
+    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+        if (tabParam == null) {
+            getParams(i);
+        }
         return tabParam;
     }
 
@@ -91,7 +149,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon getSerialOnt(InventarioRede i) throws Exception {
-        List<String> leSerial = this.getCd().consulta(this.getComandoSerialOnt(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoSerialOnt(i));
+        List<String> leSerial = cmd.getRetorno();
         List<String> pegaSerial = TratativaRetornoUtil.tratZhone(leSerial, i.getLogica().toString(), "\\b\\w+\\b", 2);
 
         String sernum = "";
@@ -105,8 +164,7 @@ public class ZhoneGponDslam extends DslamGpon {
         }
         SerialOntGpon serOnt = new SerialOntGpon();
         serOnt.setSerial(sernum);
-
-        System.out.println(serOnt.getSerial());
+        serOnt.addInteracao(cmd);
 
         return serOnt;
     }
@@ -117,23 +175,15 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta getEstadoDaPorta(InventarioRede i) throws Exception {
-        List<String> leAdmin = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i)).getRetorno();
-        if (leParams == null) {
-            leParams = this.getCd().consulta(this.getComandoTabelaParametros(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaEstadoDaPorta(i));
+        List<String> leAdmin = cmd.getRetorno();
+        if (estado == null) {
+            getParams(i);
         }
-
         List<String> pegaAdmin = TratativaRetornoUtil.tratZhone(leAdmin, "Administrative", "\\b\\w+\\b");
-        List<String> pegaOper = TratativaRetornoUtil.tratZhone(leParams, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica(), "\\b\\w+\\b");
         String adminState = pegaAdmin.get(2);
-        String operState = pegaOper != null ? pegaOper.get(5) : "DOWN";
-
-        EstadoDaPorta estado = new EstadoDaPorta();
-
         estado.setAdminState(adminState.equalsIgnoreCase("UP"));
-        estado.setOperState(operState.equalsIgnoreCase("UP"));
-
-        System.out.println(estado.getAdminState());
-        System.out.println(estado.getOperState());
+        estado.addInteracao(cmd);
 
         return estado;
     }
@@ -144,90 +194,25 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
-        if (leVlans == null) {
-            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        if (vlanBanda == null) {
+            getVlans(i);
         }
-
-        List<String> leVlanBanda = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "\\b\\w+\\b");
-
-        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
-
-        Integer cvlan = new Integer("0");
-        Integer p100 = new Integer("0");
-
-        if (leVlanBanda != null) {
-            p100 = new Integer(leVlanBanda.get(1));
-            cvlan = new Integer(leVlanBanda.get(0));
-            for (String string : leVlanBandaStatus) {
-                if (string.contentEquals("UP")) {
-                    state = EnumEstadoVlan.UP;
-                }
-            }
-        }
-        VlanBanda vlanBanda = new VlanBanda(cvlan, p100, EnumEstadoVlan.UP);
-
-        System.out.println(vlanBanda.getCvlan());
-        System.out.println(vlanBanda.getSvlan());
-        System.out.println(vlanBanda.getState());
-
         return vlanBanda;
     }
 
     @Override
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
-        if (leVlans == null) {
-            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        if (vlanVoip == null) {
+            getVlans(i);
         }
-        List<String> leVlanVoip = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL700(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanVoipStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL700(i.getLogica()) + "-", "\\b\\w+\\b");
-        Integer cvlan = new Integer("0");
-        Integer p100 = new Integer("0");
-        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
-
-        if (leVlanVoip != null) {
-            cvlan = new Integer(leVlanVoip.get(1));
-            p100 = new Integer(leVlanVoip.get(0));
-            for (String string : leVlanVoipStatus) {
-                if (string.contentEquals("UP")) {
-                    state = EnumEstadoVlan.UP;
-                }
-            }
-        }
-        VlanVoip vlanVoip = new VlanVoip(p100, cvlan, EnumEstadoVlan.UP);
-
-        System.out.println(vlanVoip.getCvlan());
-        System.out.println(vlanVoip.getSvlan());
-
         return vlanVoip;
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
-        if (leVlans == null) {
-            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        if (vlanVod == null) {
+            getVlans(i);
         }
-        List<String> leVlanVod = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL900(i.getLogica()) + "-", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
-        List<String> leVlanVodStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL900(i.getLogica()) + "-", "\\b\\w+\\b");
-        Integer cvlan = new Integer("0");
-        Integer p100 = new Integer("0");
-        EnumEstadoVlan state = EnumEstadoVlan.DOWN;
-
-        if (leVlanVod != null) {
-            cvlan = new Integer(leVlanVod.get(1));
-            p100 = new Integer(leVlanVod.get(0));
-            for (String string : leVlanVodStatus) {
-                if (string.contentEquals("UP")) {
-                    state = EnumEstadoVlan.UP;
-                }
-            }
-        }
-
-        VlanVod vlanVod = new VlanVod(p100, cvlan, EnumEstadoVlan.UP);
-
-        System.out.println(vlanVod.getCvlan());
-        System.out.println(vlanVod.getSvlan());
-
         return vlanVod;
     }
 
@@ -249,7 +234,7 @@ public class ZhoneGponDslam extends DslamGpon {
 //
 //        System.out.println(vlanMult.getSvlan());
 //        return null;
-        throw new MetodoNaoImplementadoException();
+        throw new FuncIndisponivelDslamException();
     }
 
     public ComandoDslam getComandoConsultaAlarmes(InventarioRede i) {
@@ -258,7 +243,8 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public AlarmesGpon getAlarmes(InventarioRede i) throws Exception {
-        List<String> leAlarmes = this.getCd().consulta(this.getComandoConsultaAlarmes(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaAlarmes(i));
+        List<String> leAlarmes = cmd.getRetorno();
         AlarmesGpon alarm = new AlarmesGpon();
         alarm.setListAlarmes(leAlarmes);
         for (String leAlarme : leAlarmes) {
@@ -267,8 +253,8 @@ public class ZhoneGponDslam extends DslamGpon {
                 break;
             }
         }
+        alarm.addInteracao(cmd);
 
-        System.out.println(alarm.getListAlarmes());
         return alarm;
     }
 
@@ -282,11 +268,14 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        String profileDown = "0";
-        String profileUp = "0";
+        String profileDown = null;
+        String profileUp = null;
 
-        List<String> leProfDowns = this.getCd().consulta(this.getComandoConsultaProfileDown(i)).getRetorno();
-        List<String> leProfUps = this.getCd().consulta(this.getComandoConsultaProfileUp(i)).getRetorno();
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoConsultaProfileDown(i));
+        ComandoDslam cmd1 = this.getCd().consulta(this.getComandoConsultaProfileUp(i));
+
+        List<String> leProfDowns = cmd.getRetorno();
+        List<String> leProfUps = cmd1.getRetorno();
 
         List<String> leProfileUp = TratativaRetornoUtil.tratZhone(leProfUps, "1-" + i.getSlot() + "-" + i.getPorta() + "-" + this.getL500(i.getLogica()), "-?\\.?(\\d+((\\.|,| )\\d+)?)");
         List<String> leProfileDown = TratativaRetornoUtil.tratZhone(leProfDowns, "bridgeIfEgressPacketRuleGroupIndex", "-?\\.?(\\d+((\\.|,| )\\d+)?)");
@@ -302,8 +291,9 @@ public class ZhoneGponDslam extends DslamGpon {
         prof.setProfileUp(profileUp);
         prof.setDown(compare(profileDown, true));
         prof.setUp(compare(profileUp, false));
-        System.out.println(prof.getProfileDown());
-        System.out.println(prof.getProfileUp());
+
+        prof.addInteracao(cmd);
+        prof.addInteracao(cmd1);
 
         return prof;
     }
@@ -349,16 +339,10 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public DeviceMAC getDeviceMac(InventarioRede i) throws Exception {
-        if (leVlans == null) {
-            leVlans = this.getCd().consulta(this.getComandoConsultaVlan(i)).getRetorno();
+        if (mac == null) {
+            getVlans(i);
         }
-        List<String> leVlanBandaStatus = TratativaRetornoUtil.tratZhone(leVlans, "-" + this.getL500(i.getLogica()) + "-", "([a-f\\d]{2}:){5}[a-f\\d]{2}");
-        DeviceMAC leMac = new DeviceMAC();
-        if (leVlanBandaStatus.size() > 0) {
-            leMac.setMac(leVlanBandaStatus.get(0).toUpperCase());
-        }
-
-        return leMac;
+        return mac;
     }
 
     protected ComandoDslam getComandoGetIdOnt(InventarioRede i, SerialOntGpon s) {
@@ -371,13 +355,14 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        List<String> pegaIdOnt = getCd().consulta(getComandoGetIdOnt(i, s)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetIdOnt(i, s));
+        List<String> pegaIdOnt = cmd.getRetorno();
         String leSerNum = s.getSerial().substring(4, s.getSerial().length());
         String leIdOnt = TratativaRetornoUtil.tratZhone(pegaIdOnt, leSerNum, "\\b\\w+\\b").get(0);
-        List<String> leResp = getCd().consulta(getComandoSetOntToOlt(i, leIdOnt)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetOntToOlt(i, leIdOnt));
+        SerialOntGpon se = getSerialOnt(i);
+        se.getInteracoes().add(0, cmd1);
+        se.getInteracoes().add(0, cmd);
         return getSerialOnt(i);
     }
 
@@ -387,11 +372,10 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetEstadoDaPorta(i, e)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        return getEstadoDaPorta(i);
+        ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        EstadoDaPorta es = getEstadoDaPorta(i);
+        es.getInteracoes().add(0, cmd);
+        return es;
     }
 
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Velocidades down, Velocidades up) {
@@ -402,12 +386,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanBanda(i, vDown, vUp)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        leVlans = null;
-        return getVlanBanda(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i, vDown, vUp));
+        vlanBanda = null;
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVoip(InventarioRede i) {
@@ -418,12 +401,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        leVlans = null;
-        return getVlanVoip(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVoip(i));
+        vlanVoip = null;
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i) {
@@ -434,12 +416,11 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoCreateVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-        leVlans = null;
-        return getVlanVod(i);
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i));
+        vlanVod = null;
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
@@ -452,11 +433,12 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void unsetOntFromOlt(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoUnsetOntFromOlt(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoUnsetOntFromOlt(i));
+        SerialOntGpon s = getSerialOnt(i);
+        s.getInteracoes().add(0, cmd);
+
+        return s;
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
@@ -464,11 +446,12 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanBanda(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanBanda(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        vlanBanda = null;
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) {
@@ -476,11 +459,12 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanVoip(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVoip(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVoip(i));
+        vlanVoip = null;
+        VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) {
@@ -488,16 +472,17 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void deleteVlanVod(InventarioRede i) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoDeleteVlanVod(i)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
+    public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVod(i));
+        vlanVod = null;
+        VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
-    public void deleteVlanMulticast(InventarioRede i) throws Exception {
-
+    public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
+        throw new FuncIndisponivelDslamException();
     }
 
     protected ComandoDslam getComandoSetProfileDown(InventarioRede i, Velocidades v) {
@@ -506,18 +491,21 @@ public class ZhoneGponDslam extends DslamGpon {
     }
 
     @Override
-    public void setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        List<String> leResp = getCd().consulta(getComandoSetProfileDown(i, v)).getRetorno();
-        for (String string : leResp) {
-            System.out.println(string);
-        }
-//        return getProfile(i);
+    public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoSetProfileDown(i, v));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd);
+        return p;
     }
 
     @Override
-    public void setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        deleteVlanBanda(i);
-        createVlanBanda(i, vDown, vUp);
+    public Profile setProfileUp(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoCreateVlanBanda(i, vDown, vUp));
+        Profile p = getProfile(i);
+        p.getInteracoes().add(0, cmd1);
+        p.getInteracoes().add(0, cmd);
+        return p;
     }
 
 //    @Override
@@ -556,11 +544,12 @@ public class ZhoneGponDslam extends DslamGpon {
 
     @Override
     public List<SerialOntGpon> getSlotsAvailableOnts(InventarioRede i) throws Exception {
-        getCd().consulta(getComandoGetSlotsAvailableOnts0());
+        ComandoDslam cmd = getCd().consulta(getComandoGetSlotsAvailableOnts0());
         Thread.sleep(1000);
-        getCd().consulta(getComandoGetSlotsAvailableOnts1());
+        ComandoDslam cmd1 = getCd().consulta(getComandoGetSlotsAvailableOnts1());
         Thread.sleep(5000);
-        List<String> leResp = getCd().consulta(getComandoGetSlotsAvailableOnts2()).getRetorno();
+        ComandoDslam cmd2 = getCd().consulta(getComandoGetSlotsAvailableOnts2());
+        List<String> leResp = cmd2.getRetorno();
 
         List<String> leSerns = TratativaRetornoUtil.linhasAbaixo(leResp, "sernoID");
         List<String> serials = getSernum(leSerns);
@@ -568,6 +557,18 @@ public class ZhoneGponDslam extends DslamGpon {
         for (String serial : serials) {
             SerialOntGpon s = new SerialOntGpon();
             s.setSerial(serial);
+            leSerialOnt.add(s);
+        }
+
+        if (leSerialOnt.size() > 0) {
+            leSerialOnt.get(0).getInteracoes().add(0, cmd2);
+            leSerialOnt.get(0).getInteracoes().add(0, cmd1);
+            leSerialOnt.get(0).getInteracoes().add(0, cmd);
+        } else {
+            SerialOntGpon s = new SerialOntGpon();
+            s.getInteracoes().add(0, cmd2);
+            s.getInteracoes().add(0, cmd1);
+            s.getInteracoes().add(0, cmd);
             leSerialOnt.add(s);
         }
         return leSerialOnt;

@@ -13,6 +13,8 @@ import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.AlteracaoClienteInter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -24,6 +26,8 @@ public abstract class Corretor extends Validador {
     protected AlteracaoClienteInter alter;
 
     protected Validador validador;
+
+    private List<ValidavelAbs> preresults;
 
     public Corretor(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
@@ -53,11 +57,12 @@ public abstract class Corretor extends Validador {
             if (this.valid.getResultado()) {
                 return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), valid.getObject(), Boolean.FALSE);
             } else {
+                getPreresults().add(valid.getObject());
                 try {
                     corrigir();
-                    return new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE);
+                    return new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE, getPreresults());
                 } catch (FalhaAoCorrigirException e) {
-                    return new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE);
+                    return new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE, getPreresults());
                 }
             }
         } catch (Exception ex) {
@@ -67,6 +72,17 @@ public abstract class Corretor extends Validador {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public List<ValidavelAbs> getPreresults() {
+        if (preresults == null) {
+            preresults = new ArrayList<>();
+        }
+        return preresults;
+    }
+
+    public void setPreresults(List<ValidavelAbs> preresults) {
+        this.preresults = preresults;
     }
 
     protected abstract void corrigir() throws FalhaAoCorrigirException;

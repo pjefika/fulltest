@@ -6,7 +6,7 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
-import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -15,8 +15,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import dao.dslam.impl.ComandoDslam;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;
 import java.util.List;
@@ -37,20 +35,21 @@ public class HuaweiMA5600A extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected EstadoDaPorta tratGetEstadoDaPorta(List<String> ret) {
-        EstadoDaPorta est = new EstadoDaPorta();
+    protected EstadoDaPorta tratGetEstadoDaPorta(EstadoDaPorta estadoPorta) {
+        List<String> ret = estadoPorta.getInteracoes().get(estadoPorta.getInteracoes().size() - 1).getRetorno();
         String oper = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
         String adm = TratativaRetornoUtil.tratHuawei(ret, "ADSL");
-        est.setAdminState(!adm.contains("deactivated"));
-        est.setOperState(oper.contains("up"));
-        return est;
+        estadoPorta.setAdminState(!adm.contains("deactivated"));
+        estadoPorta.setOperState(oper.contains("up"));
+        return estadoPorta;
     }
 
     @Override
-    protected Profile tratGetProfile(List<String> ret) {
+    protected Profile tratGetProfile(Profile p) {
+        List<String> ret = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
-        String[] leprof = profz[profz.length - 1].split("_");
-        Profile p = new Profile();
+//        String[] leprof = profz[profz.length - 1].split("_");
+
         p.setProfileDown(profz[profz.length - 1]);
         p.setProfileUp(profz[profz.length - 1]);
 
@@ -66,13 +65,13 @@ public class HuaweiMA5600A extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected VlanBanda tratGetVlanBanda(List<String> ret) {
-
+    protected VlanBanda tratGetVlanBanda(VlanBanda v) {
+        List<String> ret = v.getInteracoes().get(v.getInteracoes().size() - 1).getRetorno();
         List<Integer> l = TratativaRetornoUtil.listIntegersFromString(TratativaRetornoUtil.tratHuawei(ret, "adl"));
 
         Integer cvlan = TratativaRetornoUtil.tratHuawei(ret, "PRI").contains("não") ? l.get(l.size() - 1) : l.get(l.size() - 2);
         Integer svlan = l.get(0);
-        VlanBanda v = new VlanBanda();
+        
         v.setCvlan(cvlan);
         v.setSvlan(svlan);
         v.setState(EnumEstadoVlan.UP);
@@ -88,8 +87,9 @@ public class HuaweiMA5600A extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected TabelaParametrosMetalico tratGetTabelaParametros(List<String> ret) {
-        TabelaParametrosMetalico t = new TabelaParametrosMetalico();
+    protected TabelaParametrosMetalico tratGetTabelaParametros(TabelaParametrosMetalico t) {
+        List<String> ret = t.getInteracoes().get(t.getInteracoes().size() - 1).getRetorno();
+
         t.setVelSincDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel rate")));
         t.setVelMaxDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream max. attainable rate")));
         t.setSnrDown(new Double(TratativaRetornoUtil.tratHuawei(ret, "Downstream channel SNR margin")));
@@ -108,8 +108,8 @@ public class HuaweiMA5600A extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected TabelaRedeMetalico tratGetTabelaRede(List<String> ret) {
-        TabelaRedeMetalico t = new TabelaRedeMetalico();
+    protected TabelaRedeMetalico tratGetTabelaRede(TabelaRedeMetalico t) {
+        List<String> ret = t.getInteracoes().get(t.getInteracoes().size() - 1).getRetorno();
         t.setPctDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted")));
         t.setPctUp(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all encoded blocks transmitted", 2)));
         t.setCrcDown(new BigInteger(TratativaRetornoUtil.tratHuawei(ret, "Count of all blocks received with uncorrectable errors")));

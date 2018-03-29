@@ -5,8 +5,8 @@
  */
 package dao.dslam.impl;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import com.jcraft.jsch.Channel;
-import dao.FactoryDAO;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,18 +18,10 @@ import java.util.List;
  *
  * @author G0042204
  */
-public class ConsultaDslamVivo1 implements Conector {
-
-    public Channel channel;
-    public PrintWriter out;
-    public BufferedReader in;
-
-    public AbstractDslam dslam;
-
-    public LoginDslamStrategy styLogin;
+public class ConsultaDslamVivo1 extends ConsultaDslam {
 
     public ConsultaDslamVivo1(AbstractDslam dslam) {
-        this.dslam = dslam;
+        super(dslam);
     }
 
     @Override
@@ -57,6 +49,7 @@ public class ConsultaDslamVivo1 implements Conector {
         return null;
     }
 
+    @Override
     public List<String> getRetorno() throws Exception {
 
         List<String> list = new ArrayList<>();
@@ -111,8 +104,7 @@ public class ConsultaDslamVivo1 implements Conector {
             }
 
             comando.setRetorno(this.getRetorno());
-            
-            FactoryDAO.createComandoDslamDAO().save(comando);
+
             return comando;
 
         } catch (Exception e) {

@@ -15,6 +15,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.factory.exception.DslamNaoImplException;
+import dao.dslam.impl.gpon.DslamGpon;
 import dao.dslam.impl.metalico.DslamMetalico;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,15 +33,15 @@ import org.junit.Test;
  */
 public class AlteracaoClienteInterIT {
 
-    DslamMetalico instance;
+    DslamGpon instance;
     EfikaCustomer ec;
     InventarioRede i;
 
     public AlteracaoClienteInterIT() {
-        ec = CustomerMock.getCustomer("1124013751");
+        ec = CustomerMock.getCustomer("4133721441");
         i = ec.getRede();
         try {
-            instance = (DslamMetalico) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
+            instance = (DslamGpon) DslamDAOFactory.getInstance(ec.getRede().getModeloDslam(), ec.getRede().getIpDslam());
         } catch (DslamNaoImplException ex) {
             Logger.getLogger(AlteracaoClienteInterIT.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -69,7 +70,7 @@ public class AlteracaoClienteInterIT {
     public void testSetEstadoDaPorta() {
         System.out.println("setEstadoDaPorta");
         EstadoDaPorta e = new EstadoDaPorta();
-        e.setAdminState(Boolean.TRUE);
+        e.setAdminState(Boolean.FALSE);
         try {
             EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
             assertTrue(result.getAdminState());

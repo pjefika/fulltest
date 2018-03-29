@@ -7,16 +7,16 @@ package dao.log;
 
 import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
 import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
-import dao.dslam.impl.ComandoDslam;
+import model.log.InteracaoDslam;
 
 /**
  *
  * @author G0041775
  */
-public class ComandoDslamDAO extends AbstractMongoDAO<ComandoDslam> {
+public class InteracaoDslamDAO extends AbstractMongoDAO<InteracaoDslam> {
 
-    public ComandoDslamDAO() {
-        super(MongoEndpointEnum.MONGO.getIp(), "fulltestAPI", ComandoDslam.class);
+    public InteracaoDslamDAO() {
+        super(MongoEndpointEnum.MONGO.getIp(), "fulltestAPI", InteracaoDslam.class);
     }
 
 }

@@ -25,7 +25,10 @@ public class CorretorTabelaRede extends CorretorMetalico {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            am.resetTabelaRede(cust.getRede());
+            getPreresults().add(am.resetTabelaRede(cust.getRede()));
+            ValidacaoTabelaRede v = (ValidacaoTabelaRede) this.consultar();
+            v.validar();
+            this.setValid(v);
         } catch (Exception ex) {
             throw new FalhaAoCorrigirException();
         }

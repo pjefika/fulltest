@@ -26,7 +26,7 @@ public class CorretorVlanBanda extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            alter.deleteVlanBanda(cust.getRede());
+            getPreresults().add(alter.deleteVlanBanda(cust.getRede()));
             try {
                 valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust, bundle.getLocale());
             } catch (Exception e) {

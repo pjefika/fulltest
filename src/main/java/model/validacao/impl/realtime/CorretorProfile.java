@@ -26,8 +26,13 @@ public class CorretorProfile extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            alter.setProfileDown(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()));
-            alter.setProfileUp(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
+            getPreresults().add(alter.setProfileDown(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown())));
+            valid =  this.consultar();
+            if (!valid.validar().getResultado()) {
+                getPreresults().add(alter.setProfileUp(cust.getRede(), Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp())));
+                valid = this.consultar();
+                valid.validar();
+            }
         } catch (Exception ex) {
             throw new FalhaAoCorrigirException();
         }

@@ -5,8 +5,8 @@
  */
 package dao.dslam.impl.retorno;
 
+import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.impl.ComandoDslam;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
