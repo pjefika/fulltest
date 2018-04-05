@@ -158,6 +158,26 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 vlanVoip.addInteracao(cmd);
             }
         });
+        if (vlanBanda == null) {
+            vlanBanda = new VlanBandaVivo1Huawei();
+            vlanBanda.addInteracao(cmd);
+            vlanBanda.setGemport(0);
+            vlanBanda.setSvlan(0);
+        }
+
+        if (vlanVod == null) {
+            vlanVod = new VlanVodVivo1Huawei();
+            vlanVod.setGemport(0);
+            vlanVod.setSvlan(0);
+            vlanVod.addInteracao(cmd);
+        }
+
+        if (vlanVoip == null) {
+            vlanVoip = new VlanVoipVivo1Huawei();
+            vlanVoip.setGemport(0);
+            vlanVoip.setSvlan(0);
+            vlanVoip.addInteracao(cmd);
+        }
     }
 
     protected void setGemports(InventarioRede i) {
@@ -600,7 +620,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             porta.setNumPorta(new Integer(linha.get(3)));
             list.add(porta);
         }
-     
+
         return list;
     }
 
