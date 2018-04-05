@@ -355,7 +355,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getCmdSetOntToOlt(InventarioRede i, SerialOntGpon s) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + s.getIdOnt() + "\n", 5000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + s.getIdOnt() + "\n1\n", 5000, "quit\n");
     }
 
     protected ComandoDslam getCmdUnSetOntToOlt(InventarioRede i) {

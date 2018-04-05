@@ -183,7 +183,7 @@ public class CustomerMock {
         r.setIpDslam("BR_JAIGC_OLT05");
         r.setModeloDslam("MA5600T_FV1");
         
-        r.setIdOnt("0002740895");
+        r.setIdOnt("0002740896");
         
         r.setSlot(1);
         r.setPorta(4);

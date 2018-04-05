@@ -55,12 +55,13 @@ public class CorretorSerialOntGpon extends CorretorGpon {
     
     @Override
     protected String fraseCorrecaoOk() {
-        return bundle.getString("validacaoSerialOnt_ok") + serial.getSerial() + ".";
+        String serialOuId = cust.getRede().getIdOnt() == null ? serial.getSerial() : serial.getIdOnt();
+        return "Associado ONT:"  + serialOuId + ".";
     }
     
     @Override
     protected String fraseFalhaCorrecao() {
-        return bundle.getString("validacaoSerialOnt_nok");
+        return "Não foi possível associar ONT.";
     }
     
 }
