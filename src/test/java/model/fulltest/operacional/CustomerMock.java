@@ -179,17 +179,17 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //112757790674006 - 1977906740
-        r.setTerminal("112567979651400");
-        r.setIpDslam("BR_GJAJV_OLT01");
+        r.setTerminal("110007513568803");
+        r.setIpDslam("BR_JAIGC_OLT05");
         r.setModeloDslam("MA5600T_FV1");
         
-        r.setIdOnt("0003434471");
+        r.setIdOnt("0002740895");
         
-        r.setSlot(17);
-        r.setPorta(12);
-        r.setLogica(2);
-        r.setCvlan(432);
-        r.setRin(34);
+        r.setSlot(1);
+        r.setPorta(4);
+        r.setLogica(17);
+        r.setCvlan(2267);
+        r.setRin(992);
         r.setBhs(Boolean.TRUE);
         r.setTipo(TipoRede.GPON);
         r.setPlanta(OrigemPlanta.VIVO1);

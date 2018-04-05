@@ -334,8 +334,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
-    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + i.getIdOnt() + "", 5000, "quit\n");
+    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i, SerialOntGpon s) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + s.getIdOnt() + "\n", 5000, "quit\n");
     }
 
     protected ComandoDslam getCmdUnSetOntToOlt(InventarioRede i) {
@@ -344,7 +344,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i));
+        ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i, s));
         this.serial = null;
         SerialOntGpon se = this.getSerialOnt(i);
         se.getInteracoes().add(0, cmd);
