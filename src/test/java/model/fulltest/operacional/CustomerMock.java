@@ -179,26 +179,26 @@ public class CustomerMock {
         InventarioRede r = new InventarioRede();
 
         //112757790674006 - 1977906740
-        r.setTerminal("110007964479007");
-        r.setIpDslam("BR_SPOFO_OLT02");
+        r.setTerminal("112567979651400");
+        r.setIpDslam("BR_GJAJV_OLT01");
         r.setModeloDslam("MA5600T_FV1");
         
-        r.setIdOnt("0003237985");
+        r.setIdOnt("0003434471");
         
         r.setSlot(17);
-        r.setPorta(3);
-        r.setLogica(39);
-        r.setCvlan(1226);
-        r.setRin(367);
+        r.setPorta(12);
+        r.setLogica(2);
+        r.setCvlan(432);
+        r.setRin(34);
         r.setBhs(Boolean.TRUE);
         r.setTipo(TipoRede.GPON);
         r.setPlanta(OrigemPlanta.VIVO1);
         
-        r.setVlanVoip(3008);
+        r.setVlanVoip(3004);
 
         //todo huawei utiliza 400
         r.setVlanVod(400);
-        r.setVlanMulticast(3005);
+        r.setVlanMulticast(3001);
         
         c.setRede(r);
         
