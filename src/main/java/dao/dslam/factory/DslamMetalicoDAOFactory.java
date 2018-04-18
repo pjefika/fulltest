@@ -63,6 +63,8 @@ public class DslamMetalicoDAOFactory {
             return new MA5100DslamVivo1(ip);
         } else if (modelo.equalsIgnoreCase("NFXS-A FD")) {
             return new NfxsAFdDslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("MILEGATE 2510")) {
+            return new Keymile2510DslamVivo1(ip);
         } else {
             throw new DslamNaoImplException();
         }
