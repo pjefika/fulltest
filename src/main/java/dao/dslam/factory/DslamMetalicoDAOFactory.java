@@ -17,6 +17,7 @@ import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuad5;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuvd1;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuvd11;
 import dao.dslam.impl.metalico.keymile.KeymileMetalicoSuvd3;
+import dao.dslam.impl.metalico.keymile.Keymile2510DslamVivo1;
 import dao.dslam.impl.metalico.zhone.ZhoneMetalicoComboDslam;
 import dao.dslam.impl.metalico.zhone.ZhoneMetalicoMxkDslam;
 
