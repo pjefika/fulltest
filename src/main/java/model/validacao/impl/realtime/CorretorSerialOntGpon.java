@@ -42,7 +42,7 @@ public class CorretorSerialOntGpon extends CorretorGpon {
             if(!v.getResultado()){
                 v.setMensagem(bundle.getString("correcaoSerialOnt_nok"));
             }else{
-                    v.setMensagem(bundle.getString("correcaoSerilOnt_ok")+" "+v.getMensagem().split(" ")[v.getMensagem().split(" ").length-1]);
+                    v.setMensagem(bundle.getString("correcaoSerialOnt_ok")+" "+v.getMensagem().split(" ")[v.getMensagem().split(" ").length-1]);
             }
             this.setValid(v);
         } catch (Exception e) {
