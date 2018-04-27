@@ -5,6 +5,7 @@
  */
 package model.service;
 
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import java.util.List;
 
@@ -15,4 +16,6 @@ import java.util.List;
 public interface ConfigGetterGponService extends ConfigGetterService {
 
     public List<Porta> getterEstadoPortasProximas() throws Exception;
+
+    public ValidacaoResult getterOntToOlt() throws Exception;
 }

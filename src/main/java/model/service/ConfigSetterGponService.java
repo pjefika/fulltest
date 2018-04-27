@@ -19,8 +19,6 @@ public interface ConfigSetterGponService extends ConfigSetterSpecific {
 
     public List<SerialOntGpon> unsetterOntFromOlt() throws Exception;
 
-    public ValidacaoResult getterOntToOlt() throws Exception;
-
     public ValidacaoResult setterOntToOlt(SerialOntGpon serial) throws Exception;
 
     @Override

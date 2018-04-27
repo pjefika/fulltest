@@ -162,7 +162,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         Response r;
         LogEntity log = cs.create();
         try {
-            ConfigSetterGponService config = FactoryService.createConfigSetterGponService(cs.getCust());
+            ConfigGetterGponService config = FactoryService.createConfigGetterGponService(cs.getCust());
             ValidacaoResult result = config.getterOntToOlt();
             log.setSaida(result);
             r = ok(result);
