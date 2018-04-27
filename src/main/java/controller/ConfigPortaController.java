@@ -5,16 +5,15 @@
  */
 package controller;
 
-import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
-import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
+import controller.in.GetOntFromOltIn;
 import controller.in.ResetIptvStatisticsIn;
 import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
@@ -144,6 +143,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterGponService config = FactoryService.createConfigSetterGponService(cs.getCust());
             ValidacaoResult result = config.setterOntToOlt(cs.getSerial());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/getOntFromOlt")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getOntFromOlt(GetOntFromOltIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigSetterGponService config = FactoryService.createConfigSetterGponService(cs.getCust());
+            ValidacaoResult result = config.getterOntToOlt();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

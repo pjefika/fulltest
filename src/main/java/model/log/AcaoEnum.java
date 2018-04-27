@@ -17,6 +17,7 @@ public enum AcaoEnum {
     SET_ADM_STATE,
     SET_PROFILE,
     UNSET_ONT_FROM_OLT,
+    GET_ONT_FROM_OLT,
     SET_ONT_TO_OLT,
     SET_VLAN_BANDA,
     SET_VLAN_VOIP,
