@@ -5,9 +5,9 @@
  */
 package dao.dslam.impl.metalico.huawei;
 
+import br.net.gvt.efika.fulltest.exception.FalhaAoExecutarComandoException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
-import dao.dslam.factory.exception.FalhaAoExecutarComandoException;
 import dao.dslam.impl.login.LoginDslamStrategy;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import model.dslam.credencial.Credencial;

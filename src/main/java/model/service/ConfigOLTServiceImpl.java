@@ -7,6 +7,7 @@ package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
@@ -14,7 +15,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;

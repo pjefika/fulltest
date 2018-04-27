@@ -7,6 +7,7 @@ package dao.dslam.impl;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.DslamNaoImplException;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
@@ -15,7 +16,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import dao.dslam.factory.DslamDAOFactory;
-import dao.dslam.factory.exception.DslamNaoImplException;
 import dao.dslam.impl.gpon.DslamGpon;
 import model.fulltest.operacional.CustomerMock;
 import org.junit.After;

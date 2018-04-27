@@ -5,7 +5,7 @@
  */
 package model.validacao.impl.realtime;
 
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 
 /**
  *

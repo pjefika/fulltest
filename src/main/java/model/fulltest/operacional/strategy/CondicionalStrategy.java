@@ -5,9 +5,9 @@
  */
 package model.fulltest.operacional.strategy;
 
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
+import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
-import exception.SemGerenciaException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
