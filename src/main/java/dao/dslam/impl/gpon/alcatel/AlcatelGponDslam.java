@@ -52,11 +52,11 @@ public class AlcatelGponDslam extends DslamGpon {
 
     @Override
     public void enableCommandsInDslam() throws Exception {
-        if (execComm(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")) {
+        if (this.getCd().consulta(this.getComandoInhibitAlarms()).getBlob().contains("Connection closed")) {
             throw new SemGerenciaException();
         }
-        execComm(this.getComandoModeBatch());
-        execComm(this.getComandoExit());
+        this.getCd().consulta(this.getComandoModeBatch());
+        this.getCd().consulta(this.getComandoExit());
     }
 
     protected ComandoDslam getComandoInhibitAlarms() {
@@ -139,14 +139,14 @@ public class AlcatelGponDslam extends DslamGpon {
      * @throws Exception
      */
     private ComandoDslam execComm(ComandoDslam comm) throws Exception {
-        ComandoDslam cmd = execComm(comm);
+        ComandoDslam cmd = this.getCd().consulta(comm);
         try {
             TratativaRetornoUtil.stringXmlConfigData(cmd);
             return cmd;
         } catch (Exception e) {
             comm.setSleep(comm.getSleep() * 2);
             comm.setSleepAux(comm.getSleepAux() * 2);
-            cmd = execComm(comm);
+            cmd = this.getCd().consulta(comm);
             TratativaRetornoUtil.stringXmlConfigData(cmd);
             return cmd;
         }
