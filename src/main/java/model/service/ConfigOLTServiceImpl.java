@@ -120,4 +120,10 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
         return pg;
     }
 
+    @Override
+    public Boolean isManageable() throws Exception {
+        this.getDslam().conectar();
+        return true;
+    }
+
 }

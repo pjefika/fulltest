@@ -30,7 +30,7 @@ import model.validacao.impl.realtime.ValidadorVlanVoip;
  *
  * @author G0042204
  */
-public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta>, ConfigSetterService {
+public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta>, ConfigSetterService, ConfigGetterService {
 
     public ConfigPortaServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -124,6 +124,12 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
         l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
         return l;
+    }
+
+    @Override
+    public Boolean isManageable() throws Exception {
+        this.getDslam().conectar();
+        return true;
     }
 
 }

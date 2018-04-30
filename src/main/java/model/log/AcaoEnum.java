@@ -27,6 +27,7 @@ public enum AcaoEnum {
     RESET_IPTV_STATISTICS,
     FULLTEST_CO,
     FULLTEST_CRM, 
-    VALIDADOR_MANOBRA;
+    VALIDADOR_MANOBRA,
+    IS_MANAGEABLE;
     
 }

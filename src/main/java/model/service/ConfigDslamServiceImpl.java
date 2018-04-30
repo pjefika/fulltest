@@ -96,4 +96,10 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
         return pg;
     }
 
+    @Override
+    public Boolean isManageable() throws Exception {
+        this.getDslam().conectar();
+        return true;
+    }
+
 }

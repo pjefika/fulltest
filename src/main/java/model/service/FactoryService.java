@@ -33,6 +33,10 @@ public class FactoryService {
         return new ConfigPortaServiceImpl(ec);
     }
 
+    public static ConfigGetterService createConfigGetterService(EfikaCustomer ec) {
+        return new ConfigPortaServiceImpl(ec);
+    }
+
     public static ConfigSetterSpecific createConfigSpecificSetterService(EfikaCustomer ec) {
         if (ec.getRede().getTipo() == TipoRede.GPON) {
             return new ConfigOLTServiceImpl(ec);

@@ -10,5 +10,7 @@ package model.service;
  * @author G0041775
  */
 public interface ConfigGetterService {
+    
+    public Boolean isManageable() throws Exception;
 
 }
