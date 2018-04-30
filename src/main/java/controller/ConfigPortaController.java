@@ -163,7 +163,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         LogEntity log = cs.create();
         try {
             ConfigGetterGponService config = FactoryService.createConfigGetterGponService(cs.getCust());
-            ValidacaoResult result = config.getterOntToOlt();
+            ValidacaoResult result = config.getterOntFromOlt();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
@@ -354,5 +354,10 @@ public class ConfigPortaController extends RestJaxAbstract {
         }
         return r;
     }
+    
+//    @POST
+//    @Path("/isMannagable")
+//    @Produces(MediaType.APPLICATION_JSON)
+//    @Consumes(MediaType.APPLICATION_JSON)
 
 }

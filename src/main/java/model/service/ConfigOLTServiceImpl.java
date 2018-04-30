@@ -90,7 +90,7 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     }
 
     @Override
-    public ValidacaoResult getterOntToOlt() throws Exception {
+    public ValidacaoResult getterOntFromOlt() throws Exception {
 //        consulta().getSerialOnt(getEc().getRede());
 //        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
         return exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local));

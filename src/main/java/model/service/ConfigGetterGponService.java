@@ -17,5 +17,5 @@ public interface ConfigGetterGponService extends ConfigGetterService {
 
     public List<Porta> getterEstadoPortasProximas() throws Exception;
 
-    public ValidacaoResult getterOntToOlt() throws Exception;
+    public ValidacaoResult getterOntFromOlt() throws Exception;
 }
