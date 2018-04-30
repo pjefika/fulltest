@@ -34,12 +34,12 @@ public class ValidacaoEstadoPortaOper extends Validacao {
 
     @Override
     protected String fraseNegativa() {
-        return "Identificado que o modem está sem sincronismo, certifique-se com o cliente se está ligado e com os cabos conectados. Se sim, solicite ao cliente que reinicialize o modem e teste novamente.";
+        return bundle.getString("validacaoEstadoOper_nok");
     }
 
     @Override
     protected String frasePositiva() {
-        return "Sincronismo OK.";
+        return bundle.getString("validacaoEstadoOper_ok");
     }
 
 }
