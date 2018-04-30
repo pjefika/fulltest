@@ -11,6 +11,7 @@ import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import controller.in.ConsultaConfigPortaIn;
+import controller.in.CorretorEstadoDaPortaIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
 import controller.in.GetOntFromOltIn;
@@ -361,12 +362,33 @@ public class ConfigPortaController extends RestJaxAbstract {
     @Path("/isManageable")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response isManageable(IsManageableIn in) throws Exception {
+    public Response isManageable(CorretorEstadoDaPortaIn in) throws Exception {
         Response r;
         LogEntity log = in.create();
         try {
-            ConfigGetterService config = FactoryService.createConfigGetterService(in.getCust());
-            Boolean result = config.isManageable();
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            Boolean result = null;
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorEstadoDaPorta")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorEstadoDaPorta(CorretorEstadoDaPortaIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorEstadoDaPorta();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

@@ -6,6 +6,7 @@
 package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -37,14 +38,14 @@ public class ConfigPortaServiceImplIT {
     public static void tearDownClass() {
     }
 
-    EfikaCustomer cust;
+    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4130157784");
 
     @Before
     public void setUp() {
-        try {
-            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{\"designador\":\"FNS-8148UP9JME-013\",\"instancia\":\"4830309808\",\"designadorAcesso\":\"FNS-17997319-069\",\"designadorTv\":null,\"rede\":{\"tipo\":\"GPON\",\"origem\":\"ONLINE\",\"planta\":\"VIVO2\",\"ipDslam\":\"10.141.76.150\",\"vendorDslam\":\"ALCATEL\",\"modeloDslam\":\"GPON_CARD\",\"idOnt\":null,\"terminal\":null,\"ipMulticast\":null,\"nrc\":null,\"slot\":7,\"porta\":3,\"sequencial\":2225,\"logica\":49,\"rin\":242,\"vlanVoip\":1242,\"vlanVod\":3242,\"vlanMulticast\":4000,\"cvlan\":2325,\"bhs\":null},\"redeExterna\":{\"tipo\":null,\"origem\":null,\"planta\":null,\"splitter1n\":null,\"splitter2n\":null,\"caboAlim\":null,\"fibra1n\":null,\"fibra2n\":null},\"servicos\":{\"origem\":null,\"velDown\":102400,\"velUp\":51200,\"tipoTv\":null,\"tipoLinha\":\"SIP\"},\"linha\":{\"tipo\":\"IMS\",\"dn\":\"4830309808\",\"central\":\"PRCTA_VMS02\"},\"radius\":{\"status\":\"ATIVO\",\"armario\":\"SCFNS_G1I13\",\"rin\":\"242\",\"velocidade\":\"102400 - 51200\",\"ipFixo\":\"NAO ENCONTROU\",\"profile\":\"r51200b102400 op:FNS-8148UP9JME-013\",\"porta\":\"2225\",\"isIpFixo\":false},\"asserts\":[{\"asserts\":\"DIVERGENCIA_TBS_RADIUS\",\"value\":false,\"creationDate\":1525097434471},{\"asserts\":\"CIRCUITO_ATIVO\",\"value\":true,\"creationDate\":1525097434471},{\"asserts\":\"HAS_BLOQUEIO_RADIUS\",\"value\":false,\"creationDate\":1525097434471}],\"eventos\":[]}");
-        } catch (Exception e) {
-        }
+//        try {
+//            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{\"designador\":\"FNS-8148UP9JME-013\",\"instancia\":\"4830309808\",\"designadorAcesso\":\"FNS-17997319-069\",\"designadorTv\":null,\"rede\":{\"tipo\":\"GPON\",\"origem\":\"ONLINE\",\"planta\":\"VIVO2\",\"ipDslam\":\"10.141.76.150\",\"vendorDslam\":\"ALCATEL\",\"modeloDslam\":\"GPON_CARD\",\"idOnt\":null,\"terminal\":null,\"ipMulticast\":null,\"nrc\":null,\"slot\":7,\"porta\":3,\"sequencial\":2225,\"logica\":49,\"rin\":242,\"vlanVoip\":1242,\"vlanVod\":3242,\"vlanMulticast\":4000,\"cvlan\":2325,\"bhs\":null},\"redeExterna\":{\"tipo\":null,\"origem\":null,\"planta\":null,\"splitter1n\":null,\"splitter2n\":null,\"caboAlim\":null,\"fibra1n\":null,\"fibra2n\":null},\"servicos\":{\"origem\":null,\"velDown\":102400,\"velUp\":51200,\"tipoTv\":null,\"tipoLinha\":\"SIP\"},\"linha\":{\"tipo\":\"IMS\",\"dn\":\"4830309808\",\"central\":\"PRCTA_VMS02\"},\"radius\":{\"status\":\"ATIVO\",\"armario\":\"SCFNS_G1I13\",\"rin\":\"242\",\"velocidade\":\"102400 - 51200\",\"ipFixo\":\"NAO ENCONTROU\",\"profile\":\"r51200b102400 op:FNS-8148UP9JME-013\",\"porta\":\"2225\",\"isIpFixo\":false},\"asserts\":[{\"asserts\":\"DIVERGENCIA_TBS_RADIUS\",\"value\":false,\"creationDate\":1525097434471},{\"asserts\":\"CIRCUITO_ATIVO\",\"value\":true,\"creationDate\":1525097434471},{\"asserts\":\"HAS_BLOQUEIO_RADIUS\",\"value\":false,\"creationDate\":1525097434471}],\"eventos\":[]}");
+//        } catch (Exception e) {
+//        }
     }
 
     @After
@@ -199,6 +200,17 @@ public class ConfigPortaServiceImplIT {
         ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
         Boolean result = instance.isManageable();
         System.out.println(new JacksonMapper(Boolean.class).serialize(result));
+    }
+
+    /**
+     * Test of corretorEstadoDaPorta method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testCorretorEstadoDaPorta() throws Exception {
+        System.out.println("corretorEstadoDaPorta");
+        ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
+        ValidacaoResult result = instance.corretorEstadoDaPorta();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
 }

@@ -28,6 +28,7 @@ public enum AcaoEnum {
     FULLTEST_CO,
     FULLTEST_CRM, 
     VALIDADOR_MANOBRA,
-    IS_MANAGEABLE;
+    IS_MANAGEABLE,
+    CORRETOR_ESTADO_PORTA;
     
 }

@@ -20,7 +20,9 @@ import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import java.util.ArrayList;
 import java.util.List;
+import model.validacao.impl.realtime.CorretorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
+import model.validacao.impl.realtime.ValidadorEstadoOperPorta;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
@@ -130,6 +132,15 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     public Boolean isManageable() throws Exception {
         this.getDslam().conectar();
         return true;
+    }
+
+    @Override
+    public ValidacaoResult corretorEstadoDaPorta() throws Exception {
+        ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
+        if(c.getFoiCorrigido()){
+            return c;
+        }
+        return exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
     }
 
 }

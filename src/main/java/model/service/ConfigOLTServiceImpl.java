@@ -18,6 +18,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;
+import model.validacao.impl.realtime.CorretorSerialOntGpon;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -93,7 +94,7 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     public ValidacaoResult getterOntFromOlt() throws Exception {
 //        consulta().getSerialOnt(getEc().getRede());
 //        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
-        return exec(new ValidadorSerialOntGpon(getDslam(), getEc(), local));
+        return exec(new CorretorSerialOntGpon(getDslam(), getEc(), local));
     }
 
     @Override
