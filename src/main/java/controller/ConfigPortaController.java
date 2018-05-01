@@ -12,10 +12,10 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import controller.in.ConsultaConfigPortaIn;
 import controller.in.CorretorEstadoDaPortaIn;
+import controller.in.CorretorVlanBandaIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
 import controller.in.GetOntFromOltIn;
-import controller.in.IsManageableIn;
 import controller.in.ResetIptvStatisticsIn;
 import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
@@ -37,7 +37,6 @@ import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.service.ConfigGetterGponService;
 import model.service.ConfigGetterMetalicoService;
-import model.service.ConfigGetterService;
 import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
@@ -389,6 +388,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
             ValidacaoResult result = config.corretorEstadoDaPorta();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorVlanBanda")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorVlanBanda(CorretorVlanBandaIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorVlanBanda();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

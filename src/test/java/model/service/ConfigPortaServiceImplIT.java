@@ -212,4 +212,14 @@ public class ConfigPortaServiceImplIT {
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
+    /**
+     * Test of corretorVlanBanda method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testCorretorVlanBanda() throws Exception {
+        System.out.println("corretorVlanBanda");
+        ValidacaoResult result = instance.corretorVlanBanda();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
 }
