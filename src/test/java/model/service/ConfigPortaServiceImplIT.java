@@ -6,7 +6,6 @@
 package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.efika_customer.model.customer.mock.CustomerMock;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -219,6 +218,16 @@ public class ConfigPortaServiceImplIT {
     public void testCorretorVlanBanda() throws Exception {
         System.out.println("corretorVlanBanda");
         ValidacaoResult result = instance.corretorVlanBanda();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
+    /**
+     * Test of corretorProfile method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testCorretorProfile() throws Exception {
+        System.out.println("corretorProfile");
+        ValidacaoResult result = instance.corretorProfile();
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
