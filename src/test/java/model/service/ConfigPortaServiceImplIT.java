@@ -38,7 +38,9 @@ public class ConfigPortaServiceImplIT {
     public static void tearDownClass() {
     }
 
-    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4130157784");
+    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("2730242230");
+
+    ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
 
     @Before
     public void setUp() {
@@ -100,13 +102,11 @@ public class ConfigPortaServiceImplIT {
     @Test
     public void testSetterEstadoDaPorta() throws Exception {
         System.out.println("setterEstadoDaPorta");
-        EstadoDaPorta est = null;
-        ConfigPortaServiceImpl instance = null;
-        ValidacaoResult expResult = null;
+        EstadoDaPorta est = new EstadoDaPorta(false);
+        
         ValidacaoResult result = instance.setterEstadoDaPorta(est);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+        
     }
 
     /**
@@ -208,7 +208,6 @@ public class ConfigPortaServiceImplIT {
     @Test
     public void testCorretorEstadoDaPorta() throws Exception {
         System.out.println("corretorEstadoDaPorta");
-        ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
         ValidacaoResult result = instance.corretorEstadoDaPorta();
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
