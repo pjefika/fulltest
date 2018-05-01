@@ -137,7 +137,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     @Override
     public ValidacaoResult corretorEstadoDaPorta() throws Exception {
         ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
-        if(c.getFoiCorrigido()!=null){
+        if(!c.getResultado()){
             return c;
         }
         return exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
