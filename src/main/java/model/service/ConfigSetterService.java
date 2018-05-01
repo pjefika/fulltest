@@ -6,9 +6,7 @@
 package model.service;
 
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
-import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
-import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import java.util.List;
 
 /**
@@ -22,6 +20,8 @@ public interface ConfigSetterService {
     public ValidacaoResult corretorEstadoDaPorta() throws Exception;
 
     public ValidacaoResult corretorVlanBanda() throws Exception;
+
+    public ValidacaoResult corretorProfile() throws Exception;
 
     public ValidacaoResult setterVlanBanda() throws Exception;
 

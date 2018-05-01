@@ -21,6 +21,7 @@ import dao.dslam.impl.ConsultaMetalicoDefault;
 import java.util.ArrayList;
 import java.util.List;
 import model.validacao.impl.realtime.CorretorEstadoAdmPorta;
+import model.validacao.impl.realtime.CorretorProfile;
 import model.validacao.impl.realtime.CorretorVlanBanda;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorEstadoOperPorta;
@@ -153,4 +154,10 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         return exec(new CorretorVlanBanda(getDslam(), getEc(), local));
     }
 
+    @Override
+    public ValidacaoResult corretorProfile() throws Exception {
+        return exec(new CorretorProfile(getDslam(), getEc(), local));
+    }
+
+    
 }
