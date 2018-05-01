@@ -38,7 +38,7 @@ public class ConfigPortaServiceImplIT {
     public static void tearDownClass() {
     }
 
-    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("2730242230");
+    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4730441489");
 
     ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
 

@@ -34,9 +34,9 @@ public class CorretorEstadoAdmPorta extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            ep = new EstadoDaPorta(Boolean.TRUE);
+            ep = alter.setEstadoDaPorta(cust.getRede(), new EstadoDaPorta(Boolean.TRUE));
             ValidacaoEstadoPortaAdm v;
-            v = new ValidacaoEstadoPortaAdm(alter.setEstadoDaPorta(cust.getRede(), ep), bundle.getLocale());
+            v = new ValidacaoEstadoPortaAdm(ep, bundle.getLocale());
 
             v.validar();
             this.setValid(v);

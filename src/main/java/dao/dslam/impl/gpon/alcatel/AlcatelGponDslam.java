@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FalhaAoExecutarComandoException;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
@@ -82,7 +83,7 @@ public class AlcatelGponDslam extends DslamGpon {
     @Override
     public PortaPON getPortaPON(InventarioRede i) throws Exception {
         PortaPON porta = new PortaPON();
-        
+
         ComandoDslam cmd = execComm(this.getComandoPortaPON(i));
         Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String operStatus = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='oper-status']");
@@ -439,12 +440,15 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString());
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString(), 3000);
     }
 
     @Override
     public EstadoDaPorta setEstadoDaPorta(InventarioRede i, EstadoDaPorta e) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoSetEstadoDaPorta(i, e));
+        if (cmd.getBlob().contains("Error :")) {
+            throw new FalhaAoExecutarComandoException();
+        }
         EstadoDaPorta es = getEstadoDaPorta(i);
         es.getInteracoes().add(0, cmd);
         return es;
