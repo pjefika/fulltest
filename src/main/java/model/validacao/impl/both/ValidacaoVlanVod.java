@@ -24,12 +24,12 @@ public class ValidacaoVlanVod extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Vlan de VoD/IPTV configurado corretamente.";
+        return bundle.getString("validacaoVlan_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de VoD/IPTV configurado incorretamente.";
+        return bundle.getString("validacaoVlan_nok");
     }
 
 }

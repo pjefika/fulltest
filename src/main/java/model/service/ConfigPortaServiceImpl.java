@@ -23,6 +23,8 @@ import java.util.List;
 import model.validacao.impl.realtime.CorretorEstadoAdmPorta;
 import model.validacao.impl.realtime.CorretorProfile;
 import model.validacao.impl.realtime.CorretorVlanBanda;
+import model.validacao.impl.realtime.CorretorVlanMulticast;
+import model.validacao.impl.realtime.CorretorVlanVod;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorEstadoOperPorta;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -139,11 +141,11 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     @Override
     public ValidacaoResult corretorEstadoDaPorta() throws Exception {
         ValidacaoResult v = exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
-        if(v.getResultado()){
+        if (v.getResultado()) {
             return v;
         }
         ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
-        if(!c.getResultado()){
+        if (!c.getResultado()) {
             return c;
         }
         return v;
@@ -159,5 +161,20 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         return exec(new CorretorProfile(getDslam(), getEc(), local));
     }
 
-    
+    @Override
+    public ValidacaoResult corretorVlansVideo() throws Exception {
+        List<ValidacaoResult> vs = new ArrayList<>();
+        ValidacaoResult vod = exec(new CorretorVlanVod(getDslam(), getEc(), local));
+        ValidacaoResult mult = exec(new CorretorVlanMulticast(getDslam(), getEc(), local));
+        vs.add(vod);
+        vs.add(mult);
+        for (ValidacaoResult v : vs) {
+            if (v.getFoiCorrigido() != null && (v.getFoiCorrigido() || !v.getResultado())) {
+                return v;
+            }
+        }
+
+        return vod;
+    }
+
 }

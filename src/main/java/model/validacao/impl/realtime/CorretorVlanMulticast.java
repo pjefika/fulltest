@@ -45,12 +45,12 @@ public class CorretorVlanMulticast extends Corretor {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.";
+        return bundle.getString("correcaoVlan_ok");
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return bundle.getString("correcaoVlan_nok");
     }
 
     @Override

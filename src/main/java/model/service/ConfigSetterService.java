@@ -23,6 +23,8 @@ public interface ConfigSetterService {
 
     public ValidacaoResult corretorProfile() throws Exception;
 
+    public ValidacaoResult corretorVlansVideo() throws Exception;
+
     public ValidacaoResult setterVlanBanda() throws Exception;
 
     public ValidacaoResult setterVlanVoip() throws Exception;
