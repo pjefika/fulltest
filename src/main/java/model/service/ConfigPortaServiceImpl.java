@@ -169,11 +169,12 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         vs.add(vod);
         vs.add(mult);
         for (ValidacaoResult v : vs) {
-            if (v.getFoiCorrigido() != null && (v.getFoiCorrigido() || !v.getResultado())) {
-                return v;
+            if (v.getFoiCorrigido() != null) {
+                if (v.getFoiCorrigido() || !v.getResultado()) {
+                    return v;
+                }
             }
         }
-
         return vod;
     }
 
