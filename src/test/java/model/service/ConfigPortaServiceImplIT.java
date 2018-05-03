@@ -231,4 +231,24 @@ public class ConfigPortaServiceImplIT {
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
+    /**
+     * Test of corretorVlansVideo method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testCorretorVlansVideo() throws Exception {
+        System.out.println("corretorVlansVideo");
+        ValidacaoResult result = instance.corretorVlansVideo();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
+    /**
+     * Test of corretorVlanVoIP method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testCorretorVlanVoIP() throws Exception {
+        System.out.println("corretorVlanVoIP");
+        ValidacaoResult result = instance.corretorVlanVoIP();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
 }

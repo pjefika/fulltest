@@ -25,6 +25,7 @@ import model.validacao.impl.realtime.CorretorProfile;
 import model.validacao.impl.realtime.CorretorVlanBanda;
 import model.validacao.impl.realtime.CorretorVlanMulticast;
 import model.validacao.impl.realtime.CorretorVlanVod;
+import model.validacao.impl.realtime.CorretorVlanVoip;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorEstadoOperPorta;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -176,6 +177,11 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
             }
         }
         return vod;
+    }
+
+    @Override
+    public ValidacaoResult corretorVlanVoIP() throws Exception {
+        return exec(new CorretorVlanVoip(getDslam(), getEc(), local));
     }
 
 }

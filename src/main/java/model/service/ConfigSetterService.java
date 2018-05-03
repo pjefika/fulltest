@@ -25,6 +25,8 @@ public interface ConfigSetterService {
 
     public ValidacaoResult corretorVlansVideo() throws Exception;
 
+    public ValidacaoResult corretorVlanVoIP() throws Exception;
+
     public ValidacaoResult setterVlanBanda() throws Exception;
 
     public ValidacaoResult setterVlanVoip() throws Exception;

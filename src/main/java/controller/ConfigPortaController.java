@@ -14,6 +14,7 @@ import controller.in.ConsultaConfigPortaIn;
 import controller.in.CorretorEstadoDaPortaIn;
 import controller.in.CorretorProfileIn;
 import controller.in.CorretorVlanBandaIn;
+import controller.in.CorretorVlanVoIPIn;
 import controller.in.CorretorVlansVideoIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
@@ -453,6 +454,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
             ValidacaoResult result = config.corretorVlansVideo();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorVlanVoIP")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorVlanVoIP(CorretorVlanVoIPIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorVlanVoIP();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
