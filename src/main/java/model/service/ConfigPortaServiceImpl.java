@@ -32,6 +32,8 @@ import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
+import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
+import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
 /**
  *
@@ -182,6 +184,14 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     @Override
     public ValidacaoResult corretorVlanVoIP() throws Exception {
         return exec(new CorretorVlanVoip(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public ValidacaoResult validadorParametros() throws Exception {
+        if (getEc().getRede().getTipo() == TipoRede.GPON) {
+            return exec(new ValidadorParametrosGpon(getDslam(), getEc(), local));
+        }
+        return exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local));
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author G0041775
  */
-public interface ConfigGetterGponService extends ConfigGetterService {
+public interface ConfigGetterGponService extends ConfigGetterSpecific {
 
     public List<Porta> getterEstadoPortasProximas() throws Exception;
 

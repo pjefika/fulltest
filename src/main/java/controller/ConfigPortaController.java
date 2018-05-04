@@ -29,6 +29,7 @@ import controller.in.SetVlanMulticastIn;
 import controller.in.SetVlanVodIn;
 import controller.in.SetVlanVoipIn;
 import controller.in.UnsetOntFromOltIn;
+import controller.in.ValidadorParametrosIn;
 import dao.FactoryDAO;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -40,6 +41,7 @@ import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.service.ConfigGetterGponService;
 import model.service.ConfigGetterMetalicoService;
+import model.service.ConfigGetterService;
 import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
@@ -475,6 +477,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
             ValidacaoResult result = config.corretorVlanVoIP();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/validadorParametros")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response validadorParametros(ValidadorParametrosIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigGetterService config = FactoryService.createConfigGetterService(in.getCust());
+            ValidacaoResult result = config.validadorParametros();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
