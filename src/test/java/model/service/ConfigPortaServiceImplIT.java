@@ -37,9 +37,9 @@ public class ConfigPortaServiceImplIT {
     public static void tearDownClass() {
     }
 
-    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4730441489");
+    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4130157784");
 
-    ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
+     ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
 
     @Before
     public void setUp() {
@@ -102,10 +102,10 @@ public class ConfigPortaServiceImplIT {
     public void testSetterEstadoDaPorta() throws Exception {
         System.out.println("setterEstadoDaPorta");
         EstadoDaPorta est = new EstadoDaPorta(false);
-        
+
         ValidacaoResult result = instance.setterEstadoDaPorta(est);
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
-        
+
     }
 
     /**
@@ -248,6 +248,16 @@ public class ConfigPortaServiceImplIT {
     public void testCorretorVlanVoIP() throws Exception {
         System.out.println("corretorVlanVoIP");
         ValidacaoResult result = instance.corretorVlanVoIP();
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
+    /**
+     * Test of validadorParametros method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testValidadorParametros() throws Exception {
+        System.out.println("validadorParametros");
+        ValidacaoResult result = instance.validadorParametros();
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
