@@ -38,11 +38,11 @@ public class ValidacaoParametrosMetalico extends ValidacaoEfikaCustomer {
 
     @Override
     protected String fraseNegativa() {
-        String ret = bundle.getString("validacaoParametros_nok");
+        StringBuilder ret = new StringBuilder(bundle.getString("validacaoParametros_nok"));
         tab.invalidados(ideal).forEach((t) -> {
-            ret.concat((String) t);
+            ret.append(t);
         });
-        return ret;
+        return ret.toString();
     }
 
     @Override
