@@ -370,8 +370,8 @@ public class ConfigPortaController extends RestJaxAbstract {
         Response r;
         LogEntity log = in.create();
         try {
-            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
-            Boolean result = null;
+            ConfigGetterService config = FactoryService.createConfigGetterService(in.getCust());
+            Boolean result = config.isManageable();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
