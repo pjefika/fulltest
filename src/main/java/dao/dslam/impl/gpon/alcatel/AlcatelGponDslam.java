@@ -76,7 +76,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 3000);
+        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 5000);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 3000);
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml", 5000);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanVoip(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 601 detail xml", 5000);
     }
 
     @Override
@@ -230,7 +230,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanVod(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 602 detail xml", 5000);
     }
 
     @Override
@@ -262,7 +262,7 @@ public class AlcatelGponDslam extends DslamGpon {
     }
 
     protected ComandoDslam getComandoConsultaVlanMulticast(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/4/1 vlan-id 4000 detail xml", 5000);
     }
 
     @Override
@@ -601,7 +601,7 @@ public class AlcatelGponDslam extends DslamGpon {
 //        return p;
 //    }
     protected ComandoDslam getComandoListaOntPorSlot() {
-        return new ComandoDslam("show pon unprovision-onu xml", 3000);
+        return new ComandoDslam("show pon unprovision-onu xml", 5000);
     }
 
     @Override
