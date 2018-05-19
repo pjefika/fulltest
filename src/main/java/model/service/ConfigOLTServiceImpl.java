@@ -86,7 +86,12 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     @Override
     public List<SerialOntGpon> unsetterOntFromOlt() throws Exception {
         alteracao().unsetOntFromOlt(getEc().getRede());
-        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
+        try {
+            alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
+        } catch (Exception e) {
+            Thread.sleep(2000);
+        }
+
         return consulta().getSlotsAvailableOnts(getEc().getRede());
     }
 
