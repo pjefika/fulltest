@@ -9,6 +9,7 @@ import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import java.io.IOException;
 import java.io.StringReader;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -541,6 +542,14 @@ public class TratativaRetornoUtil {
         }
         return l;
 
+    }
+
+    public static BigInteger tryBigInt(String number) {
+        try {
+            return new BigInteger(number);
+        } catch (Exception e) {
+            return BigInteger.ZERO;
+        }
     }
 
 }

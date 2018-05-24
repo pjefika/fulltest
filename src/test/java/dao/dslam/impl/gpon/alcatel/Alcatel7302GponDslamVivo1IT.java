@@ -123,7 +123,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
-        //System.out.println(GsonUtil.serialize(result));
+        System.out.println(new JacksonMapper<>(VlanBanda.class).serialize(result));
     }
 
     /**
