@@ -3,16 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao.dslam.factory.exception;
+package model.service;
 
 /**
  *
- * @author G0042204
+ * @author G0041775
  */
-public class DlsamInacessivelException extends Exception {
-
-    public DlsamInacessivelException() {
-        super("Dslam inacessível.");
-    }
+public interface ConfigGetterSpecific {
 
 }

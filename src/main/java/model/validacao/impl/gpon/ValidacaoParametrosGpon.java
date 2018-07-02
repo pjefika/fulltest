@@ -6,6 +6,7 @@
 package model.validacao.impl.gpon;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import java.util.Locale;
 import model.validacao.impl.both.ValidacaoValidavel;
@@ -16,23 +17,29 @@ import model.validacao.impl.both.ValidacaoValidavel;
  */
 public class ValidacaoParametrosGpon extends ValidacaoValidavel {
 
-    private final transient TabelaParametrosGponBasic t;
+    private final transient TabelaParametrosGpon t;
 
     public ValidacaoParametrosGpon(TabelaParametrosGponBasic t, EfikaCustomer cust, Locale local) {
         super(cust, t, local);
-        this.t = t;
+        this.t = (TabelaParametrosGpon) t;
     }
 
     @Override
     protected String frasePositiva() {
-        return "Parâmetros dentro do padrão (entre -8 e -26).";
+        return bundle.getString("validacaoParametros_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-//        return "Parâmetros fora do padrão (entre -8 e -28). Pot. OLT: " + t.getPotOlt() + ". "
-//                + "Pot. ONT: " + t.getPotOnt() + ". Seguir o fluxo com o problema/sintoma informado pelo cliente.";
-        return "Parâmetros fora do padrão (entre -8 e -26).";
+        String complResp;
+        if (t.getPotOlt() != null) {
+            complResp = "Potência ONT deveria ser entre " + t.getPotOntMin() + " e " + t.getPotOntMax() + ", está em " + t.getPotOnt() + ". "
+                    + "Potência OLT deveria ser entre " + t.getPotOltMin() + " e " + t.getPotOltMax() + ", está em " + t.getPotOlt() + ".";
+        } else {
+            complResp = "Potência OLT deveria ser entre " + t.getPotOltMin() + " e " + t.getPotOltMax() + ", está em " + t.getPotOlt() + ".";
+        }
+
+        return bundle.getString("validacaoParametros_nok") + " " + complResp;
     }
 
 }

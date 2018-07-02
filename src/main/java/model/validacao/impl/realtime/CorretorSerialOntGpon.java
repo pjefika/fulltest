@@ -6,15 +6,13 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.exception.FalhaAoCorrigirException;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
 import model.validacao.impl.gpon.ValidacaoAssociacaoOnt;
-import model.validacao.impl.realtime.gpon.ValidadorSerialOntGpon;
 
 /**
  *
@@ -41,6 +39,11 @@ public class CorretorSerialOntGpon extends CorretorGpon {
             getPreresults().add(this.ag.setOntToOlt(cust.getRede(), s1));
             ValidacaoAssociacaoOnt v = (ValidacaoAssociacaoOnt) this.consultar();
             v.validar();
+            if(!v.getResultado()){
+                v.setMensagem(bundle.getString("correcaoSerialOnt_nok"));
+            }else{
+                    v.setMensagem(bundle.getString("correcaoSerialOnt_ok")+" "+v.getMensagem().split(" ")[v.getMensagem().split(" ").length-1]);
+            }
             this.setValid(v);
         } catch (Exception e) {
             throw new FalhaAoCorrigirException();
@@ -55,12 +58,13 @@ public class CorretorSerialOntGpon extends CorretorGpon {
     
     @Override
     protected String fraseCorrecaoOk() {
-        return bundle.getString("validacaoSerialOnt_ok") + serial.getSerial() + ".";
+        String serialOuId = cust.getRede().getIdOnt() == null ? serial.getSerial() : serial.getIdOnt();
+        return "Associado ONT:"  + serialOuId + ".";
     }
     
     @Override
     protected String fraseFalhaCorrecao() {
-        return bundle.getString("validacaoSerialOnt_nok");
+        return "Não foi possível associar ONT.";
     }
     
 }

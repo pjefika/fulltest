@@ -7,8 +7,8 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
+import br.net.gvt.efika.fulltest.exception.FalhaAoCorrigirException;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
-import dao.dslam.factory.exception.FalhaAoCorrigirException;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
@@ -45,12 +45,12 @@ public class CorretorVlanMulticast extends Corretor {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Efetuado correção de bridge, solicite ao cliente que reinicialize o modem e teste novamente.";
+        return bundle.getString("correcaoVlan_ok");
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível corrigir o a bridge. Seguir o fluxo com o problema/sintoma informado pelo cliente.";
+        return bundle.getString("correcaoVlan_nok");
     }
 
     @Override

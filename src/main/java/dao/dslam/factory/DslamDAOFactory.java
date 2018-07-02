@@ -6,8 +6,9 @@
 package dao.dslam.factory;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
-import dao.dslam.factory.exception.DslamNaoImplException;
-import dao.dslam.factory.exception.FalhaInventarioRedeException;
+import br.net.gvt.efika.fulltest.exception.DslamNaoImplException;
+import br.net.gvt.efika.fulltest.exception.FalhaInventarioRedeException;
+import br.net.gvt.efika.fulltest.exception.InventarioRedeIncompletoException;
 import dao.dslam.impl.AbstractDslam;
 
 /**
@@ -38,7 +39,7 @@ public class DslamDAOFactory {
             throw new FalhaInventarioRedeException();
         } else {
             if (rede.getIpDslam() == null || rede.getModeloDslam() == null) {
-                throw new FalhaInventarioRedeException();
+                throw new InventarioRedeIncompletoException();
             }
         }
     }

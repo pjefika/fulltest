@@ -30,7 +30,8 @@ public class ValidacaoAssociacaoOnt extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return bundle.getString("validacaoSerialOnt_ok") + serial.getSerial() + ".";
+        String serialOuId = cust.getRede().getIdOnt() == null ? serial.getSerial() : serial.getIdOnt();
+        return bundle.getString("validacaoSerialOnt_ok") + serialOuId + ".";
     }
 
 }

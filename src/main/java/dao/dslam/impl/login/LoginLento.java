@@ -5,9 +5,9 @@
  */
 package dao.dslam.impl.login;
 
+import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import dao.dslam.impl.Conector;
 import dao.dslam.impl.ConsultaDslamVivo2;
-import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;

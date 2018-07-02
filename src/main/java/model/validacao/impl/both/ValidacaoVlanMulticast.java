@@ -36,12 +36,12 @@ public class ValidacaoVlanMulticast extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Vlan de Multicast configurado corretamente.";
+        return bundle.getString("validacaoVlan_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de Multicast configurado incorretamente.";
+        return bundle.getString("validacaoVlan_nok"); 
     }
 
 }

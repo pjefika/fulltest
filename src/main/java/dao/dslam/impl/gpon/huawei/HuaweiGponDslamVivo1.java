@@ -6,6 +6,8 @@
 package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FalhaAoConsultarException;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -28,8 +30,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosG
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FalhaAoConsultarException;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.LoginComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -158,6 +158,26 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 vlanVoip.addInteracao(cmd);
             }
         });
+        if (vlanBanda == null) {
+            vlanBanda = new VlanBandaVivo1Huawei();
+            vlanBanda.addInteracao(cmd);
+            vlanBanda.setGemport(0);
+            vlanBanda.setSvlan(0);
+        }
+
+        if (vlanVod == null) {
+            vlanVod = new VlanVodVivo1Huawei();
+            vlanVod.setGemport(0);
+            vlanVod.setSvlan(0);
+            vlanVod.addInteracao(cmd);
+        }
+
+        if (vlanVoip == null) {
+            vlanVoip = new VlanVoipVivo1Huawei();
+            vlanVoip.setGemport(0);
+            vlanVoip.setSvlan(0);
+            vlanVoip.addInteracao(cmd);
+        }
     }
 
     protected void setGemports(InventarioRede i) {
@@ -183,7 +203,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
@@ -209,7 +229,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display port state  " + i.getPorta(), 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display port state  " + i.getPorta(), 1000, "quit\n");
     }
 
     @Override
@@ -223,7 +243,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
     }
 
     @Override
@@ -334,17 +354,17 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
-    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + i.getIdOnt() + "", 5000, "quit\n");
+    protected ComandoDslam getCmdSetOntToOlt(InventarioRede i, SerialOntGpon s) {
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password " + s.getIdOnt() + "\n1\n", 5000, "quit\n");
     }
 
     protected ComandoDslam getCmdUnSetOntToOlt(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password 000000", 5000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "ont modify " + i.getPorta() + " " + i.getLogica() + " password 000000", 5000, "quit\n");
     }
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i));
+        ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i, s));
         this.serial = null;
         SerialOntGpon se = this.getSerialOnt(i);
         se.getInteracoes().add(0, cmd);
@@ -361,7 +381,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, Boolean state) {
         String leState = state ? "activate" : "deactivate";
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 1000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica() + "\nquit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "ont " + leState + " " + i.getPorta() + " " + i.getLogica() + "\nquit\n");
     }
 
     @Override
@@ -600,7 +620,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             porta.setNumPorta(new Integer(linha.get(3)));
             list.add(porta);
         }
-     
+
         return list;
     }
 

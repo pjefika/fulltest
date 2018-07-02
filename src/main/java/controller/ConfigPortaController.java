@@ -5,16 +5,20 @@
  */
 package controller;
 
-import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
-import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import controller.in.ConsultaConfigPortaIn;
+import controller.in.CorretorEstadoDaPortaIn;
+import controller.in.CorretorProfileIn;
+import controller.in.CorretorVlanBandaIn;
+import controller.in.CorretorVlanVoIPIn;
+import controller.in.CorretorVlansVideoIn;
 import controller.in.GetConfiabilidadeRedeIn;
 import controller.in.GetEstadoPortasProximasIn;
+import controller.in.GetOntFromOltIn;
 import controller.in.ResetIptvStatisticsIn;
 import controller.in.ResetTabelaRedeIn;
 import controller.in.SetAdminStateIn;
@@ -25,6 +29,7 @@ import controller.in.SetVlanMulticastIn;
 import controller.in.SetVlanVodIn;
 import controller.in.SetVlanVoipIn;
 import controller.in.UnsetOntFromOltIn;
+import controller.in.ValidadorParametrosIn;
 import dao.FactoryDAO;
 import java.util.List;
 import javax.ws.rs.Consumes;
@@ -36,6 +41,7 @@ import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.service.ConfigGetterGponService;
 import model.service.ConfigGetterMetalicoService;
+import model.service.ConfigGetterService;
 import model.service.ConfigSetterGponService;
 import model.service.ConfigSetterMetalicoService;
 import model.service.ConfigSetterService;
@@ -144,6 +150,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterGponService config = FactoryService.createConfigSetterGponService(cs.getCust());
             ValidacaoResult result = config.setterOntToOlt(cs.getSerial());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/getOntFromOlt")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getOntFromOlt(GetOntFromOltIn cs) throws Exception {
+        Response r;
+        LogEntity log = cs.create();
+        try {
+            ConfigGetterGponService config = FactoryService.createConfigGetterGponService(cs.getCust());
+            ValidacaoResult result = config.getterOntFromOlt();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {
@@ -335,4 +362,150 @@ public class ConfigPortaController extends RestJaxAbstract {
         return r;
     }
 
+    @POST
+    @Path("/isManageable")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response isManageable(CorretorEstadoDaPortaIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigGetterService config = FactoryService.createConfigGetterService(in.getCust());
+            Boolean result = config.isManageable();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorEstadoDaPorta")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorEstadoDaPorta(CorretorEstadoDaPortaIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorEstadoDaPorta();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorVlanBanda")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorVlanBanda(CorretorVlanBandaIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorVlanBanda();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorProfile")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorProfile(CorretorProfileIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorProfile();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorVlansVideo")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorVlansVideo(CorretorVlansVideoIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorVlansVideo();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/corretorVlanVoIP")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response corretorVlanVoIP(CorretorVlanVoIPIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
+            ValidacaoResult result = config.corretorVlanVoIP();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/validadorParametros")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response validadorParametros(ValidadorParametrosIn in) throws Exception {
+        Response r;
+        LogEntity log = in.create();
+        try {
+            ConfigGetterService config = FactoryService.createConfigGetterService(in.getCust());
+            ValidacaoResult result = config.validadorParametros();
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
 }

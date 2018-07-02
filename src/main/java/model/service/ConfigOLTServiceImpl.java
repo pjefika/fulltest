@@ -7,6 +7,7 @@ package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
@@ -14,10 +15,10 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.ConsultaGponDefault;
 import java.util.List;
+import model.validacao.impl.realtime.CorretorSerialOntGpon;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
 import model.validacao.impl.realtime.ValidadorProfile;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
@@ -85,8 +86,20 @@ public class ConfigOLTServiceImpl extends ConfigGenericService implements Config
     @Override
     public List<SerialOntGpon> unsetterOntFromOlt() throws Exception {
         alteracao().unsetOntFromOlt(getEc().getRede());
-        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
+        try {
+            alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
+        } catch (Exception e) {
+            Thread.sleep(2000);
+        }
+
         return consulta().getSlotsAvailableOnts(getEc().getRede());
+    }
+
+    @Override
+    public ValidacaoResult getterOntFromOlt() throws Exception {
+//        consulta().getSerialOnt(getEc().getRede());
+//        alteracao().setEstadoDaPorta(getEc().getRede(), new EstadoDaPorta(Boolean.TRUE));
+        return exec(new CorretorSerialOntGpon(getDslam(), getEc(), local));
     }
 
     @Override

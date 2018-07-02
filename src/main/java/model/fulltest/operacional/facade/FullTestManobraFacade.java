@@ -6,7 +6,7 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.metalico.DslamMetalico;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
