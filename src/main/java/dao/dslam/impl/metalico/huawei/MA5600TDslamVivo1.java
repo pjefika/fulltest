@@ -12,6 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
@@ -38,7 +39,7 @@ public class MA5600TDslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     private transient MA5600TDslamVivo1 itself;
     private transient EstadoDaPorta estadoPorta;
-    private transient Profile profile;
+    private transient ProfileVivo1 profile;
 
     public MA5600TDslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
@@ -122,7 +123,7 @@ public class MA5600TDslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         checkPlaca(i);
         estadoPorta = (EstadoDaPorta) execComm(itself.getComandoGetEstadoDaPorta(i), new EstadoDaPorta());
         estadoPorta = itself.tratGetEstadoDaPorta(estadoPorta);
-        profile = new Profile();
+        profile = new ProfileVivo1();
         estadoPorta.getInteracoes().forEach((t) -> {
             profile.addInteracao(t);
         });
@@ -141,7 +142,7 @@ public class MA5600TDslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         return estadoPorta;
     }
 
-    protected Profile tratGetProfile(Profile p) throws Exception {
+    protected ProfileVivo1 tratGetProfile(ProfileVivo1 p) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
 
