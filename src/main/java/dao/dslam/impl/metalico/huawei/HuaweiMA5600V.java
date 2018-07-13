@@ -9,7 +9,7 @@ import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
-import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParametrosMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
@@ -43,7 +43,7 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
     }
 
     @Override
-    protected Profile tratGetProfile(Profile p) {
+    protected ProfileVivo1 tratGetProfile(ProfileVivo1 p) {
         List<String> ret = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-template").split(" ");
         p.setProfileDown(profz[profz.length - 1]);
@@ -135,6 +135,7 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_4096, "4608_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_5120, "6144_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_6489, "6144_128D_704_64U_I_A"));
+            velsDown.add(new VelocidadeVendor(Velocidades.VEL_8192, "9216_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_8651, "9216_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_10240, "12416_128D_704_64U_I_A"));
             velsDown.add(new VelocidadeVendor(Velocidades.VEL_10813, "12416_128D_704_64U_I_A"));
@@ -168,6 +169,20 @@ public class HuaweiMA5600V extends MA5600TDslamVivo1 {
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "6144_128D_704_64U_I_A"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "9216_128D_704_64U_I_A"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_600, "12416_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "1184_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "2304_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "4608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "6144_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "9216_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_750, "12416_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "1184_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "2304_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "4608_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "6144_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "9216_128D_704_64U_I_A"));
+            velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "12416_128D_704_64U_I_A"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_1024, "18464_128D_1184_128U_I_A_A_V8"));
             velsUp.add(new VelocidadeVendor(Velocidades.VEL_2048, "28864_128D_2304_128U_I_A_A_V8"));
         }

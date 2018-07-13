@@ -34,6 +34,7 @@ public class CorretorProfile extends Corretor {
                 valid.validar();
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             throw new FalhaAoCorrigirException();
         }
     }

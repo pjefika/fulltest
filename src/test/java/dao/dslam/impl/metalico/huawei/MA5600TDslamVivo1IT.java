@@ -5,6 +5,7 @@
  */
 package dao.dslam.impl.metalico.huawei;
 
+import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -47,8 +48,8 @@ public class MA5600TDslamVivo1IT {
     public void tearDown() {
     }
 
-    private static MA5600TDslamVivo1 instance = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tA().getRede().getIpDslam());
-    private static InventarioRede i = CustomerMock.metalicoHuawei5600tA().getRede();
+    private static MA5600TDslamVivo1 instance = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tt().getRede().getIpDslam());
+    private static InventarioRede i = CustomerMock.metalicoHuawei5600tt().getRede();
     private static MA5600TDslamVivo1 instanceMS = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tMS().getRede().getIpDslam());
     private static InventarioRede iMS = CustomerMock.metalicoHuawei5600tMS().getRede();
     private static MA5600TDslamVivo1 instanceV = new MA5600TDslamVivo1(CustomerMock.metalicoHuawei5600tV().getRede().getIpDslam());
@@ -82,8 +83,9 @@ public class MA5600TDslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
 
-        Profile result = instanceMS.getProfile(iMS);
+        Profile result = instance.getProfile(i);
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
+        System.out.println(result.validar(CustomerMock.metalicoHuawei5600tt()));
     }
 
     /**
@@ -258,9 +260,10 @@ public class MA5600TDslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
+        System.out.println(new JacksonMapper(EfikaCustomer.class).serialize(CustomerMock.metalicoHuawei5600tt()));
         Velocidades v = Velocidades.find(CustomerMock.metalicoHuawei5600tA().getServicos().getVelDown());
-        instanceV.setProfileDown(iV, v);
-        Profile result = instanceV.getProfile(iV);
+        instance.setProfileDown(i, v);
+        Profile result = instance.getProfile(i);
         System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
