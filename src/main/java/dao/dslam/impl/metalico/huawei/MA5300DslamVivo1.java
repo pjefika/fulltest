@@ -13,6 +13,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1HuaweiMA5300;
@@ -144,7 +145,7 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         tabelaRede.setPctUp(TratativaRetornoUtil.tryBigInt(TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratHuawei(ret, "Output", 2)).get(0)));
         
 
-        profile = new Profile();
+        profile = new ProfileVivo1();
         estadoPorta.getInteracoes().forEach(profile::addInteracao);
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
         profile.setProfileDown(profz[profz.length - 1]);
@@ -300,7 +301,7 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        Profile p = (Profile) execComm(getComandoSetProfile(i, v), new Profile());
+        ProfileVivo1 p = (ProfileVivo1) execComm(getComandoSetProfile(i, v), new ProfileVivo1());
         Profile prof = getProfile(i);
 
         for (int j = p.getInteracoes().size() - 1; j >= 0; j--) {

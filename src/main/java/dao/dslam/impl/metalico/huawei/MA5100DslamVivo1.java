@@ -13,6 +13,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
@@ -173,7 +174,7 @@ public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     @Override
     public Profile getProfile(InventarioRede i) throws Exception {
-        Profile p = (Profile) execComm(getComandoGetProfile(i), new Profile());
+        ProfileVivo1 p = (ProfileVivo1) execComm(getComandoGetProfile(i), new ProfileVivo1());
         List<String> ret = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         String prof = TratativaRetornoUtil.tratHuawei(ret, "Profile index");
         p.setProfileDown(prof);
@@ -324,14 +325,14 @@ public class MA5100DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        Profile p = (Profile) execComm(getComandoGetIndexProfile(), new Profile());
+        ProfileVivo1 p = (ProfileVivo1) execComm(getComandoGetIndexProfile(), new ProfileVivo1());
         List<String> ret0 = p.getInteracoes().get(p.getInteracoes().size() - 1).getRetorno();
         List<Integer> profz = TratativaRetornoUtil.listIntegersFromString(compare(v, Boolean.TRUE).getSintaxVel());
         String vel = profz.get(0).toString();
         String indexProfile = TratativaRetornoUtil.listIntegersFromString(
                 TratativaRetornoUtil.tratHuawei(ret0, vel)
         ).get(0).toString();
-        p = (Profile) execComm(getComandoSetProfile(i, indexProfile), p);
+        p = (ProfileVivo1) execComm(getComandoSetProfile(i, indexProfile), p);
         Profile prof = getProfile(i);
         for (int j = p.getInteracoes().size() - 1; j >= 0; j--) {
             prof.getInteracoes().add(0, p.getInteracoes().get(j));

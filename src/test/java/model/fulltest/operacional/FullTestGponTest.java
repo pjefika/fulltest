@@ -64,7 +64,7 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            cust = CustomerMock.metalicoHuawei5600tt();
+            cust = CustomerMock.metalicoAlcatelNfxsAFd();
             cust.getRede().setTipo(TipoRede.METALICA);
             FullTestInterface instance = new FullTestCOFacade();
             FullTest f = instance.executar(cust);
