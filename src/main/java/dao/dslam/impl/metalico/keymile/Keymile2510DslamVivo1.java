@@ -12,7 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
-import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
@@ -153,7 +153,7 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getProf(i));
         List<String> pegaProfile = cmd.getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
-        Profile prof = new ProfileMetalico();
+        Profile prof = new ProfileVivo1();
         prof.setProfileDown(first);
         prof.setProfileUp(first);
 

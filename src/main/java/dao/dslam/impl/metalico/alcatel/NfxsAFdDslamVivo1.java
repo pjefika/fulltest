@@ -12,6 +12,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
@@ -129,7 +130,7 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
         ComandoDslam cmd = getCd().consulta(getComandoGetProfile(i));
         Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String profile = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='service-profile-name']");
-        Profile p = new Profile();
+        ProfileVivo1 p = new ProfileVivo1();
         p.setProfileDown(profile);
         p.setProfileUp(profile);
         p.setDown(compareV1Metalico(profile, Boolean.TRUE));
