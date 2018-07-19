@@ -43,6 +43,9 @@
                 
                 <configuration>
                     <properties>
+                        
+                        <java.net.preferIPv4Addresses>true</java.net.preferIPv4Addresses>
+                        <java.net.preferIPv4Stack>true</java.net.preferIPv4Stack>
                         <swarm.http.port>7172</swarm.http.port>
                     </properties>
                 </configuration>
@@ -105,7 +108,7 @@
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
             <artifactId>mongo</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </dependency>
         
         <dependency>
