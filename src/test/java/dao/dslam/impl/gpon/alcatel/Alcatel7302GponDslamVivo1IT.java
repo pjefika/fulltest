@@ -19,6 +19,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import br.net.gvt.efika.util.json.JacksonMapper;
@@ -175,7 +176,7 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testGetTabelaParametros() throws Exception {
         System.out.println("getTabelaParametros");
-        TabelaParametrosGpon result = instance.getTabelaParametros(i);
+        TabelaParametrosGponVivo1 result = instance.getTabelaParametros(i);
         //System.out.println(GsonUtil.serialize(result));
     }
 

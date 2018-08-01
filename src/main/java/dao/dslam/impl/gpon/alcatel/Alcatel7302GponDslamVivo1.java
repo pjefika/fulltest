@@ -27,6 +27,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.gpon.DslamGponVivo1;
@@ -290,7 +291,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+    public TabelaParametrosGponVivo1 getTabelaParametros(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getComandoConsultarParametros(i);
         Document xml = TratativaRetornoUtil.stringXmlParse(this.getCd().consulta(cmd));
         String potOnt = TratativaRetornoUtil.getXmlParam(xml, "//info[@name='rx-signal-level']");
@@ -301,7 +302,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         if (potOlt.equals("invalid") || potOlt.equals("unknown")) {
             potOlt = "0";
         }
-        TabelaParametrosGpon tabParam = new TabelaParametrosGpon();
+        TabelaParametrosGponVivo1 tabParam = new TabelaParametrosGponVivo1();
         tabParam.addInteracao(cmd);
         tabParam.setPotOlt(new Double(potOlt));
         tabParam.setPotOnt(new Double(potOnt));

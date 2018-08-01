@@ -28,6 +28,8 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.ServicePort;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasicVivo1;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.gpon.DslamGponVivo1;
@@ -259,11 +261,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
          * Tratativa gambeta para OLT's sem medição de Pot OLT
          */
         if (potOlt.compareTo(0d) == 0 && !(potOnt.compareTo(0d) == 0)) {
-            TabelaParametrosGponBasic tab = new TabelaParametrosGponBasic();
+            TabelaParametrosGponBasicVivo1 tab = new TabelaParametrosGponBasicVivo1();
             tab.setPotOnt(potOnt);
             return tab;
         } else {
-            TabelaParametrosGpon tab = new TabelaParametrosGpon();
+            TabelaParametrosGponVivo1 tab = new TabelaParametrosGponVivo1();
             tab.setPotOlt(potOlt);
             tab.setPotOnt(potOnt);
             return tab;

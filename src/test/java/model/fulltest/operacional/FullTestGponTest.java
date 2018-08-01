@@ -48,7 +48,7 @@ public class FullTestGponTest {
     @Test
     public void testCustomerGetCustomer() {
         List<String> tests = new ArrayList<>();
-        tests.add("4133335556");
+        tests.add("8131323529");
 //        tests.add("5132242735");
         for (String test : tests) {
             try {
@@ -64,8 +64,8 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            cust = CustomerMock.metalicoAlcatelNfxsAFd();
-            cust.getRede().setTipo(TipoRede.METALICA);
+            cust = CustomerMock.getCustomer("8131323529");
+            
             FullTestInterface instance = new FullTestCOFacade();
             FullTest f = instance.executar(cust);
 
