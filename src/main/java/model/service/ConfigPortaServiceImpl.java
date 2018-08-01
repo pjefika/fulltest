@@ -7,13 +7,11 @@ package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
-import br.net.gvt.efika.fulltest.model.telecom.config.ProfileGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
-import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoGponDefault;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
@@ -22,18 +20,26 @@ import dao.dslam.impl.ConsultaGponDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import java.util.ArrayList;
 import java.util.List;
+import model.validacao.impl.realtime.CorretorEstadoAdmPorta;
+import model.validacao.impl.realtime.CorretorProfile;
+import model.validacao.impl.realtime.CorretorVlanBanda;
+import model.validacao.impl.realtime.CorretorVlanMulticast;
+import model.validacao.impl.realtime.CorretorVlanVod;
+import model.validacao.impl.realtime.CorretorVlanVoip;
 import model.validacao.impl.realtime.ValidadorEstadoAdmPorta;
-import model.validacao.impl.realtime.ValidadorProfile;
+import model.validacao.impl.realtime.ValidadorEstadoOperPorta;
 import model.validacao.impl.realtime.ValidadorVlanBanda;
 import model.validacao.impl.realtime.ValidadorVlanMulticast;
 import model.validacao.impl.realtime.ValidadorVlanVod;
 import model.validacao.impl.realtime.ValidadorVlanVoip;
+import model.validacao.impl.realtime.gpon.ValidadorParametrosGpon;
+import model.validacao.impl.realtime.metalico.ValidadorParametrosMetalico;
 
 /**
  *
  * @author G0042204
  */
-public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta>, ConfigSetterService {
+public class ConfigPortaServiceImpl extends ConfigGenericService implements ConfigPortaService<ConfiguracaoPorta>, ConfigSetterService, ConfigGetterService {
 
     public ConfigPortaServiceImpl(EfikaCustomer ec) {
         super(ec);
@@ -127,6 +133,65 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
         l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
         return l;
+    }
+
+    @Override
+    public Boolean isManageable() throws Exception {
+        this.getDslam().conectar();
+        return true;
+    }
+
+    @Override
+    public ValidacaoResult corretorEstadoDaPorta() throws Exception {
+        ValidacaoResult v = exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
+        if (v.getResultado()) {
+            return v;
+        }
+        ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
+        if (!c.getResultado()) {
+            return c;
+        }
+        return v;
+    }
+
+    @Override
+    public ValidacaoResult corretorVlanBanda() throws Exception {
+        return exec(new CorretorVlanBanda(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public ValidacaoResult corretorProfile() throws Exception {
+        return exec(new CorretorProfile(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public ValidacaoResult corretorVlansVideo() throws Exception {
+        List<ValidacaoResult> vs = new ArrayList<>();
+        ValidacaoResult vod = exec(new CorretorVlanVod(getDslam(), getEc(), local));
+        ValidacaoResult mult = exec(new CorretorVlanMulticast(getDslam(), getEc(), local));
+        vs.add(vod);
+        vs.add(mult);
+        for (ValidacaoResult v : vs) {
+            if (v.getFoiCorrigido() != null) {
+                if (v.getFoiCorrigido() || !v.getResultado()) {
+                    return v;
+                }
+            }
+        }
+        return vod;
+    }
+
+    @Override
+    public ValidacaoResult corretorVlanVoIP() throws Exception {
+        return exec(new CorretorVlanVoip(getDslam(), getEc(), local));
+    }
+
+    @Override
+    public ValidacaoResult validadorParametros() throws Exception {
+        if (getEc().getRede().getTipo() == TipoRede.GPON) {
+            return exec(new ValidadorParametrosGpon(getDslam(), getEc(), local));
+        }
+        return exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local));
     }
 
 }

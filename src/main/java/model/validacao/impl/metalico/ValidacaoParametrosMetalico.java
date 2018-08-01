@@ -33,12 +33,16 @@ public class ValidacaoParametrosMetalico extends ValidacaoEfikaCustomer {
 
     @Override
     protected String frasePositiva() {
-        return "Parâmetros dentro dos padrões.";
+        return bundle.getString("validacaoParametros_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Parâmetros fora dos padrões.";
+        StringBuilder ret = new StringBuilder(bundle.getString("validacaoParametros_nok"));
+        tab.invalidados(ideal).forEach((t) -> {
+            ret.append(t);
+        });
+        return ret.toString();
     }
 
     @Override

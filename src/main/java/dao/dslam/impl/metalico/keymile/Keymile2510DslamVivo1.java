@@ -6,12 +6,13 @@
 package dao.dslam.impl.metalico.keymile;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
-import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileMetalico;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
@@ -23,7 +24,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.metalico.DslamMetalicoVivo1;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -153,7 +153,7 @@ public class Keymile2510DslamVivo1 extends DslamMetalicoVivo1 {
         ComandoDslam cmd = this.getCd().consulta(this.getProf(i));
         List<String> pegaProfile = cmd.getRetorno();
         String first = TratativaRetornoUtil.tratKeymile(pegaProfile, "Name");
-        Profile prof = new ProfileMetalico();
+        Profile prof = new ProfileVivo1();
         prof.setProfileDown(first);
         prof.setProfileUp(first);
 

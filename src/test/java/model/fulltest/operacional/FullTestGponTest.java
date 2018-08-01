@@ -6,6 +6,7 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class FullTestGponTest {
     @Test
     public void testCustomerGetCustomer() {
         List<String> tests = new ArrayList<>();
-        tests.add("4133335556");
+        tests.add("8131323529");
 //        tests.add("5132242735");
         for (String test : tests) {
             try {
@@ -63,7 +64,8 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            cust = CustomerMock.gponHuaweiV1();
+            cust = CustomerMock.getCustomer("8131323529");
+            
             FullTestInterface instance = new FullTestCOFacade();
             FullTest f = instance.executar(cust);
 

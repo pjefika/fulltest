@@ -6,6 +6,7 @@
 package dao.dslam.impl.metalico.zhone;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
@@ -22,7 +23,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMet
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Modulacoes;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.login.LoginLento;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.math.BigInteger;

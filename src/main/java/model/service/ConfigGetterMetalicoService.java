@@ -11,7 +11,7 @@ import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
  *
  * @author G0041775
  */
-public interface ConfigGetterMetalicoService extends ConfigGetterService {
+public interface ConfigGetterMetalicoService extends ConfigGetterSpecific {
 
     public ValidacaoResult getterTabelaRede() throws Exception;
 

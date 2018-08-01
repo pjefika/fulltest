@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,11 +6,14 @@
 package dao.dslam.impl.metalico.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FalhaLoginDslamException;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Profile;
+import br.net.gvt.efika.fulltest.model.telecom.properties.ProfileVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ReConexao;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBandaVivo1HuaweiMA5300;
@@ -22,10 +25,9 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaParamet
 import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FalhaLoginDslamException;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.login.LoginComJumpMetalico;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
+import java.math.BigInteger;
 import java.util.List;
 import model.dslam.credencial.Credencial;
 
@@ -39,6 +41,7 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
     private transient EstadoDaPorta estadoPorta;
     private transient Profile profile;
     private transient VlanBandaVivo1HuaweiMA5300 vlanBanda;
+    private transient TabelaRedeMetalico tabelaRede;
 
     public MA5300DslamVivo1(String ipDslam) {
         super(ipDslam, Credencial.HUAWEI_METALICOV1, new LoginComJumpMetalico());
@@ -132,7 +135,17 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         estadoPorta.setOperState(!TratativaRetornoUtil.tratHuawei(ret, "dsl", 2).contains("admin"));
         estadoPorta.setAdminState(TratativaRetornoUtil.tratHuawei(ret, "ADSL").contains("active"));
 
-        profile = new Profile();
+        tabelaRede = new TabelaRedeMetalico();
+        estadoPorta.getInteracoes().forEach(tabelaRede::addInteracao);
+        tabelaRede.setCrcDown(TratativaRetornoUtil.tryBigInt(TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratHuawei(ret, "Input Discard")).get(0)));
+        tabelaRede.setCrcUp(TratativaRetornoUtil.tryBigInt(TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratHuawei(ret, "Output Discard")).get(0)));
+        tabelaRede.setFecDown(BigInteger.ZERO);
+        tabelaRede.setFecUp(BigInteger.ZERO);
+        tabelaRede.setPctDown(TratativaRetornoUtil.tryBigInt(TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratHuawei(ret, "Input", 2)).get(0)));
+        tabelaRede.setPctUp(TratativaRetornoUtil.tryBigInt(TratativaRetornoUtil.numberFromString(TratativaRetornoUtil.tratHuawei(ret, "Output", 2)).get(0)));
+        
+
+        profile = new ProfileVivo1();
         estadoPorta.getInteracoes().forEach(profile::addInteracao);
         String[] profz = TratativaRetornoUtil.tratHuawei(ret, "line-profile").split(" ");
         profile.setProfileDown(profz[profz.length - 1]);
@@ -223,7 +236,10 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 //    }
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        throw new FuncIndisponivelDslamException();
+        if (tabelaRede == null) {
+            checkConfs(i);
+        }
+        return tabelaRede;
     }
 
     @Override
@@ -285,13 +301,13 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
 
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        Profile p = (Profile) execComm(getComandoSetProfile(i, v), new Profile());
+        ProfileVivo1 p = (ProfileVivo1) execComm(getComandoSetProfile(i, v), new ProfileVivo1());
         Profile prof = getProfile(i);
-        
+
         for (int j = p.getInteracoes().size() - 1; j >= 0; j--) {
             prof.getInteracoes().add(0, p.getInteracoes().get(j));
         }
-        
+
         return prof;
     }
 
@@ -310,7 +326,7 @@ public class MA5300DslamVivo1 extends HuaweiDslamMetalicoVivo1 {
         List<String> ret = m.getInteracoes().get(m.getInteracoes().size() - 1).getRetorno();
         String mac = "";
         try {
-            String s = TratativaRetornoUtil.tratHuawei(ret, "dsl",2);
+            String s = TratativaRetornoUtil.tratHuawei(ret, "dsl", 2);
             List<String> line = TratativaRetornoUtil.listStringFromStringByRegexGroup(
                     s,
                     "\\w{4}[-|:|.]\\w{4}[-|:|.]\\w{4}");

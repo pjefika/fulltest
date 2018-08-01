@@ -6,6 +6,8 @@
 package dao.dslam.impl.gpon.alcatel;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FalhaAoConsultarException;
+import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EnumEstadoVlan;
@@ -24,10 +26,9 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
+import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
-import dao.dslam.factory.exception.FalhaAoConsultarException;
-import dao.dslam.factory.exception.FuncIndisponivelDslamException;
 import dao.dslam.impl.gpon.DslamGponVivo1;
 import dao.dslam.impl.login.Login1023ComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
@@ -263,10 +264,10 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     @Override
-    public TabelaParametrosGpon getTabelaParametros(InventarioRede i) throws Exception {
+    public TabelaParametrosGponVivo1 getTabelaParametros(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetTabelaParametros(i));
         List<String> retorno = cmd.getRetorno();
-        TabelaParametrosGpon t = new TabelaParametrosGpon();
+        TabelaParametrosGponVivo1 t = new TabelaParametrosGponVivo1();
         t.addInteracao(cmd);
         if (cmd.getBlob().contains("ONT_RX_SIG")) {
             String[] ont = TratativaRetornoUtil.trat7342Virgula(retorno, "ONT_RX_SIG");

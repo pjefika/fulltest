@@ -5,10 +5,16 @@
  */
 package model.service;
 
+import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+
 /**
  *
  * @author G0041775
  */
 public interface ConfigGetterService {
+
+    public Boolean isManageable() throws Exception;
+
+    public ValidacaoResult validadorParametros() throws Exception;
 
 }

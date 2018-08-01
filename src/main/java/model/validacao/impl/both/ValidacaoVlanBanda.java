@@ -24,12 +24,12 @@ public class ValidacaoVlanBanda extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Vlan de Banda configurado corretamente.";
+        return bundle.getString("validacaoVlan_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Vlan de Banda configurado incorretamente.";
+        return bundle.getString("validacaoVlan_nok");
     }
 
 }

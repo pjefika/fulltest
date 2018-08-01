@@ -5,7 +5,7 @@
  */
 package dao.dslam.factory;
 
-import dao.dslam.factory.exception.DslamNaoImplException;
+import br.net.gvt.efika.fulltest.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.gpon.alcatel.Alcatel7302GponDslamVivo1;
 import dao.dslam.impl.gpon.alcatel.Alcatel7342GponDslamVivo1;

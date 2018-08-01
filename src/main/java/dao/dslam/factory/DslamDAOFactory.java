@@ -6,8 +6,10 @@
 package dao.dslam.factory;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
-import dao.dslam.factory.exception.DslamNaoImplException;
-import dao.dslam.factory.exception.FalhaInventarioRedeException;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
+import br.net.gvt.efika.fulltest.exception.DslamNaoImplException;
+import br.net.gvt.efika.fulltest.exception.FalhaInventarioRedeException;
+import br.net.gvt.efika.fulltest.exception.InventarioRedeIncompletoException;
 import dao.dslam.impl.AbstractDslam;
 
 /**
@@ -26,11 +28,11 @@ public class DslamDAOFactory {
 
     public static AbstractDslam getInstance(InventarioRede r) throws Exception {
         validar(r);
-        try {
+        if (r.getTipo() == TipoRede.GPON) {
             return DslamGponDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
-        } catch (DslamNaoImplException e) {
-            return DslamMetalicoDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
         }
+        return DslamMetalicoDAOFactory.getInstance(r.getModeloDslam(), r.getIpDslam());
+
     }
 
     public static void validar(InventarioRede rede) throws Exception {
@@ -38,7 +40,7 @@ public class DslamDAOFactory {
             throw new FalhaInventarioRedeException();
         } else {
             if (rede.getIpDslam() == null || rede.getModeloDslam() == null) {
-                throw new FalhaInventarioRedeException();
+                throw new InventarioRedeIncompletoException();
             }
         }
     }

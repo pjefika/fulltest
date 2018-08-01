@@ -5,12 +5,12 @@
  */
 package dao.dslam.impl.login;
 
+import br.net.gvt.efika.fulltest.exception.FalhaJumpAccessEsception;
+import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import dao.dslam.impl.Conector;
 import dao.dslam.impl.ConsultaDslamVivo1;
-import exception.FalhaJumpAccessEsception;
-import exception.SemGerenciaException;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;

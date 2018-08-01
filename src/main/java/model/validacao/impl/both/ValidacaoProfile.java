@@ -21,12 +21,12 @@ public class ValidacaoProfile extends ValidacaoValidavel {
 
     @Override
     protected String frasePositiva() {
-        return "Profile configurado corretamente.";
+        return bundle.getString("validacaoProfile_ok");
     }
 
     @Override
     protected String fraseNegativa() {
-        return "Profile divergente da velocidade contratada.";
+        return bundle.getString("validacaoProfile_nok");
     }
 
 }
