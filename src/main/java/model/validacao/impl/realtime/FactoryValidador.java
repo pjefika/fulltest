@@ -49,7 +49,7 @@ public class FactoryValidador {
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
         bateria.add(new CorretorVlanVoip(dslam, cust, local));
         bateria.add(new CorretorVlanVod(dslam, cust, local));
-        bateria.add(new CorretorVlanMulticast(dslam, cust, local));
+     //   bateria.add(new CorretorVlanMulticast(dslam, cust, local));
         bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
 
         return bateria;
@@ -77,7 +77,7 @@ public class FactoryValidador {
         bateria.add(new CorretorVlanBanda(dslam, cust, local));
         bateria.add(new CorretorVlanVoip(dslam, cust, local));
         bateria.add(new CorretorVlanVod(dslam, cust, local));
-        bateria.add(new CorretorVlanMulticast(dslam, cust, local));
+    //    bateria.add(new CorretorVlanMulticast(dslam, cust, local));
         bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
 
         return bateria;
