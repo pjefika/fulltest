@@ -67,25 +67,28 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
 
         tabelaRede = new TabelaRedeMetalico();
         tabelaRede.addInteracao(cmd);
-        
-        tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
-        tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
-        tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
-        tabelaRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
-        tabelaRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
-        tabelaRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
-        tabelaRede.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
-        String[] tempoContando = TratativaRetornoUtil.tratKeymile(lTabs, "Value", 2).replace("T", " ").split(" ");
-        BigInteger daysToSecs = new BigInteger(tempoContando[0]).multiply(new BigInteger("86400"));
-        String[] separaTempo = tempoContando[1].split(":");
-        BigInteger hoursToSecs = new BigInteger(separaTempo[0]).multiply(new BigInteger("3600"));
-        BigInteger minutesToSecs = new BigInteger(separaTempo[1]).multiply(new BigInteger("60"));
-        BigInteger secs = new BigInteger(separaTempo[2]);
+        try {
+            tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
+            tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
+            tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
+            tabelaRede.setCrcUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 26)));
+            tabelaRede.setFecDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 18)));
+            tabelaRede.setFecUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 25)));
+            tabelaRede.setResync(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 24)));
+            String[] tempoContando = TratativaRetornoUtil.tratKeymile(lTabs, "Value", 2).replace("T", " ").split(" ");
+            BigInteger daysToSecs = new BigInteger(tempoContando[0]).multiply(new BigInteger("86400"));
+            String[] separaTempo = tempoContando[1].split(":");
+            BigInteger hoursToSecs = new BigInteger(separaTempo[0]).multiply(new BigInteger("3600"));
+            BigInteger minutesToSecs = new BigInteger(separaTempo[1]).multiply(new BigInteger("60"));
+            BigInteger secs = new BigInteger(separaTempo[2]);
 
-        daysToSecs.add(hoursToSecs);
-        daysToSecs.add(minutesToSecs);
-        daysToSecs.add(secs);
-        tabelaRede.setTempoMedicao(daysToSecs);
+            daysToSecs.add(hoursToSecs);
+            daysToSecs.add(minutesToSecs);
+            daysToSecs.add(secs);
+            tabelaRede.setTempoMedicao(daysToSecs);
+        } catch (Exception e) {
+            
+        }
 
         return tabelaRede;
     }
@@ -175,7 +178,7 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     protected ComandoDslam getTabRede(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm/usercountertable", 3000);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm/usercountertable", 4500);
     }
 
     protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {
