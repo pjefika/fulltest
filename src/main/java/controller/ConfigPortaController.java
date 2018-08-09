@@ -478,14 +478,13 @@ public class ConfigPortaController extends RestJaxAbstract {
             ConfigSetterService config = FactoryService.createConfigSetterService(in.getCust());
             ValidacaoResult result = config.corretorVlanVoIP();
             log.setSaida(result);
-            r = ok(result);
+            return ok(result);
         } catch (Exception e) {
-            r = serverError(e);
             log.setSaida(e.getMessage());
+            return serverError(e);
         } finally {
             FactoryDAO.createLogEntityDAO().save(log);
         }
-        return r;
     }
 
     @POST

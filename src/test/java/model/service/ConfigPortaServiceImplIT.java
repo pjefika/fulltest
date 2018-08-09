@@ -37,7 +37,7 @@ public class ConfigPortaServiceImplIT {
     public static void tearDownClass() {
     }
 
-    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("4130157784");
+    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("BHE-811OZ6Y6QU-013");
 
      ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
 
@@ -128,12 +128,8 @@ public class ConfigPortaServiceImplIT {
     @Test
     public void testSetterVlanVoip() throws Exception {
         System.out.println("setterVlanVoip");
-        ConfigPortaServiceImpl instance = null;
-        ValidacaoResult expResult = null;
         ValidacaoResult result = instance.setterVlanVoip();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("");
     }
 
     /**

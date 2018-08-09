@@ -66,11 +66,11 @@ public abstract class Corretor extends Validador {
                 }
             }
         } catch (Exception ex) {
-            if (ex instanceof CorrecaoInterruptoraException) {
+//            if (ex instanceof CorrecaoInterruptoraException) {
                 throw ex;
-            }
-            ex.printStackTrace();
-            return null;
+//            }
+//            ex.printStackTrace();
+//            return null;
         }
     }
 
