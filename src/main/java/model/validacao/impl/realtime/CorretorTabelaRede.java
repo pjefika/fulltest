@@ -7,6 +7,7 @@ package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.exception.FalhaAoCorrigirException;
+import br.net.gvt.efika.fulltest.model.telecom.properties.metalico.TabelaRedeMetalico;
 import dao.dslam.impl.AbstractDslam;
 import java.util.Locale;
 import model.validacao.impl.both.Validacao;
@@ -22,13 +23,22 @@ public class CorretorTabelaRede extends CorretorMetalico {
         super(dslam, cust, local);
     }
 
+    private transient String fraseOk = "Tabela de Rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
+    private transient String fraseNok = "Não foi possível resetar a Tabela de Rede.";
+
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            getPreresults().add(am.resetTabelaRede(cust.getRede()));
-            ValidacaoTabelaRede v = (ValidacaoTabelaRede) this.consultar();
-            v.validar();
-            this.setValid(v);
+            ValidacaoTabelaRede atual = (ValidacaoTabelaRede) this.getValid();
+            TabelaRedeMetalico tab = (TabelaRedeMetalico) atual.getObject();
+            if (tab.isPctSuficiente()) {
+                getPreresults().add(am.resetTabelaRede(cust.getRede()));
+                ValidacaoTabelaRede v = (ValidacaoTabelaRede) this.consultar();
+                v.validar();
+                this.setValid(v);
+            }else{
+                fraseOk = atual.getMensagem();
+            }
         } catch (Exception ex) {
             throw new FalhaAoCorrigirException();
         }
@@ -36,12 +46,12 @@ public class CorretorTabelaRede extends CorretorMetalico {
 
     @Override
     protected String fraseCorrecaoOk() {
-        return "Tabela de Rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
+        return fraseOk;
     }
 
     @Override
     protected String fraseFalhaCorrecao() {
-        return "Não foi possível resetar a Tabela de Rede.";
+        return fraseNok;
     }
 
     @Override
