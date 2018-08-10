@@ -23,7 +23,7 @@ public class CorretorTabelaRede extends CorretorMetalico {
         super(dslam, cust, local);
     }
 
-    private transient String fraseOk = "Tabela de Rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
+    private transient String fraseOk = "Perda de pacotes acima do aceitável, tabela de rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
     private transient String fraseNok = "Não foi possível resetar a Tabela de Rede.";
 
     @Override
