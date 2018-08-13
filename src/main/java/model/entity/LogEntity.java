@@ -21,9 +21,9 @@ import org.mongodb.morphia.annotations.Id;
 @Entity("fulltest")
 public class LogEntity extends AbstractMongoEntity {
 
-    @Id
-    @JsonSerialize(using = ToStringSerializer.class)
-    private ObjectId id;
+//    @Id
+//    @JsonSerialize(using = ToStringSerializer.class)
+//    private ObjectId id;
 
     private Object entrada;
 

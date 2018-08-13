@@ -26,6 +26,7 @@ import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -82,15 +83,27 @@ public class FullTestController extends RestJaxAbstract {
     public Response co(FulltestCOIn cs) throws Exception {
         LogEntity log = cs.create();
         try {
-            FullTestInterface v = new FullTestCOFacade();
-            FullTest res = v.executar(cs.getCust());
-            log.setSaida(res);
-            return ok(res);
+//            FullTestInterface v = new FullTestCOFacade();
+//            FullTest res = v.executar(cs.getCust());
+//            log.setSaida(res);
+            FactoryDAO.createLogEntityDAO().save(log);
+            return ok(log);
         } catch (Exception e) {
             log.setSaida(e.getMessage());
-            return serverError(e);
-        } finally {
             FactoryDAO.createLogEntityDAO().save(log);
+            return serverError(e);
+        }
+    }
+
+    @GET
+    @Path("/findById/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) throws Exception {
+        try {
+            LogEntity r = FactoryDAO.createLogEntityDAO().read(new ObjectId(id));
+            return ok(r);
+        } catch (Exception e) {
+            return serverError(e);
         }
     }
 
