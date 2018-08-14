@@ -94,6 +94,7 @@ public class ConfigDslamServiceImpl extends ConfigGenericService implements Conf
         try {
             return this.exec(new ValidadorTabelaRede(getDslam(), getEc(), local));
         } catch (Exception e) {
+            e.printStackTrace();
             throw TratativaExcessao.treatException(e);
         }
 

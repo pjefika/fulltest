@@ -6,11 +6,15 @@
 package controller;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.thread.EfikaThread;
 import controller.in.FulltestCOIn;
 import controller.in.FulltestCRMIn;
 import controller.in.FulltestManobraIn;
 import dao.FactoryDAO;
 import dao.customer.CustomerDAO;
+import dao.log.LogEntityDAO;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -21,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.fulltest.operacional.FullTest;
+import model.fulltest.operacional.FulltestRunnable;
 import model.fulltest.operacional.facade.FactoryFulltest;
 import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
@@ -34,6 +39,8 @@ import org.bson.types.ObjectId;
  */
 @Path("/fulltest")
 public class FullTestController extends RestJaxAbstract {
+
+    LogEntityDAO logDao = FactoryDAO.createLogEntityDAO();
 
     @POST
     @Path("/manobra")
@@ -82,15 +89,31 @@ public class FullTestController extends RestJaxAbstract {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response co(FulltestCOIn cs) throws Exception {
         LogEntity log = cs.create();
+        FactoryDAO.createLogEntityDAO().save(log);
+
         try {
-//            FullTestInterface v = new FullTestCOFacade();
-//            FullTest res = v.executar(cs.getCust());
-//            log.setSaida(res);
-            FactoryDAO.createLogEntityDAO().save(log);
+            new EfikaThread(new FulltestRunnable(log) {
+                @Override
+                public void run() {
+                    try {
+                        EfikaCustomer cust = (EfikaCustomer) log.getEntrada();
+                        FullTestInterface v = new FullTestCOFacade();
+                        FullTest res = v.executar(cust);
+                        log.setSaida(res);
+                    } catch (Exception e) {
+                        log.setSaida(e.getMessage());
+                    } finally {
+                        try {
+                            logDao.update(log, logDao.createUpdateOperations().set("saida", log.getSaida()));
+                        } catch (Exception ex) {
+                            Logger.getLogger(FullTestController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
+            });
             return ok(log);
         } catch (Exception e) {
-            log.setSaida(e.getMessage());
-            FactoryDAO.createLogEntityDAO().save(log);
+            logDao.update(log, logDao.createUpdateOperations().set("saida", e.getMessage()));
             return serverError(e);
         }
     }
