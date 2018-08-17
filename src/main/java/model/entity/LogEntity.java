@@ -6,13 +6,9 @@
 package model.entity;
 
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import java.util.Calendar;
 import model.log.AcaoEnum;
-import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
 
 /**
  *
@@ -24,7 +20,6 @@ public class LogEntity extends AbstractMongoEntity {
 //    @Id
 //    @JsonSerialize(using = ToStringSerializer.class)
 //    private ObjectId id;
-
     private Object entrada;
 
     private Object saida;

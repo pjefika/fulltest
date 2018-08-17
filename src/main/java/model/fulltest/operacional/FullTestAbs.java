@@ -5,24 +5,23 @@
  */
 package model.fulltest.operacional;
 
+import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.Calendar;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import model.entity.AbstractEntity;
+import org.mongodb.morphia.annotations.Entity;
 
 /**
  *
  * @author G0042204
  */
-@MappedSuperclass
-public abstract class FullTestAbs extends AbstractEntity {
+@Entity("fulltest_temp")
+public abstract class FullTestAbs extends AbstractMongoEntity {
 
     protected Boolean resultado;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+//    @Temporal(javax.persistence.TemporalType.DATE)
     protected Calendar dataInicio;
 
-    @Temporal(javax.persistence.TemporalType.DATE)
+//    @Temporal(javax.persistence.TemporalType.DATE)
     protected Calendar dataFim;
 
     protected String mensagem;

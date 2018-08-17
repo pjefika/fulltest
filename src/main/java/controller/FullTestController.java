@@ -13,6 +13,7 @@ import controller.in.FulltestManobraIn;
 import dao.FactoryDAO;
 import dao.customer.CustomerDAO;
 import dao.log.LogEntityDAO;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
@@ -24,6 +25,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
+import model.fulltest.operacional.FactoryRunnable;
 import model.fulltest.operacional.FullTest;
 import model.fulltest.operacional.FulltestRunnable;
 import model.fulltest.operacional.facade.FactoryFulltest;
@@ -40,7 +42,7 @@ import org.bson.types.ObjectId;
 @Path("/fulltest")
 public class FullTestController extends RestJaxAbstract {
 
-    LogEntityDAO logDao = FactoryDAO.createLogEntityDAO();
+    private LogEntityDAO logDao = FactoryDAO.createLogEntityDAO();
 
     @POST
     @Path("/manobra")
@@ -89,28 +91,9 @@ public class FullTestController extends RestJaxAbstract {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response co(FulltestCOIn cs) throws Exception {
         LogEntity log = cs.create();
-        FactoryDAO.createLogEntityDAO().save(log);
-
+        logDao.save(log);
         try {
-            new EfikaThread(new FulltestRunnable(log) {
-                @Override
-                public void run() {
-                    try {
-                        EfikaCustomer cust = (EfikaCustomer) log.getEntrada();
-                        FullTestInterface v = new FullTestCOFacade();
-                        FullTest res = v.executar(cust);
-                        log.setSaida(res);
-                    } catch (Exception e) {
-                        log.setSaida(e.getMessage());
-                    } finally {
-                        try {
-                            logDao.update(log, logDao.createUpdateOperations().set("saida", log.getSaida()));
-                        } catch (Exception ex) {
-                            Logger.getLogger(FullTestController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            });
+            new EfikaThread(FactoryRunnable.coRunnable(log));
             return ok(log);
         } catch (Exception e) {
             logDao.update(log, logDao.createUpdateOperations().set("saida", e.getMessage()));

@@ -9,8 +9,10 @@ import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.ValidavelAbs;
+import dao.FactoryDAO;
 import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.ConsultaClienteInter;
+import dao.log.ValidacaoEntityDAO;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import model.validacao.impl.both.Validacao;
@@ -33,6 +35,10 @@ public abstract class Validador extends ValidFlow implements Validator {
 
     protected Locale locale;
 
+    protected ValidacaoResult result;
+
+    protected ValidacaoEntityDAO validDao = FactoryDAO.createValidacaoDAO();
+
     public Validador(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         this.dslam = dslam;
         this.cust = cust;
@@ -50,7 +56,8 @@ public abstract class Validador extends ValidFlow implements Validator {
         iniciar();
         this.valid = consultar();
         processar();
-        return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject(), null);
+        result = new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), this.getObject(), null);
+        return result;
     }
 
     @Override
@@ -73,7 +80,8 @@ public abstract class Validador extends ValidFlow implements Validator {
     }
 
     protected ValidacaoResult finalizar(String mensagem, Boolean resultado) {
-        return new ValidacaoResult(valid.getNome(), valid.getNome(), valid.getResultado(), Boolean.FALSE);
+        result = new ValidacaoResult(valid.getNome(), valid.getNome(), valid.getResultado(), Boolean.FALSE);
+        return result;
     }
 
     protected abstract Validacao consultar() throws Exception;
@@ -100,6 +108,14 @@ public abstract class Validador extends ValidFlow implements Validator {
 
     public void setCust(EfikaCustomer cust) {
         this.cust = cust;
+    }
+
+    public ValidacaoResult getResult() {
+        return result;
+    }
+
+    public void setResult(ValidacaoResult result) {
+        this.result = result;
     }
 
 }

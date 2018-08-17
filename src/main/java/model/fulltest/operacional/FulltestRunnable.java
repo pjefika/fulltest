@@ -5,6 +5,8 @@
  */
 package model.fulltest.operacional;
 
+import dao.FactoryDAO;
+import dao.log.LogEntityDAO;
 import model.entity.LogEntity;
 
 /**
@@ -13,7 +15,9 @@ import model.entity.LogEntity;
  */
 public abstract class FulltestRunnable implements Runnable {
 
-    private LogEntity logzin;
+    protected LogEntity logzin;
+
+    private LogEntityDAO logDao;
 
     public FulltestRunnable(LogEntity logzin) {
         this.logzin = logzin;
@@ -25,6 +29,13 @@ public abstract class FulltestRunnable implements Runnable {
 
     public void setLogzin(LogEntity logzin) {
         this.logzin = logzin;
+    }
+
+    public LogEntityDAO getLogDao() {
+        if (logDao == null) {
+            logDao = FactoryDAO.createLogEntityDAO();
+        }
+        return logDao;
     }
 
 }
