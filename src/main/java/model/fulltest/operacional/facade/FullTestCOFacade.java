@@ -16,6 +16,13 @@ import model.validacao.impl.realtime.FactoryValidador;
  */
 public class FullTestCOFacade extends FullTestGenericFacade implements FullTestInterface {
 
+    public FullTestCOFacade() {
+    }
+
+    public FullTestCOFacade(String owner) {
+        super(owner);
+    }
+
     @Override
     public FullTest executar(EfikaCustomer cl) throws Exception {
         super.exec(cl);
@@ -28,6 +35,5 @@ public class FullTestCOFacade extends FullTestGenericFacade implements FullTestI
         this.exec = FactoryExecutionStrategy.forced();
         this.setBateria(FactoryValidador.co(dslam, cl));
     }
-
 
 }

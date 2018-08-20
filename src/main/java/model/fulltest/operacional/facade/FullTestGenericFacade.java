@@ -25,6 +25,8 @@ import model.validacao.impl.realtime.Validator;
  */
 public abstract class FullTestGenericFacade extends FulltestExecution {
 
+    private String owner;
+
     protected EfikaCustomer cl;
 
     private List<Validator> bateria;
@@ -42,6 +44,10 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     protected AbstractDslam dslam;
 
     protected ExecutionStrategy exec;
+
+    public FullTestGenericFacade(String owner) {
+        this.owner = owner;
+    }
 
     public FullTestGenericFacade() {
     }
@@ -165,6 +171,14 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     public void setExec(ExecutionStrategy exec) {
         this.exec = exec;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
 }

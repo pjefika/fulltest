@@ -6,7 +6,6 @@
 package model.fulltest.operacional;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import controller.FullTestController;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +23,7 @@ public class RunnableCO extends FulltestRunnable {
     public void run() {
         try {
             EfikaCustomer cust = (EfikaCustomer) logzin.getEntrada();
-            FullTestInterface v = new FullTestCOFacade();
+            FullTestInterface v = new FullTestCOFacade(logzin.getId().toString());
             FullTest res = v.executar(cust);
             logzin.setSaida(res);
         } catch (Exception e) {
