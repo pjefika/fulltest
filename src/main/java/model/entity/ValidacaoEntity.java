@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.validacao.impl.both;
+package model.entity;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -18,6 +18,8 @@ import org.mongodb.morphia.annotations.Entity;
 @Entity("validacao")
 public class ValidacaoEntity extends AbstractMongoEntity {
 
+    private String owner, nome;
+
     private ValidacaoResult valid;
 
     private EfikaCustomer cust;
@@ -27,6 +29,10 @@ public class ValidacaoEntity extends AbstractMongoEntity {
     private Date dataFim;
 
     public ValidacaoEntity() {
+    }
+
+    public ValidacaoEntity(String owner) {
+        this.owner = owner;
     }
 
     public ValidacaoResult getValid() {
@@ -59,6 +65,22 @@ public class ValidacaoEntity extends AbstractMongoEntity {
 
     public void setDataFim(Date dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 }
