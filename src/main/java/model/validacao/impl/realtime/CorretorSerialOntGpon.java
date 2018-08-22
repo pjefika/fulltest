@@ -24,6 +24,7 @@ public class CorretorSerialOntGpon extends CorretorGpon {
     
     public CorretorSerialOntGpon(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Associação ONT à OLT";
     }
     
     @Override

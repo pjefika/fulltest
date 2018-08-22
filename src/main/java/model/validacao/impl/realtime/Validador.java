@@ -39,6 +39,8 @@ public abstract class Validador extends ValidFlow implements Validator {
 
     protected ValidacaoEntityDAO validDao = FactoryDAO.createValidacaoDAO();
 
+    protected String nome;
+
     public Validador(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         this.dslam = dslam;
         this.cust = cust;
@@ -116,6 +118,14 @@ public abstract class Validador extends ValidFlow implements Validator {
 
     public void setResult(ValidacaoResult result) {
         this.result = result;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 }

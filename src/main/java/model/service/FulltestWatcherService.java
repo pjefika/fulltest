@@ -10,6 +10,7 @@ import java.util.List;
 import model.entity.LogEntity;
 import model.entity.ValidacaoEntity;
 import model.fulltest.operacional.FullTest;
+import model.log.ValidacaoEntityOperator;
 import org.bson.types.ObjectId;
 
 public class FulltestWatcherService implements EntityWatcherService<FullTest> {
@@ -20,12 +21,12 @@ public class FulltestWatcherService implements EntityWatcherService<FullTest> {
         if (r.getSaida() != null) {
             return (FullTest) r.getSaida();
         }
-        List<ValidacaoEntity> vs = FactoryDAO.createValidacaoDAO().findByOwner(id);
+        List<ValidacaoEntity> vs = ValidacaoEntityOperator.find(id);
         FullTest ft = new FullTest();
         vs.forEach((t) -> {
             ft.getValids().add(t.getValid());
         });
-        ft.setMensagem("Executando " + vs.get(vs.size() - 1).getNome());
+        ft.setMensagem("Verificando " + vs.get(vs.size() - 1).getNome());
         return ft;
     }
 

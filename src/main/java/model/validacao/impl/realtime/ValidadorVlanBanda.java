@@ -19,6 +19,7 @@ public class ValidadorVlanBanda extends Validador {
 
     public ValidadorVlanBanda(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan de Banda";
     }
 
     @Override

@@ -19,6 +19,7 @@ public class ValidadorProfile extends Validador {
 
     public ValidadorProfile(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Perfil de Velocidade";
     }
 
     @Override

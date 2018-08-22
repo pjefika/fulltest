@@ -21,6 +21,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,7 +43,7 @@ public class AlcatelGponDslamTest {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("3136691162");
+    private static EfikaCustomer cust = CustomerMock.getCustomer("5130608116");
     private static AlcatelGponDslam instance = new AlcatelGponDslam(cust.getRede().getIpDslam());
     private static InventarioRede i = cust.getRede();
 
@@ -144,6 +145,7 @@ public class AlcatelGponDslamTest {
 
         try {
             VlanBanda result = instance.getVlanBanda(i);
+            System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
             assertTrue(result.getCvlan() != null);
         } catch (Exception e) {
             fail(e.getMessage());

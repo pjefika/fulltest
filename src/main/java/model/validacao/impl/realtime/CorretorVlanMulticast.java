@@ -23,6 +23,7 @@ public class CorretorVlanMulticast extends Corretor {
 
     public CorretorVlanMulticast(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan Multicast";
     }
 
     @Override

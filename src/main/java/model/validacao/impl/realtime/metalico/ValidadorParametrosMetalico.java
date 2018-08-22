@@ -21,6 +21,7 @@ public class ValidadorParametrosMetalico extends ValidadorMetalico {
 
     public ValidadorParametrosMetalico(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Parâmetros de Sincronismo";
     }
 
     @Override

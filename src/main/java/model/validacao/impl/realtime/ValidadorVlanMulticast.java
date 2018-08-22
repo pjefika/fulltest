@@ -22,6 +22,7 @@ public class ValidadorVlanMulticast extends Validador {
 
     public ValidadorVlanMulticast(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan de Multicast";
     }
 
     @Override

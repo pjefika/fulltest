@@ -20,6 +20,7 @@ public class ValidadorAlarmes extends ValidadorGpon {
 
     public ValidadorAlarmes(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Alarme";
     }
 
     @Override

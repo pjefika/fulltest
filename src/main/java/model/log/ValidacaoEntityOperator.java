@@ -24,7 +24,7 @@ public class ValidacaoEntityOperator {
     public static ValidacaoEntity start(Validador valid, String owner) throws Exception {
         ValidacaoEntity v = new ValidacaoEntity(owner);
         v.setDataInicio(Calendar.getInstance().getTime());
-        v.setNome(valid.getClass().getSimpleName());
+        v.setNome(valid.getNome());
         v.setCust(valid.getCust());
         dao.save(v);
         return v;

@@ -24,6 +24,7 @@ public class CorretorEstadoAdmPorta extends Corretor {
 
     public CorretorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Estado Adm da Porta";
     }
 
     @Override

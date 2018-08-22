@@ -21,6 +21,7 @@ public class CorretorModulacao extends CorretorMetalico {
 
     public CorretorModulacao(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Modulação";
     }
 
     @Override

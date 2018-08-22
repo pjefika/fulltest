@@ -19,6 +19,7 @@ public class ValidadorTabelaRede extends ValidadorMetalico {
 
     public ValidadorTabelaRede(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Confiabilidade de Rede";
     }
 
     @Override

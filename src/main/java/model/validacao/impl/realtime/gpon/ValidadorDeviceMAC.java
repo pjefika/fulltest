@@ -20,6 +20,7 @@ public class ValidadorDeviceMAC extends Validador {
 
     public ValidadorDeviceMAC(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "MAC do Equipamento";
     }
 
     @Override

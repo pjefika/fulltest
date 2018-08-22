@@ -21,6 +21,7 @@ public class CorretorVlanBanda extends Corretor {
 
     public CorretorVlanBanda(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan Banda";
     }
 
     @Override

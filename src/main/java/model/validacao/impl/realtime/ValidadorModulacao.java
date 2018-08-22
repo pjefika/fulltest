@@ -19,6 +19,7 @@ public class ValidadorModulacao extends ValidadorMetalico {
 
     public ValidadorModulacao(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Modulação";
     }
 
     @Override

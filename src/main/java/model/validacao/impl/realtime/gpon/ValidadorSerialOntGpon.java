@@ -20,6 +20,7 @@ public class ValidadorSerialOntGpon extends ValidadorGpon {
 
     public ValidadorSerialOntGpon(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Associação ONT à OLT";
     }
 
     @Override

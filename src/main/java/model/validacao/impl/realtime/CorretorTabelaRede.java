@@ -21,6 +21,7 @@ public class CorretorTabelaRede extends CorretorMetalico {
 
     public CorretorTabelaRede(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Confiabilidade de Rede";
     }
 
     private transient String fraseOk = "Perda de pacotes acima do aceitável, tabela de rede resetada. Consulte a confiabilidade da rede após a execução de um teste de velocidade.";
