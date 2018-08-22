@@ -10,6 +10,7 @@ import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
+import model.fulltest.operacional.FullTest;
 
 /**
  *
@@ -60,6 +61,10 @@ public class FactoryService {
 
     public static ConfigPortaService<ConfiguracaoPorta> create(EfikaCustomer ec) {
         return new ConfigPortaServiceImpl(ec);
+    }
+
+    public static EntityWatcherService<FullTest> createEntityWatcherService() {
+        return new FulltestWatcherService();
     }
 
 }

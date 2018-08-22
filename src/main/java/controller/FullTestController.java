@@ -13,9 +13,6 @@ import controller.in.FulltestManobraIn;
 import dao.FactoryDAO;
 import dao.customer.CustomerDAO;
 import dao.log.LogEntityDAO;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -27,12 +24,11 @@ import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.fulltest.operacional.FactoryRunnable;
 import model.fulltest.operacional.FullTest;
-import model.fulltest.operacional.FulltestRunnable;
 import model.fulltest.operacional.facade.FactoryFulltest;
-import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
+import model.service.FactoryService;
 import org.bson.types.ObjectId;
 
 /**
@@ -106,7 +102,7 @@ public class FullTestController extends RestJaxAbstract {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") String id) throws Exception {
         try {
-            LogEntity r = FactoryDAO.createLogEntityDAO().read(new ObjectId(id));
+            FullTest r = FactoryService.createEntityWatcherService().mountById(id);
             return ok(r);
         } catch (Exception e) {
             return serverError(e);
