@@ -9,7 +9,7 @@ import dao.FactoryDAO;
 import java.util.List;
 import model.entity.LogEntity;
 import model.entity.ValidacaoEntity;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.log.ValidacaoEntityOperator;
 import org.bson.types.ObjectId;
 
@@ -23,6 +23,7 @@ public class FulltestWatcherService implements EntityWatcherService<FullTest> {
         }
         List<ValidacaoEntity> vs = ValidacaoEntityOperator.find(id);
         FullTest ft = new FullTest();
+        ft.setOwner(id);
         vs.forEach((t) -> {
             ft.getValids().add(t.getValid());
         });

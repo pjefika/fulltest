@@ -10,7 +10,7 @@ import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoOLT;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 
 /**
  *

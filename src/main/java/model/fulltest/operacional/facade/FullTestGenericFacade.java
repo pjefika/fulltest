@@ -12,7 +12,7 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;

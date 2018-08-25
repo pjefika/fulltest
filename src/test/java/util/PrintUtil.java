@@ -5,7 +5,7 @@
  */
 package util;
 
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 
 /**
  *

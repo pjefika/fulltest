@@ -211,6 +211,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         try {
             return exec(new CorretorProfile(getDslam(), getEc(), local));
         } catch (Exception e) {
+            e.printStackTrace();
             throw TratativaExcessao.treatException(e);
         }
     }

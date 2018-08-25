@@ -23,13 +23,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
 import model.fulltest.operacional.FactoryRunnable;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.facade.FactoryFulltest;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 import model.service.FactoryService;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -37,9 +36,9 @@ import org.bson.types.ObjectId;
  */
 @Path("/fulltest")
 public class FullTestController extends RestJaxAbstract {
-
+    
     private LogEntityDAO logDao = FactoryDAO.createLogEntityDAO();
-
+    
     @POST
     @Path("/manobra")
     @Produces(MediaType.APPLICATION_JSON)
@@ -61,7 +60,7 @@ public class FullTestController extends RestJaxAbstract {
             }
         }
     }
-
+    
     @POST
     @Path("/crm")
     @Produces(MediaType.APPLICATION_JSON)
@@ -80,7 +79,7 @@ public class FullTestController extends RestJaxAbstract {
             FactoryDAO.createLogEntityDAO().save(log);
         }
     }
-
+    
     @POST
     @Path("/co")
     @Produces(MediaType.APPLICATION_JSON)
@@ -90,13 +89,13 @@ public class FullTestController extends RestJaxAbstract {
         logDao.save(log);
         try {
             new EfikaThread(FactoryRunnable.coRunnable(log));
-            return ok(log);
+            return ok(new FullTest(log.getId().toString()));
         } catch (Exception e) {
             logDao.update(log, logDao.createUpdateOperations().set("saida", e.getMessage()));
             return serverError(e);
         }
     }
-
+    
     @GET
     @Path("/findById/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -108,7 +107,7 @@ public class FullTestController extends RestJaxAbstract {
             return serverError(e);
         }
     }
-
+    
     @GET
     @Path("/{instancia}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -121,5 +120,5 @@ public class FullTestController extends RestJaxAbstract {
             return serverError(e);
         }
     }
-
+    
 }

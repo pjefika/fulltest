@@ -7,7 +7,7 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import model.fulltest.operacional.CustomerMock;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;

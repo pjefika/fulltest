@@ -8,7 +8,7 @@ package model.fulltest.operacional.facade;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 
 /**
  *
