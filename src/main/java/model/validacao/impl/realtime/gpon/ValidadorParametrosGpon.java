@@ -20,6 +20,7 @@ public class ValidadorParametrosGpon extends ValidadorGpon {
 
     public ValidadorParametrosGpon(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Potência Ótica";
     }
 
     @Override

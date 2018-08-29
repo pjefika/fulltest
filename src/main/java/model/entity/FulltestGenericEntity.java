@@ -10,7 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.persistence.Table;
-import model.fulltest.operacional.FullTestAbs;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTestAbs;
 
 /**
  *

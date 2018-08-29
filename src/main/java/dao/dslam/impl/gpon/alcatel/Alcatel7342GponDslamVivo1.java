@@ -25,7 +25,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoipVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
@@ -78,11 +77,11 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPrepareEnvironment() {
-        return new ComandoDslam("INH-MSG-ALL::ALL:010;", 3000);
+        return new ComandoDslam("INH-MSG-ALL::ALL:010;", 5000);
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("RTRV-PON::PON-1-1-" + i.getSlot() + "-" + i.getPorta() + "::;", 5000);
+        return new ComandoDslam("RTRV-PON::PON-1-1-" + i.getSlot() + "-" + i.getPorta() + "::;", 8000);
     }
 
     @Override
@@ -146,7 +145,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":;", 5000);
+        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":;", 8000);
     }
 
     @Override
@@ -179,7 +178,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetProfile(InventarioRede i) {
-        return new ComandoDslam("RTRV-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;", 3500);
+        return new ComandoDslam("RTRV-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;", 8000);
     }
 
     @Override
@@ -200,7 +199,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam getComandoGetVlan(InventarioRede i, Integer qual) {
         return new ComandoDslam("RTRV-ONTENET::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "::;"
-                + "RTRV-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-" + qual + "::;", 5000);
+                + "RTRV-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-" + qual + "::;", 8000);
     }
 
     @Override
@@ -260,7 +259,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetTabelaParametros(InventarioRede i) {
-        return new ComandoDslam("REPT-OPSTAT-OPTICS::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ";", 3500);
+        return new ComandoDslam("REPT-OPSTAT-OPTICS::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ";", 8000);
     }
 
     @Override
@@ -349,7 +348,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam getComandoSetEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
         String state = e.getAdminState() ? "IS" : "OOS";
-        return new ComandoDslam("ED-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":::::" + state + ";", 3000);
+        return new ComandoDslam("ED-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":::::" + state + ";", 5000);
     }
 
     @Override
@@ -381,13 +380,13 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
                     + "ENT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::10_100BASET::IS;"
                     + "ENT-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1::::AUTODETECT=AUTO,CVLANDEF=" + i.getCvlan() + ",SESSPROFID=12,MAXMACNUM=8:IS;"
                     + "ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::::SVLAN=0,BWPROFUPID=14,BWPROFDNID=14:IS;"
-                    + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=10,NETWORKSIDEVLAN=" + i.getCvlan() + ",NUMTAGS=SINGLE:IS;", 8000);
+                    + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=10,NETWORKSIDEVLAN=" + i.getCvlan() + ",NUMTAGS=SINGLE:IS;", 12000);
         }
         return new ComandoDslam("ENT-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "::::BTRYBKUP=NO,BERINT=8000,DESC1=" + i.getTerminal() + ",DESC2=NULL,PROVVERSION=*,SERNUM=ALCL00000000,SUBSLOCID=" + i.getIdOnt() + ",SWVERPLND=AUTO,DLSW=AUTO:OOS;"
                 + "ENT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::10_100BASET::IS;"
                 + "ENT-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1::::AUTODETECT=AUTO,CVLANDEF=" + i.getCvlan() + ",SESSPROFID=7,MAXMACNUM=8:IS;"
                 + "ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::::SVLAN=0,BWPROFDNID=43,BWPROFUPID=43;"
-                + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=65535,NETWORKSIDEVLAN=" + i.getCvlan() + ",BWPROFUPID=,BWPROFUPNM=,BWPROFDNID=,BWPROFDNNM=,PQPROFNM=,AESENABLE=DISABLE,LABEL=,CUSTOMERID=,NUMTAGS=SINGLE,PBITXLPROFID=,PBITXLPROFNM=:IS;", 8000);
+                + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=65535,NETWORKSIDEVLAN=" + i.getCvlan() + ",BWPROFUPID=,BWPROFUPNM=,BWPROFDNID=,BWPROFDNNM=,PQPROFNM=,AESENABLE=DISABLE,LABEL=,CUSTOMERID=,NUMTAGS=SINGLE,PBITXLPROFID=,PBITXLPROFNM=:IS;", 12000);
 
     }
 
@@ -402,7 +401,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     protected ComandoDslam getComandoCreateVlanVoIP(InventarioRede i) {
         return new ComandoDslam("ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3::::SVLAN=0,BWPROFUPID=30,BWPROFDNID=30:IS;"
                 + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3::::PORTAL=3,"
-                + "SVLAN=" + i.getVlanVoip() + ",PQPROFID=30,UNISIDEVLAN=30,NETWORKSIDEVLAN=" + i.getVlanVoip() + ",NUMTAGS=SINGLE:IS;", 5000);
+                + "SVLAN=" + i.getVlanVoip() + ",PQPROFID=30,UNISIDEVLAN=30,NETWORKSIDEVLAN=" + i.getVlanVoip() + ",NUMTAGS=SINGLE:IS;", 12000);
     }
 
     @Override
@@ -418,7 +417,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
                 + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2::::PORTAL=2,SVLAN=5,PQPROFID=42,UNISIDEVLAN=20,NETWORKSIDEVLAN=5,"
                 + "NUMTAGS=SINGLE:IS;"
                 + "ENT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2::::MAXTOTMCBITRATE=100000,MAXNUMGROUP=32,MAXMSGRATE=16,MAXNUMHOST=4,"
-                + "USERCVLAN=20, USERPRI=3,DATACVLAN=20 ,DATAPRI=3;", 8000);
+                + "USERCVLAN=20, USERPRI=3,DATACVLAN=20 ,DATAPRI=3;", 12000);
     }
 
     @Override
@@ -435,21 +434,21 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
-        return new ComandoDslam("DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-2-1;"
-                + "DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-3-1;"
-                + "DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-4-1;"
-                + "ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1:::::OOS;"
-                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::;"
-                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1;"
-                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::OOS;;"
-                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::;;"
-                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;"
-                + "ED-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1:::::OOS;"
-                + "DLT-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1;"
-                + "ED-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::OOS;"
-                + "DLT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;"
-                + "ED-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":::::OOS;"
-                + "DLT-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "::;;;;", 15000);
+        return new ComandoDslam("DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-2-1;\r\r"
+                + "DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-3-1;\r\r"
+                + "DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-4-1;\r\r"
+                + "ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1:::::OOS;\r\r"
+                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::;\r\r"
+                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1;\r\r"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::OOS;;\r\r"
+                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::;;\r\r"
+                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;\r\r"
+                + "ED-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1:::::OOS;\r\r"
+                + "DLT-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1;\r\r"
+                + "ED-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::OOS;\r\r"
+                + "DLT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;\r\r"
+                + "ED-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":::::OOS;\r\r"
+                + "DLT-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "::;;;;\r", 18000);
     }
 
     @Override
@@ -461,10 +460,10 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoDeleteVlanVoIP(InventarioRede i) {
-        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3:::::OOS;"
-                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3;"
-                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3:::::OOS;"
-                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3;", 6000);
+        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3:::::OOS;\r\r"
+                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3;\r\r"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3:::::OOS;\r\r"
+                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3;\r", 12000);
     }
 
     @Override
@@ -476,11 +475,11 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoDeleteVlanVoD(InventarioRede i) {
-        return new ComandoDslam("DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2;"
-                + "ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2:::::OOS;"
-                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2;"
-                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2:::::OOS;"
-                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2;", 8000);
+        return new ComandoDslam("DLT-PONIGMPCHN::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2;\r\r"
+                + "ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2:::::OOS;\r\r"
+                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2;\r\r"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2:::::OOS;\r\r"
+                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2;\r", 12000);
     }
 
     @Override

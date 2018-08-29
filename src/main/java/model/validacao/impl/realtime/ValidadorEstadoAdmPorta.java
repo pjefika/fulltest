@@ -19,6 +19,7 @@ public class ValidadorEstadoAdmPorta extends Validador {
 
     public ValidadorEstadoAdmPorta(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Estado Adm da Porta";
     }
 
     @Override

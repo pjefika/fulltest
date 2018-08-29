@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional;
 
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;

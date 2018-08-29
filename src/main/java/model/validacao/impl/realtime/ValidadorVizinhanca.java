@@ -26,6 +26,7 @@ public class ValidadorVizinhanca extends ValidadorGpon {
 
     public ValidadorVizinhanca(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Estado Clientes Próximos";
     }
 
     @Override

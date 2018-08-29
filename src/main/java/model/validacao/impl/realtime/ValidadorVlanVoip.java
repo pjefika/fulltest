@@ -22,6 +22,7 @@ public class ValidadorVlanVoip extends Validador {
 
     public ValidadorVlanVoip(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan de VoIP";
     }
 
     @Override

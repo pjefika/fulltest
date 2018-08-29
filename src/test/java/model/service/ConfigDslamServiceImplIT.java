@@ -12,6 +12,7 @@ import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoDSLAM;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import dao.dslam.impl.AlteracaoMetalicoDefault;
 import dao.dslam.impl.ConsultaMetalicoDefault;
 import model.fulltest.operacional.CustomerMock;
@@ -42,7 +43,7 @@ public class ConfigDslamServiceImplIT {
 
     @BeforeClass
     public static void setUpClass() {
-        ec = CustomerMock.getCustomer("4133335556");
+        ec = CustomerMock.getCustomer("BHE-811OZ6Y6QU-013");
         instance = new ConfigDslamServiceImpl(ec);
     }
 
@@ -125,12 +126,9 @@ public class ConfigDslamServiceImplIT {
     @Test
     public void testGetterTabelaRede() throws Exception {
         System.out.println("getterTabelaRede");
-        ConfigDslamServiceImpl instance = null;
-        ValidacaoResult expResult = null;
+
         ValidacaoResult result = instance.getterTabelaRede();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
 }

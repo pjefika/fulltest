@@ -12,7 +12,7 @@ import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
@@ -24,6 +24,8 @@ import model.validacao.impl.realtime.Validator;
  * @author g0042204
  */
 public abstract class FullTestGenericFacade extends FulltestExecution {
+
+    private String owner;
 
     protected EfikaCustomer cl;
 
@@ -42,6 +44,10 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     protected AbstractDslam dslam;
 
     protected ExecutionStrategy exec;
+
+    public FullTestGenericFacade(String owner) {
+        this.owner = owner;
+    }
 
     public FullTestGenericFacade() {
     }
@@ -165,6 +171,14 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     public void setExec(ExecutionStrategy exec) {
         this.exec = exec;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
 }

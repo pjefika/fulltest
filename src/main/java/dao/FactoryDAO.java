@@ -12,6 +12,7 @@ import dao.log.LogCrmDAO;
 import dao.log.LogEntityDAO;
 import dao.log.LogManobraDAO;
 import dao.log.ManobraDAO;
+import dao.log.ValidacaoEntityDAO;
 import model.entity.crm.LogCrm;
 
 /**
@@ -38,6 +39,10 @@ public class FactoryDAO {
 
     public static NetworkInventoryDAO createNetworkInventoryDAO() {
         return new NetworkInventoryDAOImpl();
+    }
+
+    public static ValidacaoEntityDAO createValidacaoDAO() {
+        return new ValidacaoEntityDAO();
     }
 
 }

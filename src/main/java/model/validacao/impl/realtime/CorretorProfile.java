@@ -21,6 +21,7 @@ public class CorretorProfile extends Corretor {
 
     public CorretorProfile(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Perfil de Velocidade";
     }
 
     @Override

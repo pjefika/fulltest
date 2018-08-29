@@ -6,7 +6,7 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import model.fulltest.operacional.FullTest;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.validacao.impl.realtime.FactoryValidador;
 
@@ -15,6 +15,13 @@ import model.validacao.impl.realtime.FactoryValidador;
  * @author G0042204
  */
 public class FullTestCOFacade extends FullTestGenericFacade implements FullTestInterface {
+
+    public FullTestCOFacade() {
+    }
+
+    public FullTestCOFacade(String owner) {
+        super(owner);
+    }
 
     @Override
     public FullTest executar(EfikaCustomer cl) throws Exception {
@@ -28,6 +35,5 @@ public class FullTestCOFacade extends FullTestGenericFacade implements FullTestI
         this.exec = FactoryExecutionStrategy.forced();
         this.setBateria(FactoryValidador.co(dslam, cl));
     }
-
 
 }

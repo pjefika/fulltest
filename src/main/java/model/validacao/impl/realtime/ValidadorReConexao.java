@@ -19,6 +19,7 @@ public class ValidadorReConexao extends Validador {
 
     public ValidadorReConexao(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Ressincronismo";
     }
 
     @Override

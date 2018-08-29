@@ -12,6 +12,9 @@ import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import java.net.SocketException;
 import java.util.logging.Logger;
 import model.fulltest.operacional.facade.FullTestGenericFacade;
+import model.log.ValidacaoEntityOperator;
+import model.entity.ValidacaoEntity;
+import model.validacao.impl.realtime.Validador;
 import model.validacao.impl.realtime.Validator;
 
 /**
@@ -28,9 +31,11 @@ public class ForcedStrategy implements ExecutionStrategy {
     public void action(FullTestGenericFacade ft) throws Exception {
 
         for (Validator v : ft.getBateria()) {
-            System.out.println("Valid _> "+v.getClass().getSimpleName());
+            System.out.println("Valid _> " + v.getClass().getSimpleName());
             try {
+                ValidacaoEntity ve = ValidacaoEntityOperator.start((Validador) v, ft.getOwner());
                 ValidacaoResult r = v.validar();
+                ve = ValidacaoEntityOperator.end(ve, r);
                 if (r != null) {
                     ft.getValids().add(r);
                 }
@@ -38,7 +43,7 @@ public class ForcedStrategy implements ExecutionStrategy {
                 System.out.println("Exec Exception -> " + ex.getMessage());
 //                ex.printStackTrace();
                 if (ex instanceof FuncIndisponivelDslamException) {
-                    
+
                 } else {
                     ex.printStackTrace();
                     ft.setMensagem(ex.getMessage());

@@ -117,7 +117,7 @@
         <dependency>
             <groupId>br.net.gvt.efika</groupId>
             <artifactId>fulltest</artifactId>
-            <version>1.0.2</version>
+            <version>1.0.3</version>
             <type>jar</type>
         </dependency>
         

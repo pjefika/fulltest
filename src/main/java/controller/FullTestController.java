@@ -6,11 +6,13 @@
 package controller;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.util.thread.EfikaThread;
 import controller.in.FulltestCOIn;
 import controller.in.FulltestCRMIn;
 import controller.in.FulltestManobraIn;
 import dao.FactoryDAO;
 import dao.customer.CustomerDAO;
+import dao.log.LogEntityDAO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -20,12 +22,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
-import model.fulltest.operacional.FullTest;
+import model.fulltest.operacional.FactoryRunnable;
+import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.facade.FactoryFulltest;
-import model.fulltest.operacional.facade.FullTestCOFacade;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
+import model.service.FactoryService;
 
 /**
  *
@@ -33,7 +36,9 @@ import model.fulltest.operacional.facade.FullTestInterface;
  */
 @Path("/fulltest")
 public class FullTestController extends RestJaxAbstract {
-
+    
+    private LogEntityDAO logDao = FactoryDAO.createLogEntityDAO();
+    
     @POST
     @Path("/manobra")
     @Produces(MediaType.APPLICATION_JSON)
@@ -55,7 +60,7 @@ public class FullTestController extends RestJaxAbstract {
             }
         }
     }
-
+    
     @POST
     @Path("/crm")
     @Produces(MediaType.APPLICATION_JSON)
@@ -74,26 +79,35 @@ public class FullTestController extends RestJaxAbstract {
             FactoryDAO.createLogEntityDAO().save(log);
         }
     }
-
+    
     @POST
     @Path("/co")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response co(FulltestCOIn cs) throws Exception {
         LogEntity log = cs.create();
+        logDao.save(log);
         try {
-            FullTestInterface v = new FullTestCOFacade();
-            FullTest res = v.executar(cs.getCust());
-            log.setSaida(res);
-            return ok(res);
+            new EfikaThread(FactoryRunnable.coRunnable(log));
+            return ok(new FullTest(log.getId().toString()));
         } catch (Exception e) {
-            log.setSaida(e.getMessage());
+            logDao.update(log, logDao.createUpdateOperations().set("saida", e.getMessage()));
             return serverError(e);
-        } finally {
-            FactoryDAO.createLogEntityDAO().save(log);
         }
     }
-
+    
+    @GET
+    @Path("/findById/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findById(@PathParam("id") String id) throws Exception {
+        try {
+            FullTest r = FactoryService.createEntityWatcherService().mountById(id);
+            return ok(r);
+        } catch (Exception e) {
+            return serverError(e);
+        }
+    }
+    
     @GET
     @Path("/{instancia}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -106,5 +120,5 @@ public class FullTestController extends RestJaxAbstract {
             return serverError(e);
         }
     }
-
+    
 }

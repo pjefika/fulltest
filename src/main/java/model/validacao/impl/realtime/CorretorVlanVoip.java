@@ -23,6 +23,7 @@ public class CorretorVlanVoip extends Corretor {
 
     public CorretorVlanVoip(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
+        nome = "Vlan VoIP";
     }
 
     @Override

@@ -8,6 +8,7 @@ package model.service;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
+import br.net.gvt.efika.fulltest.exception.TratativaExcessao;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
@@ -81,117 +82,180 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
 
     @Override
     public ConfiguracaoPorta consultar() throws Exception {
-        if (this.getEc().getRede().getTipo() == TipoRede.GPON) {
-            return FactoryService.createConfigOLTService(this.getEc()).consultar();
-        } else {
-            return FactoryService.createConfigDslamService(this.getEc()).consultar();
+        try {
+            if (this.getEc().getRede().getTipo() == TipoRede.GPON) {
+                return FactoryService.createConfigOLTService(this.getEc()).consultar();
+            } else {
+                return FactoryService.createConfigDslamService(this.getEc()).consultar();
+            }
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
         }
     }
 
     @Override
     public ValidacaoResult setterEstadoDaPorta(EstadoDaPorta est) throws Exception {
-        alteracao().setEstadoDaPorta(getEc().getRede(), est);
-        return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local));
+        try {
+            alteracao().setEstadoDaPorta(getEc().getRede(), est);
+            return this.exec(new ValidadorEstadoAdmPorta(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult setterVlanBanda() throws Exception {
-        alteracao().deleteVlanBanda(getEc().getRede());
-        alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
-        return exec(new ValidadorVlanBanda(getDslam(), getEc(), local));
+        try {
+            alteracao().deleteVlanBanda(getEc().getRede());
+            alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
+            return exec(new ValidadorVlanBanda(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult setterVlanVoip() throws Exception {
-        alteracao().deleteVlanVoip(getEc().getRede());
-        alteracao().createVlanVoip(getEc().getRede());
-        return exec(new ValidadorVlanVoip(getDslam(), getEc(), local));
+        try {
+            alteracao().deleteVlanVoip(getEc().getRede());
+            alteracao().createVlanVoip(getEc().getRede());
+            return exec(new ValidadorVlanVoip(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult setterVlanVod() throws Exception {
-        alteracao().deleteVlanVod(getEc().getRede());
-        alteracao().createVlanVod(getEc().getRede());
-        return exec(new ValidadorVlanVod(getDslam(), getEc(), local));
+        try {
+            alteracao().deleteVlanVod(getEc().getRede());
+            alteracao().createVlanVod(getEc().getRede());
+            return exec(new ValidadorVlanVod(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult setterVlanMulticast() throws Exception {
-        alteracao().deleteVlanMulticast(getEc().getRede());
-        alteracao().createVlanMulticast(getEc().getRede());
-        return exec(new ValidadorVlanMulticast(getDslam(), getEc(), local));
+        try {
+            alteracao().deleteVlanMulticast(getEc().getRede());
+            alteracao().createVlanMulticast(getEc().getRede());
+            return exec(new ValidadorVlanMulticast(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public void resetIptvStatistics() throws Exception {
-        alteracao().resetIptvStatistics(getEc().getRede());
+        try {
+            alteracao().resetIptvStatistics(getEc().getRede());
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public List<ValidacaoResult> getIptvVlans() throws Exception {
-        List<ValidacaoResult> l = new ArrayList<>();
-        l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
-        l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
-        return l;
+        try {
+            List<ValidacaoResult> l = new ArrayList<>();
+            l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+            l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
+            return l;
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public Boolean isManageable() throws Exception {
-        this.getDslam().conectar();
-        return true;
+        try {
+            this.getDslam().conectar();
+            return true;
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
+
     }
 
     @Override
     public ValidacaoResult corretorEstadoDaPorta() throws Exception {
-        ValidacaoResult v = exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
-        if (v.getResultado()) {
+        try {
+            ValidacaoResult v = exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
+            if (v.getResultado()) {
+                return v;
+            }
+            ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
+            if (!c.getResultado()) {
+                return c;
+            }
             return v;
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
         }
-        ValidacaoResult c = exec(new CorretorEstadoAdmPorta(getDslam(), getEc(), local));
-        if (!c.getResultado()) {
-            return c;
-        }
-        return v;
+
     }
 
     @Override
     public ValidacaoResult corretorVlanBanda() throws Exception {
-        return exec(new CorretorVlanBanda(getDslam(), getEc(), local));
+        try {
+            return exec(new CorretorVlanBanda(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult corretorProfile() throws Exception {
-        return exec(new CorretorProfile(getDslam(), getEc(), local));
+        try {
+            return exec(new CorretorProfile(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult corretorVlansVideo() throws Exception {
-        List<ValidacaoResult> vs = new ArrayList<>();
-        ValidacaoResult vod = exec(new CorretorVlanVod(getDslam(), getEc(), local));
-        ValidacaoResult mult = exec(new CorretorVlanMulticast(getDslam(), getEc(), local));
-        vs.add(vod);
-        vs.add(mult);
-        for (ValidacaoResult v : vs) {
-            if (v.getFoiCorrigido() != null) {
-                if (v.getFoiCorrigido() || !v.getResultado()) {
-                    return v;
+        try {
+            List<ValidacaoResult> vs = new ArrayList<>();
+            ValidacaoResult vod = exec(new CorretorVlanVod(getDslam(), getEc(), local));
+            ValidacaoResult mult = exec(new CorretorVlanMulticast(getDslam(), getEc(), local));
+            vs.add(vod);
+            vs.add(mult);
+            for (ValidacaoResult v : vs) {
+                if (v.getFoiCorrigido() != null) {
+                    if (v.getFoiCorrigido() || !v.getResultado()) {
+                        return v;
+                    }
                 }
             }
+            return vod;
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
         }
-        return vod;
     }
 
     @Override
     public ValidacaoResult corretorVlanVoIP() throws Exception {
-        return exec(new CorretorVlanVoip(getDslam(), getEc(), local));
+        try {
+            return exec(new CorretorVlanVoip(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
     }
 
     @Override
     public ValidacaoResult validadorParametros() throws Exception {
-        if (getEc().getRede().getTipo() == TipoRede.GPON) {
-            return exec(new ValidadorParametrosGpon(getDslam(), getEc(), local));
+        try {
+            if (getEc().getRede().getTipo() == TipoRede.GPON) {
+                return exec(new ValidadorParametrosGpon(getDslam(), getEc(), local));
+            }
+            return exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
         }
-        return exec(new ValidadorParametrosMetalico(getDslam(), getEc(), local));
     }
 
 }

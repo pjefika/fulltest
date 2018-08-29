@@ -64,10 +64,10 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getTabRede(i));
         List<String> lTabs = cmd.getRetorno();
-
+      
         tabelaRede = new TabelaRedeMetalico();
         tabelaRede.addInteracao(cmd);
-        
+
         tabelaRede.setPctDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 11)));
         tabelaRede.setPctUp(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 14)));
         tabelaRede.setCrcDown(new BigInteger(TratativaRetornoUtil.tratKeymile(lTabs, "Value", 19)));
@@ -175,7 +175,7 @@ public abstract class KeymileMetalicoDslam extends DslamMetalico {
     }
 
     protected ComandoDslam getTabRede(InventarioRede i) {
-        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm/usercountertable", 3000);
+        return new ComandoDslam("get /unit-" + i.getSlot() + "/port-" + i.getPorta() + "/pm/usercountertable", 4500);
     }
 
     protected ComandoDslam getComandoConsultaEstadoAdminDaPorta(InventarioRede i) {

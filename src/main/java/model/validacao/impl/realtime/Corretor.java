@@ -6,7 +6,6 @@
 package model.validacao.impl.realtime;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.fulltest.exception.CorrecaoInterruptoraException;
 import br.net.gvt.efika.fulltest.exception.FalhaAoCorrigirException;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -55,23 +54,25 @@ public abstract class Corretor extends Validador {
             this.valid = consultar();
             processar();
             if (this.valid.getResultado()) {
-                return new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), valid.getObject(), Boolean.FALSE);
+                result = new ValidacaoResult(valid.getNome(), valid.getMensagem(), valid.getResultado(), valid.getObject(), Boolean.FALSE);
             } else {
                 getPreresults().add(valid.getObject());
                 try {
                     corrigir();
-                    return new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE, getPreresults());
+                    result = new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE, getPreresults());
                 } catch (FalhaAoCorrigirException e) {
-                    return new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE, getPreresults());
+                    result = new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE, getPreresults());
                 }
             }
         } catch (Exception ex) {
-            if (ex instanceof CorrecaoInterruptoraException) {
-                throw ex;
-            }
-            ex.printStackTrace();
-            return null;
+//            if (ex instanceof CorrecaoInterruptoraException) {
+            throw ex;
+//            }
+//            ex.printStackTrace();
+//            return null;
         }
+
+        return result;
     }
 
     public List<ValidavelAbs> getPreresults() {
