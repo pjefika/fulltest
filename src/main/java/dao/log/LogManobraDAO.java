@@ -6,7 +6,11 @@
 package dao.log;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import dao.AbstractHibernateDAO;
+import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
+import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
+import com.sun.javafx.geom.AreaOp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import model.entity.manobra.LogManobra;
@@ -15,34 +19,42 @@ import model.entity.manobra.LogManobra;
  *
  * @author G0042204
  */
-public class LogManobraDAO extends AbstractHibernateDAO implements ManobraDAO {
+public class LogManobraDAO extends AbstractMongoDAO<LogManobra> implements ManobraDAO {
+
+    public LogManobraDAO() {
+        super(MongoEndpointEnum.MONGO.getIp(), "fulltestAPI", LogManobra.class);
+    }
 
     @Override
     public void cadastrar(LogManobra t) throws Exception {
-        super.persist(t);
+        super.save(t);
     }
 
     @Override
     public LogManobra buscarPorId(LogManobra t) throws Exception {
-        return getEm().find(LogManobra.class, t.getId());
+        return super.read(t.getId());
     }
 
     @Override
     public void close() {
-        super.close(); //To change body of generated methods, choose Tools | Templates.
+        //
     }
 
     @Override
     public List<LogManobra> listarLogManobraPorCustomer(EfikaCustomer e) throws Exception {
         try {
-            Query query = getEm().createQuery("FROM LogManobra v WHERE 1=1 "
-                    + "AND (v.instancia =:param OR v.designador =:param1 OR v.designadorAcesso =:param2) "
-                    + "AND DATEDIFF('day', v.datahora, NOW()) = 0");
-            
-            query.setParameter("param", e.getInstancia());
-            query.setParameter("param1", e.getDesignador());
-            query.setParameter("param2", e.getDesignadorAcesso());
-            return (List<LogManobra>) query.getResultList();
+            Calendar hj = Calendar.getInstance();
+            hj.set(Calendar.HOUR, 0);
+            hj.set(Calendar.MINUTE, 0);
+            hj.set(Calendar.SECOND, 0);
+
+            return getDatastore().createQuery(LogManobra.class)
+                    .field("instancia")
+                    .equal(e.getInstancia())
+                    .field("datahora")
+                    .greaterThanOrEq(hj.getTime())
+                    .asList();
+
         } catch (Exception ex) {
             return null;
         }

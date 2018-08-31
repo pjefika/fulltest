@@ -6,7 +6,6 @@
 package controller;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
-import br.net.gvt.efika.util.json.JacksonMapper;
 import controller.in.AnaliticoIn;
 import dao.FactoryDAO;
 import dao.InterfaceDAO;
@@ -28,6 +27,7 @@ import model.manobra.asserts.facade.AssertsManobra;
 import model.manobra.asserts.facade.Assertter;
 import model.manobra.facade.AnalisadorManobra;
 import model.manobra.facade.AnalisadorManobraFacade;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -46,12 +46,12 @@ public class ManobraController extends RestJaxAbstract {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response get(@PathParam("id") Integer id) {
+    public Response get(@PathParam("id") String id) {
         Response r;
         try {
             dao = FactoryDAO.create();
             LogManobra l = new LogManobra();
-            l.setId(id);
+            l.setId(new ObjectId(id));
 
             r = ok(dao.buscarPorId(l));
         } catch (Exception e) {
@@ -75,8 +75,8 @@ public class ManobraController extends RestJaxAbstract {
 
             try {
                 LogManobra l = new LogManobra(in.getCust());
-                l.setCustomer(new JacksonMapper(EfikaCustomer.class).serialize(in.getCust()));
-                l.setAnalises(new JacksonMapper(FinalizacaoManobra.class).serialize(fim));
+                l.setCustomer(in.getCust());
+                l.setAnalises(fim);
                 l.setExecutor(in.getExecutor());
                 l.setConclusao(fim.getConclusao().getConclusao());
                 l.setMotivo(fim.getConclusao().getMotivo());
