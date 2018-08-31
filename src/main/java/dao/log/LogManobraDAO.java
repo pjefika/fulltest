@@ -8,11 +8,8 @@ package dao.log;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.mongo.dao.AbstractMongoDAO;
 import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
-import com.sun.javafx.geom.AreaOp;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import javax.persistence.Query;
 import model.entity.manobra.LogManobra;
 
 /**
