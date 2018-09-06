@@ -6,58 +6,40 @@
 package model.entity.manobra;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.Calendar;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import static javax.persistence.FetchType.LAZY;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import model.entity.AbstractEntity;
 import model.manobra.analitcs.ConclusaoManobraEnum;
+import model.manobra.analitcs.FinalizacaoManobra;
 import model.manobra.analitcs.MotivoManobraEnum;
+import org.mongodb.morphia.annotations.Entity;
 
 /**
  *
  * @author G0042204
  */
-@Entity
-@Table(name = "FULLTESTAPI_MANOBRA")
-public class LogManobra extends AbstractEntity {
+@Entity("manobra")
+public class LogManobra extends AbstractMongoEntity {
 
     @NotNull(message = "Campo obrigatório")
     @Size(min = 1)
     private String instancia, designador, designadorAcesso, executor;
 
-    @Lob
-    @Basic(fetch = LAZY)
-    @Column(columnDefinition = "LONGVARCHAR")
-    protected String customer;
+    protected EfikaCustomer customer;
 
-    @Lob
-    @Basic(fetch = LAZY)
-    @Column(columnDefinition = "LONGVARCHAR")
-    protected String analises;
+    protected FinalizacaoManobra analises;
 
     private Boolean manobrar;
 
-    @Enumerated(EnumType.STRING)
     private ConclusaoManobraEnum conclusao;
 
-    @Enumerated(EnumType.STRING)
     private MotivoManobraEnum motivoSaida;
 
-    @Enumerated(EnumType.STRING)
     private MotivoManobraEnum motivoEntrada;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar datahora = Calendar.getInstance();
+    private Date datahora = Calendar.getInstance().getTime();
 
     public LogManobra() {
     }
@@ -66,14 +48,6 @@ public class LogManobra extends AbstractEntity {
         this.setInstancia(c.getInstancia());
         this.setDesignador(c.getDesignador());
         this.setDesignadorAcesso(c.getDesignadorAcesso());
-    }
-
-    public String getAnalises() {
-        return analises;
-    }
-
-    public void setAnalises(String analises) {
-        this.analises = analises;
     }
 
     public Boolean getManobrar() {
@@ -124,22 +98,6 @@ public class LogManobra extends AbstractEntity {
         this.executor = executor;
     }
 
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
-
-    public Calendar getDatahora() {
-        return datahora;
-    }
-
-    public void setDatahora(Calendar datahora) {
-        this.datahora = datahora;
-    }
-
     public MotivoManobraEnum getMotivo() {
         return motivoSaida;
     }
@@ -154,6 +112,38 @@ public class LogManobra extends AbstractEntity {
 
     public void setMotivoEntrada(MotivoManobraEnum motivoEntrada) {
         this.motivoEntrada = motivoEntrada;
+    }
+
+    public EfikaCustomer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(EfikaCustomer customer) {
+        this.customer = customer;
+    }
+
+    public FinalizacaoManobra getAnalises() {
+        return analises;
+    }
+
+    public void setAnalises(FinalizacaoManobra analises) {
+        this.analises = analises;
+    }
+
+    public MotivoManobraEnum getMotivoSaida() {
+        return motivoSaida;
+    }
+
+    public void setMotivoSaida(MotivoManobraEnum motivoSaida) {
+        this.motivoSaida = motivoSaida;
+    }
+
+    public Date getDatahora() {
+        return datahora;
+    }
+
+    public void setDatahora(Date datahora) {
+        this.datahora = datahora;
     }
 
 }
