@@ -13,11 +13,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
+import model.MacAddress;
 import model.fulltest.operacional.FullTestAdapter;
 import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.validacao.impl.realtime.FactoryValidador;
 import model.validacao.impl.realtime.Validator;
+import util.MacAddressValidator;
 
 /**
  *
@@ -76,6 +78,13 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
                 this.setResultado(Boolean.FALSE);
                 this.setMensagem(valid.getMensagem());
             }
+        }
+        //comparar macs
+        //MYSQL: 10.40.197.137/macaddress table dw_20_radacct
+        //designador, comparar mac address
+        MacAddress macAddress = new MacAddressValidator().macChanged(this.cl.getDesignador());
+        if(!macAddress.getDesignador().equals(this.cl.getDesignador())){
+            this.mensagem = this.mensagem + "(MODEM TROCADO)";
         }
     }
 

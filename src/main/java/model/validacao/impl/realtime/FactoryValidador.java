@@ -55,6 +55,7 @@ public class FactoryValidador {
         return bateria;
     }
 
+    //Execucao to fulltest
     public static List<Validator> co(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validator> bateria = new ArrayList<>();
         Locale local = new Locale("co", "CO");
