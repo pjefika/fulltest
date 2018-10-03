@@ -454,7 +454,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        ComandoDslam cmd1 = getCd().consulta(getComandoSetEstadoDaPorta(i, new EstadoDaPorta(Boolean.TRUE)));
         VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd1);
         v.getInteracoes().add(0, cmd);
         return v;
     }
