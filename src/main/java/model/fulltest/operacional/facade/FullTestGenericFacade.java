@@ -7,6 +7,7 @@ package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
+import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     protected ExecutionStrategy exec;
 
+    protected String msgModemTrocado = "";
+
     public FullTestGenericFacade(String owner) {
         this.owner = owner;
     }
@@ -73,19 +76,37 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     @Override
     void validar() throws Exception {
         this.exec.action(this);
+
         for (ValidacaoResult valid : getValids()) {
             if (!valid.getResultado() && this.mensagem == null) {
                 this.setResultado(Boolean.FALSE);
                 this.setMensagem(valid.getMensagem());
             }
+
+
+
+            if(valid.getResult() instanceof DeviceMAC){
+                DeviceMAC realMac = (DeviceMAC) valid.getResult();
+
+                MacAddress macAddress = new MacAddressValidator().macChanged(this.cl.getDesignador());
+
+                if((macAddress != null) && (!realMac.getMac().startsWith("P"))){
+                    if(!macAddress.getMacAddr().replaceAll("-", ":").equals(realMac.getMac())){
+                        valid.setMensagem(valid.getMensagem() + " (MODEM TROCADO) ");
+                        msgModemTrocado = " (MODEM TROCADO) ";
+                    }
+                }
+
+            }
+        }
+
+        if(this.mensagem != null) {
+            this.setMensagem(this.getMensagem() + " " + msgModemTrocado);
         }
         //comparar macs
         //MYSQL: 10.40.197.137/macaddress table dw_20_radacct
         //designador, comparar mac address
-        MacAddress macAddress = new MacAddressValidator().macChanged(this.cl.getDesignador());
-        if(!macAddress.getDesignador().equals(this.cl.getDesignador())){
-            this.mensagem = this.mensagem + "(MODEM TROCADO)";
-        }
+
     }
 
     public FullTest cast() {
@@ -96,7 +117,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     protected void encerramento() {
 
         if (mensagem == null) {
-            mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo.";
+            mensagem = "Não foram identificados problemas de configuração. Se o problema/sintoma informado pelo cliente persiste, seguir o fluxo." + msgModemTrocado;
         }
 
         if (resultado == null) {

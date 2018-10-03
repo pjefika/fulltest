@@ -21,7 +21,7 @@ public class MacAddressValidator {
         Connection conn = null;
         try{
             conn = connection.getConnection();
-            st = connection.getSt(conn, "SELECT * FROM DW_020_RADACCT WHERE designador = ? ORDER BY ID DESC limit 1");
+            st = connection.getSt(conn, "SELECT * FROM DW_020_RADACCT WHERE DESIGNADOR = ? ORDER BY ID DESC limit 1");
             st.setString(1, designador);
             rs = st.executeQuery();
             if (rs.next()){
