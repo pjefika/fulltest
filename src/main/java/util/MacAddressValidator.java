@@ -35,6 +35,20 @@ public class MacAddressValidator {
         }catch (Exception e){
             e.printStackTrace();
             return null;
+        }finally {
+            try{
+                if(rs != null){
+                    rs.close();
+                }
+                if(st != null){
+                    st.close();
+                }
+                if(conn != null){
+                    conn.close();
+                }
+            }catch (Exception ex){
+                ex.getMessage();
+            }
         }
     }
 }
