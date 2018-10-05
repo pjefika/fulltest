@@ -8,6 +8,7 @@ package model.fulltest.operacional;
 import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.entity.LogEntity;
@@ -22,13 +23,19 @@ public class RunnableCO extends FulltestRunnable {
 
     @Override
     public void run() {
+        FullTest res = new FullTest();
+        res.setDataInicio(Calendar.getInstance());
         try {
             EfikaCustomer cust = (EfikaCustomer) logzin.getEntrada();
             FullTestInterface v = new FullTestCOFacade(logzin.getId().toString());
-            FullTest res = v.executar(cust);
+            FullTest vTest = v.executar(cust);
+            res = vTest;
             logzin.setSaida(res);
         } catch (Exception e) {
-            logzin.setSaida(e.getMessage());
+            res.setDataFim(Calendar.getInstance());
+            res.setMensagem(e.getMessage());
+            res.setResultado(false);
+            logzin.setSaida(res);
         } finally {
             try {
                 logzin.setDataOut(Calendar.getInstance());
