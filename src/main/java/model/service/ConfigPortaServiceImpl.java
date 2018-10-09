@@ -6,6 +6,9 @@
 package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.exception.TratativaExcessao;
@@ -145,6 +148,30 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         } catch (Exception e) {
             throw TratativaExcessao.treatException(e);
         }
+    }
+
+    @Override
+    public List<ValidacaoResult> setterVlans() throws Exception {
+        List<ValidacaoResult> l = new ArrayList<>();
+        l.add(setterVlanBanda());
+        if (getEc().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
+            l.add(setterVlanVoip());
+        } else {
+            l.add(exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+        }
+        if (getEc().getServicos().getTipoTv() != null && getEc().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+            l.add(setterVlanVod());
+            if (getEc().getRede().getPlanta() == OrigemPlanta.VIVO2) {
+                try {
+                    l.add(setterVlanMulticast());
+                } catch (Exception e) {
+                }
+            }
+        } else {
+            l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+        }
+
+        return l;
     }
 
     @Override

@@ -35,6 +35,8 @@ public interface ConfigSetterService {
 
     public ValidacaoResult setterVlanMulticast() throws Exception;
 
+    public List<ValidacaoResult> setterVlans() throws Exception;
+
     public void resetIptvStatistics() throws Exception;
 
     public List<ValidacaoResult> getIptvVlans() throws Exception;
