@@ -64,8 +64,38 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            cust = CustomerMock.getCustomer("8130975863");
-            
+            String lejson = "{"
+                    + "    \"designador\" : \"JCI-814ZQX9J1G-013\","
+                    + "    \"designadorAcesso\" : \"JCI-28098790-069\","
+                    + "    \"rede\" : {"
+                    + "        \"tipo\" : \"GPON\","
+                    + "        \"origem\" : \"OFFLINE\","
+                    + "        \"planta\" : \"VIVO1\","
+                    + "        \"ipDslam\" : \"BR_JCICF_OLT01\","
+                    + "        \"vendorDslam\" : \"HUAWEI TECHNOLOGIES\","
+                    + "        \"modeloDslam\" : \"MA5600T\","
+                    + "        \"idOnt\" : \"0004174629\","
+                    + "        \"terminal\" : \"113118384154305\","
+                    + "        \"slot\" : 17,"
+                    + "        \"porta\" : 2,"
+                    + "        \"sequencial\" : 41,"
+                    + "        \"logica\" : 41,"
+                    + "        \"rin\" : 388,"
+                    + "        \"vlanVoip\" : 3004,"
+                    + "        \"vlanVod\" : 3001,"
+                    + "        \"vlanMulticast\" : 3001,"
+                    + "        \"cvlan\" : 285,"
+                    + "        \"bhs\" : true"
+                    + "    },"
+                    + "    \"servicos\" : {"
+                    + "        \"velDown\" : 108135,"
+                    + "        \"velUp\" : 54067,"
+                    + "        \"tipoTv\" : \"IPTV\","
+                    + "        \"tipoLinha\" : \"SIP\""
+                    + "    }"
+                    + "}";
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(lejson);
+
             FullTestInterface instance = new FullTestCOFacade();
             FullTest f = instance.executar(cust);
 

@@ -37,7 +37,7 @@ public class LoginComJump implements LoginDslamStrategy {
             BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
             Security.insertProviderAt(bouncyCastleProvider, 2);
             jsch = new JSch();
-            session = jsch.getSession("incid", "200.204.1.4", 22);
+            session = jsch.getSession("incid", "10.18.81.96", 22);
             session.setPassword("v!vo@incid");
 
             Properties config = new Properties();
