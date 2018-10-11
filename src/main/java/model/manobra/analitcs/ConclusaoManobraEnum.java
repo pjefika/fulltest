@@ -11,7 +11,7 @@ package model.manobra.analitcs;
  */
 public enum ConclusaoManobraEnum {
 
-    PORTA_NOK("Porta com Defeito"), PORTA_OK("Porta Ok"), TROCAR_MODEM("Trocar Modem");
+    PORTA_NOK("Porta com Defeito"), PORTA_OK("Porta Ok"), TROCAR_MODEM("Testar com outro modem");
 
     private final String nome;
 
