@@ -153,23 +153,40 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     @Override
     public List<ValidacaoResult> setterVlans() throws Exception {
         List<ValidacaoResult> l = new ArrayList<>();
-        l.add(setterVlanBanda());
+        Boolean bhsOriginal = getEc().getRede().getBhs();
+        Boolean bhsInverso = !bhsOriginal;
+        getEc().getRede().setBhs(bhsInverso);
+        alteracao().deleteVlanBanda(getEc().getRede());
+        getEc().getRede().setBhs(bhsOriginal);
+        alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
+        l.add(exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
+
         if (getEc().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
-            l.add(setterVlanVoip());
-        } else {
-            l.add(exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+            getEc().getRede().setBhs(bhsInverso);
+            alteracao().deleteVlanVoip(getEc().getRede());
+            getEc().getRede().setBhs(bhsOriginal);
+            alteracao().createVlanVoip(getEc().getRede());
         }
+        l.add(exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+
         if (getEc().getServicos().getTipoTv() != null && getEc().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            l.add(setterVlanVod());
+            getEc().getRede().setBhs(bhsInverso);
+            alteracao().deleteVlanVod(getEc().getRede());
+            getEc().getRede().setBhs(bhsOriginal);
+            alteracao().createVlanVod(getEc().getRede());
+
             if (getEc().getRede().getPlanta() == OrigemPlanta.VIVO2) {
                 try {
-                    l.add(setterVlanMulticast());
+                    getEc().getRede().setBhs(bhsInverso);
+                    alteracao().deleteVlanMulticast(getEc().getRede());
+                    getEc().getRede().setBhs(bhsOriginal);
+                    alteracao().createVlanMulticast(getEc().getRede());
+                    l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
                 } catch (Exception e) {
                 }
             }
-        } else {
-            l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
         }
+        l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
 
         return l;
     }
