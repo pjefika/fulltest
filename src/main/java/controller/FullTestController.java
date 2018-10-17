@@ -52,7 +52,8 @@ public class FullTestController extends RestJaxAbstract {
             return ok(res);
         } catch (Exception e) {
             log.setSaida(e.getMessage());
-            return serverError(e);
+            throw new Exception(e);
+            //return serverError(e);
         } finally {
             try {
                 FactoryDAO.createLogEntityDAO().save(log);
@@ -79,12 +80,19 @@ public class FullTestController extends RestJaxAbstract {
             FactoryDAO.createLogEntityDAO().save(log);
         }
     }
-    
+
+    /**
+     * Rota responsavel por fazer a chamada do fulltest
+     * @param cs
+     * @return
+     * @throws Exception
+     */
     @POST
     @Path("/co")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response co(FulltestCOIn cs) throws Exception {
+        //Grava no mongo
         LogEntity log = cs.create();
         logDao.save(log);
         try {

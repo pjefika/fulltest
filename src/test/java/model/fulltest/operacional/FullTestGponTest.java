@@ -64,8 +64,44 @@ public class FullTestGponTest {
     public void testValidar() {
 
         try {
-            cust = CustomerMock.getCustomer("8130975863");
-            
+            String lejson = "{"
+                    + "   \"designador\":\"SPO-814ZP9A2U8-013\","
+                    + "   \"instancia\":\"110008367742903\","
+                    + "   \"designadorAcesso\":\"SPO-28007125-069\","
+                    + "   \"designadorTv\":null,"
+                    + "   \"rede\":{"
+                    + "      \"tipo\":\"GPON\","
+                    + "      \"origem\":\"ONLINE\","
+                    + "      \"planta\":\"VIVO1\","
+                    + "      \"ipDslam\":\"10.23.43.174\","
+                    + "      \"vendorDslam\":\"ALCATEL\","
+                    + "      \"modeloDslam\":\"7342 ISAM FTTU\","
+                    + "      \"idOnt\":\"0004169686\","
+                    + "      \"terminal\":\"1183677429\","
+                    + "      \"ipMulticast\":null,"
+                    + "      \"nrc\":null,"
+                    + "      \"slot\":6,"
+                    + "      \"porta\":3,"
+                    + "      \"sequencial\":8,"
+                    + "      \"logica\":8,"
+                    + "      \"rin\":32,"
+                    + "      \"vlanVoip\":3004,"
+                    + "      \"vlanVod\":3001,"
+                    + "      \"vlanMulticast\":3001,"
+                    + "      \"cvlan\":1283,"
+                    + "      \"bhs\":true"
+                    + "   },"
+                    
+                    + "   \"servicos\":{"
+                    + "      \"origem\":null,"
+                    + "      \"velDown\":102400,"
+                    + "      \"velUp\":51200,"
+                    + "      \"tipoTv\":null,"
+                    + "      \"tipoLinha\":\"SIP\""
+                    + "   }"
+                    + "}";
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(lejson);
+
             FullTestInterface instance = new FullTestCOFacade();
             FullTest f = instance.executar(cust);
 

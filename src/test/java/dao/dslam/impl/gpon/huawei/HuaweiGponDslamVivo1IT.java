@@ -82,7 +82,7 @@ public class HuaweiGponDslamVivo1IT {
         try {
             Security.insertProviderAt(new BouncyCastleProvider(), 1);
             JSch jsch = new JSch();
-            Session session = jsch.getSession("incid", "10.18.81.96", 22);
+            Session session = jsch.getSession("incid", "200.204.1.4", 22);
             session.setPassword("v!vo@incid");
 
             Properties config = new Properties();
@@ -91,7 +91,7 @@ public class HuaweiGponDslamVivo1IT {
 
             session.connect();
             String cmd = "telnet " + i.getIpDslam();
-//            Shell shell = new SshByPassword("10.18.81.96", 22, "incid", "v!vo@incid");
+//            Shell shell = new SshByPassword("200.204.1.4", 22, "incid", "v!vo@incid");
             Channel channel = session.openChannel("shell");
 
 //            ByteArrayInputStream is = new ByteArrayInputStream(cmd.getBytes());

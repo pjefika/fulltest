@@ -250,7 +250,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public TabelaParametrosGponBasic getTabelaParametros(InventarioRede i) throws Exception {
-        List<String> retorno = getCd().consulta(getComandoGetParametros(i)).getRetorno();
+        ComandoDslam cmd = getCd().consulta(getComandoGetParametros(i));
+        List<String> retorno = cmd.getRetorno();
         String leOlt = TratativaRetornoUtil.tratHuawei(retorno, "OLT Rx");
         String leOnt = TratativaRetornoUtil.tratHuawei(retorno, "Rx optical");
 
@@ -263,11 +264,13 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (potOlt.compareTo(0d) == 0 && !(potOnt.compareTo(0d) == 0)) {
             TabelaParametrosGponBasicVivo1 tab = new TabelaParametrosGponBasicVivo1();
             tab.setPotOnt(potOnt);
+            tab.getInteracoes().add(cmd);
             return tab;
         } else {
             TabelaParametrosGponVivo1 tab = new TabelaParametrosGponVivo1();
             tab.setPotOlt(potOlt);
             tab.setPotOnt(potOnt);
+            tab.getInteracoes().add(cmd);
             return tab;
         }
     }

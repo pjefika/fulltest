@@ -6,6 +6,9 @@
 package model.service;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.efika_customer.model.customer.enums.OrigemPlanta;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaLinha;
+import br.net.gvt.efika.efika_customer.model.customer.enums.TecnologiaTv;
 import br.net.gvt.efika.efika_customer.model.customer.enums.TipoRede;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.exception.TratativaExcessao;
@@ -145,6 +148,47 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         } catch (Exception e) {
             throw TratativaExcessao.treatException(e);
         }
+    }
+
+    @Override
+    public List<ValidacaoResult> setterVlans() throws Exception {
+        List<ValidacaoResult> l = new ArrayList<>();
+        Boolean bhsOriginal = getEc().getRede().getBhs();
+        Boolean bhsInverso = !bhsOriginal;
+        getEc().getRede().setBhs(bhsInverso);
+        alteracao().deleteVlanBanda(getEc().getRede());
+        getEc().getRede().setBhs(bhsOriginal);
+        alteracao().createVlanBanda(getEc().getRede(), Velocidades.find(getEc().getServicos().getVelDown()), Velocidades.find(getEc().getServicos().getVelUp()));
+        l.add(exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
+
+        if (getEc().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
+            getEc().getRede().setBhs(bhsInverso);
+            alteracao().deleteVlanVoip(getEc().getRede());
+            getEc().getRede().setBhs(bhsOriginal);
+            alteracao().createVlanVoip(getEc().getRede());
+        }
+        l.add(exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
+
+        if (getEc().getServicos().getTipoTv() != null && getEc().getServicos().getTipoTv() != TecnologiaTv.DTH) {
+            getEc().getRede().setBhs(bhsInverso);
+            alteracao().deleteVlanVod(getEc().getRede());
+            getEc().getRede().setBhs(bhsOriginal);
+            alteracao().createVlanVod(getEc().getRede());
+
+            if (getEc().getRede().getPlanta() == OrigemPlanta.VIVO2) {
+                try {
+                    getEc().getRede().setBhs(bhsInverso);
+                    alteracao().deleteVlanMulticast(getEc().getRede());
+                    getEc().getRede().setBhs(bhsOriginal);
+                    alteracao().createVlanMulticast(getEc().getRede());
+                    l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
+                } catch (Exception e) {
+                }
+            }
+        }
+        l.add(exec(new ValidadorVlanVod(getDslam(), getEc(), local)));
+
+        return l;
     }
 
     @Override

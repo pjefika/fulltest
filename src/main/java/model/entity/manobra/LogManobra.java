@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package model.entity.manobra;
-
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import java.util.Calendar;
