@@ -188,7 +188,7 @@ public class ConfigPortaController extends RestJaxAbstract {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response fixVlans(FixVlansIn cs) throws Exception {
-        Response r;
+                Response r;
         LogEntity log = cs.create();
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
