@@ -41,15 +41,102 @@ public class Alcatel7302GponDslamVivo1IT {
     /**
      * 2430282756 - Ready | 5137240278 - Falha Leitura
      */
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1732270283");
-    private static Alcatel7302GponDslamVivo1 instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
-    private static InventarioRede i = cust.getRede();
+    private static EfikaCustomer cust;
+    private static Alcatel7302GponDslamVivo1 instance;
+    private static InventarioRede i;
 
     public Alcatel7302GponDslamVivo1IT() {
     }
 
     @BeforeClass
     public static void setUpClass() {
+        try {
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize(
+                    "{"
+                    + "   \"designador\":\"SRR-814Z1ADHQ1-013\","
+                    + "   \"instancia\":\"115628348344507\","
+                    + "   \"designadorAcesso\":\"SRR-27461824-069\","
+                    + "   \"designadorTv\":\"TV-SRR-814Z1ADHQ5-050\","
+                    + "   \"rede\":{"
+                    + "      \"tipo\":\"GPON\","
+                    + "      \"origem\":\"ONLINE\","
+                    + "      \"planta\":\"VIVO1\","
+                    + "      \"ipDslam\":\"10.58.245.238\","
+                    + "      \"vendorDslam\":\"ALCATEL\","
+                    + "      \"modeloDslam\":\"7302 ISAM FTTU\","
+                    + "      \"idOnt\":\"0004103941\","
+                    + "      \"terminal\":\"1783483445\","
+                    + "      \"ipMulticast\":null,"
+                    + "      \"nrc\":null,"
+                    + "      \"slot\":18,"
+                    + "      \"porta\":5,"
+                    + "      \"sequencial\":31,"
+                    + "      \"logica\":31,"
+                    + "      \"rin\":242,"
+                    + "      \"vlanVoip\":3004,"
+                    + "      \"vlanVod\":3001,"
+                    + "      \"vlanMulticast\":3001,"
+                    + "      \"cvlan\":2276,"
+                    + "      \"bhs\":true"
+                    + "   },"
+                    + "   \"redeExterna\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"origem\":null,"
+                    + "      \"planta\":null,"
+                    + "      \"splitter1n\":null,"
+                    + "      \"splitter2n\":null,"
+                    + "      \"caboAlim\":null,"
+                    + "      \"fibra1n\":null,"
+                    + "      \"fibra2n\":null"
+                    + "   },"
+                    + "   \"servicos\":{"
+                    + "      \"origem\":null,"
+                    + "      \"velDown\":102400,"
+                    + "      \"velUp\":51200,"
+                    + "      \"tipoTv\":\"IPTV\","
+                    + "      \"tipoLinha\":\"SIP\""
+                    + "   },"
+                    + "   \"linha\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"dn\":null,"
+                    + "      \"central\":null"
+                    + "   },"
+                    + "   \"radius\":{"
+                    + "      \"status\":null,"
+                    + "      \"armario\":null,"
+                    + "      \"rin\":null,"
+                    + "      \"velocidade\":null,"
+                    + "      \"ipFixo\":null,"
+                    + "      \"profile\":null,"
+                    + "      \"porta\":null,"
+                    + "      \"isIpFixo\":null"
+                    + "   },"
+                    + "   \"asserts\":["
+                    + "      {"
+                    + "         \"asserts\":\"CIRCUITO_ATIVO\","
+                    + "         \"value\":true,"
+                    + "         \"creationDate\":1539877732740"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"DIVERGENCIA_TBS_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1539877732740"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"HAS_BLOQUEIO_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1539877732740"
+                    + "      }"
+                    + "   ],"
+                    + "   \"eventos\":["
+                    + ""
+                    + "   ]"
+                    + "}");
+            instance = new Alcatel7302GponDslamVivo1(cust.getRede().getIpDslam());
+            i = cust.getRede();
+        } catch (Exception e) {
+
+        }
     }
 
     @AfterClass
@@ -93,7 +180,8 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetEstadoDaPorta() throws Exception {
         System.out.println("getEstadoDaPorta");
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
-        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
+        System.out.println(new JacksonMapper(EstadoDaPorta.class
+        ).serialize(result));
         assertTrue(result.validar(cust));
     }
 
@@ -114,7 +202,8 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
         Profile result = instance.getProfile(i);
-        System.out.println(new JacksonMapper(Profile.class).serialize(result));
+        System.out.println(new JacksonMapper(Profile.class
+        ).serialize(result));
     }
 
     /**
@@ -124,7 +213,8 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
-        System.out.println(new JacksonMapper<>(VlanBanda.class).serialize(result));
+        System.out.println(new JacksonMapper<>(VlanBanda.class
+        ).serialize(result));
     }
 
     /**
@@ -342,7 +432,10 @@ public class Alcatel7302GponDslamVivo1IT {
     @Test
     public void testDeleteVlanBanda() throws Exception {
         System.out.println("deleteVlanBanda");
-        instance.deleteVlanBanda(i);
+
+        VlanBanda v = instance.deleteVlanBanda(i);
+        System.out.println(new JacksonMapper(VlanBanda.class
+        ).serialize(v));
     }
 
     /**
@@ -352,6 +445,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testDeleteVlanVoip() throws Exception {
         System.out.println("deleteVlanVoip");
         instance.deleteVlanVoip(i);
+
     }
 
     /**
