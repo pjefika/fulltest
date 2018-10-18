@@ -177,9 +177,7 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
 
             if (getEc().getRede().getPlanta() == OrigemPlanta.VIVO2) {
                 try {
-                    getEc().getRede().setBhs(bhsInverso);
                     alteracao().deleteVlanMulticast(getEc().getRede());
-                    getEc().getRede().setBhs(bhsOriginal);
                     alteracao().createVlanMulticast(getEc().getRede());
                     l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
                 } catch (Exception e) {
