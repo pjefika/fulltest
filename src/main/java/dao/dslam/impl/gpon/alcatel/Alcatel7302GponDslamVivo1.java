@@ -68,7 +68,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 3000);
+        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml", 5000);
     }
 
     @Override
@@ -119,7 +119,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml");
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " detail xml",3000);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandosDeviceMac(InventarioRede i) {
-        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 xml");
+        return new ComandoDslam("show vlan bridge-port-fdb 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 xml",3000);
     }
 
     @Override
@@ -156,9 +156,9 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     protected ComandoDslam getComandoProfile(InventarioRede i, Boolean how) {
         // True para Down | False para Up        
         if (how) {
-            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 xml", 2000);
+            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 xml", 4000);
         } else {
-            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 xml", 2000);
+            return new ComandoDslam("info configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 xml", 4000);
         }
     }
 
@@ -181,7 +181,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoVlanBanda(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 detail xml", 5000);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandosVlanVoip(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30 detail xml", 5000);
     }
 
     @Override
@@ -246,7 +246,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoVlanVod(InventarioRede i) {
-        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml", 3000);
+        return new ComandoDslam("info configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 detail xml", 5000);
     }
 
     @Override
@@ -270,7 +270,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoSerialOnt(InventarioRede i) {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml",3000);
     }
 
     @Override
@@ -287,7 +287,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoConsultarParametros(InventarioRede i) {
-        return new ComandoDslam("show equipment ont optics 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml");
+        return new ComandoDslam("show equipment ont optics 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " xml",3000);
     }
 
     @Override
@@ -329,7 +329,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoEstadoPortasProximas(InventarioRede i, Porta p) {
-        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + p.getNumPorta() + " detail xml");
+        return new ComandoDslam("info configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + p.getNumPorta() + " detail xml",3000);
     }
 
     @Override
@@ -381,7 +381,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam setComandoEstadoDaPorta(InventarioRede i, EstadoDaPorta e) {
-        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString());
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state " + e.toString(),3000);
     }
 
     @Override
@@ -420,7 +420,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " tag single-tagged qos profile:20");
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " tag single-tagged qos profile:20",5000);
         } else {
             return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO  desc1 " + i.getTerminal() + "\n"
@@ -432,7 +432,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:43\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:43\n"
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id stacked:" + i.getRin() + ":" + i.getCvlan() + "\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvlan());
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 pvid stacked:" + i.getRin() + ":" + i.getCvlan(),5000);
         }
     }
 
@@ -455,7 +455,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         if (i.getBhs()) {
             return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 bandwidth-profile name:45\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 priority 5 shaper-profile  name:45\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30  vlan-scope local network-vlan " + i.getVlanVoip() + " tag single-tagged qos profile:23");
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30  vlan-scope local network-vlan " + i.getVlanVoip() + " tag single-tagged qos profile:23",5000);
         } else {
             return this.createComandosVlanBanda(i);
         }
@@ -497,7 +497,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam comandoDeleteVlanBanda(InventarioRede i) {
         return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 1500,
-                "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+                "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1",3000);
     }
 
     @Override
@@ -549,7 +549,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 shaper-profile none", 3500);
         } else {
             return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
-                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1");
+                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1",3000);
         }
     }
 
@@ -574,11 +574,11 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam comandoGetStatusDaPlaca(InventarioRede i) throws Exception {
-        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml");
+        return new ComandoDslam("show equipment slot 1/1/" + i.getSlot() + " detail xml",3000);
     }
 
     protected ComandoDslam consultaStatusSlot(InventarioRede i) throws Exception {
-        return new ComandoDslam("show equipment slot");
+        return new ComandoDslam("show equipment slot",3000);
     }
 
     @Override
