@@ -5,6 +5,8 @@
  */
 package model.manobra.analitcs;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  * @author G0042204
@@ -44,23 +46,13 @@ public class AnaliseMotivo {
     }
 
     public String getBeautyMotivo() {
-        if(motivo.getMotivo() != null) {
-            return motivo.getMotivo();
-        }else{
-            return beautyMotivo;
-        }
-    }
-
-    public void setBeautyMotivo(String beautyMotivo) {
-        this.beautyMotivo = beautyMotivo;
+        return motivo.getMotivo();
     }
 
     public String getBeautyConclusao() {
         return conclusao.getNome();
     }
 
-    public void setBeautyConclusao(String beautyConclusao) {
-        this.beautyConclusao = beautyConclusao;
-    }
+
 
 }
