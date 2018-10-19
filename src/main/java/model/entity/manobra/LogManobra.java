@@ -28,7 +28,7 @@ public class LogManobra extends AbstractMongoEntity {
 
     protected EfikaCustomer customer;
 
-    protected FinalizacaoManobra analise;
+    protected FinalizacaoManobra analises;
 
     private Boolean manobrar;
 
@@ -121,12 +121,12 @@ public class LogManobra extends AbstractMongoEntity {
         this.customer = customer;
     }
 
-    public FinalizacaoManobra getAnalise() {
-        return analise;
+    public FinalizacaoManobra getAnalises() {
+        return analises;
     }
 
-    public void setAnalise(FinalizacaoManobra analise) {
-        this.analise = analise;
+    public void setAnalises(FinalizacaoManobra analises) {
+        this.analises = analises;
     }
 
     public MotivoManobraEnum getMotivoSaida() {
