@@ -21,7 +21,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import dao.log.LogManobraDAO;
 import model.entity.LogEntity;
+import model.entity.manobra.LogManobra;
 import model.fulltest.operacional.FactoryRunnable;
 import br.net.gvt.efika.fulltest.model.fulltest.FullTest;
 import model.fulltest.operacional.facade.FactoryFulltest;
@@ -29,6 +32,8 @@ import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
 import model.service.FactoryService;
+
+import java.util.List;
 
 /**
  *
@@ -60,6 +65,15 @@ public class FullTestController extends RestJaxAbstract {
             } catch (Exception e) {
             }
         }
+    }
+
+    @POST
+    @Path("/findManobraByCustomer")
+    @Produces({"application/json", "application/xml"})
+    public Response findMonobraByCustomer(EfikaCustomer customer)
+            throws Exception {
+        List<LogManobra> logManobra = new LogManobraDAO().listarLogManobraPorCustomer(customer);
+        return Response.ok(logManobra).build();
     }
     
     @POST

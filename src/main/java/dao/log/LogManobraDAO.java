@@ -11,6 +11,7 @@ import br.net.gvt.efika.mongo.dao.MongoEndpointEnum;
 import java.util.Calendar;
 import java.util.List;
 import model.entity.manobra.LogManobra;
+import org.mongodb.morphia.query.FindOptions;
 
 /**
  *
@@ -45,12 +46,18 @@ public class LogManobraDAO extends AbstractMongoDAO<LogManobra> implements Manob
             hj.set(Calendar.MINUTE, 0);
             hj.set(Calendar.SECOND, 0);
 
+//            return getDatastore().createQuery(LogManobra.class)
+//                    .field("instancia")
+//                    .equal(e.getInstancia())
+//                    .field("datahora")
+//                    .greaterThanOrEq(hj.getTime())
+//                    .asList();
             return getDatastore().createQuery(LogManobra.class)
-                    .field("instancia")
+                    .field("customer.instancia")
                     .equal(e.getInstancia())
-                    .field("datahora")
-                    .greaterThanOrEq(hj.getTime())
-                    .asList();
+                    .order("datahora")
+                    .asList(new FindOptions()
+                            .limit(10));
 
         } catch (Exception ex) {
             return null;
