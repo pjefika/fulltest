@@ -15,6 +15,10 @@ public class AnaliseMotivo {
 
     private ConclusaoManobraEnum conclusao;
 
+    private String beautyMotivo;
+
+    private String beautyConclusao;
+
     public AnaliseMotivo() {
     }
 
@@ -37,6 +41,26 @@ public class AnaliseMotivo {
 
     public void setConclusao(ConclusaoManobraEnum conclusao) {
         this.conclusao = conclusao;
+    }
+
+    public String getBeautyMotivo() {
+        if(motivo.getMotivo() != null) {
+            return motivo.getMotivo();
+        }else{
+            return beautyMotivo;
+        }
+    }
+
+    public void setBeautyMotivo(String beautyMotivo) {
+        this.beautyMotivo = beautyMotivo;
+    }
+
+    public String getBeautyConclusao() {
+        return conclusao.getNome();
+    }
+
+    public void setBeautyConclusao(String beautyConclusao) {
+        this.beautyConclusao = beautyConclusao;
     }
 
 }

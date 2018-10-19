@@ -76,7 +76,7 @@ public class ManobraController extends RestJaxAbstract {
             try {
                 LogManobra l = new LogManobra(in.getCust());
                 l.setCustomer(in.getCust());
-                l.setAnalises(fim);
+                l.setAnalise(fim);
                 l.setExecutor(in.getExecutor());
                 l.setConclusao(fim.getConclusao().getConclusao());
                 l.setMotivo(fim.getConclusao().getMotivo());
