@@ -38,7 +38,7 @@ public class LogManobra extends AbstractMongoEntity {
 
     private MotivoManobraEnum motivoEntrada;
 
-    private Date datahora = Calendar.getInstance().getTime();
+    private Date datahora;
 
     public LogManobra() {
     }

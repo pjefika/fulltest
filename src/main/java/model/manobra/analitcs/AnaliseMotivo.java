@@ -17,10 +17,6 @@ public class AnaliseMotivo {
 
     private ConclusaoManobraEnum conclusao;
 
-    private String beautyMotivo;
-
-    private String beautyConclusao;
-
     public AnaliseMotivo() {
     }
 
@@ -44,15 +40,4 @@ public class AnaliseMotivo {
     public void setConclusao(ConclusaoManobraEnum conclusao) {
         this.conclusao = conclusao;
     }
-
-    public String getBeautyMotivo() {
-        return motivo.getMotivo();
-    }
-
-    public String getBeautyConclusao() {
-        return conclusao.getNome();
-    }
-
-
-
 }

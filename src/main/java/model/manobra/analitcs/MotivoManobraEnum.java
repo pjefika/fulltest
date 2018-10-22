@@ -23,7 +23,7 @@ public enum MotivoManobraEnum {
 
     public String motivo;
 
-    private MotivoManobraEnum(String m) {
+    MotivoManobraEnum(String m) {
         this.motivo = m;
     }
 

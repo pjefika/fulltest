@@ -15,7 +15,7 @@ public enum ConclusaoManobraEnum {
 
     private final String nome;
 
-    private ConclusaoManobraEnum(String nome) {
+    ConclusaoManobraEnum(String nome) {
         this.nome = nome;
     }
 
