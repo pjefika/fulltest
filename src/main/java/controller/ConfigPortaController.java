@@ -198,6 +198,7 @@ public class ConfigPortaController extends RestJaxAbstract {
         } catch (Exception e) {
             r = serverError(e);
             log.setSaida(e.getMessage());
+            e.printStackTrace();
         } finally {
             FactoryDAO.createLogEntityDAO().save(log);
         }
