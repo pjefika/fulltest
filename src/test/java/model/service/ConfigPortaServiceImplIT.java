@@ -28,18 +28,102 @@ public class ConfigPortaServiceImplIT {
 
     public ConfigPortaServiceImplIT() {
     }
+    private static ConfigPortaServiceImpl instance;
+    private static EfikaCustomer cust;
 
     @BeforeClass
     public static void setUpClass() {
+        try {
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{"
+                    + "   \"designador\":\"SPO-813XR2ENAY-013\","
+                    + "   \"instancia\":\"110007861679801\","
+                    + "   \"designadorAcesso\":\"SPO-26398039-069\","
+                    + "   \"designadorTv\":\"TV-SPO-813XR2ENB3-050\","
+                    + "   \"rede\":{"
+                    + "      \"tipo\":\"GPON\","
+                    + "      \"origem\":\"ONLINE\","
+                    + "      \"planta\":\"VIVO1\","
+                    + "      \"ipDslam\":\"10.58.237.22\","
+                    + "      \"vendorDslam\":\"ALCATEL\","
+                    + "      \"modeloDslam\":\"7302 ISAM FTTU\","
+                    + "      \"idOnt\":\"0002971349\","
+                    + "      \"terminal\":\"1178616798\","
+                    + "      \"ipMulticast\":null,"
+                    + "      \"nrc\":null,"
+                    + "      \"slot\":6,"
+                    + "      \"porta\":7,"
+                    + "      \"sequencial\":41,"
+                    + "      \"logica\":41,"
+                    + "      \"rin\":64,"
+                    + "      \"vlanVoip\":3016,"
+                    + "      \"vlanVod\":3013,"
+                    + "      \"vlanMulticast\":3013,"
+                    + "      \"cvlan\":1837,"
+                    + "      \"bhs\":true"
+                    + "   },"
+                    + "   \"redeExterna\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"origem\":null,"
+                    + "      \"planta\":null,"
+                    + "      \"splitter1n\":null,"
+                    + "      \"splitter2n\":null,"
+                    + "      \"caboAlim\":null,"
+                    + "      \"fibra1n\":null,"
+                    + "      \"fibra2n\":null"
+                    + "   },"
+                    + "   \"servicos\":{"
+                    + "      \"origem\":null,"
+                    + "      \"velDown\":102400,"
+                    + "      \"velUp\":51200,"
+                    + "      \"tipoTv\":\"IPTV\","
+                    + "      \"tipoLinha\":\"SIP\""
+                    + "   },"
+                    + "   \"linha\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"dn\":null,"
+                    + "      \"central\":null"
+                    + "   },"
+                    + "   \"radius\":{"
+                    + "      \"status\":null,"
+                    + "      \"armario\":null,"
+                    + "      \"rin\":null,"
+                    + "      \"velocidade\":null,"
+                    + "      \"ipFixo\":null,"
+                    + "      \"profile\":null,"
+                    + "      \"porta\":null,"
+                    + "      \"isIpFixo\":null"
+                    + "   },"
+                    + "   \"asserts\":["
+                    + "      {"
+                    + "         \"asserts\":\"CIRCUITO_ATIVO\","
+                    + "         \"value\":true,"
+                    + "         \"creationDate\":1540323959747"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"DIVERGENCIA_TBS_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1540323959747"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"HAS_BLOQUEIO_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1540323959747"
+                    + "      }"
+                    + "   ],"
+                    + "   \"eventos\":["
+                    + ""
+                    + "   ]"
+                    + "}");
+        } catch (Exception e) {
+
+        }
+        instance = new ConfigPortaServiceImpl(cust);
+
     }
 
     @AfterClass
     public static void tearDownClass() {
     }
-
-    EfikaCustomer cust = model.fulltest.operacional.CustomerMock.getCustomer("BHE-811OZ6Y6QU-013");
-
-     ConfigPortaServiceImpl instance = new ConfigPortaServiceImpl(cust);
 
     @Before
     public void setUp() {
@@ -101,7 +185,7 @@ public class ConfigPortaServiceImplIT {
     @Test
     public void testSetterEstadoDaPorta() throws Exception {
         System.out.println("setterEstadoDaPorta");
-        EstadoDaPorta est = new EstadoDaPorta(false);
+        EstadoDaPorta est = new EstadoDaPorta(true);
 
         ValidacaoResult result = instance.setterEstadoDaPorta(est);
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
@@ -138,12 +222,9 @@ public class ConfigPortaServiceImplIT {
     @Test
     public void testSetterVlanVod() throws Exception {
         System.out.println("setterVlanVod");
-        ConfigPortaServiceImpl instance = null;
-        ValidacaoResult expResult = null;
+
         ValidacaoResult result = instance.setterVlanVod();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
     }
 
     /**
@@ -255,6 +336,18 @@ public class ConfigPortaServiceImplIT {
         System.out.println("validadorParametros");
         ValidacaoResult result = instance.validadorParametros();
         System.out.println(new JacksonMapper(ValidacaoResult.class).serialize(result));
+    }
+
+    /**
+     * Test of setterVlans method, of class ConfigPortaServiceImpl.
+     */
+    @Test
+    public void testSetterVlans() throws Exception {
+        System.out.println("setterVlans");
+
+        List<ValidacaoResult> result = instance.setterVlans();
+        System.out.println(new JacksonMapper(List.class).serialize(result));
+
     }
 
 }

@@ -18,13 +18,11 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
-import model.fulltest.operacional.CustomerMock;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -235,7 +233,7 @@ public class Alcatel7302GponDslamVivo1IT {
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
         VlanVoip result = instance.getVlanVoip(i);
-        //System.out.println(GsonUtil.serialize(result));
+        System.out.println(new JacksonMapper(VlanVoip.class).serialize(result));
         assertTrue(result.validar(cust));
     }
 
@@ -349,7 +347,7 @@ public class Alcatel7302GponDslamVivo1IT {
         EstadoDaPorta e = new EstadoDaPorta();
         e.setAdminState(Boolean.TRUE);
         EstadoDaPorta result = instance.setEstadoDaPorta(i, e);
-        //System.out.println(GsonUtil.serialize(result));
+        System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
     /**
