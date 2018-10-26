@@ -429,12 +429,21 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
         return es;
     }
 
+    protected ComandoDslam getComandoSetProfile(InventarioRede i) {
+        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1:::::OOS;"
+                + "DLT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1;"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::OOS;"
+                + "DLT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1;", 3000,
+                "ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::::SVLAN=0,BWPROFUPID=14,BWPROFDNID=14:IS;"
+                + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=10,NETWORKSIDEVLAN=" + i.getCvlan() + ",NUMTAGS=SINGLE:IS;", 3000);
+    }
+
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
-        ComandoDslam cmd0 = getCd().consulta(getComandoDeleteVlanBanda(i));
-        ComandoDslam cmd1 = getCd().consulta(getComandoCreateVlanBanda(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoSetProfile(i));
+//        ComandoDslam cmd1 = getCd().consulta(getComandoCreateVlanBanda(i));
         Profile p = getProfile(i);
-        p.getInteracoes().add(0, cmd1);
+//        p.getInteracoes().add(0, cmd1);
         p.getInteracoes().add(0, cmd0);
         return p;
     }

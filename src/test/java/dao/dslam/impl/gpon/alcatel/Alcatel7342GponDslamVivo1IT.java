@@ -19,10 +19,8 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
-import java.security.Security;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import java.util.List;
-import model.fulltest.operacional.CustomerMock;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
@@ -36,15 +34,100 @@ import org.junit.Test;
  */
 public class Alcatel7342GponDslamVivo1IT {
 
-    private EfikaCustomer cust;
-    private Alcatel7342GponDslamVivo1 instance;
-    private InventarioRede i;
+    private static EfikaCustomer cust;
+    private static Alcatel7342GponDslamVivo1 instance;
+    private static InventarioRede i;
 
     public Alcatel7342GponDslamVivo1IT() {
     }
 
     @BeforeClass
     public static void setUpClass() {
+        try {
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{"
+                    + "   \"designador\":\"SPO-813MK3AFCQ-013\","
+                    + "   \"instancia\":\"110007796069803\","
+                    + "   \"designadorAcesso\":\"SPO-15696861-069\","
+                    + "   \"designadorTv\":\"TV-SPO-813MK3AFCV-050\","
+                    + "   \"rede\":{"
+                    + "      \"tipo\":\"GPON\","
+                    + "      \"origem\":\"ONLINE\","
+                    + "      \"planta\":\"VIVO1\","
+                    + "      \"ipDslam\":\"10.23.38.178\","
+                    + "      \"vendorDslam\":\"ALCATEL\","
+                    + "      \"modeloDslam\":\"7342 ISAM FTTU\","
+                    + "      \"idOnt\":\"0002884296\","
+                    + "      \"terminal\":\"1177960698\","
+                    + "      \"ipMulticast\":null,"
+                    + "      \"nrc\":null,"
+                    + "      \"slot\":13,"
+                    + "      \"porta\":1,"
+                    + "      \"sequencial\":23,"
+                    + "      \"logica\":23,"
+                    + "      \"rin\":33,"
+                    + "      \"vlanVoip\":3004,"
+                    + "      \"vlanVod\":3001,"
+                    + "      \"vlanMulticast\":3001,"
+                    + "      \"cvlan\":502,"
+                    + "      \"bhs\":true"
+                    + "   },"
+                    + "   \"redeExterna\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"origem\":null,"
+                    + "      \"planta\":null,"
+                    + "      \"splitter1n\":null,"
+                    + "      \"splitter2n\":null,"
+                    + "      \"caboAlim\":null,"
+                    + "      \"fibra1n\":null,"
+                    + "      \"fibra2n\":null"
+                    + "   },"
+                    + "   \"servicos\":{"
+                    + "      \"origem\":null,"
+                    + "      \"velDown\":102400,"
+                    + "      \"velUp\":51200,"
+                    + "      \"tipoTv\":\"IPTV\","
+                    + "      \"tipoLinha\":\"SIP\""
+                    + "   },"
+                    + "   \"linha\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"dn\":null,"
+                    + "      \"central\":null"
+                    + "   },"
+                    + "   \"radius\":{"
+                    + "      \"status\":null,"
+                    + "      \"armario\":null,"
+                    + "      \"rin\":null,"
+                    + "      \"velocidade\":null,"
+                    + "      \"ipFixo\":null,"
+                    + "      \"profile\":null,"
+                    + "      \"porta\":null,"
+                    + "      \"isIpFixo\":null"
+                    + "   },"
+                    + "   \"asserts\":["
+                    + "      {"
+                    + "         \"asserts\":\"CIRCUITO_ATIVO\","
+                    + "         \"value\":true,"
+                    + "         \"creationDate\":1540577254417"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"DIVERGENCIA_TBS_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1540577254417"
+                    + "      },"
+                    + "      {"
+                    + "         \"asserts\":\"HAS_BLOQUEIO_RADIUS\","
+                    + "         \"value\":false,"
+                    + "         \"creationDate\":1540577254417"
+                    + "      }"
+                    + "   ],"
+                    + "   \"eventos\":["
+                    + ""
+                    + "   ]"
+                    + "}");
+        } catch (Exception e) {
+        }
+        i = cust.getRede();
+        instance = new Alcatel7342GponDslamVivo1(i.getIpDslam());
     }
 
     @AfterClass
@@ -53,12 +136,7 @@ public class Alcatel7342GponDslamVivo1IT {
 
     @Before
     public void setUp() {
-        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
-//        Security.addProvider(bouncyCastleProvider);
-        Security.insertProviderAt(bouncyCastleProvider, 1);
-        cust = CustomerMock.getCustomer("1332321512");
-        instance = new Alcatel7342GponDslamVivo1(cust.getRede().getIpDslam());
-        i = cust.getRede();
+
     }
 
     @After
@@ -197,7 +275,7 @@ public class Alcatel7342GponDslamVivo1IT {
         System.out.println("getTabelaParametros");
         TabelaParametrosGponVivo1 result = instance.getTabelaParametros(i);
         //System.out.println(GsonUtil.serialize(result));
-    } 
+    }
 
     /**
      * Test of getAlarmes method, of class Alcatel7342GponDslamVivo1.
@@ -272,7 +350,8 @@ public class Alcatel7342GponDslamVivo1IT {
     @Test
     public void testSetProfileDown() throws Exception {
         System.out.println("setProfileDown");
-        instance.setProfileDown(i, null);
+        Profile result = instance.setProfileDown(i, null);
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
     }
 
     /**

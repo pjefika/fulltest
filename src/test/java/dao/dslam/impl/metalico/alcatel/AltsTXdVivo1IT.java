@@ -369,7 +369,6 @@ public class AltsTXdVivo1IT {
     @Test
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
-        InventarioRede i = null;
         Velocidades vDown = null;
         Velocidades vUp = null;
         AltsTXdVivo1 instance = null;
