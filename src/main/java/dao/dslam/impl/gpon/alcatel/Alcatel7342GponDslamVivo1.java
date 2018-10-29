@@ -471,7 +471,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
                     //                    + "ENT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::10_100BASET::IS;"
                     "ENT-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1::::AUTODETECT=AUTO,CVLANDEF=" + i.getCvlan() + ",SESSPROFID=12,MAXMACNUM=8:IS;"
                     + "ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1::::SVLAN=0,BWPROFUPID=14,BWPROFDNID=14:IS;"
-                    + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=10,NETWORKSIDEVLAN=" + i.getCvlan() + ",NUMTAGS=SINGLE:IS;", 7000);
+                    + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::::PORTAL=1,SVLAN=" + i.getRin() + ",PQPROFID=41,UNISIDEVLAN=10,NETWORKSIDEVLAN=" + i.getCvlan() + ",NUMTAGS=SINGLE:IS;", 10000);
         }
         return new ComandoDslam("ENT-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "::::BTRYBKUP=NO,BERINT=10000,DESC1=" + i.getTerminal() + ",DESC2=NULL,PROVVERSION=*,SERNUM=ALCL00000000,SUBSLOCID=" + i.getIdOnt() + ",SWVERPLND=AUTO,DLSW=AUTO:OOS;"
                 + "ENT-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::10_100BASET::IS;"
@@ -493,7 +493,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
         return new ComandoDslam(
                 "ENT-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3::::SVLAN=0,BWPROFUPID=30,BWPROFDNID=30:IS;"
                 + "ENT-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3::::PORTAL=3,"
-                + "SVLAN=" + i.getVlanVoip() + ",PQPROFID=30,UNISIDEVLAN=30,NETWORKSIDEVLAN=" + i.getVlanVoip() + ",NUMTAGS=SINGLE:IS;", 7000);
+                + "SVLAN=" + i.getVlanVoip() + ",PQPROFID=30,UNISIDEVLAN=30,NETWORKSIDEVLAN=" + i.getVlanVoip() + ",NUMTAGS=SINGLE:IS;", 10000);
     }
 
     @Override
@@ -578,15 +578,15 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
-        ComandoDslam cmdvod = getCd().consulta(getComandoDeleteVlanVoD(i));
-        ComandoDslam cmdvoip = getCd().consulta(getComandoDeleteVlanVoIP(i));
+//        ComandoDslam cmdvod = getCd().consulta(getComandoDeleteVlanVoD(i));
+//        ComandoDslam cmdvoip = getCd().consulta(getComandoDeleteVlanVoIP(i));
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
         ComandoDslam cmd1 = getCd().consulta(getComandoSetEstadoDaPorta(i, new EstadoDaPorta(Boolean.TRUE)));
         VlanBanda v = getVlanBanda(i);
         v.getInteracoes().add(0, cmd1);
         v.getInteracoes().add(0, cmd);
-        v.getInteracoes().add(0, cmdvoip);
-        v.getInteracoes().add(0, cmdvod);
+//        v.getInteracoes().add(0, cmdvoip);
+//        v.getInteracoes().add(0, cmdvod);
         return v;
     }
 
