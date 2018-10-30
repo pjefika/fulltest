@@ -228,27 +228,32 @@ public class AltsTXdVivo1 extends DslamMetalicoVivo1 {
 
     @Override
     public TabelaRedeMetalico getTabelaRede(InventarioRede i) throws Exception {
-        ComandoDslam cmd0 = getCd().consulta(getComandoGetTabelaRedeDown(i));
-        ComandoDslam cmd1 = getCd().consulta(getComandoGetTabelaRedeUp(i));
-        Document xml0 = TratativaRetornoUtil.stringXmlParse(cmd0);
-        Document xml1 = TratativaRetornoUtil.stringXmlParse(cmd1);
-        String crcDown = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='es']");
-        String crcUp = TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='ses']");
-        String fecDown = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='es']");
-        String fecUp = TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='ses']");
-        String resync = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='re-init']");
-
-        TabelaRedeMetalico t = new TabelaRedeMetalico();
-        t.setCrcDown(new BigInteger(crcDown));
-        t.setCrcUp(new BigInteger(crcUp));
-        t.setFecDown(new BigInteger(fecDown));
-        t.setFecUp(new BigInteger(fecUp));
-        t.setResync(new BigInteger(resync));
-
-        t.addInteracao(cmd0);
-        t.addInteracao(cmd1);
-
-        return t;
+        throw new FuncIndisponivelDslamException();
+        /**
+         ** falta mapear quantidade de pacotes trafegados
+        */
+//        ComandoDslam cmd0 = getCd().consulta(getComandoGetTabelaRedeDown(i));
+//        ComandoDslam cmd1 = getCd().consulta(getComandoGetTabelaRedeUp(i));
+//        Document xml0 = TratativaRetornoUtil.stringXmlParse(cmd0);
+//        Document xml1 = TratativaRetornoUtil.stringXmlParse(cmd1);
+//        String crcDown = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='es']");
+//        String crcUp = TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='ses']");
+//        String fecDown = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='es']");
+//        String fecUp = TratativaRetornoUtil.getXmlParam(xml1, "//info[@name='ses']");
+//        String resync = TratativaRetornoUtil.getXmlParam(xml0, "//info[@name='re-init']");
+//
+//        
+//        TabelaRedeMetalico t = new TabelaRedeMetalico();
+//        t.setCrcDown(new BigInteger(crcDown));
+//        t.setCrcUp(new BigInteger(crcUp));
+//        t.setFecDown(new BigInteger(fecDown));
+//        t.setFecUp(new BigInteger(fecUp));
+//        t.setResync(new BigInteger(resync));
+//
+//        t.addInteracao(cmd0);
+//        t.addInteracao(cmd1);
+//
+//        return t;
     }
 
     @Override
@@ -322,44 +327,60 @@ public class AltsTXdVivo1 extends DslamMetalicoVivo1 {
         return setProfileDown(i, vDown);
     }
 
+    protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + ":8:35 max-unicast-mac 8\n"
+                + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + ":8:35 vlan-id " + i.getCvlan() + "\n"
+                + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + ":8:35 vlan-id pvid", 3000);
+    }
+
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanMulticast createVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
+    }
+
+    protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) {
+        return new ComandoDslam("configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + ":8:35");
     }
 
     @Override
     public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
+        VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd);
+        return v;
     }
 
     @Override
     public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
     @Override
     public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new FuncIndisponivelDslamException();
     }
 
 }
