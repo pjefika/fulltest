@@ -7,6 +7,7 @@ package dao.dslam.factory;
 
 import br.net.gvt.efika.fulltest.exception.DslamNaoImplException;
 import dao.dslam.impl.AbstractDslam;
+import dao.dslam.impl.metalico.alcatel.AltsTXdVivo1;
 import dao.dslam.impl.metalico.alcatel.NfxsAFdDslamVivo1;
 import dao.dslam.impl.metalico.huawei.MA5100DslamVivo1;
 import dao.dslam.impl.metalico.huawei.MA5300DslamVivo1;
@@ -62,8 +63,8 @@ public class DslamMetalicoDAOFactory {
             return new MA5100DslamVivo1(ip);
         } else if (modelo.equalsIgnoreCase("MA5103")) {
             return new MA5100DslamVivo1(ip);
-        } else if (modelo.equalsIgnoreCase("NFXS-A FD")) {
-            return new NfxsAFdDslamVivo1(ip);
+        } else if (modelo.equalsIgnoreCase("NFXS-A FD")||modelo.equalsIgnoreCase("ALTS-T XD")) {
+            return new AltsTXdVivo1(ip);
         } else if (modelo.equalsIgnoreCase("MILEGATE 2510")) {
             return new Keymile2510DslamVivo1(ip);
         } else {
