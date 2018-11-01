@@ -422,7 +422,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
-        return new ComandoDslam("display service-port next-free-index", 1000);
+        return new ComandoDslam("display service-port next-free-index\n", 3000);
     }
 
     protected Integer getNextFreeIndex(InventarioRede i) throws Exception {
@@ -446,6 +446,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        System.out.println(getNextFreeIndex(i));
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i)));
         spBanda = null;
         VlanBanda v = getVlanBanda(i);
