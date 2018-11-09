@@ -18,10 +18,10 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponBasic;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
+import br.net.gvt.efika.util.json.JacksonMapper;
 import com.jcraft.jsch.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -39,19 +39,74 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 /**
  *
  * @author G0041775
  */
 public class HuaweiGponDslamVivo1IT {
 
+    private static EfikaCustomer cust;//= CustomerMock.getCustomer("1932566062");
+    private static HuaweiGponDslamVivo1 instance;// = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
+    private static InventarioRede i;// = cust.getRede();
+
     public HuaweiGponDslamVivo1IT() {
     }
 
     @BeforeClass
     public static void setUpClass() {
-
+        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
+        Security.insertProviderAt(bouncyCastleProvider, 1);
+        try {
+            cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{"
+                    + "   \"designador\":\"SPO-814YXT7N6M-013\","
+                    + "   \"instancia\":\"110008354249707\","
+                    + "   \"designadorAcesso\":\"SPO-27398202-069\","
+                    + "   \"designadorTv\":null,"
+                    + "   \"rede\":{"
+                    + "      \"tipo\":\"GPON\","
+                    + "      \"origem\":\"OFFLINE\","
+                    + "      \"planta\":\"VIVO1\","
+                    + "      \"ipDslam\":\"BR_SPOJB_OLT04\","
+                    + "      \"vendorDslam\":\"HUAWEI TECHNOLOGIES\","
+                    + "      \"modeloDslam\":\"MA5600T\","
+                    + "      \"idOnt\":\"0004093233\","
+                    + "      \"terminal\":\"110008354249707\","
+                    + "      \"ipMulticast\":null,"
+                    + "      \"nrc\":null,"
+                    + "      \"slot\":15,"
+                    + "      \"porta\":6,"
+                    + "      \"sequencial\":48,"
+                    + "      \"logica\":48,"
+                    + "      \"rin\":34,"
+                    + "      \"vlanVoip\":3004,"
+                    + "      \"vlanVod\":3001,"
+                    + "      \"vlanMulticast\":3001,"
+                    + "      \"cvlan\":289,"
+                    + "      \"bhs\":\"true\""
+                    + "   },"
+                    + "   \"servicos\":{"
+                    + "      \"origem\":null,"
+                    + "      \"velDown\":324500,"
+                    + "      \"velUp\":162202,"
+                    + "      \"tipoTv\":\"IPTV\","
+                    + "      \"tipoLinha\":\"SIP\""
+                    + "   },"
+                    + "   \"linha\":{"
+                    + "      \"tipo\":null,"
+                    + "      \"dn\":null,"
+                    + "      \"central\":null"
+                    + "   },"
+                    + "   \"asserts\":["
+                    + ""
+                    + "   ],"
+                    + "   \"eventos\":["
+                    + ""
+                    + "   ]"
+                    + "}");
+        } catch (Exception e) {
+        }
+        instance = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
+        i = cust.getRede();
     }
 
     @AfterClass
@@ -60,17 +115,12 @@ public class HuaweiGponDslamVivo1IT {
 
     @Before
     public void setUp() {
-        BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
-        Security.insertProviderAt(bouncyCastleProvider, 1);
+
     }
 
     @After
     public void tearDown() {
     }
-
-    private static EfikaCustomer cust = CustomerMock.getCustomer("1932566062");
-    private static HuaweiGponDslamVivo1 instance = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
-    private static InventarioRede i = cust.getRede();
 
     /**
      * Test of conectar method, of class HuaweiGponDslamVivo1.
@@ -251,7 +301,6 @@ public class HuaweiGponDslamVivo1IT {
         System.out.println("getProfile");
         Profile result = instance.getProfile(i);
 
-
     }
 
     /**
@@ -346,7 +395,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testCreateVlanBanda() throws Exception {
         System.out.println("createVlanBanda");
         VlanBanda result = instance.createVlanBanda(i, Velocidades.find(cust.getServicos().getVelDown()), Velocidades.find(cust.getServicos().getVelUp()));
-
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
     }
 
     /**
@@ -432,7 +481,6 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetSlotsAvailableOnts() throws Exception {
         System.out.println("getSlotsAvailableOnts");
         List<SerialOntGpon> result = instance.getSlotsAvailableOnts(i);
-
 
     }
 

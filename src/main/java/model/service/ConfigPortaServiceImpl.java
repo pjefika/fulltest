@@ -15,6 +15,8 @@ import br.net.gvt.efika.fulltest.exception.TratativaExcessao;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.EstadoDaPorta;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
 import dao.dslam.impl.AlteracaoClienteInter;
 import dao.dslam.impl.AlteracaoGponDefault;
@@ -162,24 +164,39 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
         l.add(exec(new ValidadorVlanBanda(getDslam(), getEc(), local)));
 
         if (getEc().getServicos().getTipoLinha() == TecnologiaLinha.SIP) {
-            getEc().getRede().setBhs(bhsInverso);
-            alteracao().deleteVlanVoip(getEc().getRede());
+            try {
+                VlanVoip checkVoIP = consulta().getVlanVoip(getEc().getRede());
+                if (checkVoIP.getCvlan() != null && checkVoIP.getCvlan().compareTo(0) != 0) {
+                    getEc().getRede().setBhs(bhsInverso);
+                    alteracao().deleteVlanVoip(getEc().getRede());
+                    getEc().getRede().setBhs(bhsOriginal);
+                    alteracao().createVlanVoip(getEc().getRede());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             getEc().getRede().setBhs(bhsOriginal);
             alteracao().createVlanVoip(getEc().getRede());
         }
         l.add(exec(new ValidadorVlanVoip(getDslam(), getEc(), local)));
 
         if (getEc().getServicos().getTipoTv() != null && getEc().getServicos().getTipoTv() != TecnologiaTv.DTH) {
-            getEc().getRede().setBhs(bhsInverso);
-            alteracao().deleteVlanVod(getEc().getRede());
+            try {
+                VlanVod vlanVoD = consulta().getVlanVod(getEc().getRede());
+                if (vlanVoD.getCvlan() != null && vlanVoD.getCvlan().compareTo(0) != 0) {
+                    getEc().getRede().setBhs(bhsInverso);
+                    alteracao().deleteVlanVod(getEc().getRede());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             getEc().getRede().setBhs(bhsOriginal);
             alteracao().createVlanVod(getEc().getRede());
 
             if (getEc().getRede().getPlanta() == OrigemPlanta.VIVO2) {
                 try {
-                    getEc().getRede().setBhs(bhsInverso);
                     alteracao().deleteVlanMulticast(getEc().getRede());
-                    getEc().getRede().setBhs(bhsOriginal);
                     alteracao().createVlanMulticast(getEc().getRede());
                     l.add(exec(new ValidadorVlanMulticast(getDslam(), getEc(), local)));
                 } catch (Exception e) {

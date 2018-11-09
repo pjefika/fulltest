@@ -205,7 +205,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont info " + i.getPorta() + " " + i.getLogica() + "\n", 3000, "quit\n");
     }
 
     @Override
@@ -231,7 +231,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display port state  " + i.getPorta(), 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display port state  " + i.getPorta(), 3000, "quit\n");
     }
 
     @Override
@@ -245,7 +245,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetParametros(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 1000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display ont optical-info " + i.getPorta() + " " + i.getLogica() + "\n", 3000, "quit\n");
     }
 
     @Override
@@ -422,7 +422,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetNextFreeIndex(InventarioRede i) {
-        return new ComandoDslam("display service-port next-free-index", 1000);
+        return new ComandoDslam("display service-port next-free-index\n", 3000);
     }
 
     protected Integer getNextFreeIndex(InventarioRede i) throws Exception {
@@ -446,6 +446,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
+        System.out.println(getNextFreeIndex(i));
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i, getNextFreeIndex(i)));
         spBanda = null;
         VlanBanda v = getVlanBanda(i);
