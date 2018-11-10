@@ -145,7 +145,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":;", 13000);
+        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":", 10000);
     }
 
     @Override
