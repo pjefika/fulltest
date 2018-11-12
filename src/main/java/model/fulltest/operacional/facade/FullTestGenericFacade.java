@@ -6,6 +6,7 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.Solucao;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
 import dao.dslam.factory.DslamDAOFactory;
@@ -33,6 +34,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     protected EfikaCustomer cl;
 
     private List<Validator> bateria;
+
+    protected List<Solucao> solucoes;
 
     protected List<ValidacaoResult> valids;
 
@@ -64,6 +67,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         this.dataInicio = Calendar.getInstance();
         this.dslam = DslamDAOFactory.getInstance(this.cl.getRede());
         this.valids = new ArrayList<>();
+        this.solucoes = new ArrayList<>();
     }
 
     @Override
@@ -71,6 +75,18 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         dslam.desconectar();
         dataFim = Calendar.getInstance();
         this.encerramento();
+        //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
+        valids.stream().forEach(valid -> {
+            List<Solucao> newSolucoes = new ArrayList<>();
+            if(valid.getFoiCorrigido()){
+                Solucao solucao = new Solucao();
+                solucao.setProblema(valid.getNome());
+                //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
+                solucao.setSolucao("");
+                newSolucoes.add(solucao);
+            }
+            this.solucoes = newSolucoes;
+        });
     }
 
     @Override
@@ -142,6 +158,17 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     public void setBateria(List<Validator> bateria) {
         this.bateria = bateria;
+    }
+
+    public List<Solucao> getSolucoes() {
+        if (solucoes == null) {
+            solucoes = new ArrayList<>();
+        }
+        return solucoes;
+    }
+
+    public void setSolucoes(List<Solucao> solucoes) {
+        this.solucoes = solucoes;
     }
 
     public List<ValidacaoResult> getValids() {
