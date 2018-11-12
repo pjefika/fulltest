@@ -9,8 +9,11 @@ import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.fulltest.model.fulltest.Solucao;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import dao.SolucaoDao;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -21,7 +24,9 @@ import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.validacao.impl.realtime.FactoryValidador;
 import model.validacao.impl.realtime.Validator;
+import util.DbInfo;
 import util.MacAddressValidator;
+import util.MySqlConnection;
 
 /**
  *
@@ -75,18 +80,32 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         dslam.desconectar();
         dataFim = Calendar.getInstance();
         this.encerramento();
-        //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
-        valids.stream().forEach(valid -> {
-            List<Solucao> newSolucoes = new ArrayList<>();
-            if(valid.getFoiCorrigido()){
-                Solucao solucao = new Solucao();
-                solucao.setProblema(valid.getNome());
-                //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
-                solucao.setSolucao("");
-                newSolucoes.add(solucao);
+        Connection conn = null;
+        try {
+            MySqlConnection mySqlConnection = new MySqlConnection();
+            conn = mySqlConnection.getConnection("10.200.35.66","efika", "root", "pirogue");
+            //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
+            for(ValidacaoResult valid : valids){
+                List<Solucao> newSolucoes = new ArrayList<>();
+                if (!valid.getFoiCorrigido()) {
+                    Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
+                    //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
+                    solucao.setSolucao(solucao.getSolucao());
+                    newSolucoes.add(solucao);
+                }
+                this.solucoes = newSolucoes;
             }
-            this.solucoes = newSolucoes;
-        });
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

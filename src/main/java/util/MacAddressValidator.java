@@ -20,7 +20,7 @@ public class MacAddressValidator {
         PreparedStatement st = null;
         Connection conn = null;
         try{
-            conn = connection.getConnection();
+            conn = connection.getConnection("10.40.197.137", "MacAddress", new DbInfo().getUser(), new DbInfo().getPass());
             st = connection.getSt(conn, "SELECT * FROM DW_020_RADACCT WHERE DESIGNADOR = ? ORDER BY ID DESC limit 1");
             st.setString(1, designador);
             rs = st.executeQuery();
