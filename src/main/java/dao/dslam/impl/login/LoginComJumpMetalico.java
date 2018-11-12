@@ -39,8 +39,8 @@ public class LoginComJumpMetalico implements LoginDslamStrategy {
             BouncyCastleProvider bouncyCastleProvider = new BouncyCastleProvider();
             Security.insertProviderAt(bouncyCastleProvider, 2);
             jsch = new JSch();
-            session = jsch.getSession("incid", "10.18.81.96", 22);
-            session.setPassword("v!vo@incid");
+            session = jsch.getSession("efika", "10.18.81.96", 22);
+            session.setPassword("Vivo@2018");
 
             Properties config = new Properties();
             config.put("StrictHostKeyChecking", "no");
