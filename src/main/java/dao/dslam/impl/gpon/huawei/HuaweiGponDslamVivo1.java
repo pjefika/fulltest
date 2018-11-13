@@ -193,9 +193,9 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> resp = cmd.getRetorno();
         estadoDaPorta = new EstadoDaPorta();
-        if (!cmd.getBlob().contains("Control flag")) {
-            throw new FalhaAoConsultarException();
-        }
+//        if (!cmd.getBlob().contains("Control flag")) {
+//            throw new FalhaAoConsultarException();
+//        }
         estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
         estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
