@@ -33,6 +33,7 @@ import dao.dslam.impl.login.Login1023ComJump;
 import dao.dslam.impl.retorno.TratativaRetornoUtil;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import model.dslam.credencial.Credencial;
@@ -77,11 +78,11 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPrepareEnvironment() {
-        return new ComandoDslam("INH-MSG-ALL::ALL:010;", 8000);
+        return new ComandoDslam("INH-MSG-ALL::ALL:010;", 5000);
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("RTRV-PON::PON-1-1-" + i.getSlot() + "-" + i.getPorta() + "::;", 13000);
+        return new ComandoDslam("RTRV-PON::PON-1-1-" + i.getSlot() + "-" + i.getPorta() + "::;", 20000);
     }
 
     @Override
@@ -131,10 +132,19 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     protected void setTransients(InventarioRede i) throws Exception {
         estadoPorta = new EstadoDaPorta();
         serial = new SerialOntGpon();
+        System.out.println("VAIMANDAR" + Calendar.getInstance().getTimeInMillis());
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> retorno = cmd.getRetorno();
+        System.out.println("VAICHECAR" + Calendar.getInstance().getTimeInMillis());
         if (!cmd.getBlob().contains("SLIDVISIBILITY")) {
-            throw new FalhaAoConsultarException();
+            serial.setIdOnt("0");
+            serial.setPorta(0);
+            serial.setSerial("0");
+            serial.setSlot(0);
+            estadoPorta.setAdminState(false);
+            estadoPorta.setOperState(false);
+            return;
+//            throw new FalhaAoConsultarException();
         }
         estadoPorta.setAdminState(!TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("OOS-AUMA"));
         estadoPorta.setOperState(!TratativaRetornoUtil.trat7342(retorno, "SLIDVISIBILITY").contains("OOS"));
@@ -145,7 +155,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetEstadoDaPorta(InventarioRede i) {
-        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":", 10000);
+        return new ComandoDslam("RTRV-ONT::ONT-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + ":;", 10000);
     }
 
     @Override
