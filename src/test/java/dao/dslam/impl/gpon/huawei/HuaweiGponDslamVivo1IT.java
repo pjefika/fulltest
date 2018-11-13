@@ -30,7 +30,6 @@ import java.security.Security;
 import java.util.List;
 import java.util.Properties;
 import model.dslam.credencial.Credencial;
-import model.fulltest.operacional.CustomerMock;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -58,30 +57,30 @@ public class HuaweiGponDslamVivo1IT {
         Security.insertProviderAt(bouncyCastleProvider, 1);
         try {
             cust = (EfikaCustomer) new JacksonMapper(EfikaCustomer.class).deserialize("{"
-                    + "   \"designador\":\"STZ-814YP2J45A-013\","
-                    + "   \"instancia\":\"115998299267800\","
-                    + "   \"designadorAcesso\":\"STZ-26952018-069\","
+                    + "   \"designador\":\"STZ-814ZNJX6TO-013\","
+                    + "   \"instancia\":\"115998354027500\","
+                    + "   \"designadorAcesso\":\"STZ-27982088-069\","
                     + "   \"designadorTv\":null,"
                     + "   \"rede\":{"
                     + "      \"tipo\":\"GPON\","
                     + "      \"origem\":\"ONLINE\","
                     + "      \"planta\":\"VIVO1\","
-                    + "      \"ipDslam\":\"10.58.223.134\","
+                    + "      \"ipDslam\":\"10.58.223.138\","
                     + "      \"vendorDslam\":\"HUAWEI TECHNOLOGIES\","
                     + "      \"modeloDslam\":\"MA5800\","
-                    + "      \"idOnt\":\"0004069887\","
-                    + "      \"terminal\":\"1682992678\","
+                    + "      \"idOnt\":\"0004164370\","
+                    + "      \"terminal\":\"1683540275\","
                     + "      \"ipMulticast\":null,"
                     + "      \"nrc\":null,"
-                    + "      \"slot\":16,"
-                    + "      \"porta\":11,"
-                    + "      \"sequencial\":5,"
-                    + "      \"logica\":5,"
-                    + "      \"rin\":362,"
-                    + "      \"vlanVoip\":3004,"
-                    + "      \"vlanVod\":3001,"
-                    + "      \"vlanMulticast\":3001,"
-                    + "      \"cvlan\":1644,"
+                    + "      \"slot\":1,"
+                    + "      \"porta\":15,"
+                    + "      \"sequencial\":4,"
+                    + "      \"logica\":4,"
+                    + "      \"rin\":363,"
+                    + "      \"vlanVoip\":3008,"
+                    + "      \"vlanVod\":3005,"
+                    + "      \"vlanMulticast\":3005,"
+                    + "      \"cvlan\":141,"
                     + "      \"bhs\":true"
                     + "   },"
                     + "   \"redeExterna\":{"
@@ -96,8 +95,8 @@ public class HuaweiGponDslamVivo1IT {
                     + "   },"
                     + "   \"servicos\":{"
                     + "      \"origem\":null,"
-                    + "      \"velDown\":102400,"
-                    + "      \"velUp\":51200,"
+                    + "      \"velDown\":204800,"
+                    + "      \"velUp\":102400,"
                     + "      \"tipoTv\":null,"
                     + "      \"tipoLinha\":\"SIP\""
                     + "   },"
@@ -117,21 +116,6 @@ public class HuaweiGponDslamVivo1IT {
                     + "      \"isIpFixo\":null"
                     + "   },"
                     + "   \"asserts\":["
-                    + "      {"
-                    + "         \"asserts\":\"CIRCUITO_ATIVO\","
-                    + "         \"value\":true,"
-                    + "         \"creationDate\":1541767085181"
-                    + "      },"
-                    + "      {"
-                    + "         \"asserts\":\"DIVERGENCIA_TBS_RADIUS\","
-                    + "         \"value\":false,"
-                    + "         \"creationDate\":1541767085181"
-                    + "      },"
-                    + "      {"
-                    + "         \"asserts\":\"HAS_BLOQUEIO_RADIUS\","
-                    + "         \"value\":false,"
-                    + "         \"creationDate\":1541767085181"
-                    + "      }"
                     + "   ],"
                     + "   \"eventos\":["
                     + ""
@@ -139,7 +123,7 @@ public class HuaweiGponDslamVivo1IT {
                     + "}");
         } catch (Exception e) {
         }
-        instance = new HuaweiGponDslamVivo1(cust.getRede().getIpDslam());
+        instance = new Huawei5800GponDlamVivo1(cust.getRede().getIpDslam());
         i = cust.getRede();
     }
 
@@ -265,7 +249,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetPortaPON() throws Exception {
         System.out.println("getPortaPON");
         PortaPON result = instance.getPortaPON(i);
-        assertTrue(result.validar(null));
+        System.out.println(new JacksonMapper(PortaPON.class).serialize(result));
 
     }
 
@@ -276,6 +260,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetVlanBanda() throws Exception {
         System.out.println("getVlanBanda");
         VlanBanda result = instance.getVlanBanda(i);
+        System.out.println(new JacksonMapper(VlanBanda.class).serialize(result));
 
         assertTrue(result.validar(cust));
     }
@@ -302,6 +287,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetVlanVoip() throws Exception {
         System.out.println("getVlanVoip");
         VlanVoip result = instance.getVlanVoip(i);
+        System.out.println(new JacksonMapper(VlanVoip.class).serialize(result));
 
         assertTrue(result.validar(cust));
     }
@@ -313,6 +299,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetVlanVod() throws Exception {
         System.out.println("getVlanVod");
         VlanVod result = instance.getVlanVod(i);
+        System.out.println(new JacksonMapper(VlanVod.class).serialize(result));
 
         assertTrue(result.validar(cust));
     }
@@ -334,6 +321,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetProfile() throws Exception {
         System.out.println("getProfile");
         Profile result = instance.getProfile(i);
+        System.out.println(new JacksonMapper(Profile.class).serialize(result));
 
     }
 
@@ -449,6 +437,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testCreateVlanVod() throws Exception {
         System.out.println("createVlanVod");
         VlanVod result = instance.createVlanVod(i);
+        System.out.println(new JacksonMapper(VlanVod.class).serialize(result));
 
     }
 

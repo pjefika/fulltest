@@ -10,6 +10,7 @@ import dao.dslam.impl.AbstractDslam;
 import dao.dslam.impl.gpon.alcatel.Alcatel7302GponDslamVivo1;
 import dao.dslam.impl.gpon.alcatel.Alcatel7342GponDslamVivo1;
 import dao.dslam.impl.gpon.alcatel.AlcatelGponDslam;
+import dao.dslam.impl.gpon.huawei.Huawei5800GponDlamVivo1;
 import dao.dslam.impl.gpon.huawei.HuaweiGponDslamVivo1;
 import dao.dslam.impl.gpon.keymile.KeymileGponDslam;
 import dao.dslam.impl.gpon.zhone.ZhoneGponDslam;
@@ -32,8 +33,10 @@ public class DslamGponDAOFactory {
             return new Alcatel7302GponDslamVivo1(ip);
         } else if (modelo.trim().equalsIgnoreCase("7342 ISAM FTTU")) {
             return new Alcatel7342GponDslamVivo1(ip);
-        } else if (modelo.trim().equalsIgnoreCase("MA5600T") || modelo.trim().equalsIgnoreCase("MA5800") || modelo.trim().equalsIgnoreCase("MA5600T_FV1")) {
+        } else if (modelo.trim().equalsIgnoreCase("MA5600T") || modelo.trim().equalsIgnoreCase("MA5600T_FV1")) {
             return new HuaweiGponDslamVivo1(ip);
+        } else if (modelo.trim().equalsIgnoreCase("MA5800")) {
+            return new Huawei5800GponDlamVivo1(ip);
         } else {
             throw new DslamNaoImplException();
         }
