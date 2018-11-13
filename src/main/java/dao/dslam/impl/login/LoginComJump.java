@@ -63,7 +63,7 @@ public class LoginComJump implements LoginDslamStrategy {
 
             cs.out.print(telnet + "\r");
             cs.out.flush();
-            Thread.sleep(4000);
+            Thread.sleep(5000);
             cs.out.print(this.cs.dslam.getCredencial().getLogin() + "\r");
             cs.out.flush();
             Thread.sleep(3500);
