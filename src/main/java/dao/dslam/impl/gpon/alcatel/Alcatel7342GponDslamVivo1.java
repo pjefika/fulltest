@@ -132,10 +132,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     protected void setTransients(InventarioRede i) throws Exception {
         estadoPorta = new EstadoDaPorta();
         serial = new SerialOntGpon();
-        System.out.println("VAIMANDAR" + Calendar.getInstance().getTimeInMillis());
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> retorno = cmd.getRetorno();
-        System.out.println("VAICHECAR" + Calendar.getInstance().getTimeInMillis());
+        
         if (!cmd.getBlob().contains("SLIDVISIBILITY")) {
             serial.setIdOnt("0");
             serial.setPorta(0);

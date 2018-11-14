@@ -232,6 +232,7 @@ public class HuaweiGponDslamVivo1IT {
     public void testGetSerialOnt() throws Exception {
         System.out.println("getSerialOnt");
         SerialOntGpon result = instance.getSerialOnt(i);
+        System.out.println(new JacksonMapper(SerialOntGpon.class).serialize(result));
 
     }
 

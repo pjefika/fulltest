@@ -188,19 +188,30 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         gemportVoip = i.getLogica() + 384;
     }
 
+    Boolean tudoDestruido = false;
+
     protected void tabelaEstadoDaPorta(InventarioRede i) throws Exception {
         setGemports(i);
         ComandoDslam cmd = getCd().consulta(getComandoGetEstadoDaPorta(i));
         List<String> resp = cmd.getRetorno();
         estadoDaPorta = new EstadoDaPorta();
-//        if (!cmd.getBlob().contains("Control flag")) {
-//            throw new FalhaAoConsultarException();
-//        }
-        estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
-        estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
         serial = new SerialOntGpon();
-        serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
-        serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
+        if (!cmd.getBlob().contains("Control flag")) {
+            estadoDaPorta.setAdminState(false);
+            estadoDaPorta.setOperState(false);
+            serial.setIdOnt("0");
+            serial.setPorta(0);
+            serial.setSlot(0);
+            serial.setSerial("0");
+            tudoDestruido = true;
+//            throw new FalhaAoConsultarException();
+        } else {
+            estadoDaPorta.setAdminState(TratativaRetornoUtil.tratHuawei(resp, "Control flag").equalsIgnoreCase("active"));
+            estadoDaPorta.setOperState(TratativaRetornoUtil.tratHuawei(resp, "Run state").equalsIgnoreCase("online"));
+            serial.setSerial(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "SN ")));
+            serial.setIdOnt(TratativaRetornoUtil.valueFromParentesis(TratativaRetornoUtil.tratHuawei(resp, "Password")));
+        }
+
         System.out.println("");
     }
 
@@ -369,10 +380,19 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
+//        SerialOntGpon ser = getSerialOnt(i);
+//        ComandoDslam cmd0 = null;
+//        if (tudoDestruido) {
+//            setGemports(i);
+//            cmd0 = this.getCd().consulta(getComandoCreateVlanBanda(i, gemportBanda));
+//        }
         ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i, s));
         this.serial = null;
         SerialOntGpon se = this.getSerialOnt(i);
         se.getInteracoes().add(0, cmd);
+//        if (cmd0 != null) {
+//            se.getInteracoes().add(0, cmd0);
+//        }
         return se;
     }
 
