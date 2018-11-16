@@ -6,19 +6,17 @@
 package controller;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.Solucao;
 import br.net.gvt.efika.util.thread.EfikaThread;
 import controller.in.FulltestCOIn;
 import controller.in.FulltestCRMIn;
 import controller.in.FulltestManobraIn;
 import dao.FactoryDAO;
+import dao.SolucaoDao;
 import dao.customer.CustomerDAO;
 import dao.log.LogEntityDAO;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -128,6 +126,23 @@ public class FullTestController extends RestJaxAbstract {
         } catch (Exception e) {
             return serverError(e);
         }
+    }
+
+    @GET
+    @Path("/solucoes")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getSolucoes(){
+        SolucaoDao solucaoDao = new SolucaoDao();
+        return Response.ok(solucaoDao.findAll()).build();
+    }
+
+    @PUT
+    @Path("/solucao")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response setSolucao(Solucao solucao){
+        SolucaoDao solucaoDao = new SolucaoDao();
+        Solucao uSolucao = solucaoDao.update(solucao);
+        return Response.ok(uSolucao).build();
     }
     
     @GET

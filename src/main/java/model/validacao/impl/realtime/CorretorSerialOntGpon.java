@@ -37,14 +37,16 @@ public class CorretorSerialOntGpon extends CorretorGpon {
         try {
             SerialOntGpon s1 = new SerialOntGpon();
             s1.setIdOnt(cust.getRede().getIdOnt());
-            getPreresults().add(this.ag.setOntToOlt(cust.getRede(), s1));
-            ValidacaoAssociacaoOnt v = (ValidacaoAssociacaoOnt) this.consultar();
+            serial = this.ag.setOntToOlt(cust.getRede(), s1);
+            getPreresults().add(serial);
+            ValidacaoAssociacaoOnt v = new ValidacaoAssociacaoOnt(serial, cust, bundle.getLocale());
             v.validar();
             if(!v.getResultado()){
                 v.setMensagem(bundle.getString("correcaoSerialOnt_nok"));
             }else{
                     v.setMensagem(bundle.getString("correcaoSerialOnt_ok")+" "+v.getMensagem().split(" ")[v.getMensagem().split(" ").length-1]);
             }
+            
             this.setValid(v);
         } catch (Exception e) {
             throw new FalhaAoCorrigirException();

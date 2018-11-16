@@ -6,10 +6,14 @@
 package model.fulltest.operacional.facade;
 
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
+import br.net.gvt.efika.fulltest.model.fulltest.Solucao;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
+import dao.SolucaoDao;
 import dao.dslam.factory.DslamDAOFactory;
 import dao.dslam.impl.AbstractDslam;
+
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -20,7 +24,9 @@ import model.fulltest.operacional.strategy.ExecutionStrategy;
 import model.fulltest.operacional.strategy.FactoryExecutionStrategy;
 import model.validacao.impl.realtime.FactoryValidador;
 import model.validacao.impl.realtime.Validator;
+import util.DbInfo;
 import util.MacAddressValidator;
+import util.MySqlConnection;
 
 /**
  *
@@ -33,6 +39,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
     protected EfikaCustomer cl;
 
     private List<Validator> bateria;
+
+    protected List<Solucao> solucoes;
 
     protected List<ValidacaoResult> valids;
 
@@ -64,6 +72,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         this.dataInicio = Calendar.getInstance();
         this.dslam = DslamDAOFactory.getInstance(this.cl.getRede());
         this.valids = new ArrayList<>();
+        this.solucoes = new ArrayList<>();
     }
 
     @Override
@@ -71,6 +80,32 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         dslam.desconectar();
         dataFim = Calendar.getInstance();
         this.encerramento();
+        Connection conn = null;
+        try {
+            MySqlConnection mySqlConnection = new MySqlConnection();
+            conn = mySqlConnection.getConnection("10.200.35.66","efika", "root", "pirogue");
+            //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
+            for(ValidacaoResult valid : valids){
+                List<Solucao> newSolucoes = new ArrayList<>();
+                if (!valid.getFoiCorrigido()) {
+                    Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
+                    //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
+                    solucao.setSolucao(solucao.getSolucao());
+                    newSolucoes.add(solucao);
+                }
+                this.solucoes = newSolucoes;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -142,6 +177,17 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
 
     public void setBateria(List<Validator> bateria) {
         this.bateria = bateria;
+    }
+
+    public List<Solucao> getSolucoes() {
+        if (solucoes == null) {
+            solucoes = new ArrayList<>();
+        }
+        return solucoes;
+    }
+
+    public void setSolucoes(List<Solucao> solucoes) {
+        this.solucoes = solucoes;
     }
 
     public List<ValidacaoResult> getValids() {

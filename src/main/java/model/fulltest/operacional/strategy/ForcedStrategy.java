@@ -6,6 +6,7 @@
 package model.fulltest.operacional.strategy;
 
 import br.net.gvt.efika.fulltest.exception.CorrecaoInterruptoraException;
+import br.net.gvt.efika.fulltest.exception.FalhaAoConsultarException;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -54,7 +55,7 @@ public class ForcedStrategy implements ExecutionStrategy {
                     if (ex instanceof SocketException) {
                         throw new SemGerenciaException();
                     }
-                    if (ex instanceof CorrecaoInterruptoraException) {
+                    if (ex instanceof CorrecaoInterruptoraException || ex instanceof FalhaAoConsultarException) {
                         return;
                     }
                 }

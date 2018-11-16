@@ -146,7 +146,7 @@ public class NfxsAFdDslamVivo1 extends DslamMetalicoVivo1 {
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlanBanda(i));
-        Document xml = TratativaRetornoUtil.stringXmlParse(getCd().consulta(getComandoGetVlanBanda(i)));
+        Document xml = TratativaRetornoUtil.stringXmlParse(cmd);
         String vs = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
         List<Integer> l = TratativaRetornoUtil.listIntegersFromString(vs);
         

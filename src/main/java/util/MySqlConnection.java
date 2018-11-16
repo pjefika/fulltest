@@ -10,10 +10,13 @@ import java.sql.*;
  **/
 public class MySqlConnection {
 
-    public Connection getConnection() throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
-        Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-        String database = "jdbc:mysql://10.40.197.137:3306/MacAddress?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC";
-        Connection conn = DriverManager.getConnection(database, "root", "efika123@gvt");
+    public Connection getConnection(String url, String db, String user, String pass) throws ClassNotFoundException, IllegalAccessException, InstantiationException, SQLException {
+        //Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
+        Class.forName("com.mysql.jdbc.Driver").newInstance();
+        String database = String.format("jdbc:mysql://%s:3306/%s?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC", url, db);
+        //String database = String.format("jdbc:mysql://10.40.197.137:3306/%s?autoReconnect=true&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC", db);
+        Connection conn = DriverManager.getConnection(database, user, pass);
+        //Connection conn = DriverManager.getConnection(database, "root", "efika123@gvt");
         return conn;
     }
 
