@@ -553,14 +553,22 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoDeleteVlanBanda(InventarioRede i) throws Exception {
-        if (spBanda == null) {
-            setServicePorts(i);
+        if (gemportBanda == null) {
+            setGemports(i);
         }
 //        String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
 //        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
-        String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
+//        String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
 
-        return new ComandoDslam("undo service-port " + indexSpBanda + "\n", 5000);
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + "\n\n"
+                + "y\n"
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "/n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "/n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1/n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportBanda + "/n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4/n"
+                + "quit/n", 5000);
     }
 
     @Override
@@ -579,9 +587,15 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setGemports(i);
         }
 
-        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
-
-        return new ComandoDslam("undo service-port " + indexSpVoip, 7500);
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + "\n\n"
+                + "y\n"
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "/n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "/n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1/n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "/n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3/n"
+                + "quit/n", 5000);
     }
 
     @Override
@@ -601,15 +615,15 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         }
 
         String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
-        return new ComandoDslam("btv\n"
-                + "multicast-vlan " + i.getVlanMulticast() + "\n"
-                + "undo igmp multicast-vlan member service-port " + indexSpIptv + "\n"
-                + "quit\n"
-                + "btv\n"
-                + "igmp user delete service-port " + indexSpIptv + "\n"
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + "\n\n"
                 + "y\n"
-                + "quit\n"
-                + "undo service-port " + indexSpIptv, 9000);
+                + "interface gpon 0/" + i.getSlot() + "\n"
+                + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "/n"
+                + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "/n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1/n"
+                + "gemport delete " + i.getPorta() + " gemportid " + gemportIptv + "/n"
+                + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 2/n"
+                + "quit/n", 5000);
     }
 
     @Override
