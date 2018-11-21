@@ -59,15 +59,38 @@ public class FactoryValidador {
     public static List<Validator> co(AbstractDslam dslam, EfikaCustomer cust) {
         List<Validator> bateria = new ArrayList<>();
         Locale local = new Locale("co", "CO");
+
         if (cust.getRede().getTipo() == TipoRede.GPON) {
-            bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
+            if (cust.getRede().getModeloDslam().contains("5800") || cust.getRede().getModeloDslam().contains("5600")) {
+                bateria.add(new CorretorVlanBanda(dslam, cust, local));
+                bateria.add(new CorretorVlanVoip(dslam, cust, local));
+                bateria.add(new CorretorVlanVod(dslam, cust, local));
+                bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
+                bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+                bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
+                bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+                bateria.add(new CorretorProfile(dslam, cust, local));
+                bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
+                return bateria;
+            } else if (cust.getRede().getModeloDslam().contains("7342")) {
+                bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
+                bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
+                bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
+                bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
+                bateria.add(new CorretorProfile(dslam, cust, local));
+                bateria.add(new CorretorVlanBanda(dslam, cust, local));
+                bateria.add(new CorretorVlanVoip(dslam, cust, local));
+                bateria.add(new CorretorVlanVod(dslam, cust, local));
+                bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
+                return bateria;
+            }
+
         }
         bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
         bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
-
         if (cust.getRede().getTipo() == TipoRede.GPON) {
 //            bateria.add(new ValidadorVizinhanca(dslam, cust, local));
-//            bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
+            bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
             bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
 //            bateria.add(new ValidadorReConexao(dslam, cust, local));
         } else {
