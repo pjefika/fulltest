@@ -451,6 +451,39 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         return new Integer(TratativaRetornoUtil.tratHuawei(resp, "Next valid free service virtual port ID"));
     }
 
+    protected ComandoDslam getComandoCreateFromGround(InventarioRede i, Integer index) {
+        if (i.getBhs()) {
+
+            return new ComandoDslam(
+                    "interface gpon 0/" + i.getSlot() + "\n"
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getLogica() + " manage - mode omci\n"
+                    + "ont native-vlan " + i.getPorta() + " " + i.getLogica() + " unconcern\n"
+                    + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
+                    + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on \n"
+                    + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                    + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                    + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                    + "quit\n"
+                    + "service-port  vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvlan() + " inner-priority 0 inbound traffic-table index 6 outbound traffic-table index 500\n",
+                    5000);
+        }
+
+        return new ComandoDslam("interface gpon 0/" + i.getSlot() + "\n"
+                + "ont alarm-profile " + i.getPorta() + " " + i.getLogica() + " profile-id 1\n"
+                + "ont ipconfig " + i.getPorta() + " " + i.getLogica() + " dhcp\n"
+                + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on \n"
+                + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
+                + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " 4 gemport-car 6\n"
+                + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + " vlan 10\n"
+                + "ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 10 1 translation s-vlan 10\n"
+                + "ont port priority-policy " + i.getPorta() + " " + i.getLogica() + " eth 1 copy-cos\n"
+                + "ont port q-in-q " + i.getPorta() + " " + i.getLogica() + " eth 1 disable\n"
+                + "ont port native-vlan " + i.getPorta() + " " + i.getLogica() + " eth 1 vlan 10 priority 0\n"
+                + "quit\n"
+                + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + " multi-service user-vlan 10 tag-transform translate-and-add inner-vlan " + i.getCvlan() + " inner-priority 0 inbound traffic-table index 6 outbound traffic-table index 43\n"
+                + "stacking label service-port " + index + " " + i.getCvlan() + " \n", 5000);
+    }
+
     protected ComandoDslam getComandoCreateVlanBanda(InventarioRede i, Integer index) {
         if (gemportBanda == null) {
             setGemports(i);
@@ -493,7 +526,15 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         VlanBanda v = getVlanBanda(i);
         v.getInteracoes().add(0, cmd);
         v.getInteracoes().add(0, cmd0);
-        return getVlanBanda(i);
+        if (v.getSvlan() == 0) {
+            ComandoDslam cmd1 = getCd().consulta(getComandoCreateFromGround(i, new Integer(TratativaRetornoUtil.tratHuawei(cmd0.getRetorno(), "Next valid free service virtual port ID"))));
+            spBanda = null;
+            v = getVlanBanda(i);
+            v.getInteracoes().add(0, cmd1);
+            v.getInteracoes().add(0, cmd);
+            v.getInteracoes().add(0, cmd0);
+        }
+        return v;
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i, Integer index) {
