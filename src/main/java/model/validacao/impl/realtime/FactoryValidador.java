@@ -61,18 +61,9 @@ public class FactoryValidador {
         Locale local = new Locale("co", "CO");
 
         if (cust.getRede().getTipo() == TipoRede.GPON) {
-            if (cust.getRede().getModeloDslam().contains("5800") || cust.getRede().getModeloDslam().contains("5600")) {
-                bateria.add(new CorretorVlanBanda(dslam, cust, local));
-                bateria.add(new CorretorVlanVoip(dslam, cust, local));
-                bateria.add(new CorretorVlanVod(dslam, cust, local));
-                bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
-                bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
-                bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
-                bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
-                bateria.add(new CorretorProfile(dslam, cust, local));
-                bateria.add(new ValidadorDeviceMAC(dslam, cust, local));
-                return bateria;
-            } else if (cust.getRede().getModeloDslam().contains("7342")) {
+            if (cust.getRede().getModeloDslam().contains("7342")
+                    || cust.getRede().getModeloDslam().contains("5800")
+                    || cust.getRede().getModeloDslam().contains("5600")) {
                 bateria.add(new CorretorSerialOntGpon(dslam, cust, local));
                 bateria.add(new CorretorEstadoAdmPorta(dslam, cust, local));
                 bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
