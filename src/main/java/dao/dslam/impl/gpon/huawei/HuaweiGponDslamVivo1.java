@@ -475,7 +475,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             
             return new ComandoDslam(
                     "interface gpon 0/" + i.getSlot() + "\n"
-                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getLogica() + " manage - mode omci\n"
+                    + "ont add " + i.getPorta() + " " + i.getLogica() + " password-auth " + i.getIdOnt() + " always-on profile-id 7 desc Term_" + i.getTerminal() + "/VlanUsu_" + i.getCvlan()+ " manage - mode omci\n"
                     + "ont native-vlan " + i.getPorta() + " " + i.getLogica() + " unconcern\n"
                     + "tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 4 profile-id 500\n"
                     + "gemport add " + i.getPorta() + " gemportid " + gemportBanda + " eth encrypt on \n"
