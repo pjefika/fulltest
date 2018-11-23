@@ -412,6 +412,8 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             se.getInteracoes().add(0, cmd2);
             se.getInteracoes().add(0, cmd1);
         } else {
+            this.serial = null;
+            se = this.getSerialOnt(i);
             ComandoDslam cmd = this.getCd().consulta(this.getCmdSetOntToOlt(i, s));
             se.getInteracoes().add(0, cmd);
         }
