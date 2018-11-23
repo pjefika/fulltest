@@ -407,6 +407,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         if (tudoDestruido) {
             ComandoDslam cmd1 = getCd().consulta(getComandoGetNextFreeIndex(i));
             ComandoDslam cmd2 = getCd().consulta(getComandoCreateFromGround(i, new Integer(TratativaRetornoUtil.tratHuawei(cmd1.getRetorno(), "Next valid free service virtual port ID"))));
+            this.serial = null;
             se = this.getSerialOnt(i);
             se.getInteracoes().add(0, cmd2);
             se.getInteracoes().add(0, cmd1);
