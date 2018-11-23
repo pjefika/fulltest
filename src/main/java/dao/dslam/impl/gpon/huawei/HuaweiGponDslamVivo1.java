@@ -565,7 +565,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " 3 gemport-car 30\n"
                 + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " vlan 30\n"
                 + "quit\n"
-                + "service-port  vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30\n", 5000);
+                + "service-port  vlan " + i.getVlanVoip()+ " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30\n", 5000);
 
     }
 
@@ -591,7 +591,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " 2 gemport-car 42\n"
                 + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + " vlan 20\n"
                 + "quit\n"
-                + "service-port " + index + " vlan " + i.getRin() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + " multi-service user-vlan 20 tag-transform translate inbound traffic-table index 42 outbound traffic-table index 42\n"
+                + "service-port " + index + " vlan 400 gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + " multi-service user-vlan 20 tag-transform translate inbound traffic-table index 42 outbound traffic-table index 42\n"
                 + "btv\n"
                 + "igmp user add service-port " + index + " no-auth max-program 32\n"
                 + " \n"
