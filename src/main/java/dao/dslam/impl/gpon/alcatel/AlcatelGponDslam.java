@@ -205,16 +205,20 @@ public class AlcatelGponDslam extends DslamGpon {
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
-            String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if (leVlan.isEmpty()) {
-                leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            try {
+                Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
+                String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+                if (leVlan.isEmpty()) {
+                    leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+                }
+
+                String[] pegaVlan = leVlan.split(":");
+                svlan = new Integer(pegaVlan[1]);
+                cvlan = new Integer(pegaVlan[2]);
+                state = EnumEstadoVlan.UP;
+            } catch (Exception e) {
             }
 
-            String[] pegaVlan = leVlan.split(":");
-            svlan = new Integer(pegaVlan[1]);
-            cvlan = new Integer(pegaVlan[2]);
-            state = EnumEstadoVlan.UP;
         }
 
         VlanBanda vlanBanda = new VlanBanda(cvlan, svlan, state);
@@ -236,15 +240,19 @@ public class AlcatelGponDslam extends DslamGpon {
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
-            String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if (leVlan.isEmpty()) {
-                leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            try {
+                Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
+                String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+                if (leVlan.isEmpty()) {
+                    leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+                }
+                String[] pegaVlan = leVlan.split(":");
+                cvlan = new Integer(pegaVlan[1]);
+                p100 = new Integer(pegaVlan[2]);
+                state = EnumEstadoVlan.UP;
+            } catch (Exception e) {
             }
-            String[] pegaVlan = leVlan.split(":");
-            cvlan = new Integer(pegaVlan[1]);
-            p100 = new Integer(pegaVlan[2]);
-            state = EnumEstadoVlan.UP;
+
         }
         VlanVoip vlanVoip = new VlanVoip(p100, cvlan, state);
         vlanVoip.addInteracao(consulta);
@@ -265,15 +273,19 @@ public class AlcatelGponDslam extends DslamGpon {
         Integer p100 = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
-            String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if (leVlan.isEmpty()) {
-                leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            try {
+                Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
+                String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+                if (leVlan.isEmpty()) {
+                    leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+                }
+                String[] pegaVlan = leVlan.split(":");
+                cvlan = new Integer(pegaVlan[1]);
+                p100 = new Integer(pegaVlan[2]);
+                state = EnumEstadoVlan.UP;
+            } catch (Exception e) {
             }
-            String[] pegaVlan = leVlan.split(":");
-            cvlan = new Integer(pegaVlan[1]);
-            p100 = new Integer(pegaVlan[2]);
-            state = EnumEstadoVlan.UP;
+
         }
 
         VlanVod vlanVod = new VlanVod(p100, cvlan, state);
@@ -297,11 +309,15 @@ public class AlcatelGponDslam extends DslamGpon {
         Integer svlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
         if (!leResp.contains("Error : instance does not exist")) {
-            Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
-            leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
-            if (leVlan.isEmpty()) {
-                leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+            try {
+                Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
+                leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");
+                if (leVlan.isEmpty()) {
+                    leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='l2fwder-vlan']");
+                }
+            } catch (Exception e) {
             }
+
         }
         if (!leVlan.isEmpty()) {
             svlan = new Integer("4000");
