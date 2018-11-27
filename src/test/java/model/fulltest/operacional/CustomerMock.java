@@ -97,7 +97,7 @@ public class CustomerMock {
             
             CustomerRequest req = new CustomerRequest(instancia);
             
-            EfikaCustomer ec = (EfikaCustomer) dao.post("http://10.40.198.168:7171/customerAPI/customer/findByParameter",
+            EfikaCustomer ec = (EfikaCustomer) dao.post("http://10.40.198.168:7179/customerAPI/customer/findByParameter",
                     req);
             
             return ec;
