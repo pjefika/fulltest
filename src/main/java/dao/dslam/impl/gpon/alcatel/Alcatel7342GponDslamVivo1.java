@@ -423,19 +423,12 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        ComandoDslam cmd = null;
-        ComandoDslam cmd1 = null;
-        if (serial.getIdOnt().equalsIgnoreCase("0")) {
-            cmd = getCd().consulta(createFromGround(i));
-        } else {
-            cmd = getCd().consulta(deleteTrio(i));
-            cmd1 = getCd().consulta(getComandoCreateVlanBanda(i));
-        }
+
+        ComandoDslam cmd = getCd().consulta(deleteTrio(i));
+        ComandoDslam cmd1 = getCd().consulta(createFromGround(i));
         serial = null;
         SerialOntGpon se = getSerialOnt(i);
-        if (cmd1 != null) {
-            se.getInteracoes().add(0, cmd1);
-        }
+        se.getInteracoes().add(0, cmd1);
         se.getInteracoes().add(0, cmd);
 
         return se;
