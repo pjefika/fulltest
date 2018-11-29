@@ -55,7 +55,6 @@ public class FullTestController extends RestJaxAbstract {
             return ok(res);
         } catch (Exception e) {
             log.setSaida(e.getMessage());
-//            throw new Exception(e);
             return serverError(e);
         } finally {
             try {
