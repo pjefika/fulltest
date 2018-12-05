@@ -9,6 +9,8 @@ import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Calendar;
 import java.util.Date;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import model.manobra.analitcs.ConclusaoManobraEnum;
@@ -33,6 +35,7 @@ public class LogManobra extends AbstractMongoEntity {
 
     private Boolean manobrar;
 
+    @Enumerated(EnumType.STRING)
     private ConclusaoManobraEnum conclusao;
 
     private MotivoManobraEnum motivoSaida;

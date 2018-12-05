@@ -7,6 +7,9 @@ package model.manobra.analitcs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 /**
  *
  * @author G0042204
@@ -15,6 +18,7 @@ public class AnaliseMotivo {
 
     private MotivoManobraEnum motivo;
 
+    @Enumerated(EnumType.STRING)
     private ConclusaoManobraEnum conclusao;
 
     public AnaliseMotivo() {
