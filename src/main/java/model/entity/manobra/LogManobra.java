@@ -160,7 +160,7 @@ public class LogManobra extends AbstractMongoEntity {
         return beautyConclusao;
     }
 
-    public void setBeautyConclusao(String beautyConclusao) {
+    public void setBeautyConclusao() {
         this.beautyConclusao = conclusao.getNome();
     }
 }
