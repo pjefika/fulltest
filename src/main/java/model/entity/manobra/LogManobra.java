@@ -6,6 +6,7 @@
 package model.entity.manobra;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.EnumType;
@@ -148,6 +149,11 @@ public class LogManobra extends AbstractMongoEntity {
 
     public void setDatahora(Date datahora) {
         this.datahora = datahora;
+    }
+    
+    @JsonProperty("conclusao")
+    public String getConclusaoBonito(){
+        return conclusao.getNome();
     }
 
     public String getBeautyConclusao() {
