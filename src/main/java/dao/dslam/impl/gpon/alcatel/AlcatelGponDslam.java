@@ -204,7 +204,7 @@ public class AlcatelGponDslam extends DslamGpon {
         Integer svlan = new Integer("0");
         Integer cvlan = new Integer("0");
         EnumEstadoVlan state = EnumEstadoVlan.DOWN;
-        if (!leResp.contains("Error : instance does not exist")) {
+        if (!consulta.getBlob().contains("Error : instance does not exist")) {
             try {
                 Document xml = TratativaRetornoUtil.stringXmlParse(consulta);
                 String leVlan = TratativaRetornoUtil.getXmlParam(xml, "//parameter[@name='network-vlan']");

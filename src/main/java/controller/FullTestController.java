@@ -29,8 +29,11 @@ import model.fulltest.operacional.facade.FactoryFulltest;
 import model.fulltest.operacional.facade.FullTestCRMFacade;
 import model.fulltest.operacional.facade.FullTestFacade;
 import model.fulltest.operacional.facade.FullTestInterface;
+import model.manobra.analitcs.ConclusaoManobraEnum;
 import model.service.FactoryService;
+import org.json.JSONArray;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -70,7 +73,16 @@ public class FullTestController extends RestJaxAbstract {
     public Response findMonobraByCustomer(EfikaCustomer customer)
             throws Exception {
         List<LogManobra> logManobra = new LogManobraDAO().listarLogManobraPorCustomer(customer);
-        return Response.ok(logManobra).build();
+        System.out.println("Logmanobra" + logManobra.toString());
+        JSONArray jArray = new JSONArray(logManobra);
+        for(int x = 0; x < jArray.length(); x++){
+            String tempConclusao = jArray.getJSONObject(x).get("conclusao").toString();
+            jArray.getJSONObject(x).remove("conclusao");
+            jArray.getJSONObject(x).put("conclusao", ConclusaoManobraEnum.valueOf(tempConclusao));
+        }
+        System.out.println("Json: " + jArray);
+        //return Response.ok(logManobra).build();
+        return Response.ok(jArray).build();
     }
     
     @POST

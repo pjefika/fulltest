@@ -6,8 +6,11 @@
 package model.entity.manobra;
 import br.net.gvt.efika.efika_customer.model.customer.EfikaCustomer;
 import br.net.gvt.efika.mongo.model.entity.AbstractMongoEntity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Calendar;
 import java.util.Date;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import model.manobra.analitcs.ConclusaoManobraEnum;
@@ -32,7 +35,10 @@ public class LogManobra extends AbstractMongoEntity {
 
     private Boolean manobrar;
 
+    @Enumerated(EnumType.STRING)
     private ConclusaoManobraEnum conclusao;
+
+    private String beautyConclusao;
 
     private MotivoManobraEnum motivoSaida;
 
@@ -144,5 +150,17 @@ public class LogManobra extends AbstractMongoEntity {
     public void setDatahora(Date datahora) {
         this.datahora = datahora;
     }
+    
+    @JsonProperty("conclusao")
+    public String getConclusaoBonito(){
+        return conclusao.getNome();
+    }
 
+    public String getBeautyConclusao() {
+        return beautyConclusao;
+    }
+
+    public void setBeautyConclusao() {
+        this.beautyConclusao = conclusao.getNome();
+    }
 }

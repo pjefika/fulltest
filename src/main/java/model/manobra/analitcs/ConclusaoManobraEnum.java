@@ -3,7 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package model.manobra.analitcs;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  *
@@ -19,12 +29,24 @@ public enum ConclusaoManobraEnum {
         this.nome = nome;
     }
 
+    @JsonValue
     public String getNome() {
         return nome;
     }
 
     public ConclusaoManobraDTO dto() {
         return new ConclusaoManobraDTO(this);
+    }
+
+    private static Map<String, ConclusaoManobraEnum> FORMAT_MAP = Stream
+            .of(ConclusaoManobraEnum.values())
+            .collect(Collectors.toMap(s -> s.nome, Function.identity()));
+
+    @JsonCreator // This is the factory method and must be static
+    public static ConclusaoManobraEnum fromString(String string) {
+        return Optional
+                .ofNullable(FORMAT_MAP.get(string))
+                .orElseThrow(() -> new IllegalArgumentException(string));
     }
 
 }
