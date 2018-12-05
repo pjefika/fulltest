@@ -7,6 +7,7 @@
 package model.manobra.analitcs;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Map;
 import java.util.Optional;
@@ -28,6 +29,7 @@ public enum ConclusaoManobraEnum {
         this.nome = nome;
     }
 
+    @JsonValue
     public String getNome() {
         return nome;
     }

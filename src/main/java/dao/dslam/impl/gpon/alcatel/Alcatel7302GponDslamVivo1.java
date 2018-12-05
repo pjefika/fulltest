@@ -26,7 +26,6 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoipVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.PortaPON;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGpon;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.TabelaParametrosGponVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.VelocidadeVendor;
 import br.net.gvt.efika.fulltest.model.telecom.velocidade.Velocidades;
