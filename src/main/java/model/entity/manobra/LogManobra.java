@@ -37,6 +37,8 @@ public class LogManobra extends AbstractMongoEntity {
     @Enumerated(EnumType.STRING)
     private ConclusaoManobraEnum conclusao;
 
+    private String beautyConclusao;
+
     private MotivoManobraEnum motivoSaida;
 
     private MotivoManobraEnum motivoEntrada;
@@ -148,4 +150,11 @@ public class LogManobra extends AbstractMongoEntity {
         this.datahora = datahora;
     }
 
+    public String getBeautyConclusao() {
+        return beautyConclusao;
+    }
+
+    public void setBeautyConclusao(String beautyConclusao) {
+        this.beautyConclusao = conclusao.getNome();
+    }
 }
