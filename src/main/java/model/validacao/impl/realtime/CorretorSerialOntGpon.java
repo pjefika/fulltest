@@ -42,6 +42,8 @@ public class CorretorSerialOntGpon extends CorretorGpon {
             inv.setTerminal(cust.getInstancia());
             serial = this.ag.setOntToOlt(cust.getRede(), s1);
             getPreresults().add(serial);
+            //fix so that the serial ValidacaoAssociacaoOnt receives doesn't have the same interacoes as the preresults
+            
             ValidacaoAssociacaoOnt v = new ValidacaoAssociacaoOnt(serial, cust, bundle.getLocale());
             v.validar();
             if (!v.getResultado()) {
