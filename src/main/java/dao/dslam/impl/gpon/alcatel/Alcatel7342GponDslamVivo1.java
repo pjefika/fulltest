@@ -20,6 +20,7 @@ import br.net.gvt.efika.fulltest.model.telecom.properties.VlanBanda;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanMulticast;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVod;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVodVivo1Alcatel;
+import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVodVivo1Alcatel7342;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoip;
 import br.net.gvt.efika.fulltest.model.telecom.properties.VlanVoipVivo1;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.AlarmesGpon;
@@ -217,21 +218,28 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
                 + "RTRV-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1::;", 13000);
     }
 
+    private transient VlanBanda vlanBanda;
+    private transient VlanVoip vlanVoIP;
+    private transient VlanVodVivo1Alcatel7342 vlanVoD;
+
     @Override
     public VlanBanda getVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlanBanda(i));
         List<String> retorno = cmd.getRetorno();
-        VlanBanda v = new VlanBanda();
-        v.setState(EnumEstadoVlan.UP);
+        vlanBanda = new VlanBanda();
+        vlanBanda.setState(EnumEstadoVlan.DOWN);
+        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        vlanBanda.setState(state);
+
         if (cmd.getBlob().contains("NETWORKSIDEVLAN")) {
-            v.setCvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "NETWORKSIDEVLAN")));
+            vlanBanda.setCvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "NETWORKSIDEVLAN")));
         }
         if (cmd.getBlob().contains("SVLAN")) {
-            v.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
+            vlanBanda.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
         }
-        v.addInteracao(cmd);
+        vlanBanda.addInteracao(cmd);
 
-        return v;
+        return vlanBanda;
     }
 
     @Override
@@ -243,26 +251,30 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     public VlanVoip getVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 3));
         List<String> retorno = cmd.getRetorno();
-        VlanVoip v = new VlanVoipVivo1();
+        vlanVoIP = new VlanVoipVivo1();
+        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        vlanVoIP.setState(state);
         if (cmd.getBlob().contains("SVLAN")) {
-            v.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
+            vlanVoIP.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
         }
-        v.addInteracao(cmd);
+        vlanVoIP.addInteracao(cmd);
 
-        return v;
+        return vlanVoIP;
     }
 
     @Override
     public VlanVod getVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 2));
         List<String> retorno = cmd.getRetorno();
-        VlanVod v = new VlanVodVivo1Alcatel();
+        vlanVoD = new VlanVodVivo1Alcatel7342();
+        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        vlanVoD.setState(state);
         if (cmd.getBlob().contains("SVLAN")) {
-            v.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
+            vlanVoD.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
         }
-        v.addInteracao(cmd);
+        vlanVoD.addInteracao(cmd);
 
-        return v;
+        return vlanVoD;
     }
 
     @Override
@@ -508,10 +520,29 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
 
     }
 
+    public ComandoDslam getComandoActivateVlanBanda(InventarioRede i) {
+        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-1:::::IS;"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::IS;"
+                + "ED-ONTENET::ONTENET-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1:::::IS;"
+                + "ED-ONTCARD::ONTCARD-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1:::::IS;", 5000);
+    }
+
+    public ComandoDslam getComandoActivateVlanVoIP(InventarioRede i) {
+        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-3:::::IS;"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-3:::::iS;", 5000);
+    }
+
+    public ComandoDslam getComandoActivateVlanVoD(InventarioRede i) {
+        return new ComandoDslam("ED-SERVICE-FLOW::FLOW-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-1-1-2:::::IS;"
+                + "ED-SERVICE-PORTAL::PORTAL-1-1-" + i.getSlot() + "-" + i.getPorta() + "-" + i.getLogica() + "-2:::::IS;", 5000);
+    }
+
     @Override
     public VlanBanda createVlanBanda(InventarioRede i, Velocidades vDown, Velocidades vUp) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoActivateVlanBanda(i));
         VlanBanda v = getVlanBanda(i);
+        v.getInteracoes().add(0, cmd0);
         v.getInteracoes().add(0, cmd);
         return v;
     }
@@ -526,7 +557,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoIP(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoActivateVlanVoIP(i));
         VlanVoip v = getVlanVoip(i);
+        v.getInteracoes().add(0, cmd0);
         v.getInteracoes().add(0, cmd);
         return v;
     }
@@ -543,7 +576,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoD(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoActivateVlanVoD(i));
         VlanVod v = getVlanVod(i);
+        v.getInteracoes().add(0, cmd0);
         v.getInteracoes().add(0, cmd);
         return v;
     }
@@ -607,6 +642,9 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
     public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
 //        ComandoDslam cmdvod = getCd().consulta(getComandoDeleteVlanVoD(i));
 //        ComandoDslam cmdvoip = getCd().consulta(getComandoDeleteVlanVoIP(i));
+
+        
+
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
         ComandoDslam cmd1 = getCd().consulta(getComandoSetEstadoDaPorta(i, new EstadoDaPorta(Boolean.TRUE)));
         VlanBanda v = getVlanBanda(i);
