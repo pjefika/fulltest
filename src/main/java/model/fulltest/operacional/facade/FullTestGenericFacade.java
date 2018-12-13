@@ -87,7 +87,8 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
             //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
             for(ValidacaoResult valid : valids){
                 List<Solucao> newSolucoes = new ArrayList<>();
-                if (!valid.getFoiCorrigido()) {
+                if((valid.getFoiCorrigido() != null && !valid.getFoiCorrigido()) ||
+                        (valid.getFoiCorrigido() == null && !valid.getResultado())){
                     Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
                     //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
                     solucao.setSolucao(solucao.getSolucao());
