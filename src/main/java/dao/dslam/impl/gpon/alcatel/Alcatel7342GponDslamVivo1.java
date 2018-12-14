@@ -228,7 +228,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
         List<String> retorno = cmd.getRetorno();
         vlanBanda = new VlanBanda();
         vlanBanda.setState(EnumEstadoVlan.DOWN);
-        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        EnumEstadoVlan state = !cmd.getBlob().contains("OOS-AUMA") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
         vlanBanda.setState(state);
 
         if (cmd.getBlob().contains("NETWORKSIDEVLAN")) {
@@ -252,7 +252,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 3));
         List<String> retorno = cmd.getRetorno();
         vlanVoIP = new VlanVoipVivo1();
-        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        EnumEstadoVlan state = !cmd.getBlob().contains("OOS-AUMA") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
         vlanVoIP.setState(state);
         if (cmd.getBlob().contains("SVLAN")) {
             vlanVoIP.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
@@ -267,7 +267,7 @@ public class Alcatel7342GponDslamVivo1 extends DslamGponVivo1 {
         ComandoDslam cmd = getCd().consulta(getComandoGetVlan(i, 2));
         List<String> retorno = cmd.getRetorno();
         vlanVoD = new VlanVodVivo1Alcatel7342();
-        EnumEstadoVlan state = cmd.getBlob().contains("IS-") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
+        EnumEstadoVlan state = !cmd.getBlob().contains("OOS-AUMA") ? EnumEstadoVlan.UP : EnumEstadoVlan.DOWN;
         vlanVoD.setState(state);
         if (cmd.getBlob().contains("SVLAN")) {
             vlanVoD.setSvlan(new Integer(TratativaRetornoUtil.trat7342(retorno, "SVLAN", 2)));
