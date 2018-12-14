@@ -64,7 +64,7 @@ public class SolucaoDao {
         ResultSet rs = null;
 
         try{
-            st = mySqlConnection.getSt(conn, "SELECT * FROM XXXX");
+            st = mySqlConnection.getSt(conn, "SELECT * FROM tb_problema_solucao WHERE problema = ?");
             st.setString(1, problema);
             rs = st.executeQuery();
             if(rs.next()){
