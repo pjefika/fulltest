@@ -6,6 +6,7 @@
 package dao.dslam.impl.gpon.huawei;
 
 import br.net.gvt.efika.efika_customer.model.customer.InventarioRede;
+import br.net.gvt.efika.fulltest.exception.FalhaLoginDslamException;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.model.telecom.config.ComandoDslam;
 import br.net.gvt.efika.fulltest.model.telecom.properties.DeviceMAC;
@@ -71,7 +72,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
     @Override
     public void enableCommandsInDslam() throws Exception {
-        this.getCd().consulta(this.getComandoEnableConfig());
+        ComandoDslam cmd = this.getCd().consulta(this.getComandoEnableConfig());
+        if(!cmd.getBlob().contains("Huawei")){
+            throw new FalhaLoginDslamException();
+        }
+        System.out.println("lele");
     }
 
     protected ComandoDslam getComandoEnableConfig() {
