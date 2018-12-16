@@ -69,6 +69,11 @@ public class FactoryValidador {
                 bateria.add(new ValidadorEstadoOperPorta(dslam, cust, local));
                 bateria.add(new ValidadorParametrosGpon(dslam, cust, local));
                 bateria.add(new CorretorProfile(dslam, cust, local));
+                if (cust.getRede().getModeloDslam().contains("7342")) {
+                    bateria.add(new CorretorVlanBandaLight(dslam, cust, local));
+                    bateria.add(new CorretorVlanBandaLight(dslam, cust, local));
+                    bateria.add(new CorretorVlanBandaLight(dslam, cust, local));
+                }
                 bateria.add(new CorretorVlanBanda(dslam, cust, local));
                 bateria.add(new CorretorVlanVoip(dslam, cust, local));
                 bateria.add(new CorretorVlanVod(dslam, cust, local));
