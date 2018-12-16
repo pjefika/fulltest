@@ -73,10 +73,9 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public void enableCommandsInDslam() throws Exception {
         ComandoDslam cmd = this.getCd().consulta(this.getComandoEnableConfig());
-        if(!cmd.getBlob().contains("Huawei")){
+        if (!cmd.getBlob().contains("Huawei")) {
             throw new FalhaLoginDslamException();
         }
-        System.out.println("lele");
     }
 
     protected ComandoDslam getComandoEnableConfig() {
@@ -573,7 +572,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 + "ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " 3 gemport-car 30\n"
                 + "ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + " vlan 30\n"
                 + "quit\n"
-                + "service-port  vlan " + i.getVlanVoip()+ " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30\n", 5000);
+                + "service-port  vlan " + i.getVlanVoip() + " gpon 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + " multi-service user-vlan 30 tag-transform translate inbound traffic-table index 30 outbound traffic-table index 30\n", 5000);
 
     }
 
