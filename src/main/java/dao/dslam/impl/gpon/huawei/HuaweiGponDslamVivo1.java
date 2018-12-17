@@ -662,7 +662,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
                 + "interface gpon 0/" + i.getSlot() + "\n"
                 + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
                 + "undo ont gemport bind " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n"
-                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 20 1\n"
+                + "undo ont port vlan " + i.getPorta() + " " + i.getLogica() + " eth 30 1\n"
                 + "gemport delete " + i.getPorta() + " gemportid " + gemportVoip + "\n"
                 + "undo tcont bind-profile " + i.getPorta() + " " + i.getLogica() + " 3\n"
                 + "quit\n", 5000);
