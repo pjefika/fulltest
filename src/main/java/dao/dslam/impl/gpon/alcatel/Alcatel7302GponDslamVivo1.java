@@ -546,7 +546,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam deleteComandoVlanVoip(InventarioRede i) {
 //        if (i.getBhs()) {
-        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20");
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30");
 //        } else {
 //            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
 //                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3500);
@@ -570,7 +570,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam comandoDeleteVlanVod(InventarioRede i) {
 //        if (i.getBhs()) {
-        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30");
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20");
 //        } else {
 //            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
 //                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3000);
