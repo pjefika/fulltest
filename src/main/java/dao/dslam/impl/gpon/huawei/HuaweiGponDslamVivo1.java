@@ -261,7 +261,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoPortaPON(InventarioRede i) {
-        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display port state  " + i.getPorta()+"\n", 3000, "quit\n");
+        return new ComandoDslam("interface gpon 0/" + i.getSlot(), 3000, "display port state  " + i.getPorta() + "\n", 3000, "quit\n");
     }
 
     @Override
@@ -552,11 +552,12 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanBanda(i, new Integer(TratativaRetornoUtil.tratHuawei(cmd0.getRetorno(), "Next valid free service virtual port ID"))));
         spBanda = null;
-        VlanBanda v = getVlanBanda(i);
-        v.getInteracoes().add(0, cmd);
-        v.getInteracoes().add(0, cmd0);
+        vlanBanda = null;
+        getVlanBanda(i);
+        vlanBanda.getInteracoes().add(0, cmd);
+        vlanBanda.getInteracoes().add(0, cmd0);
 
-        return v;
+        return vlanBanda;
     }
 
     protected ComandoDslam getComandoCreateVlanVoip(InventarioRede i, Integer index) {
@@ -580,9 +581,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     public VlanVoip createVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVoip(i, getNextFreeIndex(i)));
         spVoip = null;
-        VlanVoip v = getVlanVoip(i);
-        v.getInteracoes().add(0, cmd);
-        return v;
+        vlanVoip = null;
+        getVlanVoip(i);
+
+        vlanVoip.getInteracoes().add(0, cmd);
+        return vlanVoip;
     }
 
     protected ComandoDslam getComandoCreateVlanVod(InventarioRede i, Integer index) {
@@ -612,9 +615,10 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     public VlanVod createVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoCreateVlanVod(i, getNextFreeIndex(i)));
         spIptv = null;
-        VlanVod v = getVlanVod(i);
-        v.getInteracoes().add(0, cmd);
-        return v;
+        vlanVod = null;
+        getVlanVod(i);
+        vlanVod.getInteracoes().add(0, cmd);
+        return vlanVod;
     }
 
     @Override
@@ -644,9 +648,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanBanda deleteVlanBanda(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanBanda(i));
-        VlanBanda v = getVlanBanda(i);
-        v.getInteracoes().add(0, cmd);
-        return v;
+        spBanda = null;
+        vlanBanda = null;
+        getVlanBanda(i);
+        vlanBanda.getInteracoes().add(0, cmd);
+        return vlanBanda;
     }
 
     protected ComandoDslam getComandoDeleteVlanVoip(InventarioRede i) throws Exception {
@@ -671,9 +677,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanVoip deleteVlanVoip(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVoip(i));
-        VlanVoip v = getVlanVoip(i);
-        v.getInteracoes().add(cmd);
-        return v;
+        spVoip = null;
+        vlanVoip = null;
+        getVlanVoip(i);
+        vlanVoip.getInteracoes().add(cmd);
+        return vlanVoip;
     }
 
     protected ComandoDslam getComandoDeleteVlanVod(InventarioRede i) throws Exception {
@@ -699,9 +707,11 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     @Override
     public VlanVod deleteVlanVod(InventarioRede i) throws Exception {
         ComandoDslam cmd = getCd().consulta(getComandoDeleteVlanVod(i));
-        VlanVod v = getVlanVod(i);
-        v.getInteracoes().add(0, cmd);
-        return v;
+        spIptv = null;
+        vlanVod = null;
+        getVlanVod(i);
+        vlanVod.getInteracoes().add(0, cmd);
+        return vlanVod;
     }
 
     @Override
