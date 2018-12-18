@@ -80,33 +80,38 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         dslam.desconectar();
         dataFim = Calendar.getInstance();
         this.encerramento();
-        Connection conn = null;
-        try {
-            MySqlConnection mySqlConnection = new MySqlConnection();
-            conn = mySqlConnection.getConnection("10.200.35.66", "efika", "root", "pirogue");
-            //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
-            for (ValidacaoResult valid : valids) {
-                List<Solucao> newSolucoes = new ArrayList<>();
-                if (!valid.getFoiCorrigido()) {
-                    Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
-                    if (solucao != null) {
-                        solucao.setSolucao(solucao.getSolucao());
-                    }
-                    newSolucoes.add(solucao);
-                }
-                this.solucoes = newSolucoes;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
+
+        //region PROBLEMA SOLUCAO
+//        Connection conn = null;
+//        try {
+//            MySqlConnection mySqlConnection = new MySqlConnection();
+//            conn = mySqlConnection.getConnection("10.200.35.66","efika", "root", "pirogue");
+//            //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
+//            for(ValidacaoResult valid : valids){
+//                List<Solucao> newSolucoes = new ArrayList<>();
+//                if((valid.getFoiCorrigido() != null && !valid.getFoiCorrigido() && !valid.getResultado()) ||
+//                        (valid.getFoiCorrigido() == null && !valid.getResultado())){
+//                    Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
+//                    //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
+//                    solucao.setSolucao(solucao.getSolucao());
+//                    newSolucoes.add(solucao);
+//                }
+//                this.solucoes = newSolucoes;
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }finally {
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
+        //endregion
+        
     }
 
     @Override
