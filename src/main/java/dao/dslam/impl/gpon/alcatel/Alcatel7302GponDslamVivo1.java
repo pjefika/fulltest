@@ -360,22 +360,32 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         return lst;
     }
 
+    public ComandoDslam getComandoSetOntToOlt(InventarioRede i) {
+        return new ComandoDslam("configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
+                + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
+                + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
+                + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
+                + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
+                + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
+        );
+    }
+
     @Override
     public SerialOntGpon setOntToOlt(InventarioRede i, SerialOntGpon s) throws Exception {
-        ComandoDslam cmd0 = getCd().consulta(comandoDeleteVlanBanda(i));
-        ComandoDslam cmd1 = getCd().consulta(createComandosVlanBanda(i));
+        ComandoDslam cmd0 = getCd().consulta(getComandoSetOntToOlt(i));
+//        ComandoDslam cmd1 = getCd().consulta(createComandosVlanBanda(i));
         SerialOntGpon se = getSerialOnt(i);
-        se.getInteracoes().add(0, cmd1);
+//        se.getInteracoes().add(0, cmd1);
         se.getInteracoes().add(0, cmd0);
         return se;
     }
 
     @Override
     public SerialOntGpon unsetOntFromOlt(InventarioRede i) throws Exception {
-        ComandoDslam cmd = getCd().consulta(comandoDeleteVlanBanda(i));
+//        ComandoDslam cmd = getCd().consulta(comandoDeleteVlanBanda(i));
 
         SerialOntGpon s = new SerialOntGpon();
-        s.addInteracao(cmd);
+//        s.addInteracao(cmd);
         return s;
     }
 
@@ -391,14 +401,22 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         return es;
     }
 
+    public ComandoDslam setProfile(InventarioRede i) {
+        return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 no bandwidth-profile\n"
+                + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 0 shaper-profile none", 1000,
+                "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
+                + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
+        );
+    }
+
     @Override
     public Profile setProfileDown(InventarioRede i, Velocidades v) throws Exception {
         // Pendente PO?
-        ComandoDslam cmd0 = this.getCd().consulta(this.comandoDeleteVlanBanda(i));
-        ComandoDslam cmd1 = this.getCd().consulta(this.createComandosVlanBanda(i));
+        ComandoDslam cmd0 = this.getCd().consulta(this.setProfile(i));
+//        ComandoDslam cmd1 = this.getCd().consulta(this.createComandosVlanBanda(i));
         Profile p = getProfile(i);
         p.getInteracoes().add(0, cmd0);
-        p.getInteracoes().add(1, cmd1);
+//        p.getInteracoes().add(1, cmd1);
         return p;
     }
 
@@ -409,17 +427,21 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
 
     protected ComandoDslam createComandosVlanBanda(InventarioRede i) {
         if (i.getBhs()) {
-            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
-                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
-                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
-                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
-                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
-                    + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
-                    + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
+            return new ComandoDslam("configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
                     + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 16\n"
                     + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " tag single-tagged qos profile:20", 5000);
+//            return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
+//                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO desc1 " + i.getTerminal() + "\n"
+//                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state down\n"
+//                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " fec-up enable\n"
+//                    + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " admin-state up\n"
+//                    + "configure equipment ont slot 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1 planned-card-type 10_100base plndnumdataports 1 plndnumvoiceports 0\n"
+//                    + "configure ethernet ont 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 auto-detect auto admin-state up\n"
+//                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 0 bandwidth-profile name:14\n"
+//                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 queue 0 priority 1 shaper-profile  name:14\n"
+//                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+//                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 10 vlan-scope local network-vlan stacked:" + i.getRin() + ":" + i.getCvlan() + " tag single-tagged qos profile:20", 5000);
         } else {
             return new ComandoDslam("configure vlan id stacked:" + i.getRin() + ":" + i.getCvlan() + " mode cross-connect name SC-VLAN-" + i.getRin() + "-" + i.getCvlan() + " in-qos-prof-name name:HSI\n"
                     + "configure equipment ont interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + " sw-ver-pland AUTO subslocid " + i.getIdOnt() + " sw-dnload-version AUTO  desc1 " + i.getTerminal() + "\n"
@@ -451,13 +473,17 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam createComandoVlanVoip(InventarioRede i) {
-        if (i.getBhs()) {
-            return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 bandwidth-profile name:45\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 priority 5 shaper-profile  name:45\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30  vlan-scope local network-vlan " + i.getVlanVoip() + " tag single-tagged qos profile:23", 5000);
-        } else {
-            return this.createComandosVlanBanda(i);
-        }
+//        if (i.getBhs()) {
+        return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 2 bandwidth-profile name:43\n"
+                + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 bandwidth-profile name:45\n"
+                + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 priority 5 shaper-profile  name:45\n"
+                + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30  vlan-scope local network-vlan " + i.getVlanVoip() + " tag single-tagged qos profile:23", 5000);
+//            return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 bandwidth-profile name:45\n"
+//                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 priority 5 shaper-profile  name:45\n"
+//                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 30  vlan-scope local network-vlan " + i.getVlanVoip() + " tag single-tagged qos profile:23", 5000);
+//        } else {
+//            return this.createComandosVlanBanda(i);
+//        }
     }
 
     @Override
@@ -469,16 +495,21 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam comandoCreateVlanVod(InventarioRede i) {
-        if (i.getBhs()) {
-            return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 cac-profile name:42\n"
-                    + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 bandwidth-profile name:42\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 priority 4 shaper-profile  name:42\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21\n"
-                    + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS", 5000);
-        } else {
-            return this.createComandosVlanBanda(i);
-        }
+//        if (i.getBhs()) {
+        return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 cac-profile name:42\n"
+                + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 bandwidth-profile name:42\n"
+                + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 priority 4 shaper-profile  name:42\n"
+                + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21\n"
+                + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS", 5000);
+//            return new ComandoDslam("configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 cac-profile name:42\n"
+//                    + "configure qos interface  1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 bandwidth-profile name:42\n"
+//                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 priority 4 shaper-profile  name:42\n"
+//                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 max-unicast-mac 8\n"
+//                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 vlan-id 20 vlan-scope local network-vlan 5 tag single-tagged qos profile:21\n"
+//                    + "configure igmp channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20 max-num-group 32 mcast-svc-context name:Vivo_IPTV_MS", 5000);
+//        } else {
+//            return this.createComandosVlanBanda(i);
+//        }
     }
 
     @Override
@@ -495,8 +526,7 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam comandoDeleteVlanBanda(InventarioRede i) {
-        return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica(), 1500,
-                "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3000);
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 10");
     }
 
     @Override
@@ -515,14 +545,12 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam deleteComandoVlanVoip(InventarioRede i) {
-        if (i.getBhs()) {
-            return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 5 no bandwidth-profile\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 5 shaper-profile none", 3500);
-        } else {
-            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
-                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3500);
-        }
+//        if (i.getBhs()) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 30");
+//        } else {
+//            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+//                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3500);
+//        }
     }
 
     @Override
@@ -541,15 +569,12 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam comandoDeleteVlanVod(InventarioRede i) {
-        if (i.getBhs()) {
-            return new ComandoDslam("configure igmp no channel vlan:1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1:20\n"
-                    + "configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 upstream-queue 4 no bandwidth-profile\n"
-                    + "configure qos interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1  queue 4 shaper-profile none", 3500);
-        } else {
-            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
-                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3000);
-        }
+//        if (i.getBhs()) {
+        return new ComandoDslam("configure bridge port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1 no vlan-id 20");
+//        } else {
+//            return new ComandoDslam("configure equipment ont no interface 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "\n"
+//                    + "configure bridge no port 1/1/" + i.getSlot() + "/" + i.getPorta() + "/" + i.getLogica() + "/1/1", 3000);
+//        }
     }
 
     @Override

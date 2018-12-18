@@ -17,9 +17,9 @@ import model.validacao.impl.both.ValidacaoVlanBanda;
  *
  * @author G0042204
  */
-public class CorretorVlanBanda extends Corretor {
+public class CorretorVlanBandaLight extends Corretor {
 
-    public CorretorVlanBanda(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
+    public CorretorVlanBandaLight(AbstractDslam dslam, EfikaCustomer cust, Locale local) {
         super(dslam, cust, local);
         nome = "Vlan Banda";
     }
@@ -27,29 +27,24 @@ public class CorretorVlanBanda extends Corretor {
     @Override
     protected void corrigir() throws FalhaAoCorrigirException {
         try {
-            getPreresults().add(alter.deleteVlanBanda(cust.getRede()));
+//            getPreresults().add(alter.(cust.getRede()));
             try {
                 valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust, bundle.getLocale());
             } catch (Exception e) {
-                e.printStackTrace();
                 try {
                     valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust, bundle.getLocale());
                 } catch (Exception x) {
-                    x.printStackTrace();
                     throw new FalhaAoCorrigirException();
                 }
 
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
             try {
                 valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.valueOf("VEL_" + cust.getServicos().getVelDown()), Velocidades.valueOf("VEL_" + cust.getServicos().getVelUp())), cust, bundle.getLocale());
             } catch (Exception e) {
-                e.printStackTrace();
                 try {
                     valid = new ValidacaoVlanBanda(alter.createVlanBanda(cust.getRede(), Velocidades.VEL_1024, Velocidades.VEL_1024), cust, bundle.getLocale());
                 } catch (Exception exc) {
-                    exc.printStackTrace();
                     throw new FalhaAoCorrigirException();
                 }
 

@@ -81,6 +81,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         dataFim = Calendar.getInstance();
         this.encerramento();
 
+
         //region PROBLEMA SOLUCAO
 //        Connection conn = null;
 //        try {
@@ -123,15 +124,13 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
                 this.setMensagem(valid.getMensagem());
             }
 
-
-
-            if(valid.getResult() instanceof DeviceMAC){
+            if (valid.getResult() instanceof DeviceMAC) {
                 DeviceMAC realMac = (DeviceMAC) valid.getResult();
 
                 MacAddress macAddress = new MacAddressValidator().macChanged(this.cl.getDesignador());
 
-                if((macAddress != null) && (!realMac.getMac().startsWith("P"))){
-                    if(!macAddress.getMacAddr().replaceAll("-", ":").equals(realMac.getMac())){
+                if ((macAddress != null) && (!realMac.getMac().startsWith("P"))) {
+                    if (!macAddress.getMacAddr().replaceAll("-", ":").equals(realMac.getMac())) {
                         valid.setMensagem(valid.getMensagem() + " (MODEM TROCADO) ");
                         msgModemTrocado = " (MODEM TROCADO) ";
                     }
@@ -140,7 +139,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
             }
         }
 
-        if(this.mensagem != null) {
+        if (this.mensagem != null) {
             this.setMensagem(this.getMensagem() + " " + msgModemTrocado);
         }
         //comparar macs

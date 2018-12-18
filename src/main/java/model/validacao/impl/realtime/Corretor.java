@@ -61,10 +61,12 @@ public abstract class Corretor extends Validador {
                     corrigir();
                     result = new ValidacaoResult(valid.getNome(), fraseCorrecaoOk(), Boolean.FALSE, valid.getObject(), Boolean.TRUE, getPreresults());
                 } catch (FalhaAoCorrigirException e) {
+                    e.printStackTrace();
                     result = new ValidacaoResult(valid.getNome(), fraseFalhaCorrecao(), Boolean.FALSE, valid.getObject(), Boolean.FALSE, getPreresults());
                 }
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
 //            if (ex instanceof CorrecaoInterruptoraException) {
             throw ex;
 //            }

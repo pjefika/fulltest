@@ -5,6 +5,7 @@
  */
 package model.fulltest.operacional.strategy;
 
+import br.net.gvt.efika.fulltest.exception.FalhaLoginDslamException;
 import br.net.gvt.efika.fulltest.exception.FuncIndisponivelDslamException;
 import br.net.gvt.efika.fulltest.exception.SemGerenciaException;
 import br.net.gvt.efika.fulltest.model.fulltest.ValidacaoResult;
@@ -43,7 +44,7 @@ public class CondicionalStrategy implements ExecutionStrategy {
                     LOG.log(Level.INFO, e.getMessage());
                     ft.setResultado(Boolean.FALSE);
                     ft.setMensagem(e.getMessage());
-                    if (e instanceof SemGerenciaException) {
+                    if (e instanceof SemGerenciaException || e instanceof FalhaLoginDslamException) {
                         throw e;
                     }
                 }
