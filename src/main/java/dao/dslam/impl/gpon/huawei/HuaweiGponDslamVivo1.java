@@ -180,6 +180,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             vlanBanda.addInteracao(cmd);
             vlanBanda.setGemport(0);
             vlanBanda.setSvlan(0);
+            vlanBanda.setCvlan(0);
         }
 
         if (vlanVod == null) {
@@ -245,7 +246,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
     }
 
     protected ComandoDslam getComandoGetServicePorts(InventarioRede i) {
-        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 3000, " \n");
+        return new ComandoDslam("display service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " ont " + i.getLogica(), 7000, " \n");
     }
 
     protected ComandoDslam getComandoGetVlanBanda(Integer index) {

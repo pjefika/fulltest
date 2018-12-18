@@ -83,26 +83,27 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
         Connection conn = null;
         try {
             MySqlConnection mySqlConnection = new MySqlConnection();
-            conn = mySqlConnection.getConnection("10.200.35.66","efika", "root", "pirogue");
+            conn = mySqlConnection.getConnection("10.200.35.66", "efika", "root", "pirogue");
             //TODO: varrer o valids e verificar os erros e adicionar em solucoes em caso de erro
-            for(ValidacaoResult valid : valids){
+            for (ValidacaoResult valid : valids) {
                 List<Solucao> newSolucoes = new ArrayList<>();
                 if (!valid.getFoiCorrigido()) {
                     Solucao solucao = new SolucaoDao().findOne(valid.getNome(), conn, mySqlConnection);
-                    //Definir como a informacao da solucao sera carregada do banco ou de onde sera carregada.
-                    solucao.setSolucao(solucao.getSolucao());
+                    if (solucao != null) {
+                        solucao.setSolucao(solucao.getSolucao());
+                    }
                     newSolucoes.add(solucao);
                 }
                 this.solucoes = newSolucoes;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (conn != null) {
                     conn.close();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -118,15 +119,13 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
                 this.setMensagem(valid.getMensagem());
             }
 
-
-
-            if(valid.getResult() instanceof DeviceMAC){
+            if (valid.getResult() instanceof DeviceMAC) {
                 DeviceMAC realMac = (DeviceMAC) valid.getResult();
 
                 MacAddress macAddress = new MacAddressValidator().macChanged(this.cl.getDesignador());
 
-                if((macAddress != null) && (!realMac.getMac().startsWith("P"))){
-                    if(!macAddress.getMacAddr().replaceAll("-", ":").equals(realMac.getMac())){
+                if ((macAddress != null) && (!realMac.getMac().startsWith("P"))) {
+                    if (!macAddress.getMacAddr().replaceAll("-", ":").equals(realMac.getMac())) {
                         valid.setMensagem(valid.getMensagem() + " (MODEM TROCADO) ");
                         msgModemTrocado = " (MODEM TROCADO) ";
                     }
@@ -135,7 +134,7 @@ public abstract class FullTestGenericFacade extends FulltestExecution {
             }
         }
 
-        if(this.mensagem != null) {
+        if (this.mensagem != null) {
             this.setMensagem(this.getMensagem() + " " + msgModemTrocado);
         }
         //comparar macs
