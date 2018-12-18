@@ -630,7 +630,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
 //        String indexSpVoip = spVoip == null ? "" : spVoip.getIndex().toString();
 //        String indexSpBanda = spBanda == null ? "" : spBanda.getIndex().toString();
 
-        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + "\n"
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportBanda + "\n\n"
                 + "y\n"
                 + "interface gpon 0/" + i.getSlot() + "\n\n"
                 + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportBanda + "\n\n"
@@ -657,7 +657,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
             setGemports(i);
         }
 
-        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + "\n"
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportVoip + "\n\n"
                 + "y\n"
                 + "interface gpon 0/" + i.getSlot() + "\n\n"
                 + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportVoip + "\n\n"
@@ -685,7 +685,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         }
 
         String indexSpIptv = spIptv == null ? "" : spIptv.getIndex().toString();
-        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + "\n"
+        return new ComandoDslam("undo service-port port 0/" + i.getSlot() + "/" + i.getPorta() + " gemport " + gemportIptv + "\n\n"
                 + "y\n"
                 + "interface gpon 0/" + i.getSlot() + "\n\n"
                 + "undo ont gemport mapping " + i.getPorta() + " " + i.getLogica() + " " + gemportIptv + "\n\n"
