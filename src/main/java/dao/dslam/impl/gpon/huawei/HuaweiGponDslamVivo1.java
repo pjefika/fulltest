@@ -681,7 +681,7 @@ public class HuaweiGponDslamVivo1 extends DslamGponVivo1 {
         spVoip = null;
         vlanVoip = null;
         getVlanVoip(i);
-        vlanVoip.getInteracoes().add(cmd);
+        vlanVoip.getInteracoes().add(0, cmd);
         return vlanVoip;
     }
 
