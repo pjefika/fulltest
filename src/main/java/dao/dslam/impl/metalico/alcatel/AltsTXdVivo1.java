@@ -382,5 +382,20 @@ public class AltsTXdVivo1 extends DslamMetalicoVivo1 {
     public VlanMulticast deleteVlanMulticast(InventarioRede i) throws Exception {
         throw new FuncIndisponivelDslamException();
     }
+    
+    protected ComandoDslam getComandoLogoff() {
+        return new ComandoDslam("logout",3000);
+    }
+
+    @Override
+    public void desconectar() {
+        try {
+            ComandoDslam consulta = getCd().consulta(this.getComandoLogoff());
+            System.out.println("desconectar:" + consulta.getBlob());
+        } catch (Exception e) {
+        } finally {
+            super.desconectar(); //To change body of generated methods, choose Tools \r Templates.
+        }
+    }
 
 }

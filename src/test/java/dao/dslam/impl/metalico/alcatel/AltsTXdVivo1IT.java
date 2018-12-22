@@ -146,6 +146,7 @@ public class AltsTXdVivo1IT {
         System.out.println("getEstadoDaPorta");
 
         EstadoDaPorta result = instance.getEstadoDaPorta(i);
+        instance.desconectar();
         System.out.println(new JacksonMapper(EstadoDaPorta.class).serialize(result));
     }
 
