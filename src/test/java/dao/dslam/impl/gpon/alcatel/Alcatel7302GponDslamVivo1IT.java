@@ -181,6 +181,7 @@ public class Alcatel7302GponDslamVivo1IT {
         System.out.println(new JacksonMapper(EstadoDaPorta.class
         ).serialize(result));
         assertTrue(result.validar(cust));
+        instance.desconectar();
     }
 
     /**

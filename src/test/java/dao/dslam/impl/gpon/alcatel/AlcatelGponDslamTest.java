@@ -82,6 +82,7 @@ public class AlcatelGponDslamTest {
         System.out.println("getTabelaParametros");
         try {
             TabelaParametrosGpon result = instance.getTabelaParametros(i);
+            instance.desconectar();
             assertTrue(result.getPotOlt() != null);
         } catch (Exception e) {
             fail(e.getMessage());

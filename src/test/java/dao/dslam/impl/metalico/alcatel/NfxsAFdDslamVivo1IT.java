@@ -64,6 +64,8 @@ public class NfxsAFdDslamVivo1IT {
     public void testConectar() throws Exception {
         System.out.println("conectar");
         instance.conectar();
+        
+        instance.desconectar();
     }
 
     /**

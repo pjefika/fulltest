@@ -610,4 +610,18 @@ public class Alcatel7302GponDslamVivo1 extends DslamGponVivo1 {
         throw new FuncIndisponivelDslamException();
     }
 
+    protected ComandoDslam getComandoLogoff() {
+        return new ComandoDslam("logout",3000);
+    }
+
+    @Override
+    public void desconectar() {
+        try {
+            ComandoDslam consulta = getCd().consulta(this.getComandoLogoff());
+        } catch (Exception e) {
+        } finally {
+            super.desconectar(); //To change body of generated methods, choose Tools \r Templates.
+        }
+    }
+
 }
