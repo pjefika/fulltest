@@ -10,33 +10,10 @@ import br.net.gvt.efika.fulltest.model.telecom.config.ConfiguracaoPorta;
 import br.net.gvt.efika.fulltest.model.telecom.config.ProfileConfig;
 import br.net.gvt.efika.fulltest.model.telecom.properties.Porta;
 import br.net.gvt.efika.fulltest.model.telecom.properties.gpon.SerialOntGpon;
-import controller.in.ConsultaConfigPortaIn;
-import controller.in.CorretorEstadoDaPortaIn;
-import controller.in.CorretorProfileIn;
-import controller.in.CorretorVlanBandaIn;
-import controller.in.CorretorVlanVoIPIn;
-import controller.in.CorretorVlansVideoIn;
-import controller.in.FixVlansIn;
-import controller.in.GetConfiabilidadeRedeIn;
-import controller.in.GetEstadoPortasProximasIn;
-import controller.in.GetOntFromOltIn;
-import controller.in.ResetIptvStatisticsIn;
-import controller.in.ResetTabelaRedeIn;
-import controller.in.SetAdminStateIn;
-import controller.in.SetOntToOltIn;
-import controller.in.SetProfileIn;
-import controller.in.SetVlanBandaIn;
-import controller.in.SetVlanMulticastIn;
-import controller.in.SetVlanVodIn;
-import controller.in.SetVlanVoipIn;
-import controller.in.UnsetOntFromOltIn;
-import controller.in.ValidadorParametrosIn;
+import controller.in.*;
 import dao.FactoryDAO;
 import java.util.List;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import model.entity.LogEntity;
@@ -86,6 +63,27 @@ public class ConfigPortaController extends RestJaxAbstract {
         try {
             ConfigSetterService config = FactoryService.createConfigSetterService(cs.getCust());
             ValidacaoResult result = config.setterEstadoDaPorta(cs.getEstadoPorta());
+            log.setSaida(result);
+            r = ok(result);
+        } catch (Exception e) {
+            r = serverError(e);
+            log.setSaida(e.getMessage());
+        } finally {
+            FactoryDAO.createLogEntityDAO().save(log);
+        }
+        return r;
+    }
+
+    @POST
+    @Path("/getEstadoPorta")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getEstadoPorta(GetEstadoPortaIn estadoPortaIn) throws Exception {
+        Response r;
+        LogEntity log = estadoPortaIn.create();
+        try {
+            ConfigSetterService config = FactoryService.createConfigSetterService(estadoPortaIn.getCust());
+            ValidacaoResult result = config.getterEstadoDaPorta();
             log.setSaida(result);
             r = ok(result);
         } catch (Exception e) {

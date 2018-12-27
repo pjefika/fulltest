@@ -109,6 +109,15 @@ public class ConfigPortaServiceImpl extends ConfigGenericService implements Conf
     }
 
     @Override
+    public ValidacaoResult getterEstadoDaPorta() throws Exception {
+        try {
+            return this.exec(new ValidadorEstadoOperPorta(getDslam(), getEc(), local));
+        } catch (Exception e) {
+            throw TratativaExcessao.treatException(e);
+        }
+    }
+
+    @Override
     public ValidacaoResult setterVlanBanda() throws Exception {
         try {
             alteracao().deleteVlanBanda(getEc().getRede());
